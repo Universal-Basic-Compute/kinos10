@@ -36,9 +36,46 @@ KinOS 10 is an advanced wrapper around Aider.chat that provides automated system
 5. Context Updater modifies necessary files
 6. Frontend polls for updates in messages.json
 
+#### 2.3 Customer Templates
+KinOS supports multiple customer templates, each representing a specific use case (gaming companion, homework mentor, coding assistant, etc.). Each customer has a standardized template that defines the initial state of any new project created for that customer.
+1. Frontend sends request to API with PROJECT identifier and message
+2. Project Manager loads project structure
+3. Context Builder analyzes conversation and selects relevant files
+4. Response Generator processes enhanced context and creates response
+5. Context Updater modifies necessary files
+6. Frontend polls for updates in messages.json
+
 ### 3. Project Structure
 
-Each project follows a standardized folder structure:
+KinOS organizes projects in a customer-centric hierarchy:
+
+```
+/customers/
+  /[CUSTOMER_NAME]/     # e.g., duogaming, deskmate, kinos
+    /template/          # Initial state for new projects
+      kinos.txt
+      system.txt
+      map.json
+      /modes/
+      /adaptations/
+      /memories/
+      /sources/
+      /images/
+    /projects/
+      /[PROJECT_ID]/    # Individual user projects
+        kinos.txt
+        system.txt
+        map.json
+        thoughts.txt
+        messages.json
+        /modes/
+        /adaptations/
+        /memories/
+        /sources/
+        /images/
+```
+
+Each project follows a standardized folder structure inherited from its customer template:
 
 ```
 /PROJECT_NAME/
@@ -88,13 +125,15 @@ Request:
 ```json
 {
   "project_name": "string",
-  "template": "string" (optional)
+  "customer": "string",  // e.g., "duogaming", "deskmate"
+  "template_override": "string" (optional)
 }
 ```
 Response:
 ```json
 {
   "project_id": "string",
+  "customer": "string",
   "status": "created"
 }
 ```
@@ -364,6 +403,8 @@ Project structure for coding assistant:
 - Develop API endpoints
 - Create context builder/updater logic
 - Integrate with Aider.chat
+- Implement customer template system
+- Create initial templates for each customer type
 
 #### 7.2 Phase 2: Use Case Adaptation
 - Implement gaming companion template
