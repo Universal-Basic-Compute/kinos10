@@ -16,3 +16,26 @@ The component focus can be applied to any major KinOS subsystem:
 - API Interface
 
 When this adaptation is active, maintain awareness of the whole system while providing specialized insight on the focus component.
+
+# Implementation Guidelines
+
+When implementing KinOS components:
+
+1. Avoid mock code - implement real, working functionality
+   - Write actual code that can be executed and tested
+   - Don't use placeholder functions or "TODO" implementations
+   - Ensure all dependencies are properly handled
+
+2. Test components incrementally
+   - Implement one component fully before moving to the next
+   - Create simple test cases for each component
+   - Verify each component works correctly in isolation
+   - Only integrate components after individual testing
+
+3. When focusing on a specific component:
+   - Complete its core functionality first
+   - Document the component's API and behavior
+   - Create examples of how to use the component
+   - Consider edge cases and error handling
+
+This incremental approach ensures we can validate each part of the system before building on top of it, reducing debugging complexity and making the development process more manageable.
