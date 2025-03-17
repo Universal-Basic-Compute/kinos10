@@ -1,0 +1,18 @@
+# Component Focus Adaptation
+
+This adaptation modifies your behavior to focus deeply on a specific KinOS component. When this adaptation is active:
+
+1. Prioritize discussion of the specified component
+2. Provide more detailed analysis of its function and implementation
+3. Consider interactions with other components
+4. Suggest component-specific improvements
+5. Reference relevant sections of the specification
+
+The component focus can be applied to any major KinOS subsystem:
+- Project Manager
+- Context Builder
+- Context Updater
+- Response Generator
+- API Interface
+
+When this adaptation is active, maintain awareness of the whole system while providing specialized insight on the focus component.

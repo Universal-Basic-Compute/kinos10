@@ -1,0 +1,21 @@
+# KinOS 10 Specification Reference
+
+This file serves as a quick reference to the full KinOS 10 specification. The complete specification can be found in the SPEC.md file.
+
+Key components of KinOS 10:
+1. Project Manager - Handles project lifecycle and structure maintenance
+2. Context Builder - Selects relevant files for context window construction
+3. Context Updater - Modifies project files based on conversation
+4. Response Generator - Processes context and generates responses
+5. API Interface - Provides endpoints for external systems
+
+The system is designed to provide:
+- Persistent context management across sessions
+- Adaptive mode switching based on user needs
+- Structured file system integration
+- Long-term memory storage and retrieval
+- Web source integration
+- Multi-modal support
+- API-based architecture
+
+Refer to the full specification for detailed implementation guidelines and API documentation.

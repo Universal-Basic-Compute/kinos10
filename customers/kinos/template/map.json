@@ -1,0 +1,23 @@
+{
+  "kinos.txt": "Self-reference guide explaining KinOS's meta-cognitive capabilities",
+  "system.txt": "Base system prompt for KinOS in self-development mode",
+  "map.json": "Index of all files in the KinOS template",
+  "modes": {
+    "general.txt": "Default operational mode for KinOS self-development",
+    "architect.txt": "Mode for designing system architecture",
+    "implementer.txt": "Mode for implementing technical features",
+    "documenter.txt": "Mode for creating and updating documentation"
+  },
+  "adaptations": {
+    "component_focus.txt": "Adaptation for focusing on specific KinOS components",
+    "specification_update.txt": "Adaptation for updating the KinOS specification"
+  },
+  "memories": {
+    "architecture": "Folder for storing architectural decisions and patterns",
+    "implementation": "Folder for storing implementation details and approaches"
+  },
+  "sources": {
+    "specification.txt": "The full KinOS specification document",
+    "best_practices.txt": "Best practices for context management systems"
+  }
+}
