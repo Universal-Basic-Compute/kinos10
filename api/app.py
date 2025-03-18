@@ -103,20 +103,16 @@ The following files provide context for my request:
                         # Extract the base64 part after the comma
                         img_base64 = img_base64.split(',', 1)[1]
                     
-                    # Always use JPEG as the media type for screenshots
-                    # This is more reliable than trying to detect the format
-                    media_type = "image/jpeg"
-                    
-                    logger.info(f"Using media type: {media_type} for image")
-                    
+                    # Create image content part
                     content_parts.append({
                         "type": "image",
                         "source": {
                             "type": "base64",
-                            "media_type": media_type,
+                            "media_type": "image/jpeg",  # Default to JPEG
                             "data": img_base64
                         }
                     })
+                    logger.info(f"Added image to message, data length: {len(img_base64)}")
                 except Exception as e:
                     logger.error(f"Error processing image: {str(e)}")
             
@@ -124,6 +120,7 @@ The following files provide context for my request:
                 "role": "user",
                 "content": content_parts
             })
+            logger.info(f"Created multimodal message with {len(content_parts) - 1} images")
         else:
             # Text-only message
             messages.append({
