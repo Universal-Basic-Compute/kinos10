@@ -14,6 +14,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const projectNameInput = document.getElementById('project-name');
     const confirmCreateBtn = document.getElementById('confirm-create-btn');
     
+    // File browser elements
+    const fileTree = document.getElementById('file-tree');
+    const fileContentModal = document.getElementById('file-content-modal');
+    const fileContentTitle = document.getElementById('file-content-title');
+    const fileContentBody = document.getElementById('file-content-body');
+    const closeFileModal = document.getElementById('close-file-modal');
+    
     // Current state
     let currentCustomer = customerSelect.value;
     let currentProject = projectSelect.value;
@@ -78,6 +85,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target === modal) {
             modal.style.display = 'none';
         }
+        if (e.target === fileContentModal) {
+            fileContentModal.style.display = 'none';
+        }
+    });
+    
+    // Add event listener for closing the file modal
+    closeFileModal.addEventListener('click', function() {
+        fileContentModal.style.display = 'none';
     });
     
     // Functions
@@ -110,6 +125,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Stop any existing polling
         stopPolling();
         
+        // Load file tree
+        loadFileTree();
+        
         // Only load messages if not using template
         if (currentProject !== 'template') {
             fetch(`/api/proxy/projects/${currentCustomer}/${currentProject}/messages`)
@@ -132,6 +150,126 @@ document.addEventListener('DOMContentLoaded', function() {
                     logDebug('Error loading messages: ' + error.message);
                 });
         }
+    }
+    
+    // Function to load the file tree
+    function loadFileTree() {
+        // Only load file tree if not using template
+        if (currentProject === 'template') {
+            fileTree.innerHTML = '<div class="file-item">No files available for template</div>';
+            return;
+        }
+        
+        fetch(`/api/proxy/projects/${currentCustomer}/${currentProject}/files`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.files && data.files.length > 0) {
+                    // Build tree structure from flat file list
+                    const tree = buildFileTree(data.files);
+                    // Render the tree
+                    fileTree.innerHTML = '';
+                    renderFileTree(tree, fileTree);
+                } else {
+                    fileTree.innerHTML = '<div class="file-item">No files found</div>';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading file tree:', error);
+                logDebug('Error loading file tree: ' + error.message);
+                fileTree.innerHTML = '<div class="file-item">Error loading files</div>';
+            });
+    }
+
+    // Function to build a tree structure from flat file list
+    function buildFileTree(files) {
+        const root = { name: '', children: {}, type: 'directory' };
+        
+        files.forEach(file => {
+            const parts = file.path.split('/');
+            let current = root;
+            
+            parts.forEach((part, index) => {
+                if (!part) return;
+                
+                if (!current.children[part]) {
+                    current.children[part] = {
+                        name: part,
+                        children: {},
+                        type: index === parts.length - 1 ? file.type : 'directory',
+                        path: parts.slice(0, index + 1).join('/')
+                    };
+                }
+                
+                current = current.children[part];
+            });
+        });
+        
+        return root;
+    }
+
+    // Function to render the file tree
+    function renderFileTree(node, container, path = '') {
+        // Sort children: directories first, then files, both alphabetically
+        const sortedChildren = Object.values(node.children).sort((a, b) => {
+            if (a.type === 'directory' && b.type !== 'directory') return -1;
+            if (a.type !== 'directory' && b.type === 'directory') return 1;
+            return a.name.localeCompare(b.name);
+        });
+        
+        sortedChildren.forEach(child => {
+            const childPath = path ? `${path}/${child.name}` : child.name;
+            const item = document.createElement('div');
+            
+            if (child.type === 'directory') {
+                item.className = 'file-item file-folder';
+                item.textContent = child.name;
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    this.classList.toggle('open');
+                    const childrenContainer = this.nextElementSibling;
+                    childrenContainer.classList.toggle('open');
+                });
+                
+                container.appendChild(item);
+                
+                const childrenContainer = document.createElement('div');
+                childrenContainer.className = 'file-children';
+                container.appendChild(childrenContainer);
+                
+                renderFileTree(child, childrenContainer, childPath);
+            } else {
+                item.className = 'file-item file-document';
+                item.textContent = child.name;
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    openFile(childPath);
+                });
+                
+                container.appendChild(item);
+            }
+        });
+    }
+
+    // Function to open a file
+    function openFile(filePath) {
+        fetch(`/api/proxy/projects/${currentCustomer}/${currentProject}/files/${filePath}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(content => {
+                // Display file content in modal
+                fileContentTitle.textContent = filePath;
+                fileContentBody.textContent = content;
+                fileContentModal.style.display = 'block';
+                logDebug(`Opened file: ${filePath}`);
+            })
+            .catch(error => {
+                console.error('Error opening file:', error);
+                logDebug('Error opening file: ' + error.message);
+            });
     }
     
     function startPolling() {

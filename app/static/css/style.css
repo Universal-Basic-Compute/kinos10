@@ -66,8 +66,65 @@ button:hover {
     background: #2980b9;
 }
 
-.chat-container {
+.main-content {
+    display: flex;
     height: 500px;
+}
+
+.file-browser {
+    width: 250px;
+    border-right: 1px solid #ddd;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f5f5f5;
+}
+
+.file-tree {
+    margin-top: 10px;
+}
+
+.file-item {
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-bottom: 2px;
+}
+
+.file-item:hover {
+    background: #e0e0e0;
+}
+
+.file-item.selected {
+    background: #d0d0d0;
+}
+
+.file-folder {
+    font-weight: bold;
+}
+
+.file-folder::before {
+    content: "📁 ";
+}
+
+.file-folder.open::before {
+    content: "📂 ";
+}
+
+.file-document::before {
+    content: "📄 ";
+}
+
+.file-children {
+    margin-left: 15px;
+    display: none;
+}
+
+.file-children.open {
+    display: block;
+}
+
+.chat-container {
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
@@ -158,4 +215,47 @@ button:hover {
 
 .close:hover {
     color: black;
+}
+
+/* File content modal */
+.file-content-modal {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.file-content-container {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    height: 80%;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.file-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.file-content-body {
+    flex: 1;
+    overflow: auto;
+    background: #f8f8f8;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: monospace;
+    white-space: pre-wrap;
 }

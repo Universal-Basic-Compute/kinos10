@@ -415,5 +415,81 @@ def initialize_customer_templates():
 # Initialize customer templates
 initialize_customer_templates()
 
+@app.route('/api/projects/<customer>/<project_id>/files', methods=['GET'])
+def get_project_files(customer, project_id):
+    """
+    Endpoint to get a list of files in a project.
+    """
+    try:
+        # Validate customer and project
+        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
+            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+            
+        project_path = get_project_path(customer, project_id)
+        if not os.path.exists(project_path):
+            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        
+        # Get list of files
+        files = []
+        for root, dirs, filenames in os.walk(project_path):
+            for filename in filenames:
+                file_path = os.path.join(root, filename)
+                rel_path = os.path.relpath(file_path, project_path)
+                files.append({
+                    "path": rel_path,
+                    "type": "file",
+                    "last_modified": datetime.datetime.fromtimestamp(os.path.getmtime(file_path)).isoformat()
+                })
+        
+        return jsonify({"files": files})
+        
+    except Exception as e:
+        logger.error(f"Error getting project files: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/projects/<customer>/<project_id>/files/<path:file_path>', methods=['GET'])
+def get_file_content(customer, project_id, file_path):
+    """
+    Endpoint to get the content of a file.
+    """
+    try:
+        # Validate customer and project
+        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
+            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+            
+        project_path = get_project_path(customer, project_id)
+        if not os.path.exists(project_path):
+            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        
+        # Get file content
+        file_full_path = os.path.join(project_path, file_path)
+        
+        # Security check to prevent directory traversal
+        if not os.path.abspath(file_full_path).startswith(os.path.abspath(project_path)):
+            return jsonify({"error": "Invalid file path"}), 403
+        
+        if not os.path.exists(file_full_path) or not os.path.isfile(file_full_path):
+            return jsonify({"error": f"File '{file_path}' not found"}), 404
+        
+        # Read file content
+        with open(file_full_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Determine content type based on file extension
+        extension = os.path.splitext(file_path)[1].lower()
+        if extension in ['.jpg', '.jpeg', '.png', '.gif']:
+            # For images, return base64 encoded data
+            import base64
+            with open(file_full_path, 'rb') as f:
+                content = base64.b64encode(f.read()).decode('utf-8')
+            return jsonify({"content": content, "type": "image"})
+        else:
+            # For text files, return the content directly
+            return content, 200, {'Content-Type': 'text/plain; charset=utf-8'}
+        
+    except Exception as e:
+        logger.error(f"Error getting file content: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

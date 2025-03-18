@@ -34,12 +34,19 @@
             </div>
         </div>
         
-        <div class="chat-container">
-            <div id="messages" class="messages"></div>
+        <div class="main-content">
+            <div class="file-browser">
+                <h3>Project Files</h3>
+                <div id="file-tree" class="file-tree"></div>
+            </div>
             
-            <div class="message-input">
-                <textarea id="message-input" placeholder="Type your message here..."></textarea>
-                <button id="send-btn">Send</button>
+            <div class="chat-container">
+                <div id="messages" class="messages"></div>
+                
+                <div class="message-input">
+                    <textarea id="message-input" placeholder="Type your message here..."></textarea>
+                    <button id="send-btn">Send</button>
+                </div>
             </div>
         </div>
         
@@ -59,6 +66,17 @@
                 <input type="text" id="project-name" placeholder="Enter project name">
             </div>
             <button id="confirm-create-btn">Create</button>
+        </div>
+    </div>
+    
+    <!-- File Content Modal -->
+    <div id="file-content-modal" class="file-content-modal">
+        <div class="file-content-container">
+            <div class="file-content-header">
+                <h2 id="file-content-title">File Content</h2>
+                <span class="close" id="close-file-modal">&times;</span>
+            </div>
+            <div id="file-content-body" class="file-content-body"></div>
         </div>
     </div>
     
