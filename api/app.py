@@ -398,6 +398,22 @@ def initialize_customer_templates():
         logger.warning(f"Project templates directory not found: {project_templates_dir}")
         return
     
+    # Custom copy function to skip .git directory
+    def custom_copy_tree(src, dst):
+        os.makedirs(dst, exist_ok=True)
+        for item in os.listdir(src):
+            # Skip .git directory
+            if item == '.git':
+                continue
+            
+            s = os.path.join(src, item)
+            d = os.path.join(dst, item)
+            if os.path.isdir(s):
+                custom_copy_tree(s, d)
+            else:
+                import shutil
+                shutil.copy2(s, d)
+    
     # Get list of customers from project templates
     for customer in os.listdir(project_templates_dir):
         customer_dir = os.path.join(CUSTOMERS_DIR, customer)
@@ -422,8 +438,8 @@ def initialize_customer_templates():
             # Only copy if destination doesn't exist
             if not os.path.exists(dest_template_dir):
                 logger.info(f"Copying template for customer {customer} to app data")
-                import shutil
-                shutil.copytree(customer_template_dir, dest_template_dir)
+                # Use custom copy function instead of shutil.copytree
+                custom_copy_tree(customer_template_dir, dest_template_dir)
 
 # Initialize customer templates
 initialize_customer_templates()
@@ -641,8 +657,25 @@ def initialize_customer(customer):
             shutil.rmtree(dest_template_dir)
         
         logger.info(f"Copying template for customer {customer} to app data")
-        import shutil
-        shutil.copytree(customer_template_dir, dest_template_dir)
+        
+        # Custom copy function to skip .git directory
+        def custom_copy_tree(src, dst):
+            os.makedirs(dst, exist_ok=True)
+            for item in os.listdir(src):
+                # Skip .git directory
+                if item == '.git':
+                    continue
+                
+                s = os.path.join(src, item)
+                d = os.path.join(dst, item)
+                if os.path.isdir(s):
+                    custom_copy_tree(s, d)
+                else:
+                    import shutil
+                    shutil.copy2(s, d)
+        
+        # Use custom copy function instead of shutil.copytree
+        custom_copy_tree(customer_template_dir, dest_template_dir)
         
         return jsonify({"status": "success", "message": f"Customer '{customer}' initialized"})
         
