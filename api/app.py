@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 # Define MODEL constant before it's used
-MODEL = "claude-3-7-sonnet-latest"  # Use the latest Claude 3.7 Sonnet model
+MODEL = "claude-3-5-haiku-latest"  # Use the latest Claude 3.5 Haiku model
 
 # Initialize Anthropic client with minimal parameters and error handling
 try:
@@ -418,7 +418,7 @@ def call_aider_with_context(project_path, selected_files, message_content):
         raise ValueError("ANTHROPIC_API_KEY environment variable not set")
     
     # Build the command
-    cmd = ["aider", "--sonnet", "--yes-always", f"--anthropic-api-key={api_key}"]
+    cmd = ["aider", "--haiku", "--yes-always", f"--anthropic-api-key={api_key}"]
     
     # Add all selected files to the command
     for file in selected_files:
