@@ -70,14 +70,14 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
     # Combine file contents into a single context string
     context = "\n\n".join(file_contents)
     
-    # Create the prompt for Claude
+    # Create the prompt for Claude with updated explanation
     prompt = f"""
-# Context
-The following files provide context for my request:
+# Your Knowledge Files
+The following files are part of your personal knowledge and define your capabilities, personality, and expertise. These are not files to fulfill a user request, but rather your own internal knowledge:
 
 {context}
 
-# Request
+# User Message
 {message_content}
 """
     
