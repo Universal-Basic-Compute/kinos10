@@ -177,8 +177,16 @@ def build_context(customer, project_id, message, attachments=None):
     """
     project_path = get_project_path(customer, project_id)
     
-    # Always include these core files
-    core_files = ["kinos.txt", "system.txt", "map.json"]
+    # Check if persona.txt exists, if so use it instead of kinos.txt and system.txt
+    persona_file = os.path.join(project_path, "persona.txt")
+    if os.path.exists(persona_file):
+        # Use persona.txt instead of kinos.txt and system.txt
+        core_files = ["persona.txt", "map.json"]
+        logger.info("Using persona.txt for context")
+    else:
+        # Use traditional core files
+        core_files = ["kinos.txt", "system.txt", "map.json"]
+        logger.info("Using traditional core files for context")
     
     # Get all available files in the project
     available_files = []
