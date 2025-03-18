@@ -101,7 +101,10 @@ The following files provide context for my request:
 # Get application data directory
 def get_app_data_dir():
     """Get the appropriate application data directory based on the platform."""
-    if os.name == 'nt':  # Windows
+    # Check if running on Render (with persistent disk)
+    if os.path.exists('/data'):
+        app_data = '/data/KinOS'
+    elif os.name == 'nt':  # Windows
         app_data = os.path.join(os.environ.get('APPDATA', ''), 'KinOS')
     elif os.name == 'posix':  # Linux/Mac
         app_data = os.path.join(os.path.expanduser('~'), '.kinos')
@@ -754,6 +757,13 @@ def get_file_content(project_path, file_path):
         logger.error(f"Error getting file content: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    """
+    Health check endpoint for Render.
+    """
+    return jsonify({"status": "healthy"}), 200
+
 @app.route('/api/projects/<customer>/projects', methods=['GET'])
 def get_customer_projects(customer):
     """
@@ -899,4 +909,6 @@ def get_aider_logs(customer, project_id):
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Get port from environment variable (for Render compatibility)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)

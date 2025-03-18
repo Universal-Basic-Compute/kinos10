@@ -6,7 +6,10 @@ import json
 app = Flask(__name__)
 
 # Configuration
-API_BASE_URL = "http://localhost:5000/api"  # Assuming the API runs on port 5000
+if os.environ.get('ENVIRONMENT') == 'production':
+    API_BASE_URL = "https://kinos.onrender.com/api"
+else:
+    API_BASE_URL = "http://localhost:5000/api"  # Default for local development
 
 @app.route('/')
 def index():

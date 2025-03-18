@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: kinos
+    env: docker
+    plan: standard
+    branch: main
+    healthCheckPath: /api/health
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+    disk:
+      name: kinos-data
+      mountPath: /data
+      sizeGB: 10

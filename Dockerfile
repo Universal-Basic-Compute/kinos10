@@ -19,12 +19,13 @@ COPY . .
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
+ENV ENVIRONMENT=production
 
 # Create directory for application data
 RUN mkdir -p /data/KinOS
 
-# Expose the API port
-EXPOSE 5000
+# Expose the port (Render will set the PORT env var)
+EXPOSE $PORT
 
 # Run the API server
-CMD ["python", "api/app.py"]
+CMD python api/app.py
