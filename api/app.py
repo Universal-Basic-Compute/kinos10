@@ -803,19 +803,98 @@ def get_file_content(project_path, file_path):
 @app.route('/api', methods=['GET'])
 def api_root():
     """
-    API root endpoint to confirm the API is running.
+    API root endpoint that returns the API reference documentation.
     """
-    return jsonify({
-        "status": "running",
-        "message": "KinOS API is running",
-        "version": "1.0.0",
-        "endpoints": {
-            "health": "/api/health",
-            "projects": "/api/projects",
-            "messages": "/api/projects/{customer}/{project_id}/messages",
-            "files": "/api/projects/{customer}/{project_id}/files"
-        }
-    }), 200
+    # Check if the client wants HTML or JSON
+    accept_header = request.headers.get('Accept', '')
+    
+    # If the client specifically wants JSON, return the old response
+    if 'application/json' in accept_header and 'text/html' not in accept_header:
+        return jsonify({
+            "status": "running",
+            "message": "KinOS API is running",
+            "version": "1.0.0",
+            "endpoints": {
+                "health": "/api/health",
+                "projects": "/api/projects",
+                "messages": "/api/projects/{customer}/{project_id}/messages",
+                "files": "/api/projects/{customer}/{project_id}/files"
+            }
+        }), 200
+    
+    # Otherwise, return the API reference documentation as HTML
+    try:
+        # Path to the API reference markdown file
+        api_ref_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
+                                   "customers", "kinos", "template", "sources", "api_reference.md")
+        
+        # Check if the file exists
+        if not os.path.exists(api_ref_path):
+            logger.warning(f"API reference file not found at {api_ref_path}")
+            return jsonify({"error": "API reference documentation not found"}), 404
+        
+        # Read the markdown content
+        with open(api_ref_path, 'r', encoding='utf-8') as f:
+            markdown_content = f.read()
+        
+        # Convert markdown to HTML
+        try:
+            import markdown
+            html_content = markdown.markdown(markdown_content)
+        except ImportError:
+            # If markdown package is not available, use a simple HTML wrapper
+            html_content = f"<pre>{markdown_content}</pre>"
+        
+        # Wrap in a basic HTML document with some styling
+        html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>KinOS API Reference</title>
+            <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                    color: #333;
+                    max-width: 1000px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }}
+                pre {{
+                    background-color: #f5f5f5;
+                    padding: 10px;
+                    border-radius: 5px;
+                    overflow-x: auto;
+                }}
+                code {{
+                    background-color: #f5f5f5;
+                    padding: 2px 4px;
+                    border-radius: 3px;
+                }}
+                h1, h2, h3 {{
+                    margin-top: 1.5em;
+                }}
+                h1 {{
+                    border-bottom: 1px solid #ddd;
+                    padding-bottom: 10px;
+                }}
+                h2 {{
+                    border-bottom: 1px solid #eee;
+                    padding-bottom: 5px;
+                }}
+            </style>
+        </head>
+        <body>
+            {html_content}
+        </body>
+        </html>
+        """
+        
+        return html, 200, {'Content-Type': 'text/html; charset=utf-8'}
+    
+    except Exception as e:
+        logger.error(f"Error serving API reference: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
