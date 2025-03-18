@@ -508,87 +508,83 @@ def send_message(customer, project_id):
         # Track if we need to create a new project
         project_created = False
         
-        # Check if project exists, create it if it doesn't
+        # First, check if we need to create a new project
         if not os.path.exists(project_path) and project_id != "template":
             logger.info(f"Project '{project_id}' not found for customer '{customer}', creating it from template")
             project_created = True
             
-            try:
-                # Create projects directory if it doesn't exist
-                projects_dir = os.path.join(CUSTOMERS_DIR, customer, "projects")
-                os.makedirs(projects_dir, exist_ok=True)
-                logger.info(f"Created or verified projects directory: {projects_dir}")
+            # Create projects directory if it doesn't exist
+            projects_dir = os.path.join(CUSTOMERS_DIR, customer, "projects")
+            os.makedirs(projects_dir, exist_ok=True)
+            logger.info(f"Created or verified projects directory: {projects_dir}")
+            
+            # Create project directory
+            os.makedirs(project_path, exist_ok=True)
+            logger.info(f"Created project directory: {project_path}")
+            
+            # Copy template to project directory
+            template_path = os.path.join(CUSTOMERS_DIR, customer, "template")
+            logger.info(f"Looking for template at: {template_path}")
+            
+            if not os.path.exists(template_path):
+                # Check if we need to initialize the customer template first
+                logger.warning(f"Template not found for customer '{customer}', attempting to initialize")
                 
-                # Create project directory
-                os.makedirs(project_path, exist_ok=True)
-                logger.info(f"Created project directory: {project_path}")
+                # Try to initialize the customer template
+                project_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
+                customer_template_dir = os.path.join(project_templates_dir, customer, "template")
                 
-                # Copy template to project directory
-                template_path = os.path.join(CUSTOMERS_DIR, customer, "template")
-                logger.info(f"Looking for template at: {template_path}")
-                
-                if not os.path.exists(template_path):
-                    # Check if we need to initialize the customer template first
-                    logger.warning(f"Template not found for customer '{customer}', attempting to initialize")
+                if os.path.exists(customer_template_dir):
+                    logger.info(f"Found template in project directory, copying to app data")
+                    # Create customer directory if needed
+                    customer_dir = os.path.join(CUSTOMERS_DIR, customer)
+                    os.makedirs(customer_dir, exist_ok=True)
                     
-                    # Try to initialize the customer template
-                    project_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
-                    customer_template_dir = os.path.join(project_templates_dir, customer, "template")
-                    
-                    if os.path.exists(customer_template_dir):
-                        logger.info(f"Found template in project directory, copying to app data")
-                        # Create customer directory if needed
-                        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
-                        os.makedirs(customer_dir, exist_ok=True)
-                        
-                        # Copy template from project directory to app data
-                        import shutil
-                        shutil.copytree(customer_template_dir, template_path)
-                        logger.info(f"Initialized template for customer '{customer}'")
-                    else:
-                        logger.error(f"No template found for customer '{customer}' in project directory")
-                        return jsonify({"error": f"Template not found for customer '{customer}'"}), 404
-                
-                # Verify template exists after potential initialization
-                if not os.path.exists(template_path):
+                    # Copy template from project directory to app data
+                    import shutil
+                    shutil.copytree(customer_template_dir, template_path)
+                    logger.info(f"Initialized template for customer '{customer}'")
+                else:
+                    logger.error(f"No template found for customer '{customer}' in project directory")
                     return jsonify({"error": f"Template not found for customer '{customer}'"}), 404
-                
-                # List template contents for debugging
-                template_contents = os.listdir(template_path)
-                logger.info(f"Template contents: {template_contents}")
-                
-                # Use a more robust copy method
-                import shutil
-                for item in os.listdir(template_path):
-                    s = os.path.join(template_path, item)
-                    d = os.path.join(project_path, item)
-                    try:
-                        if os.path.isdir(s):
-                            shutil.copytree(s, d)
-                        else:
-                            shutil.copy2(s, d)
-                        logger.info(f"Copied {s} to {d}")
-                    except Exception as copy_error:
-                        logger.error(f"Error copying {s} to {d}: {str(copy_error)}")
-                
-                # Create messages.json file
-                messages_file = os.path.join(project_path, "messages.json")
-                with open(messages_file, 'w') as f:
-                    json.dump([], f)
-                logger.info(f"Created messages.json file")
-                
-                # Create thoughts.txt file
-                thoughts_file = os.path.join(project_path, "thoughts.txt")
-                with open(thoughts_file, 'w') as f:
-                    f.write(f"# Thoughts for project: {project_id}\nCreated: {datetime.datetime.now().isoformat()}\n\n")
-                logger.info(f"Created thoughts.txt file")
-                
-                logger.info(f"Successfully created project '{project_id}' for customer '{customer}'")
-            except Exception as e:
-                logger.error(f"Error creating project: {str(e)}", exc_info=True)
-                return jsonify({"error": f"Error creating project: {str(e)}"}), 500
+            
+            # Verify template exists after potential initialization
+            if not os.path.exists(template_path):
+                return jsonify({"error": f"Template not found for customer '{customer}'"}), 404
+            
+            # List template contents for debugging
+            template_contents = os.listdir(template_path)
+            logger.info(f"Template contents: {template_contents}")
+            
+            # Use a more robust copy method
+            import shutil
+            for item in os.listdir(template_path):
+                s = os.path.join(template_path, item)
+                d = os.path.join(project_path, item)
+                try:
+                    if os.path.isdir(s):
+                        shutil.copytree(s, d)
+                    else:
+                        shutil.copy2(s, d)
+                    logger.info(f"Copied {s} to {d}")
+                except Exception as copy_error:
+                    logger.error(f"Error copying {s} to {d}: {str(copy_error)}")
+            
+            # Create messages.json file
+            messages_file = os.path.join(project_path, "messages.json")
+            with open(messages_file, 'w') as f:
+                json.dump([], f)
+            logger.info(f"Created messages.json file")
+            
+            # Create thoughts.txt file
+            thoughts_file = os.path.join(project_path, "thoughts.txt")
+            with open(thoughts_file, 'w') as f:
+                f.write(f"# Thoughts for project: {project_id}\nCreated: {datetime.datetime.now().isoformat()}\n\n")
+            logger.info(f"Created thoughts.txt file")
+            
+            logger.info(f"Successfully created project '{project_id}' for customer '{customer}'")
         
-        # Store the user message in messages.json immediately
+        # Now that we've ensured the project exists, proceed with message handling
         messages_file = os.path.join(project_path, "messages.json")
         
         # Load existing messages
@@ -596,7 +592,10 @@ def send_message(customer, project_id):
             with open(messages_file, 'r') as f:
                 messages = json.load(f)
         else:
+            # If messages.json doesn't exist (which shouldn't happen now), create it
             messages = []
+            with open(messages_file, 'w') as f:
+                json.dump(messages, f)
         
         # Add user message
         user_message = {
