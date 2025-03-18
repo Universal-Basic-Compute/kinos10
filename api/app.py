@@ -327,6 +327,28 @@ def send_message(customer, project_id):
         if not os.path.exists(project_path):
             return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
         
+        # Store the user message in messages.json immediately
+        messages_file = os.path.join(project_path, "messages.json")
+        
+        # Load existing messages
+        if os.path.exists(messages_file):
+            with open(messages_file, 'r') as f:
+                messages = json.load(f)
+        else:
+            messages = []
+        
+        # Add user message
+        user_message = {
+            "role": "user",
+            "content": message_content,
+            "timestamp": datetime.datetime.now().isoformat()
+        }
+        messages.append(user_message)
+        
+        # Save updated messages with user message immediately
+        with open(messages_file, 'w') as f:
+            json.dump(messages, f, indent=2)
+        
         # Build context (select relevant files)
         selected_files = build_context(customer, project_id, message_content, attachments)
         
@@ -337,24 +359,6 @@ def send_message(customer, project_id):
         try:
             aider_response = call_aider_with_context(project_path, selected_files, message_content)
             
-            # Store the user message in messages.json
-            messages_file = os.path.join(project_path, "messages.json")
-            
-            # Load existing messages
-            if os.path.exists(messages_file):
-                with open(messages_file, 'r') as f:
-                    messages = json.load(f)
-            else:
-                messages = []
-            
-            # Add user message
-            user_message = {
-                "role": "user",
-                "content": message_content,
-                "timestamp": datetime.datetime.now().isoformat()
-            }
-            messages.append(user_message)
-            
             # Add assistant response
             assistant_message = {
                 "role": "assistant",
@@ -363,7 +367,7 @@ def send_message(customer, project_id):
             }
             messages.append(assistant_message)
             
-            # Save updated messages
+            # Save updated messages with assistant response
             with open(messages_file, 'w') as f:
                 json.dump(messages, f, indent=2)
             
