@@ -20,9 +20,22 @@ logger = logging.getLogger(__name__)
 # Initialize Flask app
 app = Flask(__name__)
 
-# Initialize Anthropic client
-client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-# Note: If you're still having issues with proxies, try using client = anthropic.Anthropic()
+# Define MODEL constant before it's used
+MODEL = "claude-3-sonnet-20240229"  # Use a specific model version that's known to work
+
+# Initialize Anthropic client with minimal parameters and error handling
+try:
+    client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+    logger.info("Anthropic client initialized successfully")
+except Exception as e:
+    logger.error(f"Error initializing Anthropic client: {str(e)}")
+    # Fallback initialization without any extra parameters
+    try:
+        client = anthropic.Anthropic()
+        logger.info("Anthropic client initialized with fallback method")
+    except Exception as e2:
+        logger.error(f"Fallback initialization also failed: {str(e2)}")
+        raise RuntimeError("Could not initialize Anthropic client")
 
 def call_claude_with_context(selected_files, project_path, message_content):
     """
@@ -99,7 +112,7 @@ def get_app_data_dir():
 CUSTOMERS_DIR = os.path.join(get_app_data_dir(), "customers")
 # Ensure customers directory exists
 os.makedirs(CUSTOMERS_DIR, exist_ok=True)
-MODEL = "claude-3-7-sonnet-latest"
+# MODEL is now defined earlier in the file
 
 def get_project_path(customer, project_id):
     """Get the full path to a project directory."""
