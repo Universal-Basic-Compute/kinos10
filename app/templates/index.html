@@ -40,6 +40,10 @@
             <div class="form-group">
                 <button id="view-aider-logs-btn">View Aider Logs</button>
             </div>
+            
+            <div class="form-group">
+                <button id="view-git-history-btn">View Git History</button>
+            </div>
         </div>
         
         <div class="main-content">
@@ -108,6 +112,33 @@
             </div>
             <div class="modal-body" style="height: calc(100% - 60px); overflow: auto;">
                 <pre id="aider-logs-content" style="white-space: pre-wrap; font-family: monospace;"></pre>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Git History Modal -->
+    <div id="git-history-modal" class="modal">
+        <div class="modal-content" style="width: 80%; height: 80%;">
+            <div class="modal-header">
+                <span class="close" id="close-git-history">&times;</span>
+                <h2>Git Commit History</h2>
+            </div>
+            <div class="modal-body" style="height: calc(100% - 60px); overflow: auto;">
+                <div id="git-history-content">
+                    <table class="git-history-table">
+                        <thead>
+                            <tr>
+                                <th>Hash</th>
+                                <th>Author</th>
+                                <th>Date</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody id="git-history-tbody">
+                            <!-- Git commits will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const createProjectBtn = document.getElementById('create-project-btn');
     const initializeCustomerBtn = document.getElementById('initialize-customer-btn');
     const viewAiderLogsBtn = document.getElementById('view-aider-logs-btn');
+    const viewGitHistoryBtn = document.getElementById('view-git-history-btn');
     const messageInput = document.getElementById('message-input');
     const sendBtn = document.getElementById('send-btn');
     const messagesContainer = document.getElementById('messages');
@@ -30,6 +31,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const aiderLogsModal = document.getElementById('aider-logs-modal');
     const closeAiderLogs = document.getElementById('close-aider-logs');
     const aiderLogsContent = document.getElementById('aider-logs-content');
+    
+    // Git history elements
+    const gitHistoryModal = document.getElementById('git-history-modal');
+    const closeGitHistory = document.getElementById('close-git-history');
+    const gitHistoryTbody = document.getElementById('git-history-tbody');
     
     // Current state
     let currentCustomer = customerSelect.value;
@@ -138,6 +144,94 @@ document.addEventListener('DOMContentLoaded', function() {
         aiderLogsModal.style.display = 'none';
     });
     
+    viewGitHistoryBtn.addEventListener('click', function() {
+        // Only show history if not on template
+        if (currentProject === 'template') {
+            alert('Git history is not available for template projects.');
+            return;
+        }
+        
+        // Fetch and display Git history
+        fetch(`/api/proxy/projects/${currentCustomer}/${currentProject}/git_history`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Clear existing content
+                gitHistoryTbody.innerHTML = '';
+                
+                if (data.commits && data.commits.length > 0) {
+                    // Add each commit to the table
+                    data.commits.forEach(commit => {
+                        const row = document.createElement('tr');
+                        
+                        // Hash cell
+                        const hashCell = document.createElement('td');
+                        hashCell.className = 'commit-hash';
+                        hashCell.textContent = commit.hash;
+                        row.appendChild(hashCell);
+                        
+                        // Author cell
+                        const authorCell = document.createElement('td');
+                        authorCell.className = 'commit-author';
+                        authorCell.textContent = commit.author;
+                        row.appendChild(authorCell);
+                        
+                        // Date cell
+                        const dateCell = document.createElement('td');
+                        dateCell.className = 'commit-date';
+                        dateCell.textContent = commit.date;
+                        row.appendChild(dateCell);
+                        
+                        // Message cell
+                        const messageCell = document.createElement('td');
+                        messageCell.className = 'commit-message';
+                        messageCell.textContent = commit.message;
+                        row.appendChild(messageCell);
+                        
+                        gitHistoryTbody.appendChild(row);
+                    });
+                } else {
+                    // No commits found
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    cell.colSpan = 4;
+                    cell.textContent = 'No commit history found.';
+                    cell.style.textAlign = 'center';
+                    row.appendChild(cell);
+                    gitHistoryTbody.appendChild(row);
+                }
+                
+                // Show the modal
+                gitHistoryModal.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching Git history:', error);
+                logDebug('Error fetching Git history: ' + error.message);
+                
+                // Show error in modal
+                gitHistoryTbody.innerHTML = '';
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.colSpan = 4;
+                cell.textContent = 'Error fetching Git history: ' + error.message;
+                cell.style.textAlign = 'center';
+                cell.style.color = 'red';
+                row.appendChild(cell);
+                gitHistoryTbody.appendChild(row);
+                
+                // Show the modal anyway to display the error
+                gitHistoryModal.style.display = 'block';
+            });
+    });
+    
+    closeGitHistory.addEventListener('click', function() {
+        gitHistoryModal.style.display = 'none';
+    });
+    
     sendBtn.addEventListener('click', sendMessage);
     
     messageInput.addEventListener('keypress', function(e) {
@@ -160,6 +254,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (e.target === aiderLogsModal) {
             aiderLogsModal.style.display = 'none';
+        }
+        if (e.target === gitHistoryModal) {
+            gitHistoryModal.style.display = 'none';
         }
     });
     

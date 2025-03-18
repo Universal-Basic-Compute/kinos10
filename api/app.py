@@ -1088,6 +1088,60 @@ def get_aider_logs(customer, project_id):
         logger.error(f"Error getting Aider logs: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/projects/<customer>/<project_id>/git_history', methods=['GET'])
+def get_git_history(customer, project_id):
+    """
+    Endpoint to get Git commit history for a project.
+    """
+    try:
+        # Validate customer and project
+        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
+            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+            
+        project_path = get_project_path(customer, project_id)
+        if not os.path.exists(project_path):
+            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        
+        # Check if .git directory exists
+        git_dir = os.path.join(project_path, ".git")
+        if not os.path.exists(git_dir) or not os.path.isdir(git_dir):
+            return jsonify({"error": "No Git repository found for this project"}), 404
+        
+        # Get git commit history using git log
+        try:
+            # Use git log to get commit history (last 20 commits)
+            result = subprocess.run(
+                ["git", "log", "--pretty=format:%h|%an|%ad|%s", "--date=short", "-n", "20"],
+                cwd=project_path,
+                text=True,
+                capture_output=True,
+                check=True
+            )
+            
+            # Parse the output
+            commits = []
+            for line in result.stdout.strip().split('\n'):
+                if line:
+                    parts = line.split('|', 3)
+                    if len(parts) == 4:
+                        hash, author, date, message = parts
+                        commits.append({
+                            "hash": hash,
+                            "author": author,
+                            "date": date,
+                            "message": message
+                        })
+            
+            return jsonify({"commits": commits})
+            
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Git command failed: {e.stderr}")
+            return jsonify({"error": f"Git command failed: {e.stderr}"}), 500
+        
+    except Exception as e:
+        logger.error(f"Error getting Git history: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     # Get port from environment variable (for Render compatibility)
     port = int(os.environ.get('PORT', 5000))
