@@ -46,11 +46,15 @@ def proxy_api(endpoint):
     # Check if the response is JSON or plain text
     content_type = resp.headers.get('Content-Type', '')
     
-    if 'application/json' in content_type:
-        # For JSON responses
-        return jsonify(resp.json()), resp.status_code
-    else:
-        # For non-JSON responses (like plain text files)
+    try:
+        if 'application/json' in content_type:
+            # For JSON responses
+            return jsonify(resp.json()), resp.status_code
+        else:
+            # For non-JSON responses (like plain text files or HTML error pages)
+            return resp.content, resp.status_code, {'Content-Type': content_type}
+    except Exception as e:
+        # If we can't parse the response as JSON, return the raw content
         return resp.content, resp.status_code, {'Content-Type': content_type}
 
 if __name__ == '__main__':
