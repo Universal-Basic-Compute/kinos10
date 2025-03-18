@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, Response
 import os
 import requests
 import json
@@ -7,9 +7,9 @@ app = Flask(__name__)
 
 # Configuration
 if os.environ.get('ENVIRONMENT') == 'production':
-    API_BASE_URL = "https://kinos.onrender.com/api"
+    API_BASE_URL = "https://kinos.onrender.com"
 else:
-    API_BASE_URL = "http://localhost:5000/api"  # Default for local development
+    API_BASE_URL = "http://localhost:5000"  # Default for local development
 
 @app.route('/')
 def index():
@@ -36,36 +36,68 @@ def get_projects(customer):
     
     return jsonify({"projects": projects})
 
-@app.route('/api/proxy/<path:endpoint>', methods=['GET', 'POST'])
+@app.route('/api/proxy/<path:endpoint>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def proxy_api(endpoint):
     """Proxy requests to the actual API."""
-    url = f"{API_BASE_URL}/{endpoint}"
+    url = f"{API_BASE_URL}/api/{endpoint}"
     
     try:
+        # Print debugging information
+        print(f"Proxying request to: {url}")
+        print(f"Method: {request.method}")
+        print(f"Headers: {dict(request.headers)}")
+        
+        # Forward the request with the appropriate method
         if request.method == 'GET':
-            resp = requests.get(url, params=request.args)
-        else:  # POST
+            resp = requests.get(
+                url, 
+                params=request.args,
+                headers={key: value for key, value in request.headers if key != 'Host'},
+                timeout=30
+            )
+        elif request.method == 'POST':
             # Check if the request has JSON content
             if request.is_json:
-                resp = requests.post(url, json=request.json)
+                resp = requests.post(
+                    url, 
+                    json=request.json,
+                    headers={key: value for key, value in request.headers if key != 'Host'},
+                    timeout=30
+                )
             else:
-                # For empty POST requests or non-JSON content
-                resp = requests.post(url)
+                # For form data or other content types
+                resp = requests.post(
+                    url,
+                    data=request.get_data(),
+                    headers={key: value for key, value in request.headers if key != 'Host'},
+                    timeout=30
+                )
+        else:  # PUT, DELETE, etc.
+            resp = requests.request(
+                method=request.method,
+                url=url,
+                headers={key: value for key, value in request.headers if key != 'Host'},
+                data=request.get_data(),
+                params=request.args,
+                timeout=30
+            )
+        
+        # Print response information for debugging
+        print(f"Response status: {resp.status_code}")
+        print(f"Response headers: {dict(resp.headers)}")
         
         # Check if the response is JSON or plain text
         content_type = resp.headers.get('Content-Type', '')
         
-        try:
-            if 'application/json' in content_type:
-                # For JSON responses
-                return jsonify(resp.json()), resp.status_code
-            else:
-                # For non-JSON responses (like plain text files or HTML error pages)
-                return resp.content, resp.status_code, {'Content-Type': content_type}
-        except Exception as e:
-            # If we can't parse the response as JSON, return the raw content
-            app.logger.error(f"Error processing response: {str(e)}")
-            return resp.content, resp.status_code, {'Content-Type': content_type}
+        # Create a Flask response with the same status code and headers
+        response = Response(
+            resp.content,
+            resp.status_code,
+            {key: value for key, value in resp.headers.items() 
+             if key.lower() not in ['content-length', 'transfer-encoding', 'connection']}
+        )
+        
+        return response
     except requests.RequestException as e:
         # Handle request exceptions (connection errors, timeouts, etc.)
         app.logger.error(f"Request error: {str(e)}")

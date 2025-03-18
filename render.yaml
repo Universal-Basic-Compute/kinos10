@@ -25,3 +25,5 @@ services:
         value: 3.9.0
       - key: API_URL
         value: https://kinos.onrender.com
+      - key: ENVIRONMENT
+        value: production
