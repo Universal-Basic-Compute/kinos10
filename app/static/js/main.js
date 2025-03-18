@@ -152,6 +152,52 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Function to parse gitignore file content
+    function parseGitignore(gitignoreContent) {
+        if (!gitignoreContent) return [];
+        
+        // Split by lines and filter out comments and empty lines
+        return gitignoreContent.split('\n')
+            .map(line => line.trim())
+            .filter(line => line && !line.startsWith('#'));
+    }
+
+    // Function to check if a file should be ignored based on gitignore patterns
+    function shouldIgnoreFile(filePath, ignorePatterns) {
+        if (!ignorePatterns || ignorePatterns.length === 0) return false;
+        
+        // Simple pattern matching (can be expanded for more complex gitignore rules)
+        for (const pattern of ignorePatterns) {
+            // Handle directory wildcards (e.g., node_modules/)
+            if (pattern.endsWith('/')) {
+                const dirPattern = pattern.slice(0, -1);
+                if (filePath === dirPattern || filePath.startsWith(dirPattern + '/')) {
+                    return true;
+                }
+            }
+            // Handle file extensions (e.g., *.log)
+            else if (pattern.startsWith('*.')) {
+                const extension = pattern.slice(1); // *.log -> .log
+                if (filePath.endsWith(extension)) {
+                    return true;
+                }
+            }
+            // Handle exact matches
+            else if (filePath === pattern) {
+                return true;
+            }
+            // Handle directory wildcards with extensions (e.g., **/*.log)
+            else if (pattern.startsWith('**/')) {
+                const subPattern = pattern.slice(3);
+                if (filePath.endsWith(subPattern)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
     // Function to load the file tree
     function loadFileTree() {
         // For both template and regular projects, we should load files
@@ -159,15 +205,47 @@ document.addEventListener('DOMContentLoaded', function() {
             `${currentCustomer}/template` : 
             `${currentCustomer}/${currentProject}`;
         
-        fetch(`/api/proxy/projects/${projectPath}/files`)
+        // First try to load .gitignore file
+        let ignorePatterns = [];
+        
+        fetch(`/api/proxy/projects/${projectPath}/files/.gitignore`)
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                return null;
+            })
+            .then(gitignoreContent => {
+                if (gitignoreContent) {
+                    ignorePatterns = parseGitignore(gitignoreContent);
+                    logDebug(`Loaded .gitignore with ${ignorePatterns.length} patterns`);
+                }
+                
+                // Now load the file list
+                return fetch(`/api/proxy/projects/${projectPath}/files`);
+            })
+            .catch(() => {
+                // If .gitignore fetch fails, just continue with empty patterns
+                return fetch(`/api/proxy/projects/${projectPath}/files`);
+            })
             .then(response => response.json())
             .then(data => {
                 if (data.files && data.files.length > 0) {
-                    // Build tree structure from flat file list
-                    const tree = buildFileTree(data.files);
-                    // Render the tree
-                    fileTree.innerHTML = '';
-                    renderFileTree(tree, fileTree);
+                    // Filter out files that match gitignore patterns
+                    const filteredFiles = data.files.filter(file => 
+                        !shouldIgnoreFile(file.path, ignorePatterns) && 
+                        file.path !== '.gitignore' // Also hide .gitignore itself
+                    );
+                    
+                    if (filteredFiles.length > 0) {
+                        // Build tree structure from filtered file list
+                        const tree = buildFileTree(filteredFiles);
+                        // Render the tree
+                        fileTree.innerHTML = '';
+                        renderFileTree(tree, fileTree);
+                    } else {
+                        fileTree.innerHTML = '<div class="file-item">No visible files found</div>';
+                    }
                 } else {
                     fileTree.innerHTML = '<div class="file-item">No files found</div>';
                 }

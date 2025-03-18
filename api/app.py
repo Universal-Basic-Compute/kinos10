@@ -440,12 +440,59 @@ def get_project_files(project_path):
         if not os.path.exists(full_project_path):
             return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
         
+        # Check for .gitignore file
+        gitignore_path = os.path.join(full_project_path, '.gitignore')
+        ignore_patterns = []
+        if os.path.exists(gitignore_path):
+            try:
+                with open(gitignore_path, 'r', encoding='utf-8') as f:
+                    for line in f:
+                        line = line.strip()
+                        if line and not line.startswith('#'):
+                            ignore_patterns.append(line)
+            except Exception as e:
+                logger.warning(f"Error reading .gitignore: {str(e)}")
+        
+        # Function to check if a file should be ignored
+        def should_ignore(file_path):
+            # Always include .gitignore itself
+            if file_path == '.gitignore':
+                return False
+                
+            for pattern in ignore_patterns:
+                # Simple pattern matching (can be expanded for more complex gitignore rules)
+                if pattern.endswith('/'):
+                    # Directory pattern
+                    dir_pattern = pattern[:-1]
+                    if file_path == dir_pattern or file_path.startswith(f"{dir_pattern}/"):
+                        return True
+                elif pattern.startswith('*.'):
+                    # File extension pattern
+                    if file_path.endswith(pattern[1:]):
+                        return True
+                elif file_path == pattern:
+                    # Exact match
+                    return True
+                elif pattern.startswith('**/'):
+                    # Recursive wildcard
+                    if file_path.endswith(pattern[3:]):
+                        return True
+            return False
+        
         # Get list of files
         files = []
         for root, dirs, filenames in os.walk(full_project_path):
+            # Filter directories to avoid walking into ignored directories
+            dirs[:] = [d for d in dirs if not should_ignore(os.path.relpath(os.path.join(root, d), full_project_path))]
+            
             for filename in filenames:
                 file_path = os.path.join(root, filename)
                 rel_path = os.path.relpath(file_path, full_project_path)
+                
+                # Skip ignored files
+                if should_ignore(rel_path):
+                    continue
+                    
                 files.append({
                     "path": rel_path,
                     "type": "file",
@@ -491,6 +538,10 @@ def get_file_content(project_path, file_path):
             return jsonify({"error": "Invalid file path"}), 403
         
         if not os.path.exists(file_full_path) or not os.path.isfile(file_full_path):
+            # For .gitignore specifically, return a 404 but with a proper content type
+            # so the client can handle it gracefully
+            if file_path == '.gitignore':
+                return "", 404, {'Content-Type': 'text/plain; charset=utf-8'}
             return jsonify({"error": f"File '{file_path}' not found"}), 404
         
         # Read file content
