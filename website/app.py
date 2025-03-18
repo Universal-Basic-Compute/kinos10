@@ -104,6 +104,16 @@ def debug_info():
     
     return html
 
+@app.route('/test')
+def test():
+    """Simple test endpoint to verify the app is running"""
+    return "Website is running!", 200
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    """Explicitly serve static files"""
+    return send_from_directory(app.static_folder, filename)
+
 @app.route('/css-test')
 def css_test():
     """Test endpoint to directly serve the CSS file"""
@@ -139,5 +149,5 @@ def api_proxy(path):
     return response
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 5001))  # Change default from 5000 to 5001
     app.run(debug=False, host='0.0.0.0', port=port)
