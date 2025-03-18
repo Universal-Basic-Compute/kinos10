@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KinOS - AI that adapts & learns</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/kinos-logo.svg') }}" alt="KinOS Logo">
+                <span>KinOS</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#use-cases">Use Cases</a></li>
+                    <li><a href="#architecture">Architecture</a></li>
+                    <li><a href="#integration">Integration</a></li>
+                    <li><a href="#contact" class="cta-button">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>AI that <span class="highlight-primary">adapts</span> & <span class="highlight-secondary">learns</span></h1>
+                <p>KinOS is an advanced context management system that evolves with your business needs, providing intelligent solutions through adaptive learning.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="button primary">Get Started</a>
+                    <a href="#features" class="button secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="{{ url_for('static', filename='images/hero-illustration.svg') }}" alt="KinOS AI Illustration">
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Key Features</h2>
+                <p>KinOS provides a comprehensive suite of features designed to enhance AI capabilities and deliver exceptional business value.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Persistent Context Management</h3>
+                    <p>Maintains conversation history and relevant context across sessions, ensuring continuity in interactions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Adaptive Mode Switching</h3>
+                    <p>Dynamically switches between different operational modes based on user needs and conversation context.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <h3>File System Integration</h3>
+                    <p>Organizes and manages project-specific files in a structured manner for efficient retrieval and updates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Long-Term Memory</h3>
+                    <p>Stores and retrieves important information for future reference, building knowledge over time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Web Source Integration</h3>
+                    <p>Gathers and incorporates information from external sources to enhance responses with up-to-date data.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Multi-Modal Support</h3>
+                    <p>Handles text, code, and image inputs/outputs for comprehensive communication capabilities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="use-cases" class="use-cases">
+        <div class="container">
+            <div class="section-header">
+                <h2>Use Cases</h2>
+                <p>KinOS adapts to various business needs, providing specialized assistance across different domains.</p>
+            </div>
+            <div class="use-case">
+                <div class="use-case-image">
+                    <img src="{{ url_for('static', filename='images/gaming-companion.svg') }}" alt="Gaming Companion">
+                </div>
+                <div class="use-case-content">
+                    <h3>Gaming Companion</h3>
+                    <p>Provides personalized gaming assistance, strategy advice, and lore information across multiple games, adapting to player skill level and preferences.</p>
+                    <div class="use-case-features">
+                        <h4>Key Components:</h4>
+                        <ul>
+                            <li>Specialized knowledge base</li>
+                            <li>Context-aware adaptations</li>
+                            <li>User preference memory</li>
+                            <li>Domain-specific modes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="use-case reverse">
+                <div class="use-case-image">
+                    <img src="{{ url_for('static', filename='images/homework-mentor.svg') }}" alt="Homework Mentor">
+                </div>
+                <div class="use-case-content">
+                    <h3>Homework Mentor</h3>
+                    <p>Assists students with homework across various subjects, adapting explanations to grade level and learning style while providing educational guidance.</p>
+                    <div class="use-case-features">
+                        <h4>Key Components:</h4>
+                        <ul>
+                            <li>Subject-specific knowledge</li>
+                            <li>Grade-level adaptations</li>
+                            <li>Learning style memory</li>
+                            <li>Educational modes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="use-case">
+                <div class="use-case-image">
+                    <img src="{{ url_for('static', filename='images/coding-assistant.svg') }}" alt="Coding Assistant">
+                </div>
+                <div class="use-case-content">
+                    <h3>Coding Assistant</h3>
+                    <p>Helps developers with coding tasks, debugging, architecture design, and technical documentation, adapting to different programming languages and frameworks.</p>
+                    <div class="use-case-features">
+                        <h4>Key Components:</h4>
+                        <ul>
+                            <li>Language-specific knowledge</li>
+                            <li>Framework adaptations</li>
+                            <li>Project memory</li>
+                            <li>Development modes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="architecture" class="architecture">
+        <div class="container">
+            <div class="section-header">
+                <h2>System Architecture</h2>
+                <p>KinOS features a modular architecture designed for flexibility, scalability, and robust performance.</p>
+            </div>
+            <div class="architecture-content">
+                <div class="architecture-diagram">
+                    <img src="{{ url_for('static', filename='images/architecture-diagram.svg') }}" alt="KinOS Architecture Diagram">
+                </div>
+                <div class="architecture-components">
+                    <h3>Core Components</h3>
+                    <div class="component">
+                        <h4>Project Manager</h4>
+                        <p>Handles project lifecycle and structure maintenance</p>
+                    </div>
+                    <div class="component">
+                        <h4>Context Builder</h4>
+                        <p>Selects relevant files for context window construction</p>
+                    </div>
+                    <div class="component">
+                        <h4>Context Updater</h4>
+                        <p>Modifies project files based on conversation</p>
+                    </div>
+                    <div class="component">
+                        <h4>Response Generator</h4>
+                        <p>Processes context and generates responses</p>
+                    </div>
+                    <div class="component">
+                        <h4>API Interface</h4>
+                        <p>Provides endpoints for external systems</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="integration" class="integration">
+        <div class="container">
+            <div class="section-header">
+                <h2>B2B Integration</h2>
+                <p>Integrate KinOS into your existing systems with our straightforward implementation process.</p>
+            </div>
+            <div class="integration-steps">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <h3>API Integration</h3>
+                    <p>Connect to KinOS through our RESTful API endpoints with comprehensive documentation and SDKs.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <h3>Template Configuration</h3>
+                    <p>Configure customer templates to match your specific business needs and use cases.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <h3>Project Setup</h3>
+                    <p>Create projects for your users with appropriate initial states and configurations.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">04</div>
+                    <h3>User Interaction</h3>
+                    <p>Enable seamless user interactions through your existing interfaces with KinOS handling the intelligence.</p>
+                </div>
+            </div>
+            <div class="documentation-box">
+                <h3>Technical Documentation</h3>
+                <p>Access our comprehensive API documentation and integration guides to get started with KinOS.</p>
+                <a href="#" class="documentation-link">View Documentation <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-content">
+                <h2>Ready to transform your business with adaptive AI?</h2>
+                <p>Contact us today to discuss how KinOS can be integrated into your systems to provide intelligent, adaptive solutions.</p>
+                <div class="contact-form-container">
+                    <h3>Get in Touch</h3>
+                    <form class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" placeholder="Your name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" placeholder="your.email@company.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company</label>
+                            <input type="text" id="company" placeholder="Your company">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" rows="4" placeholder="Tell us about your needs and how we can help"></textarea>
+                        </div>
+                        <button type="submit" class="button primary full-width">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="{{ url_for('static', filename='images/kinos-logo-white.svg') }}" alt="KinOS Logo">
+                        <span>KinOS</span>
+                    </div>
+                    <p>Advanced context management system that adapts and learns to provide intelligent solutions.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#use-cases">Use Cases</a></li>
+                        <li><a href="#architecture">Architecture</a></li>
+                        <li><a href="#integration">Integration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {{ now.year }} KinOS. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
