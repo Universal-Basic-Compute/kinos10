@@ -22,8 +22,24 @@ app = Flask(__name__)
 # Initialize Anthropic client
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
+# Get application data directory
+def get_app_data_dir():
+    """Get the appropriate application data directory based on the platform."""
+    if os.name == 'nt':  # Windows
+        app_data = os.path.join(os.environ.get('APPDATA', ''), 'KinOS')
+    elif os.name == 'posix':  # Linux/Mac
+        app_data = os.path.join(os.path.expanduser('~'), '.kinos')
+    else:  # Fallback
+        app_data = os.path.join(os.path.expanduser('~'), '.kinos')
+    
+    # Create directory if it doesn't exist
+    os.makedirs(app_data, exist_ok=True)
+    return app_data
+
 # Constants
-CUSTOMERS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
+CUSTOMERS_DIR = os.path.join(get_app_data_dir(), "customers")
+# Ensure customers directory exists
+os.makedirs(CUSTOMERS_DIR, exist_ok=True)
 MODEL = "claude-3-7-sonnet-latest"
 
 def get_project_path(customer, project_id):
@@ -285,6 +301,36 @@ def send_message(customer, project_id):
     except Exception as e:
         logger.error(f"Error processing message: {str(e)}")
         return jsonify({"error": str(e)}), 500
+
+def initialize_customer_templates():
+    """
+    Initialize customer templates by copying them from the project directory
+    to the app data location if they don't exist yet.
+    """
+    # Path to templates in the project
+    project_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
+    
+    # Check if project templates directory exists
+    if not os.path.exists(project_templates_dir):
+        logger.warning(f"Project templates directory not found: {project_templates_dir}")
+        return
+    
+    # Get list of customers from project templates
+    for customer in os.listdir(project_templates_dir):
+        customer_template_dir = os.path.join(project_templates_dir, customer, "template")
+        if os.path.exists(customer_template_dir) and os.path.isdir(customer_template_dir):
+            # Destination in app data
+            dest_template_dir = os.path.join(CUSTOMERS_DIR, customer, "template")
+            
+            # Only copy if destination doesn't exist
+            if not os.path.exists(dest_template_dir):
+                logger.info(f"Copying template for customer {customer} to app data")
+                os.makedirs(os.path.dirname(dest_template_dir), exist_ok=True)
+                import shutil
+                shutil.copytree(customer_template_dir, dest_template_dir)
+
+# Initialize customer templates
+initialize_customer_templates()
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
