@@ -1,0 +1,26 @@
+{
+  "kinos.txt": "Self-reference guide explaining KinOS's meta-cognitive capabilities for educational assistant",
+  "system.txt": "Base system prompt for DeskMate in self-development mode",
+  "map.json": "Index of all files in the DeskMate template",
+  "modes": {
+    "general.txt": "Default operational mode for educational assistant",
+    "explainer.txt": "Mode for explaining concepts in depth",
+    "quiz.txt": "Mode for testing knowledge through questions",
+    "research.txt": "Mode for guiding research and exploration"
+  },
+  "adaptations": {
+    "subject_focus.txt": "Adaptation for specific academic subjects",
+    "grade_level.txt": "Adaptation based on student's educational level"
+  },
+  "memories": {
+    "architecture": "Folder for storing architectural decisions for educational assistant",
+    "implementation": "Folder for storing implementation details",
+    "subjects": "Folder for storing information about academic subjects",
+    "student": "Folder for storing student progress and preferences"
+  },
+  "sources": {
+    "SPEC.md": "The DeskMate specification document",
+    "textbooks.txt": "Information gathered from educational textbooks",
+    "exercises.txt": "Practice problems and exercises for various subjects"
+  }
+}

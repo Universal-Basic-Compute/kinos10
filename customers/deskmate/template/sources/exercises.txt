@@ -1,0 +1,28 @@
+# Exercises and Practice Problems
+
+This file contains information about educational exercises and practice problems across various subjects. This knowledge helps provide effective practice opportunities for students.
+
+## Purpose
+Exercises and practice problems serve several educational functions:
+- Reinforcing theoretical concepts through application
+- Building procedural fluency through repetition
+- Developing problem-solving strategies
+- Assessing understanding and mastery
+- Preparing for formal assessments
+
+## Usage Guidelines
+When utilizing exercises and practice problems:
+1. Match difficulty level to student's current abilities
+2. Provide scaffolded support that gradually decreases
+3. Include a variety of problem types (basic, application, analysis)
+4. Focus on process and understanding, not just correct answers
+5. Use incorrect responses as opportunities for targeted instruction
+
+## Key Exercise Sources
+- Standard textbook problem sets
+- Educational workbooks and study guides
+- Standardized test preparation materials
+- Online educational platforms
+- Teacher-created materials and worksheets
+
+This information should be used to provide appropriate practice opportunities that build skills and understanding, with an emphasis on developing independent problem-solving abilities rather than dependence on assistance.

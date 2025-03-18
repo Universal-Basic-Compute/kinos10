@@ -1,0 +1,28 @@
+# Textbook Information
+
+This file contains information gathered from educational textbooks across various subjects. This knowledge helps provide accurate and curriculum-aligned assistance.
+
+## Purpose
+Textbooks serve as structured repositories of educational content, including:
+- Core concepts and principles
+- Standard terminology and definitions
+- Progressive learning sequences
+- Explanatory examples and illustrations
+- Practice problems and exercises
+
+## Usage Guidelines
+When referencing information from textbooks:
+1. Prioritize widely accepted educational content
+2. Consider grade-level appropriateness
+3. Present multiple perspectives when relevant
+4. Distinguish between facts, theories, and interpretations
+5. Acknowledge that educational approaches evolve over time
+
+## Key Textbook Sources
+- Standard K-12 curriculum textbooks
+- College-level introductory texts
+- Advanced academic references
+- Educational standards documents
+- Supplementary educational materials
+
+This information should be used to provide accurate, curriculum-aligned guidance while acknowledging that educational approaches and content may vary across different educational systems and evolve over time.
