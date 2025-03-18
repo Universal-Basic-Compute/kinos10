@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const projectSelect = document.getElementById('project-select');
     const createProjectBtn = document.getElementById('create-project-btn');
     const initializeCustomerBtn = document.getElementById('initialize-customer-btn');
+    const viewAiderLogsBtn = document.getElementById('view-aider-logs-btn');
     const messageInput = document.getElementById('message-input');
     const sendBtn = document.getElementById('send-btn');
     const messagesContainer = document.getElementById('messages');
@@ -23,6 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileContentTitle = document.getElementById('file-content-title');
     const fileContentBody = document.getElementById('file-content-body');
     const closeFileModal = document.getElementById('close-file-modal');
+    
+    // Aider logs elements
+    const aiderLogsModal = document.getElementById('aider-logs-modal');
+    const closeAiderLogs = document.getElementById('close-aider-logs');
+    const aiderLogsContent = document.getElementById('aider-logs-content');
     
     // Current state
     let currentCustomer = customerSelect.value;
@@ -105,6 +111,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    viewAiderLogsBtn.addEventListener('click', function() {
+        // Only show logs if not on template
+        if (currentProject === 'template') {
+            alert('Aider logs are not available for template projects.');
+            return;
+        }
+        
+        // Fetch and display Aider logs
+        fetch(`/api/proxy/projects/${currentCustomer}/${currentProject}/aider_logs`)
+            .then(response => response.json())
+            .then(data => {
+                aiderLogsContent.textContent = data.logs;
+                aiderLogsModal.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching Aider logs:', error);
+                logDebug('Error fetching Aider logs: ' + error.message);
+                alert('Error fetching Aider logs: ' + error.message);
+            });
+    });
+    
+    closeAiderLogs.addEventListener('click', function() {
+        aiderLogsModal.style.display = 'none';
+    });
+    
     sendBtn.addEventListener('click', sendMessage);
     
     messageInput.addEventListener('keypress', function(e) {
@@ -121,6 +152,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (e.target === fileContentModal) {
             fileContentModal.style.display = 'none';
+        }
+        if (e.target === aiderLogsModal) {
+            aiderLogsModal.style.display = 'none';
         }
     });
     

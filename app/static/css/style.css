@@ -301,3 +301,25 @@ button:hover {
     font-family: monospace;
     white-space: pre-wrap;
 }
+
+/* Modal header and body styles */
+.modal-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-body {
+    margin-top: 10px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+#aider-logs-content {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}

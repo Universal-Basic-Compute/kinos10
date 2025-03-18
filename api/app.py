@@ -365,11 +365,34 @@ def call_aider_with_context(project_path, selected_files, message_content):
             check=True
         )
         
+        # Save Aider logs to a file in the project directory
+        aider_logs_file = os.path.join(project_path, "aider_logs.txt")
+        with open(aider_logs_file, 'a') as f:
+            f.write(f"\n--- Aider run at {datetime.datetime.now().isoformat()} ---\n")
+            f.write(f"Command: {' '.join(safe_cmd)}\n")
+            f.write(f"Input: {message_content}\n")
+            f.write(f"Output:\n{result.stdout}\n")
+            if result.stderr:
+                f.write(f"Errors:\n{result.stderr}\n")
+            f.write("--- End of Aider run ---\n\n")
+        
         # Return the stdout from Aider
         return result.stdout
     except subprocess.CalledProcessError as e:
         logger.error(f"Aider command failed with exit code {e.returncode}")
         logger.error(f"Stderr: {e.stderr}")
+        
+        # Save error logs
+        aider_logs_file = os.path.join(project_path, "aider_logs.txt")
+        with open(aider_logs_file, 'a') as f:
+            f.write(f"\n--- Aider error at {datetime.datetime.now().isoformat()} ---\n")
+            f.write(f"Command: {' '.join(safe_cmd)}\n")
+            f.write(f"Input: {message_content}\n")
+            f.write(f"Error (exit code {e.returncode}):\n{e.stderr}\n")
+            if e.stdout:
+                f.write(f"Output before error:\n{e.stdout}\n")
+            f.write("--- End of Aider error ---\n\n")
+        
         raise RuntimeError(f"Aider command failed: {e.stderr}")
 
 @app.route('/api/projects/<customer>/<project_id>/messages', methods=['POST'])
@@ -826,6 +849,35 @@ def initialize_customer(customer):
         
     except Exception as e:
         logger.error(f"Error initializing customer: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/projects/<customer>/<project_id>/aider_logs', methods=['GET'])
+def get_aider_logs(customer, project_id):
+    """
+    Endpoint to get Aider logs for a project.
+    """
+    try:
+        # Validate customer and project
+        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
+            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+            
+        project_path = get_project_path(customer, project_id)
+        if not os.path.exists(project_path):
+            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        
+        # Get Aider logs
+        aider_logs_file = os.path.join(project_path, "aider_logs.txt")
+        if not os.path.exists(aider_logs_file):
+            return jsonify({"logs": "No Aider logs found for this project."}), 200
+        
+        # Read logs
+        with open(aider_logs_file, 'r', encoding='utf-8') as f:
+            logs = f.read()
+        
+        return jsonify({"logs": logs})
+        
+    except Exception as e:
+        logger.error(f"Error getting Aider logs: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':

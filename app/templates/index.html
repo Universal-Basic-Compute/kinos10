@@ -36,6 +36,10 @@
             <div class="form-group">
                 <button id="initialize-customer-btn">Initialize Customer</button>
             </div>
+            
+            <div class="form-group">
+                <button id="view-aider-logs-btn">View Aider Logs</button>
+            </div>
         </div>
         
         <div class="main-content">
@@ -89,6 +93,19 @@
                 <span class="close" id="close-file-modal">&times;</span>
             </div>
             <div id="file-content-body" class="file-content-body"></div>
+        </div>
+    </div>
+    
+    <!-- Aider Logs Modal -->
+    <div id="aider-logs-modal" class="modal">
+        <div class="modal-content" style="width: 80%; height: 80%;">
+            <div class="modal-header">
+                <span class="close" id="close-aider-logs">&times;</span>
+                <h2>Aider Logs</h2>
+            </div>
+            <div class="modal-body" style="height: calc(100% - 60px); overflow: auto;">
+                <pre id="aider-logs-content" style="white-space: pre-wrap; font-family: monospace;"></pre>
+            </div>
         </div>
     </div>
     
