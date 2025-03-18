@@ -422,6 +422,10 @@ def call_aider_with_context(project_path, selected_files, message_content):
     
     # Add all selected files to the command
     for file in selected_files:
+        # Skip image files as Aider can't process them directly
+        if file.startswith("images/") and file.endswith((".jpg", ".jpeg", ".png", ".gif")):
+            continue
+            
         file_path = os.path.join(project_path, file)
         if os.path.exists(file_path):
             cmd.extend(["--file", file])
@@ -498,6 +502,9 @@ def send_message(customer, project_id):
         
         # Original format attachments
         attachments = data.get('attachments', [])
+        
+        # Initialize saved_images list to track saved image paths
+        saved_images = []
         
         # Validate customer
         if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
@@ -584,6 +591,36 @@ def send_message(customer, project_id):
             
             logger.info(f"Successfully created project '{project_id}' for customer '{customer}'")
         
+        # Save images to project directory if any
+        if images and len(images) > 0:
+            # Create images directory if it doesn't exist
+            images_dir = os.path.join(project_path, "images")
+            os.makedirs(images_dir, exist_ok=True)
+            
+            for i, img_base64 in enumerate(images):
+                try:
+                    # Clean up the base64 data
+                    if ',' in img_base64:
+                        # Extract the base64 part after the comma
+                        img_base64 = img_base64.split(',', 1)[1]
+                    
+                    # Generate filename with date
+                    date_str = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+                    image_filename = f"{date_str}_{i}.jpg"
+                    image_path = os.path.join(images_dir, image_filename)
+                    
+                    # Save the image
+                    import base64
+                    with open(image_path, 'wb') as f:
+                        image_data = base64.b64decode(img_base64)
+                        f.write(image_data)
+                    
+                    # Add relative path to saved images
+                    saved_images.append(os.path.join("images", image_filename))
+                    logger.info(f"Saved image to {image_path}")
+                except Exception as e:
+                    logger.error(f"Error saving image: {str(e)}")
+        
         # Now that we've ensured the project exists, proceed with message handling
         messages_file = os.path.join(project_path, "messages.json")
         
@@ -604,6 +641,10 @@ def send_message(customer, project_id):
             "timestamp": datetime.datetime.now().isoformat()
         }
         
+        # Add image paths to the message if any were saved
+        if saved_images:
+            user_message["images"] = saved_images
+        
         # Add optional fields if they exist
         if username:
             user_message["username"] = username
@@ -618,6 +659,11 @@ def send_message(customer, project_id):
         
         # Build context (select relevant files)
         selected_files = build_context(customer, project_id, message_content, attachments)
+        
+        # Add saved image files to selected files for context
+        for img_path in saved_images:
+            if img_path not in selected_files:
+                selected_files.append(img_path)
         
         # Log the selected files
         logger.info(f"Selected files for context: {selected_files}")
