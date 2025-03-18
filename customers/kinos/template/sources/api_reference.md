@@ -1,0 +1,248 @@
+# KinOS API Reference
+
+This document provides a comprehensive reference for the KinOS API available at `https://kinos.onrender.com/api`.
+
+## Base URL
+
+All API endpoints are relative to the base URL:
+
+```
+https://kinos.onrender.com/api
+```
+
+## Authentication
+
+Currently, the API does not require authentication.
+
+## API Endpoints
+
+### Health Check
+
+Check if the API is running properly.
+
+**Endpoint:** `GET /health`
+
+**Response:**
+```json
+{
+  "status": "healthy"
+}
+```
+
+### API Information
+
+Get general information about the API.
+
+**Endpoint:** `GET /`
+
+**Response:**
+```json
+{
+  "status": "running",
+  "message": "KinOS API is running",
+  "version": "1.0.0",
+  "endpoints": {
+    "health": "/api/health",
+    "projects": "/api/projects",
+    "messages": "/api/projects/{customer}/{project_id}/messages",
+    "files": "/api/projects/{customer}/{project_id}/files"
+  }
+}
+```
+
+### Create Project
+
+Create a new project for a customer.
+
+**Endpoint:** `POST /projects`
+
+**Request Body:**
+```json
+{
+  "project_name": "My New Project",
+  "customer": "kinos",
+  "template_override": "deskmate"  // Optional
+}
+```
+
+**Response:**
+```json
+{
+  "project_id": "550e8400-e29b-41d4-a716-446655440000",
+  "customer": "kinos",
+  "status": "created"
+}
+```
+
+### Get Customer Projects
+
+Get a list of projects for a specific customer.
+
+**Endpoint:** `GET /projects/{customer}/projects`
+
+**Response:**
+```json
+{
+  "projects": ["template", "550e8400-e29b-41d4-a716-446655440000"]
+}
+```
+
+### Get Project Messages
+
+Get messages for a specific project.
+
+**Endpoint:** `GET /projects/{customer}/{project_id}/messages`
+
+**Query Parameters:**
+- `since` (optional): ISO timestamp to get only messages after this time
+
+**Response:**
+```json
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hello, can you help me with this project?",
+      "timestamp": "2023-09-15T14:30:45.123456"
+    },
+    {
+      "role": "assistant",
+      "content": "Of course! I'd be happy to help with your project. What would you like to know?",
+      "timestamp": "2023-09-15T14:30:50.654321"
+    }
+  ]
+}
+```
+
+### Send Message
+
+Send a message to a project.
+
+**Endpoint:** `POST /projects/{customer}/{project_id}/messages`
+
+**Request Body:**
+```json
+{
+  "content": "Can you explain how this code works?",
+  "attachments": [],  // Optional
+  "images": []  // Optional, base64-encoded images
+}
+```
+
+**Response:**
+```json
+{
+  "status": "completed",
+  "message_id": "12",
+  "response": "The code works by..."
+}
+```
+
+### Get Project Files
+
+Get a list of files in a project.
+
+**Endpoint:** `GET /projects/{path:project_path}/files`
+
+Where `project_path` is in the format `{customer}/{project_id}` or `{customer}/template`.
+
+**Response:**
+```json
+{
+  "files": [
+    {
+      "path": "system.txt",
+      "type": "file",
+      "last_modified": "2023-09-15T14:30:45.123456"
+    },
+    {
+      "path": "persona.txt",
+      "type": "file",
+      "last_modified": "2023-09-15T14:30:45.123456"
+    }
+  ]
+}
+```
+
+### Get File Content
+
+Get the content of a specific file.
+
+**Endpoint:** `GET /projects/{path:project_path}/files/{path:file_path}`
+
+Where:
+- `project_path` is in the format `{customer}/{project_id}` or `{customer}/template`
+- `file_path` is the path to the file within the project
+
+**Response:**
+For text files, returns the raw content with Content-Type: text/plain.
+For images, returns:
+```json
+{
+  "content": "base64-encoded-content",
+  "type": "image"
+}
+```
+
+### Initialize Customer
+
+Initialize or reinitialize a customer's template.
+
+**Endpoint:** `POST /customers/{customer}/initialize`
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Customer 'kinos' initialized"
+}
+```
+
+### Get Aider Logs
+
+Get the Aider logs for a project.
+
+**Endpoint:** `GET /projects/{customer}/{project_id}/aider_logs`
+
+**Response:**
+```json
+{
+  "logs": "--- Aider run at 2023-09-15T14:30:45.123456 ---\nCommand: aider --sonnet --yes-always\nInput: Can you help me with this code?\nOutput: I'll help you with this code...\n--- End of Aider run ---"
+}
+```
+
+## Error Handling
+
+All API endpoints return appropriate HTTP status codes:
+
+- `200 OK`: Request succeeded
+- `400 Bad Request`: Invalid request parameters
+- `404 Not Found`: Resource not found
+- `500 Internal Server Error`: Server error
+
+Error responses include a JSON object with an error message:
+
+```json
+{
+  "error": "Error message details"
+}
+```
+
+## Working with Images
+
+When sending messages with images, encode the images as base64 strings and include them in the `images` array of the request body. The API will pass these images to Claude for analysis.
+
+Example request with an image:
+
+```json
+{
+  "content": "What's in this image?",
+  "images": [
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
+  ]
+}
+```
+
+## File Operations
+
+The API provides read-only access to project files. Files are filtered according to common ignore patterns (similar to .gitignore) to exclude temporary files, version control directories, and other non-essential files.
