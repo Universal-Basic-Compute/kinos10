@@ -99,7 +99,7 @@ The following files provide context for my request:
             for img_base64 in images:
                 try:
                     # Determine the media type from the data URL prefix
-                    media_type = "image/png"  # Default
+                    media_type = "image/jpeg"  # Default to JPEG instead of PNG
                     
                     # If the image has a data URL prefix, extract the media type and data
                     if ',' in img_base64 and ';base64,' in img_base64:
@@ -110,6 +110,28 @@ The following files provide context for my request:
                     # If it's just a data URL without media type
                     elif ',' in img_base64:
                         img_base64 = img_base64.split(',', 1)[1]
+                    
+                    # Try to detect image format from the base64 data
+                    # Check first few bytes of decoded base64 to determine image type
+                    import base64
+                    try:
+                        # Decode just enough of the base64 data to check the magic bytes
+                        img_data_start = base64.b64decode(img_base64[:24])
+                        
+                        # JPEG starts with FF D8 FF
+                        if img_data_start.startswith(b'\xFF\xD8\xFF'):
+                            media_type = "image/jpeg"
+                        # PNG starts with 89 50 4E 47 0D 0A 1A 0A
+                        elif img_data_start.startswith(b'\x89\x50\x4E\x47'):
+                            media_type = "image/png"
+                        # GIF starts with GIF87a or GIF89a
+                        elif img_data_start.startswith(b'GIF87a') or img_data_start.startswith(b'GIF89a'):
+                            media_type = "image/gif"
+                        # WEBP starts with RIFF and has WEBP at offset 8
+                        elif img_data_start.startswith(b'RIFF') and b'WEBP' in img_data_start:
+                            media_type = "image/webp"
+                    except Exception as e:
+                        logger.warning(f"Error detecting image format from data: {str(e)}")
                     
                     logger.info(f"Using media type: {media_type} for image")
                     
