@@ -25,16 +25,24 @@ MODEL = "claude-3-7-sonnet-latest"  # Use the latest Claude 3.7 Sonnet model
 
 # Initialize Anthropic client with minimal parameters and error handling
 try:
-    client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-    logger.info("Anthropic client initialized successfully")
+    # Create a clean environment for Anthropic client
+    import httpx
+    
+    # Initialize with minimal parameters and no proxies
+    client = anthropic.Anthropic(
+        api_key=os.getenv("ANTHROPIC_API_KEY"),
+        # Use a custom HTTP client with no proxies
+        http_client=httpx.Client(proxies=None)
+    )
+    logger.info("Anthropic client initialized successfully with custom HTTP client")
 except Exception as e:
-    logger.error(f"Error initializing Anthropic client: {str(e)}")
-    # Fallback initialization without any extra parameters
+    logger.error(f"Error initializing Anthropic client with custom HTTP client: {str(e)}")
     try:
-        client = anthropic.Anthropic()
-        logger.info("Anthropic client initialized with fallback method")
+        # Try with a very minimal initialization
+        client = anthropic.Client(api_key=os.getenv("ANTHROPIC_API_KEY"))
+        logger.info("Anthropic client initialized with legacy Client class")
     except Exception as e2:
-        logger.error(f"Fallback initialization also failed: {str(e2)}")
+        logger.error(f"All Anthropic client initialization attempts failed: {str(e2)}")
         raise RuntimeError("Could not initialize Anthropic client")
 
 def call_claude_with_context(selected_files, project_path, message_content):
