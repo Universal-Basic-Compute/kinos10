@@ -2,7 +2,7 @@ from flask import Flask, render_template, send_from_directory
 import datetime
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', template_folder='templates')
 
 @app.route('/')
 def index():
@@ -18,12 +18,18 @@ def debug():
     static_files = os.listdir(os.path.join(app.static_folder))
     template_files = os.listdir(os.path.join(app.template_folder))
     
+    # Check if CSS file exists
+    css_path = os.path.join(app.static_folder, 'css', 'styles.css')
+    css_exists = os.path.exists(css_path)
+    
     return {
         'status': 'running',
         'static_files': static_files,
         'template_files': template_files,
         'static_folder': app.static_folder,
-        'template_folder': app.template_folder
+        'template_folder': app.template_folder,
+        'css_file_exists': css_exists,
+        'css_path': css_path
     }
 
 @app.route('/debug-info')
@@ -40,7 +46,8 @@ def debug_info():
         'static_folder': app.static_folder,
         'template_folder': app.template_folder,
         'static_files': os.listdir(app.static_folder) if os.path.exists(app.static_folder) else [],
-        'template_files': os.listdir(app.template_folder) if os.path.exists(app.template_folder) else []
+        'template_files': os.listdir(app.template_folder) if os.path.exists(app.template_folder) else [],
+        'css_files': os.listdir(os.path.join(app.static_folder, 'css')) if os.path.exists(os.path.join(app.static_folder, 'css')) else []
     }
     
     # Return as formatted HTML
@@ -60,6 +67,11 @@ def debug_info():
             html += f"<h2>{key}</h2><p>{value}</p>"
     
     return html
+
+@app.route('/css-test')
+def css_test():
+    """Test endpoint to directly serve the CSS file"""
+    return send_from_directory(os.path.join(app.static_folder, 'css'), 'styles.css')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
