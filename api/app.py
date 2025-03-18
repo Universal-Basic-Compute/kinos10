@@ -517,37 +517,75 @@ def send_message(customer, project_id):
                 # Create projects directory if it doesn't exist
                 projects_dir = os.path.join(CUSTOMERS_DIR, customer, "projects")
                 os.makedirs(projects_dir, exist_ok=True)
+                logger.info(f"Created or verified projects directory: {projects_dir}")
                 
                 # Create project directory
                 os.makedirs(project_path, exist_ok=True)
+                logger.info(f"Created project directory: {project_path}")
                 
                 # Copy template to project directory
                 template_path = os.path.join(CUSTOMERS_DIR, customer, "template")
+                logger.info(f"Looking for template at: {template_path}")
+                
+                if not os.path.exists(template_path):
+                    # Check if we need to initialize the customer template first
+                    logger.warning(f"Template not found for customer '{customer}', attempting to initialize")
+                    
+                    # Try to initialize the customer template
+                    project_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
+                    customer_template_dir = os.path.join(project_templates_dir, customer, "template")
+                    
+                    if os.path.exists(customer_template_dir):
+                        logger.info(f"Found template in project directory, copying to app data")
+                        # Create customer directory if needed
+                        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
+                        os.makedirs(customer_dir, exist_ok=True)
+                        
+                        # Copy template from project directory to app data
+                        import shutil
+                        shutil.copytree(customer_template_dir, template_path)
+                        logger.info(f"Initialized template for customer '{customer}'")
+                    else:
+                        logger.error(f"No template found for customer '{customer}' in project directory")
+                        return jsonify({"error": f"Template not found for customer '{customer}'"}), 404
+                
+                # Verify template exists after potential initialization
                 if not os.path.exists(template_path):
                     return jsonify({"error": f"Template not found for customer '{customer}'"}), 404
                 
+                # List template contents for debugging
+                template_contents = os.listdir(template_path)
+                logger.info(f"Template contents: {template_contents}")
+                
+                # Use a more robust copy method
                 import shutil
                 for item in os.listdir(template_path):
                     s = os.path.join(template_path, item)
                     d = os.path.join(project_path, item)
-                    if os.path.isdir(s):
-                        shutil.copytree(s, d)
-                    else:
-                        shutil.copy2(s, d)
+                    try:
+                        if os.path.isdir(s):
+                            shutil.copytree(s, d)
+                        else:
+                            shutil.copy2(s, d)
+                        logger.info(f"Copied {s} to {d}")
+                    except Exception as copy_error:
+                        logger.error(f"Error copying {s} to {d}: {str(copy_error)}")
                 
                 # Create messages.json file
                 messages_file = os.path.join(project_path, "messages.json")
                 with open(messages_file, 'w') as f:
                     json.dump([], f)
+                logger.info(f"Created messages.json file")
                 
                 # Create thoughts.txt file
                 thoughts_file = os.path.join(project_path, "thoughts.txt")
                 with open(thoughts_file, 'w') as f:
                     f.write(f"# Thoughts for project: {project_id}\nCreated: {datetime.datetime.now().isoformat()}\n\n")
+                logger.info(f"Created thoughts.txt file")
                 
                 logger.info(f"Successfully created project '{project_id}' for customer '{customer}'")
             except Exception as e:
-                logger.error(f"Error creating project: {str(e)}")
+                logger.error(f"Error creating project: {str(e)}", exc_info=True)
                 return jsonify({"error": f"Error creating project: {str(e)}"}), 500
         
         # Store the user message in messages.json immediately
@@ -656,6 +694,9 @@ def initialize_customer_templates():
         logger.warning(f"Project templates directory not found: {project_templates_dir}")
         return
     
+    logger.info(f"Initializing customer templates from: {project_templates_dir}")
+    logger.info(f"Available customers in project: {os.listdir(project_templates_dir)}")
+    
     # Custom copy function to skip .git directory and handle permission errors
     def custom_copy_tree(src, dst):
         try:
@@ -663,6 +704,7 @@ def initialize_customer_templates():
             
             # Get list of items to copy (excluding .git)
             items_to_copy = [item for item in os.listdir(src) if item != '.git']
+            logger.info(f"Items to copy from {src}: {items_to_copy}")
             
             for item in items_to_copy:
                 s = os.path.join(src, item)
@@ -674,6 +716,7 @@ def initialize_customer_templates():
                     else:
                         import shutil
                         shutil.copy2(s, d)
+                        logger.info(f"Copied file: {s} -> {d}")
                 except PermissionError:
                     logger.warning(f"Permission error copying {s} to {d}, skipping")
                 except Exception as e:
@@ -683,6 +726,12 @@ def initialize_customer_templates():
     
     # Get list of customers from project templates
     for customer in os.listdir(project_templates_dir):
+        customer_path = os.path.join(project_templates_dir, customer)
+        # Skip if not a directory
+        if not os.path.isdir(customer_path):
+            continue
+            
+        logger.info(f"Processing customer: {customer}")
         customer_dir = os.path.join(CUSTOMERS_DIR, customer)
         
         # Create customer directory if it doesn't exist
@@ -702,14 +751,61 @@ def initialize_customer_templates():
             # Destination in app data
             dest_template_dir = os.path.join(customer_dir, "template")
             
+            # Check if template exists but is empty
+            if os.path.exists(dest_template_dir) and not os.listdir(dest_template_dir):
+                logger.info(f"Template directory exists but is empty for {customer}, copying template")
+                custom_copy_tree(customer_template_dir, dest_template_dir)
             # Only copy if destination doesn't exist
-            if not os.path.exists(dest_template_dir):
+            elif not os.path.exists(dest_template_dir):
                 logger.info(f"Copying template for customer {customer} to app data")
                 # Use custom copy function instead of shutil.copytree
                 custom_copy_tree(customer_template_dir, dest_template_dir)
+            else:
+                logger.info(f"Template already exists for customer {customer}")
+                
+            # Verify template was copied correctly
+            if os.path.exists(dest_template_dir):
+                template_files = os.listdir(dest_template_dir)
+                logger.info(f"Template files for {customer}: {template_files}")
+            else:
+                logger.warning(f"Template directory not created for {customer}")
 
 # Initialize customer templates
 initialize_customer_templates()
+
+# Specifically check for duogaming customer
+duogaming_template = os.path.join(CUSTOMERS_DIR, "duogaming", "template")
+if not os.path.exists(duogaming_template) or not os.listdir(duogaming_template):
+    logger.warning("DuoGaming template not found or empty, attempting to initialize specifically")
+    
+    # Source template in project
+    project_duogaming_template = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
+                                             "customers", "duogaming", "template")
+    
+    if os.path.exists(project_duogaming_template):
+        # Create customer directory if needed
+        duogaming_dir = os.path.join(CUSTOMERS_DIR, "duogaming")
+        os.makedirs(duogaming_dir, exist_ok=True)
+        
+        # Create projects directory if needed
+        duogaming_projects_dir = os.path.join(duogaming_dir, "projects")
+        os.makedirs(duogaming_projects_dir, exist_ok=True)
+        
+        # Copy template
+        if os.path.exists(duogaming_template):
+            import shutil
+            shutil.rmtree(duogaming_template)
+        
+        logger.info(f"Copying DuoGaming template from {project_duogaming_template} to {duogaming_template}")
+        import shutil
+        shutil.copytree(project_duogaming_template, duogaming_template)
+        
+        # Verify template was copied
+        if os.path.exists(duogaming_template):
+            template_files = os.listdir(duogaming_template)
+            logger.info(f"DuoGaming template files: {template_files}")
+    else:
+        logger.error("DuoGaming template not found in project directory")
 
 @app.route('/api/projects/<path:project_path>/files', methods=['GET'])
 def get_project_files(project_path):
