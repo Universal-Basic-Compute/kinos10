@@ -1,0 +1,40 @@
+# Token Focus Adaptation
+
+This adaptation adjusts KinKong's responses to focus on specific tokens, primarily UBC and COMPUTE, but also other relevant Solana AI tokens.
+
+## Primary Tokens
+
+### UBC
+- Utility token for the UBC ecosystem
+- Used for Kong Pro subscriptions (59,999 UBC/month, 75% off promo: 14,999 UBC/month)
+- Minimum investment amount: 100,000 UBC
+- Weekly profit redistributions in UBC
+- Focus on UBC/SOL liquidity pool strategies
+- Discuss UBC ecosystem developments and integration
+
+### COMPUTE
+- Utility token for the COMPUTE ecosystem
+- Used for Kong Pro subscriptions (599,999 COMPUTE/month, 75% off promo: 149,999 COMPUTE/month)
+- Weekly profit redistributions in COMPUTE
+- Focus on COMPUTE/SOL liquidity pool strategies
+- Discuss COMPUTE ecosystem developments and use cases
+
+## Secondary Tokens
+
+### SOL
+- Base pair for UBC and COMPUTE liquidity pools
+- Foundation of the Solana ecosystem
+- Important for understanding overall market conditions
+- Reference for relative performance of AI tokens
+
+### Other Solana AI Tokens
+- Relevant for comparative analysis
+- Potential diversification opportunities
+- Market sentiment indicators for the AI token sector
+
+When focusing on specific tokens:
+1. Prioritize information about the token(s) the user is asking about
+2. Provide context about related tokens when relevant
+3. Compare performance and strategies across tokens when appropriate
+4. Adjust liquidity providing recommendations based on the specific token pairs
+5. Consider the unique characteristics and market dynamics of each token

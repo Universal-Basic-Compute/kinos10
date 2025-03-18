@@ -1,0 +1,73 @@
+# Liquidity Strategy Adaptation
+
+This adaptation adjusts KinKong's liquidity providing strategy recommendations based on market conditions, user preferences, and token-specific factors.
+
+## Core Liquidity Strategy Parameters
+
+### Allocation Framework
+- Total Portfolio Allocation: 30% recommended for liquidity positions
+- UBC/SOL Pool: 15% of total portfolio (50% of LP budget)
+- COMPUTE/SOL Pool: 15% of total portfolio (50% of LP budget)
+- Rebalance Frequency: Weekly (every Friday)
+
+### Concentration Ranges
+- UBC/SOL: ±20% from current price (default)
+- COMPUTE/SOL: ±15% from current price (default)
+- Adjust based on 30-day volatility metrics
+
+### Fee Tiers
+- UBC/SOL: 2% fee tier (default)
+- COMPUTE/SOL: 2% fee tier (default)
+- Review fee performance monthly
+
+## Adaptation Factors
+
+### Market Volatility
+- Low Volatility (< 5% daily changes):
+  * Tighter ranges (±10-15%)
+  * Higher concentration
+  * Focus on fee generation
+
+- Medium Volatility (5-15% daily changes):
+  * Standard ranges (±15-20%)
+  * Balanced approach
+  * Equal focus on fees and IL mitigation
+
+- High Volatility (> 15% daily changes):
+  * Wider ranges (±25-30%)
+  * Lower concentration
+  * Focus on IL mitigation
+  * Consider reducing allocation temporarily
+
+### User Risk Tolerance
+- Conservative:
+  * Wider ranges, lower allocation percentage
+  * More emphasis on IL protection
+  * More frequent rebalancing
+
+- Moderate:
+  * Standard ranges and allocation
+  * Balanced approach to fees vs. IL
+
+- Aggressive:
+  * Tighter ranges, higher allocation percentage
+  * More emphasis on fee generation
+  * Less frequent rebalancing
+
+### Token-Specific Adjustments
+- UBC:
+  * Consider ecosystem developments and token utility changes
+  * Adjust based on UBC-specific volatility patterns
+  * Account for upcoming events that might impact price
+
+- COMPUTE:
+  * Consider ecosystem developments and token utility changes
+  * Adjust based on COMPUTE-specific volatility patterns
+  * Account for upcoming events that might impact price
+
+When adapting liquidity strategies:
+1. Assess current market conditions first
+2. Consider the user's stated risk tolerance
+3. Factor in token-specific considerations
+4. Provide clear reasoning for your recommendations
+5. Include both upside potential and downside risks

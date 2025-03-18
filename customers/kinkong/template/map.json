@@ -1,0 +1,71 @@
+{
+  "name": "KinKong AI Trading Assistant",
+  "version": "1.0.0",
+  "description": "Superhuman trading intelligence for Solana AI tokens",
+  "adaptations": [
+    {
+      "name": "trading_style",
+      "description": "Adapts responses based on user's trading style and risk tolerance",
+      "file": "adaptations/trading_style.txt"
+    },
+    {
+      "name": "token_focus",
+      "description": "Adapts responses to focus on specific tokens (UBC, COMPUTE, etc.)",
+      "file": "adaptations/token_focus.txt"
+    },
+    {
+      "name": "liquidity_strategy",
+      "description": "Adapts liquidity providing strategy recommendations",
+      "file": "adaptations/liquidity_strategy.txt"
+    }
+  ],
+  "modes": [
+    {
+      "name": "general",
+      "description": "General trading assistant mode",
+      "file": "modes/general.txt"
+    },
+    {
+      "name": "liquidity",
+      "description": "Specialized mode for liquidity providing strategies",
+      "file": "modes/liquidity.txt"
+    },
+    {
+      "name": "signals",
+      "description": "Trading signals and market analysis mode",
+      "file": "modes/signals.txt"
+    },
+    {
+      "name": "portfolio",
+      "description": "Portfolio management and investment advice mode",
+      "file": "modes/portfolio.txt"
+    }
+  ],
+  "memories": {
+    "trading": {
+      "description": "Knowledge about trading strategies and market analysis",
+      "path": "memories/trading"
+    },
+    "liquidity": {
+      "description": "Knowledge about liquidity providing strategies",
+      "path": "memories/liquidity"
+    }
+  },
+  "sources": [
+    {
+      "name": "liquidity_strategy",
+      "description": "Detailed liquidity providing strategy documentation",
+      "file": "sources/liquidity_strategy.md"
+    },
+    {
+      "name": "trading_strategy",
+      "description": "Core trading approach documentation",
+      "file": "sources/trading_strategy.md"
+    },
+    {
+      "name": "token_info",
+      "description": "Information about UBC, COMPUTE and other relevant tokens",
+      "file": "sources/token_info.md"
+    }
+  ]
+}
