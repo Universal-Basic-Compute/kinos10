@@ -79,9 +79,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (confirm(`Are you sure you want to initialize/reinitialize the '${customer}' customer?`)) {
             fetch(`/api/proxy/customers/${customer}/initialize`, {
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'  // Change content type
+                }
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 logDebug(`Customer initialization: ${JSON.stringify(data)}`);
                 alert(`Customer '${customer}' initialized successfully.`);

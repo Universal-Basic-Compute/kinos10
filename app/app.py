@@ -38,24 +38,35 @@ def proxy_api(endpoint):
     """Proxy requests to the actual API."""
     url = f"{API_BASE_URL}/{endpoint}"
     
-    if request.method == 'GET':
-        resp = requests.get(url, params=request.args)
-    else:  # POST
-        resp = requests.post(url, json=request.json)
-    
-    # Check if the response is JSON or plain text
-    content_type = resp.headers.get('Content-Type', '')
-    
     try:
-        if 'application/json' in content_type:
-            # For JSON responses
-            return jsonify(resp.json()), resp.status_code
-        else:
-            # For non-JSON responses (like plain text files or HTML error pages)
+        if request.method == 'GET':
+            resp = requests.get(url, params=request.args)
+        else:  # POST
+            # Check if the request has JSON content
+            if request.is_json:
+                resp = requests.post(url, json=request.json)
+            else:
+                # For empty POST requests or non-JSON content
+                resp = requests.post(url)
+        
+        # Check if the response is JSON or plain text
+        content_type = resp.headers.get('Content-Type', '')
+        
+        try:
+            if 'application/json' in content_type:
+                # For JSON responses
+                return jsonify(resp.json()), resp.status_code
+            else:
+                # For non-JSON responses (like plain text files or HTML error pages)
+                return resp.content, resp.status_code, {'Content-Type': content_type}
+        except Exception as e:
+            # If we can't parse the response as JSON, return the raw content
+            app.logger.error(f"Error processing response: {str(e)}")
             return resp.content, resp.status_code, {'Content-Type': content_type}
-    except Exception as e:
-        # If we can't parse the response as JSON, return the raw content
-        return resp.content, resp.status_code, {'Content-Type': content_type}
+    except requests.RequestException as e:
+        # Handle request exceptions (connection errors, timeouts, etc.)
+        app.logger.error(f"Request error: {str(e)}")
+        return jsonify({"error": f"API request failed: {str(e)}"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)  # Run on port 5001 to avoid conflict with API
