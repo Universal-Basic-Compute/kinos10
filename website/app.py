@@ -202,17 +202,69 @@ def proxy_project_file(project_path, file_path):
 @app.route('/api', methods=['GET'])
 def api_test():
     """Test endpoint to verify API routes are working"""
+    # Get the API URL from environment or use default
+    api_url = os.environ.get('API_URL', 'http://localhost:5000')
+    
+    # Test if we can connect to the API server
+    api_status = "Unknown"
+    api_message = ""
+    try:
+        response = requests.get(f"{api_url}/api/health", timeout=5)
+        if response.ok:
+            api_status = "Connected"
+            api_message = "Successfully connected to API server"
+        else:
+            api_status = "Error"
+            api_message = f"API server returned status code {response.status_code}"
+    except requests.RequestException as e:
+        api_status = "Error"
+        api_message = f"Failed to connect to API server: {str(e)}"
+    
+    # Check if the projects endpoint is working
+    projects_status = "Unknown"
+    projects_message = ""
+    try:
+        response = requests.get(f"{api_url}/api/projects/all", timeout=5)
+        if response.ok:
+            projects_status = "Working"
+            projects_message = "Projects endpoint is working"
+            projects_data = response.json()
+        else:
+            projects_status = "Error"
+            projects_message = f"Projects endpoint returned status code {response.status_code}"
+            projects_data = {}
+    except requests.RequestException as e:
+        projects_status = "Error"
+        projects_message = f"Failed to connect to projects endpoint: {str(e)}"
+        projects_data = {}
+    
     return jsonify({
         "status": "OK",
-        "message": "API routes are working",
+        "message": "API routes diagnostic information",
+        "api_server": {
+            "url": api_url,
+            "status": api_status,
+            "message": api_message
+        },
         "endpoints": {
-            "/api/projects/all": "Get all customers and their projects",
+            "/api/projects/all": {
+                "status": projects_status,
+                "message": projects_message,
+                "data": projects_data if projects_status == "Working" else None
+            },
             "/api/projects/<customer>/<project>/files": "Get files for a specific project",
             "/api/health": "Health check endpoint"
         },
         "environment": {
             "API_URL": os.environ.get('API_URL', 'http://localhost:5000'),
-            "FLASK_ENV": os.environ.get('FLASK_ENV', 'development')
+            "FLASK_ENV": os.environ.get('FLASK_ENV', 'development'),
+            "PORT": os.environ.get('PORT', '5001')
+        },
+        "request_info": {
+            "host": request.host,
+            "path": request.path,
+            "url": request.url,
+            "headers": dict(request.headers)
         }
     })
 
