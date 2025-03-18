@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchProjectMap(customer, project) {
         const projectPath = `${customer}/${project}`;
         
-        fetch(`/api/projects/${projectPath}/files/map.json`)
+        fetch(`/api/proxy/projects/${projectPath}/files/map.json`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -55,6 +55,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to create the force-directed graph
     function createForceDirectedGraph(data) {
+        // If data is empty or doesn't have the expected structure, use a fallback
+        if (!data || Object.keys(data).length === 0) {
+            showNoMapData("Invalid map data format");
+            return;
+        }
+        
         // Clear any existing content
         const projectMap = document.getElementById('project-map');
         projectMap.innerHTML = '';
@@ -97,48 +103,124 @@ document.addEventListener('DOMContentLoaded', function() {
             description: `Root of ${project} project`
         });
         
-        // Process files and folders
-        function processNode(node, parent = 'root') {
-            const nodeId = parent === 'root' ? node.path : `${parent}/${node.path}`;
+        // Helper function to process files from the map.json structure
+        function processMapData(mapData) {
+            // Process files section if it exists
+            if (mapData.files && Array.isArray(mapData.files)) {
+                mapData.files.forEach(file => {
+                    nodes.push({
+                        id: file.path,
+                        name: file.path.split('/').pop(), // Get just the filename
+                        type: 'file',
+                        description: file.description || `File: ${file.path}`
+                    });
+                    
+                    // Link to root or parent folder
+                    const parentPath = file.path.split('/').slice(0, -1).join('/');
+                    const parentId = parentPath ? parentPath : 'root';
+                    
+                    links.push({
+                        source: parentId,
+                        target: file.path
+                    });
+                });
+            }
             
-            // Add node
-            nodes.push({
-                id: nodeId,
-                name: node.path,
-                type: node.type || 'file',
-                description: node.description || `${node.path} ${node.type || 'file'}`
-            });
+            // Process folders section if it exists
+            if (mapData.folders && Array.isArray(mapData.folders)) {
+                mapData.folders.forEach(folder => {
+                    nodes.push({
+                        id: folder.path,
+                        name: folder.path.split('/').pop() || folder.path, // Get just the folder name
+                        type: 'folder',
+                        description: folder.description || `Folder: ${folder.path}`
+                    });
+                    
+                    // Link to root or parent folder
+                    const parentPath = folder.path.split('/').slice(0, -1).join('/');
+                    const parentId = parentPath ? parentPath : 'root';
+                    
+                    links.push({
+                        source: parentId,
+                        target: folder.path
+                    });
+                });
+            }
             
-            // Add link to parent
-            links.push({
-                source: parent,
-                target: nodeId
-            });
+            // Process links section if it exists
+            if (mapData.links && Array.isArray(mapData.links)) {
+                mapData.links.forEach(link => {
+                    links.push({
+                        source: link.source,
+                        target: link.target,
+                        description: link.description || `Link from ${link.source} to ${link.target}`
+                    });
+                });
+            }
             
-            // Process children if any
-            if (node.children && node.children.length > 0) {
-                node.children.forEach(child => {
-                    processNode(child, nodeId);
+            // If we have nodes array directly in the data
+            if (mapData.nodes && Array.isArray(mapData.nodes)) {
+                // Process each node
+                mapData.nodes.forEach(node => {
+                    // Add the node
+                    nodes.push({
+                        id: node.path,
+                        name: node.path.split('/').pop() || node.path,
+                        type: node.type || 'file',
+                        description: node.description || `${node.path}`
+                    });
+                    
+                    // Link to root by default
+                    links.push({
+                        source: 'root',
+                        target: node.path
+                    });
+                    
+                    // Process children recursively
+                    if (node.children && Array.isArray(node.children)) {
+                        processChildren(node.children, node.path);
+                    }
                 });
             }
         }
         
-        // Process all top-level nodes
-        if (data.nodes && Array.isArray(data.nodes)) {
-            data.nodes.forEach(node => {
-                processNode(node);
+        // Helper function to process child nodes
+        function processChildren(children, parentId) {
+            children.forEach(child => {
+                const childId = `${parentId}/${child.path}`;
+                
+                // Add the child node
+                nodes.push({
+                    id: childId,
+                    name: child.path,
+                    type: child.type || 'file',
+                    description: child.description || `${child.path}`
+                });
+                
+                // Link to parent
+                links.push({
+                    source: parentId,
+                    target: childId
+                });
+                
+                // Process grandchildren recursively
+                if (child.children && Array.isArray(child.children)) {
+                    processChildren(child.children, childId);
+                }
             });
         }
         
-        // Add additional links if specified in the data
-        if (data.links && Array.isArray(data.links)) {
-            data.links.forEach(link => {
-                links.push({
-                    source: link.source,
-                    target: link.target
-                });
-            });
+        // Process the map data
+        processMapData(data);
+        
+        // If no nodes were created (except root), show error
+        if (nodes.length <= 1) {
+            showNoMapData("No valid nodes found in map data");
+            return;
         }
+        
+        console.log("Processed nodes:", nodes);
+        console.log("Processed links:", links);
         
         // Create the force simulation
         const simulation = d3.forceSimulation(nodes)
