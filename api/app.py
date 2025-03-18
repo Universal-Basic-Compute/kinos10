@@ -757,6 +757,23 @@ def get_file_content(project_path, file_path):
         logger.error(f"Error getting file content: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api', methods=['GET'])
+def api_root():
+    """
+    API root endpoint to confirm the API is running.
+    """
+    return jsonify({
+        "status": "running",
+        "message": "KinOS API is running",
+        "version": "1.0.0",
+        "endpoints": {
+            "health": "/api/health",
+            "projects": "/api/projects",
+            "messages": "/api/projects/{customer}/{project_id}/messages",
+            "files": "/api/projects/{customer}/{project_id}/files"
+        }
+    }), 200
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """
