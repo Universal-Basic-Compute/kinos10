@@ -43,7 +43,15 @@ def proxy_api(endpoint):
     else:  # POST
         resp = requests.post(url, json=request.json)
     
-    return jsonify(resp.json()), resp.status_code
+    # Check if the response is JSON or plain text
+    content_type = resp.headers.get('Content-Type', '')
+    
+    if 'application/json' in content_type:
+        # For JSON responses
+        return jsonify(resp.json()), resp.status_code
+    else:
+        # For non-JSON responses (like plain text files)
+        return resp.content, resp.status_code, {'Content-Type': content_type}
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)  # Run on port 5001 to avoid conflict with API
