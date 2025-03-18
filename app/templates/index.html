@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KinOS Debug UI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>KinOS Debug UI</h1>
+        </header>
+        
+        <div class="settings-panel">
+            <div class="form-group">
+                <label for="customer-select">Customer:</label>
+                <select id="customer-select">
+                    {% for customer in customers %}
+                    <option value="{{ customer }}" {% if customer == default_customer %}selected{% endif %}>{{ customer }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="project-select">Project:</label>
+                <select id="project-select">
+                    <option value="{{ default_project }}" selected>{{ default_project }}</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <button id="create-project-btn">Create New Project</button>
+            </div>
+        </div>
+        
+        <div class="chat-container">
+            <div id="messages" class="messages"></div>
+            
+            <div class="message-input">
+                <textarea id="message-input" placeholder="Type your message here..."></textarea>
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+        
+        <div class="debug-panel">
+            <h3>Debug Information</h3>
+            <div id="debug-output" class="debug-output"></div>
+        </div>
+    </div>
+    
+    <!-- Create Project Modal -->
+    <div id="create-project-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create New Project</h2>
+            <div class="form-group">
+                <label for="project-name">Project Name:</label>
+                <input type="text" id="project-name" placeholder="Enter project name">
+            </div>
+            <button id="confirm-create-btn">Create</button>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
