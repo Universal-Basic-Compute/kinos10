@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, request, Response
+from flask import Flask, render_template, send_from_directory, request, Response, jsonify
 import datetime
 import os
 import requests
