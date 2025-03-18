@@ -476,6 +476,7 @@ def send_message(customer, project_id):
     """
     Endpoint to send a message to a project.
     Accepts both original format and new format with username, character, etc.
+    If the project doesn't exist, it will be created from the template.
     """
     try:
         # Parse request data
@@ -498,13 +499,56 @@ def send_message(customer, project_id):
         # Original format attachments
         attachments = data.get('attachments', [])
         
-        # Validate customer and project
+        # Validate customer
         if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
             return jsonify({"error": f"Customer '{customer}' not found"}), 404
             
         project_path = get_project_path(customer, project_id)
-        if not os.path.exists(project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        
+        # Track if we need to create a new project
+        project_created = False
+        
+        # Check if project exists, create it if it doesn't
+        if not os.path.exists(project_path) and project_id != "template":
+            logger.info(f"Project '{project_id}' not found for customer '{customer}', creating it from template")
+            project_created = True
+            
+            try:
+                # Create projects directory if it doesn't exist
+                projects_dir = os.path.join(CUSTOMERS_DIR, customer, "projects")
+                os.makedirs(projects_dir, exist_ok=True)
+                
+                # Create project directory
+                os.makedirs(project_path, exist_ok=True)
+                
+                # Copy template to project directory
+                template_path = os.path.join(CUSTOMERS_DIR, customer, "template")
+                if not os.path.exists(template_path):
+                    return jsonify({"error": f"Template not found for customer '{customer}'"}), 404
+                
+                import shutil
+                for item in os.listdir(template_path):
+                    s = os.path.join(template_path, item)
+                    d = os.path.join(project_path, item)
+                    if os.path.isdir(s):
+                        shutil.copytree(s, d)
+                    else:
+                        shutil.copy2(s, d)
+                
+                # Create messages.json file
+                messages_file = os.path.join(project_path, "messages.json")
+                with open(messages_file, 'w') as f:
+                    json.dump([], f)
+                
+                # Create thoughts.txt file
+                thoughts_file = os.path.join(project_path, "thoughts.txt")
+                with open(thoughts_file, 'w') as f:
+                    f.write(f"# Thoughts for project: {project_id}\nCreated: {datetime.datetime.now().isoformat()}\n\n")
+                
+                logger.info(f"Successfully created project '{project_id}' for customer '{customer}'")
+            except Exception as e:
+                logger.error(f"Error creating project: {str(e)}")
+                return jsonify({"error": f"Error creating project: {str(e)}"}), 500
         
         # Store the user message in messages.json immediately
         messages_file = os.path.join(project_path, "messages.json")
@@ -579,11 +623,17 @@ def send_message(customer, project_id):
                 json.dump(messages, f, indent=2)
             
             # Return the Claude response directly in the API response
-            return jsonify({
+            response_data = {
                 "status": "completed",
                 "message_id": str(len(messages) - 1),
                 "response": claude_response
-            })
+            }
+            
+            # Add project_created flag if a new project was created
+            if project_created:
+                response_data["project_created"] = True
+                
+            return jsonify(response_data)
             
         except Exception as e:
             logger.error(f"Error processing message: {str(e)}")
