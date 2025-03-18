@@ -159,15 +159,24 @@ def get_app_data_dir():
     # Check if running on Render (with persistent disk)
     if os.path.exists('/data'):
         app_data = '/data/KinOS'
+        logger.info(f"Using Render data directory: {app_data}")
     elif os.name == 'nt':  # Windows
         app_data = os.path.join(os.environ.get('APPDATA', ''), 'KinOS')
+        logger.info(f"Using Windows AppData directory: {app_data}")
     elif os.name == 'posix':  # Linux/Mac
         app_data = os.path.join(os.path.expanduser('~'), '.kinos')
+        logger.info(f"Using Linux/Mac home directory: {app_data}")
     else:  # Fallback
         app_data = os.path.join(os.path.expanduser('~'), '.kinos')
+        logger.info(f"Using fallback directory: {app_data}")
     
     # Create directory if it doesn't exist
-    os.makedirs(app_data, exist_ok=True)
+    try:
+        os.makedirs(app_data, exist_ok=True)
+        logger.info(f"Verified app data directory exists: {app_data}")
+    except Exception as e:
+        logger.error(f"Failed to create app data directory {app_data}: {str(e)}")
+    
     return app_data
 
 # Constants
@@ -591,6 +600,14 @@ def send_message(customer, project_id):
             logger.info(f"Created images directory: {images_dir}")
             
             logger.info(f"Successfully created project '{project_id}' for customer '{customer}'")
+            
+            # Verify project directory exists and check contents
+            logger.info(f"Verifying project directory exists: {project_path}")
+            if os.path.exists(project_path):
+                dir_contents = os.listdir(project_path)
+                logger.info(f"Project directory contents: {dir_contents}")
+            else:
+                logger.error(f"Project directory does not exist after creation: {project_path}")
         
         # Save images to project directory if any
         if images and len(images) > 0:
