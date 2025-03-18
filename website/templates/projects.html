@@ -6,10 +6,12 @@
     <title>KinOS - Projects</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/project-map.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <header>
@@ -49,10 +51,16 @@
         </div>
         <div class="main-content">
             <div class="content-header">
-                <h1>Project Dashboard</h1>
+                <h1>{% if selected_project %}{{ selected_project }}{% else %}Project Explorer{% endif %}</h1>
             </div>
             <div class="content-body">
-                <p>Select a project from the sidebar to view its details.</p>
+                {% if selected_customer and selected_project %}
+                <div id="project-map-container" class="project-map-container" data-customer="{{ selected_customer }}" data-project="{{ selected_project }}">
+                    <div id="project-map"></div>
+                </div>
+                {% else %}
+                <p>Select a project from the sidebar to view its map.</p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -106,5 +114,6 @@
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/projects.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/project-map.js') }}"></script>
 </body>
 </html>
