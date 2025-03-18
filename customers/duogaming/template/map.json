@@ -1,0 +1,26 @@
+{
+  "kinos.txt": "Self-reference guide explaining KinOS's meta-cognitive capabilities for gaming companion",
+  "system.txt": "Base system prompt for DuoGaming in self-development mode",
+  "map.json": "Index of all files in the DuoGaming template",
+  "modes": {
+    "general.txt": "Default operational mode for gaming companion",
+    "game_analysis.txt": "Mode for analyzing games and gameplay",
+    "strategy.txt": "Mode for providing strategic advice",
+    "lore.txt": "Mode for discussing game lore and background"
+  },
+  "adaptations": {
+    "game_specific.txt": "Adaptation for specific games and genres",
+    "player_level.txt": "Adaptation based on player skill level",
+    "character_persona.txt": "Adaptation for different AI character personalities"
+  },
+  "memories": {
+    "games": "Folder for storing information about specific games",
+    "player": "Folder for storing player preferences and history",
+    "characters": "Folder for storing AI character personality traits"
+  },
+  "sources": {
+    "SPEC.md": "The DuoGaming specification document",
+    "game_wikis.txt": "Information gathered from game wikis",
+    "strategy_guides.txt": "Information from strategy guides"
+  }
+}
