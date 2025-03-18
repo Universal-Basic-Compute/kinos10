@@ -41,19 +41,10 @@
                 </button>
             </div>
             <div class="sidebar-content">
-                {% for customer in customers %}
-                <div class="customer-section">
-                    <div class="customer-header">
-                        <span class="customer-name">{{ customer }}</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <ul class="project-list">
-                        {% for project in projects.get(customer, []) %}
-                        <li><a href="/projects/{{ customer }}/{{ project }}">{{ project }}</a></li>
-                        {% endfor %}
-                    </ul>
+                <!-- Projects will be loaded dynamically via JavaScript -->
+                <div class="loading">
+                    <p>Loading projects...</p>
                 </div>
-                {% endfor %}
             </div>
         </div>
         <div class="main-content">

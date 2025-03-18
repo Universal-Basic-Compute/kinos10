@@ -1,6 +1,7 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request, Response
 import datetime
 import os
+import requests
 
 app = Flask(__name__, static_folder='static', template_folder='templates', static_url_path='')
 
@@ -107,6 +108,35 @@ def debug_info():
 def css_test():
     """Test endpoint to directly serve the CSS file"""
     return send_from_directory(os.path.join(app.static_folder, 'css'), 'styles.css')
+
+@app.route('/api/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def api_proxy(path):
+    """Proxy API requests to the API server"""
+    # API server URL (adjust as needed)
+    api_url = os.environ.get('API_URL', 'http://localhost:5000')
+    
+    # Forward the request to the API server
+    url = f"{api_url}/api/{path}"
+    
+    # Forward the request method, headers, and data
+    resp = requests.request(
+        method=request.method,
+        url=url,
+        headers={key: value for key, value in request.headers if key != 'Host'},
+        data=request.get_data(),
+        cookies=request.cookies,
+        allow_redirects=False,
+        params=request.args
+    )
+    
+    # Create a Flask response object
+    response = Response(
+        resp.content,
+        resp.status_code,
+        {key: value for key, value in resp.headers.items() if key != 'Content-Length'}
+    )
+    
+    return response
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

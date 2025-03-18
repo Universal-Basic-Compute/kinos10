@@ -150,3 +150,37 @@
         max-height: 300px;
     }
 }
+
+/* Loading and error states */
+.loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-light);
+}
+
+.error-message {
+    padding: 20px;
+    text-align: center;
+    color: #e53e3e;
+}
+
+.error-message button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.error-message button:hover {
+    background-color: var(--primary-dark);
+}
+
+.no-data {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-light);
+    font-style: italic;
+}

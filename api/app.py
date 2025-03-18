@@ -1266,6 +1266,42 @@ def get_customer_projects(customer):
         logger.error(f"Error getting customer projects: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/projects/all', methods=['GET'])
+def get_all_projects():
+    """
+    Endpoint to get all customers and their projects.
+    """
+    try:
+        # Get list of all customers
+        customers = []
+        if os.path.exists(CUSTOMERS_DIR):
+            customers = [d for d in os.listdir(CUSTOMERS_DIR) 
+                        if os.path.isdir(os.path.join(CUSTOMERS_DIR, d))]
+        
+        # Get projects for each customer
+        all_projects = {}
+        for customer in customers:
+            projects = ["template"]  # Always include template
+            
+            # Add other projects if they exist
+            projects_dir = os.path.join(CUSTOMERS_DIR, customer, "projects")
+            if os.path.exists(projects_dir):
+                for project_id in os.listdir(projects_dir):
+                    project_path = os.path.join(projects_dir, project_id)
+                    if os.path.isdir(project_path):
+                        projects.append(project_id)
+            
+            all_projects[customer] = projects
+        
+        return jsonify({
+            "customers": customers,
+            "projects": all_projects
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting all projects: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/api/customers/<customer>/initialize', methods=['POST'])
 def initialize_customer(customer):
     """
