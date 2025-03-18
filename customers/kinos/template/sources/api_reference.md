@@ -211,6 +211,48 @@ Get the Aider logs for a project.
 }
 ```
 
+### Text-to-Speech
+
+Convert text to speech using ElevenLabs API.
+
+**Endpoint:** `POST /tts`
+
+**Request Body:**
+```json
+{
+  "text": "Text to convert to speech",
+  "voiceId": "IKne3meq5aSn9XLyUdCD",  // Optional, default ElevenLabs voice ID
+  "model": "eleven_flash_v2_5"  // Optional, default model
+}
+```
+
+**Response:**
+Returns an audio stream with Content-Type: audio/mpeg.
+
+**Example Usage:**
+```javascript
+fetch('/api/tts', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    text: 'Hello, this is a test',
+    voiceId: 'IKne3meq5aSn9XLyUdCD'
+  })
+})
+.then(response => response.blob())
+.then(blob => {
+  const url = URL.createObjectURL(blob);
+  const audio = new Audio(url);
+  audio.play();
+});
+```
+
+**Error Responses:**
+- `400 Bad Request`: Missing required text parameter
+- `500 Internal Server Error`: ElevenLabs API key not configured or other server error
+
 ## Error Handling
 
 All API endpoints return appropriate HTTP status codes:
