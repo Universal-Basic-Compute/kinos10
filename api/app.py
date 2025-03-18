@@ -1,10 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response, stream_with_context
 import os
 import json
 import logging
 import anthropic
 import datetime
 import subprocess
+import requests
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -1433,6 +1434,82 @@ def get_git_history(customer, project_id):
         
     except Exception as e:
         logger.error(f"Error getting Git history: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/tts', methods=['POST'])
+def text_to_speech():
+    """
+    Endpoint to convert text to speech using ElevenLabs API.
+    Streams the audio response back to the client.
+    """
+    try:
+        # Get request data
+        data = request.json
+        text = data.get('text')
+        voice_id = data.get('voiceId', 'IKne3meq5aSn9XLyUdCD')  # Default ElevenLabs voice ID
+        model = data.get('model', 'eleven_flash_v2_5')  # Default model
+        
+        # Validate required parameters
+        if not text:
+            return jsonify({"error": "Text is required"}), 400
+        
+        # Get API key from environment variable
+        api_key = os.getenv("ELEVENLABS_API_KEY")
+        if not api_key:
+            logger.error("ELEVENLABS_API_KEY environment variable not set")
+            return jsonify({"error": "ElevenLabs API key not configured"}), 500
+        
+        # Prepare request to ElevenLabs API
+        url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream?output_format=mp3_44100_128"
+        headers = {
+            'Accept': 'audio/mpeg',
+            'Content-Type': 'application/json',
+            'xi-api-key': api_key
+        }
+        payload = {
+            'text': text,
+            'model_id': model,
+            'voice_settings': {
+                'stability': 0.5,
+                'similarity_boost': 0.5
+            },
+            'optimize_streaming_latency': 3  # Use max latency optimizations
+        }
+        
+        logger.info(f"Calling ElevenLabs TTS API for text: {text[:50]}...")
+        
+        # Make request to ElevenLabs API with streaming
+        elevenlabs_response = requests.post(
+            url,
+            json=payload,
+            headers=headers,
+            stream=True  # Enable streaming
+        )
+        
+        # Check for errors
+        if elevenlabs_response.status_code != 200:
+            logger.error(f"ElevenLabs API error: {elevenlabs_response.status_code} - {elevenlabs_response.text}")
+            return jsonify({
+                "error": "Error generating speech",
+                "details": elevenlabs_response.text
+            }), elevenlabs_response.status_code
+        
+        # Stream the response back to the client
+        def generate():
+            for chunk in elevenlabs_response.iter_content(chunk_size=4096):
+                yield chunk
+        
+        # Return a streaming response
+        return Response(
+            stream_with_context(generate()),
+            content_type='audio/mpeg',
+            headers={
+                'Content-Disposition': 'attachment; filename="speech.mp3"'
+            }
+        )
+        
+    except Exception as e:
+        logger.error(f"Error in TTS endpoint: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
