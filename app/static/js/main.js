@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentCustomer = customerSelect.value;
     let currentProject = projectSelect.value;
     let messageHistory = [];
+    let pollingInterval = null;
+    let lastMessageTimestamp = null;
     
     // Initialize
     loadProjects(currentCustomer);
@@ -26,11 +28,25 @@ document.addEventListener('DOMContentLoaded', function() {
     customerSelect.addEventListener('change', function() {
         currentCustomer = this.value;
         loadProjects(currentCustomer);
+        // loadMessages will be called after projects are loaded
     });
     
     projectSelect.addEventListener('change', function() {
         currentProject = this.value;
         loadMessages();
+    });
+    
+    // Add event listeners for page visibility to manage polling
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+            // Resume polling when page becomes visible
+            if (currentProject !== 'template') {
+                startPolling();
+            }
+        } else {
+            // Pause polling when page is hidden
+            stopPolling();
+        }
     });
     
     createProjectBtn.addEventListener('click', function() {
@@ -89,6 +105,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Clear messages container
         messagesContainer.innerHTML = '';
         messageHistory = [];
+        lastMessageTimestamp = null;
+        
+        // Stop any existing polling
+        stopPolling();
         
         // Only load messages if not using template
         if (currentProject !== 'template') {
@@ -98,13 +118,74 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (data.messages && data.messages.length > 0) {
                         messageHistory = data.messages;
                         displayMessages(data.messages);
+                        
+                        // Set the last message timestamp
+                        const lastMessage = data.messages[data.messages.length - 1];
+                        lastMessageTimestamp = lastMessage.timestamp;
                     }
+                    
+                    // Start polling for new messages
+                    startPolling();
                 })
                 .catch(error => {
                     console.error('Error loading messages:', error);
                     logDebug('Error loading messages: ' + error.message);
                 });
         }
+    }
+    
+    function startPolling() {
+        // Clear any existing polling interval
+        if (pollingInterval) {
+            clearInterval(pollingInterval);
+        }
+        
+        // Set up polling every 2 seconds
+        pollingInterval = setInterval(pollMessages, 2000);
+        
+        // Log that polling has started
+        logDebug(`Started polling for ${currentCustomer}/${currentProject}`);
+    }
+    
+    function stopPolling() {
+        if (pollingInterval) {
+            clearInterval(pollingInterval);
+            pollingInterval = null;
+            logDebug('Stopped polling');
+        }
+    }
+    
+    function pollMessages() {
+        // Only poll if we're not on the template
+        if (currentProject === 'template') {
+            return;
+        }
+        
+        // Build URL with timestamp if we have one
+        let url = `/api/proxy/projects/${currentCustomer}/${currentProject}/messages`;
+        if (lastMessageTimestamp) {
+            url += `?since=${encodeURIComponent(lastMessageTimestamp)}`;
+        }
+        
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.messages && data.messages.length > 0) {
+                    // Display only new messages
+                    displayMessages(data.messages);
+                    
+                    // Update the last message timestamp
+                    const lastMessage = data.messages[data.messages.length - 1];
+                    lastMessageTimestamp = lastMessage.timestamp;
+                    
+                    // Add to message history
+                    messageHistory = messageHistory.concat(data.messages);
+                }
+            })
+            .catch(error => {
+                console.error('Error polling messages:', error);
+                logDebug('Error polling messages: ' + error.message);
+            });
     }
     
     function createProject(projectName) {
@@ -163,12 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             logDebug('Message sent, response: ' + JSON.stringify(data));
             
-            // For now, just display the selected files as the response
-            // In a real implementation, we would poll for the assistant's response
-            if (data.selected_files) {
-                const responseText = `Selected files for context:\n${data.selected_files.join('\n')}`;
-                addMessageToUI('assistant', responseText);
-            }
+            // The assistant's response will be picked up by polling
         })
         .catch(error => {
             console.error('Error sending message:', error);
