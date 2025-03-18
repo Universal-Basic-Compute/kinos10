@@ -17,7 +17,7 @@
                 <label for="customer-select">Customer:</label>
                 <select id="customer-select">
                     {% for customer in customers %}
-                    <option value="{{ customer }}" {% if customer.lower() == default_customer.lower() %}selected{% endif %}>{{ customer|capitalize }}</option>
+                    <option value="{{ customer }}" {% if customer|lower == default_customer|lower %}selected{% endif %}>{{ customer|capitalize }}</option>
                     {% endfor %}
                 </select>
             </div>
