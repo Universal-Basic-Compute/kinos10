@@ -479,12 +479,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         loadingIndicator.style.display = 'none';
                         sendSpinner.style.display = 'none';
                         sendBtn.disabled = false;
+                        
+                        // Log that we received an assistant message
+                        logDebug("Received assistant response, hiding loading indicators");
                     }
                 }
             })
             .catch(error => {
                 console.error('Error polling messages:', error);
                 logDebug('Error polling messages: ' + error.message);
+                
+                // Hide loading indicators on error to prevent hanging
+                loadingIndicator.style.display = 'none';
+                sendSpinner.style.display = 'none';
+                sendBtn.disabled = false;
             });
     }
     
@@ -534,6 +542,17 @@ document.addEventListener('DOMContentLoaded', function() {
         // Scroll to show the loading indicator
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
         
+        // Set a timeout to hide loading indicators if no response after 30 seconds
+        const loadingTimeout = setTimeout(() => {
+            if (loadingIndicator.style.display === 'block') {
+                loadingIndicator.style.display = 'none';
+                sendSpinner.style.display = 'none';
+                sendBtn.disabled = false;
+                logDebug("Response timeout - hiding loading indicators");
+                addMessageToUI('assistant', "I'm sorry, but I didn't receive a response in time. Please try again.");
+            }
+        }, 30000);
+        
         // Send to API
         const data = {
             content: content
@@ -552,12 +571,24 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             logDebug('Message sent, response: ' + JSON.stringify(data));
             
-            // The assistant's response will be picked up by polling
-            // We'll hide the loading indicator when we receive the response
+            // Clear the timeout
+            clearTimeout(loadingTimeout);
+            
+            // If the response contains a direct answer, display it immediately
+            if (data.response) {
+                addMessageToUI('assistant', data.response);
+                loadingIndicator.style.display = 'none';
+                sendSpinner.style.display = 'none';
+                sendBtn.disabled = false;
+            }
+            // Otherwise, the assistant's response will be picked up by polling
         })
         .catch(error => {
             console.error('Error sending message:', error);
             logDebug('Error sending message: ' + error.message);
+            
+            // Clear the timeout
+            clearTimeout(loadingTimeout);
             
             // Hide loading indicators on error
             loadingIndicator.style.display = 'none';

@@ -38,9 +38,14 @@ def call_claude_with_context(selected_files, project_path, message_content):
     # Load content of selected files
     file_contents = []
     for file in selected_files:
-        content = load_file_content(project_path, file)
-        if content:
-            file_contents.append(f"# File: {file}\n{content}")
+        file_path = os.path.join(project_path, file)
+        if os.path.exists(file_path) and os.path.isfile(file_path):
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                file_contents.append(f"# File: {file}\n{content}")
+            except Exception as e:
+                logger.error(f"Error reading file {file_path}: {str(e)}")
     
     # Combine file contents into a single context string
     context = "\n\n".join(file_contents)
@@ -58,6 +63,7 @@ The following files provide context for my request:
     
     try:
         # Call Claude API
+        logger.info("Calling Claude API with context")
         response = client.messages.create(
             model=MODEL,
             max_tokens=4000,
@@ -67,7 +73,9 @@ The following files provide context for my request:
         )
         
         # Extract the response text
-        return response.content[0].text
+        claude_response = response.content[0].text
+        logger.info(f"Received response from Claude: {claude_response[:100]}...")
+        return claude_response
     except Exception as e:
         logger.error(f"Error calling Claude API: {str(e)}")
         raise RuntimeError(f"Claude API call failed: {str(e)}")
