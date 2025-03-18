@@ -119,21 +119,20 @@ def css_test():
     """Test endpoint to directly serve the CSS file"""
     return send_from_directory(os.path.join(app.static_folder, 'css'), 'styles.css')
 
-@app.route('/api/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def api_proxy(path):
-    """Proxy API requests to the API server"""
+@app.route('/api/projects/<path:project_path>/files/<path:file_path>')
+def get_project_file(project_path, file_path):
+    """Proxy API requests for specific project files"""
     # API server URL (adjust as needed)
     api_url = os.environ.get('API_URL', 'http://localhost:5000')
     
     # Forward the request to the API server
-    url = f"{api_url}/api/{path}"
+    url = f"{api_url}/api/projects/{project_path}/files/{file_path}"
     
-    # Forward the request method, headers, and data
+    # Forward the request
     resp = requests.request(
         method=request.method,
         url=url,
         headers={key: value for key, value in request.headers if key != 'Host'},
-        data=request.get_data(),
         cookies=request.cookies,
         allow_redirects=False,
         params=request.args
@@ -147,6 +146,24 @@ def api_proxy(path):
     )
     
     return response
+
+@app.route('/api/projects/all')
+def get_all_projects():
+    """API endpoint to get all customers and their projects"""
+    # In a real app, you would fetch this from your database or API
+    # For now, we'll return mock data
+    customers = ['deskmate', 'duogaming', 'kinkong', 'kinos']
+    projects = {
+        'deskmate': ['template', 'math_project', 'science_project'],
+        'duogaming': ['template', 'minecraft', 'fortnite'],
+        'kinkong': ['template', 'trading_bot', 'portfolio_analysis'],
+        'kinos': ['template', 'api_development', 'documentation']
+    }
+    
+    return {
+        'customers': customers,
+        'projects': projects
+    }
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))  # Change default from 5000 to 5001
