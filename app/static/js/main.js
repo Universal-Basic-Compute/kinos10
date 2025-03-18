@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const debugOutput = document.getElementById('debug-output');
     const loadingIndicator = document.getElementById('loading-indicator');
     const sendSpinner = document.getElementById('send-spinner');
+    const screenshotBtn = document.getElementById('screenshot-btn');
     
     // Modal elements
     const modal = document.getElementById('create-project-modal');
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let messageHistory = [];
     let pollingInterval = null;
     let lastMessageTimestamp = null;
+    let capturedImages = [];
     
     // Initialize
     loadProjects(currentCustomer);
@@ -144,6 +146,9 @@ document.addEventListener('DOMContentLoaded', function() {
             sendMessage();
         }
     });
+    
+    // Add event listener for screenshot button
+    screenshotBtn.addEventListener('click', captureScreenshot);
     
     // Window click to close modal
     window.addEventListener('click', function(e) {
@@ -577,9 +582,67 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Function to capture screenshot
+    function captureScreenshot() {
+        // Create a preview container if it doesn't exist
+        let previewContainer = document.querySelector('.image-preview-container');
+        if (!previewContainer) {
+            previewContainer = document.createElement('div');
+            previewContainer.className = 'image-preview-container';
+            document.querySelector('.message-input').insertBefore(previewContainer, messageInput);
+        }
+        
+        // Use html2canvas to capture the visible part of the page
+        html2canvas(document.body).then(canvas => {
+            // Convert canvas to base64 image
+            const imageData = canvas.toDataURL('image/png');
+            
+            // Add to captured images array
+            capturedImages.push(imageData);
+            
+            // Create preview element
+            const preview = document.createElement('div');
+            preview.className = 'image-preview';
+            
+            // Create image element
+            const img = document.createElement('img');
+            img.src = imageData;
+            preview.appendChild(img);
+            
+            // Create remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-image';
+            removeBtn.innerHTML = '×';
+            removeBtn.addEventListener('click', function() {
+                // Remove from array
+                const index = capturedImages.indexOf(imageData);
+                if (index > -1) {
+                    capturedImages.splice(index, 1);
+                }
+                
+                // Remove preview
+                preview.remove();
+                
+                // Remove container if empty
+                if (previewContainer.children.length === 0) {
+                    previewContainer.remove();
+                }
+            });
+            preview.appendChild(removeBtn);
+            
+            // Add to preview container
+            previewContainer.appendChild(preview);
+            
+            logDebug('Screenshot captured');
+        }).catch(error => {
+            console.error('Error capturing screenshot:', error);
+            logDebug('Error capturing screenshot: ' + error.message);
+        });
+    }
+
     function sendMessage() {
         const content = messageInput.value.trim();
-        if (!content) return;
+        if (!content && capturedImages.length === 0) return;
         
         // Add user message to UI
         addMessageToUI('user', content);
@@ -608,10 +671,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Send to API
         const data = {
-            content: content
+            content: content,
+            images: capturedImages
         };
         
-        logDebug(`Sending message to ${currentCustomer}/${currentProject}: ${content}`);
+        logDebug(`Sending message to ${currentCustomer}/${currentProject}: ${content} with ${capturedImages.length} images`);
         
         fetch(`/api/proxy/projects/${currentCustomer}/${currentProject}/messages`, {
             method: 'POST',
@@ -635,6 +699,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 sendBtn.disabled = false;
             }
             // Otherwise, the assistant's response will be picked up by polling
+            
+            // Clear captured images
+            capturedImages = [];
+            
+            // Remove image previews
+            const previewContainer = document.querySelector('.image-preview-container');
+            if (previewContainer) {
+                previewContainer.remove();
+            }
         })
         .catch(error => {
             console.error('Error sending message:', error);

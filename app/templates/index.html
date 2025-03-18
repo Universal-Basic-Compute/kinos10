@@ -52,6 +52,9 @@
                 <div id="messages" class="messages"></div>
                 
                 <div class="message-input">
+                    <div class="input-actions">
+                        <button id="screenshot-btn" title="Capture Screenshot">📷</button>
+                    </div>
                     <textarea id="message-input" placeholder="Type your message here..."></textarea>
                     <div class="send-btn-container">
                         <button id="send-btn">Send</button>
@@ -109,6 +112,7 @@
         </div>
     </div>
     
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

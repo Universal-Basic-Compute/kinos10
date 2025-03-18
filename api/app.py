@@ -41,14 +41,15 @@ except Exception as e:
     logger.error(f"Error initializing Anthropic client: {str(e)}")
     raise RuntimeError(f"Could not initialize Anthropic client: {str(e)}")
 
-def call_claude_with_context(selected_files, project_path, message_content):
+def call_claude_with_context(selected_files, project_path, message_content, images=None):
     """
-    Call Claude API directly with the selected context files and user message.
+    Call Claude API directly with the selected context files, user message, and optional images.
     
     Args:
         selected_files: List of files to include in the context
         project_path: Path to the project directory
         message_content: User message content
+        images: List of base64-encoded images
     
     Returns:
         Claude response as a string
@@ -80,14 +81,55 @@ The following files provide context for my request:
 """
     
     try:
+        # Prepare the message content
+        messages = []
+        
+        # If there are images, create a multimodal message
+        if images and len(images) > 0:
+            # Create a message with text and images
+            content_parts = []
+            
+            # Add text part
+            content_parts.append({
+                "type": "text",
+                "text": prompt
+            })
+            
+            # Add image parts
+            for img_base64 in images:
+                try:
+                    # Remove data URL prefix if present
+                    if ',' in img_base64:
+                        img_base64 = img_base64.split(',', 1)[1]
+                    
+                    content_parts.append({
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": "image/png",
+                            "data": img_base64
+                        }
+                    })
+                except Exception as e:
+                    logger.error(f"Error processing image: {str(e)}")
+            
+            messages.append({
+                "role": "user",
+                "content": content_parts
+            })
+        else:
+            # Text-only message
+            messages.append({
+                "role": "user",
+                "content": prompt
+            })
+        
         # Call Claude API
-        logger.info("Calling Claude API with context")
+        logger.info("Calling Claude API with context" + (" and images" if images else ""))
         response = client.messages.create(
             model=MODEL,
             max_tokens=4000,
-            messages=[
-                {"role": "user", "content": prompt}
-            ]
+            messages=messages
         )
         
         # Extract the response text
@@ -427,6 +469,7 @@ def send_message(customer, project_id):
         data = request.json
         message_content = data.get('content', '')
         attachments = data.get('attachments', [])
+        images = data.get('images', [])  # New field for base64-encoded images
         
         # Validate customer and project
         if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
@@ -467,7 +510,7 @@ def send_message(customer, project_id):
         # Call Claude and Aider with the selected context
         try:
             # Call Claude directly for a response
-            claude_response = call_claude_with_context(selected_files, project_path, message_content)
+            claude_response = call_claude_with_context(selected_files, project_path, message_content, images)
             
             # Call Aider in parallel for file updates (don't wait for response)
             import threading
