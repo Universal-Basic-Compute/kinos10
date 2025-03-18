@@ -2,8 +2,8 @@ services:
   - type: web
     name: kinos-website
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    buildCommand: cd website && pip install -r requirements.txt
+    startCommand: cd website && gunicorn app:app
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
