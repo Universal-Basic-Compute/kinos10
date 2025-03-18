@@ -422,10 +422,6 @@ def call_aider_with_context(project_path, selected_files, message_content):
     
     # Add all selected files to the command
     for file in selected_files:
-        # Skip image files as Aider can't process them directly
-        if file.startswith("images/") and file.endswith((".jpg", ".jpeg", ".png", ".gif")):
-            continue
-            
         file_path = os.path.join(project_path, file)
         if os.path.exists(file_path):
             cmd.extend(["--file", file])
