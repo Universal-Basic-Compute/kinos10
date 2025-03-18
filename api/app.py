@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 # Define MODEL constant before it's used
-MODEL = "claude-3-sonnet-20240229"  # Use a specific model version that's known to work
+MODEL = "claude-3-7-sonnet-latest"  # Use the latest Claude 3.7 Sonnet model
 
 # Initialize Anthropic client with minimal parameters and error handling
 try:
