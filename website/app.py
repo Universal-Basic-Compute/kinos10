@@ -128,24 +128,29 @@ def get_project_file(project_path, file_path):
     # Forward the request to the API server
     url = f"{api_url}/api/projects/{project_path}/files/{file_path}"
     
-    # Forward the request
-    resp = requests.request(
-        method=request.method,
-        url=url,
-        headers={key: value for key, value in request.headers if key != 'Host'},
-        cookies=request.cookies,
-        allow_redirects=False,
-        params=request.args
-    )
-    
-    # Create a Flask response object
-    response = Response(
-        resp.content,
-        resp.status_code,
-        {key: value for key, value in resp.headers.items() if key != 'Content-Length'}
-    )
-    
-    return response
+    try:
+        # Forward the request
+        resp = requests.request(
+            method=request.method,
+            url=url,
+            headers={key: value for key, value in request.headers if key != 'Host'},
+            cookies=request.cookies,
+            allow_redirects=False,
+            params=request.args
+        )
+        
+        # Create a Flask response object
+        response = Response(
+            resp.content,
+            resp.status_code,
+            {key: value for key, value in resp.headers.items() if key != 'Content-Length'}
+        )
+        
+        return response
+    except requests.RequestException as e:
+        # Log the error and return a friendly error response
+        print(f"API proxy error: {str(e)}")
+        return jsonify({"error": "Failed to connect to API server"}), 500
 
 @app.route('/api/projects/all')
 def get_all_projects():
@@ -160,10 +165,10 @@ def get_all_projects():
         'kinos': ['template', 'api_development', 'documentation']
     }
     
-    return {
+    return jsonify({
         'customers': customers,
         'projects': projects
-    }
+    })
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))  # Change default from 5000 to 5001
