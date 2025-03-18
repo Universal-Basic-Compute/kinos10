@@ -585,6 +585,11 @@ def send_message(customer, project_id):
                 f.write(f"# Thoughts for project: {project_id}\nCreated: {datetime.datetime.now().isoformat()}\n\n")
             logger.info(f"Created thoughts.txt file")
             
+            # Create images directory
+            images_dir = os.path.join(project_path, "images")
+            os.makedirs(images_dir, exist_ok=True)
+            logger.info(f"Created images directory: {images_dir}")
+            
             logger.info(f"Successfully created project '{project_id}' for customer '{customer}'")
         
         # Save images to project directory if any
