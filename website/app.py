@@ -11,14 +11,22 @@ def index():
 
 @app.route('/projects')
 def projects():
-    # Mock data - in a real app, you would fetch this from your API
-    customers = ['deskmate', 'duogaming', 'kinkong', 'kinos']
-    projects = {
-        'deskmate': ['template', 'math_project', 'science_project'],
-        'duogaming': ['template', 'minecraft', 'fortnite'],
-        'kinkong': ['template', 'trading_bot', 'portfolio_analysis'],
-        'kinos': ['template', 'api_development', 'documentation']
-    }
+    # Fetch real projects from the API
+    api_url = os.environ.get('API_URL', 'http://localhost:5000')
+    try:
+        response = requests.get(f"{api_url}/api/projects/all")
+        if response.ok:
+            data = response.json()
+            customers = data.get('customers', [])
+            projects = data.get('projects', {})
+        else:
+            # Fallback to empty data if API call fails
+            customers = []
+            projects = {}
+    except requests.RequestException:
+        # Fallback to empty data if API call fails
+        customers = []
+        projects = {}
     
     return render_template('projects.html', 
                           customers=customers, 
@@ -27,15 +35,22 @@ def projects():
 
 @app.route('/projects/<customer>/<project>')
 def project_detail(customer, project):
-    # This is a placeholder - in a real app, you would fetch project details
-    # For now, we'll just render the same template with the project info
-    customers = ['deskmate', 'duogaming', 'kinkong', 'kinos']
-    projects = {
-        'deskmate': ['template', 'math_project', 'science_project'],
-        'duogaming': ['template', 'minecraft', 'fortnite'],
-        'kinkong': ['template', 'trading_bot', 'portfolio_analysis'],
-        'kinos': ['template', 'api_development', 'documentation']
-    }
+    # Fetch real projects from the API
+    api_url = os.environ.get('API_URL', 'http://localhost:5000')
+    try:
+        response = requests.get(f"{api_url}/api/projects/all")
+        if response.ok:
+            data = response.json()
+            customers = data.get('customers', [])
+            projects = data.get('projects', {})
+        else:
+            # Fallback to empty data if API call fails
+            customers = []
+            projects = {}
+    except requests.RequestException:
+        # Fallback to empty data if API call fails
+        customers = []
+        projects = {}
     
     return render_template('projects.html', 
                           customers=customers, 
@@ -172,20 +187,28 @@ def api_test():
 @app.route('/api/projects/all')
 def get_all_projects():
     """API endpoint to get all customers and their projects"""
-    # In a real app, you would fetch this from your database or API
-    # For now, we'll return mock data
-    customers = ['deskmate', 'duogaming', 'kinkong', 'kinos']
-    projects = {
-        'deskmate': ['template', 'math_project', 'science_project'],
-        'duogaming': ['template', 'minecraft', 'fortnite'],
-        'kinkong': ['template', 'trading_bot', 'portfolio_analysis'],
-        'kinos': ['template', 'api_development', 'documentation']
-    }
+    # API server URL (adjust as needed)
+    api_url = os.environ.get('API_URL', 'http://localhost:5000')
     
-    return jsonify({
-        'customers': customers,
-        'projects': projects
-    })
+    try:
+        # Forward the request to the API server
+        response = requests.get(f"{api_url}/api/projects/all")
+        
+        if response.ok:
+            return response.json()
+        else:
+            return jsonify({
+                "error": f"API server returned status code {response.status_code}",
+                "message": response.text
+            }), response.status_code
+    except requests.RequestException as e:
+        # Log the error and return a friendly error response
+        print(f"API proxy error: {str(e)}")
+        return jsonify({
+            "error": "Failed to connect to API server",
+            "customers": [],
+            "projects": {}
+        }), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))  # Change default from 5000 to 5001
