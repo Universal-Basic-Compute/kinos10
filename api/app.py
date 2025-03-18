@@ -398,21 +398,30 @@ def initialize_customer_templates():
         logger.warning(f"Project templates directory not found: {project_templates_dir}")
         return
     
-    # Custom copy function to skip .git directory
+    # Custom copy function to skip .git directory and handle permission errors
     def custom_copy_tree(src, dst):
-        os.makedirs(dst, exist_ok=True)
-        for item in os.listdir(src):
-            # Skip .git directory
-            if item == '.git':
-                continue
+        try:
+            os.makedirs(dst, exist_ok=True)
             
-            s = os.path.join(src, item)
-            d = os.path.join(dst, item)
-            if os.path.isdir(s):
-                custom_copy_tree(s, d)
-            else:
-                import shutil
-                shutil.copy2(s, d)
+            # Get list of items to copy (excluding .git)
+            items_to_copy = [item for item in os.listdir(src) if item != '.git']
+            
+            for item in items_to_copy:
+                s = os.path.join(src, item)
+                d = os.path.join(dst, item)
+                
+                try:
+                    if os.path.isdir(s):
+                        custom_copy_tree(s, d)
+                    else:
+                        import shutil
+                        shutil.copy2(s, d)
+                except PermissionError:
+                    logger.warning(f"Permission error copying {s} to {d}, skipping")
+                except Exception as e:
+                    logger.warning(f"Error copying {s} to {d}: {str(e)}, skipping")
+        except Exception as e:
+            logger.warning(f"Error in custom_copy_tree for {src} to {dst}: {str(e)}")
     
     # Get list of customers from project templates
     for customer in os.listdir(project_templates_dir):
@@ -654,25 +663,53 @@ def initialize_customer(customer):
         dest_template_dir = os.path.join(customer_dir, "template")
         if os.path.exists(dest_template_dir):
             import shutil
-            shutil.rmtree(dest_template_dir)
+            try:
+                shutil.rmtree(dest_template_dir)
+            except PermissionError:
+                logger.warning(f"Permission error removing {dest_template_dir}, trying to remove files individually")
+                # Try to remove files individually
+                for root, dirs, files in os.walk(dest_template_dir, topdown=False):
+                    for name in files:
+                        try:
+                            os.remove(os.path.join(root, name))
+                        except:
+                            pass
+                    for name in dirs:
+                        try:
+                            os.rmdir(os.path.join(root, name))
+                        except:
+                            pass
+                try:
+                    os.rmdir(dest_template_dir)
+                except:
+                    pass
         
         logger.info(f"Copying template for customer {customer} to app data")
         
-        # Custom copy function to skip .git directory
+        # Custom copy function to skip .git directory and handle permission errors
         def custom_copy_tree(src, dst):
-            os.makedirs(dst, exist_ok=True)
-            for item in os.listdir(src):
-                # Skip .git directory
-                if item == '.git':
-                    continue
+            try:
+                os.makedirs(dst, exist_ok=True)
                 
-                s = os.path.join(src, item)
-                d = os.path.join(dst, item)
-                if os.path.isdir(s):
-                    custom_copy_tree(s, d)
-                else:
-                    import shutil
-                    shutil.copy2(s, d)
+                # Get list of items to copy (excluding .git)
+                items_to_copy = [item for item in os.listdir(src) if item != '.git']
+                
+                for item in items_to_copy:
+                    s = os.path.join(src, item)
+                    d = os.path.join(dst, item)
+                    
+                    try:
+                        if os.path.isdir(s):
+                            custom_copy_tree(s, d)
+                        else:
+                            import shutil
+                            shutil.copy2(s, d)
+                    except PermissionError:
+                        logger.warning(f"Permission error copying {s} to {d}, skipping")
+                    except Exception as e:
+                        logger.warning(f"Error copying {s} to {d}: {str(e)}, skipping")
+            except Exception as e:
+                logger.warning(f"Error in custom_copy_tree for {src} to {dst}: {str(e)}")
         
         # Use custom copy function instead of shutil.copytree
         custom_copy_tree(customer_template_dir, dest_template_dir)
