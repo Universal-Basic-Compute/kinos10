@@ -168,6 +168,48 @@ button:hover {
     margin-right: 10px;
 }
 
+/* Loading indicator styles */
+.loading-indicator {
+    display: none;
+    text-align: center;
+    padding: 10px;
+    color: #666;
+}
+
+.loading-indicator .spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #3498db;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.send-btn-container {
+    position: relative;
+}
+
+.send-btn-container .spinner {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #3498db;
+    animation: spin 1s ease-in-out infinite;
+}
+
 .debug-panel {
     padding: 15px;
     background: #f8f9fa;

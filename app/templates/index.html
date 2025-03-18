@@ -45,7 +45,15 @@
                 
                 <div class="message-input">
                     <textarea id="message-input" placeholder="Type your message here..."></textarea>
-                    <button id="send-btn">Send</button>
+                    <div class="send-btn-container">
+                        <button id="send-btn">Send</button>
+                        <div class="spinner" id="send-spinner"></div>
+                    </div>
+                </div>
+                
+                <div id="loading-indicator" class="loading-indicator">
+                    <div class="spinner"></div>
+                    <span>KinOS is thinking...</span>
                 </div>
             </div>
         </div>

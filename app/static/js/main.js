@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const sendBtn = document.getElementById('send-btn');
     const messagesContainer = document.getElementById('messages');
     const debugOutput = document.getElementById('debug-output');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const sendSpinner = document.getElementById('send-spinner');
     
     // Modal elements
     const modal = document.getElementById('create-project-modal');
@@ -427,6 +429,9 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.messages && data.messages.length > 0) {
+                    // Check if we received an assistant message
+                    const hasAssistantMessage = data.messages.some(msg => msg.role === 'assistant');
+                    
                     // Display only new messages
                     displayMessages(data.messages);
                     
@@ -436,6 +441,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Add to message history
                     messageHistory = messageHistory.concat(data.messages);
+                    
+                    // Hide loading indicators if we received an assistant message
+                    if (hasAssistantMessage) {
+                        loadingIndicator.style.display = 'none';
+                        sendSpinner.style.display = 'none';
+                        sendBtn.disabled = false;
+                    }
                 }
             })
             .catch(error => {
@@ -482,6 +494,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Clear input
         messageInput.value = '';
         
+        // Show loading indicators
+        loadingIndicator.style.display = 'block';
+        sendSpinner.style.display = 'inline-block';
+        sendBtn.disabled = true;
+        
+        // Scroll to show the loading indicator
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        
         // Send to API
         const data = {
             content: content
@@ -501,10 +521,16 @@ document.addEventListener('DOMContentLoaded', function() {
             logDebug('Message sent, response: ' + JSON.stringify(data));
             
             // The assistant's response will be picked up by polling
+            // We'll hide the loading indicator when we receive the response
         })
         .catch(error => {
             console.error('Error sending message:', error);
             logDebug('Error sending message: ' + error.message);
+            
+            // Hide loading indicators on error
+            loadingIndicator.style.display = 'none';
+            sendSpinner.style.display = 'none';
+            sendBtn.disabled = false;
         });
     }
     
