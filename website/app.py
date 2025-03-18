@@ -63,6 +63,214 @@ def project_detail(customer, project):
 def health():
     return 'OK', 200
 
+@app.route('/website-debug', methods=['GET'])
+def website_debug():
+    """Debug endpoint that returns detailed information about the website server."""
+    try:
+        # Get basic system information
+        import sys
+        import platform
+        import socket
+        
+        # Get network information
+        hostname = socket.gethostname()
+        try:
+            local_ip = socket.gethostbyname(hostname)
+        except:
+            local_ip = "Unable to determine local IP"
+        
+        # Get environment variables (filtering out sensitive ones)
+        env_vars = {}
+        sensitive_keys = ['SECRET_KEY', 'API_KEY']
+        for key, value in os.environ.items():
+            if any(sensitive in key.upper() for sensitive in sensitive_keys):
+                env_vars[key] = "***REDACTED***"
+            else:
+                env_vars[key] = value
+        
+        # Test connection to API
+        api_url = os.environ.get('API_URL', 'http://localhost:5000')
+        api_status = "Unknown"
+        api_message = ""
+        try:
+            api_response = requests.get(f"{api_url}/api/health", timeout=5)
+            if api_response.ok:
+                api_status = "Connected"
+                api_message = f"Successfully connected to API, status: {api_response.status_code}"
+            else:
+                api_status = "Error"
+                api_message = f"API returned status code {api_response.status_code}"
+        except requests.RequestException as e:
+            api_status = "Error"
+            api_message = f"Failed to connect to API: {str(e)}"
+        
+        # Test API projects endpoint
+        projects_status = "Unknown"
+        projects_message = ""
+        try:
+            projects_response = requests.get(f"{api_url}/api/projects/all", timeout=5)
+            if projects_response.ok:
+                projects_status = "Connected"
+                projects_message = f"Successfully connected to projects endpoint"
+                projects_data = projects_response.json()
+            else:
+                projects_status = "Error"
+                projects_message = f"Projects endpoint returned status code {projects_response.status_code}"
+                projects_data = {}
+        except requests.RequestException as e:
+            projects_status = "Error"
+            projects_message = f"Failed to connect to projects endpoint: {str(e)}"
+            projects_data = {}
+        
+        # Compile all debug information
+        debug_info = {
+            "status": "running",
+            "timestamp": datetime.datetime.now().isoformat(),
+            "system_info": {
+                "python_version": sys.version,
+                "platform": platform.platform(),
+                "hostname": hostname,
+                "local_ip": local_ip
+            },
+            "environment": {
+                "env_vars": env_vars,
+                "static_folder": app.static_folder,
+                "template_folder": app.template_folder,
+                "static_files": os.listdir(app.static_folder) if os.path.exists(app.static_folder) else [],
+                "template_files": os.listdir(app.template_folder) if os.path.exists(app.template_folder) else [],
+                "css_files": os.listdir(os.path.join(app.static_folder, 'css')) if os.path.exists(os.path.join(app.static_folder, 'css')) else []
+            },
+            "api_connection": {
+                "url": api_url,
+                "status": api_status,
+                "message": api_message
+            },
+            "projects_endpoint": {
+                "url": f"{api_url}/api/projects/all",
+                "status": projects_status,
+                "message": projects_message,
+                "data": projects_data
+            },
+            "request_info": {
+                "method": request.method,
+                "url": request.url,
+                "headers": {k: v for k, v in request.headers.items()},
+                "remote_addr": request.remote_addr
+            }
+        }
+        
+        # Return HTML for better readability in browser
+        html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>KinOS Website Debug Information</title>
+            <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                    color: #333;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }}
+                h1, h2, h3 {{
+                    margin-top: 1.5em;
+                }}
+                h1 {{
+                    border-bottom: 1px solid #ddd;
+                    padding-bottom: 10px;
+                }}
+                h2 {{
+                    border-bottom: 1px solid #eee;
+                    padding-bottom: 5px;
+                }}
+                pre {{
+                    background-color: #f5f5f5;
+                    padding: 10px;
+                    border-radius: 5px;
+                    overflow-x: auto;
+                }}
+                .section {{
+                    margin-bottom: 30px;
+                    padding: 15px;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                }}
+                .success {{
+                    color: green;
+                }}
+                .error {{
+                    color: red;
+                }}
+            </style>
+        </head>
+        <body>
+            <h1>KinOS Website Debug Information</h1>
+            <p>Generated at: {debug_info['timestamp']}</p>
+            
+            <div class="section">
+                <h2>System Information</h2>
+                <p><strong>Python Version:</strong> {debug_info['system_info']['python_version']}</p>
+                <p><strong>Platform:</strong> {debug_info['system_info']['platform']}</p>
+                <p><strong>Hostname:</strong> {debug_info['system_info']['hostname']}</p>
+                <p><strong>Local IP:</strong> {debug_info['system_info']['local_ip']}</p>
+            </div>
+            
+            <div class="section">
+                <h2>Environment</h2>
+                <p><strong>Static Folder:</strong> {debug_info['environment']['static_folder']}</p>
+                <p><strong>Template Folder:</strong> {debug_info['environment']['template_folder']}</p>
+                
+                <h3>Static Files</h3>
+                <pre>{json.dumps(debug_info['environment']['static_files'], indent=2)}</pre>
+                
+                <h3>Template Files</h3>
+                <pre>{json.dumps(debug_info['environment']['template_files'], indent=2)}</pre>
+                
+                <h3>CSS Files</h3>
+                <pre>{json.dumps(debug_info['environment']['css_files'], indent=2)}</pre>
+                
+                <h3>Environment Variables</h3>
+                <pre>{json.dumps(debug_info['environment']['env_vars'], indent=2)}</pre>
+            </div>
+            
+            <div class="section">
+                <h2>API Connection</h2>
+                <p><strong>URL:</strong> {debug_info['api_connection']['url']}</p>
+                <p><strong>Status:</strong> <span class="{'success' if debug_info['api_connection']['status'] == 'Connected' else 'error'}">{debug_info['api_connection']['status']}</span></p>
+                <p><strong>Message:</strong> {debug_info['api_connection']['message']}</p>
+            </div>
+            
+            <div class="section">
+                <h2>Projects Endpoint</h2>
+                <p><strong>URL:</strong> {debug_info['projects_endpoint']['url']}</p>
+                <p><strong>Status:</strong> <span class="{'success' if debug_info['projects_endpoint']['status'] == 'Connected' else 'error'}">{debug_info['projects_endpoint']['status']}</span></p>
+                <p><strong>Message:</strong> {debug_info['projects_endpoint']['message']}</p>
+                
+                <h3>Data</h3>
+                <pre>{json.dumps(debug_info['projects_endpoint']['data'], indent=2)}</pre>
+            </div>
+            
+            <div class="section">
+                <h2>Request Information</h2>
+                <p><strong>Method:</strong> {debug_info['request_info']['method']}</p>
+                <p><strong>URL:</strong> {debug_info['request_info']['url']}</p>
+                <p><strong>Remote Address:</strong> {debug_info['request_info']['remote_addr']}</p>
+                
+                <h3>Headers</h3>
+                <pre>{json.dumps(dict(debug_info['request_info']['headers']), indent=2)}</pre>
+            </div>
+        </body>
+        </html>
+        """
+        
+        return html, 200, {'Content-Type': 'text/html; charset=utf-8'}
+        
+    except Exception as e:
+        print(f"Error in debug endpoint: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/debug')
 def debug():
     """Debug endpoint to check if the app is running"""
