@@ -10,7 +10,8 @@
   },
   "adaptations": {
     "subject_focus.txt": "Adaptation for specific academic subjects",
-    "grade_level.txt": "Adaptation based on student's educational level"
+    "grade_level.txt": "Adaptation based on student's educational level",
+    "image_handling.txt": "Adaptation for properly handling shared images"
   },
   "memories": {
     "architecture": "Folder for storing architectural decisions for educational assistant",
