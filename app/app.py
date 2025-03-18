@@ -66,7 +66,7 @@ def proxy_api(endpoint):
                   if key.lower() not in ['host', 'content-length']}
         
         # Add a custom header to identify the source
-        headers['X-Forwarded-From'] = 'kinos-website'
+        headers['X-Forwarded-From'] = 'kinos-app'
         
         if request.method == 'GET':
             resp = requests.get(
