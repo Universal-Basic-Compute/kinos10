@@ -22,6 +22,7 @@ app = Flask(__name__)
 
 # Initialize Anthropic client
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+# Note: If you're still having issues with proxies, try using client = anthropic.Anthropic()
 
 def call_claude_with_context(selected_files, project_path, message_content):
     """
