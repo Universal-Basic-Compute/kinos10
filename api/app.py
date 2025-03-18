@@ -44,6 +44,7 @@ except Exception as e:
 def call_claude_with_context(selected_files, project_path, message_content, images=None):
     """
     Call Claude API directly with the selected context files, user message, and optional images.
+    Images are sent as a separate message before the actual text message.
     
     Args:
         selected_files: List of files to include in the context
@@ -84,15 +85,15 @@ The following files provide context for my request:
         # Prepare the message content
         messages = []
         
-        # If there are images, create a multimodal message
+        # If there are images, create a separate message with just the images
         if images and len(images) > 0:
-            # Create a message with text and images
-            content_parts = []
+            # Create an image-only message that will appear before the text message
+            image_message_parts = []
             
-            # Add text part
-            content_parts.append({
+            # Add a minimal text part to the image message
+            image_message_parts.append({
                 "type": "text",
-                "text": prompt
+                "text": "Here are some images for reference:"
             })
             
             # Add image parts
@@ -104,7 +105,7 @@ The following files provide context for my request:
                         img_base64 = img_base64.split(',', 1)[1]
                     
                     # Create image content part
-                    content_parts.append({
+                    image_message_parts.append({
                         "type": "image",
                         "source": {
                             "type": "base64",
@@ -112,24 +113,32 @@ The following files provide context for my request:
                             "data": img_base64
                         }
                     })
-                    logger.info(f"Added image to message, data length: {len(img_base64)}")
+                    logger.info(f"Added image to previous message, data length: {len(img_base64)}")
                 except Exception as e:
                     logger.error(f"Error processing image: {str(e)}")
             
+            # Add the image message as a user message
             messages.append({
                 "role": "user",
-                "content": content_parts
+                "content": image_message_parts
             })
-            logger.info(f"Created multimodal message with {len(content_parts) - 1} images")
+            
+            # Now add the text-only message as the final message
+            messages.append({
+                "role": "user",
+                "content": prompt
+            })
+            
+            logger.info(f"Created separate image message with {len(image_message_parts) - 1} images")
         else:
-            # Text-only message
+            # No images, just add the text message
             messages.append({
                 "role": "user",
                 "content": prompt
             })
         
         # Call Claude API
-        logger.info("Calling Claude API with context" + (" and images" if images else ""))
+        logger.info("Calling Claude API with context" + (" and images in previous message" if images else ""))
         response = client.messages.create(
             model=MODEL,
             max_tokens=4000,
