@@ -98,15 +98,26 @@ The following files provide context for my request:
             # Add image parts
             for img_base64 in images:
                 try:
-                    # Remove data URL prefix if present
-                    if ',' in img_base64:
+                    # Determine the media type from the data URL prefix
+                    media_type = "image/png"  # Default
+                    
+                    # If the image has a data URL prefix, extract the media type and data
+                    if ',' in img_base64 and ';base64,' in img_base64:
+                        prefix = img_base64.split(';base64,')[0]
+                        if ':' in prefix:
+                            media_type = prefix.split(':')[1]
+                        img_base64 = img_base64.split(';base64,')[1]
+                    # If it's just a data URL without media type
+                    elif ',' in img_base64:
                         img_base64 = img_base64.split(',', 1)[1]
+                    
+                    logger.info(f"Using media type: {media_type} for image")
                     
                     content_parts.append({
                         "type": "image",
                         "source": {
                             "type": "base64",
-                            "media_type": "image/png",
+                            "media_type": media_type,
                             "data": img_base64
                         }
                     })
