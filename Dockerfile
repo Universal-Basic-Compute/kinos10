@@ -6,7 +6,7 @@ WORKDIR /app
 COPY api/requirements.txt .
 
 # Install dependencies with specific versions
-RUN pip install --no-cache-dir anthropic==0.18.1 httpx==0.24.1
+RUN pip install --no-cache-dir anthropic==0.40.0
 
 # Then install other requirements
 RUN pip install --no-cache-dir -r requirements.txt
