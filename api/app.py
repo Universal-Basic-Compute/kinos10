@@ -462,14 +462,28 @@ def call_aider_with_context(project_path, selected_files, message_content):
 def send_message(customer, project_id):
     """
     Endpoint to send a message to a project.
-    Accepts customer, project_id, message content, and optional attachments.
+    Accepts both original format and new format with username, character, etc.
     """
     try:
         # Parse request data
         data = request.json
-        message_content = data.get('content', '')
+        
+        # Support both formats: new format with 'message' and original format with 'content'
+        message_content = data.get('message', data.get('content', ''))
+        
+        # Support both formats: new format with 'screenshot' and original format with 'images'
+        images = data.get('images', [])
+        if 'screenshot' in data and data['screenshot']:
+            # Add screenshot to images array if it's not empty
+            images.append(data['screenshot'])
+        
+        # Get optional fields from new format
+        username = data.get('username', '')
+        character = data.get('character', '')
+        token = data.get('token', '')  # Can be used for authentication in the future
+        
+        # Original format attachments
         attachments = data.get('attachments', [])
-        images = data.get('images', [])  # New field for base64-encoded images
         
         # Validate customer and project
         if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
@@ -495,6 +509,13 @@ def send_message(customer, project_id):
             "content": message_content,
             "timestamp": datetime.datetime.now().isoformat()
         }
+        
+        # Add optional fields if they exist
+        if username:
+            user_message["username"] = username
+        if character:
+            user_message["character"] = character
+            
         messages.append(user_message)
         
         # Save updated messages with user message immediately
@@ -531,6 +552,11 @@ def send_message(customer, project_id):
                 "content": claude_response,
                 "timestamp": datetime.datetime.now().isoformat()
             }
+            
+            # Add character if it was provided
+            if character:
+                assistant_message["character"] = character
+                
             messages.append(assistant_message)
             
             # Save updated messages with assistant response
