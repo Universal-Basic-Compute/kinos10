@@ -450,9 +450,10 @@ def send_message(customer, project_id):
             with open(messages_file, 'w') as f:
                 json.dump(messages, f, indent=2)
             
+            # Return the Claude response directly in the API response
             return jsonify({
                 "status": "completed",
-                "message_id": str(len(messages) - 1),  # Use message index as ID
+                "message_id": str(len(messages) - 1),
                 "response": claude_response
             })
             
