@@ -8,6 +8,41 @@ app = Flask(__name__, static_folder='static', template_folder='templates', stati
 def index():
     return render_template('index.html', now=datetime.datetime.now())
 
+@app.route('/projects')
+def projects():
+    # Mock data - in a real app, you would fetch this from your API
+    customers = ['deskmate', 'duogaming', 'kinkong', 'kinos']
+    projects = {
+        'deskmate': ['template', 'math_project', 'science_project'],
+        'duogaming': ['template', 'minecraft', 'fortnite'],
+        'kinkong': ['template', 'trading_bot', 'portfolio_analysis'],
+        'kinos': ['template', 'api_development', 'documentation']
+    }
+    
+    return render_template('projects.html', 
+                          customers=customers, 
+                          projects=projects, 
+                          now=datetime.datetime.now())
+
+@app.route('/projects/<customer>/<project>')
+def project_detail(customer, project):
+    # This is a placeholder - in a real app, you would fetch project details
+    # For now, we'll just render the same template with the project info
+    customers = ['deskmate', 'duogaming', 'kinkong', 'kinos']
+    projects = {
+        'deskmate': ['template', 'math_project', 'science_project'],
+        'duogaming': ['template', 'minecraft', 'fortnite'],
+        'kinkong': ['template', 'trading_bot', 'portfolio_analysis'],
+        'kinos': ['template', 'api_development', 'documentation']
+    }
+    
+    return render_template('projects.html', 
+                          customers=customers, 
+                          projects=projects,
+                          selected_customer=customer,
+                          selected_project=project,
+                          now=datetime.datetime.now())
+
 @app.route('/health')
 def health():
     return 'OK', 200

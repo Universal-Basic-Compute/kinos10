@@ -1,0 +1,152 @@
+/* Projects page specific styles */
+.projects-container {
+    display: flex;
+    min-height: calc(100vh - 80px - 400px); /* Adjust for header and footer */
+    margin-top: 80px; /* Account for fixed header */
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 280px;
+    background-color: var(--gray-100);
+    border-right: 1px solid var(--gray-200);
+    transition: width 0.3s ease;
+    overflow: hidden;
+}
+
+.sidebar.collapsed {
+    width: 60px;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.sidebar-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.sidebar-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.collapsed .sidebar-toggle {
+    transform: rotate(180deg);
+}
+
+.sidebar-content {
+    padding: 10px 0;
+    overflow-y: auto;
+    max-height: calc(100vh - 80px - 60px); /* Adjust for header and sidebar header */
+}
+
+.customer-section {
+    margin-bottom: 10px;
+}
+
+.customer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-dark);
+    transition: background-color 0.2s ease;
+}
+
+.customer-header:hover {
+    background-color: var(--gray-200);
+}
+
+.customer-header i {
+    transition: transform 0.3s ease;
+}
+
+.customer-header.collapsed i {
+    transform: rotate(-90deg);
+}
+
+.project-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.project-list.expanded {
+    max-height: 500px; /* Arbitrary large value */
+}
+
+.project-list li {
+    padding: 8px 20px 8px 40px;
+}
+
+.project-list li a {
+    color: var(--text-light);
+    transition: color 0.2s ease;
+    display: block;
+}
+
+.project-list li a:hover {
+    color: var(--primary-color);
+}
+
+.project-list li a.active {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+/* Main content styles */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: var(--white);
+}
+
+.content-header {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.content-header h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.content-body {
+    color: var(--text-light);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .projects-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--gray-200);
+    }
+    
+    .sidebar.collapsed {
+        width: 100%;
+    }
+    
+    .sidebar-content {
+        max-height: 300px;
+    }
+}
