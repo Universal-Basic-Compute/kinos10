@@ -344,7 +344,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         name: part,
                         children: {},
                         type: index === parts.length - 1 ? file.type : 'directory',
-                        path: parts.slice(0, index + 1).join('/')
+                        path: parts.slice(0, index + 1).join('/'),
+                        last_modified: index === parts.length - 1 ? file.last_modified : null
                     };
                 }
                 
@@ -357,10 +358,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to render the file tree
     function renderFileTree(node, container, path = '') {
-        // Sort children: directories first, then files, both alphabetically
+        // Sort children: directories first, then files sorted by last_modified date (most recent first)
         const sortedChildren = Object.values(node.children).sort((a, b) => {
+            // First sort by type (directories first)
             if (a.type === 'directory' && b.type !== 'directory') return -1;
             if (a.type !== 'directory' && b.type === 'directory') return 1;
+            
+            // Then sort by last_modified date if available (most recent first)
+            if (a.last_modified && b.last_modified) {
+                return new Date(b.last_modified) - new Date(a.last_modified);
+            }
+            
+            // Fall back to alphabetical sorting if no date is available
             return a.name.localeCompare(b.name);
         });
         
@@ -387,7 +396,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 renderFileTree(child, childrenContainer, childPath);
             } else {
                 item.className = 'file-item file-document';
-                item.textContent = child.name;
+                
+                // Add last modified date to the display if available
+                if (child.last_modified) {
+                    const modDate = new Date(child.last_modified);
+                    const formattedDate = modDate.toLocaleDateString() + ' ' + 
+                                         modDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    item.textContent = `${child.name} (${formattedDate})`;
+                } else {
+                    item.textContent = child.name;
+                }
+                
                 item.addEventListener('click', function(e) {
                     e.stopPropagation();
                     openFile(childPath);
