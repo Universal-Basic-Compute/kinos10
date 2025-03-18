@@ -164,9 +164,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to check if a file should be ignored based on gitignore patterns
     function shouldIgnoreFile(filePath, ignorePatterns) {
+        // Common version control and editor files to always ignore
+        const alwaysIgnore = [
+            '.git', '.svn', '.hg',           // Version control
+            '.vscode', '.idea', '.vs',       // Editors
+            '__pycache__', '*.pyc', '*.pyo', // Python
+            '.DS_Store',                     // macOS
+            '.aider*'                        // Aider files
+        ];
+        
+        // Check against always-ignore patterns first
+        for (const pattern of alwaysIgnore) {
+            if (pattern.endsWith('/')) {
+                // Directory pattern
+                const dirPattern = pattern.slice(0, -1);
+                if (filePath === dirPattern || filePath.startsWith(dirPattern + '/')) {
+                    return true;
+                }
+            } else if (pattern.startsWith('*.')) {
+                // File extension pattern
+                const extension = pattern.slice(1); // *.log -> .log
+                if (filePath.endsWith(extension)) {
+                    return true;
+                }
+            } else if (pattern.includes('*')) {
+                // Simple wildcard pattern (e.g., .aider*)
+                const parts = pattern.split('*');
+                const prefix = parts[0];
+                const suffix = parts[1];
+                if (filePath.startsWith(prefix) && filePath.endsWith(suffix)) {
+                    return true;
+                }
+            } else if (filePath === pattern || filePath.startsWith(pattern + '/')) {
+                // Exact match or directory
+                return true;
+            }
+        }
+        
+        // Then check against gitignore patterns
         if (!ignorePatterns || ignorePatterns.length === 0) return false;
         
-        // Simple pattern matching (can be expanded for more complex gitignore rules)
         for (const pattern of ignorePatterns) {
             // Handle directory wildcards (e.g., node_modules/)
             if (pattern.endsWith('/')) {

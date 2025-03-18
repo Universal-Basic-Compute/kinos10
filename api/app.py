@@ -455,10 +455,41 @@ def get_project_files(project_path):
         
         # Function to check if a file should be ignored
         def should_ignore(file_path):
+            # Common version control and editor files to always ignore
+            always_ignore = [
+                '.git', '.svn', '.hg',           # Version control
+                '.vscode', '.idea', '.vs',       # Editors
+                '__pycache__', '*.pyc', '*.pyo', # Python
+                '.DS_Store',                     # macOS
+                '.aider*'                        # Aider files
+            ]
+            
+            # Check against always-ignore patterns first
+            for pattern in always_ignore:
+                if pattern.endswith('/'):
+                    # Directory pattern
+                    dir_pattern = pattern[:-1]
+                    if file_path == dir_pattern or file_path.startswith(f"{dir_pattern}/"):
+                        return True
+                elif pattern.startswith('*.'):
+                    # File extension pattern
+                    if file_path.endswith(pattern[1:]):
+                        return True
+                elif '*' in pattern:
+                    # Simple wildcard pattern (e.g., .aider*)
+                    prefix = pattern.split('*')[0]
+                    suffix = pattern.split('*')[1]
+                    if file_path.startswith(prefix) and file_path.endswith(suffix):
+                        return True
+                elif file_path == pattern or file_path.startswith(f"{pattern}/"):
+                    # Exact match or directory
+                    return True
+            
             # Always include .gitignore itself
             if file_path == '.gitignore':
                 return False
                 
+            # Then check against gitignore patterns
             for pattern in ignore_patterns:
                 # Simple pattern matching (can be expanded for more complex gitignore rules)
                 if pattern.endswith('/'):
