@@ -415,26 +415,37 @@ def initialize_customer_templates():
 # Initialize customer templates
 initialize_customer_templates()
 
-@app.route('/api/projects/<customer>/<project_id>/files', methods=['GET'])
-def get_project_files(customer, project_id):
+@app.route('/api/projects/<path:project_path>/files', methods=['GET'])
+def get_project_files(project_path):
     """
     Endpoint to get a list of files in a project.
+    Project path can be either:
+    - customer/template
+    - customer/project_id
     """
     try:
-        # Validate customer and project
+        # Parse the project path
+        parts = project_path.split('/')
+        if len(parts) != 2:
+            return jsonify({"error": "Invalid project path format"}), 400
+            
+        customer, project_id = parts
+        
+        # Validate customer
         if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
             return jsonify({"error": f"Customer '{customer}' not found"}), 404
             
-        project_path = get_project_path(customer, project_id)
-        if not os.path.exists(project_path):
+        # Get the full project path
+        full_project_path = get_project_path(customer, project_id)
+        if not os.path.exists(full_project_path):
             return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
         
         # Get list of files
         files = []
-        for root, dirs, filenames in os.walk(project_path):
+        for root, dirs, filenames in os.walk(full_project_path):
             for filename in filenames:
                 file_path = os.path.join(root, filename)
-                rel_path = os.path.relpath(file_path, project_path)
+                rel_path = os.path.relpath(file_path, full_project_path)
                 files.append({
                     "path": rel_path,
                     "type": "file",
@@ -447,25 +458,36 @@ def get_project_files(customer, project_id):
         logger.error(f"Error getting project files: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@app.route('/api/projects/<customer>/<project_id>/files/<path:file_path>', methods=['GET'])
-def get_file_content(customer, project_id, file_path):
+@app.route('/api/projects/<path:project_path>/files/<path:file_path>', methods=['GET'])
+def get_file_content(project_path, file_path):
     """
     Endpoint to get the content of a file.
+    Project path can be either:
+    - customer/template
+    - customer/project_id
     """
     try:
-        # Validate customer and project
+        # Parse the project path
+        parts = project_path.split('/')
+        if len(parts) != 2:
+            return jsonify({"error": "Invalid project path format"}), 400
+            
+        customer, project_id = parts
+        
+        # Validate customer
         if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
             return jsonify({"error": f"Customer '{customer}' not found"}), 404
             
-        project_path = get_project_path(customer, project_id)
-        if not os.path.exists(project_path):
+        # Get the full project path
+        full_project_path = get_project_path(customer, project_id)
+        if not os.path.exists(full_project_path):
             return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
         
         # Get file content
-        file_full_path = os.path.join(project_path, file_path)
+        file_full_path = os.path.join(full_project_path, file_path)
         
         # Security check to prevent directory traversal
-        if not os.path.abspath(file_full_path).startswith(os.path.abspath(project_path)):
+        if not os.path.abspath(file_full_path).startswith(os.path.abspath(full_project_path)):
             return jsonify({"error": "Invalid file path"}), 403
         
         if not os.path.exists(file_full_path) or not os.path.isfile(file_full_path):

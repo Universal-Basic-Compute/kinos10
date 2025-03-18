@@ -154,13 +154,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to load the file tree
     function loadFileTree() {
-        // Only load file tree if not using template
-        if (currentProject === 'template') {
-            fileTree.innerHTML = '<div class="file-item">No files available for template</div>';
-            return;
-        }
+        // For both template and regular projects, we should load files
+        const projectPath = currentProject === 'template' ? 
+            `${currentCustomer}/template` : 
+            `${currentCustomer}/${currentProject}`;
         
-        fetch(`/api/proxy/projects/${currentCustomer}/${currentProject}/files`)
+        fetch(`/api/proxy/projects/${projectPath}/files`)
             .then(response => response.json())
             .then(data => {
                 if (data.files && data.files.length > 0) {
@@ -252,7 +251,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to open a file
     function openFile(filePath) {
-        fetch(`/api/proxy/projects/${currentCustomer}/${currentProject}/files/${filePath}`)
+        const projectPath = currentProject === 'template' ? 
+            `${currentCustomer}/template` : 
+            `${currentCustomer}/${currentProject}`;
+        
+        fetch(`/api/proxy/projects/${projectPath}/files/${filePath}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
