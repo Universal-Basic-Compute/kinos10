@@ -15,16 +15,51 @@ KinKong's trading philosophy is built on four core principles:
    - Continuous monitoring while humans sleep
    - Instant reaction to market developments
    - Never miss a trading opportunity
+   - 4x daily trading windows for optimal execution
 
 3. **Risk Management First**
    - Position sizing based on volatility metrics
    - Strict stop-loss discipline
    - Portfolio diversification across strategies
+   - Dynamic position sizing based on market conditions
 
 4. **Ecosystem Support**
    - Focus on UBC and COMPUTE tokens
    - Support ecosystem liquidity
    - Long-term value creation alongside short-term profits
+   - Token discovery for emerging opportunities
+
+## 4x Daily Trading Windows
+
+KinKong operates on a structured 4x daily trading schedule to optimize execution during periods of maximum liquidity and price discovery:
+
+### 1. Asian Session (00:00-04:00 UTC)
+- **Focus:** Early trend identification, overnight developments
+- **Strategies:** Breakout plays, news reaction
+- **Volume Profile:** Moderate, building
+- **Volatility:** Often lower, building momentum
+- **Best For:** Setting up positions ahead of European session
+
+### 2. European Session (08:00-12:00 UTC)
+- **Focus:** Trend continuation, liquidity testing
+- **Strategies:** Momentum following, support/resistance plays
+- **Volume Profile:** Strong, consistent
+- **Volatility:** Moderate to high
+- **Best For:** High-probability trend trades
+
+### 3. US Session (14:00-18:00 UTC)
+- **Focus:** Maximum liquidity, major moves
+- **Strategies:** All strategies, highest execution quality
+- **Volume Profile:** Highest of the day
+- **Volatility:** Typically highest
+- **Best For:** Largest position entries, best execution
+
+### 4. Crossover Session (20:00-00:00 UTC)
+- **Focus:** Late US/Early Asia, position unwinding
+- **Strategies:** Mean reversion, overnight positioning
+- **Volume Profile:** Declining but still significant
+- **Volatility:** Often declining but can spike on news
+- **Best For:** Scaling out of intraday positions, setting up overnight trades
 
 ## Core Trading Strategies
 
@@ -40,16 +75,19 @@ KinKong's trading philosophy is built on four core principles:
 - Price breaks above 20-period high
 - Volume increases by >50%
 - At least 2 technical confirmations
+- Preferably during US or European trading windows
 
 **Exit Criteria:**
 - Take profit at predetermined levels (typically 1.5-3x risk)
 - Stop loss at recent swing low or below key support
 - Trailing stop after 1.5x risk achieved
+- Consider partial exits at session boundaries
 
 **Risk Management:**
 - Position size: 1-3% of portfolio per trade
 - Risk per trade: 0.5-1% maximum portfolio risk
 - Scaling: Add to winning positions at key levels
+- Adjust size based on trading window liquidity
 
 ### 2. Mean Reversion
 
@@ -139,6 +177,31 @@ KinKong's trading philosophy is built on four core principles:
 - **Take Profit Levels:** 1.5x, 3x, 5x risk (very aggressive targets)
 - **Key Technical Levels:** Updated daily based on market structure
 
+## Token Discovery Strategy
+
+KinKong employs a systematic approach to discover emerging Solana AI tokens with high potential:
+
+### Discovery Criteria
+- **Ecosystem Relevance:** Connection to AI/ML infrastructure
+- **Team Background:** Developer experience and track record
+- **Tokenomics:** Supply distribution, emission schedule, utility
+- **Liquidity:** Minimum viable trading volume
+- **Community:** Engagement metrics and growth rate
+- **Technical Innovation:** Unique technology or use case
+
+### Evaluation Process
+1. **Initial Screening:** Filter tokens meeting basic criteria
+2. **Fundamental Analysis:** Evaluate team, technology, and tokenomics
+3. **Technical Analysis:** Assess market structure and liquidity
+4. **Risk Assessment:** Evaluate potential downside and volatility
+5. **Opportunity Sizing:** Determine appropriate allocation
+
+### Integration Timeline
+1. **Monitoring Phase:** Track token without position (1-2 weeks)
+2. **Pilot Position:** Small allocation to test liquidity (0.5% portfolio)
+3. **Evaluation Phase:** Assess trading characteristics (1-2 weeks)
+4. **Full Integration:** Add to regular trading rotation if criteria met
+
 ## Performance Metrics
 
 KinKong's trading performance is measured by:
@@ -147,17 +210,20 @@ KinKong's trading performance is measured by:
    - Weekly profit percentage
    - Monthly compounded return
    - Quarterly performance review
+   - Trading window performance breakdown
 
 2. **Risk-Adjusted Metrics**
    - Sharpe Ratio (target >2.0)
    - Maximum Drawdown (target <15%)
    - Win/Loss Ratio (target >1.5)
    - Profit Factor (target >2.0)
+   - Calmar Ratio (target >3.0)
 
 3. **Operational Efficiency**
    - Execution slippage (<0.2%)
    - Trading costs (<0.5% per round trip)
    - Strategy correlation (<0.3 between strategies)
+   - Trading window capture rate (>80%)
 
 ## Profit Distribution
 
