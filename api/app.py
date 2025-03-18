@@ -192,14 +192,24 @@ def get_project_path(customer, project_id):
     else:
         return os.path.join(CUSTOMERS_DIR, customer, "projects", project_id)
 
-def initialize_project(customer, project_name, template_override=None):
+def initialize_project(customer, project_name, template_override=None, project_id=None):
     """
     Initialize a new project for a customer.
     Copies the template directory to create a new project.
+    
+    Args:
+        customer: Customer name
+        project_name: Name of the project
+        template_override: Optional template to use instead of customer's template
+        project_id: Optional specific project ID to use (if None, generates UUID)
+    
+    Returns:
+        Project ID
     """
     # Validate customer exists
     customer_dir = os.path.join(CUSTOMERS_DIR, customer)
     if not os.path.exists(customer_dir):
+        logger.error(f"Customer directory not found: {customer_dir}")
         raise ValueError(f"Customer '{customer}' not found")
     
     # Get template path (either default or override)
@@ -208,44 +218,109 @@ def initialize_project(customer, project_name, template_override=None):
         template_path = os.path.join(CUSTOMERS_DIR, template_override, "template")
     
     if not os.path.exists(template_path):
+        logger.error(f"Template directory not found: {template_path}")
         raise ValueError(f"Template not found at {template_path}")
     
     # Create projects directory if it doesn't exist
     projects_dir = os.path.join(customer_dir, "projects")
-    os.makedirs(projects_dir, exist_ok=True)
+    try:
+        os.makedirs(projects_dir, exist_ok=True)
+        logger.info(f"Created or verified projects directory: {projects_dir}")
+    except Exception as e:
+        logger.error(f"Failed to create projects directory: {str(e)}")
+        raise RuntimeError(f"Failed to create projects directory: {str(e)}")
     
-    # Generate a unique project ID
-    import uuid
-    project_id = str(uuid.uuid4())
+    # Generate a unique project ID if not provided
+    if project_id is None:
+        import uuid
+        project_id = str(uuid.uuid4())
+    
+    logger.info(f"Using project ID: {project_id}")
     
     # Create project directory
     project_dir = os.path.join(projects_dir, project_id)
+    try:
+        if os.path.exists(project_dir):
+            logger.warning(f"Project directory already exists: {project_dir}")
+            # We could either return an error or continue and overwrite
+            # For now, let's continue and overwrite
+        
+        # Create the project directory
+        os.makedirs(project_dir, exist_ok=True)
+        logger.info(f"Created project directory: {project_dir}")
+    except Exception as e:
+        logger.error(f"Failed to create project directory: {str(e)}")
+        raise RuntimeError(f"Failed to create project directory: {str(e)}")
     
     # Copy template to project directory
-    import shutil
-    shutil.copytree(template_path, project_dir)
+    try:
+        logger.info(f"Copying template from {template_path} to {project_dir}")
+        # List template contents for debugging
+        template_contents = os.listdir(template_path)
+        logger.info(f"Template contents: {template_contents}")
+        
+        # Use a more robust copy method
+        import shutil
+        for item in os.listdir(template_path):
+            s = os.path.join(template_path, item)
+            d = os.path.join(project_dir, item)
+            try:
+                if os.path.isdir(s):
+                    shutil.copytree(s, d)
+                else:
+                    shutil.copy2(s, d)
+                logger.info(f"Copied {s} to {d}")
+            except Exception as copy_error:
+                logger.error(f"Error copying {s} to {d}: {str(copy_error)}")
+                # Continue with other files even if one fails
+    except Exception as e:
+        logger.error(f"Failed to copy template: {str(e)}")
+        raise RuntimeError(f"Failed to copy template: {str(e)}")
     
     # Create messages.json file
     messages_file = os.path.join(project_dir, "messages.json")
-    with open(messages_file, 'w') as f:
-        json.dump([], f)
+    try:
+        with open(messages_file, 'w') as f:
+            json.dump([], f)
+        logger.info(f"Created messages.json file")
+    except Exception as e:
+        logger.error(f"Failed to create messages.json: {str(e)}")
+        # Continue even if this fails
     
     # Create thoughts.txt file
     thoughts_file = os.path.join(project_dir, "thoughts.txt")
-    with open(thoughts_file, 'w') as f:
-        f.write(f"# Thoughts for project: {project_name}\nCreated: {datetime.datetime.now().isoformat()}\n\n")
+    try:
+        with open(thoughts_file, 'w') as f:
+            f.write(f"# Thoughts for project: {project_name}\nCreated: {datetime.datetime.now().isoformat()}\n\n")
+        logger.info(f"Created thoughts.txt file")
+    except Exception as e:
+        logger.error(f"Failed to create thoughts.txt: {str(e)}")
+        # Continue even if this fails
     
     # Update system.txt with project name if needed
     system_file = os.path.join(project_dir, "system.txt")
     if os.path.exists(system_file):
-        with open(system_file, 'r') as f:
-            system_content = f.read()
-        
-        # Replace placeholder if present
-        if "{{PROJECT_NAME}}" in system_content:
-            system_content = system_content.replace("{{PROJECT_NAME}}", project_name)
-            with open(system_file, 'w') as f:
-                f.write(system_content)
+        try:
+            with open(system_file, 'r') as f:
+                system_content = f.read()
+            
+            # Replace placeholder if present
+            if "{{PROJECT_NAME}}" in system_content:
+                system_content = system_content.replace("{{PROJECT_NAME}}", project_name)
+                with open(system_file, 'w') as f:
+                    f.write(system_content)
+                logger.info(f"Updated system.txt with project name")
+        except Exception as e:
+            logger.error(f"Failed to update system.txt: {str(e)}")
+            # Continue even if this fails
+    
+    # Verify project directory exists and check contents
+    if os.path.exists(project_dir):
+        dir_contents = os.listdir(project_dir)
+        logger.info(f"Project directory contents: {dir_contents}")
+    else:
+        logger.error(f"Project directory does not exist after creation: {project_dir}")
+        raise RuntimeError(f"Project directory does not exist after creation")
     
     return project_id
 
@@ -356,7 +431,14 @@ def create_project():
         if not customer:
             return jsonify({"error": "Customer is required"}), 400
         
-        project_id = initialize_project(customer, project_name, template_override)
+        # Use project_name as project_id if it's a simple name (no spaces or special chars)
+        import re
+        if re.match(r'^[a-zA-Z0-9_-]+$', project_name):
+            project_id = project_name
+        else:
+            project_id = None  # Let the function generate a UUID
+        
+        project_id = initialize_project(customer, project_name, template_override, project_id)
         
         return jsonify({
             "project_id": project_id,
