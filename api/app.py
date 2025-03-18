@@ -441,18 +441,20 @@ def call_aider_with_context(project_path, selected_files, message_content):
     
     try:
         # Run Aider in the project directory with the user message as input
+        # Set encoding to utf-8 explicitly to handle emojis and other special characters
         result = subprocess.run(
             cmd,
             cwd=project_path,  # Run in the project directory
             input=message_content,
             text=True,
+            encoding='utf-8',  # Add explicit UTF-8 encoding
             capture_output=True,
             check=True
         )
         
         # Save Aider logs to a file in the project directory
         aider_logs_file = os.path.join(project_path, "aider_logs.txt")
-        with open(aider_logs_file, 'a') as f:
+        with open(aider_logs_file, 'a', encoding='utf-8') as f:  # Add explicit UTF-8 encoding
             f.write(f"\n--- Aider run at {datetime.datetime.now().isoformat()} ---\n")
             f.write(f"Command: {' '.join(safe_cmd)}\n")
             f.write(f"Input: {message_content}\n")
@@ -469,7 +471,7 @@ def call_aider_with_context(project_path, selected_files, message_content):
         
         # Save error logs
         aider_logs_file = os.path.join(project_path, "aider_logs.txt")
-        with open(aider_logs_file, 'a') as f:
+        with open(aider_logs_file, 'a', encoding='utf-8') as f:  # Add explicit UTF-8 encoding
             f.write(f"\n--- Aider error at {datetime.datetime.now().isoformat()} ---\n")
             f.write(f"Command: {' '.join(safe_cmd)}\n")
             f.write(f"Input: {message_content}\n")
