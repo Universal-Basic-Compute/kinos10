@@ -23,6 +23,55 @@ app = Flask(__name__)
 # Initialize Anthropic client
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
+def call_claude_with_context(selected_files, project_path, message_content):
+    """
+    Call Claude API directly with the selected context files and user message.
+    
+    Args:
+        selected_files: List of files to include in the context
+        project_path: Path to the project directory
+        message_content: User message content
+    
+    Returns:
+        Claude response as a string
+    """
+    # Load content of selected files
+    file_contents = []
+    for file in selected_files:
+        content = load_file_content(project_path, file)
+        if content:
+            file_contents.append(f"# File: {file}\n{content}")
+    
+    # Combine file contents into a single context string
+    context = "\n\n".join(file_contents)
+    
+    # Create the prompt for Claude
+    prompt = f"""
+# Context
+The following files provide context for my request:
+
+{context}
+
+# Request
+{message_content}
+"""
+    
+    try:
+        # Call Claude API
+        response = client.messages.create(
+            model=MODEL,
+            max_tokens=4000,
+            messages=[
+                {"role": "user", "content": prompt}
+            ]
+        )
+        
+        # Extract the response text
+        return response.content[0].text
+    except Exception as e:
+        logger.error(f"Error calling Claude API: {str(e)}")
+        raise RuntimeError(f"Claude API call failed: {str(e)}")
+
 # Get application data directory
 def get_app_data_dir():
     """Get the appropriate application data directory based on the platform."""
@@ -355,14 +404,28 @@ def send_message(customer, project_id):
         # Log the selected files
         logger.info(f"Selected files for context: {selected_files}")
         
-        # Call Aider with the selected context
+        # Call Claude and Aider with the selected context
         try:
-            aider_response = call_aider_with_context(project_path, selected_files, message_content)
+            # Call Claude directly for a response
+            claude_response = call_claude_with_context(selected_files, project_path, message_content)
             
-            # Add assistant response
+            # Call Aider in parallel for file updates (don't wait for response)
+            import threading
+            def run_aider():
+                try:
+                    aider_response = call_aider_with_context(project_path, selected_files, message_content)
+                    logger.info("Aider processing completed")
+                except Exception as e:
+                    logger.error(f"Error in Aider thread: {str(e)}")
+            
+            # Start Aider in a separate thread
+            aider_thread = threading.Thread(target=run_aider)
+            aider_thread.start()
+            
+            # Add assistant response from Claude
             assistant_message = {
                 "role": "assistant",
-                "content": aider_response,
+                "content": claude_response,
                 "timestamp": datetime.datetime.now().isoformat()
             }
             messages.append(assistant_message)
@@ -374,12 +437,12 @@ def send_message(customer, project_id):
             return jsonify({
                 "status": "completed",
                 "message_id": str(len(messages) - 1),  # Use message index as ID
-                "response": aider_response
+                "response": claude_response
             })
             
         except Exception as e:
-            logger.error(f"Error calling Aider: {str(e)}")
-            return jsonify({"error": f"Error calling Aider: {str(e)}"}), 500
+            logger.error(f"Error processing message: {str(e)}")
+            return jsonify({"error": f"Error processing message: {str(e)}"}), 500
         
     except Exception as e:
         logger.error(f"Error processing message: {str(e)}")
