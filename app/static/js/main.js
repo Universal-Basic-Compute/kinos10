@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Functions
     function loadProjects(customer) {
-        fetch(`/api/customers/${customer}/projects`)
+        fetch(`/api/proxy/projects/${customer}/projects`)
             .then(response => response.json())
             .then(data => {
                 projectSelect.innerHTML = '';

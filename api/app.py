@@ -713,6 +713,34 @@ def get_file_content(project_path, file_path):
         logger.error(f"Error getting file content: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/projects/<customer>/projects', methods=['GET'])
+def get_customer_projects(customer):
+    """
+    Endpoint to get a list of projects for a customer.
+    """
+    try:
+        # Validate customer
+        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
+        if not os.path.exists(customer_dir):
+            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        
+        # Get list of projects
+        projects = ["template"]  # Always include template
+        
+        # Add other projects if they exist
+        projects_dir = os.path.join(customer_dir, "projects")
+        if os.path.exists(projects_dir):
+            for project_id in os.listdir(projects_dir):
+                project_path = os.path.join(projects_dir, project_id)
+                if os.path.isdir(project_path):
+                    projects.append(project_id)
+        
+        return jsonify({"projects": projects})
+        
+    except Exception as e:
+        logger.error(f"Error getting customer projects: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/api/customers/<customer>/initialize', methods=['POST'])
 def initialize_customer(customer):
     """
