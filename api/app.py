@@ -400,15 +400,28 @@ def initialize_customer_templates():
     
     # Get list of customers from project templates
     for customer in os.listdir(project_templates_dir):
+        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
+        
+        # Create customer directory if it doesn't exist
+        if not os.path.exists(customer_dir):
+            logger.info(f"Creating customer directory: {customer_dir}")
+            os.makedirs(customer_dir, exist_ok=True)
+        
+        # Create projects directory if it doesn't exist
+        projects_dir = os.path.join(customer_dir, "projects")
+        if not os.path.exists(projects_dir):
+            logger.info(f"Creating projects directory: {projects_dir}")
+            os.makedirs(projects_dir, exist_ok=True)
+        
+        # Copy template if it doesn't exist
         customer_template_dir = os.path.join(project_templates_dir, customer, "template")
         if os.path.exists(customer_template_dir) and os.path.isdir(customer_template_dir):
             # Destination in app data
-            dest_template_dir = os.path.join(CUSTOMERS_DIR, customer, "template")
+            dest_template_dir = os.path.join(customer_dir, "template")
             
             # Only copy if destination doesn't exist
             if not os.path.exists(dest_template_dir):
                 logger.info(f"Copying template for customer {customer} to app data")
-                os.makedirs(os.path.dirname(dest_template_dir), exist_ok=True)
                 import shutil
                 shutil.copytree(customer_template_dir, dest_template_dir)
 
@@ -593,6 +606,48 @@ def get_file_content(project_path, file_path):
         
     except Exception as e:
         logger.error(f"Error getting file content: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/customers/<customer>/initialize', methods=['POST'])
+def initialize_customer(customer):
+    """
+    Endpoint to manually initialize a customer.
+    """
+    try:
+        # Path to templates in the project
+        project_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
+        customer_template_dir = os.path.join(project_templates_dir, customer, "template")
+        
+        # Check if customer template exists in project
+        if not os.path.exists(customer_template_dir) or not os.path.isdir(customer_template_dir):
+            return jsonify({"error": f"Customer template '{customer}' not found in project"}), 404
+        
+        # Create customer directory if it doesn't exist
+        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
+        if not os.path.exists(customer_dir):
+            logger.info(f"Creating customer directory: {customer_dir}")
+            os.makedirs(customer_dir, exist_ok=True)
+        
+        # Create projects directory if it doesn't exist
+        projects_dir = os.path.join(customer_dir, "projects")
+        if not os.path.exists(projects_dir):
+            logger.info(f"Creating projects directory: {projects_dir}")
+            os.makedirs(projects_dir, exist_ok=True)
+        
+        # Copy template (overwrite if exists)
+        dest_template_dir = os.path.join(customer_dir, "template")
+        if os.path.exists(dest_template_dir):
+            import shutil
+            shutil.rmtree(dest_template_dir)
+        
+        logger.info(f"Copying template for customer {customer} to app data")
+        import shutil
+        shutil.copytree(customer_template_dir, dest_template_dir)
+        
+        return jsonify({"status": "success", "message": f"Customer '{customer}' initialized"})
+        
+    except Exception as e:
+        logger.error(f"Error initializing customer: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':

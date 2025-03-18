@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const customerSelect = document.getElementById('customer-select');
     const projectSelect = document.getElementById('project-select');
     const createProjectBtn = document.getElementById('create-project-btn');
+    const initializeCustomerBtn = document.getElementById('initialize-customer-btn');
     const messageInput = document.getElementById('message-input');
     const sendBtn = document.getElementById('send-btn');
     const messagesContainer = document.getElementById('messages');
@@ -70,6 +71,29 @@ document.addEventListener('DOMContentLoaded', function() {
         const projectName = projectNameInput.value.trim();
         if (projectName) {
             createProject(projectName);
+        }
+    });
+    
+    initializeCustomerBtn.addEventListener('click', function() {
+        const customer = customerSelect.value;
+        
+        if (confirm(`Are you sure you want to initialize/reinitialize the '${customer}' customer?`)) {
+            fetch(`/api/proxy/customers/${customer}/initialize`, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                logDebug(`Customer initialization: ${JSON.stringify(data)}`);
+                alert(`Customer '${customer}' initialized successfully.`);
+                
+                // Reload projects
+                loadProjects(customer);
+            })
+            .catch(error => {
+                console.error('Error initializing customer:', error);
+                logDebug('Error initializing customer: ' + error.message);
+                alert(`Error initializing customer: ${error.message}`);
+            });
         }
     });
     
