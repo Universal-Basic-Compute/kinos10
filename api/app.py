@@ -4,6 +4,7 @@ import json
 import logging
 import anthropic
 import datetime
+import subprocess
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -258,6 +259,54 @@ def get_messages(customer, project_id):
         logger.error(f"Error getting messages: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+def call_aider_with_context(project_path, selected_files, message_content):
+    """
+    Call Aider CLI with the selected context files and user message.
+    
+    Args:
+        project_path: Path to the project directory
+        selected_files: List of files to include in the context
+        message_content: User message content
+    
+    Returns:
+        Aider response as a string
+    """
+    # Get the Anthropic API key from environment
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise ValueError("ANTHROPIC_API_KEY environment variable not set")
+    
+    # Build the command
+    cmd = ["aider", "--sonnet", "--yes-always", f"--anthropic-api-key={api_key}"]
+    
+    # Add all selected files to the command
+    for file in selected_files:
+        file_path = os.path.join(project_path, file)
+        if os.path.exists(file_path):
+            cmd.extend(["--file", file])
+    
+    # Log the command (without API key for security)
+    safe_cmd = [c for c in cmd if not c.startswith("--anthropic-api-key=")]
+    logger.info(f"Executing Aider command: {' '.join(safe_cmd)}")
+    
+    try:
+        # Run Aider in the project directory with the user message as input
+        result = subprocess.run(
+            cmd,
+            cwd=project_path,  # Run in the project directory
+            input=message_content,
+            text=True,
+            capture_output=True,
+            check=True
+        )
+        
+        # Return the stdout from Aider
+        return result.stdout
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Aider command failed with exit code {e.returncode}")
+        logger.error(f"Stderr: {e.stderr}")
+        raise RuntimeError(f"Aider command failed: {e.stderr}")
+
 @app.route('/api/projects/<customer>/<project_id>/messages', methods=['POST'])
 def send_message(customer, project_id):
     """
@@ -281,22 +330,52 @@ def send_message(customer, project_id):
         # Build context (select relevant files)
         selected_files = build_context(customer, project_id, message_content, attachments)
         
-        # For now, just log the response
-        logger.info(f"Message received for {customer}/{project_id}: {message_content}")
+        # Log the selected files
         logger.info(f"Selected files for context: {selected_files}")
         
-        # TODO: In future implementations:
-        # 1. Load content of selected files
-        # 2. Construct full context
-        # 3. Call LLM with context and message
-        # 4. Process response and update files
-        # 5. Store message in messages.json
-        
-        return jsonify({
-            "status": "processing",
-            "message_id": "temp-id-123",  # Generate a real ID in the full implementation
-            "selected_files": selected_files  # Just for debugging
-        })
+        # Call Aider with the selected context
+        try:
+            aider_response = call_aider_with_context(project_path, selected_files, message_content)
+            
+            # Store the user message in messages.json
+            messages_file = os.path.join(project_path, "messages.json")
+            
+            # Load existing messages
+            if os.path.exists(messages_file):
+                with open(messages_file, 'r') as f:
+                    messages = json.load(f)
+            else:
+                messages = []
+            
+            # Add user message
+            user_message = {
+                "role": "user",
+                "content": message_content,
+                "timestamp": datetime.datetime.now().isoformat()
+            }
+            messages.append(user_message)
+            
+            # Add assistant response
+            assistant_message = {
+                "role": "assistant",
+                "content": aider_response,
+                "timestamp": datetime.datetime.now().isoformat()
+            }
+            messages.append(assistant_message)
+            
+            # Save updated messages
+            with open(messages_file, 'w') as f:
+                json.dump(messages, f, indent=2)
+            
+            return jsonify({
+                "status": "completed",
+                "message_id": str(len(messages) - 1),  # Use message index as ID
+                "response": aider_response
+            })
+            
+        except Exception as e:
+            logger.error(f"Error calling Aider: {str(e)}")
+            return jsonify({"error": f"Error calling Aider: {str(e)}"}), 500
         
     except Exception as e:
         logger.error(f"Error processing message: {str(e)}")
