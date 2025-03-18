@@ -12,3 +12,12 @@ services:
       name: kinos-data
       mountPath: /data
       sizeGB: 10
+  
+  - type: web
+    name: kinos-website
+    env: python
+    buildCommand: pip install -r website/requirements.txt
+    startCommand: cd website && gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
