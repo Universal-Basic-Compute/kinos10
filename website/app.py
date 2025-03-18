@@ -152,6 +152,23 @@ def get_project_file(project_path, file_path):
         print(f"API proxy error: {str(e)}")
         return jsonify({"error": "Failed to connect to API server"}), 500
 
+@app.route('/api', methods=['GET'])
+def api_test():
+    """Test endpoint to verify API routes are working"""
+    return jsonify({
+        "status": "OK",
+        "message": "API routes are working",
+        "endpoints": {
+            "/api/projects/all": "Get all customers and their projects",
+            "/api/projects/<customer>/<project>/files": "Get files for a specific project",
+            "/api/health": "Health check endpoint"
+        },
+        "environment": {
+            "API_URL": os.environ.get('API_URL', 'http://localhost:5000'),
+            "FLASK_ENV": os.environ.get('FLASK_ENV', 'development')
+        }
+    })
+
 @app.route('/api/projects/all')
 def get_all_projects():
     """API endpoint to get all customers and their projects"""
