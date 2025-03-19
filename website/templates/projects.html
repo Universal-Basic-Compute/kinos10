@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/project-map.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -58,9 +60,32 @@
                 <div id="project-map-container" class="project-map-container" data-customer="{{ selected_customer }}" data-project="{{ selected_project }}">
                     <div id="project-map"></div>
                 </div>
+                <div id="file-content-container" class="file-content-container" style="display: none;">
+                    <div class="file-content-header">
+                        <h3 id="file-content-title">File Content</h3>
+                        <button id="back-to-map" class="button secondary">
+                            <i class="fas fa-map"></i> Back to Map
+                        </button>
+                    </div>
+                    <pre id="file-content" class="file-content"></pre>
+                </div>
                 {% else %}
                 <p>Select a project from the sidebar to view its map.</p>
                 {% endif %}
+            </div>
+        </div>
+        <div class="file-explorer">
+            <div class="file-explorer-header">
+                <h3>Files</h3>
+                <button id="file-explorer-toggle" class="file-explorer-toggle">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="file-explorer-content">
+                <!-- Files will be loaded dynamically via JavaScript -->
+                <div class="loading">
+                    <p>Loading files...</p>
+                </div>
             </div>
         </div>
     </div>
@@ -115,5 +140,6 @@
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/projects.js') }}"></script>
     <script src="{{ url_for('static', filename='js/project-map.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/file-explorer.js') }}"></script>
 </body>
 </html>
