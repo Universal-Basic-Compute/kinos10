@@ -71,17 +71,6 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
     # Combine file contents into a single context string
     context = "\n\n".join(file_contents)
     
-    # Create the prompt for Claude with updated explanation
-    prompt = f"""
-# Your Knowledge Files
-The following files are part of your personal knowledge and define your capabilities, personality, and expertise. These are not files to fulfill a user request, but rather your own internal knowledge:
-
-{context}
-
-# User Message
-{message_content}
-"""
-    
     try:
         # Initialize messages array
         messages = []
@@ -148,17 +137,18 @@ The following files are part of your personal knowledge and define your capabili
                 "content": image_message_parts
             })
         
-        # Add the current message with context as the final message
+        # Add the current message as the final message
         messages.append({
             "role": "user",
-            "content": prompt
+            "content": message_content
         })
         
-        # Call Claude API
+        # Call Claude API with system message as a separate parameter
         logger.info(f"Calling Claude API with {len(messages)} messages" + (" and images in previous message" if images else ""))
         response = client.messages.create(
             model=MODEL,
             max_tokens=4000,
+            system=context,  # Pass context as system parameter
             messages=messages
         )
         
