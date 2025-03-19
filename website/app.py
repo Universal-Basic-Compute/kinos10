@@ -13,7 +13,7 @@ def index():
 @app.route('/projects')
 def projects():
     # Fetch real projects from the API
-    api_url = os.environ.get('API_URL', 'https://kinos.onrender.com')
+    api_url = os.environ.get('API_URL', 'https://api.kinos-engine.ai')
     try:
         response = requests.get(f"{api_url}/api/projects/all")
         if response.ok:
@@ -37,7 +37,7 @@ def projects():
 @app.route('/projects/<customer>/<project>')
 def project_detail(customer, project):
     # Fetch real projects from the API
-    api_url = os.environ.get('API_URL', 'https://kinos.onrender.com')
+    api_url = os.environ.get('API_URL', 'https://api.kinos-engine.ai')
     try:
         response = requests.get(f"{api_url}/api/projects/all")
         if response.ok:
@@ -91,7 +91,7 @@ def website_debug():
                 env_vars[key] = value
         
         # Test connection to API
-        api_url = os.environ.get('API_URL', 'https://kinos.onrender.com')
+        api_url = os.environ.get('API_URL', 'https://api.kinos-engine.ai')
         api_status = "Unknown"
         api_message = ""
         try:
@@ -350,7 +350,7 @@ def css_test():
 def get_project_file(project_path, file_path):
     """Proxy API requests for specific project files"""
     # API server URL (adjust as needed)
-    api_url = os.environ.get('API_URL', 'https://kinos-engine.ai')
+    api_url = os.environ.get('API_URL', 'https://api.kinos-engine.ai')
     
     # Forward the request to the API server
     url = f"{api_url}/api/projects/{project_path}/files/{file_path}"
@@ -454,7 +454,7 @@ def api_test():
 def get_all_projects():
     """API endpoint to get all customers and their projects"""
     # API server URL (adjust as needed)
-    api_url = os.environ.get('API_URL', 'http://localhost:5000')
+    api_url = os.environ.get('API_URL', 'https://api.kinos-engine.ai')
     
     try:
         # Forward the request to the API server

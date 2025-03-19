@@ -10,6 +10,8 @@ services:
         sync: false
       - key: WEBSITE_URL
         value: https://kinos-engine.ai
+    domains:
+      - api.kinos-engine.ai
     disk:
       name: kinos-data
       mountPath: /data
@@ -26,6 +28,8 @@ services:
       - key: PYTHON_VERSION
         value: 3.9.0
       - key: API_URL
-        value: https://kinos.onrender.com
+        value: https://api.kinos-engine.ai
       - key: ENVIRONMENT
         value: production
+    domains:
+      - kinos-engine.ai
