@@ -26,6 +26,6 @@ services:
       - key: PYTHON_VERSION
         value: 3.9.0
       - key: API_URL
-        value: https://kinos-engine.ai
+        value: https://kinos.onrender.com
       - key: ENVIRONMENT
         value: production

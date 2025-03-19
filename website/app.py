@@ -13,7 +13,7 @@ def index():
 @app.route('/projects')
 def projects():
     # Fetch real projects from the API
-    api_url = os.environ.get('API_URL', 'https://kinos-engine.ai')
+    api_url = os.environ.get('API_URL', 'https://kinos.onrender.com')
     try:
         response = requests.get(f"{api_url}/api/projects/all")
         if response.ok:
@@ -37,7 +37,7 @@ def projects():
 @app.route('/projects/<customer>/<project>')
 def project_detail(customer, project):
     # Fetch real projects from the API
-    api_url = os.environ.get('API_URL', 'http://localhost:5000')
+    api_url = os.environ.get('API_URL', 'https://kinos.onrender.com')
     try:
         response = requests.get(f"{api_url}/api/projects/all")
         if response.ok:
@@ -91,7 +91,7 @@ def website_debug():
                 env_vars[key] = value
         
         # Test connection to API
-        api_url = os.environ.get('API_URL', 'https://kinos-engine.ai')
+        api_url = os.environ.get('API_URL', 'https://kinos.onrender.com')
         api_status = "Unknown"
         api_message = ""
         try:
