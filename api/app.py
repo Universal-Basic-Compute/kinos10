@@ -1189,7 +1189,7 @@ def api_debug():
                     }
         
         # Test connection to website
-        website_url = os.environ.get('WEBSITE_URL', 'https://kinos-website.onrender.com')
+        website_url = os.environ.get('WEBSITE_URL', 'https://kinos-engine.ai')
         website_status = "Unknown"
         website_message = ""
         try:
