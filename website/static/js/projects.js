@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
             sidebarContent.innerHTML = '<div class="loading"><p>Loading projects...</p></div>';
         }
         
-        fetch('/api/proxy/projects/all')
+        fetch('/api/projects/all')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
