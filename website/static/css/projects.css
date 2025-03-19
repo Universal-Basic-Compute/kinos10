@@ -3,6 +3,7 @@
     display: flex;
     min-height: calc(100vh - 80px - 400px); /* Adjust for header and footer */
     margin-top: 80px; /* Account for fixed header */
+    position: relative; /* Add this to ensure proper positioning */
 }
 
 /* File explorer styles */
@@ -12,6 +13,8 @@
     border-left: 1px solid var(--gray-200);
     transition: width 0.3s ease;
     overflow: hidden;
+    height: 100%; /* Ensure it takes full height */
+    display: block; /* Make sure it's displayed */
 }
 
 .file-explorer.collapsed {
@@ -248,6 +251,7 @@
     flex: 1;
     padding: 20px;
     background-color: var(--white);
+    overflow: auto; /* Add scrolling if needed */
 }
 
 .content-header {

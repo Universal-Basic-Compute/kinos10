@@ -4,8 +4,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileExplorer = document.querySelector('.file-explorer');
     
     if (fileExplorerToggle && fileExplorer) {
+        // Check if the file explorer should start collapsed
+        const startCollapsed = localStorage.getItem('fileExplorerCollapsed') === 'true';
+        
+        // Set initial state
+        if (startCollapsed) {
+            fileExplorer.classList.add('collapsed');
+        }
+        
         fileExplorerToggle.addEventListener('click', function() {
             fileExplorer.classList.toggle('collapsed');
+            // Save state to localStorage
+            localStorage.setItem('fileExplorerCollapsed', fileExplorer.classList.contains('collapsed'));
         });
     }
     
@@ -37,6 +47,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadFileTree(customer, project) {
         const fileExplorerContent = document.querySelector('.file-explorer-content');
         if (!fileExplorerContent) return;
+        
+        // Make sure the file explorer is visible
+        const fileExplorer = document.querySelector('.file-explorer');
+        if (fileExplorer && fileExplorer.classList.contains('collapsed')) {
+            fileExplorer.classList.remove('collapsed');
+        }
         
         fileExplorerContent.innerHTML = '<div class="loading"><p>Loading files...</p></div>';
         
