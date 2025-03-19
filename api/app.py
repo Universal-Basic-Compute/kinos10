@@ -354,7 +354,12 @@ def build_context(customer, project_id, message, attachments=None):
     
     # Check if persona.txt exists, if so use it instead of kinos.txt and system.txt
     persona_file = os.path.join(project_path, "persona.txt")
-    if os.path.exists(persona_file):
+    
+    # Special handling for duogaming - include character persona adaptation
+    if customer == "duogaming":
+        core_files = ["persona.txt", "map.json", "adaptations/character_persona.txt"]
+        logger.info("Using persona.txt and character_persona.txt for DuoGaming context")
+    elif os.path.exists(persona_file):
         # Use persona.txt instead of kinos.txt and system.txt
         core_files = ["persona.txt", "map.json"]
         logger.info("Using persona.txt for context")
@@ -367,8 +372,8 @@ def build_context(customer, project_id, message, attachments=None):
     available_files = []
     for root, dirs, files in os.walk(project_path):
         for file in files:
-            if file not in core_files:  # Skip core files as we'll add them separately
-                rel_path = os.path.relpath(os.path.join(root, file), project_path)
+            rel_path = os.path.relpath(os.path.join(root, file), project_path)
+            if rel_path not in core_files:  # Skip core files as we'll add them separately
                 available_files.append(rel_path)
     
     # If there are no additional files, just return core files
