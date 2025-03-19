@@ -82,9 +82,10 @@ def website_debug():
         
         # Get environment variables (filtering out sensitive ones)
         env_vars = {}
-        sensitive_keys = ['SECRET_KEY', 'API_KEY']
+        # More comprehensive list of sensitive key patterns
+        sensitive_patterns = ['KEY', 'SECRET', 'TOKEN', 'PASSWORD', 'PASS', 'AUTH', 'CREDENTIAL']
         for key, value in os.environ.items():
-            if any(sensitive in key.upper() for sensitive in sensitive_keys):
+            if any(pattern in key.upper() for pattern in sensitive_patterns):
                 env_vars[key] = "***REDACTED***"
             else:
                 env_vars[key] = value
@@ -208,6 +209,7 @@ def website_debug():
         </head>
         <body>
             <h1>KinOS Website Debug Information</h1>
+            <p style="color: red; font-weight: bold;">WARNING: This debug endpoint exposes system information and should NOT be enabled in production environments!</p>
             <p>Generated at: {debug_info['timestamp']}</p>
             
             <div class="section">
@@ -312,6 +314,7 @@ def debug_info():
     
     # Return as formatted HTML
     html = "<h1>Debug Information</h1>"
+    html += "<p style='color: red; font-weight: bold;'>WARNING: This debug endpoint exposes system information and should NOT be enabled in production environments!</p>"
     for key, value in debug_info.items():
         if key == 'environment':
             html += f"<h2>{key}</h2><ul>"
