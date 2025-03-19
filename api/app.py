@@ -45,7 +45,7 @@ except Exception as e:
 def call_claude_with_context(selected_files, project_path, message_content, images=None):
     """
     Call Claude API directly with the selected context files, user message, and optional images.
-    Images are sent as a separate message before the actual text message.
+    Also includes conversation history from messages.json as actual messages.
     
     Args:
         selected_files: List of files to include in the context
@@ -83,8 +83,32 @@ The following files are part of your personal knowledge and define your capabili
 """
     
     try:
-        # Prepare the message content
+        # Initialize messages array
         messages = []
+        
+        # Load conversation history from messages.json and add as actual messages
+        messages_file = os.path.join(project_path, "messages.json")
+        if os.path.exists(messages_file):
+            try:
+                with open(messages_file, 'r', encoding='utf-8') as f:
+                    message_data = json.load(f)
+                    
+                    # Limit to last 10 messages to avoid token limits
+                    recent_messages = message_data[-10:] if len(message_data) > 10 else message_data
+                    
+                    # Add each message as a proper message object
+                    for msg in recent_messages:
+                        role = msg.get('role', '')
+                        content = msg.get('content', '')
+                        
+                        # Only add if it has valid role and content
+                        if role in ['user', 'assistant'] and content:
+                            messages.append({
+                                "role": role,
+                                "content": content
+                            })
+            except Exception as e:
+                logger.error(f"Error reading messages.json: {str(e)}")
         
         # If there are images, create a separate message with just the images
         if images and len(images) > 0:
@@ -123,23 +147,15 @@ The following files are part of your personal knowledge and define your capabili
                 "role": "user",
                 "content": image_message_parts
             })
-            
-            # Now add the text-only message as the final message
-            messages.append({
-                "role": "user",
-                "content": prompt
-            })
-            
-            logger.info(f"Created separate image message with {len(image_message_parts) - 1} images")
-        else:
-            # No images, just add the text message
-            messages.append({
-                "role": "user",
-                "content": prompt
-            })
+        
+        # Add the current message with context as the final message
+        messages.append({
+            "role": "user",
+            "content": prompt
+        })
         
         # Call Claude API
-        logger.info("Calling Claude API with context" + (" and images in previous message" if images else ""))
+        logger.info(f"Calling Claude API with {len(messages)} messages" + (" and images in previous message" if images else ""))
         response = client.messages.create(
             model=MODEL,
             max_tokens=4000,
