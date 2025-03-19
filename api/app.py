@@ -163,13 +163,14 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
 # Get application data directory
 def get_app_data_dir():
     """Get the appropriate application data directory based on the platform."""
+    # For Windows development environment, use a specific path
+    if os.name == 'nt':  # Windows
+        app_data = 'C:\\data\\KinOS'  # Use double backslashes for Windows paths
+        logger.info(f"Using Windows path: {app_data}")
     # Check if running on Render (with persistent disk)
-    if os.path.exists('/data'):
+    elif os.path.exists('/data'):
         app_data = '/data/KinOS'
         logger.info(f"Using Render data directory: {app_data}")
-    elif os.name == 'nt':  # Windows
-        app_data = os.path.join(os.environ.get('APPDATA', ''), 'KinOS')
-        logger.info(f"Using Windows AppData directory: {app_data}")
     elif os.name == 'posix':  # Linux/Mac
         app_data = os.path.join(os.path.expanduser('~'), '.kinos')
         logger.info(f"Using Linux/Mac home directory: {app_data}")
