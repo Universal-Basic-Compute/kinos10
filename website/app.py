@@ -37,7 +37,7 @@ def projects():
 @app.route('/projects/<customer>/<project>')
 def project_detail(customer, project):
     # Fetch real projects from the API
-    api_url = os.environ.get('API_URL', 'https://api.kinos-engine.ai')
+    api_url = os.environ.get('API_URL', 'http://localhost:5000')
     try:
         response = requests.get(f"{api_url}/api/projects/all")
         if response.ok:
@@ -91,7 +91,7 @@ def website_debug():
                 env_vars[key] = value
         
         # Test connection to API
-        api_url = os.environ.get('API_URL', 'https://api.kinos-engine.ai')
+        api_url = os.environ.get('API_URL', 'http://localhost:5000')
         api_status = "Unknown"
         api_message = ""
         try:
@@ -454,7 +454,7 @@ def api_test():
 def get_all_projects():
     """API endpoint to get all customers and their projects"""
     # API server URL (adjust as needed)
-    api_url = os.environ.get('API_URL', 'https://api.kinos-engine.ai')
+    api_url = os.environ.get('API_URL', 'http://localhost:5000')
     
     try:
         # Forward the request to the API server
