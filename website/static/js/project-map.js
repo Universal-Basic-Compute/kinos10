@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchProjectMap(customer, project) {
         const projectPath = `${customer}/${project}`;
         
-        fetch(`/api/proxy/projects/${projectPath}/files/map.json`)
+        fetch(`/api/projects/${projectPath}/files/map.json`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchProjectMap(customer, project) {
         const projectPath = `${customer}/${project}`;
         
-        fetch(`/api/proxy/projects/${projectPath}/files/map.json`)
+        fetch(`/api/projects/${projectPath}/files/map.json`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

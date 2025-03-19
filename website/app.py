@@ -376,37 +376,7 @@ def get_project_file(project_path, file_path):
         print(f"API proxy error: {str(e)}")
         return jsonify({"error": "Failed to connect to API server"}), 500
 
-@app.route('/api/proxy/projects/<path:project_path>/files/<path:file_path>')
-def proxy_project_file(project_path, file_path):
-    """Proxy API requests for specific project files"""
-    # API server URL (adjust as needed)
-    api_url = os.environ.get('API_URL', 'http://localhost:5000')
-    
-    # Forward the request to the API server
-    url = f"{api_url}/api/projects/{project_path}/files/{file_path}"
-    
-    try:
-        # Forward the request
-        resp = requests.request(
-            method=request.method,
-            url=url,
-            headers={key: value for (key, value) in request.headers if key != 'Host'},
-            data=request.get_data(),
-            cookies=request.cookies,
-            allow_redirects=False,
-            params=request.args
-        )
-        
-        # Create a Flask response object
-        response = Response(
-            resp.content,
-            resp.status_code,
-            {key: value for (key, value) in resp.headers.items() if key != 'Content-Length'}
-        )
-        
-        return response
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+# Route removed to eliminate proxy calls
 
 @app.route('/api', methods=['GET'])
 def api_test():
