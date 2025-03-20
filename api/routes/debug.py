@@ -213,6 +213,58 @@ def api_debug():
 
 # Root and health endpoints moved to app.py
 
+@debug_bp.route('/initialize-customer/<customer>', methods=['GET'])
+def initialize_specific_customer(customer):
+    """
+    Debug endpoint to manually initialize a specific customer.
+    """
+    try:
+        # Path to templates in the project
+        project_templates_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "customers")
+        customer_template_dir = os.path.join(project_templates_dir, customer, "template")
+        
+        # Check if customer template exists in project
+        if not os.path.exists(customer_template_dir) or not os.path.isdir(customer_template_dir):
+            return jsonify({"error": f"Customer template '{customer}' not found in project"}), 404
+        
+        # Create customer directory if it doesn't exist
+        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
+        if not os.path.exists(customer_dir):
+            logger.info(f"Creating customer directory: {customer_dir}")
+            os.makedirs(customer_dir, exist_ok=True)
+        
+        # Create projects directory if it doesn't exist
+        projects_dir = os.path.join(customer_dir, "projects")
+        if not os.path.exists(projects_dir):
+            logger.info(f"Creating projects directory: {projects_dir}")
+            os.makedirs(projects_dir, exist_ok=True)
+        
+        # Copy template (overwrite if exists)
+        dest_template_dir = os.path.join(customer_dir, "template")
+        if os.path.exists(dest_template_dir):
+            import shutil
+            shutil.rmtree(dest_template_dir)
+        
+        logger.info(f"Copying template for customer {customer} to app data")
+        import shutil
+        shutil.copytree(customer_template_dir, dest_template_dir)
+        
+        # Verify template was copied
+        if os.path.exists(dest_template_dir):
+            template_files = os.listdir(dest_template_dir)
+            logger.info(f"Template files for {customer}: {template_files}")
+            return jsonify({
+                "status": "success", 
+                "message": f"Customer '{customer}' initialized",
+                "files": template_files
+            })
+        else:
+            return jsonify({"error": "Failed to copy template"}), 500
+        
+    except Exception as e:
+        logger.error(f"Error initializing customer: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @debug_bp.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def catch_all_api(undefined_route):
     """Catch-all route for undefined API endpoints within the debug-api prefix."""

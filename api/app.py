@@ -211,6 +211,38 @@ if not os.path.exists(duogaming_template) or not os.listdir(duogaming_template):
     else:
         logger.error("DuoGaming template not found in project directory")
 
+# Specifically check for therapykin customer
+therapykin_template = os.path.join(CUSTOMERS_DIR, "therapykin", "template")
+if not os.path.exists(therapykin_template) or not os.listdir(therapykin_template):
+    logger.warning("Therapykin template not found or empty, attempting to initialize specifically")
+    
+    # Source template in project
+    project_therapykin_template = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
+                                             "customers", "therapykin", "template")
+    
+    if os.path.exists(project_therapykin_template):
+        # Create customer directory if needed
+        therapykin_dir = os.path.join(CUSTOMERS_DIR, "therapykin")
+        os.makedirs(therapykin_dir, exist_ok=True)
+        
+        # Create projects directory if needed
+        therapykin_projects_dir = os.path.join(therapykin_dir, "projects")
+        os.makedirs(therapykin_projects_dir, exist_ok=True)
+        
+        # Copy template
+        if os.path.exists(therapykin_template):
+            shutil.rmtree(therapykin_template)
+        
+        logger.info(f"Copying Therapykin template from {project_therapykin_template} to {therapykin_template}")
+        shutil.copytree(project_therapykin_template, therapykin_template)
+        
+        # Verify template was copied
+        if os.path.exists(therapykin_template):
+            template_files = os.listdir(therapykin_template)
+            logger.info(f"Therapykin template files: {template_files}")
+    else:
+        logger.error("Therapykin template not found in project directory")
+
 if __name__ == '__main__':
     # Get port from environment variable (for Render compatibility)
     port = int(os.environ.get('PORT', 5000))

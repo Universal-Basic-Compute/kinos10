@@ -170,6 +170,14 @@ def initialize_customer_templates():
         logger.warning(f"Project templates directory not found: {project_templates_dir}")
         return
     
+    # Log the available customers in the project directory
+    if os.path.exists(project_templates_dir):
+        available_customers = [d for d in os.listdir(project_templates_dir) 
+                              if os.path.isdir(os.path.join(project_templates_dir, d))]
+        logger.info(f"Available customers in project directory: {available_customers}")
+    else:
+        logger.warning(f"Project templates directory not found: {project_templates_dir}")
+    
     logger.info(f"Initializing customer templates from: {project_templates_dir}")
     logger.info(f"Available customers in project: {os.listdir(project_templates_dir)}")
     
