@@ -9,7 +9,7 @@ services:
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: WEBSITE_URL
-        value: https://kinos-engine.ai
+        value: https://kinos10.onrender.com
     domains:
       - api.kinos-engine.ai
     disk:
@@ -18,7 +18,7 @@ services:
       sizeGB: 10
   
   - type: web
-    name: kinos-website
+    name: kinos10
     env: python
     rootDir: website
     buildCommand: pip install -r requirements.txt
@@ -28,7 +28,7 @@ services:
       - key: PYTHON_VERSION
         value: 3.9.0
       - key: API_URL
-        value: https://api.kinos-engine.ai
+        value: https://kinos.onrender.com
       - key: ENVIRONMENT
         value: production
     domains:

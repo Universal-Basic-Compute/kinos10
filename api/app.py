@@ -38,6 +38,10 @@ duogaming_template = os.path.join(CUSTOMERS_DIR, "duogaming", "template")
 if not os.path.exists(duogaming_template) or not os.listdir(duogaming_template):
     logger.warning("DuoGaming template not found or empty, attempting to initialize specifically")
     
+    # Log the current environment for debugging
+    logger.info(f"Current environment: {os.environ.get('ENVIRONMENT', 'not set')}")
+    logger.info(f"Website URL: {os.environ.get('WEBSITE_URL', 'not set')}")
+    
     # Source template in project
     project_duogaming_template = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
                                              "customers", "duogaming", "template")

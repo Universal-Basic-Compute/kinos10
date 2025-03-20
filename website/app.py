@@ -454,7 +454,7 @@ def api_test():
 def get_all_projects():
     """API endpoint to get all customers and their projects"""
     # API server URL (adjust as needed)
-    api_url = os.environ.get('API_URL', 'http://localhost:5000')
+    api_url = os.environ.get('API_URL', 'https://kinos.onrender.com')
     
     try:
         # Forward the request to the API server

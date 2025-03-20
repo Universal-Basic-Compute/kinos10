@@ -60,7 +60,7 @@ def api_debug():
                     }
         
         # Test connection to website
-        website_url = os.environ.get('WEBSITE_URL', 'https://kinos-engine.ai')
+        website_url = os.environ.get('WEBSITE_URL', 'https://kinos10.onrender.com')
         website_status = "Unknown"
         website_message = ""
         try:
@@ -312,7 +312,13 @@ def health_check():
     """
     Health check endpoint for Render.
     """
-    return jsonify({"status": "healthy"}), 200
+    # Include more information in the health check response
+    return jsonify({
+        "status": "healthy",
+        "timestamp": datetime.datetime.now().isoformat(),
+        "environment": os.environ.get('ENVIRONMENT', 'development'),
+        "website_url": os.environ.get('WEBSITE_URL', 'not set')
+    }), 200
 
 @debug_bp.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def catch_all_api(undefined_route):
