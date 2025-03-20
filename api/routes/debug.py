@@ -211,10 +211,10 @@ def api_debug():
         logger.error(f"Error in debug endpoint: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@debug_bp.route('/api', methods=['GET'])
+@debug_bp.route('/', methods=['GET'])
 def api_root():
     """
-    API root endpoint that returns the API reference documentation.
+    Root endpoint that returns the API reference documentation.
     """
     # Check if the client wants HTML or JSON
     accept_header = request.headers.get('Accept', '')
