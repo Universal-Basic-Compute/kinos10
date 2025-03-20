@@ -75,6 +75,17 @@ def send_message(customer, project_id):
         character = data.get('character', '')
         token = data.get('token', '')  # Can be used for authentication in the future
         model = data.get('model', '')  # Optional model parameter
+        history_length = data.get('history_length', 10)  # Default to 10 messages
+        
+        # Ensure history_length is an integer and has a reasonable value
+        try:
+            history_length = int(history_length)
+            if history_length < 0:
+                history_length = 0
+            elif history_length > 50:  # Set a reasonable upper limit
+                history_length = 50
+        except (ValueError, TypeError):
+            history_length = 10  # Default if invalid value
         
         # Original format attachments
         attachments = data.get('attachments', [])
@@ -259,7 +270,14 @@ def send_message(customer, project_id):
         # Call Claude and Aider with the selected context
         try:
             # Call Claude directly for a response
-            claude_response = call_claude_with_context(selected_files, project_path, message_content, images, model)
+            claude_response = call_claude_with_context(
+                selected_files, 
+                project_path, 
+                message_content, 
+                images, 
+                model,
+                history_length
+            )
             
             # Call Aider in parallel for file updates (don't wait for response)
             def run_aider():
