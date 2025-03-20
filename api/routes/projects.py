@@ -8,7 +8,7 @@ from services.file_service import get_project_path, initialize_project
 
 projects_bp = Blueprint('projects', __name__)
 
-@projects_bp.route('/api/projects', methods=['POST'])
+@projects_bp.route('/projects', methods=['POST'])
 def create_project():
     """
     Endpoint to initialize a new project.
@@ -45,7 +45,7 @@ def create_project():
         logger.error(f"Error creating project: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/api/projects/<customer>/projects', methods=['GET'])
+@projects_bp.route('/projects/<customer>/projects', methods=['GET'])
 def get_customer_projects(customer):
     """
     Endpoint to get a list of projects for a customer.
@@ -73,7 +73,7 @@ def get_customer_projects(customer):
         logger.error(f"Error getting customer projects: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/api/projects/all', methods=['GET'])
+@projects_bp.route('/projects/all', methods=['GET'])
 def get_all_projects():
     """
     Endpoint to get all customers and their projects.
@@ -109,7 +109,7 @@ def get_all_projects():
         logger.error(f"Error getting all projects: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/api/customers/<customer>/initialize', methods=['POST'])
+@projects_bp.route('/customers/<customer>/initialize', methods=['POST'])
 def initialize_customer(customer):
     """
     Endpoint to manually initialize a customer.
@@ -196,7 +196,7 @@ def initialize_customer(customer):
         logger.error(f"Error initializing customer: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/api/projects/<customer>/<project_id>/git_history', methods=['GET'])
+@projects_bp.route('/projects/<customer>/<project_id>/git_history', methods=['GET'])
 def get_git_history(customer, project_id):
     """
     Endpoint to get Git commit history for a project.

@@ -4,7 +4,7 @@ services:
     env: docker
     plan: standard
     branch: main
-    healthCheckPath: /api/health
+    healthCheckPath: /health
     envVars:
       - key: ANTHROPIC_API_KEY
         sync: false

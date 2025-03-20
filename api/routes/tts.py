@@ -6,7 +6,6 @@ from services.tts_service import text_to_speech_request
 tts_bp = Blueprint('tts', __name__)
 
 @tts_bp.route('/tts', methods=['POST'])
-@tts_bp.route('/api/tts', methods=['POST'])
 def text_to_speech():
     """
     Endpoint to convert text to speech using ElevenLabs API.

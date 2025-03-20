@@ -42,10 +42,10 @@ Get general information about the API.
   "message": "KinOS API is running",
   "version": "1.0.0",
   "endpoints": {
-    "health": "/api/health",
-    "projects": "/api/projects",
-    "messages": "/api/projects/{customer}/{project_id}/messages",
-    "files": "/api/projects/{customer}/{project_id}/files"
+    "health": "/health",
+    "projects": "/projects",
+    "messages": "/projects/{customer}/{project_id}/messages",
+    "files": "/projects/{customer}/{project_id}/files"
   }
 }
 ```
@@ -231,7 +231,7 @@ Returns an audio stream with Content-Type: audio/mpeg.
 
 **Example Usage:**
 ```javascript
-fetch('/api/tts', {
+fetch('/tts', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',

@@ -41,7 +41,7 @@ def get_projects(customer):
     """Get list of projects for a customer."""
     try:
         # Try to get projects from the API first
-        url = f"{API_BASE_URL}/api/projects/{customer}/projects"
+        url = f"{API_BASE_URL}/projects/{customer}/projects"
         response = requests.get(url, timeout=10)
         
         if response.ok:
@@ -67,10 +67,10 @@ def get_projects(customer):
         print(f"Error getting local projects: {str(e)}")
         return jsonify({"projects": ["template"], "error": str(e)})
 
-@app.route('/api/proxy/<path:endpoint>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/proxy/<path:endpoint>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def proxy_api(endpoint):
     """Proxy requests to the actual API."""
-    url = f"{API_BASE_URL}/api/{endpoint}"
+    url = f"{API_BASE_URL}/{endpoint}"
     
     try:
         # Print debugging information

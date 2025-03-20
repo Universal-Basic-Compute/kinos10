@@ -10,7 +10,7 @@ from config import get_app_data_dir, CUSTOMERS_DIR, logger
 
 debug_bp = Blueprint('debug', __name__)
 
-@debug_bp.route('/api/debug', methods=['GET'])
+@debug_bp.route('/debug', methods=['GET'])
 def api_debug():
     """
     Debug endpoint that returns detailed information about the API server.
@@ -226,10 +226,10 @@ def api_root():
             "message": "KinOS API is running",
             "version": "1.0.0",
             "endpoints": {
-                "health": "/api/health",
-                "projects": "/api/projects",
-                "messages": "/api/projects/{customer}/{project_id}/messages",
-                "files": "/api/projects/{customer}/{project_id}/files"
+                "health": "/health",
+                "projects": "/projects",
+                "messages": "/projects/{customer}/{project_id}/messages",
+                "files": "/projects/{customer}/{project_id}/files"
             }
         }), 200
     
@@ -307,7 +307,7 @@ def api_root():
         logger.error(f"Error serving API reference: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@debug_bp.route('/api/health', methods=['GET'])
+@debug_bp.route('/health', methods=['GET'])
 def health_check():
     """
     Health check endpoint for Render.

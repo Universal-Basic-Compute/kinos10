@@ -11,7 +11,7 @@ from services.aider_service import call_aider_with_context
 
 messages_bp = Blueprint('messages', __name__)
 
-@messages_bp.route('/api/projects/<customer>/<project_id>/messages', methods=['GET'])
+@messages_bp.route('/projects/<customer>/<project_id>/messages', methods=['GET'])
 def get_messages(customer, project_id):
     """
     Endpoint to get messages for a project.
@@ -50,7 +50,7 @@ def get_messages(customer, project_id):
         logger.error(f"Error getting messages: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@messages_bp.route('/api/projects/<customer>/<project_id>/messages', methods=['POST'])
+@messages_bp.route('/projects/<customer>/<project_id>/messages', methods=['POST'])
 def send_message(customer, project_id):
     """
     Endpoint to send a message to a project.
@@ -312,7 +312,7 @@ def send_message(customer, project_id):
         logger.error(f"Error processing message: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@messages_bp.route('/api/projects/<customer>/<project_id>/aider_logs', methods=['GET'])
+@messages_bp.route('/projects/<customer>/<project_id>/aider_logs', methods=['GET'])
 def get_aider_logs(customer, project_id):
     """
     Endpoint to get Aider logs for a project.

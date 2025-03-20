@@ -15,7 +15,7 @@ def projects():
     # Fetch real projects from the API
     api_url = os.environ.get('API_URL', 'http://localhost:5000')
     try:
-        response = requests.get(f"{api_url}/api/projects/all")
+        response = requests.get(f"{api_url}/projects/all")
         if response.ok:
             data = response.json()
             customers = data.get('customers', [])
@@ -353,7 +353,7 @@ def get_project_file(project_path, file_path):
     api_url = os.environ.get('API_URL', 'http://localhost:5000')
     
     # Forward the request to the API server
-    url = f"{api_url}/api/projects/{project_path}/files/{file_path}"
+    url = f"{api_url}/projects/{project_path}/files/{file_path}"
     
     try:
         # Forward the request
@@ -391,7 +391,7 @@ def api_test():
     api_status = "Unknown"
     api_message = ""
     try:
-        response = requests.get(f"{api_url}/api/health", timeout=5)
+        response = requests.get(f"{api_url}/health", timeout=5)
         if response.ok:
             api_status = "Connected"
             api_message = "Successfully connected to API server"
@@ -406,7 +406,7 @@ def api_test():
     projects_status = "Unknown"
     projects_message = ""
     try:
-        response = requests.get(f"{api_url}/api/projects/all", timeout=5)
+        response = requests.get(f"{api_url}/projects/all", timeout=5)
         if response.ok:
             projects_status = "Working"
             projects_message = "Projects endpoint is working"

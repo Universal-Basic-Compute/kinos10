@@ -9,7 +9,7 @@ from utils.helpers import should_ignore_file, load_gitignore
 
 files_bp = Blueprint('files', __name__)
 
-@files_bp.route('/api/projects/<path:project_path>/files', methods=['GET'])
+@files_bp.route('/projects/<path:project_path>/files', methods=['GET'])
 def get_project_files(project_path):
     """
     Endpoint to get a list of files in a project.
@@ -63,7 +63,7 @@ def get_project_files(project_path):
         logger.error(f"Error getting project files: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@files_bp.route('/api/projects/<path:project_path>/files/<path:file_path>', methods=['GET'])
+@files_bp.route('/projects/<path:project_path>/files/<path:file_path>', methods=['GET'])
 def get_file_content(project_path, file_path):
     """
     Endpoint to get the content of a file.
