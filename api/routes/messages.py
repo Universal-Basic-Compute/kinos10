@@ -75,9 +75,9 @@ def send_message(customer, project_id):
         character = data.get('character', '')
         token = data.get('token', '')  # Can be used for authentication in the future
         model = data.get('model', '')  # Optional model parameter
-        history_length = data.get('history_length', 10)  # Default to 10 messages
+        history_length = data.get('history_length', 25)  # Default to 25 messages
         
-        # Ensure history_length is an integer and has a reasonable value
+        # Ensure history_length is an integer and has a reasonable value (default: 25)
         try:
             history_length = int(history_length)
             if history_length < 0:

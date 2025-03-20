@@ -19,7 +19,7 @@ except Exception as e:
     logger.error(f"Error initializing Anthropic client: {str(e)}")
     raise RuntimeError(f"Could not initialize Anthropic client: {str(e)}")
 
-def call_claude_with_context(selected_files, project_path, message_content, images=None, model=None, history_length=10):
+def call_claude_with_context(selected_files, project_path, message_content, images=None, model=None, history_length=25):
     """
     Call Claude API directly with the selected context files, user message, and optional images.
     Also includes conversation history from messages.json as actual messages.
@@ -30,7 +30,7 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
         message_content: User message content
         images: List of base64-encoded images
         model: Optional model to use (defaults to MODEL from config)
-        history_length: Number of recent messages to include in context (default: 10)
+        history_length: Number of recent messages to include in context (default: 25)
     
     Returns:
         Claude response as a string
