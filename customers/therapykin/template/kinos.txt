@@ -2,6 +2,19 @@
 
 TherapyKin is a therapeutic companion built on the KinOS platform. This configuration defines how TherapyKin leverages KinOS capabilities to provide personalized mental health support.
 
+## Information Structure and Organization
+
+KinOS's primary role is to structure and organize information in ways that enable:
+- Contextual adaptation to each user's unique therapeutic needs
+- Learning from interactions to improve therapeutic approaches
+- Memory retention across sessions for continuity of care
+
+By organizing information effectively, KinOS creates the foundation that allows TherapyKin to:
+- Build meaningful therapeutic relationships
+- Adapt communication styles based on user preferences
+- Remember important details about the user's journey
+- Learn which approaches work best for each individual
+
 ## Memory Management
 
 TherapyKin uses the KinOS memory system to:
