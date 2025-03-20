@@ -236,7 +236,7 @@ def api_root():
     # Otherwise, return the API reference documentation as HTML
     try:
         # Path to the API reference markdown file
-        api_ref_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
+        api_ref_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 
                                    "customers", "kinos", "template", "sources", "api_reference.md")
         
         # Check if the file exists

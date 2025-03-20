@@ -142,6 +142,7 @@ def build_context(customer, project_id, message, attachments=None, project_path=
     Build context by determining which files should be included.
     Uses Claude to select relevant files based on the message.
     """
+    # Move import inside function to avoid circular imports
     from services.file_service import get_project_path
     
     if not project_path:
