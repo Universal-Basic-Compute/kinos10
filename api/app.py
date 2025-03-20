@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import os
 import shutil
 import datetime
+from flask_cors import CORS
 from config import logger, CUSTOMERS_DIR
 from routes.projects import projects_bp
 from routes.messages import messages_bp
@@ -12,6 +13,18 @@ from services.file_service import initialize_customer_templates
 
 # Initialize Flask app
 app = Flask(__name__)
+
+# Configure CORS to allow requests from localhost:3000 and localhost:3001
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "http://localhost:3000",
+            "http://localhost:3001",
+            "https://kinos-engine.ai",
+            "https://kinos10.onrender.com"
+        ]
+    }
+})
 
 @app.before_request
 def log_request_info():
