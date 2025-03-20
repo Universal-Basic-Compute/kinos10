@@ -385,7 +385,7 @@ def get_project_file(project_path, file_path):
 def api_test():
     """Test endpoint to verify API routes are working"""
     # Get the API URL from environment or use default
-    api_url = os.environ.get('API_URL', 'http://localhost:5000')
+    api_url = os.environ.get('API_URL', 'https://kinos.onrender.com')
     
     # Test if we can connect to the API server
     api_status = "Unknown"
