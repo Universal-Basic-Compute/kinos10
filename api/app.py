@@ -10,6 +10,7 @@ from routes.files import files_bp
 from routes.tts import tts_bp
 from routes.debug import debug_bp
 from services.file_service import initialize_customer_templates
+from propagate_templates import propagate_templates
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -174,6 +175,14 @@ def global_catch_all(undefined_route):
 
 # Initialize customer templates
 initialize_customer_templates()
+
+# Propagate template changes to all projects
+logger.info("Propagating template changes to all projects")
+try:
+    propagate_templates(dry_run=False)
+    logger.info("Template propagation completed successfully")
+except Exception as e:
+    logger.error(f"Error during template propagation: {str(e)}")
 
 # Specifically check for duogaming customer
 duogaming_template = os.path.join(CUSTOMERS_DIR, "duogaming", "template")
