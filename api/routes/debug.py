@@ -323,6 +323,14 @@ def health_check():
 @debug_bp.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def catch_all_api(undefined_route):
     """Catch-all route for undefined API endpoints."""
+    # Skip if the route starts with 'projects/' as those should be handled by other blueprints
+    if undefined_route.startswith('projects/'):
+        return jsonify({
+            "error": "Not Found",
+            "message": f"The project endpoint '/{undefined_route}' does not exist.",
+            "documentation_url": "http://api.kinos-engine.ai"
+        }), 404
+        
     logger.warning(f"Undefined API route accessed: {undefined_route}")
     return jsonify({
         "error": "Not Found",

@@ -28,6 +28,7 @@ app.register_blueprint(projects_bp)
 app.register_blueprint(messages_bp)
 app.register_blueprint(files_bp)
 app.register_blueprint(tts_bp)
+# Register debug_bp last to ensure other routes take precedence
 app.register_blueprint(debug_bp)
 
 # Initialize customer templates
