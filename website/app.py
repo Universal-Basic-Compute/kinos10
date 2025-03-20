@@ -39,7 +39,7 @@ def project_detail(customer, project):
     # Fetch real projects from the API
     api_url = os.environ.get('API_URL', 'http://localhost:5000')
     try:
-        response = requests.get(f"{api_url}/api/projects/all")
+        response = requests.get(f"{api_url}/projects/all")
         if response.ok:
             data = response.json()
             customers = data.get('customers', [])
@@ -95,7 +95,7 @@ def website_debug():
         api_status = "Unknown"
         api_message = ""
         try:
-            api_response = requests.get(f"{api_url}/api/health", timeout=5)
+            api_response = requests.get(f"{api_url}/health", timeout=5)
             if api_response.ok:
                 api_status = "Connected"
                 api_message = f"Successfully connected to API, status: {api_response.status_code}"
@@ -110,7 +110,7 @@ def website_debug():
         projects_status = "Unknown"
         projects_message = ""
         try:
-            projects_response = requests.get(f"{api_url}/api/projects/all", timeout=5)
+            projects_response = requests.get(f"{api_url}/projects/all", timeout=5)
             if projects_response.ok:
                 projects_status = "Connected"
                 projects_message = f"Successfully connected to projects endpoint"
@@ -148,7 +148,7 @@ def website_debug():
                 "message": api_message
             },
             "projects_endpoint": {
-                "url": f"{api_url}/api/projects/all",
+                "url": f"{api_url}/projects/all",
                 "status": projects_status,
                 "message": projects_message,
                 "data": projects_data
@@ -458,7 +458,7 @@ def get_all_projects():
     
     try:
         # Forward the request to the API server
-        response = requests.get(f"{api_url}/api/projects/all")
+        response = requests.get(f"{api_url}/projects/all")
         
         if response.ok:
             return response.json()
