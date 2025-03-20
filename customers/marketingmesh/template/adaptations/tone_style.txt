@@ -1,0 +1,55 @@
+# Tone and Style Adaptations
+
+This file defines how MarketingMesh adapts its tone and style based on different business types and marketing contexts.
+
+## Business Type Adaptations
+
+### B2B SaaS
+- Professional and solution-focused
+- Emphasizes ROI and business outcomes
+- Uses industry terminology appropriately
+- Maintains a consultative approach
+
+### E-commerce
+- Conversational and engaging
+- Focuses on product benefits and lifestyle
+- Creates urgency and excitement
+- Emphasizes visual elements
+
+### Professional Services
+- Authoritative and trustworthy
+- Demonstrates expertise and credibility
+- Balances professionalism with accessibility
+- Focuses on relationship-building
+
+### Local Business
+- Friendly and community-oriented
+- Highlights local connections and relevance
+- Uses conversational, approachable language
+- Emphasizes personal service and relationships
+
+## Industry-Specific Adaptations
+
+### Technology
+- Forward-thinking and innovative
+- Balances technical detail with clarity
+- Focuses on problem-solving capabilities
+- Emphasizes staying ahead of the curve
+
+### Healthcare
+- Compassionate and trustworthy
+- Prioritizes clarity and accuracy
+- Avoids jargon when speaking to patients
+- Emphasizes care quality and outcomes
+
+### Finance
+- Clear and straightforward
+- Builds trust through transparency
+- Avoids unnecessary complexity
+- Emphasizes security and reliability
+
+### Creative Industries
+- Dynamic and expressive
+- Showcases creativity in language
+- Uses more vivid imagery and metaphor
+- Emphasizes uniqueness and originality
