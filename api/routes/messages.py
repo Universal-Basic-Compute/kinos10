@@ -74,6 +74,7 @@ def send_message(customer, project_id):
         username = data.get('username', '')
         character = data.get('character', '')
         token = data.get('token', '')  # Can be used for authentication in the future
+        model = data.get('model', '')  # Optional model parameter
         
         # Original format attachments
         attachments = data.get('attachments', [])
@@ -258,7 +259,7 @@ def send_message(customer, project_id):
         # Call Claude and Aider with the selected context
         try:
             # Call Claude directly for a response
-            claude_response = call_claude_with_context(selected_files, project_path, message_content, images)
+            claude_response = call_claude_with_context(selected_files, project_path, message_content, images, model)
             
             # Call Aider in parallel for file updates (don't wait for response)
             def run_aider():

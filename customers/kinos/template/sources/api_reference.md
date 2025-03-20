@@ -125,7 +125,8 @@ Send a message to a project.
 {
   "content": "Can you explain how this code works?",
   "attachments": [],  // Optional
-  "images": []  // Optional, base64-encoded images
+  "images": [],  // Optional, base64-encoded images
+  "model": "claude-3-5-haiku-latest"  // Optional, defaults to claude-3-5-haiku-latest
 }
 ```
 

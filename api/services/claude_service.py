@@ -19,7 +19,7 @@ except Exception as e:
     logger.error(f"Error initializing Anthropic client: {str(e)}")
     raise RuntimeError(f"Could not initialize Anthropic client: {str(e)}")
 
-def call_claude_with_context(selected_files, project_path, message_content, images=None):
+def call_claude_with_context(selected_files, project_path, message_content, images=None, model=None):
     """
     Call Claude API directly with the selected context files, user message, and optional images.
     Also includes conversation history from messages.json as actual messages.
@@ -29,6 +29,7 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
         project_path: Path to the project directory
         message_content: User message content
         images: List of base64-encoded images
+        model: Optional model to use (defaults to MODEL from config)
     
     Returns:
         Claude response as a string
@@ -121,9 +122,11 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
         })
         
         # Call Claude API with system message as a separate parameter
-        logger.info(f"Calling Claude API with {len(messages)} messages" + (" and images in previous message" if images else ""))
+        # Use provided model if specified, otherwise use default from config
+        model_to_use = model if model else MODEL
+        logger.info(f"Calling Claude API with {len(messages)} messages" + (" and images in previous message" if images else "") + f", using model: {model_to_use}")
         response = client.messages.create(
-            model=MODEL,
+            model=model_to_use,
             max_tokens=4000,
             system=context,  # Pass context as system parameter
             messages=messages
@@ -137,10 +140,18 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
         logger.error(f"Error calling Claude API: {str(e)}")
         raise RuntimeError(f"Claude API call failed: {str(e)}")
 
-def build_context(customer, project_id, message, attachments=None, project_path=None):
+def build_context(customer, project_id, message, attachments=None, project_path=None, model=None):
     """
     Build context by determining which files should be included.
     Uses Claude to select relevant files based on the message.
+    
+    Args:
+        customer: Customer name
+        project_id: Project ID
+        message: User message content
+        attachments: Optional list of attachments
+        project_path: Optional project path (if already known)
+        model: Optional model to use (defaults to MODEL from config)
     """
     # Move import inside function to avoid circular imports
     from services.file_service import get_project_path
@@ -192,8 +203,9 @@ def build_context(customer, project_id, message, attachments=None, project_path=
     
     try:
         # Call Claude to select relevant files
+        model_to_use = model if model else MODEL
         response = client.messages.create(
-            model=MODEL,
+            model=model_to_use,
             max_tokens=1000,
             messages=[
                 {"role": "user", "content": selection_prompt}
