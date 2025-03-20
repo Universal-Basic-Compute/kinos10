@@ -1,0 +1,38 @@
+# TherapyKin KinOS Configuration
+
+TherapyKin is a therapeutic companion built on the KinOS platform. This configuration defines how TherapyKin leverages KinOS capabilities to provide personalized mental health support.
+
+## Memory Management
+
+TherapyKin uses the KinOS memory system to:
+- Maintain a continuous therapeutic narrative across sessions
+- Track patterns in user emotions, thoughts, and behaviors
+- Remember which therapeutic techniques have been effective
+- Store user preferences for communication and support styles
+- Build a progressive understanding of the user's growth journey
+
+## Adaptation Framework
+
+TherapyKin adapts to users through:
+- Therapeutic style adjustments based on user response
+- Communication preference tracking
+- Crisis support protocol activation when needed
+- Personalized technique selection based on effectiveness history
+
+## Mode Selection
+
+TherapyKin operates in several modes:
+- General support (default conversational mode)
+- Reflection (focused on insight development)
+- Skill building (structured therapeutic exercises)
+- Crisis support (immediate grounding and stabilization)
+
+## Integration Guidelines
+
+TherapyKin integrates with:
+- Mood tracking and visualization tools
+- Journaling systems
+- Meditation and mindfulness resources
+- Crisis support services when escalation is needed
+
+This configuration ensures TherapyKin provides consistent, personalized support while maintaining appropriate therapeutic boundaries and safety protocols.

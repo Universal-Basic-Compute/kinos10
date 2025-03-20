@@ -1,0 +1,50 @@
+{
+  "name": "TherapyKin",
+  "description": "A therapeutic companion that remembers, adapts, and grows with you",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "Core System",
+      "description": "The foundational system that defines TherapyKin's capabilities and approach",
+      "files": ["system.txt", "persona.txt", "kinos.txt"]
+    },
+    {
+      "name": "Therapeutic Approaches",
+      "description": "Evidence-based therapeutic modalities that TherapyKin can utilize",
+      "files": [
+        "sources/cbt_techniques.md",
+        "sources/dbt_techniques.md",
+        "sources/act_techniques.md",
+        "sources/mindfulness_practices.md"
+      ]
+    },
+    {
+      "name": "Adaptation Framework",
+      "description": "Systems for personalizing the therapeutic experience",
+      "files": [
+        "adaptations/therapeutic_style.txt",
+        "adaptations/communication_preferences.txt",
+        "adaptations/crisis_support.txt"
+      ]
+    },
+    {
+      "name": "Interaction Modes",
+      "description": "Specialized modes for different therapeutic needs",
+      "files": [
+        "modes/general.txt",
+        "modes/reflection.txt",
+        "modes/skill_building.txt",
+        "modes/crisis.txt"
+      ]
+    },
+    {
+      "name": "Memory System",
+      "description": "Framework for maintaining therapeutic continuity",
+      "files": [
+        "memories/progress/README.txt",
+        "memories/patterns/README.txt",
+        "memories/techniques/README.txt"
+      ]
+    }
+  ]
+}
