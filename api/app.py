@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import os
 import shutil
 from config import logger, CUSTOMERS_DIR
@@ -11,6 +11,17 @@ from services.file_service import initialize_customer_templates
 
 # Initialize Flask app
 app = Flask(__name__)
+
+@app.before_request
+def log_request_info():
+    """Log details about each request."""
+    logger.info(f"Request: {request.method} {request.path} from {request.remote_addr}")
+
+@app.after_request
+def log_response_info(response):
+    """Log details about each response."""
+    logger.info(f"Response: {response.status_code}")
+    return response
 
 # Register blueprints
 app.register_blueprint(projects_bp)

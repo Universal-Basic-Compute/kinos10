@@ -2,8 +2,24 @@ from flask import Flask, render_template, jsonify, request, Response, redirect, 
 import os
 import requests
 import json
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
+
+@app.before_request
+def log_request_info():
+    """Log details about each request."""
+    logger.info(f"Website Request: {request.method} {request.path} from {request.remote_addr}")
+
+@app.after_request
+def log_response_info(response):
+    """Log details about each response."""
+    logger.info(f"Website Response: {response.status_code}")
+    return response
 
 # Configuration
 if os.environ.get('ENVIRONMENT') == 'production':
@@ -118,6 +134,11 @@ def proxy_api(endpoint):
         print(f"Request error: {str(e)}")
         return jsonify({"error": f"API request failed: {str(e)}"}), 500
 
+@app.errorhandler(404)
+def page_not_found(e):
+    """Handle 404 errors with a custom page."""
+    return render_template('404.html'), 404
+
 @app.route('/<path:path>')
 def catch_all(path):
     """Catch-all route to handle undefined routes"""
@@ -125,8 +146,8 @@ def catch_all(path):
     try:
         return send_from_directory(app.static_folder, path)
     except:
-        # If not a static file, redirect to home page
-        return redirect(url_for('index'))
+        # If not a static file, return 404
+        return page_not_found(None)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)  # Run on port 5001 to avoid conflict with API
