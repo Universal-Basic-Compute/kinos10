@@ -27,6 +27,45 @@ By combining contextual understanding, audience modeling, content creation, and 
    * Manages posting schedules and distribution
    * Tracks performance metrics for optimization
 
+## User Experience Flow
+
+The MarketingMesh platform guides users through a structured seven-stage workflow:
+
+1. **Initial Analysis & Data Collection**
+   * Website crawling and content extraction
+   * File parsing and content analysis
+   * Brand element identification
+
+2. **Context Review & Refinement**
+   * Review and refine automatically extracted insights
+   * Correct any misunderstandings
+   * Prioritize business aspects
+
+3. **Audience Research Questionnaire**
+   * Review AI-generated questionnaire
+   * Customize questions and formats
+   * Define target respondent criteria
+
+4. **Virtual Persona Development**
+   * Review and refine generated personas
+   * Modify attributes and characteristics
+   * Approve final persona set
+
+5. **Virtual Focus Group Simulation**
+   * Analyze simulated questionnaire responses
+   * Identify patterns and opportunities
+   * Prioritize insights for campaign development
+
+6. **Campaign Design & Refinement**
+   * Review proposed campaign strategy
+   * Refine messaging and creative direction
+   * Approve campaign elements
+
+7. **Campaign Execution & Monitoring**
+   * Connect marketing platforms
+   * Monitor performance metrics
+   * Make real-time optimizations
+
 ## System Architecture
 
 The MarketingMesh system operates through a series of JSON structures that define:
