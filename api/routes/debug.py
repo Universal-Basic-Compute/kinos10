@@ -327,5 +327,5 @@ def catch_all_api(undefined_route):
     return jsonify({
         "error": "Not Found",
         "message": f"The requested endpoint '/{undefined_route}' does not exist.",
-        "documentation_url": "/api"
+        "documentation_url": "http://api.kinos-engine.ai"
     }), 404

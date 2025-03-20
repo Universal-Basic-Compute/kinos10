@@ -1,13 +1,13 @@
 # KinOS API Reference
 
-This document provides a comprehensive reference for the KinOS API available at `https://kinos.onrender.com/api`.
+This document provides a comprehensive reference for the KinOS API available at `http://api.kinos-engine.ai`.
 
 ## Base URL
 
 All API endpoints are relative to the base URL:
 
 ```
-https://kinos.onrender.com/api
+http://api.kinos-engine.ai
 ```
 
 ## Authentication
