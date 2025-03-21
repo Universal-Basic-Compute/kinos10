@@ -51,7 +51,16 @@ def get_project_content(project_path):
             
         # Check if the target path exists
         if not os.path.exists(target_path):
-            return jsonify({"error": f"Path '{path_filter}' not found in project"}), 404
+            # If it's a directory path that doesn't exist, return empty JSON structure
+            # instead of 404 error
+            if path_filter and not os.path.splitext(path_filter)[1]:  # No file extension suggests it's a directory
+                return jsonify({
+                    "path": path_filter,
+                    "is_directory": True,
+                    "files": []
+                })
+            else:
+                return jsonify({"error": f"Path '{path_filter}' not found in project"}), 404
         
         # Load gitignore patterns
         ignore_patterns = load_gitignore(full_project_path)
