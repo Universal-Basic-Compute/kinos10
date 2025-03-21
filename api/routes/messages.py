@@ -233,7 +233,7 @@ def send_message(customer, project_id):
             with open(messages_file, 'w') as f:
                 json.dump(messages, f)
         
-        # Add user message
+        # Prepare user message object (but don't add to messages.json yet)
         user_message = {
             "role": "user",
             "content": message_content,
@@ -249,12 +249,6 @@ def send_message(customer, project_id):
             user_message["username"] = username
         if character:
             user_message["character"] = character
-            
-        messages.append(user_message)
-        
-        # Save updated messages with user message immediately
-        with open(messages_file, 'w') as f:
-            json.dump(messages, f, indent=2)
         
         # Build context (select relevant files)
         selected_files = build_context(customer, project_id, message_content, attachments, project_path)
@@ -279,6 +273,25 @@ def send_message(customer, project_id):
                 history_length
             )
             
+            # Create assistant message object
+            assistant_message = {
+                "role": "assistant",
+                "content": claude_response,
+                "timestamp": datetime.datetime.now().isoformat()
+            }
+            
+            # Add character if it was provided
+            if character:
+                assistant_message["character"] = character
+            
+            # NOW add both messages to the messages array and save to messages.json
+            messages.append(user_message)
+            messages.append(assistant_message)
+            
+            # Save updated messages with both user and assistant messages
+            with open(messages_file, 'w') as f:
+                json.dump(messages, f, indent=2)
+            
             # Call Aider in parallel for file updates (don't wait for response)
             def run_aider():
                 try:
@@ -292,23 +305,6 @@ def send_message(customer, project_id):
             # Start Aider in a separate thread
             aider_thread = threading.Thread(target=run_aider)
             aider_thread.start()
-            
-            # Add assistant response from Claude
-            assistant_message = {
-                "role": "assistant",
-                "content": claude_response,
-                "timestamp": datetime.datetime.now().isoformat()
-            }
-            
-            # Add character if it was provided
-            if character:
-                assistant_message["character"] = character
-                
-            messages.append(assistant_message)
-            
-            # Save updated messages with assistant response
-            with open(messages_file, 'w') as f:
-                json.dump(messages, f, indent=2)
             
             # Return the Claude response directly in the API response
             response_data = {
