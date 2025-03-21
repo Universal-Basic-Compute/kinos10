@@ -266,17 +266,20 @@ def reset_project(customer, project_id):
 def reset_customer(customer):
     """
     Endpoint to reset a customer and all its projects to initial template state.
+    If the customer doesn't exist, it will be created.
     """
     try:
-        # Validate customer
+        # Check if customer exists
         customer_dir = os.path.join(CUSTOMERS_DIR, customer)
         if not os.path.exists(customer_dir):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+            logger.info(f"Customer '{customer}' not found, creating it")
             
-        # Get the template path
-        template_path = os.path.join(customer_dir, "template")
-        if not os.path.exists(template_path):
-            return jsonify({"error": f"Template not found for customer '{customer}'"}), 404
+            # Create customer directory
+            os.makedirs(customer_dir, exist_ok=True)
+            
+            # Create projects directory
+            projects_dir = os.path.join(customer_dir, "projects")
+            os.makedirs(projects_dir, exist_ok=True)
         
         # First, reinitialize the customer template
         # This will ensure we have the latest template from the project
