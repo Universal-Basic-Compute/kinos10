@@ -1,6 +1,7 @@
 import os
 import subprocess
 import datetime
+import json
 import logging
 from config import logger
 
@@ -27,6 +28,28 @@ def call_aider_with_context(project_path, selected_files, message_content):
     # Always add messages.json as --read
     messages_file = "messages.json"
     messages_path = os.path.join(project_path, messages_file)
+    
+    # Get the last 2 messages from messages.json
+    last_messages = []
+    if os.path.exists(messages_path):
+        try:
+            with open(messages_path, 'r', encoding='utf-8') as f:
+                messages = json.load(f)
+                if messages:
+                    last_messages = messages[-2:] if len(messages) >= 2 else messages
+        except Exception as e:
+            logger.error(f"Error reading messages.json: {str(e)}")
+    
+    # Format the last messages for inclusion in the prompt
+    last_messages_text = ""
+    if last_messages:
+        last_messages_text = "\n\nLast messages:\n"
+        for msg in last_messages:
+            role = msg.get('role', 'unknown')
+            content = msg.get('content', '')
+            timestamp = msg.get('timestamp', '')
+            last_messages_text += f"{role.capitalize()} ({timestamp}): {content}\n\n"
+    
     if os.path.exists(messages_path):
         cmd.extend(["--read", messages_file])
         logger.info(f"Added messages.json as --read file")
@@ -45,8 +68,8 @@ def call_aider_with_context(project_path, selected_files, message_content):
     safe_cmd = [c for c in cmd if not c.startswith("--anthropic-api-key=")]
     logger.info(f"Executing Aider command: {' '.join(safe_cmd)}")
     
-    # Static prompt for the context builder
-    static_prompt = """
+    # Static prompt for the context builder with last messages appended
+    static_prompt = f"""
     Your goal is to create and update files to store memories, knowledge, and learning from conversations in a structured way. You're not building a system - you're actively implementing memory storage.
     
     You should work autonomously without asking for confirmations. Analyze the conversation history and:
@@ -64,6 +87,8 @@ def call_aider_with_context(project_path, selected_files, message_content):
     Focus on being practical and efficient. Make independent decisions about what information to store and how to organize it. Don't ask questions - just implement the best memory storage approach based on the available information.
     
     Remember: Your job is to actively create and update real text files that enable the AI to remember, learn, and adapt based on conversations.
+    
+    Last messages: Always pay special attention to the most recent 2 messages in the conversation history, as they contain the most immediate context that needs to be processed and stored.{last_messages_text}
     """
     
     try:
