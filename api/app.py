@@ -8,6 +8,7 @@ from routes.projects import projects_bp
 from routes.messages import messages_bp
 from routes.files import files_bp
 from routes.tts import tts_bp
+from routes.stt import stt_bp
 from routes.debug import debug_bp
 from services.file_service import initialize_customer_templates
 from propagate_templates import propagate_templates
@@ -43,6 +44,7 @@ app.register_blueprint(projects_bp)
 app.register_blueprint(messages_bp)
 app.register_blueprint(files_bp)
 app.register_blueprint(tts_bp)
+app.register_blueprint(stt_bp)
 # Register debug_bp last with a url_prefix to avoid conflicts
 app.register_blueprint(debug_bp, url_prefix='/debug-api')
 
