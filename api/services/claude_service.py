@@ -72,6 +72,11 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
                         
                         # Only add if it has valid role and content
                         if role in ['user', 'assistant'] and content:
+                            # Skip if this is the same as the current message we're about to add
+                            if is_new_message and role == 'user' and content == message_content:
+                                logger.info("Skipping duplicate message from history")
+                                continue
+                            
                             messages.append({
                                 "role": role,
                                 "content": content
