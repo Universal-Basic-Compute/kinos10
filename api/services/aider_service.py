@@ -57,6 +57,8 @@ def call_aider_with_context(project_path, selected_files, message_content):
     4. Create new specialized files when needed for specific topics
     5. Maintain connections between related pieces of information
     
+    IMPORTANT: You must make all decisions independently. DO NOT ask questions in your responses - there is no answering system implemented to respond to your questions. Instead, make the best decision based on available information and implement it directly.
+    
     Focus on being practical and efficient. Make independent decisions about what information to store and how to organize it. Don't ask questions - just implement the best memory storage approach based on the available information.
     
     Remember: Your job is to actively create and update real files that enable the AI to remember, learn, and adapt based on conversations.
