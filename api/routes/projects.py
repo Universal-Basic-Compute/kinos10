@@ -262,6 +262,117 @@ def reset_project(customer, project_id):
         logger.error(f"Error resetting project: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@projects_bp.route('/customers/<customer>/reset', methods=['POST'])
+def reset_customer(customer):
+    """
+    Endpoint to reset a customer and all its projects to initial template state.
+    """
+    try:
+        # Validate customer
+        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
+        if not os.path.exists(customer_dir):
+            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+            
+        # Get the template path
+        template_path = os.path.join(customer_dir, "template")
+        if not os.path.exists(template_path):
+            return jsonify({"error": f"Template not found for customer '{customer}'"}), 404
+        
+        # First, reinitialize the customer template
+        # This will ensure we have the latest template from the project
+        response = initialize_customer(customer)
+        if isinstance(response, tuple) and response[1] != 200:
+            # If initialize_customer returned an error, pass it through
+            return response
+        
+        # Get list of projects
+        projects_dir = os.path.join(customer_dir, "projects")
+        if not os.path.exists(projects_dir):
+            # No projects directory, nothing more to do
+            return jsonify({
+                "status": "success",
+                "message": f"Customer '{customer}' has been reset (no projects found)"
+            })
+        
+        # Get all projects for this customer
+        projects = []
+        for project_id in os.listdir(projects_dir):
+            project_path = os.path.join(projects_dir, project_id)
+            if os.path.isdir(project_path):
+                projects.append(project_id)
+        
+        # Reset each project
+        reset_results = []
+        for project_id in projects:
+            try:
+                # Get project name before resetting
+                project_name = project_id  # Default fallback
+                project_info_path = os.path.join(projects_dir, project_id, "project_info.json")
+                if os.path.exists(project_info_path):
+                    try:
+                        with open(project_info_path, 'r') as f:
+                            project_info = json.load(f)
+                            project_name = project_info.get('name', project_id)
+                    except:
+                        logger.warning(f"Could not read project_info.json for {customer}/{project_id}")
+                
+                # Delete the project directory
+                project_path = os.path.join(projects_dir, project_id)
+                import shutil
+                try:
+                    shutil.rmtree(project_path)
+                except PermissionError:
+                    logger.warning(f"Permission error removing {project_path}, trying to remove files individually")
+                    # Try to remove files individually
+                    for root, dirs, files in os.walk(project_path, topdown=False):
+                        for name in files:
+                            try:
+                                os.remove(os.path.join(root, name))
+                            except:
+                                pass
+                        for name in dirs:
+                            try:
+                                os.rmdir(os.path.join(root, name))
+                            except:
+                                pass
+                    try:
+                        os.rmdir(project_path)
+                    except:
+                        reset_results.append({
+                            "project_id": project_id,
+                            "status": "error",
+                            "message": "Could not completely remove project directory"
+                        })
+                        continue
+                
+                # Reinitialize the project from template
+                initialize_project(customer, project_name, project_id=project_id)
+                
+                reset_results.append({
+                    "project_id": project_id,
+                    "status": "success",
+                    "message": f"Project reset to template state"
+                })
+                
+            except Exception as e:
+                logger.error(f"Error resetting project {project_id}: {str(e)}")
+                reset_results.append({
+                    "project_id": project_id,
+                    "status": "error",
+                    "message": str(e)
+                })
+        
+        return jsonify({
+            "status": "success",
+            "message": f"Customer '{customer}' has been reset",
+            "projects_reset": len(reset_results),
+            "results": reset_results
+        })
+        
+    except Exception as e:
+        logger.error(f"Error resetting customer: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @projects_bp.route('/projects/<customer>/<project_id>/git_history', methods=['GET'])
 def get_git_history(customer, project_id):
     """
