@@ -17,7 +17,7 @@ def text_to_speech():
         text = data.get('text')
         
         # Check for both voiceId and voice_id parameters
-        voice_id = data.get('voiceId', data.get('voice_id', 'IKne3meq5aSn9XLyUdCD'))  # Default ElevenLabs voice ID
+        voice_id = data.get('voiceId', data.get('voice_id', 'UgBBYS2sOqTuMpoF3BR0'))  # Default ElevenLabs voice ID
         model = data.get('model', 'eleven_flash_v2_5')  # Default model
         
         # Validate required parameters

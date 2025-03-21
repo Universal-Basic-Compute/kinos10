@@ -3,7 +3,7 @@ import requests
 import logging
 from config import logger
 
-def text_to_speech_request(text, voice_id='IKne3meq5aSn9XLyUdCD', model='eleven_flash_v2_5'):
+def text_to_speech_request(text, voice_id='UgBBYS2sOqTuMpoF3BR0', model='eleven_flash_v2_5'):
     """
     Prepare a request to the ElevenLabs API for text-to-speech conversion.
     
