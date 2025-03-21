@@ -38,13 +38,28 @@ def call_aider_with_context(project_path, selected_files, message_content):
     safe_cmd = [c for c in cmd if not c.startswith("--anthropic-api-key=")]
     logger.info(f"Executing Aider command: {' '.join(safe_cmd)}")
     
+    # Static prompt for the context builder
+    static_prompt = """
+    Your goal is to create and update files to manage the information context of the AI, so that the AI can remember, adapt and learn.
+    
+    You should work autonomously without asking for confirmations. Analyze the conversation history and update relevant files to:
+    
+    1. Extract and organize key information from the conversation
+    2. Update knowledge files with new information
+    3. Create new files if needed to store specialized information
+    4. Maintain a coherent structure for the AI's memory
+    
+    Focus on being helpful and efficient. Make decisions independently about what information to store and how to organize it.
+    Don't ask questions - just make the best decisions based on the available information.
+    """
+    
     try:
-        # Run Aider in the project directory with the user message as input
+        # Run Aider in the project directory with the static prompt as input
         # Set encoding to utf-8 explicitly to handle emojis and other special characters
         result = subprocess.run(
             cmd,
             cwd=project_path,  # Run in the project directory
-            input=message_content,
+            input=static_prompt,
             text=True,
             encoding='utf-8',  # Add explicit UTF-8 encoding
             capture_output=True,
@@ -56,7 +71,7 @@ def call_aider_with_context(project_path, selected_files, message_content):
         with open(aider_logs_file, 'a', encoding='utf-8') as f:  # Add explicit UTF-8 encoding
             f.write(f"\n--- Aider run at {datetime.datetime.now().isoformat()} ---\n")
             f.write(f"Command: {' '.join(safe_cmd)}\n")
-            f.write(f"Input: {message_content}\n")
+            f.write(f"Input: {static_prompt}\n")
             f.write(f"Output:\n{result.stdout}\n")
             if result.stderr:
                 f.write(f"Errors:\n{result.stderr}\n")
@@ -73,7 +88,7 @@ def call_aider_with_context(project_path, selected_files, message_content):
         with open(aider_logs_file, 'a', encoding='utf-8') as f:  # Add explicit UTF-8 encoding
             f.write(f"\n--- Aider error at {datetime.datetime.now().isoformat()} ---\n")
             f.write(f"Command: {' '.join(safe_cmd)}\n")
-            f.write(f"Input: {message_content}\n")
+            f.write(f"Input: {static_prompt}\n")
             f.write(f"Error (exit code {e.returncode}):\n{e.stderr}\n")
             if e.stdout:
                 f.write(f"Output before error:\n{e.stdout}\n")
