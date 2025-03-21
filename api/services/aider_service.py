@@ -24,6 +24,13 @@ def call_aider_with_context(project_path, selected_files, message_content):
     # Build the command
     cmd = ["aider", "--haiku", "--yes-always", f"--anthropic-api-key={api_key}"]
     
+    # Always add messages.json as --read
+    messages_file = "messages.json"
+    messages_path = os.path.join(project_path, messages_file)
+    if os.path.exists(messages_path):
+        cmd.extend(["--read", messages_file])
+        logger.info(f"Added messages.json as --read file")
+    
     # Add all selected files to the command
     for file in selected_files:
         file_path = os.path.join(project_path, file)
