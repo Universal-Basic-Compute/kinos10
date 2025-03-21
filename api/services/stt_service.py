@@ -15,7 +15,7 @@ def transcribe_audio(audio_file, model="whisper-1", language=None, prompt=None, 
         response_format: Format of the output (default: json)
         
     Returns:
-        Transcription result from OpenAI
+        Tuple of (url, headers, form_data, files) for making the request
     """
     # Get API key from environment variable
     api_key = os.getenv("OPENAI_API_KEY")
@@ -41,6 +41,8 @@ def transcribe_audio(audio_file, model="whisper-1", language=None, prompt=None, 
         form_data["prompt"] = prompt
     if response_format:
         form_data["response_format"] = response_format
+    
+    logger.info(f"Sending transcription request to OpenAI with model: {model}")
     
     # Prepare files
     files = {
