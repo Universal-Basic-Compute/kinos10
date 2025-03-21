@@ -52,16 +52,18 @@ def call_aider_with_context(project_path, selected_files, message_content):
     You should work autonomously without asking for confirmations. Analyze the conversation history and:
     
     1. Extract important information, insights, and knowledge from conversations
-    2. Store this information in appropriate files with clear organization
+    2. Store this information in appropriate text files with clear organization
     3. Update existing knowledge files with new information
-    4. Create new specialized files when needed for specific topics
+    4. Create new specialized text files when needed for specific topics
     5. Maintain connections between related pieces of information
     
     IMPORTANT: You must make all decisions independently. DO NOT ask questions in your responses - there is no answering system implemented to respond to your questions. Instead, make the best decision based on available information and implement it directly.
     
+    IMPORTANT: You should ONLY create and modify TEXT FILES. Do NOT write code or create programming files. Focus exclusively on creating well-organized text documents (.txt, .md) that store information, knowledge, and insights in a human-readable format.
+    
     Focus on being practical and efficient. Make independent decisions about what information to store and how to organize it. Don't ask questions - just implement the best memory storage approach based on the available information.
     
-    Remember: Your job is to actively create and update real files that enable the AI to remember, learn, and adapt based on conversations.
+    Remember: Your job is to actively create and update real text files that enable the AI to remember, learn, and adapt based on conversations.
     """
     
     try:
