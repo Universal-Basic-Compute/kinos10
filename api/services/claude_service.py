@@ -149,7 +149,7 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
         logger.error(f"Error calling Claude API: {str(e)}")
         raise RuntimeError(f"Claude API call failed: {str(e)}")
 
-def build_context(customer, project_id, message, attachments=None, project_path=None, model=None):
+def build_context(customer, project_id, message, attachments=None, project_path=None, model=None, mode=None):
     """
     Build context by determining which files should be included.
     Uses Claude to select relevant files based on the message.
@@ -198,10 +198,13 @@ def build_context(customer, project_id, message, attachments=None, project_path=
         return core_files
     
     # Prepare the prompt for Claude to select relevant files
+    # Add mode information to the prompt if provided
+    mode_info = f"\nMode: {mode}" if mode else ""
+    
     selection_prompt = f"""
     You are the Context Builder component of KinOS. Your task is to select the most relevant files to include in the context window based on the user's message.
     
-    User message: {message}
+    User message: {message}{mode_info}
     
     Available files (excluding core files that are always included):
     {json.dumps(available_files, indent=2)}

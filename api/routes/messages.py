@@ -250,8 +250,11 @@ def send_message(customer, project_id):
         if character:
             user_message["character"] = character
         
+        # Get optional mode parameter
+        mode = data.get('mode', '')  # Get optional mode parameter
+        
         # Build context (select relevant files)
-        selected_files = build_context(customer, project_id, message_content, attachments, project_path)
+        selected_files = build_context(customer, project_id, message_content, attachments, project_path, model, mode)
         
         # Add saved image files to selected files for context
         for img_path in saved_images:
