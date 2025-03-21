@@ -160,7 +160,8 @@ def build_context(customer, project_id, message, attachments=None, project_path=
         message: User message content
         attachments: Optional list of attachments
         project_path: Optional project path (if already known)
-        model: Optional model to use (defaults to MODEL from config)
+        model: Optional model to use (ignored - always uses claude-3-5-haiku-latest)
+        mode: Optional mode parameter
     """
     # Move import inside function to avoid circular imports
     from services.file_service import get_project_path
@@ -209,16 +210,21 @@ def build_context(customer, project_id, message, attachments=None, project_path=
     Available files (excluding core files that are always included):
     {json.dumps(available_files, indent=2)}
     
+    Note: Core system files (like kinos.txt, system.txt, persona.txt, map.json) and messages.json are always included automatically, so you don't need to select them.
+    
     Please select the files that would be most relevant to include in the context to help generate a good response to this message.
     Aim to select between 5 to 15 files, focusing on quality over quantity.
     Return your answer as a JSON array of file paths, sorted by relevance. Include only files that are directly relevant to the message.
     """
     
     try:
+        # Always use claude-3-5-haiku-latest for context building, regardless of model parameter
+        context_builder_model = "claude-3-5-haiku-latest"
+        logger.info(f"Using {context_builder_model} for context building (ignoring model parameter: {model})")
+        
         # Call Claude to select relevant files
-        model_to_use = model if model else MODEL
         response = client.messages.create(
-            model=model_to_use,
+            model=context_builder_model,
             max_tokens=1000,
             messages=[
                 {"role": "user", "content": selection_prompt}
