@@ -254,6 +254,38 @@ if not os.path.exists(therapykin_template) or not os.listdir(therapykin_template
     else:
         logger.error("Therapykin template not found in project directory")
 
+# Specifically check for marketingmesh customer
+marketingmesh_template = os.path.join(CUSTOMERS_DIR, "marketingmesh", "template")
+if not os.path.exists(marketingmesh_template) or not os.listdir(marketingmesh_template):
+    logger.warning("MarketingMesh template not found or empty, attempting to initialize specifically")
+    
+    # Source template in project
+    project_marketingmesh_template = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
+                                             "customers", "marketingmesh", "template")
+    
+    if os.path.exists(project_marketingmesh_template):
+        # Create customer directory if needed
+        marketingmesh_dir = os.path.join(CUSTOMERS_DIR, "marketingmesh")
+        os.makedirs(marketingmesh_dir, exist_ok=True)
+        
+        # Create projects directory if needed
+        marketingmesh_projects_dir = os.path.join(marketingmesh_dir, "projects")
+        os.makedirs(marketingmesh_projects_dir, exist_ok=True)
+        
+        # Copy template
+        if os.path.exists(marketingmesh_template):
+            shutil.rmtree(marketingmesh_template)
+        
+        logger.info(f"Copying MarketingMesh template from {project_marketingmesh_template} to {marketingmesh_template}")
+        shutil.copytree(project_marketingmesh_template, marketingmesh_template)
+        
+        # Verify template was copied
+        if os.path.exists(marketingmesh_template):
+            template_files = os.listdir(marketingmesh_template)
+            logger.info(f"MarketingMesh template files: {template_files}")
+    else:
+        logger.error("MarketingMesh template not found in project directory")
+
 if __name__ == '__main__':
     # Get port from environment variable (for Render compatibility)
     port = int(os.environ.get('PORT', 5000))
