@@ -127,7 +127,8 @@ Send a message to a project.
   "attachments": [],  // Optional
   "images": [],  // Optional, base64-encoded images
   "model": "claude-3-5-haiku-latest",  // Optional, defaults to claude-3-5-haiku-latest
-  "history_length": 25  // Optional, number of recent messages to include in context (defaults to 25)
+  "history_length": 25,  // Optional, number of recent messages to include in context (defaults to 25)
+  "mode": "code_review"  // Optional, specifies a mode to help guide context selection
 }
 ```
 
