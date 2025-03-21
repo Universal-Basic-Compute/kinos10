@@ -264,13 +264,15 @@ def send_message(customer, project_id):
         # Call Claude and Aider with the selected context
         try:
             # Call Claude directly for a response
+            # Pass is_new_message=True to indicate this message isn't in messages.json yet
             claude_response = call_claude_with_context(
                 selected_files, 
                 project_path, 
                 message_content, 
                 images, 
                 model,
-                history_length
+                history_length,
+                is_new_message=True
             )
             
             # Create assistant message object
