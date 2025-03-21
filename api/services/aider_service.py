@@ -23,7 +23,7 @@ def call_aider_with_context(project_path, selected_files, message_content):
         raise ValueError("ANTHROPIC_API_KEY environment variable not set")
     
     # Build the command
-    cmd = ["aider", "--sonnet", "--yes-always", f"--anthropic-api-key={api_key}"]
+    cmd = ["aider", "--sonnet", "--yes-always", "--restore-chat-history", f"--anthropic-api-key={api_key}"]
     
     # Always add messages.json as --read
     messages_file = "messages.json"
