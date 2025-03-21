@@ -196,6 +196,72 @@ def initialize_customer(customer):
         logger.error(f"Error initializing customer: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@projects_bp.route('/projects/<customer>/<project_id>/reset', methods=['POST'])
+def reset_project(customer, project_id):
+    """
+    Endpoint to reset a project to its initial template state.
+    """
+    try:
+        # Validate customer
+        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
+            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+            
+        # Get the project path
+        project_path = get_project_path(customer, project_id)
+        if not os.path.exists(project_path):
+            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        
+        # Get the template path
+        template_path = os.path.join(CUSTOMERS_DIR, customer, "template")
+        if not os.path.exists(template_path):
+            return jsonify({"error": f"Template not found for customer '{customer}'"}), 404
+        
+        # Backup the project name before deleting
+        project_name = project_id  # Use project_id as fallback
+        project_info_path = os.path.join(project_path, "project_info.json")
+        if os.path.exists(project_info_path):
+            try:
+                with open(project_info_path, 'r') as f:
+                    project_info = json.load(f)
+                    project_name = project_info.get('name', project_id)
+            except:
+                logger.warning(f"Could not read project_info.json for {customer}/{project_id}")
+        
+        # Delete the project directory
+        import shutil
+        try:
+            shutil.rmtree(project_path)
+        except PermissionError:
+            logger.warning(f"Permission error removing {project_path}, trying to remove files individually")
+            # Try to remove files individually
+            for root, dirs, files in os.walk(project_path, topdown=False):
+                for name in files:
+                    try:
+                        os.remove(os.path.join(root, name))
+                    except:
+                        pass
+                for name in dirs:
+                    try:
+                        os.rmdir(os.path.join(root, name))
+                    except:
+                        pass
+            try:
+                os.rmdir(project_path)
+            except:
+                return jsonify({"error": f"Could not completely remove project directory. Please try again."}), 500
+        
+        # Reinitialize the project from template
+        initialize_project(customer, project_name, project_id=project_id)
+        
+        return jsonify({
+            "status": "success",
+            "message": f"Project '{project_id}' has been reset to template state"
+        })
+        
+    except Exception as e:
+        logger.error(f"Error resetting project: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @projects_bp.route('/projects/<customer>/<project_id>/git_history', methods=['GET'])
 def get_git_history(customer, project_id):
     """
