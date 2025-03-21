@@ -15,12 +15,17 @@ def text_to_speech():
         # Get request data
         data = request.json
         text = data.get('text')
-        voice_id = data.get('voiceId', 'IKne3meq5aSn9XLyUdCD')  # Default ElevenLabs voice ID
+        
+        # Check for both voiceId and voice_id parameters
+        voice_id = data.get('voiceId', data.get('voice_id', 'IKne3meq5aSn9XLyUdCD'))  # Default ElevenLabs voice ID
         model = data.get('model', 'eleven_flash_v2_5')  # Default model
         
         # Validate required parameters
         if not text:
             return jsonify({"error": "Text is required"}), 400
+        
+        # Log the voice ID being used
+        logger.info(f"Using voice ID: {voice_id} for TTS request")
         
         # Prepare request to ElevenLabs API
         url, headers, payload = text_to_speech_request(text, voice_id, model)
