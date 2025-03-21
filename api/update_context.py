@@ -59,6 +59,9 @@ def update_context(customer, project_id, message, stream=False):
         if not stream:
             print("Context update completed successfully")
         return aider_response
+    except subprocess.TimeoutExpired:
+        print("Error: Aider process timed out after 5 minutes")
+        return None
     except Exception as e:
         print(f"Error updating context: {str(e)}")
         return None

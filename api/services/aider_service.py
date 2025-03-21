@@ -116,8 +116,9 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
                 bufsize=1  # Line buffered
             )
             
-            # Send the static prompt to stdin
-            process.stdin.write(static_prompt)
+            # Send the static prompt to stdin and make sure to flush and close it
+            process.stdin.write(static_prompt + "\n")
+            process.stdin.flush()
             process.stdin.close()
             
             # Create a generator to yield output lines
@@ -154,7 +155,8 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
                 text=True,
                 encoding='utf-8',  # Add explicit UTF-8 encoding
                 capture_output=True,
-                check=True
+                check=True,
+                timeout=300  # Add a 5-minute timeout
             )
             
             # Save Aider logs to a file in the project directory
