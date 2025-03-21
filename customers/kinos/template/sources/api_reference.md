@@ -255,6 +255,55 @@ fetch('/tts', {
 - `400 Bad Request`: Missing required text parameter
 - `500 Internal Server Error`: ElevenLabs API key not configured or other server error
 
+### Speech-to-Text
+
+Convert audio to text using OpenAI's Whisper API.
+
+**Endpoint:** `POST /stt`
+
+**Request:**
+- Content-Type: `multipart/form-data`
+- Body:
+  - `file`: The audio file to transcribe (required)
+  - `model`: Model to use (optional, default: "whisper-1")
+  - `language`: Language code in ISO-639-1 format (optional)
+  - `prompt`: Text to guide the model's style (optional)
+  - `response_format`: Format of the output (optional, default: "json")
+
+**Response:**
+```json
+{
+  "text": "Transcribed text from the audio file"
+}
+```
+
+**Example Usage:**
+```javascript
+// Create a FormData object
+const formData = new FormData();
+
+// Add the audio file
+formData.append('file', audioFile);  // audioFile is a File object from input or recording
+
+// Add optional parameters
+formData.append('model', 'whisper-1');
+formData.append('language', 'en');  // English
+
+// Send the request
+fetch('/stt', {
+  method: 'POST',
+  body: formData
+})
+.then(response => response.json())
+.then(data => {
+  console.log('Transcription:', data.text);
+});
+```
+
+**Error Responses:**
+- `400 Bad Request`: No audio file provided or invalid parameters
+- `500 Internal Server Error`: OpenAI API key not configured or other server error
+
 ## Error Handling
 
 All API endpoints return appropriate HTTP status codes:
