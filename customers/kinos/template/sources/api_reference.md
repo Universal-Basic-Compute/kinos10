@@ -187,6 +187,70 @@ For images, returns:
 }
 ```
 
+### Get Project Content
+
+Get the content of all files in a project folder as JSON.
+
+**Endpoint:** `GET /projects/{path:project_path}/content`
+
+Where `project_path` is in the format `{customer}/{project_id}` or `{customer}/template`.
+
+**Query Parameters:**
+- `path` (optional): Filter by specific file or directory within the project
+
+**Response for a file:**
+```json
+{
+  "path": "file.txt",
+  "content": "File contents here...",
+  "is_directory": false
+}
+```
+
+**Response for a directory:**
+```json
+{
+  "path": "directory",
+  "is_directory": true,
+  "files": [
+    {
+      "path": "directory/file1.txt",
+      "content": "File 1 contents...",
+      "is_binary": false
+    },
+    {
+      "path": "directory/file2.txt",
+      "content": "File 2 contents...",
+      "is_binary": false
+    }
+  ]
+}
+```
+
+**Example Usage:**
+```javascript
+// Get all files in a project
+fetch('/projects/customer/project_id/content')
+  .then(response => response.json())
+  .then(data => {
+    console.log('Project content:', data);
+  });
+
+// Get files in a specific directory
+fetch('/projects/customer/project_id/content?path=directory')
+  .then(response => response.json())
+  .then(data => {
+    console.log('Directory content:', data);
+  });
+
+// Get a specific file
+fetch('/projects/customer/project_id/content?path=file.txt')
+  .then(response => response.json())
+  .then(data => {
+    console.log('File content:', data.content);
+  });
+```
+
 ### Initialize Customer
 
 Initialize or reinitialize a customer's template.
