@@ -16,6 +16,7 @@ import os
 import sys
 import json
 import argparse
+import subprocess
 from config import CUSTOMERS_DIR, logger
 from services.file_service import get_project_path
 from services.claude_service import build_context
