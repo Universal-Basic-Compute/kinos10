@@ -70,8 +70,13 @@ def should_update_file(template_file, project_file):
     1. If the file doesn't exist in the project, copy it from the template
     2. If the file is a system file (kinos.txt, system.txt, persona.txt), update it
     3. If the file is in a standard directory (modes/, adaptations/, sources/), update it
-    4. Otherwise, preserve the project file
+    4. Never update messages.json
+    5. Otherwise, preserve the project file
     """
+    # Never update messages.json
+    if os.path.basename(template_file) == 'messages.json':
+        return False
+    
     # If the file doesn't exist in the project, copy it
     if not os.path.exists(project_file):
         return True
