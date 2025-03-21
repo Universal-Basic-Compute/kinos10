@@ -28,7 +28,11 @@ def call_aider_with_context(project_path, selected_files, message_content):
     for file in selected_files:
         file_path = os.path.join(project_path, file)
         if os.path.exists(file_path):
-            cmd.extend(["--file", file])
+            # Use --read for system files, --file for others
+            if file in ["kinos.txt", "system.txt", "persona.txt"]:
+                cmd.extend(["--read", file])
+            else:
+                cmd.extend(["--file", file])
     
     # Log the command (without API key for security)
     safe_cmd = [c for c in cmd if not c.startswith("--anthropic-api-key=")]
