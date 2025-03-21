@@ -21,6 +21,9 @@ def text_to_speech_request(text, voice_id='UgBBYS2sOqTuMpoF3BR0', model='eleven_
         logger.error("ELEVENLABS_API_KEY environment variable not set")
         raise ValueError("ElevenLabs API key not configured")
     
+    # Log the voice ID being used in the service
+    logger.info(f"TTS Service using voice ID: {voice_id} and model: {model}")
+    
     # Prepare request to ElevenLabs API
     url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream?output_format=mp3_44100_128"
     headers = {

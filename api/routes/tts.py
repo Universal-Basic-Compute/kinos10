@@ -24,11 +24,14 @@ def text_to_speech():
         if not text:
             return jsonify({"error": "Text is required"}), 400
         
-        # Log the voice ID being used
-        logger.info(f"Using voice ID: {voice_id} for TTS request")
+        # Log the voice ID and model being used
+        logger.info(f"Using voice ID: {voice_id} and model: {model} for TTS request")
         
         # Prepare request to ElevenLabs API
         url, headers, payload = text_to_speech_request(text, voice_id, model)
+        
+        # Log the URL being called to verify the voice ID is in the URL
+        logger.info(f"Calling ElevenLabs API at URL: {url}")
         
         logger.info(f"Calling ElevenLabs TTS API for text: {text[:50]}...")
         
