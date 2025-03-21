@@ -21,7 +21,7 @@ from services.file_service import get_project_path
 from services.claude_service import build_context
 from services.aider_service import call_aider_with_context
 
-def update_context(customer, project_id, message):
+def update_context(customer, project_id, message, stream=False):
     """
     Update context files for a specific customer, project, and message.
     
@@ -29,9 +29,11 @@ def update_context(customer, project_id, message):
         customer: Customer name
         project_id: Project ID
         message: Message content
+        stream: Whether to stream the response (default: False)
     
     Returns:
-        Aider response as a string
+        If stream=False: Aider response as a string
+        If stream=True: Generator yielding response chunks
     """
     # Validate customer
     if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
@@ -53,8 +55,9 @@ def update_context(customer, project_id, message):
     
     # Call Aider with the selected context
     try:
-        aider_response = call_aider_with_context(project_path, selected_files, message)
-        print("Context update completed successfully")
+        aider_response = call_aider_with_context(project_path, selected_files, message, stream=stream)
+        if not stream:
+            print("Context update completed successfully")
         return aider_response
     except Exception as e:
         print(f"Error updating context: {str(e)}")
@@ -66,14 +69,21 @@ def main():
     parser.add_argument("project_id", help="Project ID")
     parser.add_argument("message", help="Message content")
     parser.add_argument("--output", "-o", help="Output file for Aider response (default: print to stdout)")
+    parser.add_argument("--stream", "-s", action="store_true", help="Stream the response in real-time")
     
     args = parser.parse_args()
     
     # Call the update_context function
-    response = update_context(args.customer, args.project_id, args.message)
+    response = update_context(args.customer, args.project_id, args.message, stream=args.stream)
     
     if response:
-        if args.output:
+        if args.stream:
+            # For streaming, print each chunk as it comes
+            print("\n--- Aider Response (streaming) ---")
+            for chunk in response:
+                print(chunk, end='', flush=True)
+            print("\n--- End of Response ---")
+        elif args.output:
             # Write response to file
             with open(args.output, 'w', encoding='utf-8') as f:
                 f.write(response)

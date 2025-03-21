@@ -5,7 +5,7 @@ import json
 import logging
 from config import logger
 
-def call_aider_with_context(project_path, selected_files, message_content):
+def call_aider_with_context(project_path, selected_files, message_content, stream=False):
     """
     Call Aider CLI with the selected context files and user message.
     
@@ -13,9 +13,11 @@ def call_aider_with_context(project_path, selected_files, message_content):
         project_path: Path to the project directory
         selected_files: List of files to include in the context
         message_content: User message content
+        stream: Whether to stream the response (default: False)
     
     Returns:
-        Aider response as a string
+        If stream=False: Aider response as a string
+        If stream=True: Generator yielding response chunks
     """
     # Get the Anthropic API key from environment
     api_key = os.getenv("ANTHROPIC_API_KEY")
@@ -91,42 +93,85 @@ def call_aider_with_context(project_path, selected_files, message_content):
     Last messages: Always pay special attention to the most recent 2 messages in the conversation history, as they contain the most immediate context that needs to be processed and stored.{last_messages_text}
     """
     
+    # Create a log file for this run
+    aider_logs_file = os.path.join(project_path, "aider_logs.txt")
+    with open(aider_logs_file, 'a', encoding='utf-8') as f:
+        f.write(f"\n--- Aider run at {datetime.datetime.now().isoformat()} ---\n")
+        f.write(f"Command: {' '.join(safe_cmd)}\n")
+        f.write(f"Input: {static_prompt}\n")
+    
     try:
         # Run Aider in the project directory with the static prompt as input
         # Set encoding to utf-8 explicitly to handle emojis and other special characters
-        result = subprocess.run(
-            cmd,
-            cwd=project_path,  # Run in the project directory
-            input=static_prompt,
-            text=True,
-            encoding='utf-8',  # Add explicit UTF-8 encoding
-            capture_output=True,
-            check=True
-        )
-        
-        # Save Aider logs to a file in the project directory
-        aider_logs_file = os.path.join(project_path, "aider_logs.txt")
-        with open(aider_logs_file, 'a', encoding='utf-8') as f:  # Add explicit UTF-8 encoding
-            f.write(f"\n--- Aider run at {datetime.datetime.now().isoformat()} ---\n")
-            f.write(f"Command: {' '.join(safe_cmd)}\n")
-            f.write(f"Input: {static_prompt}\n")
-            f.write(f"Output:\n{result.stdout}\n")
-            if result.stderr:
-                f.write(f"Errors:\n{result.stderr}\n")
-            f.write("--- End of Aider run ---\n\n")
-        
-        # Return the stdout from Aider
-        return result.stdout
+        if stream:
+            # Use Popen for streaming
+            process = subprocess.Popen(
+                cmd,
+                cwd=project_path,  # Run in the project directory
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                encoding='utf-8',  # Add explicit UTF-8 encoding
+                bufsize=1  # Line buffered
+            )
+            
+            # Send the static prompt to stdin
+            process.stdin.write(static_prompt)
+            process.stdin.close()
+            
+            # Create a generator to yield output lines
+            def generate_output():
+                # Buffer for collecting the complete output
+                complete_output = []
+                
+                # Read and yield stdout line by line
+                for line in process.stdout:
+                    complete_output.append(line)
+                    yield line
+                
+                # After stdout is done, check stderr
+                stderr_output = process.stderr.read()
+                
+                # Save complete logs
+                with open(aider_logs_file, 'a', encoding='utf-8') as f:
+                    f.write(f"Output:\n{''.join(complete_output)}\n")
+                    if stderr_output:
+                        f.write(f"Errors:\n{stderr_output}\n")
+                    f.write("--- End of Aider run ---\n\n")
+                
+                # If there was an error, yield it as well
+                if stderr_output:
+                    yield f"\nErrors occurred:\n{stderr_output}"
+            
+            return generate_output()
+        else:
+            # Use run for non-streaming (original behavior)
+            result = subprocess.run(
+                cmd,
+                cwd=project_path,  # Run in the project directory
+                input=static_prompt,
+                text=True,
+                encoding='utf-8',  # Add explicit UTF-8 encoding
+                capture_output=True,
+                check=True
+            )
+            
+            # Save Aider logs to a file in the project directory
+            with open(aider_logs_file, 'a', encoding='utf-8') as f:
+                f.write(f"Output:\n{result.stdout}\n")
+                if result.stderr:
+                    f.write(f"Errors:\n{result.stderr}\n")
+                f.write("--- End of Aider run ---\n\n")
+            
+            # Return the stdout from Aider
+            return result.stdout
     except subprocess.CalledProcessError as e:
         logger.error(f"Aider command failed with exit code {e.returncode}")
         logger.error(f"Stderr: {e.stderr}")
         
         # Save error logs
-        aider_logs_file = os.path.join(project_path, "aider_logs.txt")
-        with open(aider_logs_file, 'a', encoding='utf-8') as f:  # Add explicit UTF-8 encoding
-            f.write(f"\n--- Aider error at {datetime.datetime.now().isoformat()} ---\n")
-            f.write(f"Command: {' '.join(safe_cmd)}\n")
-            f.write(f"Input: {static_prompt}\n")
+        with open(aider_logs_file, 'a', encoding='utf-8') as f:
             f.write(f"Error (exit code {e.returncode}):\n{e.stderr}\n")
             if e.stdout:
                 f.write(f"Output before error:\n{e.stdout}\n")
