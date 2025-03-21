@@ -210,6 +210,7 @@ def build_context(customer, project_id, message, attachments=None, project_path=
     {json.dumps(available_files, indent=2)}
     
     Please select the files that would be most relevant to include in the context to help generate a good response to this message.
+    Aim to select between 5 to 15 files, focusing on quality over quantity.
     Return your answer as a JSON array of file paths, sorted by relevance. Include only files that are directly relevant to the message.
     """
     
