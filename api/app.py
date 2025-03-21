@@ -186,105 +186,53 @@ try:
 except Exception as e:
     logger.error(f"Error during template propagation: {str(e)}")
 
-# Specifically check for duogaming customer
-duogaming_template = os.path.join(CUSTOMERS_DIR, "duogaming", "template")
-if not os.path.exists(duogaming_template) or not os.listdir(duogaming_template):
-    logger.warning("DuoGaming template not found or empty, attempting to initialize specifically")
+# Initialize all customer templates automatically
+logger.info("Checking for customer templates to initialize")
+project_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
+
+if os.path.exists(project_templates_dir):
+    # Get list of all customers in the project directory
+    available_customers = [d for d in os.listdir(project_templates_dir) 
+                          if os.path.isdir(os.path.join(project_templates_dir, d))]
+    logger.info(f"Found customers in project directory: {available_customers}")
     
     # Log the current environment for debugging
     logger.info(f"Current environment: {os.environ.get('ENVIRONMENT', 'not set')}")
     logger.info(f"Website URL: {os.environ.get('WEBSITE_URL', 'not set')}")
     
-    # Source template in project
-    project_duogaming_template = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
-                                             "customers", "duogaming", "template")
-    
-    if os.path.exists(project_duogaming_template):
-        # Create customer directory if needed
-        duogaming_dir = os.path.join(CUSTOMERS_DIR, "duogaming")
-        os.makedirs(duogaming_dir, exist_ok=True)
-        
-        # Create projects directory if needed
-        duogaming_projects_dir = os.path.join(duogaming_dir, "projects")
-        os.makedirs(duogaming_projects_dir, exist_ok=True)
-        
-        # Copy template
-        if os.path.exists(duogaming_template):
-            shutil.rmtree(duogaming_template)
-        
-        logger.info(f"Copying DuoGaming template from {project_duogaming_template} to {duogaming_template}")
-        shutil.copytree(project_duogaming_template, duogaming_template)
-        
-        # Verify template was copied
-        if os.path.exists(duogaming_template):
-            template_files = os.listdir(duogaming_template)
-            logger.info(f"DuoGaming template files: {template_files}")
-    else:
-        logger.error("DuoGaming template not found in project directory")
-
-# Specifically check for therapykin customer
-therapykin_template = os.path.join(CUSTOMERS_DIR, "therapykin", "template")
-if not os.path.exists(therapykin_template) or not os.listdir(therapykin_template):
-    logger.warning("Therapykin template not found or empty, attempting to initialize specifically")
-    
-    # Source template in project
-    project_therapykin_template = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
-                                             "customers", "therapykin", "template")
-    
-    if os.path.exists(project_therapykin_template):
-        # Create customer directory if needed
-        therapykin_dir = os.path.join(CUSTOMERS_DIR, "therapykin")
-        os.makedirs(therapykin_dir, exist_ok=True)
-        
-        # Create projects directory if needed
-        therapykin_projects_dir = os.path.join(therapykin_dir, "projects")
-        os.makedirs(therapykin_projects_dir, exist_ok=True)
-        
-        # Copy template
-        if os.path.exists(therapykin_template):
-            shutil.rmtree(therapykin_template)
-        
-        logger.info(f"Copying Therapykin template from {project_therapykin_template} to {therapykin_template}")
-        shutil.copytree(project_therapykin_template, therapykin_template)
-        
-        # Verify template was copied
-        if os.path.exists(therapykin_template):
-            template_files = os.listdir(therapykin_template)
-            logger.info(f"Therapykin template files: {template_files}")
-    else:
-        logger.error("Therapykin template not found in project directory")
-
-# Specifically check for marketingmesh customer
-marketingmesh_template = os.path.join(CUSTOMERS_DIR, "marketingmesh", "template")
-if not os.path.exists(marketingmesh_template) or not os.listdir(marketingmesh_template):
-    logger.warning("MarketingMesh template not found or empty, attempting to initialize specifically")
-    
-    # Source template in project
-    project_marketingmesh_template = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
-                                             "customers", "marketingmesh", "template")
-    
-    if os.path.exists(project_marketingmesh_template):
-        # Create customer directory if needed
-        marketingmesh_dir = os.path.join(CUSTOMERS_DIR, "marketingmesh")
-        os.makedirs(marketingmesh_dir, exist_ok=True)
-        
-        # Create projects directory if needed
-        marketingmesh_projects_dir = os.path.join(marketingmesh_dir, "projects")
-        os.makedirs(marketingmesh_projects_dir, exist_ok=True)
-        
-        # Copy template
-        if os.path.exists(marketingmesh_template):
-            shutil.rmtree(marketingmesh_template)
-        
-        logger.info(f"Copying MarketingMesh template from {project_marketingmesh_template} to {marketingmesh_template}")
-        shutil.copytree(project_marketingmesh_template, marketingmesh_template)
-        
-        # Verify template was copied
-        if os.path.exists(marketingmesh_template):
-            template_files = os.listdir(marketingmesh_template)
-            logger.info(f"MarketingMesh template files: {template_files}")
-    else:
-        logger.error("MarketingMesh template not found in project directory")
+    # Check each customer and initialize if needed
+    for customer in available_customers:
+        customer_template = os.path.join(CUSTOMERS_DIR, customer, "template")
+        if not os.path.exists(customer_template) or not os.listdir(customer_template):
+            logger.warning(f"{customer} template not found or empty, attempting to initialize")
+            
+            # Source template in project
+            project_customer_template = os.path.join(project_templates_dir, customer, "template")
+            
+            if os.path.exists(project_customer_template):
+                # Create customer directory if needed
+                customer_dir = os.path.join(CUSTOMERS_DIR, customer)
+                os.makedirs(customer_dir, exist_ok=True)
+                
+                # Create projects directory if needed
+                customer_projects_dir = os.path.join(customer_dir, "projects")
+                os.makedirs(customer_projects_dir, exist_ok=True)
+                
+                # Copy template
+                if os.path.exists(customer_template):
+                    shutil.rmtree(customer_template)
+                
+                logger.info(f"Copying {customer} template from {project_customer_template} to {customer_template}")
+                shutil.copytree(project_customer_template, customer_template)
+                
+                # Verify template was copied
+                if os.path.exists(customer_template):
+                    template_files = os.listdir(customer_template)
+                    logger.info(f"{customer} template files: {template_files}")
+            else:
+                logger.error(f"{customer} template not found in project directory")
+else:
+    logger.error(f"Project templates directory not found: {project_templates_dir}")
 
 if __name__ == '__main__':
     # Get port from environment variable (for Render compatibility)
