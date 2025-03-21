@@ -40,17 +40,19 @@ def call_aider_with_context(project_path, selected_files, message_content):
     
     # Static prompt for the context builder
     static_prompt = """
-    Your goal is to create and update files to manage the information context of the AI, so that the AI can remember, adapt and learn.
+    Your goal is to create and update files to store memories, knowledge, and learning from conversations in a structured way. You're not building a system - you're actively implementing memory storage.
     
-    You should work autonomously without asking for confirmations. Analyze the conversation history and update relevant files to:
+    You should work autonomously without asking for confirmations. Analyze the conversation history and:
     
-    1. Extract and organize key information from the conversation
-    2. Update knowledge files with new information
-    3. Create new files if needed to store specialized information
-    4. Maintain a coherent structure for the AI's memory
+    1. Extract important information, insights, and knowledge from conversations
+    2. Store this information in appropriate files with clear organization
+    3. Update existing knowledge files with new information
+    4. Create new specialized files when needed for specific topics
+    5. Maintain connections between related pieces of information
     
-    Focus on being helpful and efficient. Make decisions independently about what information to store and how to organize it.
-    Don't ask questions - just make the best decisions based on the available information.
+    Focus on being practical and efficient. Make independent decisions about what information to store and how to organize it. Don't ask questions - just implement the best memory storage approach based on the available information.
+    
+    Remember: Your job is to actively create and update real files that enable the AI to remember, learn, and adapt based on conversations.
     """
     
     try:
