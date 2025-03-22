@@ -146,3 +146,66 @@ When helping a user create a new journey entry, follow this enhanced structure:
 6. **Connect to Journey Narrative**: Help the user see how this entry fits into their broader therapeutic story and development
 
 7. **Consider Timeline Review**: Periodically suggest reviewing the timeline to identify patterns, progress, and themes in the therapeutic journey
+
+## Journey JSON Implementation
+
+Journey entries are stored in a structured JSON format in the `memories/journey.json` file. If this file doesn't exist, it will be created automatically when the first entry is added.
+
+### JSON Structure
+
+The journey.json file follows this structure:
+```json
+{
+  "entries": [
+    {
+      "id": "unique-identifier",
+      "timestamp": "ISO-8601 date-time",
+      "title": "Entry title",
+      "content": "Detailed description of the experience",
+      "type": "conversation|milestone|technique|implementation|reflection|challenge|resource",
+      "subtype": "specific subtype based on entry type",
+      "emotions": {
+        "primary": "positive|neutral|negative",
+        "secondary": ["joy", "pride", "peace", "etc"]
+      },
+      "intensity": "low|moderate|high|breakthrough",
+      "connections": ["related-pattern-1", "related-entry-id-2"],
+      "impact": 1-5,
+      "followUp": true|false,
+      "followUpDate": "ISO-8601 date-time or null"
+    }
+  ],
+  "lastUpdated": "ISO-8601 date-time"
+}
+```
+
+### Adding New Entries
+
+When creating a new journey entry:
+1. Check if `memories/journey.json` exists
+2. If not, create the file with the base structure: `{"entries": [], "lastUpdated": "current-timestamp"}`
+3. Generate a unique ID for the new entry (e.g., using timestamp + random characters)
+4. Construct the entry object following the schema above
+5. Add the entry to the beginning of the "entries" array
+6. Update the "lastUpdated" timestamp
+7. Write the updated JSON back to the file
+
+### Reading and Referencing Entries
+
+When referencing journey entries:
+1. Load the journey.json file
+2. Filter or sort entries as needed based on type, date, or other metadata
+3. Use entry IDs in the "connections" field to create links between related entries
+4. When displaying timeline views, sort entries by timestamp in descending order
+
+### Entry Types and Subtypes
+
+Each entry type has specific subtypes that should be used:
+
+- **Conversation**: "initial_discovery", "deep_insight", "challenging_moment", "supportive_exchange"
+- **Milestone**: "behavior_change", "insight_breakthrough", "symptom_improvement", "life_transition"
+- **Technique**: "cognitive_technique", "emotional_regulation", "behavioral_strategy", "mindfulness_practice"
+- **Implementation**: "first_attempt", "successful_application", "challenge_overcome", "skill_integration"
+- **Reflection**: "weekly_review", "monthly_assessment", "pattern_recognition", "value_alignment"
+- **Challenge**: "relapse", "resistance", "external_obstacle", "internal_struggle"
+- **Resource**: "book_article", "exercise_practice", "community_resource", "support_person"
