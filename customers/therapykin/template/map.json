@@ -36,7 +36,8 @@
         "modes/skill_building.txt",
         "modes/crisis.txt",
         "modes/session_opening.txt",
-        "modes/session_closing.txt"
+        "modes/session_closing.txt",
+        "modes/journey.txt"
       ]
     },
     {
