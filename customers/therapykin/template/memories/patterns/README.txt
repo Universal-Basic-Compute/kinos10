@@ -1,64 +1,64 @@
-# Pattern Memories
+# Trading Pattern Memories
 
-This directory stores information about recurring patterns in the user's thoughts, emotions, behaviors, and relationships.
+This directory stores information about recurring patterns in the trader's thoughts, emotions, behaviors, and relationships with the market.
 
 ## Purpose
-To maintain awareness of significant patterns that influence the user's well-being, allowing TherapyKin to provide more personalized and effective support.
+To maintain awareness of significant trading patterns that influence the trader's well-being and performance, allowing TherapyKin Crypto to provide more personalized and effective support.
 
 ## Content Types
 
-### Thought Patterns
-Recurring cognitive patterns, beliefs, assumptions, and thinking styles.
+### Trading Thought Patterns
+Recurring cognitive patterns, beliefs, assumptions, and thinking styles related to trading and investing.
 
-### Emotional Patterns
-Typical emotional responses, triggers, regulation strategies, and emotional needs.
+### Trading Emotional Patterns
+Typical emotional responses to market events, emotional triggers, regulation strategies, and emotional needs during trading.
 
-### Behavioral Patterns
-Habitual behaviors, coping mechanisms, avoidance patterns, and action tendencies.
+### Trading Behavioral Patterns
+Habitual trading behaviors, coping mechanisms, avoidance patterns, and action tendencies in different market conditions.
 
-### Relationship Patterns
-Recurring dynamics in relationships, attachment styles, communication patterns, and interpersonal needs.
+### Market Relationship Patterns
+Recurring dynamics in the trader's relationship with the market, attachment to positions, communication about trading, and market-related needs.
 
-### Situational Patterns
-How the user typically responds to specific types of situations or contexts.
+### Market Condition Patterns
+How the trader typically responds to specific types of market conditions or events.
 
 ## Usage Guidelines
 
-- Reference pattern memories to help the user develop self-awareness
-- Connect current experiences to established patterns when relevant
-- Use pattern recognition to inform therapeutic approach
-- Avoid deterministic language when discussing patterns
-- Update pattern memories as new information emerges
-- Respect that patterns can change and evolve over time
+- Reference pattern memories to help the trader develop self-awareness about their trading psychology
+- Connect current market experiences to established emotional patterns when relevant
+- Use pattern recognition to inform therapeutic approach during different market conditions
+- Avoid deterministic language when discussing trading patterns
+- Update pattern memories as new information emerges about trading psychology
+- Respect that trading patterns can change and evolve over time with experience
 
 ## Example Memory Structure
 
 ```
 patterns/
-  ├── thought/
-  │   ├── perfectionism.txt
-  │   ├── catastrophizing.txt
-  │   └── self_criticism.txt
+  ├── trading_thought/
+  │   ├── perfectionism_in_entries.txt
+  │   ├── catastrophizing_during_drawdowns.txt
+  │   └── self_criticism_after_losses.txt
   │
-  ├── emotional/
-  │   ├── anxiety_triggers.txt
-  │   ├── anger_expression.txt
-  │   └── emotional_avoidance.txt
+  ├── trading_emotional/
+  │   ├── fomo_triggers.txt
+  │   ├── anger_after_missed_exits.txt
+  │   └── emotional_avoidance_during_losses.txt
   │
-  ├── behavioral/
-  │   ├── procrastination.txt
-  │   ├── social_withdrawal.txt
-  │   └── stress_responses.txt
+  ├── trading_behavioral/
+  │   ├── overtrading.txt
+  │   ├── position_sizing_inconsistency.txt
+  │   └── market_stress_responses.txt
   │
-  ├── relationship/
-  │   ├── conflict_avoidance.txt
-  │   ├── caretaking_tendency.txt
-  │   └── trust_issues.txt
+  ├── market_relationship/
+  │   ├── attachment_to_positions.txt
+  │   ├── market_narrative_creation.txt
+  │   └── trust_issues_with_market.txt
   │
-  └── situational/
-      ├── work_stress.txt
-      ├── family_gatherings.txt
-      └── performance_situations.txt
+  └── market_condition/
+      ├── bull_market_behavior.txt
+      ├── bear_market_responses.txt
+      └── high_volatility_reactions.txt
 ```
 
-This directory structure will be populated as patterns emerge through ongoing therapeutic conversation, creating a nuanced understanding of the user's experience.
+This directory structure will be populated as trading patterns emerge through ongoing therapeutic conversation, creating a nuanced understanding of the trader's psychological experience with markets.

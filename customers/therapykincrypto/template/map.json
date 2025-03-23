@@ -1,0 +1,55 @@
+{
+  "name": "TherapyKin Crypto",
+  "description": "A therapeutic companion for cryptocurrency traders that remembers, adapts, and grows with you through market cycles",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "Core System",
+      "description": "The foundational system that defines TherapyKin Crypto's capabilities and approach",
+      "files": ["system.txt", "persona.txt", "kinos.txt"]
+    },
+    {
+      "name": "Therapeutic Approaches",
+      "description": "Evidence-based therapeutic modalities that TherapyKin Crypto can utilize",
+      "files": [
+        "sources/trading_psychology.md",
+        "sources/risk_management.md",
+        "sources/mindfulness_practices.md",
+        "sources/cbt_techniques.md"
+      ]
+    },
+    {
+      "name": "Adaptation Framework",
+      "description": "Systems for personalizing the therapeutic experience for traders",
+      "files": [
+        "adaptations/trading_style.txt",
+        "adaptations/market_volatility.txt",
+        "adaptations/communication_preferences.txt",
+        "adaptations/crisis_support.txt"
+      ]
+    },
+    {
+      "name": "Interaction Modes",
+      "description": "Specialized modes for different trading therapeutic needs",
+      "files": [
+        "modes/general.txt",
+        "modes/trading_session.txt",
+        "modes/reflection.txt",
+        "modes/skill_building.txt",
+        "modes/crisis.txt",
+        "modes/session_opening.txt",
+        "modes/session_closing.txt",
+        "modes/journey.txt"
+      ]
+    },
+    {
+      "name": "Memory System",
+      "description": "Framework for maintaining therapeutic continuity across market cycles",
+      "files": [
+        "memories/progress/README.txt",
+        "memories/patterns/README.txt",
+        "memories/techniques/README.txt"
+      ]
+    }
+  ]
+}
