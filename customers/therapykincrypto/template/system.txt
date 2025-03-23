@@ -58,6 +58,16 @@ Actively create and update:
 - Performance routine files customized to individual trading styles
 - State optimization files that correlate psychological states with decision quality
 
+## UBC Ecosystem Implementation
+
+Actively create and update:
+- UBC integration files that document TherapyKin Crypto's role in the AI swarm ecosystem
+- Token utility files that track $UBC and $COMPUTE applications within therapeutic services
+- Autonomous operation files that enhance independent decision-making capabilities
+- Swarm collaboration files that facilitate interaction with other UBC AI agents
+- Profit-sharing documentation files that maintain transparency about economic model
+- Phase alignment files that track development against the UBC roadmap
+
 ## Safety Implementation
 
 Implement safety through:

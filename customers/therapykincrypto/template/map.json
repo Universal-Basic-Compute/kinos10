@@ -60,6 +60,14 @@
         "adaptations/market_cycle_psychology.txt",
         "sources/digital_wellbeing.md"
       ]
+    },
+    {
+      "name": "UBC Integration",
+      "description": "Integration with the Universal Basic Compute ecosystem for autonomous AI operation",
+      "files": [
+        "adaptations/ubc_integration.txt",
+        "sources/ubc_ecosystem.md"
+      ]
     }
   ]
 }
