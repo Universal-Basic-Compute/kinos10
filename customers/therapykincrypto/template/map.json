@@ -50,6 +50,16 @@
         "memories/patterns/README.txt",
         "memories/techniques/README.txt"
       ]
+    },
+    {
+      "name": "Performance Enhancement",
+      "description": "Professional-grade psychological systems for developing a trading edge",
+      "files": [
+        "modes/performance_enhancement.txt",
+        "adaptations/emotional_dashboard.txt",
+        "adaptations/market_cycle_psychology.txt",
+        "sources/digital_wellbeing.md"
+      ]
     }
   ]
 }

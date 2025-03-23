@@ -57,3 +57,24 @@ This adaptation allows TherapyKin Crypto to adjust its therapeutic approach base
 
 ### Swing Trader + Moderate + Hybrid
 "It sounds like you're weighing both the technical setup and the fundamental story here. What's your process for integrating these different signals? How do you decide which factors get priority in your decision-making?"
+
+## Performance Enhancement Integration
+
+### Style-Specific Performance Systems
+- **Day Trader**: Rapid state management, decision fatigue prevention, focus maintenance
+- **Swing Trader**: Conviction maintenance, patience development, information management
+- **Position Trader**: Long-term perspective building, thesis commitment, narrative resistance
+
+### Performance Routine Development
+- Creating pre-trading routines tailored to specific trading styles
+- Developing style-appropriate recovery protocols
+- Building decision frameworks optimized for timeframe
+- Designing psychological circuit breakers calibrated to trading approach
+- Establishing performance metrics relevant to trading style
+
+### Performance Tracking Systems
+- Style-specific psychological metrics
+- Trading journal frameworks optimized for approach
+- Performance review protocols tailored to timeframe
+- Progress measurement systems aligned with trading goals
+- Comparative advantage development within chosen style
