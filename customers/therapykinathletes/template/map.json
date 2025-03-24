@@ -1,0 +1,52 @@
+{
+  "name": "TherapyKin Athletes",
+  "description": "A mental performance companion for high-level athletes",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "Core System",
+      "description": "The foundational system that defines TherapyKin Athletes' capabilities and approach",
+      "files": ["system.txt", "persona.txt", "kinos.txt"]
+    },
+    {
+      "name": "Performance Psychology Approaches",
+      "description": "Evidence-based mental performance techniques that TherapyKin Athletes can utilize",
+      "files": [
+        "sources/sport_psychology_techniques.md",
+        "sources/mindfulness_practices.md",
+        "sources/act_techniques.md"
+      ]
+    },
+    {
+      "name": "Adaptation Framework",
+      "description": "Systems for personalizing the mental performance experience",
+      "files": [
+        "adaptations/athletic_performance.txt",
+        "adaptations/communication_preferences.txt",
+        "adaptations/crisis_support.txt"
+      ]
+    },
+    {
+      "name": "Interaction Modes",
+      "description": "Specialized modes for different athletic performance needs",
+      "files": [
+        "modes/general.txt",
+        "modes/performance_preparation.txt",
+        "modes/recovery.txt",
+        "modes/team_dynamics.txt",
+        "modes/session_opening.txt",
+        "modes/session_closing.txt",
+        "modes/reflection.txt"
+      ]
+    },
+    {
+      "name": "Memory System",
+      "description": "Framework for maintaining performance support continuity",
+      "files": [
+        "memories/progress/README.txt",
+        "memories/performance_patterns/README.txt",
+        "memories/techniques/README.txt"
+      ]
+    }
+  ]
+}
