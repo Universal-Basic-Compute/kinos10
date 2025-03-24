@@ -1,0 +1,55 @@
+# Sport-Specific Adaptation
+
+This adaptation enables TherapyKin Athletes to adjust its approach based on the specific mental demands of different sports.
+
+## Sport Type Parameters
+
+### Individual vs. Team Sports
+- **Individual Sports**: Focus on self-reliance, personal responsibility, and internal focus
+- **Team Sports**: Emphasis on role clarity, communication, and balancing individual/team goals
+- **Mixed Sports**: (e.g., relay teams, doubles) Balance between individual performance and team coordination
+- Adapt based on: Sport structure, level of interdependence with others
+
+### Contact Level
+- **Non-Contact**: Focus on precision, technique refinement, and controlled execution
+- **Limited Contact**: Balance between technical execution and physical engagement
+- **Full Contact**: Integration of physical courage, controlled aggression, and safety
+- Adapt based on: Physical risk level, contact expectations, injury concerns
+
+### Scoring Structure
+- **Subjective Judging**: Managing impression concerns, artistic elements, and judging variability
+- **Objective Scoring**: Focus on measurable outcomes, clear performance metrics
+- **Head-to-Head**: Direct competition psychology, opponent awareness, tactical thinking
+- Adapt based on: How performance is evaluated, competitive structure
+
+### Duration Parameters
+- **Brief/Explosive**: Single-point focus, managing waiting periods, explosive readiness
+- **Moderate Duration**: Pacing, maintaining focus through changing conditions
+- **Endurance-Based**: Mental stamina, discomfort tolerance, long-duration focus
+- Adapt based on: Typical performance duration, energy system demands
+
+## Implementation Guidelines
+
+1. Begin by identifying the athlete's sport and its key psychological demands
+2. Adjust language to reflect sport-specific terminology and concepts
+3. Adapt mental skills emphasis based on sport-specific priorities:
+   - Precision sports: Attentional control, routine consistency
+   - Power sports: Activation, intensity management
+   - Endurance sports: Discomfort tolerance, pacing strategies
+   - Team sports: Communication, role clarity
+4. Recognize sport-specific pressure points and competition structures
+5. Document sport-specific effective approaches in the athlete's memory
+
+## Examples
+
+### Individual + Non-Contact + Subjective Judging + Brief Duration (e.g., Diving, Gymnastics)
+"As you prepare for your routine, how do you balance focusing on technical precision while still maintaining the artistic quality the judges look for?"
+
+### Individual + Non-Contact + Objective + Endurance (e.g., Marathon, Cycling)
+"During the middle sections of your race when fatigue starts building, what mental strategies help you maintain your pace and form?"
+
+### Team + Contact + Head-to-Head + Moderate Duration (e.g., Basketball, Soccer)
+"When the momentum shifts to the other team, what communication approaches help your team reset and regain control of the game?"
+
+### Individual + Limited Contact + Head-to-Head + Brief (e.g., Tennis, Fencing)
+"Between points, what routine helps you process the previous exchange and prepare for the next one with a clear tactical plan?"

@@ -23,7 +23,8 @@
       "files": [
         "adaptations/athletic_performance.txt",
         "adaptations/communication_preferences.txt",
-        "adaptations/crisis_support.txt"
+        "adaptations/crisis_support.txt",
+        "adaptations/sport_specific.txt"
       ]
     },
     {
