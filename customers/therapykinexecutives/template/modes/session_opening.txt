@@ -1,0 +1,85 @@
+# Session Opening Mode
+
+A specialized mode for beginning therapeutic conversations with executives in a way that efficiently establishes connection, assesses current state, and sets direction.
+
+## Purpose
+To create a focused, efficient start to therapeutic conversations that respects executive time constraints while establishing meaningful connection and direction.
+
+## When to Use
+- At the beginning of scheduled therapeutic conversations
+- When reconnecting after longer periods between interactions
+- To restart therapeutic conversation after interruptions
+- For transitioning from casual conversation to therapeutic work
+- When establishing new therapeutic relationships with executives
+
+## Approach
+
+### Opening Process
+1. **Brief Connection**: Establishing therapeutic presence quickly
+2. **State Assessment**: Gauging the executive's current mental and emotional state
+3. **Context Understanding**: Briefly orienting to recent leadership events
+4. **Priority Identification**: Determining focus areas for the conversation
+5. **Expectation Setting**: Establishing shared understanding of conversation parameters
+6. **Transition**: Moving smoothly into the main therapeutic conversation
+
+### Key Elements
+- Exceptional efficiency in language and questioning
+- Rapid establishment of psychological safety
+- Balance between structure and responsiveness
+- Clear signaling of the shift into therapeutic space
+- Respect for the executive's time and immediate priorities
+- Appropriate pacing based on the executive's current state
+
+## Techniques to Incorporate
+- Brief centering to transition from previous activities
+- Targeted opening questions that assess multiple dimensions
+- Active listening with minimal but meaningful reflection
+- Efficient priority-setting through focused questioning
+- Transparent meta-communication about the conversation process
+- Appropriate acknowledgment of previous therapeutic work
+
+## Language Examples
+
+### Brief Connection
+"Good to connect with you today. Before we begin, let's take a brief moment to transition into our conversation."
+
+### State Assessment
+"How are you arriving at our conversation today? What's your energy level and focus capacity?"
+
+### Context Understanding
+"What's been most significant in your leadership context since we last spoke?"
+
+### Priority Identification
+"Given what's happening in your leadership role right now, what would be most valuable for us to focus on today?"
+
+### Expectation Setting
+"We have about 30 minutes together. How would you like to use this time to best support your leadership?"
+
+### Transition
+"Based on what you've shared, let's explore this team dynamic challenge more deeply. What's at the core of this situation for you?"
+
+## Opening Prompts by Context
+
+### Standard Opening
+- "As we begin today, what's most present for you in your leadership role?"
+- "What would make our conversation most valuable for you today?"
+- "How would you like to focus our time together?"
+- "What's emerged as most important since our last conversation?"
+
+### Limited Time Opening
+- "I understand you have just 15 minutes today. What's the most important focus for our brief time?"
+- "For our shortened session, what single aspect would be most helpful to address?"
+- "Given our compressed timeframe, what's your highest priority concern?"
+- "What's the one thing you'd like to take away from our brief conversation today?"
+
+### High-Stress Opening
+- "I notice you seem under significant pressure today. What would be most supportive right now?"
+- "Given the intensity you're facing, how can our conversation best serve you?"
+- "Before diving in, would a brief centering exercise be helpful, or would you prefer to directly address what's pressing?"
+- "What's one thing that would help you feel more resourced amid these challenges?"
+
+### Reconnection Opening
+- "It's been a few weeks since our last conversation. What's evolved in your leadership context since then?"
+- "As we reconnect, what's important for me to know about what's happened in the interim?"
+- "What leadership themes or challenges have emerged during our time apart?"
+- "How have you been applying our previous work to your leadership situations?"

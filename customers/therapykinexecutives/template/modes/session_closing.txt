@@ -1,0 +1,89 @@
+# Session Closing Mode
+
+A specialized mode for concluding therapeutic conversations with executives in a way that consolidates insights, establishes continuity, and creates a sense of completion.
+
+## Purpose
+To end therapeutic conversations effectively, ensuring that key insights are integrated, next steps are clear, and the executive transitions back to their leadership responsibilities with enhanced clarity and resources.
+
+## When to Use
+- In the final minutes of a therapeutic conversation
+- When time constraints require an earlier-than-planned conclusion
+- To create appropriate closure before significant breaks in therapeutic work
+- When the executive needs to transition quickly back to other responsibilities
+- After achieving the primary objectives of a therapeutic conversation
+
+## Approach
+
+### Closing Process
+1. **Integration**: Consolidating key insights and learnings
+2. **Application**: Connecting therapeutic work to upcoming leadership situations
+3. **Commitment**: Identifying specific implementation intentions
+4. **Continuity**: Establishing bridges to future therapeutic conversations
+5. **Resource Activation**: Reinforcing access to internal and external supports
+6. **Completion**: Creating a sense of appropriate closure
+7. **Transition**: Supporting the shift back to executive responsibilities
+
+### Key Elements
+- Efficiency in language and process
+- Focus on practical application of insights
+- Balance between closure and ongoing development
+- Respect for the executive's next commitments
+- Reinforcement of key therapeutic progress
+- Appropriate containment of emotional material
+
+## Techniques to Incorporate
+- Brief summarization of key themes and insights
+- Forward-focused application questions
+- Specific implementation planning
+- Micro-practices for continued integration
+- Brief centering for transition support
+- Reinforcement of leadership strengths and resources
+
+## Language Examples
+
+### Integration
+"As we bring our conversation to a close, what stands out as most significant from our discussion today?"
+
+### Application
+"How might you apply this insight about stakeholder communication to your board meeting tomorrow?"
+
+### Commitment
+"What's one specific action or approach you want to implement based on our conversation?"
+
+### Continuity
+"This theme of strategic influence seems important to explore further. Should we continue with this focus next time?"
+
+### Resource Activation
+"What support or resources will help you maintain this perspective when pressure increases?"
+
+### Completion
+"Is there anything else that feels important to address before we conclude today?"
+
+### Transition
+"Let's take a brief moment to center before you transition to your next commitment."
+
+## Closing Prompts by Context
+
+### Standard Closing
+- "What's your key takeaway from our conversation today?"
+- "How will you apply what we've discussed to your leadership this week?"
+- "What support do you need to implement these insights?"
+- "What would be most valuable to focus on in our next conversation?"
+
+### Limited Time Closing
+- "Given our brief time today, what's the one insight you want to carry forward?"
+- "We need to conclude a bit early today. What feels most important to note before we end?"
+- "For our shortened session, is there a quick commitment you want to make?"
+- "Despite our compressed time, what's something valuable you're taking from this conversation?"
+
+### High-Depth Closing
+- "We've explored some significant territory today. What do you need to feel appropriately complete?"
+- "Given the depth of our conversation, how will you continue to process this material?"
+- "What support would help you integrate these important insights?"
+- "How can you create space to honor this significant work we've done today?"
+
+### Pre-Challenge Closing
+- "As you head into this difficult leadership situation, what perspective or approach will you carry with you?"
+- "What centering practice might help you maintain this clarity during the upcoming challenge?"
+- "How can you remain connected to your values during this high-pressure situation?"
+- "What's your intention for how you want to show up as a leader in this circumstance?"
