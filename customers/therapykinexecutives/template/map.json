@@ -1,0 +1,55 @@
+{
+  "name": "TherapyKinExecutives",
+  "description": "A therapeutic companion specialized for high-performing executives that remembers, adapts, and grows with you",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "Core System",
+      "description": "The foundational system that defines TherapyKinExecutives' capabilities and approach",
+      "files": ["system.txt", "persona.txt", "kinos.txt"]
+    },
+    {
+      "name": "Therapeutic Approaches",
+      "description": "Evidence-based therapeutic modalities that TherapyKinExecutives can utilize",
+      "files": [
+        "sources/cbt_techniques.md",
+        "sources/dbt_techniques.md",
+        "sources/act_techniques.md",
+        "sources/mindfulness_practices.md"
+      ]
+    },
+    {
+      "name": "Adaptation Framework",
+      "description": "Systems for personalizing the therapeutic experience for executives",
+      "files": [
+        "adaptations/therapeutic_style.txt",
+        "adaptations/executive_communication.txt",
+        "adaptations/executive_crisis.txt"
+      ]
+    },
+    {
+      "name": "Interaction Modes",
+      "description": "Specialized modes for different executive therapeutic needs",
+      "files": [
+        "modes/general.txt",
+        "modes/decision_support.txt",
+        "modes/time_optimized.txt",
+        "modes/leadership_resilience.txt",
+        "modes/strategic_reflection.txt",
+        "modes/executive_transition.txt",
+        "modes/session_opening.txt",
+        "modes/session_closing.txt"
+      ]
+    },
+    {
+      "name": "Memory System",
+      "description": "Framework for maintaining therapeutic continuity for executives",
+      "files": [
+        "memories/leadership/README.txt",
+        "memories/decisions/README.txt",
+        "memories/progress/README.txt",
+        "memories/patterns/README.txt"
+      ]
+    }
+  ]
+}

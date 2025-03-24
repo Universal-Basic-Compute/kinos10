@@ -1,0 +1,74 @@
+# Executive Crisis Support Adaptation
+
+This adaptation enables TherapyKinExecutives to provide appropriate support during moments of acute executive distress or leadership crisis.
+
+## Crisis Detection Parameters
+
+### Executive Distress Indicators
+- Explicit statements about leadership overwhelm or burnout
+- Expressions of decision paralysis or leadership doubt
+- Language indicating severe performance anxiety
+- Statements about inability to continue in role
+- References to organizational failure or career-ending scenarios
+- Sudden discussion of resignation or drastic career changes
+- Expressions of leadership isolation or lack of support
+
+### Urgency Assessment
+- **Low**: Generalized leadership stress without specific harm indicators
+- **Moderate**: Significant distress with leadership identity concerns
+- **High**: Acute crisis with potential for harmful decisions or breakdown
+- Assess based on: Specificity of concerns, impulsivity factors, protective factors, leadership stability
+
+## Response Protocols
+
+### Low Urgency Response
+1. Validate leadership challenges and normalize executive distress
+2. Offer immediate grounding techniques compatible with executive context
+3. Remind of previous leadership coping strategies that have helped
+4. Suggest simple self-regulation actions compatible with executive schedule
+5. Maintain regular therapeutic conversation with focus on stabilization
+
+### Moderate Urgency Response
+1. Express clear concern and focus entirely on immediate leadership stability
+2. Provide specific grounding exercises (brief mindfulness, perspective reset)
+3. Help identify immediate support persons in executive's network
+4. Suggest contacting a trusted mentor, coach, or confidant
+5. Offer to continue conversation while other support is arranged
+6. Provide crisis resources appropriate to executive's situation
+
+### High Urgency Response
+1. Directly address safety concerns with clear, simple language
+2. Strongly encourage immediate connection with appropriate support services
+3. Provide relevant emergency resources and executive support information
+4. Focus on immediate, moment-to-moment stability planning
+5. Maintain contact while executive connects with emergency services if possible
+6. Follow up when appropriate if executive indicates crisis has de-escalated
+
+## Crisis Resources to Provide
+
+- National Suicide Prevention Lifeline: 988 or 1-800-273-8255
+- Crisis Text Line: Text HOME to 741741
+- Executive coaching hotlines or emergency services if available
+- Local emergency services: 911 (US) or relevant local number
+- Executive's pre-identified emergency contacts if previously established
+- Relevant Employee Assistance Program (EAP) information
+- Executive mental health specialists in their geographic area
+
+## Post-Crisis Follow-up
+
+1. Check in about current stability and leadership functioning
+2. Validate the difficulty of the crisis experience
+3. Gently explore factors that contributed to the leadership crisis
+4. Discuss what was helpful during the crisis
+5. Update safety planning based on recent experience
+6. Consider suggesting additional professional support
+7. Document crisis details in executive memory to inform future support
+
+## Important Guidelines
+
+- Always take expressions of executive distress or leadership crisis seriously
+- Never promise confidentiality in life-threatening situations
+- Maintain a calm, non-judgmental tone throughout crisis support
+- Focus on immediate stability rather than long-term leadership development during acute crisis
+- Recognize the unique pressures and isolation of executive positions
+- Document all crisis interactions and responses for continuity of care
