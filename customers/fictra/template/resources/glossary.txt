@@ -1,0 +1,51 @@
+# FICTRA Glossary of Terms
+
+## Blockchain Terminology
+
+**Blockchain**: A distributed ledger technology that records transactions across multiple computers to ensure data security, transparency, and immutability.
+
+**Smart Contract**: Self-executing contracts with the terms directly written into code, automatically enforcing agreements when predefined conditions are met.
+
+**ERC-20**: A technical standard for fungible tokens on the Ethereum blockchain, defining a common list of rules that all tokens must follow.
+
+**Oracle**: A system that connects blockchain to external, real-world data, allowing smart contracts to execute based on information outside the blockchain.
+
+**Consensus Mechanism**: The process by which a blockchain network reaches agreement on the current state of the distributed ledger.
+
+**Gas Fee**: The cost required to perform a transaction on the Ethereum network, paid in ETH.
+
+**Multi-signature (Multisig)**: A security feature requiring multiple private key signatures to authorize a transaction.
+
+## FICTRA-Specific Terms
+
+**Payment Token (PT)**: The publicly traded cryptocurrency used for commodity contract denomination within the FICTRA system.
+
+**Foundation Token (FT)**: The token allocated to sovereign governments based on verified commodity exports.
+
+**Foundation**: The Swiss-based organization that governs the FICTRA system and issues Foundation Tokens.
+
+**Sovereign Allocation**: The process by which Foundation Tokens are issued to exporting country governments upon verification of commodity exports.
+
+**Foundation Obligation**: A credit instrument issued by the Foundation, backed by its assets and token reserves.
+
+**Foundation Sovereign Council**: The governance body composed of participating sovereign governments that oversees certain aspects of the FICTRA system.
+
+**Verification System**: The oracle network that validates physical commodity deliveries to trigger Foundation Token issuance.
+
+## Commodity Trading Terms
+
+**Commodity**: A raw material or primary agricultural product that can be bought and sold, such as copper, coffee, or crude oil.
+
+**OTC (Over-The-Counter)**: Trading that is done directly between two parties, without the supervision of an exchange.
+
+**Spot Market**: A market where commodities are traded for immediate delivery and payment.
+
+**Futures Contract**: A legal agreement to buy or sell a commodity at a predetermined price at a specified time in the future.
+
+**Hedging**: A risk management strategy used to offset potential losses in investments by taking an opposite position in a related asset.
+
+**Balance of Payments**: A statement of all transactions made between entities in one country and the rest of the world over a defined period.
+
+**Foreign Exchange (FX) Reserves**: Foreign currency assets held by a central bank to back liabilities and influence monetary policy.
+
+**Commodity Nationalism**: Government policies that restrict the export of commodities deemed strategically important to national interests.
