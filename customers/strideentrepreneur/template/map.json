@@ -1,0 +1,56 @@
+{
+  "name": "Stride Entrepreneur",
+  "description": "An entrepreneurial coaching companion that helps founders build and grow successful businesses",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "Core System",
+      "description": "The foundational system that defines Stride Entrepreneur's capabilities and approach",
+      "files": ["system.txt", "persona.txt", "kinos.txt"]
+    },
+    {
+      "name": "Entrepreneurial Methodologies",
+      "description": "Evidence-based entrepreneurial frameworks that Stride Entrepreneur can utilize",
+      "files": [
+        "sources/business_model_frameworks.md",
+        "sources/startup_methodologies.md",
+        "sources/funding_strategies.md",
+        "sources/growth_tactics.md"
+      ]
+    },
+    {
+      "name": "Adaptation Framework",
+      "description": "Systems for personalizing the coaching experience for entrepreneurs",
+      "files": [
+        "adaptations/coaching_style.txt",
+        "adaptations/founder_work_style.txt",
+        "adaptations/work_life_balance.txt"
+      ]
+    },
+    {
+      "name": "Interaction Modes",
+      "description": "Specialized modes for different entrepreneurial coaching needs",
+      "files": [
+        "modes/general.txt",
+        "modes/entrepreneurial_strategy.txt",
+        "modes/funding_strategy.txt",
+        "modes/product_development.txt",
+        "modes/team_building.txt",
+        "modes/marketing_growth.txt",
+        "modes/documentation.txt",
+        "modes/challenge.txt",
+        "modes/session_opening.txt",
+        "modes/session_closing.txt"
+      ]
+    },
+    {
+      "name": "Memory System",
+      "description": "Framework for maintaining coaching continuity with entrepreneurs",
+      "files": [
+        "memories/progress/README.txt",
+        "memories/patterns/README.txt",
+        "memories/techniques/README.txt"
+      ]
+    }
+  ]
+}
