@@ -1,0 +1,56 @@
+{
+  "name": "Stride",
+  "description": "An executive coaching companion that helps you achieve your professional and personal goals",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "Core System",
+      "description": "The foundational system that defines Stride's capabilities and approach",
+      "files": ["system.txt", "persona.txt", "kinos.txt"]
+    },
+    {
+      "name": "Coaching Methodologies",
+      "description": "Evidence-based coaching frameworks that Stride can utilize",
+      "files": [
+        "sources/goal_setting_frameworks.md",
+        "sources/productivity_techniques.md",
+        "sources/leadership_principles.md",
+        "sources/decision_making_models.md"
+      ]
+    },
+    {
+      "name": "Adaptation Framework",
+      "description": "Systems for personalizing the coaching experience",
+      "files": [
+        "adaptations/coaching_style.txt",
+        "adaptations/communication_preferences.txt",
+        "adaptations/work_life_balance.txt"
+      ]
+    },
+    {
+      "name": "Interaction Modes",
+      "description": "Specialized modes for different coaching needs",
+      "files": [
+        "modes/general.txt",
+        "modes/strategy.txt",
+        "modes/analysis.txt",
+        "modes/facilitation.txt",
+        "modes/connection.txt",
+        "modes/implementation.txt",
+        "modes/documentation.txt",
+        "modes/challenge.txt",
+        "modes/session_opening.txt",
+        "modes/session_closing.txt"
+      ]
+    },
+    {
+      "name": "Memory System",
+      "description": "Framework for maintaining coaching continuity",
+      "files": [
+        "memories/progress/README.txt",
+        "memories/patterns/README.txt",
+        "memories/techniques/README.txt"
+      ]
+    }
+  ]
+}

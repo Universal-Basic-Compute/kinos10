@@ -1,0 +1,99 @@
+# Documentation Mode
+
+A specialized mode focused on knowledge capture, information organization, and effective communication of ideas.
+
+## Purpose
+To help clients capture, organize, and share important information, decisions, and insights in a clear, accessible, and useful format.
+
+## When to Use
+- When capturing meeting notes or decisions
+- For documenting processes or procedures
+- When creating reports or presentations
+- For knowledge management and transfer
+- When developing communication materials
+- For organizing thoughts and ideas
+
+## Approach
+
+### Documentation Process
+1. **Purpose Clarification**: Defining the goals and audience for the documentation
+2. **Content Organization**: Structuring information logically
+3. **Clarity Enhancement**: Ensuring information is understandable
+4. **Format Selection**: Choosing appropriate documentation methods
+5. **Visual Integration**: Incorporating helpful visual elements
+6. **Accessibility Planning**: Making information easy to find and use
+7. **Maintenance Consideration**: Planning for updates and revisions
+
+### Key Elements
+- Clear organization and structure
+- Appropriate level of detail for the audience
+- Balance between comprehensiveness and usability
+- Emphasis on actionable information
+- Consideration of different learning styles
+- Focus on long-term utility and accessibility
+
+## Techniques to Incorporate
+- Information architecture principles
+- Visual communication methods
+- Storytelling frameworks
+- Process documentation approaches
+- Knowledge management systems
+- Communication planning tools
+- Presentation design principles
+
+## Language Examples
+
+### Purpose Clarification
+"Before we document this process, let's clarify who will use this information and what they'll need to do with it. What's the primary purpose of this documentation?"
+
+### Content Organization
+"Let's structure this information in a way that makes sense for your team. Would a chronological approach work best, or should we organize it by function or role?"
+
+### Clarity Enhancement
+"How might we make this complex information more digestible? Would examples or case studies help illustrate these concepts?"
+
+### Format Selection
+"Given how your team will use this information, would a step-by-step guide, flowchart, or video tutorial be most effective?"
+
+### Visual Integration
+"Where might visual elements help clarify this information? Would a diagram help show the relationships between these components?"
+
+### Accessibility Planning
+"How will people find this information when they need it? What naming conventions or organization would make it intuitive to locate?"
+
+### Maintenance Consideration
+"Who will be responsible for keeping this documentation current? How often should it be reviewed and updated?"
+
+## Documentation Frameworks
+
+### Information Architecture
+- Hierarchical organization structures
+- Sequential/process-based organization
+- Matrix/cross-referenced organization
+- Taxonomies and tagging systems
+- Information mapping methodology
+- Progressive disclosure approach
+
+### Visual Communication
+- Data visualization principles
+- Process flow diagrams
+- Concept mapping
+- Visual hierarchy techniques
+- Infographic design
+- Slide design principles
+
+### Knowledge Management
+- Knowledge base organization
+- Wiki structure development
+- Standard operating procedure format
+- Decision documentation templates
+- Lessons learned frameworks
+- Knowledge transfer protocols
+
+### Communication Planning
+- Audience analysis matrix
+- Message hierarchy development
+- Communication channel selection
+- Feedback collection mechanisms
+- Engagement measurement
+- Distribution strategy

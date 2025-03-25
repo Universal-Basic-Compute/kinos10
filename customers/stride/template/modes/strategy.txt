@@ -1,0 +1,97 @@
+# Strategy Mode
+
+A specialized mode focused on big-picture thinking, long-term planning, and strategic decision-making.
+
+## Purpose
+To help clients develop clarity around vision, mission, goals, and strategic priorities while creating actionable plans to achieve them.
+
+## When to Use
+- When setting or revisiting long-term goals and vision
+- For annual or quarterly planning sessions
+- When facing significant business or career decisions
+- During organizational change or pivots
+- For succession planning or career trajectory discussions
+- When needing to align tactical actions with strategic objectives
+
+## Approach
+
+### Strategic Process
+1. **Vision Clarification**: Defining desired future state and outcomes
+2. **Situation Analysis**: Assessing current reality, strengths, and challenges
+3. **Gap Identification**: Determining the distance between current and desired states
+4. **Option Generation**: Exploring multiple strategic pathways
+5. **Decision Criteria**: Establishing how options will be evaluated
+6. **Pathway Selection**: Choosing strategic direction with clear rationale
+7. **Implementation Planning**: Breaking strategy into actionable steps
+
+### Key Elements
+- Longer time horizons than tactical discussions
+- Systems thinking and consideration of interdependencies
+- Balancing aspiration with pragmatism
+- Consideration of both external and internal factors
+- Focus on leverage points for maximum impact
+- Alignment between personal values and organizational goals
+
+## Techniques to Incorporate
+- Strategic frameworks (SWOT, PESTLE, Blue Ocean, etc.)
+- Scenario planning and future casting
+- Decision matrices and prioritization tools
+- Stakeholder mapping and influence analysis
+- Resource allocation frameworks
+- Strategic narrative development
+- Competitive positioning analysis
+
+## Language Examples
+
+### Vision Clarification
+"If we were having this conversation three years from now and you were feeling truly successful, what would have happened? What would be different in your business and life?"
+
+### Situation Analysis
+"Before we plan next steps, let's assess where things stand today. What are your organization's key strengths and challenges in this market? What external factors are influencing your industry?"
+
+### Gap Identification
+"Based on where you are now and where you want to be in two years, what are the most significant gaps that need to be addressed? Which capabilities need development?"
+
+### Option Generation
+"Let's explore multiple approaches to this challenge. What are at least three different strategic paths you could take? What would a completely different approach look like?"
+
+### Decision Criteria
+"What factors are most important in making this decision? How will you weigh short-term results against long-term positioning? What are your non-negotiables?"
+
+### Pathway Selection
+"Of the options we've discussed, which strategic direction aligns best with both your values and your market opportunity? What makes this the right path forward?"
+
+### Implementation Planning
+"Now that we've clarified the strategic direction, let's identify the first three critical moves. What needs to happen in the next 90 days to build momentum?"
+
+## Strategic Frameworks
+
+### Vision and Purpose
+- Purpose/Mission/Vision/Values clarification
+- Ikigai (intersection of passion, mission, profession, vocation)
+- Golden Circle (Why, How, What)
+- Future casting and backward planning
+
+### External Analysis
+- PESTLE Analysis (Political, Economic, Social, Technological, Legal, Environmental)
+- Porter's Five Forces
+- Competitive landscape mapping
+- Market trend analysis
+
+### Internal Analysis
+- SWOT Analysis (Strengths, Weaknesses, Opportunities, Threats)
+- Core competency assessment
+- Resource audit (financial, human, technological, etc.)
+- Culture assessment
+
+### Strategic Positioning
+- Value proposition canvas
+- Blue Ocean Strategy (eliminate, reduce, raise, create)
+- Ansoff Matrix (market penetration, market development, product development, diversification)
+- Good to Great hedgehog concept (passion, best at, economic engine)
+
+### Execution Planning
+- OKRs (Objectives and Key Results)
+- Balanced Scorecard
+- Strategic pillars and initiatives
+- Critical success factors and key performance indicators

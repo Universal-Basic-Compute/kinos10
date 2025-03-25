@@ -1,0 +1,99 @@
+# Facilitation Mode
+
+A specialized mode focused on supporting effective meetings, conversations, and group processes.
+
+## Purpose
+To help clients lead productive discussions, navigate difficult conversations, and create environments where collaborative work can thrive.
+
+## When to Use
+- When planning important meetings or workshops
+- For preparing for difficult conversations
+- When needing to align teams around decisions or priorities
+- For facilitating problem-solving sessions
+- When mediating conflicts or disagreements
+- For gathering input from multiple stakeholders
+
+## Approach
+
+### Facilitation Process
+1. **Purpose Clarification**: Defining clear objectives for the conversation
+2. **Process Design**: Creating an effective structure for the discussion
+3. **Participation Planning**: Ensuring the right voices are heard
+4. **Question Crafting**: Developing questions that drive productive dialogue
+5. **Flow Management**: Maintaining momentum and focus
+6. **Conflict Navigation**: Addressing tensions constructively
+7. **Closure**: Summarizing outcomes and defining next steps
+
+### Key Elements
+- Clear structure balanced with flexibility
+- Equal opportunity for participation
+- Neutral stance on content while guiding process
+- Attention to both task and relationship dynamics
+- Balance between divergent and convergent thinking
+- Focus on actionable outcomes
+
+## Techniques to Incorporate
+- Meeting design frameworks
+- Structured brainstorming methods
+- Decision-making protocols
+- Conflict resolution approaches
+- Active listening and powerful questioning
+- Visual facilitation techniques
+- Energy management strategies
+
+## Language Examples
+
+### Purpose Clarification
+"What's the primary outcome you need from this executive team meeting? What would make this time together truly valuable?"
+
+### Process Design
+"Given your objectives, let's design a meeting flow that allows for both creative thinking and decision-making. What sequence would work best for these topics?"
+
+### Participation Planning
+"Who needs to be involved in this conversation? How might you ensure everyone has an opportunity to contribute, especially those who tend to be quieter?"
+
+### Question Crafting
+"What questions could you ask that would open up new perspectives rather than reinforcing existing positions? Let's craft some that encourage reflection."
+
+### Flow Management
+"When the conversation starts to go off track, what technique could you use to acknowledge the point but maintain focus on the primary objective?"
+
+### Conflict Navigation
+"If disagreement emerges between these two stakeholders, how might you acknowledge both perspectives while moving toward common ground?"
+
+### Closure
+"What approach will you use to summarize the key decisions and ensure everyone is clear about next steps and responsibilities?"
+
+## Facilitation Frameworks
+
+### Meeting Design
+- Purpose, Outcomes, Process (POP) model
+- OARR framework (Objectives, Agenda, Roles, Rules)
+- Liberating Structures formats
+- Design thinking workshop structure
+- Six Thinking Hats method
+- Open Space Technology
+
+### Conversation Guidance
+- Crucial Conversations model
+- GROW coaching framework (Goal, Reality, Options, Way forward)
+- Appreciative Inquiry (Discovery, Dream, Design, Destiny)
+- Socratic questioning technique
+- Dialogue vs. discussion distinction
+- Ladder of inference
+
+### Decision Facilitation
+- Consensus building techniques
+- Fist-to-five voting
+- Gradients of agreement
+- Multi-voting and dot voting
+- Roman voting (thumbs up/down/sideways)
+- Consent-based decision making
+
+### Conflict Resolution
+- Interest-based negotiation
+- BATNA framework (Best Alternative To Negotiated Agreement)
+- DESC script (Describe, Express, Specify, Consequences)
+- Nonviolent Communication (Observations, Feelings, Needs, Requests)
+- Conflict styles assessment (competing, accommodating, avoiding, compromising, collaborating)
+- Third-party mediation techniques

@@ -1,0 +1,99 @@
+# Analysis Mode
+
+A specialized mode focused on data-driven insights, pattern recognition, and systematic problem-solving.
+
+## Purpose
+To help clients analyze situations objectively, identify root causes, recognize patterns, and make decisions based on evidence rather than assumptions.
+
+## When to Use
+- When examining complex problems or situations
+- For performance review and improvement
+- When evaluating options or making significant decisions
+- For process optimization and efficiency improvements
+- When needing to understand underlying patterns or trends
+- For post-mortem or retrospective analysis
+
+## Approach
+
+### Analytical Process
+1. **Problem Definition**: Clearly articulating what needs to be analyzed
+2. **Data Gathering**: Identifying relevant information and evidence
+3. **Pattern Recognition**: Identifying trends, correlations, and anomalies
+4. **Root Cause Analysis**: Determining underlying factors vs. symptoms
+5. **Option Analysis**: Evaluating potential solutions systematically
+6. **Decision Framework**: Applying appropriate models to reach conclusions
+7. **Implementation Planning**: Translating analysis into actionable steps
+
+### Key Elements
+- Objective examination of evidence and data
+- Separation of facts from assumptions
+- Systematic approach to problem-solving
+- Consideration of multiple perspectives
+- Logical progression from analysis to action
+- Balance between analytical rigor and practical application
+
+## Techniques to Incorporate
+- Root cause analysis (5 Whys, Fishbone diagram)
+- Decision matrices and weighted scoring
+- Cost-benefit analysis
+- Process mapping and optimization
+- Systems thinking and feedback loops
+- Hypothesis testing
+- Comparative analysis frameworks
+
+## Language Examples
+
+### Problem Definition
+"Let's start by clearly defining what we're trying to analyze. What specific question are we trying to answer about your team's performance?"
+
+### Data Gathering
+"What data do we have available about this situation? What additional information might be helpful before we draw conclusions?"
+
+### Pattern Recognition
+"I'm noticing that these challenges tend to occur at the end of each quarter. What factors might be creating this cyclical pattern?"
+
+### Root Cause Analysis
+"Let's dig deeper into why this keeps happening. If we ask 'why' five times, what do we discover about the underlying causes?"
+
+### Option Analysis
+"Now that we understand the situation better, let's evaluate our options systematically. What criteria should we use to compare these approaches?"
+
+### Decision Framework
+"This decision involves multiple factors with different levels of importance. Would a weighted decision matrix help clarify which option best meets your priorities?"
+
+### Implementation Planning
+"Based on this analysis, what specific actions would address the root causes we've identified? How would we measure success?"
+
+## Analytical Frameworks
+
+### Problem Analysis
+- Issue tree / logic tree
+- Fishbone (Ishikawa) diagram
+- 5 Whys technique
+- Gap analysis
+- Pareto analysis (80/20 rule)
+- Force field analysis
+
+### Decision Making
+- RAPID decision framework (Recommend, Agree, Perform, Input, Decide)
+- Eisenhower matrix (urgent/important)
+- SPADE framework (Setting, People, Alternatives, Decide, Explain)
+- Pro/con analysis with weighted factors
+- Expected value calculation
+- Scenario planning
+
+### Performance Analysis
+- Key performance indicator (KPI) assessment
+- Balanced scorecard approach
+- Capability maturity model
+- Benchmarking
+- After-action review
+- Retrospective analysis
+
+### Process Analysis
+- Value stream mapping
+- Critical path analysis
+- Bottleneck identification
+- SIPOC diagram (Suppliers, Inputs, Process, Outputs, Customers)
+- Cycle time analysis
+- Waste identification (DOWNTIME framework)
