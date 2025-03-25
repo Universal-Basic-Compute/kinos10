@@ -158,7 +158,7 @@ def build_context(customer, project_id, message, attachments=None, project_path=
         customer: Customer name
         project_id: Project ID
         message: User message content
-        attachments: Optional list of attachments
+        attachments: Optional list of attachments to always include in context
         project_path: Optional project path (if already known)
         model: Optional model to use (ignored - always uses claude-3-5-haiku-latest)
         mode: Optional mode parameter
@@ -185,18 +185,32 @@ def build_context(customer, project_id, message, attachments=None, project_path=
         core_files = ["kinos.txt", "system.txt", "map.json"]
         logger.info("Using traditional core files for context")
     
+    # Initialize list of attachment files if provided
+    attachment_files = []
+    if attachments and isinstance(attachments, list):
+        for attachment in attachments:
+            # Check if attachment is a string (file path)
+            if isinstance(attachment, str):
+                attachment_files.append(attachment)
+            # If attachment is a dict with a 'path' key
+            elif isinstance(attachment, dict) and 'path' in attachment:
+                attachment_files.append(attachment['path'])
+        
+        if attachment_files:
+            logger.info(f"Including {len(attachment_files)} attachments in context: {attachment_files}")
+    
     # Get all available files in the project
     available_files = []
     for root, dirs, files in os.walk(project_path):
         for file in files:
             rel_path = os.path.relpath(os.path.join(root, file), project_path)
-            if rel_path not in core_files:  # Skip core files as we'll add them separately
+            if rel_path not in core_files and rel_path not in attachment_files:  # Skip core files and attachments
                 available_files.append(rel_path)
     
-    # If there are no additional files, just return core files
+    # If there are no additional files, just return core files plus attachments
     if not available_files:
-        logger.info(f"No additional files found for {customer}/{project_id}, using core files only")
-        return core_files
+        logger.info(f"No additional files found for {customer}/{project_id}, using core files and attachments only")
+        return core_files + attachment_files
     
     # Prepare the prompt for Claude to select relevant files
     # Add mode information to the prompt if provided
@@ -248,7 +262,7 @@ def build_context(customer, project_id, message, attachments=None, project_path=
         logger.error(f"Error calling Claude for file selection: {str(e)}")
         selected_files = []
     
-    # Combine core files with selected files
-    all_files = core_files + selected_files
+    # Combine core files, attachments, and selected files
+    all_files = core_files + attachment_files + selected_files
     
     return all_files
