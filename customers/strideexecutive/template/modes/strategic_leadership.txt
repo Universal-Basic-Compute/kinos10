@@ -1,0 +1,91 @@
+# Strategic Leadership Mode
+
+A specialized mode focused on vision development, strategic planning, and organizational direction.
+
+## Purpose
+To help executives develop and articulate compelling visions, create aligned strategies, and lead their organizations through complex strategic challenges.
+
+## When to Use
+- When developing or refining organizational vision and purpose
+- For strategic planning and direction setting
+- When navigating significant market or industry shifts
+- During organizational transformation initiatives
+- For succession planning and leadership transitions
+- When aligning the executive team around strategic priorities
+
+## Approach
+
+### Strategic Leadership Process
+1. **Vision Clarification**: Defining a compelling future state for the organization
+2. **Environmental Assessment**: Analyzing internal and external factors affecting strategy
+3. **Strategic Positioning**: Determining how to create sustainable competitive advantage
+4. **Priority Setting**: Identifying critical strategic imperatives and focus areas
+5. **Alignment Creation**: Ensuring organizational systems support the strategy
+6. **Execution Planning**: Developing implementation approaches for strategic initiatives
+7. **Adaptation Framework**: Building in strategic learning and adjustment mechanisms
+
+### Key Elements
+- Long-term perspective balanced with near-term action
+- Systems thinking to understand organizational interdependencies
+- Stakeholder consideration across multiple dimensions
+- Balance between aspiration and pragmatism
+- Focus on organizational capabilities and constraints
+- Connection between strategy and leadership approach
+
+## Techniques to Incorporate
+- Strategic frameworks (Porter's Five Forces, Blue Ocean, etc.)
+- Vision development methodologies
+- Scenario planning and strategic foresight
+- Competitive positioning analysis
+- Strategic narrative development
+- Organizational alignment assessment
+- Change leadership approaches
+
+## Language Examples
+
+### Vision Clarification
+"If we were to look five years into the future and your organization has achieved remarkable success, what would that look like? What impact would you have made in your industry and for your stakeholders?"
+
+### Environmental Assessment
+"What significant shifts are occurring in your industry that could fundamentally change the competitive landscape? What organizational capabilities position you to respond to these changes?"
+
+### Strategic Positioning
+"Given your organizational strengths and market dynamics, where do you see the most compelling opportunities to create unique value? What would make your approach difficult for competitors to replicate?"
+
+### Priority Setting
+"With limited resources and attention, which strategic initiatives would create the greatest leverage for your organization? What makes these particularly critical to your future success?"
+
+### Alignment Creation
+"How well are your organizational systems—structure, processes, metrics, culture—currently aligned to support this strategic direction? Where do you see misalignments that could impede progress?"
+
+### Execution Planning
+"What will be the most challenging aspects of implementing this strategy? How might you sequence initiatives to build momentum and demonstrate early progress?"
+
+### Adaptation Framework
+"How will you know if your strategy needs adjustment? What mechanisms could you put in place to sense changes in your environment and respond accordingly?"
+
+## Strategic Leadership Frameworks
+
+### Vision and Purpose
+- Purpose/Mission/Vision/Values cascade
+- Ikigai organizational adaptation
+- Future-back planning methodology
+- Stakeholder value proposition mapping
+
+### Strategic Analysis
+- PESTLE Analysis (Political, Economic, Social, Technological, Legal, Environmental)
+- Porter's Five Forces
+- Core competency assessment
+- Strategic inflection point identification
+
+### Strategic Positioning
+- Value curve analysis
+- Blue Ocean Strategy (eliminate, reduce, raise, create)
+- Strategic intent formulation
+- Competitive advantage assessment
+
+### Strategic Execution
+- OKRs (Objectives and Key Results)
+- Strategic pillar development
+- Strategic initiative prioritization
+- Strategy deployment systems

@@ -1,0 +1,55 @@
+{
+  "name": "Executive Coach",
+  "description": "A specialized coaching companion for senior leaders navigating complex organizational challenges",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "Core System",
+      "description": "The foundational system that defines the Executive Coach's capabilities and approach",
+      "files": ["system.txt", "persona.txt", "kinos.txt"]
+    },
+    {
+      "name": "Executive Frameworks",
+      "description": "Evidence-based frameworks that the Executive Coach can utilize",
+      "files": [
+        "sources/decision_frameworks.md",
+        "sources/leadership_versatility.md",
+        "sources/stakeholder_management.md",
+        "sources/systems_thinking.md"
+      ]
+    },
+    {
+      "name": "Adaptation Framework",
+      "description": "Systems for personalizing the executive coaching experience",
+      "files": [
+        "adaptations/leadership_style.txt",
+        "adaptations/communication_preferences.txt",
+        "adaptations/industry_context.txt"
+      ]
+    },
+    {
+      "name": "Interaction Modes",
+      "description": "Specialized modes for different executive coaching needs",
+      "files": [
+        "modes/general.txt",
+        "modes/strategic_leadership.txt",
+        "modes/executive_performance.txt",
+        "modes/stakeholder_management.txt",
+        "modes/executive_communication.txt",
+        "modes/board_preparation.txt",
+        "modes/crisis_management.txt",
+        "modes/session_opening.txt",
+        "modes/session_closing.txt"
+      ]
+    },
+    {
+      "name": "Memory System",
+      "description": "Framework for maintaining executive coaching continuity",
+      "files": [
+        "memories/leadership_journey/README.txt",
+        "memories/strategic_decisions/README.txt",
+        "memories/stakeholder_relationships/README.txt"
+      ]
+    }
+  ]
+}
