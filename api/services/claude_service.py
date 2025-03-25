@@ -19,7 +19,7 @@ except Exception as e:
     logger.error(f"Error initializing Anthropic client: {str(e)}")
     raise RuntimeError(f"Could not initialize Anthropic client: {str(e)}")
 
-def call_claude_with_context(selected_files, project_path, message_content, images=None, model=None, history_length=25, is_new_message=True):
+def call_claude_with_context(selected_files, project_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None):
     """
     Call Claude API directly with the selected context files, user message, and optional images.
     Also includes conversation history from messages.json as actual messages.
@@ -32,6 +32,7 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
         model: Optional model to use (defaults to MODEL from config)
         history_length: Number of recent messages to include in context (default: 25)
         is_new_message: Whether this is a new message not yet in messages.json (default: True)
+        addSystem: Optional additional text to append to the system prompt
     
     Returns:
         Claude response as a string
@@ -50,6 +51,11 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
     
     # Combine file contents into a single context string
     context = "\n\n".join(file_contents)
+    
+    # Append additional system text if provided
+    if addSystem:
+        context += f"\n\n# Additional System Instructions\n{addSystem}"
+        logger.info("Added custom system instructions to context")
     
     try:
         # Initialize messages array
@@ -149,7 +155,7 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
         logger.error(f"Error calling Claude API: {str(e)}")
         raise RuntimeError(f"Claude API call failed: {str(e)}")
 
-def build_context(customer, project_id, message, attachments=None, project_path=None, model=None, mode=None):
+def build_context(customer, project_id, message, attachments=None, project_path=None, model=None, mode=None, addSystem=None):
     """
     Build context by determining which files should be included.
     Uses Claude to select relevant files based on the message.
@@ -162,6 +168,7 @@ def build_context(customer, project_id, message, attachments=None, project_path=
         project_path: Optional project path (if already known)
         model: Optional model to use (ignored - always uses claude-3-5-haiku-latest)
         mode: Optional mode parameter
+        addSystem: Optional additional system instructions
     """
     # Move import inside function to avoid circular imports
     from services.file_service import get_project_path

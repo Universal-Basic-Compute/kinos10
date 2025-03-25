@@ -76,6 +76,7 @@ def send_message(customer, project_id):
         token = data.get('token', '')  # Can be used for authentication in the future
         model = data.get('model', '')  # Optional model parameter
         history_length = data.get('history_length', 25)  # Default to 25 messages
+        addSystem = data.get('addSystem', None)  # Optional additional system instructions
         
         # Ensure history_length is an integer and has a reasonable value (default: 25)
         try:
@@ -254,7 +255,7 @@ def send_message(customer, project_id):
         mode = data.get('mode', '')  # Get optional mode parameter
         
         # Build context (select relevant files)
-        selected_files = build_context(customer, project_id, message_content, attachments, project_path, model, mode)
+        selected_files = build_context(customer, project_id, message_content, attachments, project_path, model, mode, addSystem)
         
         # Add saved image files to selected files for context
         for img_path in saved_images:
@@ -275,7 +276,8 @@ def send_message(customer, project_id):
                 images, 
                 model,
                 history_length,
-                is_new_message=True
+                is_new_message=True,
+                addSystem=addSystem
             )
             
             # Create assistant message object
