@@ -30,6 +30,11 @@ wheels/
 # Aider
 .aider*
 
+# Log files
+template_propagation_*.log
+reset_tool_*.log
+message_analysis_*.log
+
 # IDE
 .idea/
 .vscode/
