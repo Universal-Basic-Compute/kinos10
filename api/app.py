@@ -23,7 +23,8 @@ CORS(app, resources={
             "http://localhost:3000",
             "http://localhost:3001",
             "https://kinos-engine.ai",
-            "https://kinos10.onrender.com"
+            "https://kinos10.onrender.com",
+            "https://fictra-portal.vercel.app"
         ]
     }
 })
