@@ -71,19 +71,63 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
             logger.error(f"Error creating temporary system file: {str(e)}")
             temp_system_file = None
     
+    # Determine which files are from the template
+    # Extract customer and project from project_path
+    parts = os.path.normpath(project_path).split(os.sep)
+    # Find the index of "customers" in the path
+    try:
+        customers_index = parts.index("customers")
+        if len(parts) > customers_index + 2:
+            customer = parts[customers_index + 1]
+            # Check if this is a template or regular project
+            if parts[customers_index + 2] == "template":
+                # This is already a template, all files are template files
+                template_files = selected_files
+            else:
+                # This is a project, get template files from customer template
+                template_path = os.path.join(os.sep.join(parts[:customers_index + 2]), customer, "template")
+                template_files = []
+                if os.path.exists(template_path):
+                    # Get all files in the template directory
+                    for root, _, files in os.walk(template_path):
+                        for file in files:
+                            rel_path = os.path.relpath(os.path.join(root, file), template_path)
+                            template_files.append(rel_path)
+                logger.info(f"Found {len(template_files)} files in template")
+        else:
+            # Path doesn't contain enough parts, assume no template files
+            template_files = []
+            logger.warning("Could not determine customer/project from path, treating all files as project files")
+    except ValueError:
+        # "customers" not found in path
+        template_files = []
+        logger.warning("'customers' not found in path, treating all files as project files")
+    
     # Add all selected files to the command
     for file in selected_files:
         file_path = os.path.join(project_path, file)
         if os.path.exists(file_path):
-            # Use --read for system files, --file for others
-            if file in ["kinos.txt", "system.txt", "persona.txt"]:
+            # Use --read for system files, template files, and specific known files
+            if (file in ["kinos.txt", "system.txt", "persona.txt"] or 
+                file in template_files or 
+                file.startswith("modes/") or 
+                file.startswith("adaptations/") or
+                file.startswith("knowledge/")):
                 cmd.extend(["--read", file])
+                logger.info(f"Added {file} as --read (non-editable) file")
             else:
                 cmd.extend(["--file", file])
+                logger.info(f"Added {file} as --file (editable) file")
     
     # Log the command (without API key for security)
     safe_cmd = [c for c in cmd if not c.startswith("--anthropic-api-key=")]
     logger.info(f"Executing Aider command: {' '.join(safe_cmd)}")
+    
+    # Log the breakdown of editable vs non-editable files
+    read_files = [c for c in cmd if c not in ["--read", "--file"] and cmd[cmd.index(c)-1] == "--read"]
+    file_files = [c for c in cmd if c not in ["--read", "--file"] and cmd[cmd.index(c)-1] == "--file"]
+    logger.info(f"Non-editable files (--read): {read_files}")
+    logger.info(f"Editable files (--file): {file_files}")
     
     # Static prompt for the context builder with last messages appended
     static_prompt = f"""
