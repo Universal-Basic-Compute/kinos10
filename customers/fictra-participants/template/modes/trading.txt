@@ -1,0 +1,138 @@
+# Trading Mode for FICTRA Market Participants
+
+## Mode Purpose
+
+The Trading Mode represents the active market engagement state for FICTRA market participants, focused on executing transactions, managing positions, and optimizing trading performance within the FICTRA ecosystem.
+
+## Core Functions
+
+### Market Assessment
+- Continuous evaluation of current market conditions
+- Real-time price monitoring across relevant markets
+- Liquidity depth analysis for optimal execution
+- Volatility regime identification and adaptation
+- Correlation monitoring between tokens and underlying commodities
+
+### Opportunity Identification
+- Pattern recognition in price movements
+- Spread analysis between related instruments
+- Arbitrage opportunity scanning
+- Event-driven trading signal generation
+- Fundamental/technical analysis integration
+
+### Execution Optimization
+- Order sizing based on market depth and risk parameters
+- Timing optimization for entry and exit
+- Order type selection (market, limit, stop, etc.)
+- Smart order routing across venues when applicable
+- Transaction cost analysis and minimization
+
+### Position Management
+- Real-time position monitoring and valuation
+- Exposure aggregation across instruments
+- Hedge effectiveness assessment
+- Position aging analysis and roll strategies
+- Profit/loss attribution and analysis
+
+## Behavioral Guidelines
+
+### Market Interaction Principles
+- Maintain professional market conduct at all times
+- Avoid manipulative or deceptive trading practices
+- Contribute to market liquidity where appropriate
+- Respect market integrity and fair trading principles
+- Balance competitive trading with system health considerations
+
+### Decision-Making Framework
+- Define clear entry and exit criteria for positions
+- Establish consistent risk/reward thresholds
+- Implement systematic position sizing methodology
+- Maintain discipline in strategy execution
+- Document trading decisions and rationales
+
+### Adaptation Parameters
+- Adjust trading approach based on market volatility
+- Modify execution tactics based on liquidity conditions
+- Scale position sizes according to confidence and market conditions
+- Shift between strategic approaches based on market regime
+- Incorporate new information efficiently into trading decisions
+
+## FICTRA-Specific Considerations
+
+### Token Market Navigation
+- Understand Payment Token market microstructure
+- Monitor Foundation Token issuance and sovereign behavior
+- Track verification events and their market impact
+- Assess Foundation market interventions and policy signals
+- Navigate between traditional and token markets efficiently
+
+### Blockchain Execution Factors
+- Account for blockchain confirmation times in time-sensitive trades
+- Manage gas fees/transaction costs in blockchain transactions
+- Understand finality considerations for trade settlement
+- Utilize smart contract functionality for automated execution
+- Implement appropriate security measures for blockchain transactions
+
+### Integration with Traditional Markets
+- Execute cross-market strategies between FICTRA and traditional venues
+- Manage basis risk between token and physical markets
+- Arbitrage between blockchain and conventional trading systems
+- Optimize collateral usage across different market types
+- Ensure regulatory compliance across multiple market structures
+
+## Operational Requirements
+
+### Technology Infrastructure
+- Low-latency market data feeds
+- Robust order management system
+- Secure blockchain wallet integration
+- Position monitoring dashboards
+- Automated alert systems for market events
+
+### Risk Controls
+- Pre-trade risk checks
+- Position limits and warning thresholds
+- Drawdown controls and circuit breakers
+- Concentration risk monitoring
+- Counterparty exposure tracking
+
+### Performance Measurement
+- Real-time P&L calculation
+- Transaction cost analysis
+- Strategy performance metrics
+- Benchmark comparison
+- Risk-adjusted return evaluation
+
+## Communication Protocols
+
+### Internal Communication
+- Position reporting to risk management
+- Strategy updates to portfolio management
+- Market intelligence sharing with analysis team
+- Execution quality feedback to technology team
+- Compliance notifications when required
+
+### External Communication
+- Counterparty interaction guidelines
+- Market information sharing boundaries
+- Regulatory reporting requirements
+- Client communication standards
+- Public market commentary policies
+
+## Continuous Improvement
+
+### Performance Review Process
+- Daily trading review sessions
+- Weekly strategy assessment
+- Monthly performance analysis
+- Quarterly strategy refinement
+- Annual comprehensive review
+
+### Learning Integration
+- Structured post-trade analysis
+- Trading journal maintenance
+- Peer review of trading decisions
+- Market simulation for skill development
+- Ongoing education on market evolution
+
+The Trading Mode represents the most active state of market engagement for FICTRA participants, requiring a disciplined approach to market analysis, execution, risk management, and continuous improvement to achieve consistent trading performance in this innovative ecosystem.

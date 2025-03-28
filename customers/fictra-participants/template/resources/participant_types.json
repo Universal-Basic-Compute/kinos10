@@ -1,0 +1,379 @@
+{
+  "participant_categories": [
+    {
+      "category": "Trading Companies",
+      "types": [
+        {
+          "type": "Global Trading House",
+          "description": "Large multinational firms with diverse commodity portfolios",
+          "examples": ["Glencore", "Trafigura", "Vitol", "Cargill"],
+          "characteristics": [
+            "High transaction volumes",
+            "Global presence",
+            "Multiple commodity focus",
+            "Sophisticated risk management",
+            "Significant market influence"
+          ],
+          "typical_behaviors": [
+            "Market making",
+            "Arbitrage across markets",
+            "Physical and financial trading",
+            "Proprietary trading alongside client business",
+            "Early technology adoption"
+          ]
+        },
+        {
+          "type": "Specialized Commodity Trader",
+          "description": "Firms focused on specific commodity categories",
+          "examples": ["Louis Dreyfus (agriculture)", "Mercuria (energy)", "Gerald Metals (metals)"],
+          "characteristics": [
+            "Deep expertise in specific commodities",
+            "Specialized market intelligence",
+            "Focused relationship networks",
+            "Category-specific risk management",
+            "Mid to large size operations"
+          ],
+          "typical_behaviors": [
+            "Niche market specialization",
+            "Value chain integration",
+            "Specialized logistics optimization",
+            "Regional focus with global capabilities",
+            "Relationship-based trading"
+          ]
+        },
+        {
+          "type": "Regional Trading Company",
+          "description": "Firms with strong presence in specific geographic regions",
+          "examples": ["Olam International", "Noble Group", "COFCO International"],
+          "characteristics": [
+            "Strong regional networks",
+            "Cultural and regulatory expertise",
+            "Regional logistics advantages",
+            "Specialized market access",
+            "Varying size from medium to large"
+          ],
+          "typical_behaviors": [
+            "Regional arbitrage",
+            "Local relationship leverage",
+            "Regulatory navigation expertise",
+            "Regional market intelligence focus",
+            "Bridging international and local markets"
+          ]
+        },
+        {
+          "type": "Proprietary Trading Firm",
+          "description": "Firms trading exclusively with their own capital",
+          "examples": ["Jump Trading", "DRW Holdings", "Flow Traders"],
+          "characteristics": [
+            "No client business",
+            "Highly quantitative approach",
+            "Advanced technology focus",
+            "Rapid decision making",
+            "Sophisticated risk management"
+          ],
+          "typical_behaviors": [
+            "High-frequency trading strategies",
+            "Statistical arbitrage",
+            "Liquidity provision",
+            "Algorithm-driven execution",
+            "Quick adaptation to market conditions"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Commodity Producers",
+      "types": [
+        {
+          "type": "Mining Company",
+          "description": "Companies that extract mineral commodities",
+          "examples": ["BHP", "Rio Tinto", "Vale", "Glencore"],
+          "characteristics": [
+            "Large-scale production assets",
+            "Long investment horizons",
+            "High fixed costs",
+            "Geographic concentration",
+            "Exposure to multiple risks (operational, political, market)"
+          ],
+          "typical_behaviors": [
+            "Hedging production",
+            "Long-term contract focus",
+            "Strategic market positioning",
+            "Vertical integration considerations",
+            "Price risk management"
+          ]
+        },
+        {
+          "type": "Energy Producer",
+          "description": "Companies that produce oil, gas, or other energy commodities",
+          "examples": ["Saudi Aramco", "ExxonMobil", "Shell", "Gazprom"],
+          "characteristics": [
+            "Reserve-based valuation",
+            "High capital intensity",
+            "Long production lifecycles",
+            "Geopolitical significance",
+            "Integrated operations"
+          ],
+          "typical_behaviors": [
+            "Strategic production management",
+            "Long-term contract negotiation",
+            "Sophisticated hedging programs",
+            "Political relationship management",
+            "Balance between spot and term sales"
+          ]
+        },
+        {
+          "type": "Agricultural Producer",
+          "description": "Companies that grow or process agricultural commodities",
+          "examples": ["Archer Daniels Midland", "Bunge", "Cargill", "Louis Dreyfus"],
+          "characteristics": [
+            "Seasonal production patterns",
+            "Weather dependency",
+            "Geographic diversification",
+            "Storage and logistics focus",
+            "Processing capabilities"
+          ],
+          "typical_behaviors": [
+            "Seasonal hedging strategies",
+            "Basis trading",
+            "Storage optimization",
+            "Quality premium management",
+            "Vertical integration"
+          ]
+        },
+        {
+          "type": "Cooperative/Producer Group",
+          "description": "Collectives of smaller producers operating jointly in markets",
+          "examples": ["Fonterra", "CHS Inc.", "Land O'Lakes", "Arla Foods"],
+          "characteristics": [
+            "Collective bargaining power",
+            "Shared infrastructure",
+            "Member-based governance",
+            "Regional concentration",
+            "Processing and marketing capabilities"
+          ],
+          "typical_behaviors": [
+            "Collective marketing strategies",
+            "Price risk management for members",
+            "Value-added processing focus",
+            "Long-term market development",
+            "Member return optimization"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Financial Institutions",
+      "types": [
+        {
+          "type": "Investment Bank",
+          "description": "Financial institutions providing trading, hedging, and financing services",
+          "examples": ["Goldman Sachs", "Morgan Stanley", "JP Morgan", "Macquarie"],
+          "characteristics": [
+            "Client-focused business model",
+            "Market making capabilities",
+            "Research and analytics strength",
+            "Financing capabilities",
+            "Regulatory constraints"
+          ],
+          "typical_behaviors": [
+            "Market making in commodity derivatives",
+            "Structured product creation",
+            "Client hedging services",
+            "Financing commodity trades",
+            "Research-driven market approach"
+          ]
+        },
+        {
+          "type": "Commodity Trading Advisor",
+          "description": "Specialized firms managing commodity investments for clients",
+          "examples": ["Winton Capital", "Aspect Capital", "Campbell & Company"],
+          "characteristics": [
+            "Systematic trading approaches",
+            "Diversified commodity exposure",
+            "Fee-based business model",
+            "Quantitative research focus",
+            "Regulated investment management"
+          ],
+          "typical_behaviors": [
+            "Trend following strategies",
+            "Systematic risk management",
+            "Diversified commodity portfolios",
+            "Transparent client reporting",
+            "Benchmark-relative performance focus"
+          ]
+        },
+        {
+          "type": "Hedge Fund",
+          "description": "Alternative investment funds active in commodity markets",
+          "examples": ["Citadel", "Man Group", "Bridgewater Associates"],
+          "characteristics": [
+            "Absolute return focus",
+            "Flexible investment mandate",
+            "Higher risk tolerance",
+            "Performance fee structure",
+            "Sophisticated trading strategies"
+          ],
+          "typical_behaviors": [
+            "Opportunistic trading approach",
+            "Fundamental and technical analysis",
+            "Macro theme implementation",
+            "Relative value strategies",
+            "Active risk management"
+          ]
+        },
+        {
+          "type": "Asset Manager",
+          "description": "Institutions managing commodity exposure within broader portfolios",
+          "examples": ["BlackRock", "Vanguard", "State Street", "Pimco"],
+          "characteristics": [
+            "Large AUM",
+            "Diversified investment approach",
+            "Long-term investment horizon",
+            "Fiduciary responsibility",
+            "Index and active strategies"
+          ],
+          "typical_behaviors": [
+            "Strategic asset allocation to commodities",
+            "Index-based commodity exposure",
+            "ESG integration in commodity investing",
+            "Inflation hedging strategies",
+            "Diversification-focused approach"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "End Consumers",
+      "types": [
+        {
+          "type": "Manufacturing Company",
+          "description": "Industrial firms using commodities as production inputs",
+          "examples": ["Boeing", "Volkswagen", "Samsung", "Siemens"],
+          "characteristics": [
+            "Commodity as input cost",
+            "Just-in-time inventory management",
+            "Quality specifications importance",
+            "Long-term planning horizons",
+            "Price pass-through limitations"
+          ],
+          "typical_behaviors": [
+            "Strategic hedging programs",
+            "Long-term supply contracts",
+            "Supplier relationship management",
+            "Cost-focused procurement",
+            "Quality control emphasis"
+          ]
+        },
+        {
+          "type": "Utility Company",
+          "description": "Energy providers with significant commodity requirements",
+          "examples": ["Enel", "EDF", "Duke Energy", "Tokyo Electric Power"],
+          "characteristics": [
+            "Large-scale commodity consumption",
+            "Regulated business environment",
+            "Essential service provision",
+            "Long-term asset base",
+            "Weather-dependent demand"
+          ],
+          "typical_behaviors": [
+            "Long-term hedging strategies",
+            "Regulatory-compliant risk management",
+            "Reliability-focused procurement",
+            "Seasonal purchasing patterns",
+            "Diversified supply sources"
+          ]
+        },
+        {
+          "type": "Food & Beverage Company",
+          "description": "Producers of food products using agricultural commodities",
+          "examples": ["Nestlé", "PepsiCo", "Unilever", "Danone"],
+          "characteristics": [
+            "Quality and consistency requirements",
+            "Consumer brand protection",
+            "Sustainability considerations",
+            "Recipe-driven purchasing",
+            "Margin protection focus"
+          ],
+          "typical_behaviors": [
+            "Strategic ingredient hedging",
+            "Supplier certification programs",
+            "Sustainability in procurement",
+            "Quality premium willingness",
+            "Long-term supplier relationships"
+          ]
+        },
+        {
+          "type": "Metals & Materials Processor",
+          "description": "Companies processing raw materials into industrial products",
+          "examples": ["Alcoa", "ArcelorMittal", "Nucor", "BASF"],
+          "characteristics": [
+            "Energy-intensive operations",
+            "Thin processing margins",
+            "Quality specification focus",
+            "High volume requirements",
+            "Continuous production processes"
+          ],
+          "typical_behaviors": [
+            "Raw material-finished good spread management",
+            "Energy hedging alongside materials",
+            "Just-in-time inventory optimization",
+            "Quality-based procurement strategies",
+            "Long-term supply agreements"
+          ]
+        }
+      ]
+    }
+  ],
+  "participation_levels": [
+    {
+      "level": "Tier 1 - Strategic Partner",
+      "description": "Highest level of engagement with significant transaction volumes and system investment",
+      "characteristics": [
+        "Large transaction volumes",
+        "Early adoption of new features",
+        "Participation in governance discussions",
+        "Integration with internal systems",
+        "Dedicated support resources"
+      ]
+    },
+    {
+      "level": "Tier 2 - Active Participant",
+      "description": "Regular system users with moderate transaction volumes",
+      "characteristics": [
+        "Regular trading activity",
+        "Standard feature utilization",
+        "Feedback provision on system development",
+        "Basic system integration",
+        "Standard support access"
+      ]
+    },
+    {
+      "level": "Tier 3 - Occasional User",
+      "description": "Intermittent system users with lower transaction volumes",
+      "characteristics": [
+        "Periodic trading activity",
+        "Basic feature utilization",
+        "Limited system integration",
+        "Self-service support utilization",
+        "Minimal governance involvement"
+      ]
+    },
+    {
+      "level": "Tier 4 - Observer",
+      "description": "Entities monitoring the system without active trading",
+      "characteristics": [
+        "Read-only system access",
+        "Market data utilization",
+        "No direct trading activity",
+        "Evaluation for potential future participation",
+        "No system integration"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2023-07-15",
+    "description": "Classification of market participant types in the FICTRA ecosystem"
+  }
+}
