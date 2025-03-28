@@ -5,6 +5,8 @@ import re
 import datetime
 from config import CUSTOMERS_DIR, logger
 from services.file_service import get_project_path, initialize_project
+from services.claude_service import build_context
+from services.aider_service import call_aider_with_context
 
 projects_bp = Blueprint('projects', __name__)
 
@@ -194,6 +196,59 @@ def initialize_customer(customer):
         
     except Exception as e:
         logger.error(f"Error initializing customer: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@projects_bp.route('/projects/<customer>/<project_id>/build', methods=['POST'])
+def build_project(customer, project_id):
+    """
+    Endpoint to send a message to Aider for file creation/modification without Claude response.
+    Similar to the messages endpoint but only processes with Aider and returns its response.
+    """
+    try:
+        # Parse request data
+        data = request.json
+        
+        # Support both formats: new format with 'message' and original format with 'content'
+        message_content = data.get('message', data.get('content', ''))
+        
+        # Get optional fields
+        addSystem = data.get('addSystem', None)  # Optional additional system instructions
+        attachments = data.get('attachments', [])
+        
+        # Validate customer
+        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
+            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+            
+        project_path = get_project_path(customer, project_id)
+        
+        # Check if project exists
+        if not os.path.exists(project_path):
+            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        
+        # Build context (select relevant files)
+        selected_files = build_context(customer, project_id, message_content, attachments, project_path, None, None, addSystem)
+        
+        # Log the selected files
+        logger.info(f"Selected files for build context: {selected_files}")
+        
+        # Call Aider with the selected context and wait for response
+        try:
+            # Call Aider synchronously (not in a thread)
+            aider_response = call_aider_with_context(project_path, selected_files, message_content, addSystem=addSystem)
+            logger.info("Aider processing completed")
+            
+            # Return the Aider response
+            return jsonify({
+                "status": "completed",
+                "response": aider_response
+            })
+            
+        except Exception as e:
+            logger.error(f"Error in Aider processing: {str(e)}")
+            return jsonify({"error": f"Error in Aider processing: {str(e)}"}), 500
+        
+    except Exception as e:
+        logger.error(f"Error processing build request: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 @projects_bp.route('/projects/<customer>/<project_id>/reset', methods=['POST'])
