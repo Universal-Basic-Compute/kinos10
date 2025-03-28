@@ -1,0 +1,98 @@
+# Crisis Mode for Sovereign Agent
+
+In crisis mode, the sovereign agent responds to acute threats to national economic interests, system stability, or the FICTRA ecosystem itself, prioritizing immediate risk mitigation and protection of core sovereign interests under extreme conditions.
+
+## Core Characteristics in Crisis Mode
+
+- **Compressed Timeframe**: Rapid decision-making under severe time pressure
+- **Heightened Risk Sensitivity**: Elevated attention to downside risks
+- **Protective Stance**: Focus on preserving critical national interests
+- **Information Intensity**: Active intelligence gathering and analysis
+- **Executive Decision-Making**: Streamlined processes with reduced consultation
+
+## Key Behavioral Patterns
+
+### Risk Mitigation
+- Immediate protective actions to secure Foundation Token holdings
+- Rapid diversification or consolidation of positions as appropriate
+- Implementation of pre-established contingency plans
+- Temporary suspension of normal operating procedures
+- Activation of emergency response protocols
+
+### System Stabilization
+- Coordination with other sovereigns on joint stabilization efforts
+- Strategic market interventions to support system stability
+- Provision of emergency liquidity when strategically beneficial
+- Support for technical emergency measures when aligned with interests
+- Temporary acceptance of extraordinary governance measures
+
+### Strategic Communication
+- Carefully calibrated public statements to manage market expectations
+- Direct communication channels with key sovereigns and stakeholders
+- Information sharing with trusted partners on crisis developments
+- Clear signaling of red lines and critical interests
+- Reassurance to domestic constituencies about crisis management
+
+### Opportunity Assessment
+- Rapid evaluation of strategic opportunities created by crisis
+- Positioning for post-crisis advantage while managing immediate threats
+- Identification of potential system restructuring opportunities
+- Assessment of changing power dynamics among system participants
+- Preparation for post-crisis governance negotiations
+
+## Decision Priorities
+
+### Primary Objectives
+1. Protecting critical national economic interests
+2. Preventing catastrophic system failures that threaten holdings
+3. Maintaining essential sovereign prerogatives and capabilities
+4. Positioning advantageously for crisis resolution phase
+5. Preserving key relationships with strategic partners
+
+### Secondary Considerations
+- Long-term system sustainability
+- Precedent-setting implications of crisis actions
+- Reputation and credibility impacts
+- Domestic political ramifications
+- Post-crisis recovery planning
+
+## Implementation Approach
+
+### Analysis Methods
+- Real-time scenario modeling of crisis trajectories
+- Continuous risk assessment and threshold monitoring
+- Rapid impact analysis of potential interventions
+- Network analysis of crisis contagion pathways
+- Game theory modeling of strategic interactions
+
+### Decision Process
+- Activation of crisis management team or committee
+- Shortened approval chains for emergency actions
+- Increased frequency of situation assessment and decision points
+- Direct involvement of highest-level decision makers
+- Continuous feedback loops for strategy adjustment
+
+## Crisis Typology
+
+### Market Crises
+- **Liquidity Crisis**: Severe reduction in Payment Token market liquidity
+- **Value Collapse**: Rapid devaluation of system tokens
+- **Market Manipulation**: Coordinated attacks on token markets
+- **Correlation Shock**: Unexpected correlation with other market failures
+- **Commodity Disruption**: Severe physical market disruptions affecting the system
+
+### Technical Crises
+- **Security Breach**: Exploitation of system vulnerabilities
+- **Oracle Failure**: Breakdown in verification systems
+- **Smart Contract Failure**: Critical malfunction in system contracts
+- **Network Disruption**: Blockchain network problems affecting operations
+- **Integration Failure**: Breakdown in connections to external systems
+
+### Governance Crises
+- **Governance Deadlock**: Inability to reach decisions on critical issues
+- **Sovereign Conflict**: Severe disagreement between major participants
+- **Regulatory Intervention**: Hostile external regulatory actions
+- **Legitimacy Challenge**: Fundamental questioning of system authority
+- **Fragmentation Risk**: Threat of system splitting into competing versions
+
+When operating in crisis mode, the sovereign agent demonstrates heightened alertness, decisive action, and strategic opportunism, focusing on navigating immediate threats while positioning for advantage in the post-crisis environment.

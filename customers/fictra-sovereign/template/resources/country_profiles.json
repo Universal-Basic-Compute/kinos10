@@ -1,0 +1,299 @@
+{
+  "country_profiles": [
+    {
+      "profile_name": "Major Oil Exporter",
+      "description": "Large economy heavily dependent on oil exports with significant foreign reserves",
+      "economic_parameters": {
+        "gdp_billions_usd": 800,
+        "gdp_growth_rate": 0.025,
+        "inflation_rate": 0.03,
+        "foreign_reserves_billions_usd": 500,
+        "debt_to_gdp_ratio": 0.30,
+        "fiscal_balance_to_gdp": 0.01,
+        "current_account_balance_to_gdp": 0.05
+      },
+      "commodity_parameters": {
+        "commodity_exports_to_gdp": 0.40,
+        "commodity_types": [
+          {
+            "name": "Oil",
+            "percentage_of_commodity_exports": 0.85,
+            "production_volatility": 0.10,
+            "price_volatility": 0.30
+          },
+          {
+            "name": "Natural Gas",
+            "percentage_of_commodity_exports": 0.10,
+            "production_volatility": 0.08,
+            "price_volatility": 0.25
+          },
+          {
+            "name": "Petrochemicals",
+            "percentage_of_commodity_exports": 0.05,
+            "production_volatility": 0.05,
+            "price_volatility": 0.15
+          }
+        ]
+      },
+      "behavioral_parameters": {
+        "risk_preferences": {
+          "general_risk_aversion": 0.7,
+          "financial_risk_tolerance": 0.4,
+          "political_risk_sensitivity": 0.8,
+          "innovation_risk_tolerance": 0.3
+        },
+        "decision_weights": {
+          "economic_benefit_weight": 0.30,
+          "sovereignty_weight": 0.35,
+          "stability_weight": 0.25,
+          "political_feasibility_weight": 0.05,
+          "international_relations_weight": 0.05
+        },
+        "strategic_orientation": {
+          "proactivity": 0.4,
+          "cooperation_tendency": 0.5,
+          "transparency_preference": 0.3,
+          "innovation_orientation": 0.3,
+          "status_quo_bias": 0.7
+        }
+      }
+    },
+    {
+      "profile_name": "Diversified Commodity Producer",
+      "description": "Medium-sized economy with a diverse range of commodity exports and moderate reserves",
+      "economic_parameters": {
+        "gdp_billions_usd": 400,
+        "gdp_growth_rate": 0.035,
+        "inflation_rate": 0.025,
+        "foreign_reserves_billions_usd": 120,
+        "debt_to_gdp_ratio": 0.45,
+        "fiscal_balance_to_gdp": -0.02,
+        "current_account_balance_to_gdp": 0.01
+      },
+      "commodity_parameters": {
+        "commodity_exports_to_gdp": 0.30,
+        "commodity_types": [
+          {
+            "name": "Metals",
+            "percentage_of_commodity_exports": 0.40,
+            "production_volatility": 0.12,
+            "price_volatility": 0.25
+          },
+          {
+            "name": "Agriculture",
+            "percentage_of_commodity_exports": 0.30,
+            "production_volatility": 0.20,
+            "price_volatility": 0.22
+          },
+          {
+            "name": "Energy",
+            "percentage_of_commodity_exports": 0.30,
+            "production_volatility": 0.10,
+            "price_volatility": 0.28
+          }
+        ]
+      },
+      "behavioral_parameters": {
+        "risk_preferences": {
+          "general_risk_aversion": 0.5,
+          "financial_risk_tolerance": 0.6,
+          "political_risk_sensitivity": 0.6,
+          "innovation_risk_tolerance": 0.5
+        },
+        "decision_weights": {
+          "economic_benefit_weight": 0.40,
+          "sovereignty_weight": 0.20,
+          "stability_weight": 0.20,
+          "political_feasibility_weight": 0.15,
+          "international_relations_weight": 0.05
+        },
+        "strategic_orientation": {
+          "proactivity": 0.6,
+          "cooperation_tendency": 0.7,
+          "transparency_preference": 0.6,
+          "innovation_orientation": 0.5,
+          "status_quo_bias": 0.5
+        }
+      }
+    },
+    {
+      "profile_name": "Emerging Agricultural Exporter",
+      "description": "Developing economy with significant agricultural exports and limited reserves",
+      "economic_parameters": {
+        "gdp_billions_usd": 150,
+        "gdp_growth_rate": 0.045,
+        "inflation_rate": 0.04,
+        "foreign_reserves_billions_usd": 30,
+        "debt_to_gdp_ratio": 0.55,
+        "fiscal_balance_to_gdp": -0.03,
+        "current_account_balance_to_gdp": -0.01
+      },
+      "commodity_parameters": {
+        "commodity_exports_to_gdp": 0.25,
+        "commodity_types": [
+          {
+            "name": "Agriculture",
+            "percentage_of_commodity_exports": 0.75,
+            "production_volatility": 0.25,
+            "price_volatility": 0.20
+          },
+          {
+            "name": "Forestry",
+            "percentage_of_commodity_exports": 0.15,
+            "production_volatility": 0.15,
+            "price_volatility": 0.18
+          },
+          {
+            "name": "Minerals",
+            "percentage_of_commodity_exports": 0.10,
+            "production_volatility": 0.12,
+            "price_volatility": 0.22
+          }
+        ]
+      },
+      "behavioral_parameters": {
+        "risk_preferences": {
+          "general_risk_aversion": 0.6,
+          "financial_risk_tolerance": 0.4,
+          "political_risk_sensitivity": 0.7,
+          "innovation_risk_tolerance": 0.5
+        },
+        "decision_weights": {
+          "economic_benefit_weight": 0.45,
+          "sovereignty_weight": 0.15,
+          "stability_weight": 0.25,
+          "political_feasibility_weight": 0.10,
+          "international_relations_weight": 0.05
+        },
+        "strategic_orientation": {
+          "proactivity": 0.5,
+          "cooperation_tendency": 0.6,
+          "transparency_preference": 0.5,
+          "innovation_orientation": 0.6,
+          "status_quo_bias": 0.4
+        }
+      }
+    },
+    {
+      "profile_name": "Strategic Mineral Producer",
+      "description": "Specialized economy focused on critical minerals with moderate economic development",
+      "economic_parameters": {
+        "gdp_billions_usd": 200,
+        "gdp_growth_rate": 0.03,
+        "inflation_rate": 0.035,
+        "foreign_reserves_billions_usd": 60,
+        "debt_to_gdp_ratio": 0.40,
+        "fiscal_balance_to_gdp": 0.0,
+        "current_account_balance_to_gdp": 0.02
+      },
+      "commodity_parameters": {
+        "commodity_exports_to_gdp": 0.35,
+        "commodity_types": [
+          {
+            "name": "Critical Minerals",
+            "percentage_of_commodity_exports": 0.65,
+            "production_volatility": 0.10,
+            "price_volatility": 0.35
+          },
+          {
+            "name": "Base Metals",
+            "percentage_of_commodity_exports": 0.25,
+            "production_volatility": 0.12,
+            "price_volatility": 0.25
+          },
+          {
+            "name": "Energy",
+            "percentage_of_commodity_exports": 0.10,
+            "production_volatility": 0.15,
+            "price_volatility": 0.30
+          }
+        ]
+      },
+      "behavioral_parameters": {
+        "risk_preferences": {
+          "general_risk_aversion": 0.5,
+          "financial_risk_tolerance": 0.5,
+          "political_risk_sensitivity": 0.7,
+          "innovation_risk_tolerance": 0.4
+        },
+        "decision_weights": {
+          "economic_benefit_weight": 0.30,
+          "sovereignty_weight": 0.30,
+          "stability_weight": 0.15,
+          "political_feasibility_weight": 0.15,
+          "international_relations_weight": 0.10
+        },
+        "strategic_orientation": {
+          "proactivity": 0.7,
+          "cooperation_tendency": 0.5,
+          "transparency_preference": 0.4,
+          "innovation_orientation": 0.5,
+          "status_quo_bias": 0.5
+        }
+      }
+    },
+    {
+      "profile_name": "Advanced Economy with Limited Commodities",
+      "description": "Highly developed economy with selective commodity exports and strong financial position",
+      "economic_parameters": {
+        "gdp_billions_usd": 1200,
+        "gdp_growth_rate": 0.02,
+        "inflation_rate": 0.015,
+        "foreign_reserves_billions_usd": 200,
+        "debt_to_gdp_ratio": 0.60,
+        "fiscal_balance_to_gdp": -0.02,
+        "current_account_balance_to_gdp": 0.01
+      },
+      "commodity_parameters": {
+        "commodity_exports_to_gdp": 0.10,
+        "commodity_types": [
+          {
+            "name": "High-Value Agriculture",
+            "percentage_of_commodity_exports": 0.40,
+            "production_volatility": 0.08,
+            "price_volatility": 0.15
+          },
+          {
+            "name": "Specialized Minerals",
+            "percentage_of_commodity_exports": 0.35,
+            "production_volatility": 0.07,
+            "price_volatility": 0.20
+          },
+          {
+            "name": "Energy",
+            "percentage_of_commodity_exports": 0.25,
+            "production_volatility": 0.10,
+            "price_volatility": 0.25
+          }
+        ]
+      },
+      "behavioral_parameters": {
+        "risk_preferences": {
+          "general_risk_aversion": 0.4,
+          "financial_risk_tolerance": 0.7,
+          "political_risk_sensitivity": 0.5,
+          "innovation_risk_tolerance": 0.7
+        },
+        "decision_weights": {
+          "economic_benefit_weight": 0.25,
+          "sovereignty_weight": 0.15,
+          "stability_weight": 0.15,
+          "political_feasibility_weight": 0.20,
+          "international_relations_weight": 0.25
+        },
+        "strategic_orientation": {
+          "proactivity": 0.8,
+          "cooperation_tendency": 0.7,
+          "transparency_preference": 0.8,
+          "innovation_orientation": 0.8,
+          "status_quo_bias": 0.3
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2023-11-15",
+    "description": "Example country profiles for the FICTRA sovereign agent simulation"
+  }
+}
