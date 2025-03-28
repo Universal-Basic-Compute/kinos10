@@ -3,6 +3,7 @@ import os
 import json
 import re
 import datetime
+import requests
 from config import CUSTOMERS_DIR, logger
 from services.file_service import get_project_path, initialize_project
 from services.claude_service import build_context
@@ -484,4 +485,119 @@ def get_git_history(customer, project_id):
         
     except Exception as e:
         logger.error(f"Error getting Git history: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@projects_bp.route('/projects/<customer>/<project_id>/image', methods=['POST'])
+def generate_project_image(customer, project_id):
+    """
+    Endpoint to generate an image based on a message using Ideogram API.
+    Uses Claude to create a detailed prompt based on the message and context.
+    """
+    try:
+        # Parse request data
+        data = request.json
+        message_content = data.get('message', '')
+        
+        # Optional parameters
+        aspect_ratio = data.get('aspect_ratio', 'ASPECT_1_1')
+        model = data.get('model', 'V_2')
+        magic_prompt_option = data.get('magic_prompt_option', 'AUTO')
+        
+        # Validate required parameters
+        if not message_content:
+            return jsonify({"error": "Message is required"}), 400
+        
+        # Validate customer and project
+        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
+            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+            
+        project_path = get_project_path(customer, project_id)
+        if not os.path.exists(project_path):
+            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        
+        # Build context (select relevant files)
+        selected_files = build_context(customer, project_id, message_content, project_path=project_path)
+        
+        # Log the selected files
+        logger.info(f"Selected files for image generation context: {selected_files}")
+        
+        # Use Claude to create a detailed prompt based on the message and context
+        from services.claude_service import call_claude_with_context
+        
+        # Add specific system instructions for prompt creation
+        prompt_system_instructions = """
+        Your task is to create a detailed, vivid image generation prompt based on the user's message.
+        The prompt should be descriptive and specific, focusing on visual elements.
+        Do not include any explanations or commentary - just output the prompt text that will be sent to an image generation API.
+        The prompt should be 1-3 paragraphs long and include details about:
+        - Main subject and composition
+        - Style, mood, and atmosphere
+        - Colors, lighting, and visual effects
+        - Background and environment
+        - Any specific artistic influences if relevant
+        """
+        
+        # Call Claude to create the prompt
+        claude_response = call_claude_with_context(
+            selected_files, 
+            project_path, 
+            f"Create a detailed image generation prompt based on this request: {message_content}",
+            model="claude-3-5-haiku-latest",
+            is_new_message=False,
+            addSystem=prompt_system_instructions
+        )
+        
+        # Clean up the prompt (remove any markdown formatting, etc.)
+        image_prompt = claude_response.strip()
+        logger.info(f"Generated image prompt: {image_prompt}")
+        
+        # Import the Ideogram service
+        from services.ideogram_service import generate_image
+        
+        # Generate the image
+        result = generate_image(image_prompt, aspect_ratio, model, magic_prompt_option)
+        
+        # Check for errors
+        if "error" in result:
+            return jsonify(result), 500
+        
+        # Save the image to the project's images directory
+        images_dir = os.path.join(project_path, "images")
+        os.makedirs(images_dir, exist_ok=True)
+        
+        # Get the image URL from the response
+        if "data" in result and len(result["data"]) > 0 and "url" in result["data"][0]:
+            image_url = result["data"][0]["url"]
+            
+            # Download the image
+            image_response = requests.get(image_url)
+            if image_response.status_code == 200:
+                # Generate a filename with timestamp
+                timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+                image_filename = f"ideogram_{timestamp}.jpg"
+                image_path = os.path.join(images_dir, image_filename)
+                
+                # Save the image
+                with open(image_path, 'wb') as f:
+                    f.write(image_response.content)
+                
+                # Add the local path to the result
+                result["local_path"] = os.path.join("images", image_filename)
+                logger.info(f"Saved image to {image_path}")
+            else:
+                logger.error(f"Failed to download image from {image_url}: {image_response.status_code}")
+                return jsonify({
+                    "error": "Failed to download image",
+                    "status_code": image_response.status_code
+                }), 500
+        
+        # Return the result
+        return jsonify({
+            "status": "success",
+            "prompt": image_prompt,
+            "result": result
+        })
+        
+    except Exception as e:
+        logger.error(f"Error generating image: {str(e)}")
         return jsonify({"error": str(e)}), 500

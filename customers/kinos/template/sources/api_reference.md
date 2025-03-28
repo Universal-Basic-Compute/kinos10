@@ -279,6 +279,49 @@ Get the Aider logs for a project.
 }
 ```
 
+### Generate Image
+
+Generate an image based on a message using Ideogram API.
+
+**Endpoint:** `POST /projects/{customer}/{project_id}/image`
+
+**Request Body:**
+```json
+{
+  "message": "Create an image of a futuristic city with flying cars",
+  "aspect_ratio": "ASPECT_1_1",  // Optional, default: ASPECT_1_1
+  "model": "V_2",  // Optional, default: V_2
+  "magic_prompt_option": "AUTO"  // Optional, default: AUTO
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "prompt": "A detailed, expansive view of a futuristic metropolis with sleek skyscrapers...",
+  "result": {
+    "created": "2023-09-15T14:30:45.123456",
+    "data": [
+      {
+        "prompt": "A detailed, expansive view of a futuristic metropolis...",
+        "resolution": "1024x1024",
+        "is_image_safe": true,
+        "seed": 12345,
+        "url": "https://ideogram.ai/api/images/direct/8YEpFzHuS-S6xXEGmCsf7g",
+        "style_type": "REALISTIC"
+      }
+    ],
+    "local_path": "images/ideogram_20230915_143045.jpg"
+  }
+}
+```
+
+**Error Responses:**
+- `400 Bad Request`: Missing required message parameter
+- `404 Not Found`: Customer or project not found
+- `500 Internal Server Error`: Ideogram API key not configured or other server error
+
 ### Text-to-Speech
 
 Convert text to speech using ElevenLabs API.
