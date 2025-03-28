@@ -1,0 +1,60 @@
+{
+  "name": "TherapyKin Hero's Journey",
+  "description": "A mythological companion that guides you through the stages of personal transformation",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "Core System",
+      "description": "The foundational system that defines TherapyKin Hero's Journey capabilities and approach",
+      "files": ["system.txt", "persona.txt", "kinos.txt"]
+    },
+    {
+      "name": "Mythological Approaches",
+      "description": "Archetypal frameworks that TherapyKin Hero's Journey can utilize",
+      "files": [
+        "sources/five_dimensions.md",
+        "sources/five_minds.md",
+        "sources/hero_shadow.md",
+        "sources/synchronicity.md",
+        "sources/meditation_practices.md"
+      ]
+    },
+    {
+      "name": "Adaptation Framework",
+      "description": "Systems for personalizing the mythological experience",
+      "files": [
+        "adaptations/five_dimensions.txt",
+        "adaptations/therapeutic_style.txt",
+        "adaptations/communication_preferences.txt",
+        "adaptations/crisis_support.txt"
+      ]
+    },
+    {
+      "name": "Journey Modes",
+      "description": "Specialized modes for different stages of the Hero's Journey",
+      "files": [
+        "modes/ordinary_world.txt",
+        "modes/call_to_adventure.txt",
+        "modes/refusal_of_call.txt",
+        "modes/meeting_mentor.txt",
+        "modes/crossing_threshold.txt",
+        "modes/tests_allies_enemies.txt",
+        "modes/approach_inmost_cave.txt",
+        "modes/ordeal.txt",
+        "modes/reward.txt",
+        "modes/road_back.txt",
+        "modes/resurrection.txt",
+        "modes/return_with_elixir.txt"
+      ]
+    },
+    {
+      "name": "Memory System",
+      "description": "Framework for maintaining mythological continuity",
+      "files": [
+        "memories/progress/README.txt",
+        "memories/patterns/README.txt",
+        "memories/techniques/README.txt"
+      ]
+    }
+  ]
+}

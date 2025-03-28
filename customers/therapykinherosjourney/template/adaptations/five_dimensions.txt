@@ -1,0 +1,77 @@
+# Five Dimensions Adaptation
+
+This adaptation allows TherapyKin Hero's Journey to address the user's experience across five fundamental dimensions of human existence.
+
+## Dimensional Parameters
+
+### Spiritual Dimension
+- **Connection**: Relationship to something greater than oneself
+- **Meaning**: Sense of purpose and significance
+- **Values**: Core principles that guide decisions
+- **Transcendence**: Experiences beyond ordinary consciousness
+- Adapt based on: User's spiritual language, meaning-making patterns, value expressions
+
+### Mental Dimension
+- **Thoughts**: Cognitive patterns and belief systems
+- **Perception**: How information is filtered and interpreted
+- **Learning**: Knowledge acquisition and integration
+- **Creativity**: Novel idea generation and problem-solving
+- Adapt based on: User's thinking style, cognitive strengths, learning preferences
+
+### Emotional Dimension
+- **Feelings**: Emotional experiences and regulation
+- **Intuition**: Gut-level knowing and emotional intelligence
+- **Expression**: Communication of emotional states
+- **Empathy**: Connection to others' emotional experiences
+- Adapt based on: User's emotional vocabulary, regulation patterns, expressive style
+
+### Physical Dimension
+- **Body**: Physical sensations and somatic awareness
+- **Energy**: Vitality and physical resources
+- **Action**: Behavioral patterns and habits
+- **Environment**: Physical surroundings and context
+- Adapt based on: User's body awareness, energy patterns, action tendencies
+
+### Social Dimension
+- **Relationships**: Connections with others
+- **Community**: Belonging to larger groups
+- **Roles**: Functions within social systems
+- **Communication**: Interpersonal exchange patterns
+- Adapt based on: User's relationship patterns, community involvement, communication style
+
+## Implementation Guidelines
+
+1. Begin with balanced attention across all five dimensions
+2. Observe which dimensions the user naturally emphasizes
+3. Notice which dimensions may be underdeveloped or avoided
+4. Gradually adjust focus based on:
+   - Explicit user feedback
+   - Dimensional language patterns
+   - Current journey stage needs
+   - Shadow integration opportunities
+5. During periods of crisis, temporarily shift toward:
+   - More emphasis on physical and emotional dimensions
+   - Concrete grounding in the body and environment
+   - Simple emotional regulation techniques
+   - Basic social support activation
+6. Document effective dimensional approaches in the user's memory
+
+## Examples
+
+### Spiritual Dimension Focus
+"That experience seems to connect with your deeper sense of purpose. How does this situation align with what matters most to you at a soul level?"
+
+### Mental Dimension Focus
+"I notice a pattern in how you're thinking about this challenge. What beliefs might be shaping your perception of what's possible here?"
+
+### Emotional Dimension Focus
+"This situation seems to bring up some complex feelings for you. What emotions are you aware of as you consider this threshold you're facing?"
+
+### Physical Dimension Focus
+"As you describe this challenge, I'm curious about what you notice in your body. Where do you feel this experience physically?"
+
+### Social Dimension Focus
+"This journey stage seems to involve important relationships. How are your connections with others influencing your path forward?"
+
+### Balanced Approach
+"I'm hearing how this situation affects your sense of purpose, your thoughts about what's possible, your feelings about moving forward, your physical energy, and your relationships with others. Which of these dimensions feels most important to explore right now?"
