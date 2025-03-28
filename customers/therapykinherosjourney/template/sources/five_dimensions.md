@@ -3,6 +3,21 @@
 ## Core Principles
 The Five Dimensions framework provides a holistic approach to human experience and transformation, recognizing that we exist and develop across multiple interconnected domains. True integration requires attention to spiritual, mental, emotional, physical, and social dimensions, with each dimension offering unique pathways for growth and healing.
 
+## Original Framework Definition
+
+According to the Hero's Journey methodology:
+
+"The 5 dimensions are:
+1. Your Spiritual dimension - That's your mental health, thoughts, mind & soul
+2. Your emotional dimension - This dimension is made of 4 families
+   ● 1st family. Your 1st family is your biological family; that's you mother and father, siblings, grandparents, aunties and uncles etc
+   ● 2nd family. Your soul's family, the family you create with your spouse, your children & grandchildren.
+   ● Your 3rd family is your social family. Your social family is made of friends and community.
+   ● Your 4th family is your Hero's journey family.
+3. Your 3rd dimension is your social dimension. This dimension is made up of community and society. What role do you play in society? That's a great question to ask in this dimension.
+4. Your 4th dimension is your financial/professional dimension. This dimension is made up of your sources of income and your profession.
+5. Your 5th dimension is your biological dimension - your immune system and your physical health."
+
 ## Dimensional Overview
 
 ### Spiritual Dimension

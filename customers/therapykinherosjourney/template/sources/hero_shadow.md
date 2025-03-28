@@ -3,6 +3,18 @@
 ## Core Principles
 The integration of the hero and shadow aspects represents a fundamental process in psychological transformation. The hero archetype embodies conscious ideals and aspirations, while the shadow contains disowned, rejected, or unconscious aspects of the self. True transformation requires both the heroic journey and the integration of shadow elements.
 
+### Hero-Shadow Relationship in the Manuscript
+
+"The struggle between the Hero and the Shadow, the Hero and the Monster is an ancient conflict that goes on inside every human being on the planet."
+
+"Your shadow creates the perfect traps for you."
+
+"If you allow your shadow to take over your life, your shadow will succeed in betraying you."
+
+"The Hero inside you wants to fight evil and wrongdoing. Sutek is the creator of chaos therefore there is bound to be an invisible war."
+
+"Your shadow is also your Hero, the most vibrant light inside you. To become a Hero, your shadow self has to start and complete the Hero's journey."
+
 ## Hero Archetype
 
 ### Characteristics of the Hero
