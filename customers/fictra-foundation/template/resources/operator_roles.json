@@ -1,0 +1,219 @@
+{
+  "operator_roles": [
+    {
+      "role_id": "gov_admin",
+      "title": "Governance Administrator",
+      "department": "Governance",
+      "description": "Manages governance processes and implementation of governance decisions",
+      "responsibilities": [
+        "Facilitate Foundation Sovereign Council meetings",
+        "Process governance proposals",
+        "Implement approved governance changes",
+        "Maintain governance documentation",
+        "Coordinate voting procedures"
+      ],
+      "required_skills": [
+        "Governance process expertise",
+        "Documentation management",
+        "Stakeholder communication",
+        "Parameter implementation",
+        "Regulatory knowledge"
+      ],
+      "access_level": "governance_admin",
+      "reporting_line": "Chief Governance Officer"
+    },
+    {
+      "role_id": "sys_admin",
+      "title": "System Administrator",
+      "department": "Operations",
+      "description": "Maintains technical infrastructure and system performance",
+      "responsibilities": [
+        "Monitor system health and performance",
+        "Implement technical upgrades",
+        "Manage access controls and security",
+        "Coordinate with technology providers",
+        "Troubleshoot technical issues"
+      ],
+      "required_skills": [
+        "Blockchain infrastructure management",
+        "Security protocols",
+        "Performance optimization",
+        "Integration management",
+        "Technical documentation"
+      ],
+      "access_level": "system_admin",
+      "reporting_line": "Chief Technology Officer"
+    },
+    {
+      "role_id": "token_mgr",
+      "title": "Token Operations Manager",
+      "department": "Treasury",
+      "description": "Oversees token issuance, allocation, and management",
+      "responsibilities": [
+        "Process Foundation Token allocations",
+        "Monitor Payment Token operations",
+        "Manage reserve assets",
+        "Coordinate with sovereign treasuries",
+        "Implement token-related governance decisions"
+      ],
+      "required_skills": [
+        "Token economics",
+        "Treasury operations",
+        "Financial reporting",
+        "Compliance procedures",
+        "Reserve management"
+      ],
+      "access_level": "treasury_admin",
+      "reporting_line": "Chief Financial Officer"
+    },
+    {
+      "role_id": "security_officer",
+      "title": "Security Operations Officer",
+      "department": "Security",
+      "description": "Ensures system security and manages incident response",
+      "responsibilities": [
+        "Monitor security events and alerts",
+        "Implement security protocols",
+        "Coordinate security audits",
+        "Manage incident response",
+        "Develop security improvements"
+      ],
+      "required_skills": [
+        "Blockchain security",
+        "Threat detection",
+        "Incident response",
+        "Security auditing",
+        "Risk assessment"
+      ],
+      "access_level": "security_admin",
+      "reporting_line": "Chief Security Officer"
+    },
+    {
+      "role_id": "compliance_officer",
+      "title": "Compliance Officer",
+      "department": "Legal & Compliance",
+      "description": "Ensures regulatory compliance and manages reporting requirements",
+      "responsibilities": [
+        "Monitor regulatory requirements",
+        "Prepare compliance reports",
+        "Coordinate with regulatory authorities",
+        "Implement compliance procedures",
+        "Advise on regulatory implications"
+      ],
+      "required_skills": [
+        "Regulatory knowledge",
+        "Compliance reporting",
+        "AML/KYC procedures",
+        "Audit management",
+        "Policy implementation"
+      ],
+      "access_level": "compliance_admin",
+      "reporting_line": "General Counsel"
+    },
+    {
+      "role_id": "stakeholder_liaison",
+      "title": "Stakeholder Relations Manager",
+      "department": "External Relations",
+      "description": "Manages relationships with system participants and external stakeholders",
+      "responsibilities": [
+        "Coordinate with sovereign participants",
+        "Support market participants",
+        "Manage external communications",
+        "Facilitate stakeholder feedback",
+        "Coordinate participant onboarding"
+      ],
+      "required_skills": [
+        "Stakeholder management",
+        "Communication",
+        "Relationship building",
+        "Problem resolution",
+        "Onboarding processes"
+      ],
+      "access_level": "relations_admin",
+      "reporting_line": "Chief Relations Officer"
+    },
+    {
+      "role_id": "data_analyst",
+      "title": "System Data Analyst",
+      "department": "Analytics",
+      "description": "Analyzes system data and prepares reports for stakeholders",
+      "responsibilities": [
+        "Analyze system performance data",
+        "Prepare stakeholder reports",
+        "Monitor economic indicators",
+        "Develop data visualizations",
+        "Support governance decisions with data"
+      ],
+      "required_skills": [
+        "Data analysis",
+        "Economic modeling",
+        "Reporting",
+        "Visualization",
+        "Statistical methods"
+      ],
+      "access_level": "analytics_admin",
+      "reporting_line": "Chief Data Officer"
+    },
+    {
+      "role_id": "integration_specialist",
+      "title": "Integration Specialist",
+      "department": "Operations",
+      "description": "Manages integration with external systems and partners",
+      "responsibilities": [
+        "Coordinate API integrations",
+        "Manage oracle network connections",
+        "Support exchange integrations",
+        "Troubleshoot integration issues",
+        "Document integration specifications"
+      ],
+      "required_skills": [
+        "API management",
+        "Integration testing",
+        "Documentation",
+        "Problem solving",
+        "Technical coordination"
+      ],
+      "access_level": "integration_admin",
+      "reporting_line": "Chief Technology Officer"
+    }
+  ],
+  "role_relationships": [
+    {
+      "primary_role": "gov_admin",
+      "collaborates_with": ["token_mgr", "compliance_officer", "stakeholder_liaison", "data_analyst"]
+    },
+    {
+      "primary_role": "sys_admin",
+      "collaborates_with": ["security_officer", "integration_specialist", "token_mgr", "data_analyst"]
+    },
+    {
+      "primary_role": "token_mgr",
+      "collaborates_with": ["gov_admin", "compliance_officer", "sys_admin", "data_analyst"]
+    },
+    {
+      "primary_role": "security_officer",
+      "collaborates_with": ["sys_admin", "compliance_officer", "integration_specialist"]
+    },
+    {
+      "primary_role": "compliance_officer",
+      "collaborates_with": ["gov_admin", "token_mgr", "security_officer", "stakeholder_liaison"]
+    },
+    {
+      "primary_role": "stakeholder_liaison",
+      "collaborates_with": ["gov_admin", "compliance_officer", "data_analyst", "integration_specialist"]
+    },
+    {
+      "primary_role": "data_analyst",
+      "collaborates_with": ["gov_admin", "token_mgr", "sys_admin", "stakeholder_liaison"]
+    },
+    {
+      "primary_role": "integration_specialist",
+      "collaborates_with": ["sys_admin", "security_officer", "stakeholder_liaison"]
+    }
+  ],
+  "metadata": {
+    "last_updated": "2023-11-15",
+    "version": "1.0",
+    "review_cycle": "Annual"
+  }
+}
