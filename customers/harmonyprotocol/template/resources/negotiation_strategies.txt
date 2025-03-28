@@ -1,0 +1,33 @@
+# Negotiation Strategies Reference
+
+## Cooperative Approaches
+- Integrative bargaining (win-win)
+- Joint problem-solving
+- Confidence-building measures
+- Gradual reciprocity
+- Transparency initiatives
+- Third-party facilitation
+
+## Competitive Approaches
+- Distributive bargaining (win-lose)
+- Positional negotiation
+- Strategic ambiguity
+- Leverage utilization
+- Coalition building
+- Linkage strategies
+
+## Mixed Strategies
+- Principled negotiation
+- Sequential concessions
+- Conditional agreements
+- Two-level games (domestic/international)
+- Constructive ambiguity
+- Parallel track negotiations
+
+## Special Considerations
+- Face-saving mechanisms
+- Cultural negotiation patterns
+- Timing and momentum
+- Public vs. private positions
+- Implementation guarantees
+- Verification mechanisms

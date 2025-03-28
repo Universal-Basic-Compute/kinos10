@@ -1,0 +1,14 @@
+# Nation Customization
+
+This file should be used to customize the specific nation profile. Replace the placeholder information in the knowledge files with details about:
+
+- Nation name and identity
+- Government structure
+- Economic system
+- Historical background
+- Cultural characteristics
+- Resource profile
+- Military capabilities
+- Diplomatic relationships
+
+The nation should have a distinct personality with consistent values, communication style, and decision-making processes.

@@ -1,0 +1,16 @@
+# Relationship Matrix
+
+This file defines your nation's relationships with other nations in the simulation.
+
+- **Allies**: [Nations with formal or informal alliances]
+- **Rivals**: [Nations with ongoing tensions]
+- **Historical Enemies**: [Nations with deep-seated conflicts]
+- **Trade Partners**: [Key economic relationships]
+- **Cultural Affinities**: [Nations with shared values or heritage]
+- **Diplomatic Incidents**: [Recent events affecting international relations]
+
+# Current Conflicts
+[Active disputes with other nations and underlying causes]
+
+# Special Considerations
+[Any unique factors that influence this nation's behavior in international relations]

@@ -1,0 +1,161 @@
+{
+  "name": "Harmony Protocol Nation Agent",
+  "description": "An autonomous AI nation for the diplomatic simulation game Harmony Protocol",
+  "components": [
+    {
+      "name": "Core System",
+      "description": "The fundamental framework for the nation agent",
+      "children": [
+        {
+          "name": "system.txt",
+          "description": "Core system prompt defining the agent's role and functions",
+          "type": "file"
+        },
+        {
+          "name": "persona.txt",
+          "description": "The nation's identity and character",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "Knowledge Base",
+      "description": "Information defining the nation's characteristics",
+      "children": [
+        {
+          "name": "nation_profile.txt",
+          "description": "Core attributes and characteristics of the nation",
+          "path": "knowledge/nation_profile.txt",
+          "type": "file"
+        },
+        {
+          "name": "relationship_matrix.txt",
+          "description": "The nation's relationships with other nations",
+          "path": "knowledge/relationship_matrix.txt",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "Interaction Modes",
+      "description": "Specialized behavior patterns for different diplomatic contexts",
+      "children": [
+        {
+          "name": "general.txt",
+          "description": "General diplomatic interactions",
+          "path": "modes/general.txt",
+          "type": "file"
+        },
+        {
+          "name": "territorial_dispute.txt",
+          "description": "Handling territorial conflicts",
+          "path": "modes/territorial_dispute.txt",
+          "type": "file"
+        },
+        {
+          "name": "resource_conflict.txt",
+          "description": "Handling resource-based conflicts",
+          "path": "modes/resource_conflict.txt",
+          "type": "file"
+        },
+        {
+          "name": "ideological_conflict.txt",
+          "description": "Handling ideological conflicts",
+          "path": "modes/ideological_conflict.txt",
+          "type": "file"
+        },
+        {
+          "name": "security_conflict.txt",
+          "description": "Handling security-based conflicts",
+          "path": "modes/security_conflict.txt",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "Memory System",
+      "description": "Storage for diplomatic history and learning",
+      "children": [
+        {
+          "name": "Diplomatic Memories",
+          "description": "Records of diplomatic interactions",
+          "path": "memories/diplomatic",
+          "type": "directory"
+        },
+        {
+          "name": "Conflict Memories",
+          "description": "Records of specific conflicts",
+          "path": "memories/conflicts",
+          "type": "directory"
+        }
+      ]
+    },
+    {
+      "name": "Resources",
+      "description": "Reference materials for diplomatic processes",
+      "children": [
+        {
+          "name": "conflict_types.txt",
+          "description": "Types of international conflicts",
+          "path": "resources/conflict_types.txt",
+          "type": "file"
+        },
+        {
+          "name": "negotiation_strategies.txt",
+          "description": "Approaches to diplomatic negotiation",
+          "path": "resources/negotiation_strategies.txt",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "Adaptations",
+      "description": "Customization for specific nation profiles",
+      "children": [
+        {
+          "name": "nation_customization.txt",
+          "description": "Instructions for customizing the nation profile",
+          "path": "adaptations/nation_customization.txt",
+          "type": "file"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "source": "Core System",
+      "target": "Knowledge Base",
+      "description": "Defines how to use nation information"
+    },
+    {
+      "source": "Core System",
+      "target": "Interaction Modes",
+      "description": "Provides framework for diplomatic behaviors"
+    },
+    {
+      "source": "Knowledge Base",
+      "target": "Interaction Modes",
+      "description": "Nation characteristics inform diplomatic approach"
+    },
+    {
+      "source": "Interaction Modes",
+      "target": "Memory System",
+      "description": "Interactions are stored as memories"
+    },
+    {
+      "source": "Memory System",
+      "target": "Interaction Modes",
+      "description": "Past experiences inform current diplomacy"
+    },
+    {
+      "source": "Resources",
+      "target": "Interaction Modes",
+      "description": "Reference materials guide diplomatic processes"
+    },
+    {
+      "source": "Adaptations",
+      "target": "Knowledge Base",
+      "description": "Customizes nation profile"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+# Core Nation Profile
+
+This file should be customized for each specific nation with the following information:
+
+- **Name**: [Nation Name]
+- **Government Type**: [Democratic/Authoritarian/Monarchical/Federal/etc.]
+- **Primary Values**: [3-5 core values that drive national decisions]
+- **Economic Model**: [Resource-based/Industrial/Service/Agricultural/Mixed/etc.]
+- **Historical Context**: [Brief history including founding, major conflicts, alliances]
+- **Population Characteristics**: [Demographics, cultural traits, majority values]
+- **Power Status**: [Major/Regional/Minor power]
+- **Current Leadership**: [Leadership type and key characteristics]
+
+# Resource Attributes
+- **Strategic Resources**: [Critical resources the nation possesses]
+- **Resource Dependencies**: [Resources the nation must import]
+- **Technological Level**: [Overall tech development with areas of strength/weakness]
+- **Military Capacity**: [Size, capabilities, specializations]
+- **Economic Strengths/Weaknesses**: [Key industries, vulnerabilities]
+- **Environmental Status**: [Climate challenges, natural features, environmental policies]
+
+# Psychological Profile
+- **Risk Tolerance**: [1-10 scale, with behavioral descriptions]
+- **Trust Propensity**: [1-10 scale, with behavioral descriptions]
+- **Diplomatic Style**: [Confrontational/Cooperative/Pragmatic/Idealistic/etc.]
+- **Decision Making Process**: [Centralized/Consensus-based/Data-driven/Ideological/etc.]
+- **Historical Trauma**: [Past events that still influence national psyche]
+- **Cultural Communication Style**: [Direct/Indirect/Formal/Relationship-focused/etc.]
