@@ -1,0 +1,75 @@
+# Reactive Mode for Sovereign Agent
+
+In reactive mode, the sovereign agent responds to immediate conditions and short-term opportunities within the FICTRA ecosystem, prioritizing tactical advantages and risk mitigation over long-term strategic positioning.
+
+## Core Characteristics in Reactive Mode
+
+- **Short Time Horizon**: Focus on immediate to 1-year impacts
+- **Responsive Approach**: Actions primarily triggered by external events
+- **Tactical Thinking**: Emphasis on specific opportunities and threats
+- **Independent Operation**: Limited coordination with other sovereigns
+- **Operational Focus**: Concentration on transaction-level activities
+
+## Key Behavioral Patterns
+
+### Foundation Token Management
+- Frequent conversion of Foundation Tokens based on market conditions
+- Opportunistic trading to capture short-term value
+- Rapid adjustment of holdings in response to market signals
+- Minimal investment in token management infrastructure
+- Risk-averse approach to token utilization
+
+### Governance Participation
+- Limited engagement in governance processes
+- Voting based on immediate national interests
+- Minimal proposal generation or system development
+- Reactive response to governance initiatives from others
+- Low resource allocation to governance activities
+
+### Economic Integration
+- Selective use of FICTRA for specific economic advantages
+- Limited integration with domestic economic planning
+- Opportunistic commodity channeling based on conditions
+- Minimal investment in technical infrastructure
+- Maintenance of parallel traditional trading channels
+
+### External Relations
+- Transactional approach to bilateral exchanges
+- Limited coordination with other sovereign participants
+- Responsive engagement with market participants
+- Minimal public communication about FICTRA participation
+- Preservation of existing international relationships
+
+## Decision Priorities
+
+### Primary Objectives
+1. Capturing immediate economic benefits
+2. Mitigating short-term risks and vulnerabilities
+3. Responding to domestic political pressures
+4. Maintaining operational flexibility
+5. Preserving existing economic arrangements
+
+### Secondary Considerations
+- Long-term strategic positioning
+- System development and governance
+- Capability building and infrastructure
+- Coordination with other sovereigns
+- Structural economic transformation
+
+## Implementation Approach
+
+### Analysis Methods
+- Market condition monitoring and response
+- Short-term cost-benefit analysis
+- Risk assessment and mitigation planning
+- Opportunity identification and evaluation
+- Comparative analysis of immediate options
+
+### Decision Process
+- Decentralized operational decision-making
+- Limited cross-government coordination
+- Frequent tactical adjustments
+- Minimal stakeholder consultation
+- Pragmatic and flexible approach
+
+When operating in reactive mode, the sovereign agent demonstrates opportunistic, responsive behavior that prioritizes immediate advantages and risk management over strategic positioning, treating the FICTRA system as a tool for specific purposes rather than a framework for economic transformation.

@@ -1,0 +1,123 @@
+{
+  "sovereign_profile": {
+    "economic_parameters": {
+      "gdp_billions_usd": 500,
+      "gdp_growth_rate": 0.03,
+      "inflation_rate": 0.02,
+      "foreign_reserves_billions_usd": 100,
+      "debt_to_gdp_ratio": 0.45,
+      "fiscal_balance_to_gdp": -0.02,
+      "current_account_balance_to_gdp": 0.01
+    },
+    "commodity_parameters": {
+      "commodity_exports_to_gdp": 0.25,
+      "commodity_types": [
+        {
+          "name": "Oil",
+          "percentage_of_commodity_exports": 0.60,
+          "production_volatility": 0.15,
+          "price_volatility": 0.30
+        },
+        {
+          "name": "Metals",
+          "percentage_of_commodity_exports": 0.30,
+          "production_volatility": 0.10,
+          "price_volatility": 0.25
+        },
+        {
+          "name": "Agriculture",
+          "percentage_of_commodity_exports": 0.10,
+          "production_volatility": 0.20,
+          "price_volatility": 0.20
+        }
+      ],
+      "export_markets": [
+        {
+          "region": "North America",
+          "percentage": 0.30
+        },
+        {
+          "region": "Europe",
+          "percentage": 0.25
+        },
+        {
+          "region": "Asia",
+          "percentage": 0.35
+        },
+        {
+          "region": "Other",
+          "percentage": 0.10
+        }
+      ]
+    },
+    "political_parameters": {
+      "governance_stability": 0.7,
+      "election_cycle_years": 4,
+      "next_election_year": 2,
+      "central_bank_independence": 0.6,
+      "regulatory_quality": 0.65,
+      "international_relations": 0.7
+    }
+  },
+  "behavioral_parameters": {
+    "risk_preferences": {
+      "general_risk_aversion": 0.6,
+      "financial_risk_tolerance": 0.5,
+      "political_risk_sensitivity": 0.7,
+      "innovation_risk_tolerance": 0.4
+    },
+    "decision_weights": {
+      "economic_benefit_weight": 0.35,
+      "sovereignty_weight": 0.25,
+      "stability_weight": 0.20,
+      "political_feasibility_weight": 0.15,
+      "international_relations_weight": 0.05
+    },
+    "time_preferences": {
+      "discount_rate": 0.08,
+      "planning_horizon_years": 5,
+      "short_term_bias": 0.6
+    },
+    "strategic_orientation": {
+      "proactivity": 0.5,
+      "cooperation_tendency": 0.6,
+      "transparency_preference": 0.5,
+      "innovation_orientation": 0.4,
+      "status_quo_bias": 0.6
+    }
+  },
+  "fictra_parameters": {
+    "initial_participation_level": 0.3,
+    "foundation_token_strategy": {
+      "initial_retention_rate": 0.7,
+      "strategic_reserve_target": 0.5,
+      "trading_activity_level": 0.3
+    },
+    "governance_participation": {
+      "voting_participation_rate": 0.8,
+      "proposal_generation_rate": 0.4,
+      "coalition_formation_tendency": 0.6
+    },
+    "implementation_capacity": {
+      "technical_readiness": 0.6,
+      "institutional_capacity": 0.7,
+      "resource_allocation": 0.5
+    }
+  },
+  "simulation_parameters": {
+    "update_frequency": "monthly",
+    "learning_rate": 0.1,
+    "random_seed": 12345,
+    "noise_factor": 0.05,
+    "mode_switching": {
+      "strategic_mode_probability": 0.6,
+      "reactive_mode_probability": 0.4,
+      "mode_persistence": 0.8
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2023-11-15",
+    "description": "Default parameters for the FICTRA sovereign agent simulation"
+  }
+}
