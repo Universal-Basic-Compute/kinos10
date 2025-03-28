@@ -5,7 +5,7 @@ import json
 import logging
 from config import logger
 
-def call_aider_with_context(project_path, selected_files, message_content, stream=False):
+def call_aider_with_context(project_path, selected_files, message_content, stream=False, addSystem=None):
     """
     Call Aider CLI with the selected context files and user message.
     
@@ -14,6 +14,7 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
         selected_files: List of files to include in the context
         message_content: User message content
         stream: Whether to stream the response (default: False)
+        addSystem: Optional additional system instructions
     
     Returns:
         If stream=False: Aider response as a string
@@ -55,6 +56,20 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
     if os.path.exists(messages_path):
         cmd.extend(["--read", messages_file])
         logger.info(f"Added messages.json as --read file")
+    
+    # Create a temporary file for addSystem if provided
+    temp_system_file = None
+    if addSystem:
+        import tempfile
+        temp_system_file = os.path.join(project_path, "temp_system_instructions.txt")
+        try:
+            with open(temp_system_file, 'w', encoding='utf-8') as f:
+                f.write(f"# Additional System Instructions\n\n{addSystem}")
+            cmd.extend(["--read", "temp_system_instructions.txt"])
+            logger.info(f"Created temporary file for additional system instructions")
+        except Exception as e:
+            logger.error(f"Error creating temporary system file: {str(e)}")
+            temp_system_file = None
     
     # Add all selected files to the command
     for file in selected_files:
@@ -141,6 +156,14 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
                         f.write(f"Errors:\n{stderr_output}\n")
                     f.write("--- End of Aider run ---\n\n")
                 
+                # Clean up temporary file if it exists
+                if temp_system_file and os.path.exists(temp_system_file):
+                    try:
+                        os.remove(temp_system_file)
+                        logger.info(f"Removed temporary system file")
+                    except Exception as e:
+                        logger.error(f"Error removing temporary system file: {str(e)}")
+                
                 # If there was an error, yield it as well
                 if stderr_output:
                     yield f"\nErrors occurred:\n{stderr_output}"
@@ -166,6 +189,14 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
                     f.write(f"Errors:\n{result.stderr}\n")
                 f.write("--- End of Aider run ---\n\n")
             
+            # Clean up temporary file if it exists
+            if temp_system_file and os.path.exists(temp_system_file):
+                try:
+                    os.remove(temp_system_file)
+                    logger.info(f"Removed temporary system file")
+                except Exception as e:
+                    logger.error(f"Error removing temporary system file: {str(e)}")
+            
             # Return the stdout from Aider
             return result.stdout
     except subprocess.CalledProcessError as e:
@@ -178,5 +209,13 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
             if e.stdout:
                 f.write(f"Output before error:\n{e.stdout}\n")
             f.write("--- End of Aider error ---\n\n")
+        
+        # Clean up temporary file if it exists
+        if temp_system_file and os.path.exists(temp_system_file):
+            try:
+                os.remove(temp_system_file)
+                logger.info(f"Removed temporary system file")
+            except Exception as e:
+                logger.error(f"Error removing temporary system file: {str(e)}")
         
         raise RuntimeError(f"Aider command failed: {e.stderr}")

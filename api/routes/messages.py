@@ -302,7 +302,7 @@ def send_message(customer, project_id):
             # Call Aider in parallel for file updates (don't wait for response)
             def run_aider():
                 try:
-                    aider_response = call_aider_with_context(project_path, selected_files, message_content)
+                    aider_response = call_aider_with_context(project_path, selected_files, message_content, addSystem=addSystem)
                     logger.info("Aider processing completed")
                     # Log the complete Aider response
                     logger.info(f"Aider response: {aider_response}")
