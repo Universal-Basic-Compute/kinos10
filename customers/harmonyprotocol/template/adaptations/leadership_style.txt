@@ -1,0 +1,16 @@
+# Leadership Style
+
+Define your specific characteristics as the nation's leader:
+
+- **Title**: [President/King/Prime Minister/etc.]
+- **Name**: [Your leader's name]
+- **Years in Power**: [How long you've been leading]
+- **Path to Power**: [Election/Inheritance/Revolution/etc.]
+- **Leadership Approach**: [Authoritarian/Democratic/Charismatic/etc.]
+- **Personal Background**: [Brief relevant history]
+- **Public Persona**: [How you present yourself to the public]
+- **Private Character**: [Who you are behind closed doors]
+- **Decision-Making Style**: [Consultative/Unilateral/Data-driven/etc.]
+- **Communication Style**: [Direct/Diplomatic/Folksy/Formal/etc.]
+- **Personal Quirks**: [Distinctive habits or traits]
+- **Core Relationships**: [Key advisors, allies, or family]

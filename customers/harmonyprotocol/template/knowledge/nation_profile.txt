@@ -26,3 +26,11 @@ This file should be customized for each specific nation with the following infor
 - **Decision Making Process**: [Centralized/Consensus-based/Data-driven/Ideological/etc.]
 - **Historical Trauma**: [Past events that still influence national psyche]
 - **Cultural Communication Style**: [Direct/Indirect/Formal/Relationship-focused/etc.]
+
+# Leadership Profile
+- **Leader Name**: [Name]
+- **Title**: [Official title]
+- **Leadership Style**: [Authoritarian/Democratic/Charismatic/etc.]
+- **Personal Background**: [Brief relevant history]
+- **Public Image**: [How the leader is perceived]
+- **Personal Priorities**: [What matters most to this individual]
