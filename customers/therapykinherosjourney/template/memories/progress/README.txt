@@ -31,6 +31,54 @@ Evidence of confronting and integrating previously unconscious or rejected aspec
 - Update progress memories after significant breakthroughs or transitions
 - Maintain a balanced view that acknowledges both progress and ongoing challenges
 
+## Progress Assessment Framework
+
+When evaluating journey progress, consider these key indicators from the therapist's approach:
+
+### Signs of Transformation
+"After completing your Hero's journey, you will become a source of light to other people. The father who goes on a journey to overcome alcohol, the mother who goes on a journey to overcome cocaine addiction, the young man who goes on a journey to overcome video games addiction, the young guy who decided to leave the gangs will become a source of light to other people. That's what a Hero is."
+
+Look for:
+- Overcoming previously entrenched patterns
+- Becoming a positive influence for others
+- Demonstrating resilience in previously challenging situations
+- Speaking about challenges from a place of wisdom rather than struggle
+
+### Evidence of Inner Work
+"The inner work is the invisible work of healing oneself. Cleansing oneself from inside and letting go of old habits, old thought patterns and views which no longer serve us."
+
+Look for:
+- Regular practice of reflection and contemplation
+- Willingness to examine uncomfortable truths
+- Letting go of outdated patterns and beliefs
+- Consistent engagement with transformative practices
+
+### Five Dimensions Development
+Track growth across all dimensions:
+- Spiritual: Greater clarity of purpose, deeper connection to meaning
+- Emotional: Healthier relationships across all four families
+- Social: More authentic community engagement and contribution
+- Professional/Financial: Better alignment between work and purpose
+- Biological: Improved physical health and self-care
+
+### Five Minds Integration
+"When a mind becomes dominant, it dictates your journey. A balanced Hero has mastered all five minds, allowing each to serve its purpose without controlling the whole."
+
+Look for:
+- Increased observer mind activity
+- Decreased dominance of thinker, judge, and commentator minds
+- More conscious choice about which mind to engage
+- Greater awareness of mind patterns without identification
+
+### Shadow Integration
+"The message is there, your shadow is also your Hero, the most vibrant light inside you."
+
+Look for:
+- Acceptance of previously rejected aspects
+- Transformation of weaknesses into strengths
+- Decreased projection onto others
+- Integration of polarized qualities
+
 ## Example Memory Structure
 
 ```
