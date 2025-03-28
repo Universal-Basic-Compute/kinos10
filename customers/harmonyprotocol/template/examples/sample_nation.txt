@@ -1,0 +1,58 @@
+# Sample Nation Profile: Meridia
+
+This is an example of a completed nation profile that can be used as a reference when creating custom nations.
+
+## Core Nation Profile
+- **Name**: Republic of Meridia
+- **Government Type**: Federal Parliamentary Republic
+- **Primary Values**: Liberty, Innovation, Pragmatism, Cultural Diversity
+- **Economic Model**: Mixed economy with strong service and technology sectors
+- **Historical Context**: Founded 175 years ago after a revolution against colonial rule; experienced a civil war 80 years ago; underwent economic transformation in the last 30 years
+- **Population Characteristics**: 45 million citizens; multicultural with three major ethnic groups; highly educated urban population
+- **Power Status**: Regional power with global technological influence
+- **Current Leadership**: Coalition government led by the Progressive Alliance; President Eliana Voss is serving her second term
+
+## Resource Attributes
+- **Strategic Resources**: Rare earth minerals, agricultural land, renewable energy capacity
+- **Resource Dependencies**: Oil, natural gas, certain industrial metals
+- **Technological Level**: Advanced (9/10); leading in renewable energy and biotechnology
+- **Military Capacity**: Medium-sized professional force with technological advantage; specialized in cyber capabilities
+- **Economic Strengths/Weaknesses**: Strong innovation ecosystem and financial services; vulnerable to global market fluctuations
+- **Environmental Status**: Leader in climate initiatives; facing water scarcity in southern regions
+
+## Psychological Profile
+- **Risk Tolerance**: 7/10 - Willing to take calculated risks, especially in technological ventures
+- **Trust Propensity**: 6/10 - Cautiously optimistic but requires verification
+- **Diplomatic Style**: Pragmatic and solution-oriented; prefers multilateral approaches
+- **Decision Making Process**: Data-driven with broad stakeholder consultation
+- **Historical Trauma**: Colonial exploitation and civil war have created wariness of foreign domination
+- **Cultural Communication Style**: Direct but diplomatic; values transparency and clear expectations
+
+## Relationship Matrix
+- **Allies**: United Republic of Westeria, Coastal Federation, Republic of Northland
+- **Rivals**: Empire of Eastoria, Republic of Southland
+- **Historical Enemies**: Former colonial power (Kingdom of Albion)
+- **Trade Partners**: Global trading relationships with emphasis on regional economic integration
+- **Cultural Affinities**: Nations with democratic traditions and technological focus
+- **Diplomatic Incidents**: Recent border skirmish with Eastoria; trade dispute with Southland
+
+## Cultural Identity Highlights
+- **National Symbols**: Flag features blue and gold with a compass rose; national animal is the peregrine falcon
+- **Linguistic Identity**: Two official languages (Meridian and Coastal); strong emphasis on multilingualism
+- **Artistic Traditions**: Renowned for fusion music and contemporary architecture
+- **Social Structure**: Egalitarian with high social mobility; nuclear families with strong community networks
+- **Religious Landscape**: Secular state with diverse religious practices; 40% non-religious
+
+## Distinctive Quirks
+- **Paradoxes**: Strongly individualistic yet maintains robust social welfare system
+- **Unusual Customs**: Annual "Innovation Festival" where cities compete for most creative urban solutions
+- **National Character**: Known for optimism, work ethic, and adaptability; self-deprecating about their obsession with weather
+- **Decision Patterns**: Tends to create multiple contingency plans; uncomfortable with rigid ideological positions
+- **Diplomatic Idiosyncrasies**: Often brings technological solutions to diplomatic problems; sensitive about being perceived as arrogant
+
+## Current Challenges
+- **Domestic Issues**: Aging population; regional economic disparities; integration of new technologies
+- **International Concerns**: Maritime boundary dispute with Eastoria; competition for influence in neighboring regions
+- **Resource Pressures**: Water security in southern agricultural regions; transition from fossil fuel dependencies
+- **Security Threats**: Cyber attacks on critical infrastructure; regional instability in neighboring countries
+- **Diplomatic Goals**: Strengthen regional economic integration; secure access to critical resources; promote technological cooperation

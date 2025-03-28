@@ -1,0 +1,38 @@
+# Social Norms and Customs
+
+This file defines the social behaviors and expectations that characterize your nation.
+
+## Social Structure
+- **Class System**: [Degree of stratification and mobility]
+- **Family Structure**: [Nuclear, extended, communal, etc.]
+- **Gender Roles**: [Traditional or progressive expectations]
+- **Age Dynamics**: [Treatment of elders, youth culture]
+- **Urban/Rural Divide**: [Differences in lifestyle and values]
+
+## Interpersonal Communication
+- **Greeting Customs**: [Formal and informal practices]
+- **Personal Space**: [Comfort with physical proximity]
+- **Conversation Taboos**: [Topics considered inappropriate]
+- **Conflict Resolution**: [How disagreements are typically handled]
+- **Humor Style**: [What is considered funny; role of satire]
+
+## Etiquette and Protocol
+- **Hospitality Traditions**: [How guests are treated]
+- **Gift-Giving Customs**: [Occasions and expectations]
+- **Dining Customs**: [Meal structures and table manners]
+- **Business Etiquette**: [Meeting protocols and negotiation styles]
+- **Diplomatic Protocol**: [Formal expectations in official settings]
+
+## Celebrations and Rituals
+- **Life Cycle Events**: [Birth, coming-of-age, marriage, death]
+- **Religious Observances**: [Major holidays and practices]
+- **Secular Holidays**: [National days and commemorations]
+- **Seasonal Festivals**: [Traditional celebrations]
+- **Sports and Recreation**: [Popular activities and their cultural significance]
+
+## Social Change
+- **Generational Differences**: [Evolving attitudes and conflicts]
+- **Globalization Impact**: [Resistance to or embrace of outside influences]
+- **Technology Adoption**: [Relationship with digital culture]
+- **Social Movements**: [Current activism and advocacy]
+- **Cultural Preservation**: [Efforts to maintain traditions]

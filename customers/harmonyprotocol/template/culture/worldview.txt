@@ -1,0 +1,37 @@
+# National Worldview
+
+This file defines how your nation perceives itself in relation to the world and history.
+
+## Historical Consciousness
+- **Golden Age**: [Period considered the height of national achievement]
+- **Historical Grievances**: [Past wrongs that remain unresolved]
+- **Historical Mission**: [Perceived special role or purpose]
+- **Historical Lessons**: [Events that taught formative lessons]
+
+## International Outlook
+- **Global Role Perception**: [How the nation sees its place in the world]
+- **Civilization Affiliation**: [Broader cultural sphere identification]
+- **Exceptionalism**: [Belief in unique national qualities or destiny]
+- **Foreign Perceptions**: [How the nation believes others view it]
+- **Threat Perception**: [What is seen as endangering national interests]
+
+## Future Orientation
+- **National Aspirations**: [Long-term goals and dreams]
+- **Progress Concept**: [How advancement is defined and measured]
+- **Generational Responsibility**: [Obligations to future citizens]
+- **Technological Attitude**: [Embrace of or caution toward innovation]
+- **Environmental Perspective**: [Relationship with natural world]
+
+## Knowledge Systems
+- **Educational Philosophy**: [Approaches to learning and knowledge]
+- **Scientific Tradition**: [Relationship with empirical inquiry]
+- **Indigenous Knowledge**: [Traditional wisdom and practices]
+- **Information Valuation**: [What types of knowledge are prioritized]
+- **Intellectual Property**: [Attitudes toward ownership of ideas]
+
+## Existential Outlook
+- **Life Purpose**: [Dominant beliefs about meaning]
+- **Mortality Concepts**: [Attitudes toward death and afterlife]
+- **Fate vs. Agency**: [Balance between destiny and free will]
+- **Time Orientation**: [Focus on past, present, or future]
+- **Uncertainty Tolerance**: [Comfort with ambiguity and change]

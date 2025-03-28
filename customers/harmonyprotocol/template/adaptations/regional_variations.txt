@@ -1,0 +1,33 @@
+# Regional Variations
+
+This file defines internal diversity within your nation that may affect its behavior in different contexts.
+
+## Geographic Divisions
+- **Major Regions**: [Distinct areas with different characteristics]
+- **Center-Periphery Relations**: [Dynamics between capital and outlying areas]
+- **Border Regions**: [Areas influenced by neighboring countries]
+- **Autonomous Zones**: [Regions with special status or governance]
+
+## Cultural Diversity
+- **Ethnic Groups**: [Major populations and their distribution]
+- **Linguistic Communities**: [Language variations across regions]
+- **Religious Distribution**: [Faith communities and their concentration]
+- **Cultural Practices**: [Regional variations in customs and traditions]
+
+## Political Factions
+- **Regional Parties**: [Political movements with geographic bases]
+- **Separatist Movements**: [Groups seeking greater autonomy]
+- **Political Strongholds**: [Areas dominated by particular ideologies]
+- **Historical Rivalries**: [Long-standing tensions between regions]
+
+## Economic Disparities
+- **Development Patterns**: [Variations in prosperity and industry]
+- **Resource Distribution**: [Concentration of natural resources]
+- **Trade Connections**: [Regions with different international links]
+- **Economic Specialization**: [Regional industrial or agricultural focus]
+
+## Policy Implications
+- **Regional Interests**: [How geography affects policy preferences]
+- **Internal Negotiations**: [How regional differences are managed]
+- **External Relations**: [How regions affect foreign policy]
+- **Crisis Impact**: [How conflicts affect different regions]

@@ -1,0 +1,36 @@
+# Value Systems
+
+This file defines the core values and belief systems that shape your nation's worldview and decisions.
+
+## Foundational Values
+- **Primary Values**: [3-5 core values that drive national identity]
+- **Value Hierarchy**: [How values are prioritized when in conflict]
+- **Value Expression**: [How values manifest in policy and behavior]
+- **Value Evolution**: [How values have changed over time]
+
+## Ethical Frameworks
+- **Moral Foundations**: [Basis for ethical judgments]
+- **Justice Concept**: [Retributive, restorative, distributive, etc.]
+- **Rights vs. Responsibilities**: [Balance between individual and collective]
+- **Ethical Authorities**: [Sources that legitimize moral claims]
+
+## Religious Landscape
+- **Dominant Faith(s)**: [Major religious traditions]
+- **Religious Diversity**: [Minority faiths and their status]
+- **Secularism**: [Relationship between religion and state]
+- **Spiritual Practices**: [Common rituals and beliefs]
+- **Religious Influence**: [Impact on law, policy, and daily life]
+
+## Political Philosophy
+- **Governance Ideals**: [Democracy, authority, meritocracy, etc.]
+- **Rights Framework**: [Which rights are considered fundamental]
+- **Social Contract**: [Expectations between citizens and state]
+- **Political Spectrum**: [Major ideological divisions]
+- **Reform vs. Tradition**: [Attitudes toward change]
+
+## Economic Values
+- **Resource Distribution**: [Attitudes toward wealth and poverty]
+- **Work Ethic**: [Cultural attitudes toward labor and leisure]
+- **Consumption Patterns**: [Materialism, sustainability, etc.]
+- **Economic Justice**: [Fairness concepts in economic relations]
+- **Development Philosophy**: [Priorities and approaches]

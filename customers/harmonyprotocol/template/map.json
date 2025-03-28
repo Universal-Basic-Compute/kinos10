@@ -37,6 +37,42 @@
       ]
     },
     {
+      "name": "Cultural Identity",
+      "description": "The nation's distinctive cultural characteristics",
+      "children": [
+        {
+          "name": "national_identity.txt",
+          "description": "Core elements of cultural identity",
+          "path": "culture/national_identity.txt",
+          "type": "file"
+        },
+        {
+          "name": "social_norms.txt",
+          "description": "Social behaviors and expectations",
+          "path": "culture/social_norms.txt",
+          "type": "file"
+        },
+        {
+          "name": "value_systems.txt",
+          "description": "Core values and belief systems",
+          "path": "culture/value_systems.txt",
+          "type": "file"
+        },
+        {
+          "name": "worldview.txt",
+          "description": "How the nation perceives itself and the world",
+          "path": "culture/worldview.txt",
+          "type": "file"
+        },
+        {
+          "name": "national_quirks.txt",
+          "description": "Distinctive traits and idiosyncrasies",
+          "path": "culture/national_quirks.txt",
+          "type": "file"
+        }
+      ]
+    },
+    {
       "name": "Interaction Modes",
       "description": "Specialized behavior patterns for different diplomatic contexts",
       "children": [
@@ -105,6 +141,12 @@
           "description": "Approaches to diplomatic negotiation",
           "path": "resources/negotiation_strategies.txt",
           "type": "file"
+        },
+        {
+          "name": "nation_creation_guide.txt",
+          "description": "Guidelines for creating realistic nations",
+          "path": "resources/nation_creation_guide.txt",
+          "type": "file"
         }
       ]
     },
@@ -116,6 +158,24 @@
           "name": "nation_customization.txt",
           "description": "Instructions for customizing the nation profile",
           "path": "adaptations/nation_customization.txt",
+          "type": "file"
+        },
+        {
+          "name": "regional_variations.txt",
+          "description": "Internal diversity within the nation",
+          "path": "adaptations/regional_variations.txt",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "Examples",
+      "description": "Sample implementations for reference",
+      "children": [
+        {
+          "name": "sample_nation.txt",
+          "description": "Example of a fully developed nation profile",
+          "path": "examples/sample_nation.txt",
           "type": "file"
         }
       ]
@@ -138,6 +198,16 @@
       "description": "Nation characteristics inform diplomatic approach"
     },
     {
+      "source": "Cultural Identity",
+      "target": "Knowledge Base",
+      "description": "Cultural factors inform national characteristics"
+    },
+    {
+      "source": "Cultural Identity",
+      "target": "Interaction Modes",
+      "description": "Cultural identity shapes diplomatic approach"
+    },
+    {
       "source": "Interaction Modes",
       "target": "Memory System",
       "description": "Interactions are stored as memories"
@@ -156,6 +226,16 @@
       "source": "Adaptations",
       "target": "Knowledge Base",
       "description": "Customizes nation profile"
+    },
+    {
+      "source": "Adaptations",
+      "target": "Cultural Identity",
+      "description": "Customizes cultural characteristics"
+    },
+    {
+      "source": "Examples",
+      "target": "Adaptations",
+      "description": "Provides reference for customization"
     }
   ]
 }

@@ -1,0 +1,37 @@
+# National Quirks and Idiosyncrasies
+
+This file defines the distinctive and sometimes contradictory traits that make your nation unique.
+
+## Paradoxes and Contradictions
+- **Value Tensions**: [Contradictory values that coexist]
+- **Behavioral Inconsistencies**: [Actions that seem at odds with stated beliefs]
+- **Historical Ironies**: [Unexpected twists in national development]
+- **Cultural Blind Spots**: [Issues the nation struggles to recognize]
+
+## Distinctive Habits
+- **Unusual Customs**: [Practices visitors find surprising]
+- **Time Perception**: [Attitudes toward punctuality, scheduling, etc.]
+- **Space Utilization**: [How physical environments are organized]
+- **Consumption Quirks**: [Distinctive patterns in food, goods, media]
+- **Linguistic Peculiarities**: [Unique expressions or communication patterns]
+
+## National Character Traits
+- **Stereotypical Traits**: [How citizens are commonly characterized]
+- **Self-Deprecating Humor**: [What the nation jokes about itself]
+- **National Complexes**: [Collective insecurities or fixations]
+- **Admired Qualities**: [Traits celebrated in national heroes]
+- **Generational Variations**: [How traits differ across age groups]
+
+## Decision-Making Patterns
+- **Risk Approach**: [Distinctive attitudes toward uncertainty]
+- **Crisis Response**: [Characteristic reactions to emergencies]
+- **Innovation Style**: [How new ideas are typically developed]
+- **Problem-Solving Methods**: [Preferred approaches to challenges]
+- **Compromise Patterns**: [How concessions are typically made]
+
+## Diplomatic Idiosyncrasies
+- **Negotiation Quirks**: [Unusual aspects of diplomatic style]
+- **Communication Patterns**: [Distinctive ways of expressing positions]
+- **Protocol Preferences**: [Special expectations in formal settings]
+- **Relationship Building**: [Unique approaches to diplomatic trust]
+- **Conflict Triggers**: [Issues that provoke unusually strong reactions]
