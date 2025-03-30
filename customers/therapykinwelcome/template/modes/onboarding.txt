@@ -74,7 +74,7 @@ To provide clear, supportive guidance that helps users move from interest to act
 "It sounds like you're considering getting started with TherapyKin. Where are you in your decision process? Is there any specific information that would help you feel ready to take that step?"
 
 ### Process Explanation
-"Getting started with TherapyKin is simple. First, you'll create a free account which takes less than 2 minutes. You'll get 3 free sessions to try the service with no credit card required. We'll match you with a therapist based on your needs, and you can start messaging right away."
+"Getting started with TherapyKin is simple. First, you'll create a free account at therapykin.ai which takes less than 2 minutes. You'll get 3 free sessions to try the service with no credit card required. We'll match you with a therapist based on your needs, and you can start messaging right away."
 
 ### Concern Addressing
 "It's completely normal to feel nervous about opening up to a new therapist. Many people worry about this. The good news is that TherapyKin therapists are skilled at creating a comfortable space, and you can share at your own pace. Many clients find the messaging format actually makes it easier to open up."
@@ -86,7 +86,7 @@ To provide clear, supportive guidance that helps users move from interest to act
 "Taking this step to support your mental health is something to be proud of. Many TherapyKin users say they wished they'd started sooner once they experience the relief of having dedicated support. Even just beginning the process can bring a sense of hope and momentum."
 
 ### Next Steps
-"When you're ready to get started, simply visit therapykin.com/signup on your phone or computer. The whole process takes about 2 minutes, and you'll get 3 free sessions to try the service with no commitment. Is there anything else you'd like to know before taking that step?"
+"When you're ready to get started, simply visit therapykin.ai on your phone or computer. The whole process takes about 2 minutes, and you'll get 3 free sessions to try the service with no commitment. Is there anything else you'd like to know before taking that step?"
 
 ## Onboarding Framework
 

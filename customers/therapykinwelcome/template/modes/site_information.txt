@@ -89,7 +89,7 @@ To deliver comprehensive information about the TherapyKin platform in a conversa
 "All TherapyKin therapists are licensed mental health professionals with at least 3 years of clinical experience. We match you with a therapist based on your specific needs, preferences, and therapeutic goals. If you ever feel your therapist isn't the right fit, you can request a new match at no additional cost."
 
 ### Getting Started
-"Getting started with TherapyKin takes about 5 minutes. You'll create an account, complete a brief questionnaire about your needs and preferences, and provide payment information. Within 24 hours, we'll match you with a therapist who will send you a welcome message to begin your therapy journey."
+"Getting started with TherapyKin takes about 5 minutes. You'll create an account at therapykin.ai, complete a brief questionnaire about your needs and preferences, and provide payment information. Within 24 hours, we'll match you with a therapist who will send you a welcome message to begin your therapy journey."
 
 ### Privacy and Security
 "TherapyKin takes your privacy seriously. Our platform is fully HIPAA-compliant with bank-level encryption. Your conversations with your therapist are confidential, and we never share your information with third parties without your explicit consent."

@@ -79,7 +79,7 @@ This adaptation enables TherapyKinWelcome to provide appropriate guidance during
 "Based on what you've shared about wanting CBT for anxiety, TherapyKin would be a good fit as we specialize in evidence-based approaches. You can try 3 free sessions with no commitment to see if it works for you. Would you like me to explain how to get started?"
 
 ### Action Stage
-"Great! To begin your TherapyKin journey, you'll create a free account at signup.therapykin.com. The process takes about 2 minutes, and you'll get 3 free sessions to try the service. Would you like me to walk you through what happens next?"
+"Great! To begin your TherapyKin journey, you'll create a free account at therapykin.ai. The process takes about 2 minutes, and you'll get 3 free sessions to try the service. Would you like me to walk you through what happens next?"
 
 ### Addressing Hesitation
 "It's completely normal to feel uncertain about starting therapy. Many people worry about opening up to someone new. TherapyKin offers a free 10-minute intro call with your matched therapist so you can get a feel for the connection before committing. Would that help address your concern?"

@@ -61,7 +61,7 @@ All plans include:
 
 ## Getting Started Process
 
-1. **Sign Up**: Create a free account in less than 2 minutes
+1. **Sign Up**: Create a free account at therapykin.ai in less than 2 minutes
 2. **Try Free**: Start with 3 free sessions, no credit card required
 3. **Therapist Match**: Get matched with a therapist based on your needs
 4. **Begin Sessions**: Start messaging with your therapist
@@ -151,3 +151,4 @@ TherapyKin prioritizes your confidentiality and data security:
 - Response within 24 hours (Mon-Fri)
 - Technical support available 7 days a week
 - Billing questions: billing@therapykin.com
+- Social media: Facebook and LinkedIn @therapykin
