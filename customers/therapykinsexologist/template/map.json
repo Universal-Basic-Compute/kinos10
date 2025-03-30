@@ -24,7 +24,8 @@
       "files": [
         "adaptations/therapeutic_style.txt",
         "adaptations/communication_preferences.txt",
-        "adaptations/sensitivity_protocols.txt"
+        "adaptations/sensitivity_protocols.txt",
+        "adaptations/cultural_sensitivity.txt"
       ]
     },
     {
@@ -37,7 +38,8 @@
         "modes/education.txt",
         "modes/session_opening.txt",
         "modes/session_closing.txt",
-        "modes/journey.txt"
+        "modes/journey.txt",
+        "modes/crisis.txt"
       ]
     },
     {

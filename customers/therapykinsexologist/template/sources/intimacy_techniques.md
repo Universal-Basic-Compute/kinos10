@@ -198,6 +198,34 @@ Intimacy techniques encompass a range of practices designed to enhance connectio
 - Addressing avoidance patterns
 - Building emotional intimacy alongside physical
 
+### Digital and Long-Distance Intimacy
+**Purpose**: To maintain and enhance intimate connection when partners are physically separated.
+
+**Techniques**:
+1. **Virtual date structures**:
+   - Scheduled quality time via video
+   - Shared activities (watching movies, cooking together)
+   - Creating rituals for connection
+   - Maintaining presence during digital time
+
+2. **Intimate communication practices**:
+   - Expressive text communication
+   - Voice messages with emotional content
+   - Video calls with focused attention
+   - Digital love letters or appreciation notes
+
+3. **Digital sensuality approaches**:
+   - Consensual photo or video sharing
+   - Descriptive language for sensual connection
+   - Mutual sensual experiences at distance
+   - Privacy and security considerations
+
+4. **Asynchronous intimacy**:
+   - Sending messages to be read later
+   - Creating anticipation through planned connection
+   - Maintaining emotional presence between calls
+   - Building shared meaning through consistent contact
+
 ## Implementation Guidelines
 
 ### Creating Safety
