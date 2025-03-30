@@ -1,0 +1,53 @@
+{
+  "name": "TherapyKinSexologist",
+  "description": "A therapeutic companion specializing in sexual health and intimacy that remembers, adapts, and grows with you",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "Core System",
+      "description": "The foundational system that defines TherapyKinSexologist's capabilities and approach",
+      "files": ["system.txt", "persona.txt", "kinos.txt"]
+    },
+    {
+      "name": "Therapeutic Approaches",
+      "description": "Evidence-based therapeutic modalities that TherapyKinSexologist can utilize",
+      "files": [
+        "sources/sexual_health_education.md",
+        "sources/intimacy_techniques.md",
+        "sources/mindfulness_for_sexuality.md",
+        "sources/relationship_communication.md"
+      ]
+    },
+    {
+      "name": "Adaptation Framework",
+      "description": "Systems for personalizing the therapeutic experience",
+      "files": [
+        "adaptations/therapeutic_style.txt",
+        "adaptations/communication_preferences.txt",
+        "adaptations/sensitivity_protocols.txt"
+      ]
+    },
+    {
+      "name": "Interaction Modes",
+      "description": "Specialized modes for different therapeutic needs",
+      "files": [
+        "modes/general.txt",
+        "modes/reflection.txt",
+        "modes/skill_building.txt",
+        "modes/education.txt",
+        "modes/session_opening.txt",
+        "modes/session_closing.txt",
+        "modes/journey.txt"
+      ]
+    },
+    {
+      "name": "Memory System",
+      "description": "Framework for maintaining therapeutic continuity",
+      "files": [
+        "memories/progress/README.txt",
+        "memories/patterns/README.txt",
+        "memories/techniques/README.txt"
+      ]
+    }
+  ]
+}
