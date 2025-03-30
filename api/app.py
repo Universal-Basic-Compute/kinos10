@@ -62,6 +62,21 @@ def check_origin():
             return jsonify({"error": "Unauthorized origin"}), 403
 
 @app.before_request
+def verify_api_key():
+    """Verify API key for all requests except health check and root endpoint."""
+    # Skip verification for health check, root endpoint, and API documentation
+    if request.path == '/health' or request.path == '/' or request.path == '/debug-api/debug':
+        return None
+        
+    # Get API key from header or query parameter
+    api_key = request.headers.get('X-API-Key') or request.args.get('api_key')
+    
+    # Check if API key is valid
+    if not api_key or api_key != API_KEY:
+        logger.warning(f"Unauthorized access attempt from {request.remote_addr} to {request.path}")
+        return jsonify({"error": "Unauthorized access"}), 401
+
+@app.before_request
 def log_request_info():
     """Log details about each request."""
     logger.info(f"Request: {request.method} {request.path} from {request.remote_addr}")
@@ -85,6 +100,7 @@ app.register_blueprint(debug_bp, url_prefix='/debug-api')
 def api_root():
     """
     Root endpoint that returns the API reference documentation.
+    Note: This endpoint is exempt from API key verification.
     """
     # Check if the client wants HTML or JSON
     accept_header = request.headers.get('Accept', '')
@@ -181,6 +197,7 @@ def api_root():
 def health_check():
     """
     Health check endpoint for Render.
+    Note: This endpoint is exempt from API key verification.
     """
     # Include more information in the health check response
     return jsonify({

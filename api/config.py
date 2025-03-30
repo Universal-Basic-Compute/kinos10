@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 
+# Generate a secure API key or load from environment
+API_KEY = os.getenv("API_SECRET_KEY", "your-default-secure-key-here")  # In production, always use env var
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,

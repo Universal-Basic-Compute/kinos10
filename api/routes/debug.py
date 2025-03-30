@@ -14,6 +14,7 @@ debug_bp = Blueprint('debug', __name__)
 def api_debug():
     """
     Debug endpoint that returns detailed information about the API server.
+    Note: This endpoint is exempt from API key verification for diagnostic purposes.
     """
     try:
         # Get basic system information
