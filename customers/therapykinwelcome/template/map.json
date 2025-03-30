@@ -1,0 +1,48 @@
+{
+  "name": "TherapyKinWelcome",
+  "description": "A welcome assistant that introduces TherapyKin services and guides users to their first session",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "Core System",
+      "description": "The foundational system that defines TherapyKinWelcome's capabilities and approach",
+      "files": ["system.txt", "persona.txt", "kinos.txt"]
+    },
+    {
+      "name": "Service Information",
+      "description": "Comprehensive details about TherapyKin's services, features, and processes",
+      "files": [
+        "sources/site_information.md",
+        "sources/getting_started.md",
+        "sources/faq.md"
+      ]
+    },
+    {
+      "name": "Adaptation Framework",
+      "description": "Systems for personalizing the welcome experience",
+      "files": [
+        "adaptations/welcome_guidance.txt",
+        "adaptations/communication_preferences.txt",
+        "adaptations/therapeutic_style.txt"
+      ]
+    },
+    {
+      "name": "Interaction Modes",
+      "description": "Specialized modes for different welcome and onboarding needs",
+      "files": [
+        "modes/general.txt",
+        "modes/site_information.txt",
+        "modes/onboarding.txt",
+        "modes/session_opening.txt",
+        "modes/session_closing.txt"
+      ]
+    },
+    {
+      "name": "Memory System",
+      "description": "Framework for maintaining conversation continuity and improving guidance",
+      "files": [
+        "memories/README.txt"
+      ]
+    }
+  ]
+}
