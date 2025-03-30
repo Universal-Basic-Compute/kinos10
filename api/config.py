@@ -6,7 +6,12 @@ from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 
 # Generate a secure API key or load from environment
-API_KEY = os.getenv("API_SECRET_KEY", "your-default-secure-key-here")  # In production, always use env var
+API_KEY = os.getenv("API_SECRET_KEY")
+if not API_KEY:
+    logger.warning("API_SECRET_KEY environment variable not set! Using default key (not secure for production)")
+    API_KEY = "your-default-secure-key-here"  # Only use this for development
+else:
+    logger.info("API_SECRET_KEY environment variable found and loaded")
 
 # Configure logging
 logging.basicConfig(

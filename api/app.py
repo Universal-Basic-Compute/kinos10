@@ -71,6 +71,16 @@ def verify_api_key():
     # Get API key from header or query parameter
     api_key = request.headers.get('X-API-Key') or request.args.get('api_key')
     
+    # Log the received API key (masked) and the expected API key (masked) for debugging
+    if api_key:
+        masked_received = f"{api_key[:3]}...{api_key[-3:]}" if len(api_key) > 6 else "***"
+        logger.info(f"Received API key: {masked_received}")
+    else:
+        logger.warning("No API key provided in request")
+    
+    masked_expected = f"{API_KEY[:3]}...{API_KEY[-3:]}" if len(API_KEY) > 6 else "***"
+    logger.info(f"Expected API key: {masked_expected}")
+    
     # Check if API key is valid
     if not api_key or api_key != API_KEY:
         logger.warning(f"Unauthorized access attempt from {request.remote_addr} to {request.path}")
