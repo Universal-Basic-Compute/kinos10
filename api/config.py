@@ -5,6 +5,13 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 # Generate a secure API key or load from environment
 API_KEY = os.getenv("API_SECRET_KEY")
 if not API_KEY:
@@ -12,13 +19,6 @@ if not API_KEY:
     API_KEY = "your-default-secure-key-here"  # Only use this for development
 else:
     logger.info("API_SECRET_KEY environment variable found and loaded")
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
 
 # Define MODEL constant
 MODEL = "claude-3-5-haiku-latest"  # Use the latest Claude 3.5 Haiku model
