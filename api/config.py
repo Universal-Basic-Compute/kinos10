@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 # Generate a secure API key or load from environment
 API_KEY = os.getenv("API_SECRET_KEY")
 if not API_KEY:
-    logger.warning("API_SECRET_KEY environment variable not set! Using default key (not secure for production)")
-    API_KEY = "your-default-secure-key-here"  # Only use this for development
+    logger.error("API_SECRET_KEY environment variable not set! API will not function correctly.")
+    # Don't set a default key - this will cause the API to reject all requests if no key is configured
 else:
     logger.info("API_SECRET_KEY environment variable found and loaded")
 
