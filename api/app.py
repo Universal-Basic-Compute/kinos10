@@ -16,18 +16,50 @@ from propagate_templates import propagate_templates
 # Initialize Flask app
 app = Flask(__name__)
 
-# Configure CORS to allow requests from localhost:3000 and localhost:3001
+# Configure CORS to allow requests from specific domains only
 CORS(app, resources={
     r"/*": {
         "origins": [
+            "http://localhost:3000",  # Keep for local development
+            "http://localhost:3001",  # Keep for local development
+            "https://kinos-engine.ai",
+            "https://kinos10.onrender.com",
+            "https://fictra-portal.vercel.app",
+            "https://therapykin.ai",
+            "https://www.therapykin.ai",
+            "https://stridecoaching.ai", 
+            "https://www.stridecoaching.ai",
+            "https://duogaming.ai",
+            "https://www.duogaming.ai",
+            "https://konginvest.ai",
+            "https://www.konginvest.ai"
+        ]
+    }
+})
+
+@app.before_request
+def check_origin():
+    """Check if the request origin is allowed."""
+    origin = request.headers.get('Origin')
+    if origin:
+        allowed_origins = [
             "http://localhost:3000",
             "http://localhost:3001",
             "https://kinos-engine.ai",
             "https://kinos10.onrender.com",
-            "https://fictra-portal.vercel.app"
+            "https://fictra-portal.vercel.app",
+            "https://therapykin.ai",
+            "https://www.therapykin.ai",
+            "https://stridecoaching.ai",
+            "https://www.stridecoaching.ai",
+            "https://duogaming.ai",
+            "https://www.duogaming.ai",
+            "https://konginvest.ai",
+            "https://www.konginvest.ai"
         ]
-    }
-})
+        if origin not in allowed_origins:
+            logger.warning(f"Blocked request from unauthorized origin: {origin}")
+            return jsonify({"error": "Unauthorized origin"}), 403
 
 @app.before_request
 def log_request_info():
