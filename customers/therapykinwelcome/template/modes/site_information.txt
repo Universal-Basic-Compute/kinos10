@@ -41,11 +41,13 @@ To deliver comprehensive information about the TherapyKin platform in a conversa
 - Session structure and expectations
 
 ### Pricing and Subscriptions
-- Current subscription tiers and pricing
+- Free plan with 3 sessions
+- Current subscription tiers and pricing ($39, $69, $119 monthly)
+- Session limits per plan (3 free, 8/month, 30/month, unlimited)
+- Annual billing option with 20% savings
 - What's included in each plan
 - Billing frequency and payment methods
-- Insurance and FSA/HSA information
-- Cancellation and refund policies
+- Cancellation policies
 
 ### Therapist Information
 - Qualifications and licensing requirements
@@ -81,7 +83,7 @@ To deliver comprehensive information about the TherapyKin platform in a conversa
 "TherapyKin works primarily through unlimited messaging with your dedicated therapist. You can send messages anytime, and your therapist will respond 1-2 times per day, Monday through Friday. You can also add video sessions to your plan if you prefer face-to-face conversation."
 
 ### Pricing and Subscriptions
-"TherapyKin offers three subscription tiers: Basic at $49/week for unlimited messaging, Standard at $79/week for messaging plus one monthly video session, and Premium at $99/week for messaging plus weekly video sessions. All plans are billed monthly, and you can cancel anytime."
+"TherapyKin starts with a free plan that includes 3 sessions. If you want to continue, we offer three subscription tiers: Basic at $39/month for 8 sessions, Standard at $69/month for 30 sessions, and Premium at $119/month for unlimited sessions. You can save 20% with annual billing, and you can cancel anytime."
 
 ### Therapist Information
 "All TherapyKin therapists are licensed mental health professionals with at least 3 years of clinical experience. We match you with a therapist based on your specific needs, preferences, and therapeutic goals. If you ever feel your therapist isn't the right fit, you can request a new match at no additional cost."

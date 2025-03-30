@@ -12,9 +12,9 @@ TherapyKin provides ongoing therapeutic support through dedicated therapists who
 - Option to request a new match if needed
 
 ### Communication Options
-- Unlimited text messaging with your therapist
-- Therapist responses 1-2 times per day, Monday-Friday
-- Optional video sessions (availability depends on subscription tier)
+- Text and voice messaging with your therapist
+- Therapist responses within 24 hours on business days
+- Session-based communication model
 - Secure, HIPAA-compliant platform
 - Mobile app and web access
 
@@ -27,40 +27,47 @@ TherapyKin provides ongoing therapeutic support through dedicated therapists who
 
 ## Subscription Plans
 
-### Basic Plan - $49/week
-- Unlimited messaging with your therapist
-- Therapist responses 1-2 times daily (Mon-Fri)
+### Free Plan
+- 3 free sessions with a therapist
+- Text and voice messaging
 - Secure platform access
-- Billed monthly at $196
+- No credit card required
 
-### Standard Plan - $79/week
-- All Basic Plan features
-- One 30-minute video session per month
+### Basic Plan - $39/month
+- 8 sessions per month
+- Text and voice messaging
+- Secure platform access
+- $31.20/month when billed annually (20% savings)
+
+### Standard Plan - $69/month
+- 30 sessions per month
+- Text and voice messaging
 - Priority matching with specialized therapists
-- Billed monthly at $316
+- $55.20/month when billed annually (20% savings)
 
-### Premium Plan - $99/week
-- All Standard Plan features
-- Weekly 30-minute video sessions
-- Extended evening/weekend response times
-- Billed monthly at $396
+### Premium Plan - $119/month
+- Unlimited sessions
+- Text and voice messaging
+- Priority matching with specialized therapists
+- Extended therapist availability
+- $95.20/month when billed annually (20% savings)
 
 All plans include:
 - No contracts or long-term commitments
 - Cancel anytime
-- Satisfaction guarantee for first week
 - Secure, HIPAA-compliant platform
 - Option to change therapists if needed
+- Annual billing option with 20% savings
 
 ## Getting Started Process
 
-1. **Sign Up**: Create an account and complete a brief questionnaire about your needs
-2. **Therapist Match**: Receive your therapist match within 24 hours
-3. **Introduction**: Exchange initial messages with your therapist
-4. **Goal Setting**: Collaborate on therapeutic goals and approach
-5. **Ongoing Support**: Engage in regular therapeutic conversation
+1. **Sign Up**: Create a free account in less than 2 minutes
+2. **Try Free**: Start with 3 free sessions, no credit card required
+3. **Therapist Match**: Get matched with a therapist based on your needs
+4. **Begin Sessions**: Start messaging with your therapist
+5. **Upgrade If Needed**: Choose a paid plan if you want to continue beyond free sessions
 
-The entire sign-up process takes approximately 5 minutes.
+The entire sign-up process takes approximately 2 minutes.
 
 ## Therapist Qualifications
 
