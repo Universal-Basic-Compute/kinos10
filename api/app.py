@@ -16,7 +16,7 @@ from propagate_templates import propagate_templates
 # Initialize Flask app
 app = Flask(__name__)
 
-# Configure CORS to allow requests from localhost:3000 and localhost:3001
+# Configure CORS to allow requests from specific domains only
 CORS(app, resources={
     r"/*": {
         "origins": [
@@ -24,7 +24,15 @@ CORS(app, resources={
             "http://localhost:3001",
             "https://kinos-engine.ai",
             "https://kinos10.onrender.com",
-            "https://fictra-portal.vercel.app"
+            "https://fictra-portal.vercel.app",
+            "https://therapykin.ai",
+            "https://www.therapykin.ai",
+            "https://stridecoaching.ai",
+            "https://www.stridecoaching.ai",
+            "https://duogaming.ai",
+            "https://www.duogaming.ai",
+            "https://konginvest.ai",
+            "https://www.konginvest.ai"
         ]
     }
 })
