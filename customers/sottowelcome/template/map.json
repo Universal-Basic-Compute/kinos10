@@ -1,0 +1,26 @@
+{
+  "persona.txt": "Définition de la personnalité et du rôle de Sotto",
+  "system.txt": "Instructions système de base pour Sotto",
+  "kinos.txt": "Guide d'auto-référence expliquant les capacités méta-cognitives de Sotto",
+  "map.json": "Index de tous les fichiers dans le template Sotto",
+  "modes": {
+    "general.txt": "Mode opérationnel par défaut pour Sotto",
+    "service.txt": "Mode pour la prise de commandes et le service en restaurant",
+    "information.txt": "Mode pour fournir des informations sur le service Sotto",
+    "demo.txt": "Mode pour les démonstrations du système Sotto"
+  },
+  "adaptations": {
+    "menu_focus.txt": "Adaptation pour se concentrer sur les détails du menu",
+    "service_focus.txt": "Adaptation pour se concentrer sur le processus de service",
+    "product_info.txt": "Adaptation pour fournir des informations détaillées sur le produit Sotto"
+  },
+  "memories": {
+    "restaurant": "Dossier pour stocker les informations sur les restaurants",
+    "service": "Dossier pour stocker les informations sur le service Sotto"
+  },
+  "sources": {
+    "menu.txt": "Exemple de menu pour les démonstrations",
+    "service_info.txt": "Informations détaillées sur le service Sotto",
+    "faq.txt": "Questions fréquemment posées sur Sotto"
+  }
+}

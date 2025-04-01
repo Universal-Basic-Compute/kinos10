@@ -1,0 +1,41 @@
+# Menu Exemple - Bistro Moderne
+
+## Entrées
+- **Velouté de saison** - 9€
+  Préparé avec les légumes du moment, servi avec croûtons maison
+- **Burrata crémeuse** - 12€
+  Tomates anciennes, pesto de basilic, réduction balsamique
+- **Carpaccio de bœuf** - 14€
+  Fines tranches de bœuf, copeaux de parmesan, roquette, huile d'olive
+- **Œuf parfait** - 11€
+  Cuit à 63°C, crème de champignons, chips de lard
+
+## Plats
+- **Suprême de volaille fermière** - 22€
+  Mousseline de carottes, jus réduit aux herbes fraîches
+- **Filet de bar rôti** - 26€
+  Fenouil confit, émulsion au safran, herbes fraîches
+- **Risotto aux champignons** - 19€
+  Champignons de saison, parmesan affiné 24 mois, huile de truffe
+- **Entrecôte grillée (300g)** - 29€
+  Pommes grenailles, sauce béarnaise ou poivre
+
+## Desserts
+- **Tarte au citron meringuée** - 9€
+  Revisitée par notre chef pâtissier
+- **Moelleux au chocolat** - 10€
+  Cœur coulant, glace vanille bourbon
+- **Pavlova aux fruits rouges** - 9€
+  Meringue craquante, crème légère, fruits frais
+- **Café gourmand** - 11€
+  Espresso, assortiment de mignardises
+
+## Boissons
+- **Vins au verre** - à partir de 7€
+  Sélection renouvelée régulièrement
+- **Cocktails signature** - à partir de 12€
+  Créations originales de notre mixologue
+- **Eaux minérales** - 5€ (75cl)
+  Plate ou gazeuse
+- **Cafés et thés** - à partir de 3€
+  Sélection de grands crus

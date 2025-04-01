@@ -1,0 +1,113 @@
+# Service Sotto - Informations Détaillées
+
+## Qu'est-ce que Sotto?
+
+Sotto est un système vocal IA centralisé qui transforme l'expérience de la restauration en éliminant toutes les interfaces à écran (caisses, tablettes, bornes) au profit d'une interaction vocale naturelle. En connectant le personnel via des oreillettes discrètes, Sotto fluidifie les opérations tout en recentrant l'attention sur l'humain et l'expérience culinaire.
+
+## Composants du Système
+
+### 1. Interface Vocale
+- Reconnaissance vocale optimisée pour l'environnement restaurant
+- Compréhension contextuelle des commandes et requêtes
+- Adaptation aux accents et particularités linguistiques
+- Filtrage intelligent du bruit ambiant
+
+### 2. Oreillettes Professionnelles
+- Design discret et confortable pour port prolongé
+- Batterie longue durée (8-10h d'utilisation continue)
+- Microphones directionnels haute performance
+- Stations de charge intégrées à l'environnement du restaurant
+
+### 3. Système Central
+- IA dédiée gérant toutes les opérations du restaurant
+- Connexion avec le système de caisse et de gestion
+- Analyse en temps réel des performances
+- Sauvegarde et synchronisation automatiques
+
+### 4. Interface Administrateur
+- Dashboard minimal pour configuration et supervision
+- Rapports et analyses accessibles via application web
+- Gestion des utilisateurs et des droits d'accès
+- Personnalisation des menus et paramètres
+
+## Fonctionnalités Principales
+
+### Gestion des Commandes
+- Prise de commande vocale intuitive
+- Modifications et personnalisations faciles
+- Transmission instantanée en cuisine
+- Suivi en temps réel du statut des commandes
+
+### Communication d'Équipe
+- Coordination fluide entre salle et cuisine
+- Alertes intelligentes pour plats prêts et tables en attente
+- Priorisation automatique des tâches
+- Répartition équilibrée de la charge de travail
+
+### Gestion des Tables
+- Attribution et suivi des tables
+- Estimation des temps d'attente
+- Gestion des réservations
+- Historique client pour personnalisation du service
+
+### Paiement et Addition
+- Préparation vocale des additions
+- Intégration avec systèmes de paiement
+- Gestion des pourboires
+- Envoi d'additions par email ou SMS
+
+## Avantages
+
+### Pour les Restaurateurs
+- Réduction des coûts matériels (pas d'écrans à acheter/maintenir)
+- Optimisation de l'espace (élimination des caisses encombrantes)
+- Données opérationnelles en temps réel
+- Formation du personnel simplifiée
+- Amélioration de l'expérience client
+
+### Pour le Personnel
+- Interactions plus naturelles et moins stressantes
+- Mains libres en permanence
+- Assistance contextuelle pour le service
+- Réduction des erreurs de commande
+- Meilleure coordination d'équipe
+
+### Pour les Clients
+- Service plus attentif (personnel non distrait par les écrans)
+- Temps d'attente réduit
+- Atmosphère plus chaleureuse et humaine
+- Personnalisation accrue du service
+- Expérience gastronomique non perturbée par la technologie visible
+
+## Implémentation et Support
+
+### Processus d'Installation
+1. Évaluation initiale du restaurant et de ses besoins
+2. Configuration personnalisée du système
+3. Installation du matériel et des points d'accès WiFi
+4. Formation du personnel (généralement 1-2 jours)
+5. Période d'accompagnement (1 semaine)
+6. Suivi et optimisation continue
+
+### Support Technique
+- Assistance technique 7j/7
+- Mises à jour régulières du système
+- Maintenance préventive
+- Formation continue disponible
+- Remplacement rapide du matériel défectueux
+
+## Tarification
+
+### Modèle d'Abonnement
+- Installation et matériel inclus
+- Abonnement mensuel basé sur le nombre d'utilisateurs
+- Pas de frais cachés ou coûts supplémentaires
+- Options de contrat flexibles (12, 24 ou 36 mois)
+- Garantie de satisfaction ou remboursement (30 jours)
+
+### Services Optionnels
+- Formation avancée du personnel
+- Personnalisation poussée du système
+- Intégration avec systèmes tiers spécifiques
+- Développement de fonctionnalités sur mesure
+- Analyse de données et consulting

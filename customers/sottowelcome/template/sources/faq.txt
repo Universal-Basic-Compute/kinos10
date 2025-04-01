@@ -1,0 +1,67 @@
+# FAQ - Questions Fréquemment Posées sur Sotto
+
+## Questions Générales
+
+### Q: Qu'est-ce que Sotto exactement?
+R: Sotto est un système vocal IA qui remplace les interfaces à écran traditionnelles dans les restaurants. Il permet au personnel de communiquer naturellement via des oreillettes discrètes, fluidifiant les opérations tout en recentrant l'attention sur l'humain et l'expérience culinaire.
+
+### Q: En quoi Sotto est-il différent des autres systèmes de caisse?
+R: Contrairement aux systèmes traditionnels qui reposent sur des écrans tactiles, Sotto utilise principalement des interactions vocales. Cela libère les mains du personnel, élimine les barrières visuelles, et permet une communication plus naturelle et efficace.
+
+### Q: Sotto fonctionne-t-il dans des environnements bruyants?
+R: Oui. Sotto utilise une technologie avancée de filtrage audio et des microphones directionnels spécialement conçus pour les environnements de restaurant. Le système est capable de distinguer la voix du serveur même dans un cadre bruyant.
+
+## Installation et Compatibilité
+
+### Q: Quelles sont les exigences techniques pour installer Sotto?
+R: Sotto nécessite une connexion internet fiable, un réseau WiFi couvrant l'ensemble du restaurant, et des prises électriques pour les stations de charge. Notre équipe effectue une évaluation complète avant l'installation pour s'assurer que toutes les conditions sont réunies.
+
+### Q: Sotto est-il compatible avec mon système de caisse actuel?
+R: Sotto s'intègre avec la plupart des systèmes de caisse modernes. Nous proposons des connecteurs pour les principales solutions du marché. Dans certains cas, une intégration personnalisée peut être nécessaire.
+
+### Q: Combien de temps prend l'installation?
+R: L'installation complète prend généralement 1 à 2 jours, suivie d'une période de formation de 1 à 2 jours supplémentaires. Le restaurant peut continuer à fonctionner pendant cette période.
+
+## Utilisation Quotidienne
+
+### Q: Que se passe-t-il si une oreillette tombe en panne de batterie?
+R: Les oreillettes ont une autonomie de 8 à 10 heures. Des stations de charge discrètes sont installées dans le restaurant, permettant de recharger rapidement les appareils pendant les temps morts. De plus, nous fournissons toujours des oreillettes supplémentaires pour assurer une rotation sans interruption.
+
+### Q: Comment les serveurs s'adaptent-ils à ce nouveau système?
+R: La plupart des serveurs s'adaptent très rapidement car le système utilise le langage naturel. La courbe d'apprentissage est généralement de 2 à 3 jours. Nous fournissons une formation complète et un support continu pendant la période d'adaptation.
+
+### Q: Comment gérer les modifications de commande ou les demandes spéciales?
+R: Sotto comprend le langage naturel, ce qui rend les modifications très intuitives. Il suffit de dire par exemple "Modifie la commande de la table 4, remplace la salade par des frites" et le système met à jour la commande automatiquement.
+
+## Fiabilité et Sécurité
+
+### Q: Que se passe-t-il en cas de panne internet?
+R: Sotto dispose d'un mode hors-ligne qui permet de continuer à fonctionner même en cas de panne internet. Les données sont stockées localement et synchronisées automatiquement une fois la connexion rétablie.
+
+### Q: Les conversations des clients sont-elles enregistrées?
+R: Non. Sotto est conçu pour filtrer intelligemment les conversations et ne traite que les commandes directes du personnel. Le système n'enregistre pas les conversations des clients, respectant ainsi leur vie privée.
+
+### Q: Comment sont protégées les données du restaurant?
+R: Toutes les données sont chiffrées et stockées de manière sécurisée conformément aux normes RGPD. Nous n'utilisons jamais les données pour d'autres fins que l'amélioration du service pour votre établissement.
+
+## Tarification et Support
+
+### Q: Comment fonctionne la tarification?
+R: Sotto fonctionne sur un modèle d'abonnement mensuel basé sur le nombre d'utilisateurs (membres du personnel). L'installation, le matériel et les mises à jour sont inclus dans l'abonnement. Il n'y a pas de frais cachés.
+
+### Q: Existe-t-il une période d'engagement?
+R: Nous proposons des contrats flexibles de 12, 24 ou 36 mois. Plus l'engagement est long, plus le tarif mensuel est avantageux. Nous offrons également une garantie de satisfaction de 30 jours.
+
+### Q: Quel type de support est inclus?
+R: Notre abonnement standard inclut un support technique 7j/7, des mises à jour régulières du système, et le remplacement du matériel défectueux. Des options de support premium avec des temps de réponse garantis sont également disponibles.
+
+## Évolutions et Personnalisation
+
+### Q: Sotto peut-il être personnalisé pour mon restaurant?
+R: Absolument. Nous adaptons Sotto à votre menu, à votre organisation et à vos processus spécifiques. Des personnalisations plus avancées sont également possibles en option.
+
+### Q: Comment Sotto évolue-t-il dans le temps?
+R: Sotto bénéficie de mises à jour régulières qui améliorent ses capacités et ajoutent de nouvelles fonctionnalités. Ces mises à jour sont incluses dans l'abonnement et sont déployées automatiquement.
+
+### Q: Peut-on ajouter des fonctionnalités spécifiques à notre établissement?
+R: Oui, nous proposons des services de développement sur mesure pour répondre à des besoins spécifiques. Ces développements font l'objet d'un devis séparé après analyse de vos besoins.
