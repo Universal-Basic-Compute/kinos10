@@ -1,15 +1,15 @@
 # TherapyKin Site Information
 
 ## Service Overview
-TherapyKin provides ongoing therapeutic support through dedicated therapists who remember your history and adapt to your needs. Our platform combines the convenience of digital communication with the personalized care of traditional therapy.
+TherapyKin provides ongoing therapeutic support through an advanced AI system powered by Claude 3.7 Sonnet. Our platform combines the convenience of digital communication with personalized care using AI that remembers your history and adapts to your needs.
 
 ## Core Features
 
-### Dedicated Therapist
-- Matched based on your specific needs and preferences
-- Licensed mental health professional with relevant specialization
-- Consistent relationship with the same therapist
-- Option to request a new match if needed
+### AI Therapeutic Support
+- Personalized AI support based on your specific needs and preferences
+- Powered by Claude 3.7 Sonnet, the most empathetic AI model available
+- Consistent experience with memory of your previous conversations
+- Multiple specialized therapeutic approaches available
 
 ### Communication Options
 - Text and voice messaging with your therapist

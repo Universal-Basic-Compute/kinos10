@@ -15,12 +15,12 @@
 5. Enter payment information
 6. Review and accept terms of service and privacy policy
 
-### Step 2: Therapist Matching
+### Step 2: AI Personalization
 1. Our system analyzes your questionnaire responses
-2. We identify therapists with relevant specialization and availability
-3. A personalized match is made within 24 hours
-4. You receive a notification when your therapist is assigned
-5. Your therapist reviews your information before first contact
+2. The AI adapts its therapeutic approach to your needs
+3. Personalization is completed immediately
+4. You can begin your therapeutic conversation right away
+5. The AI reviews your information to provide relevant support
 
 ### Step 3: Initial Connection
 1. Your therapist sends a welcome message introducing themselves

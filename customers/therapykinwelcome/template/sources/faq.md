@@ -3,10 +3,10 @@
 ## About TherapyKin
 
 ### What is TherapyKin?
-TherapyKin is an online therapy platform that connects you with a dedicated licensed therapist who provides ongoing support through unlimited messaging and optional video sessions. Our therapists remember your history and adapt to your needs, creating a personalized therapeutic experience.
+TherapyKin is an AI-powered therapeutic platform that provides ongoing support through unlimited messaging. Our advanced AI system, built on Claude 3.7 Sonnet, remembers your history and adapts to your needs, creating a personalized therapeutic experience without requiring human therapist scheduling.
 
 ### How is TherapyKin different from other therapy services?
-TherapyKin combines the convenience of digital therapy with the personalized care of traditional therapy. Our platform emphasizes continuity through dedicated therapists who maintain detailed memory of your history, patterns, and progress. We focus on adaptation to your specific needs and communication preferences.
+TherapyKin combines the convenience of digital therapy with personalized care through advanced AI. Unlike services that connect you with human therapists, our platform uses Claude 3.7 Sonnet AI that maintains detailed memory of your history, patterns, and progress. This allows for immediate, 24/7 support without scheduling constraints.
 
 ### Is TherapyKin right for me?
 TherapyKin is designed for people seeking ongoing mental health support for challenges like anxiety, depression, stress, relationships, self-esteem, and personal growth. It's ideal if you value flexibility, prefer a mix of written and video communication, and want support that fits into your schedule. However, it's not suitable for psychiatric emergencies, severe mental illness requiring intensive treatment, or court-mandated therapy.

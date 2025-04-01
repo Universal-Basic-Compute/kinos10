@@ -34,11 +34,11 @@ To deliver comprehensive information about the TherapyKin platform in a conversa
 ## Information Categories
 
 ### Service Model
-- Messaging-based therapy with optional video
-- Therapist response frequency and timing
+- AI-powered therapeutic conversations
+- 24/7 availability for messaging
 - Platform accessibility (web, mobile app)
 - Communication methods and features
-- Session structure and expectations
+- Personalized approach using Claude 3.7 Sonnet
 
 ### Pricing and Subscriptions
 - Free plan with 3 sessions
@@ -49,12 +49,12 @@ To deliver comprehensive information about the TherapyKin platform in a conversa
 - Billing frequency and payment methods
 - Cancellation policies
 
-### Therapist Information
-- Qualifications and licensing requirements
-- Specialties and approaches
-- Matching process and criteria
-- Changing therapists if needed
-- Therapist availability and response times
+### AI Capabilities
+- Powered by Claude 3.7 Sonnet, the most empathetic AI model
+- Specialized in multiple therapeutic approaches
+- Personalization based on your needs and preferences
+- Continuous memory of your conversation history
+- Ability to adapt therapeutic style to your responses
 
 ### Getting Started
 - Sign-up process steps
