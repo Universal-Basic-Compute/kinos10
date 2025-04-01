@@ -1,0 +1,49 @@
+# Scénarios d'Utilisation de Sotto
+
+## Scénario 1: Service du Déjeuner Chargé
+Un restaurant bistro avec 20 tables, service du midi complet, 3 serveurs équipés de Sotto.
+
+### Déroulement
+- 12h00: Arrivée des premiers clients, attribution des tables
+- 12h15: Premières commandes, transmission en cuisine
+- 12h30: Pic d'affluence, gestion des priorités
+- 13h00: Coordination des sorties de plats
+- 13h30: Gestion des additions et rotations de tables
+
+### Points forts démontrés
+- Gestion simultanée de multiples commandes
+- Priorisation intelligente des tâches
+- Communication fluide cuisine-salle
+- Réduction du temps d'attente
+
+## Scénario 2: Gestion d'un Événement Privé
+Dîner de gala pour 50 personnes, menu fixe avec options, service synchronisé.
+
+### Déroulement
+- Briefing d'équipe via Sotto
+- Coordination du timing des services
+- Gestion des demandes spéciales
+- Suivi des allergènes et préférences
+- Service synchronisé des tables
+
+### Points forts démontrés
+- Organisation d'événements complexes
+- Synchronisation d'équipe
+- Personnalisation à grande échelle
+- Suivi des spécificités clients
+
+## Scénario 3: Formation d'un Nouveau Serveur
+Premier jour d'un nouveau membre d'équipe, accompagnement par Sotto.
+
+### Déroulement
+- Présentation du menu et des spécialités
+- Assistance pas à pas pour les premières commandes
+- Rappels discrets des procédures
+- Suggestions proactives
+- Feedback en temps réel
+
+### Points forts démontrés
+- Réduction du temps de formation
+- Augmentation de la confiance du personnel
+- Diminution des erreurs de débutant
+- Expérience client préservée

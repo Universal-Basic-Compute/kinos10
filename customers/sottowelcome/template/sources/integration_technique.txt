@@ -1,0 +1,78 @@
+# Guide d'Intégration Technique de Sotto
+
+## Architecture Système
+
+### Composants Principaux
+1. **Backend Cloud**
+   - Serveurs dédiés haute disponibilité
+   - Traitement IA des commandes vocales
+   - Base de données sécurisée
+   - API REST pour intégrations
+
+2. **Réseau Local Restaurant**
+   - Points d'accès WiFi optimisés
+   - Réseau dédié pour les oreillettes
+   - Connexion sécurisée au backend
+   - Redondance 4G en cas de panne
+
+3. **Oreillettes et Périphériques**
+   - Oreillettes professionnelles longue durée
+   - Stations de charge intelligentes
+   - Micros directionnels haute performance
+   - Boutons physiques d'urgence
+
+4. **Intégration Caisse**
+   - Connecteurs pour systèmes standards
+   - API ouverte pour systèmes propriétaires
+   - Synchronisation bidirectionnelle
+   - Mode hors-ligne avec réconciliation
+
+## Prérequis Techniques
+
+### Infrastructure Réseau
+- WiFi 802.11ac ou supérieur
+- Couverture complète du restaurant
+- Bande passante minimale: 10 Mbps symétrique
+- Latence maximale: 100ms
+
+### Alimentation Électrique
+- Prises pour stations de charge
+- Onduleur recommandé pour équipements critiques
+- Consommation moyenne: 5W par oreillette en charge
+
+### Systèmes Compatibles
+- Systèmes de caisse: Lightspeed, Square, Toast, Tiller, etc.
+- Systèmes de paiement: Adyen, Stripe, Worldpay, etc.
+- Systèmes de réservation: TheFork, Resy, OpenTable, etc.
+
+## Processus d'Installation
+
+### Phase 1: Évaluation (1-2 jours)
+- Audit de l'infrastructure existante
+- Analyse des besoins spécifiques
+- Cartographie du restaurant
+- Identification des points d'intégration
+
+### Phase 2: Préparation (1 jour)
+- Installation des points d'accès WiFi
+- Configuration du réseau dédié
+- Mise en place des stations de charge
+- Préparation des connecteurs d'intégration
+
+### Phase 3: Déploiement (1-2 jours)
+- Installation du système central
+- Configuration des oreillettes
+- Tests de couverture et performance
+- Intégration avec systèmes existants
+
+### Phase 4: Formation (1-2 jours)
+- Formation des administrateurs
+- Formation du personnel
+- Simulations de service
+- Résolution des problèmes initiaux
+
+### Phase 5: Accompagnement (1 semaine)
+- Présence d'un technicien sur site
+- Ajustements en temps réel
+- Support prioritaire
+- Collecte des retours utilisateurs

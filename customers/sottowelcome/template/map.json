@@ -21,6 +21,10 @@
   "sources": {
     "menu.txt": "Exemple de menu pour les démonstrations",
     "service_info.txt": "Informations détaillées sur le service Sotto",
-    "faq.txt": "Questions fréquemment posées sur Sotto"
+    "faq.txt": "Questions fréquemment posées sur Sotto",
+    "scenarios.txt": "Scénarios d'utilisation concrets de Sotto",
+    "comparaison.txt": "Comparaison avec les systèmes traditionnels",
+    "integration_technique.txt": "Guide d'intégration technique de Sotto",
+    "temoignages.txt": "Témoignages de clients utilisant Sotto"
   }
 }

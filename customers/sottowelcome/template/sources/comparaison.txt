@@ -1,0 +1,31 @@
+# Sotto vs. Systèmes Traditionnels
+
+## Comparaison des Systèmes de Caisse
+
+| Aspect | Systèmes Traditionnels | Sotto |
+|--------|------------------------|-------|
+| Interface | Écrans tactiles, bornes | Vocale, mains libres |
+| Espace requis | Important (caisses, écrans) | Minimal (oreillettes uniquement) |
+| Temps de formation | 2-5 jours | 1-2 jours |
+| Coût matériel | Élevé (écrans, tablettes) | Modéré (oreillettes) |
+| Maintenance | Régulière (écrans, logiciels) | Minimale (mises à jour automatiques) |
+| Expérience client | Technologie visible | Technologie invisible |
+| Flexibilité | Limitée par les interfaces | Adaptative et contextuelle |
+| Communication d'équipe | Séparée du système | Intégrée nativement |
+
+## Avantages Quantifiables
+
+### Gain de Temps
+- Réduction de 30% du temps de prise de commande
+- Diminution de 25% des erreurs de transmission
+- Accélération de 20% de la rotation des tables
+
+### Économies Financières
+- Réduction de 40% des coûts matériels
+- Diminution de 15% des coûts de formation
+- Baisse de 35% des frais de maintenance
+
+### Amélioration de l'Expérience
+- Augmentation de 25% de la satisfaction client
+- Réduction de 30% du stress du personnel
+- Amélioration de 20% des pourboires moyens
