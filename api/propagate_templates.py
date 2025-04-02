@@ -87,7 +87,7 @@ def should_update_file(template_file, project_file):
         return True
     
     # Always update files in standard directories
-    standard_dirs = ['modes/', 'adaptations/', 'sources/']
+    standard_dirs = ['modes/', 'adaptations/', 'sources/', 'knowledge/']
     if any(template_file.startswith(d) for d in standard_dirs):
         return True
     
@@ -118,6 +118,15 @@ def update_project(template_path, project_path, dry_run=False):
     files_added = 0
     files_updated = 0
     files_preserved = 0
+    
+    # Ensure standard directories exist in the project
+    standard_dirs = ['modes', 'adaptations', 'sources', 'knowledge']
+    for dir_name in standard_dirs:
+        dir_path = os.path.join(project_path, dir_name)
+        if not os.path.exists(dir_path):
+            logger.info(f"Creating standard directory: {dir_name}")
+            if not dry_run:
+                os.makedirs(dir_path, exist_ok=True)
     
     for rel_path in template_files:
         template_file = os.path.join(template_path, rel_path)

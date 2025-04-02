@@ -246,6 +246,67 @@ try:
 except Exception as e:
     logger.error(f"Error during template propagation: {str(e)}")
 
+# Function to ensure analysis.txt exists in all customer templates
+def ensure_analysis_mode_exists():
+    """Ensure that the analysis.txt mode file exists in all customer templates."""
+    logger.info("Ensuring analysis mode exists in all customer templates")
+    
+    # Standard content for analysis.txt
+    analysis_content = """# Analysis Mode: Informative Responses Without Memorization
+
+In this mode, you provide information and analysis without memorizing the content of the exchange. This mode is designed for:
+
+1. Answering administrative or debugging questions
+2. Providing explanations about your internal functioning
+3. Assisting with moderation and supervision
+4. Allowing exploratory interactions without impact on your long-term memory
+
+## Specific Guidelines
+
+When operating in this mode:
+
+- Respond with precision and honesty to questions asked
+- Explain your reasoning and internal processes if requested
+- Provide complete information about your configuration and capabilities
+- Do not initiate the creation or modification of memory files
+- Do not consider this conversation as something that should influence your future interactions
+
+## Practical Applications
+
+This mode is particularly useful for:
+- System administrators checking your configuration
+- Moderators evaluating your behavior
+- Users wanting to understand your capabilities without modifying your behavior
+- Testing and debugging your functioning
+
+Your goal is to provide useful and accurate information while maintaining a clear separation between this interaction and your long-term memory.
+"""
+    
+    # Iterate through all customers
+    for customer in os.listdir(CUSTOMERS_DIR):
+        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
+        if not os.path.isdir(customer_dir):
+            continue
+            
+        # Check template directory
+        template_dir = os.path.join(customer_dir, "template")
+        if not os.path.exists(template_dir):
+            continue
+            
+        # Ensure modes directory exists
+        modes_dir = os.path.join(template_dir, "modes")
+        os.makedirs(modes_dir, exist_ok=True)
+        
+        # Check if analysis.txt exists
+        analysis_file = os.path.join(modes_dir, "analysis.txt")
+        if not os.path.exists(analysis_file):
+            logger.info(f"Creating analysis.txt for customer: {customer}")
+            try:
+                with open(analysis_file, 'w', encoding='utf-8') as f:
+                    f.write(analysis_content)
+            except Exception as e:
+                logger.error(f"Error creating analysis.txt for {customer}: {str(e)}")
+
 # Initialize all customer templates automatically
 logger.info("Checking for customer templates to initialize")
 project_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
@@ -293,6 +354,9 @@ if os.path.exists(project_templates_dir):
                 logger.error(f"{customer} template not found in project directory")
 else:
     logger.error(f"Project templates directory not found: {project_templates_dir}")
+
+# Ensure analysis mode exists in all templates
+ensure_analysis_mode_exists()
 
 if __name__ == '__main__':
     # Get port from environment variable (for Render compatibility)
