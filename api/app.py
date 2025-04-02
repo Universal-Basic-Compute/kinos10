@@ -158,40 +158,108 @@ def api_root():
         <html>
         <head>
             <title>KinOS API Reference</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <style>
                 body {{
-                    font-family: Arial, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                     line-height: 1.6;
                     color: #333;
                     max-width: 1000px;
                     margin: 0 auto;
                     padding: 20px;
+                    background-color: #f9f9f9;
                 }}
                 pre {{
-                    background-color: #f5f5f5;
-                    padding: 10px;
-                    border-radius: 5px;
+                    background-color: #f0f0f0;
+                    padding: 16px;
+                    border-radius: 8px;
                     overflow-x: auto;
+                    border: 1px solid #ddd;
+                    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+                    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+                    font-size: 14px;
                 }}
                 code {{
-                    background-color: #f5f5f5;
-                    padding: 2px 4px;
-                    border-radius: 3px;
+                    background-color: #f0f0f0;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+                    font-size: 0.9em;
                 }}
                 h1, h2, h3 {{
                     margin-top: 1.5em;
+                    font-weight: 600;
+                    color: #2c3e50;
                 }}
                 h1 {{
-                    border-bottom: 1px solid #ddd;
+                    border-bottom: 2px solid #3498db;
                     padding-bottom: 10px;
+                    font-size: 2.2em;
                 }}
                 h2 {{
-                    border-bottom: 1px solid #eee;
-                    padding-bottom: 5px;
+                    border-bottom: 1px solid #ddd;
+                    padding-bottom: 8px;
+                    font-size: 1.8em;
+                    margin-top: 2em;
+                }}
+                h3 {{
+                    font-size: 1.4em;
+                    margin-top: 1.8em;
+                }}
+                a {{
+                    color: #3498db;
+                    text-decoration: none;
+                }}
+                a:hover {{
+                    text-decoration: underline;
+                }}
+                p {{
+                    margin: 1em 0;
+                }}
+                .endpoint {{
+                    background-color: #e8f4fc;
+                    border-left: 4px solid #3498db;
+                    padding: 10px 15px;
+                    margin: 1em 0;
+                    border-radius: 0 4px 4px 0;
+                }}
+                .method {{
+                    font-weight: bold;
+                    color: #2980b9;
+                }}
+                .url {{
+                    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+                }}
+                table {{
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin: 1em 0;
+                }}
+                th, td {{
+                    border: 1px solid #ddd;
+                    padding: 8px 12px;
+                    text-align: left;
+                }}
+                th {{
+                    background-color: #f2f2f2;
+                }}
+                tr:nth-child(even) {{
+                    background-color: #f9f9f9;
+                }}
+                @media (max-width: 768px) {{
+                    body {{
+                        padding: 15px;
+                    }}
+                    pre {{
+                        padding: 10px;
+                        font-size: 13px;
+                    }}
                 }}
             </style>
         </head>
         <body>
+            <h1>KinOS API Reference</h1>
+            <p>This documentation provides a comprehensive reference for the KinOS API.</p>
             {html_content}
         </body>
         </html>
