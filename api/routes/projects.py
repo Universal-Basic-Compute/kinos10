@@ -650,6 +650,66 @@ Your goal is to provide useful and accurate information while maintaining a clea
         logger.error(f"Error creating analysis mode files: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@projects_bp.route('/projects/<customer>/<project_id>/analysis', methods=['POST'])
+def analyze_project(customer, project_id):
+    """
+    Endpoint to analyze a project with Claude without modifying files.
+    Similar to the messages endpoint but specifically for analysis purposes.
+    """
+    try:
+        # Parse request data
+        data = request.json
+        message_content = data.get('message', '')
+        model = data.get('model', 'claude-3-5-haiku-latest')
+        
+        # Validate required parameters
+        if not message_content:
+            return jsonify({"error": "Message is required"}), 400
+        
+        # Validate customer and project
+        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
+            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+            
+        project_path = get_project_path(customer, project_id)
+        if not os.path.exists(project_path):
+            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        
+        # Build context (select relevant files)
+        selected_files = build_context(customer, project_id, message_content, project_path=project_path)
+        
+        # Log the selected files
+        logger.info(f"Selected files for analysis: {selected_files}")
+        
+        # Use Claude to analyze the project
+        from services.claude_service import call_claude_with_context
+        
+        # Add specific system instructions for analysis mode
+        analysis_system_instructions = """
+        You are in analysis mode. Your task is to analyze the project and provide insights without modifying any files.
+        Focus on explaining the code, architecture, and design patterns.
+        Provide detailed explanations and suggestions for improvement if asked.
+        Do not generate code modifications or file changes unless explicitly requested.
+        """
+        
+        # Call Claude to analyze the project
+        claude_response = call_claude_with_context(
+            selected_files, 
+            project_path, 
+            message_content,
+            model=model,
+            is_new_message=False,
+            addSystem=analysis_system_instructions
+        )
+        
+        return jsonify({
+            "status": "success",
+            "response": claude_response
+        })
+        
+    except Exception as e:
+        logger.error(f"Error analyzing project: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @projects_bp.route('/projects/<customer>/<project_id>/image', methods=['POST'])
 def generate_project_image(customer, project_id):
     """

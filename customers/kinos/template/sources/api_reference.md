@@ -341,6 +341,50 @@ Create or replace the analysis mode file for each customer.
 **Error Responses:**
 - `500 Internal Server Error`: Customers directory not found or other server error
 
+### Analyze Project
+
+Analyze a project with Claude without modifying files.
+
+**Endpoint:** `POST /projects/{customer}/{project_id}/analysis`
+
+**Request Body:**
+```json
+{
+  "message": "Explain the architecture of this project",
+  "model": "claude-3-5-haiku-latest"  // Optional, defaults to claude-3-5-haiku-latest
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "response": "This project follows a layered architecture with..."
+}
+```
+
+**Example Usage:**
+```javascript
+fetch('/projects/kinos/my-project/analysis', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    message: 'Explain the architecture of this project'
+  })
+})
+.then(response => response.json())
+.then(data => {
+  console.log('Analysis:', data.response);
+});
+```
+
+**Error Responses:**
+- `400 Bad Request`: Missing required message parameter
+- `404 Not Found`: Customer or project not found
+- `500 Internal Server Error`: Server error
+
 ### Generate Image
 
 Generate an image based on a message using Ideogram API.
