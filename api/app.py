@@ -71,21 +71,10 @@ def verify_api_key():
     # Get API key from header or query parameter
     api_key = request.headers.get('X-API-Key') or request.args.get('api_key')
     
-    # Si aucune clé n'est fournie, accepter quand même la requête
-    if not api_key:
-        logger.info(f"No API key provided from {request.remote_addr} to {request.path}, but continuing anyway")
-        return None
-    
-    # Log detailed information about API keys for debugging
-    logger.info(f"API_KEY from config (type: {type(API_KEY)}): '{API_KEY}'")
-    logger.info(f"Received api_key (type: {type(api_key)}): '{api_key}'")
-    
-    # Si une clé est fournie mais ne correspond pas, accepter quand même la requête
-    # mais logger l'information
-    if api_key != API_KEY:
-        logger.info(f"API key mismatch from {request.remote_addr} to {request.path}, but continuing anyway")
-        logger.info(f"Comparison result: {api_key == API_KEY}, lengths: {len(api_key)} vs {len(API_KEY)}")
-        return None
+    # Check if API key is valid
+    if not api_key or api_key != API_KEY:
+        logger.warning(f"Unauthorized access attempt from {request.remote_addr} to {request.path}")
+        return jsonify({"error": "Unauthorized access"}), 401
 
 @app.before_request
 def log_request_info():
