@@ -507,6 +507,53 @@ def get_git_history(customer, project_id):
         logger.error(f"Error getting Git history: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@projects_bp.route('/projects/<customer>/<project_id>/modes', methods=['GET'])
+def get_project_modes(customer, project_id):
+    """
+    Endpoint to get available modes for a project.
+    """
+    try:
+        # Validate customer and project
+        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
+            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+            
+        project_path = get_project_path(customer, project_id)
+        if not os.path.exists(project_path):
+            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        
+        # Check for modes directory
+        modes_dir = os.path.join(project_path, "modes")
+        if not os.path.exists(modes_dir):
+            return jsonify({"modes": []})
+        
+        # Get list of mode files
+        modes = []
+        for filename in os.listdir(modes_dir):
+            if filename.endswith('.txt'):
+                mode_name = os.path.splitext(filename)[0]
+                mode_path = os.path.join(modes_dir, filename)
+                
+                # Read the first line of the file to get the title
+                title = mode_name.capitalize()  # Default title
+                try:
+                    with open(mode_path, 'r', encoding='utf-8') as f:
+                        first_line = f.readline().strip()
+                        if first_line.startswith('# '):
+                            title = first_line[2:].strip()
+                except Exception as e:
+                    logger.warning(f"Error reading mode file {mode_path}: {str(e)}")
+                
+                modes.append({
+                    "id": mode_name,
+                    "title": title
+                })
+        
+        return jsonify({"modes": modes})
+        
+    except Exception as e:
+        logger.error(f"Error getting project modes: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @projects_bp.route('/projects/<customer>/<project_id>/image', methods=['POST'])
 def generate_project_image(customer, project_id):
     """
