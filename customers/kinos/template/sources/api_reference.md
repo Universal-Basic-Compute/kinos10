@@ -16,6 +16,28 @@ Currently, the API does not require authentication.
 
 ## API Endpoints
 
+### Get Customers
+
+Get a list of all customers.
+
+**Endpoint:** `GET /customers`
+
+**Response:**
+```json
+{
+  "customers": ["kinos", "deskmate", "stride"]
+}
+```
+
+**Example Usage:**
+```javascript
+fetch('/customers')
+  .then(response => response.json())
+  .then(data => {
+    console.log('Customers:', data.customers);
+  });
+```
+
 ### Health Check
 
 Check if the API is running properly.

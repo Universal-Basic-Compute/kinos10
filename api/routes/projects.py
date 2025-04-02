@@ -76,6 +76,26 @@ def get_customer_projects(customer):
         logger.error(f"Error getting customer projects: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@projects_bp.route('/customers', methods=['GET'])
+def get_customers():
+    """
+    Endpoint to get a list of all customers.
+    """
+    try:
+        # Get list of all customers
+        customers = []
+        if os.path.exists(CUSTOMERS_DIR):
+            customers = [d for d in os.listdir(CUSTOMERS_DIR) 
+                        if os.path.isdir(os.path.join(CUSTOMERS_DIR, d))]
+        
+        return jsonify({
+            "customers": customers
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting customers: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @projects_bp.route('/projects/all', methods=['GET'])
 def get_all_projects():
     """
