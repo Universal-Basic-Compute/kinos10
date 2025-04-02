@@ -554,6 +554,102 @@ def get_project_modes(customer, project_id):
         logger.error(f"Error getting project modes: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@projects_bp.route('/customers/create_analysis_mode', methods=['POST'])
+def create_analysis_mode():
+    """
+    Endpoint to create or replace the analysis mode file for each customer.
+    This ensures that each customer template has a proper modes/analysis.txt file.
+    """
+    try:
+        # Get list of customers from request or use all available customers
+        data = request.json or {}
+        customers = data.get('customers', None)
+        
+        # If no customers specified, get all available customers
+        if not customers:
+            if os.path.exists(CUSTOMERS_DIR):
+                customers = [d for d in os.listdir(CUSTOMERS_DIR) 
+                            if os.path.isdir(os.path.join(CUSTOMERS_DIR, d))]
+            else:
+                return jsonify({"error": "Customers directory not found"}), 500
+        
+        # Standard content for the analysis.txt file
+        analysis_content = """# Analysis Mode: Informative Responses Without Memorization
+
+In this mode, you provide information and analysis without memorizing the content of the exchange. This mode is designed for:
+
+1. Answering administrative or debugging questions
+2. Providing explanations about your internal functioning
+3. Assisting with moderation and supervision
+4. Allowing exploratory interactions without impact on your long-term memory
+
+## Specific Guidelines
+
+When operating in this mode:
+
+- Respond with precision and honesty to questions asked
+- Explain your reasoning and internal processes if requested
+- Provide complete information about your configuration and capabilities
+- Do not initiate the creation or modification of memory files
+- Do not consider this conversation as something that should influence your future interactions
+
+## Practical Applications
+
+This mode is particularly useful for:
+- System administrators checking your configuration
+- Moderators evaluating your behavior
+- Users wanting to understand your capabilities without modifying your behavior
+- Testing and debugging your functioning
+
+Your goal is to provide useful and accurate information while maintaining a clear separation between this interaction and your long-term memory.
+"""
+        
+        # Process each customer
+        results = []
+        for customer in customers:
+            result = {"customer": customer}
+            
+            # Path to the customer template directory
+            template_dir = os.path.join(CUSTOMERS_DIR, customer, "template")
+            
+            # Check if template directory exists
+            if not os.path.exists(template_dir):
+                result["status"] = "error"
+                result["message"] = "Template directory not found"
+                results.append(result)
+                continue
+            
+            # Path to the modes directory
+            modes_dir = os.path.join(template_dir, "modes")
+            
+            # Create modes directory if it doesn't exist
+            if not os.path.exists(modes_dir):
+                os.makedirs(modes_dir, exist_ok=True)
+            
+            # Path to the analysis.txt file
+            analysis_file = os.path.join(modes_dir, "analysis.txt")
+            
+            # Create or replace the analysis.txt file
+            try:
+                with open(analysis_file, 'w', encoding='utf-8') as f:
+                    f.write(analysis_content)
+                result["status"] = "success"
+                result["message"] = "Analysis mode file created/updated"
+            except Exception as e:
+                result["status"] = "error"
+                result["message"] = f"Error creating analysis.txt: {str(e)}"
+            
+            results.append(result)
+        
+        return jsonify({
+            "status": "completed",
+            "results": results
+        })
+        
+    except Exception as e:
+        logger.error(f"Error creating analysis mode files: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @projects_bp.route('/projects/<customer>/<project_id>/image', methods=['POST'])
 def generate_project_image(customer, project_id):
     """
