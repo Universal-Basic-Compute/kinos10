@@ -16,9 +16,13 @@ logger = logging.getLogger(__name__)
 API_KEY = os.getenv("API_SECRET_KEY")
 if not API_KEY:
     logger.error("API_SECRET_KEY environment variable not set! API will not function correctly.")
-    # Don't set a default key - this will cause the API to reject all requests if no key is configured
+    # Set a default key for development environments
+    if os.environ.get('ENVIRONMENT') == 'development':
+        API_KEY = "dev_api_key_for_testing"
+        logger.warning(f"Using default development API key: {API_KEY}")
+    # Don't set a default key in production - this will cause the API to reject all requests if no key is configured
 else:
-    logger.info("API_SECRET_KEY environment variable found and loaded")
+    logger.info(f"API_SECRET_KEY environment variable found and loaded: '{API_KEY[:3]}...{API_KEY[-3:]}'")
 
 # Define MODEL constant
 MODEL = "claude-3-5-haiku-latest"  # Use the latest Claude 3.5 Haiku model

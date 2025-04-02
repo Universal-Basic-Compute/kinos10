@@ -63,7 +63,7 @@ def check_origin():
 
 @app.before_request
 def verify_api_key():
-    """Verify API key for all requests except health check and root endpoint."""
+    """Verify API key for all requests except health check, root endpoint, and API documentation."""
     # Skip verification for health check, root endpoint, and API documentation
     if request.path == '/health' or request.path == '/' or request.path == '/debug-api/debug':
         return None
@@ -71,19 +71,30 @@ def verify_api_key():
     # Get API key from header or query parameter
     api_key = request.headers.get('X-API-Key') or request.args.get('api_key')
     
-    # Log the received API key (masked) and the expected API key (masked) for debugging
+    # Log detailed information about API keys for debugging
+    logger.info(f"API_KEY from config (type: {type(API_KEY)}): '{API_KEY}'")
     if api_key:
+        logger.info(f"Received api_key (type: {type(api_key)}): '{api_key}'")
         masked_received = f"{api_key[:3]}...{api_key[-3:]}" if len(api_key) > 6 else "***"
-        logger.info(f"Received API key: {masked_received}")
+        logger.info(f"Received API key (masked): {masked_received}")
     else:
         logger.warning("No API key provided in request")
     
     masked_expected = f"{API_KEY[:3]}...{API_KEY[-3:]}" if len(API_KEY) > 6 else "***"
-    logger.info(f"Expected API key: {masked_expected}")
+    logger.info(f"Expected API key (masked): {masked_expected}")
     
-    # Check if API key is valid
-    if not api_key or api_key != API_KEY:
-        logger.warning(f"Unauthorized access attempt from {request.remote_addr} to {request.path}")
+    # Temporarily disable API key verification for testing
+    # return None
+    
+    # Check if API key is valid (with improved comparison)
+    if not api_key:
+        logger.warning(f"No API key provided from {request.remote_addr} to {request.path}")
+        return jsonify({"error": "API key required"}), 401
+    
+    # Strip whitespace and compare
+    if api_key.strip() != API_KEY.strip():
+        logger.warning(f"Invalid API key from {request.remote_addr} to {request.path}")
+        logger.info(f"Comparison result: {api_key == API_KEY}, lengths: {len(api_key)} vs {len(API_KEY)}")
         return jsonify({"error": "Unauthorized access"}), 401
 
 @app.before_request
