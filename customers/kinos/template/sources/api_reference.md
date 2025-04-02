@@ -301,6 +301,52 @@ Get the Aider logs for a project.
 }
 ```
 
+### Analyze Message
+
+Analyze a message with Claude without saving it or triggering context updates.
+
+**Endpoint:** `POST /projects/{customer}/{project_id}/analysis`
+
+**Request Body:**
+```json
+{
+  "message": "What is the purpose of this project?",
+  "images": [],  // Optional, base64-encoded images
+  "model": "claude-3-5-haiku-latest",  // Optional, defaults to claude-3-5-haiku-latest
+  "history_length": 25,  // Optional, number of recent messages to include in context (defaults to 25)
+  "addSystem": "Provide a detailed analysis"  // Optional, additional system instructions
+}
+```
+
+**Response:**
+```json
+{
+  "status": "completed",
+  "response": "Based on my analysis of the project files..."
+}
+```
+
+**Example Usage:**
+```javascript
+fetch('/projects/kinos/my-project/analysis', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    message: "What is the purpose of this project?"
+  })
+})
+.then(response => response.json())
+.then(data => {
+  console.log('Analysis:', data.response);
+});
+```
+
+**Error Responses:**
+- `400 Bad Request`: Missing required message parameter
+- `404 Not Found`: Customer or project not found
+- `500 Internal Server Error`: Server error
 
 ### Analyze Project
 
