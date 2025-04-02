@@ -64,42 +64,28 @@ def check_origin():
 @app.before_request
 def verify_api_key():
     """Verify API key for all requests except health check, root endpoint, and API documentation."""
-    # Temporarily disable API key verification completely
-    return None
-    
-    # The rest of the code is commented out
     # Skip verification for health check, root endpoint, and API documentation
-    # if request.path == '/health' or request.path == '/' or request.path == '/debug-api/debug':
-    #     return None
-    #     
-    # # Get API key from header or query parameter
-    # api_key = request.headers.get('X-API-Key') or request.args.get('api_key')
-    # 
-    # # Log detailed information about API keys for debugging
-    # logger.info(f"API_KEY from config (type: {type(API_KEY)}): '{API_KEY}'")
-    # if api_key:
-    #     logger.info(f"Received api_key (type: {type(api_key)}): '{api_key}'")
-    #     masked_received = f"{api_key[:3]}...{api_key[-3:]}" if len(api_key) > 6 else "***"
-    #     logger.info(f"Received API key (masked): {masked_received}")
-    #     # Add hex representation for debugging
-    #     logger.info(f"API_KEY hex: {API_KEY.encode('utf-8').hex()}")
-    #     logger.info(f"api_key hex: {api_key.encode('utf-8').hex()}")
-    # else:
-    #     logger.warning("No API key provided in request")
-    # 
-    # masked_expected = f"{API_KEY[:3]}...{API_KEY[-3:]}" if len(API_KEY) > 6 else "***"
-    # logger.info(f"Expected API key (masked): {masked_expected}")
-    # 
-    # # Check if API key is valid (with improved comparison)
-    # if not api_key:
-    #     logger.warning(f"No API key provided from {request.remote_addr} to {request.path}")
-    #     return jsonify({"error": "API key required"}), 401
-    # 
-    # # Strip whitespace and compare
-    # if api_key.strip() != API_KEY.strip():
-    #     logger.warning(f"Invalid API key from {request.remote_addr} to {request.path}")
-    #     logger.info(f"Comparison result: {api_key == API_KEY}, lengths: {len(api_key)} vs {len(API_KEY)}")
-    #     return jsonify({"error": "Unauthorized access"}), 401
+    if request.path == '/health' or request.path == '/' or request.path == '/debug-api/debug':
+        return None
+        
+    # Get API key from header or query parameter
+    api_key = request.headers.get('X-API-Key') or request.args.get('api_key')
+    
+    # Si aucune clé n'est fournie, accepter quand même la requête
+    if not api_key:
+        logger.info(f"No API key provided from {request.remote_addr} to {request.path}, but continuing anyway")
+        return None
+    
+    # Log detailed information about API keys for debugging
+    logger.info(f"API_KEY from config (type: {type(API_KEY)}): '{API_KEY}'")
+    logger.info(f"Received api_key (type: {type(api_key)}): '{api_key}'")
+    
+    # Si une clé est fournie mais ne correspond pas, accepter quand même la requête
+    # mais logger l'information
+    if api_key != API_KEY:
+        logger.info(f"API key mismatch from {request.remote_addr} to {request.path}, but continuing anyway")
+        logger.info(f"Comparison result: {api_key == API_KEY}, lengths: {len(api_key)} vs {len(API_KEY)}")
+        return None
 
 @app.before_request
 def log_request_info():
