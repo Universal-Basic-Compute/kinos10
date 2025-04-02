@@ -334,6 +334,77 @@ def send_message(customer, project_id):
         logger.error(f"Error processing message: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@messages_bp.route('/projects/<customer>/<project_id>/analysis', methods=['POST'])
+def analyze_message(customer, project_id):
+    """
+    Endpoint to analyze a message with Claude without saving it or triggering context updates.
+    Similar to the send_message endpoint but doesn't save messages or call Aider.
+    """
+    try:
+        # Parse request data
+        data = request.json
+        
+        # Support both formats: new format with 'message' and original format with 'content'
+        message_content = data.get('message', data.get('content', ''))
+        
+        # Support both formats: new format with 'screenshot' and original format with 'images'
+        images = data.get('images', [])
+        if 'screenshot' in data and data['screenshot']:
+            # Add screenshot to images array if it's not empty
+            images.append(data['screenshot'])
+        
+        # Get optional fields from new format
+        model = data.get('model', '')  # Optional model parameter
+        history_length = data.get('history_length', 25)  # Default to 25 messages
+        addSystem = data.get('addSystem', None)  # Optional additional system instructions
+        
+        # Original format attachments
+        attachments = data.get('attachments', [])
+        
+        # Validate customer
+        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
+            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+            
+        project_path = get_project_path(customer, project_id)
+        
+        # Check if project exists
+        if not os.path.exists(project_path):
+            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        
+        # Build context (select relevant files)
+        selected_files = build_context(customer, project_id, message_content, attachments, project_path, model, None, addSystem)
+        
+        # Log the selected files
+        logger.info(f"Selected files for analysis context: {selected_files}")
+        
+        # Call Claude with the selected context
+        try:
+            # Pass is_new_message=False to use existing messages from messages.json
+            claude_response = call_claude_with_context(
+                selected_files, 
+                project_path, 
+                message_content, 
+                images, 
+                model,
+                history_length,
+                is_new_message=False,  # Don't treat as a new message
+                addSystem=addSystem
+            )
+            
+            # Return the Claude response directly in the API response
+            return jsonify({
+                "status": "completed",
+                "response": claude_response
+            })
+            
+        except Exception as e:
+            logger.error(f"Error processing analysis: {str(e)}")
+            return jsonify({"error": f"Error processing analysis: {str(e)}"}), 500
+        
+    except Exception as e:
+        logger.error(f"Error processing analysis request: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @messages_bp.route('/projects/<customer>/<project_id>/aider_logs', methods=['GET'])
 def get_aider_logs(customer, project_id):
     """
