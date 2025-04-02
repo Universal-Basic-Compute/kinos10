@@ -224,11 +224,17 @@ def build_context(customer, project_id, message, attachments=None, project_path=
     mode_info = f"\nMode: {mode}" if mode else ""
     
     # If mode is 'analysis', prioritize the analysis.txt file
+    # Otherwise, ensure it's not included in the context
+    analysis_file = "modes/analysis.txt"
     if mode == 'analysis':
-        analysis_file = "modes/analysis.txt"
         if analysis_file not in core_files and os.path.exists(os.path.join(project_path, analysis_file)):
             core_files.append(analysis_file)
             logger.info("Added analysis.txt to core files for analysis mode")
+    else:
+        # Remove analysis.txt from selected_files if it's there
+        if analysis_file in core_files:
+            core_files.remove(analysis_file)
+            logger.info("Removed analysis.txt from core files for non-analysis mode")
     
     selection_prompt = f"""
     You are the Context Builder component of KinOS. Your task is to select the most relevant files to include in the context window based on the user's message.
