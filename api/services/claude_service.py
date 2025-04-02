@@ -37,27 +37,66 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
     Returns:
         Claude response as a string
     """
-    # Load content of selected files
-    file_contents = []
-    for file in selected_files:
-        file_path = os.path.join(project_path, file)
-        if os.path.exists(file_path) and os.path.isfile(file_path):
-            try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                file_contents.append(f"# File: {file}\n{content}")
-            except Exception as e:
-                logger.error(f"Error reading file {file_path}: {str(e)}")
-    
-    # Combine file contents into a single context string
-    context = "\n\n".join(file_contents)
-    
-    # Append additional system text if provided
-    if addSystem:
-        context += f"\n\n# Additional System Instructions\n{addSystem}"
-        logger.info("Added custom system instructions to context")
+    # Create a list to track temporary files that need to be deleted
+    temp_files = []
     
     try:
+        # Load content of selected files
+        file_contents = []
+        for file in selected_files:
+            file_path = os.path.join(project_path, file)
+            if os.path.exists(file_path) and os.path.isfile(file_path):
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    file_contents.append(f"# File: {file}\n{content}")
+                except Exception as e:
+                    logger.error(f"Error reading file {file_path}: {str(e)}")
+        
+        # Check if we need to add dynamic analysis mode content
+        if 'analysis' in message_content.lower():
+            # Create dynamic analysis mode content
+            analysis_content = """# Analysis Mode: Informative Responses Without Memorization
+
+In this mode, you provide information and analysis without memorizing the content of the exchange. This mode is designed for:
+
+1. Answering administrative or debugging questions
+2. Providing explanations about your internal functioning
+3. Assisting with moderation and supervision
+4. Allowing exploratory interactions without impact on your long-term memory
+
+## Specific Guidelines
+
+When operating in this mode:
+
+- Respond with precision and honesty to questions asked
+- Explain your reasoning and internal processes if requested
+- Provide complete information about your configuration and capabilities
+- Do not initiate the creation or modification of memory files
+- Do not consider this conversation as something that should influence your future interactions
+
+## Practical Applications
+
+This mode is particularly useful for:
+- System administrators checking your configuration
+- Moderators evaluating your behavior
+- Users wanting to understand your capabilities without modifying your behavior
+- Testing and debugging your functioning
+
+Your goal is to provide useful and accurate information while maintaining a clear separation between this interaction and your long-term memory.
+"""
+            # Add the analysis content to file_contents
+            file_contents.append(f"# File: analysis.txt\n{analysis_content}")
+            logger.info(f"Added dynamic analysis mode content")
+        
+        # Combine file contents into a single context string
+        context = "\n\n".join(file_contents)
+        
+        # Append additional system text if provided
+        if addSystem:
+            context += f"\n\n# Additional System Instructions\n{addSystem}"
+            logger.info("Added custom system instructions to context")
+    
         # Initialize messages array
         messages = []
         
@@ -154,6 +193,14 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
     except Exception as e:
         logger.error(f"Error calling Claude API: {str(e)}")
         raise RuntimeError(f"Claude API call failed: {str(e)}")
+    finally:
+        # Clean up any temporary files
+        for temp_file in temp_files:
+            try:
+                os.unlink(temp_file)
+                logger.info(f"Deleted temporary file: {temp_file}")
+            except Exception as e:
+                logger.warning(f"Could not delete temporary file {temp_file}: {str(e)}")
 
 def build_context(customer, project_id, message, attachments=None, project_path=None, model=None, mode=None, addSystem=None):
     """
@@ -223,18 +270,10 @@ def build_context(customer, project_id, message, attachments=None, project_path=
     # Add mode information to the prompt if provided
     mode_info = f"\nMode: {mode}" if mode else ""
     
-    # If mode is 'analysis', prioritize the analysis.txt file
-    # Otherwise, ensure it's not included in the context
-    analysis_file = "modes/analysis.txt"
+    # If mode is 'analysis', we'll handle it dynamically in call_claude_with_context
+    # No need to add a file to core_files
     if mode == 'analysis':
-        if analysis_file not in core_files and os.path.exists(os.path.join(project_path, analysis_file)):
-            core_files.append(analysis_file)
-            logger.info("Added analysis.txt to core files for analysis mode")
-    else:
-        # Remove analysis.txt from selected_files if it's there
-        if analysis_file in core_files:
-            core_files.remove(analysis_file)
-            logger.info("Removed analysis.txt from core files for non-analysis mode")
+        logger.info("Analysis mode detected - will add dynamic analysis content")
     
     selection_prompt = f"""
     You are the Context Builder component of KinOS. Your task is to select the most relevant files to include in the context window based on the user's message.
