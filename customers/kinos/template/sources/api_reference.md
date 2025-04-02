@@ -301,45 +301,6 @@ Get the Aider logs for a project.
 }
 ```
 
-### Create Analysis Mode Files
-
-Create or replace the analysis mode file for each customer.
-
-**Endpoint:** `POST /customers/create_analysis_mode`
-
-**Request Body:**
-```json
-{
-  "customers": ["kinos", "deskmate", "stride"]  // Optional, if not provided all customers will be processed
-}
-```
-
-**Response:**
-```json
-{
-  "status": "completed",
-  "results": [
-    {
-      "customer": "kinos",
-      "status": "success",
-      "message": "Analysis mode file created/updated"
-    },
-    {
-      "customer": "deskmate",
-      "status": "success",
-      "message": "Analysis mode file created/updated"
-    },
-    {
-      "customer": "stride",
-      "status": "error",
-      "message": "Template directory not found"
-    }
-  ]
-}
-```
-
-**Error Responses:**
-- `500 Internal Server Error`: Customers directory not found or other server error
 
 ### Analyze Project
 
