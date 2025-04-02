@@ -570,7 +570,9 @@ def create_analysis_mode():
             if os.path.exists(CUSTOMERS_DIR):
                 customers = [d for d in os.listdir(CUSTOMERS_DIR) 
                             if os.path.isdir(os.path.join(CUSTOMERS_DIR, d))]
+                logger.info(f"Processing all customers: {customers}")
             else:
+                logger.error(f"Customers directory not found: {CUSTOMERS_DIR}")
                 return jsonify({"error": "Customers directory not found"}), 500
         
         # Standard content for the analysis.txt file
@@ -611,31 +613,54 @@ Your goal is to provide useful and accurate information while maintaining a clea
             
             # Path to the customer template directory
             template_dir = os.path.join(CUSTOMERS_DIR, customer, "template")
+            logger.info(f"Processing customer {customer}, template dir: {template_dir}")
             
             # Check if template directory exists
             if not os.path.exists(template_dir):
+                logger.warning(f"Template directory not found for customer {customer}: {template_dir}")
                 result["status"] = "error"
-                result["message"] = "Template directory not found"
+                result["message"] = f"Template directory not found: {template_dir}"
                 results.append(result)
                 continue
             
             # Path to the modes directory
             modes_dir = os.path.join(template_dir, "modes")
+            logger.info(f"Modes directory path: {modes_dir}")
             
             # Create modes directory if it doesn't exist
             if not os.path.exists(modes_dir):
-                os.makedirs(modes_dir, exist_ok=True)
+                try:
+                    logger.info(f"Creating modes directory: {modes_dir}")
+                    os.makedirs(modes_dir, exist_ok=True)
+                except Exception as e:
+                    logger.error(f"Error creating modes directory for {customer}: {str(e)}")
+                    result["status"] = "error"
+                    result["message"] = f"Error creating modes directory: {str(e)}"
+                    results.append(result)
+                    continue
             
             # Path to the analysis.txt file
             analysis_file = os.path.join(modes_dir, "analysis.txt")
+            logger.info(f"Analysis file path: {analysis_file}")
             
             # Create or replace the analysis.txt file
             try:
+                logger.info(f"Writing analysis.txt file for {customer}")
                 with open(analysis_file, 'w', encoding='utf-8') as f:
                     f.write(analysis_content)
                 result["status"] = "success"
                 result["message"] = "Analysis mode file created/updated"
+                
+                # Verify the file was actually created
+                if os.path.exists(analysis_file):
+                    file_size = os.path.getsize(analysis_file)
+                    logger.info(f"Successfully created analysis.txt for {customer}, size: {file_size} bytes")
+                else:
+                    logger.warning(f"File not found after creation attempt: {analysis_file}")
+                    result["status"] = "error"
+                    result["message"] = "File not found after creation attempt"
             except Exception as e:
+                logger.error(f"Error creating analysis.txt for {customer}: {str(e)}")
                 result["status"] = "error"
                 result["message"] = f"Error creating analysis.txt: {str(e)}"
             
