@@ -58,7 +58,7 @@ fetch('/v2/blueprints')
 
 Get detailed information about a specific blueprint.
 
-**Endpoint:** `GET /v2/blueprints/{blueprint_id}`
+**Endpoint:** `GET /v2/blueprints/{blueprint}`
 
 **Response:**
 ```json
@@ -76,7 +76,7 @@ Get detailed information about a specific blueprint.
 
 Initialize or reinitialize a blueprint's template.
 
-**Endpoint:** `POST /v2/blueprints/{blueprint_id}/initialize`
+**Endpoint:** `POST /v2/blueprints/{blueprint}/initialize`
 
 **Response:**
 ```json
@@ -90,7 +90,7 @@ Initialize or reinitialize a blueprint's template.
 
 Get a list of kins for a specific blueprint.
 
-**Endpoint:** `GET /v2/blueprints/{blueprint_id}/kins`
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins`
 
 **Response:**
 ```json
@@ -114,7 +114,7 @@ Get a list of kins for a specific blueprint.
 
 Create a new kin for a blueprint.
 
-**Endpoint:** `POST /v2/blueprints/{blueprint_id}/kins`
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins`
 
 **Request Body:**
 ```json
@@ -139,7 +139,7 @@ Create a new kin for a blueprint.
 
 Get detailed information about a specific kin.
 
-**Endpoint:** `GET /v2/blueprints/{blueprint_id}/kins/{kin_id}`
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}`
 
 **Response:**
 ```json
@@ -156,7 +156,7 @@ Get detailed information about a specific kin.
 
 Rename a kin without changing its ID.
 
-**Endpoint:** `POST /v2/blueprints/{blueprint_id}/kins/{kin_id}/rename`
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/rename`
 
 **Request Body:**
 ```json
@@ -198,7 +198,7 @@ This endpoint updates the display name of a kin while preserving its ID and all 
 
 Get messages for a specific kin.
 
-**Endpoint:** `GET /v2/blueprints/{blueprint_id}/kins/{kin_id}/messages`
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/messages`
 
 **Query Parameters:**
 - `since` (optional): ISO timestamp to get only messages after this time
@@ -235,7 +235,7 @@ Get messages for a specific kin.
 
 Send a message to a kin.
 
-**Endpoint:** `POST /v2/blueprints/{blueprint_id}/kins/{kin_id}/messages`
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/messages`
 
 **Request Body:**
 ```json
@@ -265,7 +265,7 @@ Send a message to a kin.
 
 Get a list of files in a kin.
 
-**Endpoint:** `GET /v2/blueprints/{blueprint_id}/kins/{kin_id}/files`
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/files`
 
 **Query Parameters:**
 - `path` (optional): Filter by specific directory within the kin
@@ -299,7 +299,7 @@ Get a list of files in a kin.
 
 Get the content of a specific file.
 
-**Endpoint:** `GET /v2/blueprints/{blueprint_id}/kins/{kin_id}/files/{file_path}`
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/files/{file_path}`
 
 Where `file_path` is the path to the file within the kin.
 
@@ -322,7 +322,7 @@ For JSON response format, add query parameter `?format=json`:
 
 Get the content of all files in a kin folder as JSON.
 
-**Endpoint:** `GET /v2/blueprints/{blueprint_id}/kins/{kin_id}/content`
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/content`
 
 **Query Parameters:**
 - `path` (optional): Filter by specific file or directory within the kin
@@ -367,7 +367,7 @@ Get the content of all files in a kin folder as JSON.
 
 Get the Aider logs for a kin.
 
-**Endpoint:** `GET /v2/blueprints/{blueprint_id}/kins/{kin_id}/aider_logs`
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/aider_logs`
 
 **Query Parameters:**
 - `limit` (optional): Maximum number of log entries to return (default: 50)
@@ -399,7 +399,7 @@ Get the Aider logs for a kin.
 
 Analyze a message with Claude without saving it or triggering context updates.
 
-**Endpoint:** `POST /v2/blueprints/{blueprint_id}/kins/{kin_id}/analysis`
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/analysis`
 
 **Request Body:**
 ```json
@@ -424,7 +424,7 @@ Analyze a message with Claude without saving it or triggering context updates.
 
 Generate an image based on a message using Ideogram API.
 
-**Endpoint:** `POST /v2/blueprints/{blueprint_id}/kins/{kin_id}/images`
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/images`
 
 **Request Body:**
 ```json
@@ -451,6 +451,100 @@ Generate an image based on a message using Ideogram API.
     "style": "REALISTIC"
   },
   "local_path": "images/ideogram_20230915_143045.jpg"
+}
+```
+
+### Reset Blueprint
+
+Reset a blueprint and all its kins to initial template state.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/reset`
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Blueprint 'kinos' has been reset",
+  "kins_reset": 3,
+  "results": [
+    {
+      "kin_id": "my-kin-1",
+      "status": "success",
+      "message": "Kin reset to template state"
+    },
+    {
+      "kin_id": "my-kin-2",
+      "status": "success",
+      "message": "Kin reset to template state"
+    },
+    {
+      "kin_id": "my-kin-3",
+      "status": "success",
+      "message": "Kin reset to template state"
+    }
+  ]
+}
+```
+
+### Reset Kin
+
+Reset a kin to its initial template state.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/reset`
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Kin 'my-kin-id' has been reset to template state"
+}
+```
+
+### Build Kin
+
+Send a message to Aider for file creation/modification without Claude response.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/build`
+
+**Request Body:**
+```json
+{
+  "message": "Create a new file called example.txt with some sample content",
+  "addSystem": "Focus on creating well-structured files"  // Optional
+}
+```
+
+**Response:**
+```json
+{
+  "status": "completed",
+  "response": "I've created the example.txt file with sample content..."
+}
+```
+
+### Get Kin Modes
+
+Get available modes for a kin.
+
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/modes`
+
+**Response:**
+```json
+{
+  "modes": [
+    {
+      "id": "analysis",
+      "title": "Analysis Mode: Informative Responses Without Memorization"
+    },
+    {
+      "id": "code_review",
+      "title": "Code Review Mode"
+    },
+    {
+      "id": "creative",
+      "title": "Creative Writing Mode"
+    }
+  ]
 }
 ```
 
@@ -549,9 +643,9 @@ Get general information about the API.
   "documentation": "/v2/docs",
   "endpoints": {
     "blueprints": "/v2/blueprints",
-    "kins": "/v2/blueprints/{blueprint_id}/kins",
-    "messages": "/v2/blueprints/{blueprint_id}/kins/{kin_id}/messages",
-    "files": "/v2/blueprints/{blueprint_id}/kins/{kin_id}/files",
+    "kins": "/v2/blueprints/{blueprint}/kins",
+    "messages": "/v2/blueprints/{blueprint}/kins/{kin_id}/messages",
+    "files": "/v2/blueprints/{blueprint}/kins/{kin_id}/files",
     "health": "/v2/health",
     "tts": "/v2/tts",
     "stt": "/v2/stt"
