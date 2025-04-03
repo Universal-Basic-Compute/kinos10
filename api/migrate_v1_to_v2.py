@@ -120,7 +120,31 @@ def migrate_v1_to_v2(dry_run=False):
                 # Copy template directory
                 if os.path.exists(v2_template_dir):
                     logger.warning(f"V2 template directory already exists, removing: {v2_template_dir}")
-                    shutil.rmtree(v2_template_dir)
+                    try:
+                        shutil.rmtree(v2_template_dir)
+                    except PermissionError:
+                        logger.warning(f"Permission error removing {v2_template_dir}, trying to remove files individually")
+                        # Try to remove files individually
+                        for root, dirs, files in os.walk(v2_template_dir, topdown=False):
+                            for name in files:
+                                try:
+                                    file_path = os.path.join(root, name)
+                                    os.chmod(file_path, 0o777)  # Try to change permissions
+                                    os.unlink(file_path)
+                                except Exception as e:
+                                    logger.warning(f"Could not remove file {name}: {str(e)}")
+                            for name in dirs:
+                                try:
+                                    dir_path = os.path.join(root, name)
+                                    os.chmod(dir_path, 0o777)  # Try to change permissions
+                                    os.rmdir(dir_path)
+                                except Exception as e:
+                                    logger.warning(f"Could not remove directory {name}: {str(e)}")
+                        try:
+                            os.rmdir(v2_template_dir)
+                        except Exception as e:
+                            logger.warning(f"Could not completely remove directory {v2_template_dir}: {str(e)}")
+                            logger.warning(f"Will attempt to continue with migration anyway")
                 
                 logger.info(f"Copying template from {v1_template_dir} to {v2_template_dir}")
                 shutil.copytree(v1_template_dir, v2_template_dir)
@@ -164,7 +188,31 @@ def migrate_v1_to_v2(dry_run=False):
                     # Copy project directory
                     if os.path.exists(v2_kin_dir):
                         logger.warning(f"V2 kin directory already exists, removing: {v2_kin_dir}")
-                        shutil.rmtree(v2_kin_dir)
+                        try:
+                            shutil.rmtree(v2_kin_dir)
+                        except PermissionError:
+                            logger.warning(f"Permission error removing {v2_kin_dir}, trying to remove files individually")
+                            # Try to remove files individually
+                            for root, dirs, files in os.walk(v2_kin_dir, topdown=False):
+                                for name in files:
+                                    try:
+                                        file_path = os.path.join(root, name)
+                                        os.chmod(file_path, 0o777)  # Try to change permissions
+                                        os.unlink(file_path)
+                                    except Exception as e:
+                                        logger.warning(f"Could not remove file {name}: {str(e)}")
+                                for name in dirs:
+                                    try:
+                                        dir_path = os.path.join(root, name)
+                                        os.chmod(dir_path, 0o777)  # Try to change permissions
+                                        os.rmdir(dir_path)
+                                    except Exception as e:
+                                        logger.warning(f"Could not remove directory {name}: {str(e)}")
+                            try:
+                                os.rmdir(v2_kin_dir)
+                            except Exception as e:
+                                logger.warning(f"Could not completely remove directory {v2_kin_dir}: {str(e)}")
+                                logger.warning(f"Will attempt to continue with migration anyway")
                     
                     logger.info(f"Copying project from {v1_project_dir} to {v2_kin_dir}")
                     shutil.copytree(v1_project_dir, v2_kin_dir)
@@ -188,19 +236,27 @@ def migrate_v1_to_v2(dry_run=False):
         if os.path.exists(v1_to_v2_customers_link):
             logger.warning(f"Customers v2 link already exists, removing: {v1_to_v2_customers_link}")
             if os.path.islink(v1_to_v2_customers_link) or os.path.isdir(v1_to_v2_customers_link):
-                if os.name == 'nt':  # Windows
-                    os.rmdir(v1_to_v2_customers_link)
-                else:
-                    os.unlink(v1_to_v2_customers_link)
+                try:
+                    if os.name == 'nt':  # Windows
+                        os.rmdir(v1_to_v2_customers_link)
+                    else:
+                        os.unlink(v1_to_v2_customers_link)
+                except PermissionError as e:
+                    logger.warning(f"Permission error removing link {v1_to_v2_customers_link}: {str(e)}")
+                    logger.warning("Will attempt to continue with migration anyway")
         
         # Create v1 API link
         if os.path.exists(v1_api_link):
             logger.warning(f"V1 API link already exists, removing: {v1_api_link}")
             if os.path.islink(v1_api_link) or os.path.isdir(v1_api_link):
-                if os.name == 'nt':  # Windows
-                    os.rmdir(v1_api_link)
-                else:
-                    os.unlink(v1_api_link)
+                try:
+                    if os.name == 'nt':  # Windows
+                        os.rmdir(v1_api_link)
+                    else:
+                        os.unlink(v1_api_link)
+                except PermissionError as e:
+                    logger.warning(f"Permission error removing link {v1_api_link}: {str(e)}")
+                    logger.warning("Will attempt to continue with migration anyway")
         
         # Create symbolic links or junctions
         try:
