@@ -5,12 +5,12 @@ import json
 import logging
 from config import logger
 
-def call_aider_with_context(project_path, selected_files, message_content, stream=False, addSystem=None):
+def call_aider_with_context(kin_path, selected_files, message_content, stream=False, addSystem=None):
     """
     Call Aider CLI with the selected context files and user message.
     
     Args:
-        project_path: Path to the project directory
+        kin_path: Path to the kin directory
         selected_files: List of files to include in the context
         message_content: User message content
         stream: Whether to stream the response (default: False)
@@ -30,7 +30,7 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
     
     # Always add messages.json as --read
     messages_file = "messages.json"
-    messages_path = os.path.join(project_path, messages_file)
+    messages_path = os.path.join(kin_path, messages_file)
     
     # Get the last 2 messages from messages.json
     last_messages = []
@@ -61,7 +61,7 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
     temp_system_file = None
     if addSystem:
         import tempfile
-        temp_system_file = os.path.join(project_path, "temp_system_instructions.txt")
+        temp_system_file = os.path.join(kin_path, "temp_system_instructions.txt")
         try:
             with open(temp_system_file, 'w', encoding='utf-8') as f:
                 f.write(f"# Additional System Instructions\n\n{addSystem}")
@@ -72,20 +72,20 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
             temp_system_file = None
     
     # Determine which files are from the template
-    # Extract customer and project from project_path
-    parts = os.path.normpath(project_path).split(os.sep)
-    # Find the index of "customers" in the path
+    # Extract blueprint and kin from kin_path
+    parts = os.path.normpath(kin_path).split(os.sep)
+    # Find the index of "blueprints" in the path
     try:
-        customers_index = parts.index("customers")
-        if len(parts) > customers_index + 2:
-            customer = parts[customers_index + 1]
-            # Check if this is a template or regular project
-            if parts[customers_index + 2] == "template":
+        blueprints_index = parts.index("blueprints")
+        if len(parts) > blueprints_index + 2:
+            blueprint = parts[blueprints_index + 1]
+            # Check if this is a template or regular kin
+            if parts[blueprints_index + 2] == "template":
                 # This is already a template, all files are template files
                 template_files = selected_files
             else:
-                # This is a project, get template files from customer template
-                template_path = os.path.join(os.sep.join(parts[:customers_index + 2]), customer, "template")
+                # This is a kin, get template files from blueprint template
+                template_path = os.path.join(os.sep.join(parts[:blueprints_index + 2]), blueprint, "template")
                 template_files = []
                 if os.path.exists(template_path):
                     # Get all files in the template directory
@@ -97,15 +97,15 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
         else:
             # Path doesn't contain enough parts, assume no template files
             template_files = []
-            logger.warning("Could not determine customer/project from path, treating all files as project files")
+            logger.warning("Could not determine blueprint/kin from path, treating all files as kin files")
     except ValueError:
-        # "customers" not found in path
+        # "blueprints" not found in path
         template_files = []
-        logger.warning("'customers' not found in path, treating all files as project files")
+        logger.warning("'blueprints' not found in path, treating all files as kin files")
     
     # Add all selected files to the command
     for file in selected_files:
-        file_path = os.path.join(project_path, file)
+        file_path = os.path.join(kin_path, file)
         if os.path.exists(file_path):
             # Use --read for system files, template files, and specific known files
             if (file in ["kinos.txt", "system.txt", "persona.txt"] or 
@@ -153,20 +153,20 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
     """
     
     # Create a log file for this run
-    aider_logs_file = os.path.join(project_path, "aider_logs.txt")
+    aider_logs_file = os.path.join(kin_path, "aider_logs.txt")
     with open(aider_logs_file, 'a', encoding='utf-8') as f:
         f.write(f"\n--- Aider run at {datetime.datetime.now().isoformat()} ---\n")
         f.write(f"Command: {' '.join(safe_cmd)}\n")
         f.write(f"Input: {static_prompt}\n")
     
     try:
-        # Run Aider in the project directory with the static prompt as input
+        # Run Aider in the kin directory with the static prompt as input
         # Set encoding to utf-8 explicitly to handle emojis and other special characters
         if stream:
             # Use Popen for streaming
             process = subprocess.Popen(
                 cmd,
-                cwd=project_path,  # Run in the project directory
+                cwd=kin_path,  # Run in the kin directory
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
@@ -218,7 +218,7 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
             # Use run for non-streaming (original behavior)
             result = subprocess.run(
                 cmd,
-                cwd=project_path,  # Run in the project directory
+                cwd=kin_path,  # Run in the kin directory
                 input=static_prompt,
                 text=True,
                 encoding='utf-8',  # Add explicit UTF-8 encoding
@@ -228,7 +228,7 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
                 timeout=600  # Increase to a 10-minute timeout
             )
             
-            # Save Aider logs to a file in the project directory
+            # Save Aider logs to a file in the kin directory
             with open(aider_logs_file, 'a', encoding='utf-8') as f:
                 f.write(f"Output:\n{result.stdout}\n")
                 if result.stderr:

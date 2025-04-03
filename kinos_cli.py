@@ -4,12 +4,12 @@ KinOS API CLI - Command Line Interface for the KinOS API
 Usage: kinos_cli.py [options] <command> [<args>...]
 
 Commands:
-  customers                     List all customers
-  create-analysis-mode          Create analysis mode files for customers
-  analyze <customer> <project>  Send an analysis request to a project
-  projects [<customer>]         List projects (for a specific customer if provided)
-  reset <customer> [<project>]  Reset a project or all projects for a customer
-  modes <customer> <project>    List available modes for a project
+  blueprints                     List all blueprints
+  create-analysis-mode          Create analysis mode files for blueprints
+  analyze <blueprint> <kin>  Send an analysis request to a kin
+  kins [<blueprint>]         List kins (for a specific blueprint if provided)
+  reset <blueprint> [<kin>]  Reset a kin or all kins for a blueprint
+  modes <blueprint> <kin>    List available modes for a kin
 
 Options:
   -h, --help                    Show this help message and exit
@@ -34,33 +34,33 @@ def main():
     # Create subparsers for different commands
     subparsers = parser.add_subparsers(dest='command', help='Command to run')
     
-    # Customers command
-    customers_parser = subparsers.add_parser('customers', help='List all customers')
+    # blueprints command
+    blueprints_parser = subparsers.add_parser('blueprints', help='List all blueprints')
     
     # Create analysis mode command
-    analysis_mode_parser = subparsers.add_parser('create-analysis-mode', help='Create analysis mode files for customers')
-    analysis_mode_parser.add_argument('--customers', nargs='+', help='Specific customers to process')
+    analysis_mode_parser = subparsers.add_parser('create-analysis-mode', help='Create analysis mode files for blueprints')
+    analysis_mode_parser.add_argument('--blueprints', nargs='+', help='Specific blueprints to process')
     
     # Analyze command
-    analyze_parser = subparsers.add_parser('analyze', help='Send an analysis request to a project')
-    analyze_parser.add_argument('customer', help='Customer name')
-    analyze_parser.add_argument('project', help='Project ID')
+    analyze_parser = subparsers.add_parser('analyze', help='Send an analysis request to a kin')
+    analyze_parser.add_argument('blueprint', help='blueprint name')
+    analyze_parser.add_argument('kin', help='kin ID')
     analyze_parser.add_argument('--message', '-m', required=True, help='Message to analyze')
     analyze_parser.add_argument('--model', default='claude-3-5-haiku-latest', help='Model to use')
     
-    # Projects command
-    projects_parser = subparsers.add_parser('projects', help='List projects')
-    projects_parser.add_argument('customer', nargs='?', help='Customer name (optional)')
+    # kins command
+    kins_parser = subparsers.add_parser('kins', help='List kins')
+    kins_parser.add_argument('blueprint', nargs='?', help='blueprint name (optional)')
     
     # Reset command
-    reset_parser = subparsers.add_parser('reset', help='Reset a project or all projects for a customer')
-    reset_parser.add_argument('customer', help='Customer name')
-    reset_parser.add_argument('project', nargs='?', help='Project ID (optional, if not provided all projects will be reset)')
+    reset_parser = subparsers.add_parser('reset', help='Reset a kin or all kins for a blueprint')
+    reset_parser.add_argument('blueprint', help='blueprint name')
+    reset_parser.add_argument('kin', nargs='?', help='kin ID (optional, if not provided all kins will be reset)')
     
     # Modes command
-    modes_parser = subparsers.add_parser('modes', help='List available modes for a project')
-    modes_parser.add_argument('customer', help='Customer name')
-    modes_parser.add_argument('project', help='Project ID')
+    modes_parser = subparsers.add_parser('modes', help='List available modes for a kin')
+    modes_parser.add_argument('blueprint', help='blueprint name')
+    modes_parser.add_argument('kin', help='kin ID')
     
     # Parse arguments
     args = parser.parse_args()
@@ -81,17 +81,17 @@ def main():
     
     # Process commands
     try:
-        if args.command == 'customers':
-            response = requests.get(urljoin(base_url, 'customers'), params=params)
+        if args.command == 'blueprints':
+            response = requests.get(urljoin(base_url, 'blueprints'), params=params)
             handle_response(response, args.verbose)
             
         elif args.command == 'create-analysis-mode':
             data = {}
-            if args.customers:
-                data['customers'] = args.customers
+            if args.blueprints:
+                data['blueprints'] = args.blueprints
                 
             response = requests.post(
-                urljoin(base_url, 'customers/create_analysis_mode'),
+                urljoin(base_url, 'blueprints/create_analysis_mode'),
                 json=data,
                 headers=headers,
                 params=params
@@ -105,34 +105,34 @@ def main():
             }
             
             response = requests.post(
-                urljoin(base_url, f'projects/{args.customer}/{args.project}/analysis'),
+                urljoin(base_url, f'kins/{args.blueprint}/{args.kin}/analysis'),
                 json=data,
                 headers=headers,
                 params=params
             )
             handle_response(response, args.verbose)
             
-        elif args.command == 'projects':
-            if args.customer:
+        elif args.command == 'kins':
+            if args.blueprint:
                 response = requests.get(
-                    urljoin(base_url, f'projects/{args.customer}/projects'),
+                    urljoin(base_url, f'kins/{args.blueprint}/kins'),
                     params=params
                 )
             else:
-                response = requests.get(urljoin(base_url, 'projects/all'), params=params)
+                response = requests.get(urljoin(base_url, 'kins/all'), params=params)
                 
             handle_response(response, args.verbose)
             
         elif args.command == 'reset':
-            if args.project:
+            if args.kin:
                 response = requests.post(
-                    urljoin(base_url, f'projects/{args.customer}/{args.project}/reset'),
+                    urljoin(base_url, f'kins/{args.blueprint}/{args.kin}/reset'),
                     headers=headers,
                     params=params
                 )
             else:
                 response = requests.post(
-                    urljoin(base_url, f'customers/{args.customer}/reset'),
+                    urljoin(base_url, f'blueprints/{args.blueprint}/reset'),
                     headers=headers,
                     params=params
                 )
@@ -141,7 +141,7 @@ def main():
             
         elif args.command == 'modes':
             response = requests.get(
-                urljoin(base_url, f'projects/{args.customer}/{args.project}/modes'),
+                urljoin(base_url, f'kins/{args.blueprint}/{args.kin}/modes'),
                 params=params
             )
             handle_response(response, args.verbose)

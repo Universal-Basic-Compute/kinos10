@@ -4,162 +4,162 @@ import json
 import re
 import datetime
 import requests
-from config import CUSTOMERS_DIR, logger
-from services.file_service import get_project_path, initialize_project
+from config import blueprintS_DIR, logger
+from services.file_service import get_kin_path, initialize_kin
 from services.claude_service import build_context
 from services.aider_service import call_aider_with_context
 
-projects_bp = Blueprint('projects', __name__)
+kins_bp = Blueprint('kins', __name__)
 
-@projects_bp.route('/projects', methods=['POST'])
-def create_project():
+@kins_bp.route('/kins', methods=['POST'])
+def create_kin():
     """
-    Endpoint to initialize a new project.
+    Endpoint to initialize a new kin.
     """
     try:
         data = request.json
-        project_name = data.get('project_name', '')
-        customer = data.get('customer', '')
+        kin_name = data.get('kin_name', '')
+        blueprint = data.get('blueprint', '')
         template_override = data.get('template_override')
         
-        if not project_name:
-            return jsonify({"error": "Project name is required"}), 400
+        if not kin_name:
+            return jsonify({"error": "kin name is required"}), 400
         
-        if not customer:
-            return jsonify({"error": "Customer is required"}), 400
+        if not blueprint:
+            return jsonify({"error": "blueprint is required"}), 400
         
-        # Use project_name as project_id if it's a simple name (no spaces or special chars)
-        if re.match(r'^[a-zA-Z0-9_-]+$', project_name):
-            project_id = project_name
+        # Use kin_name as kin_id if it's a simple name (no spaces or special chars)
+        if re.match(r'^[a-zA-Z0-9_-]+$', kin_name):
+            kin_id = kin_name
         else:
-            project_id = None  # Let the function generate a UUID
+            kin_id = None  # Let the function generate a UUID
         
-        project_id = initialize_project(customer, project_name, template_override, project_id)
+        kin_id = initialize_kin(blueprint, kin_name, template_override, kin_id)
         
         return jsonify({
-            "project_id": project_id,
-            "customer": customer,
+            "kin_id": kin_id,
+            "blueprint": blueprint,
             "status": "created"
         })
         
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     except Exception as e:
-        logger.error(f"Error creating project: {str(e)}")
+        logger.error(f"Error creating kin: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/projects/<customer>/projects', methods=['GET'])
-def get_customer_projects(customer):
+@kins_bp.route('/kins/<blueprint>/kins', methods=['GET'])
+def get_blueprint_kins(blueprint):
     """
-    Endpoint to get a list of projects for a customer.
+    Endpoint to get a list of kins for a blueprint.
     """
     try:
-        # Validate customer
-        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
-        if not os.path.exists(customer_dir):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint
+        blueprint_dir = os.path.join(blueprintS_DIR, blueprint)
+        if not os.path.exists(blueprint_dir):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
         
-        # Get list of projects
-        projects = ["template"]  # Always include template
+        # Get list of kins
+        kins = ["template"]  # Always include template
         
-        # Add other projects if they exist
-        projects_dir = os.path.join(customer_dir, "projects")
-        if os.path.exists(projects_dir):
-            for project_id in os.listdir(projects_dir):
-                project_path = os.path.join(projects_dir, project_id)
-                if os.path.isdir(project_path):
-                    projects.append(project_id)
+        # Add other kins if they exist
+        kins_dir = os.path.join(blueprint_dir, "kins")
+        if os.path.exists(kins_dir):
+            for kin_id in os.listdir(kins_dir):
+                kin_path = os.path.join(kins_dir, kin_id)
+                if os.path.isdir(kin_path):
+                    kins.append(kin_id)
         
-        return jsonify({"projects": projects})
+        return jsonify({"kins": kins})
         
     except Exception as e:
-        logger.error(f"Error getting customer projects: {str(e)}")
+        logger.error(f"Error getting blueprint kins: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/customers', methods=['GET'])
-def get_customers():
+@kins_bp.route('/blueprints', methods=['GET'])
+def get_blueprints():
     """
-    Endpoint to get a list of all customers.
+    Endpoint to get a list of all blueprints.
     """
     try:
-        # Get list of all customers
-        customers = []
-        if os.path.exists(CUSTOMERS_DIR):
-            customers = [d for d in os.listdir(CUSTOMERS_DIR) 
-                        if os.path.isdir(os.path.join(CUSTOMERS_DIR, d))]
+        # Get list of all blueprints
+        blueprints = []
+        if os.path.exists(blueprintS_DIR):
+            blueprints = [d for d in os.listdir(blueprintS_DIR) 
+                        if os.path.isdir(os.path.join(blueprintS_DIR, d))]
         
         return jsonify({
-            "customers": customers
+            "blueprints": blueprints
         })
         
     except Exception as e:
-        logger.error(f"Error getting customers: {str(e)}")
+        logger.error(f"Error getting blueprints: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/projects/all', methods=['GET'])
-def get_all_projects():
+@kins_bp.route('/kins/all', methods=['GET'])
+def get_all_kins():
     """
-    Endpoint to get all customers and their projects.
+    Endpoint to get all blueprints and their kins.
     """
     try:
-        # Get list of all customers
-        customers = []
-        if os.path.exists(CUSTOMERS_DIR):
-            customers = [d for d in os.listdir(CUSTOMERS_DIR) 
-                        if os.path.isdir(os.path.join(CUSTOMERS_DIR, d))]
+        # Get list of all blueprints
+        blueprints = []
+        if os.path.exists(blueprintS_DIR):
+            blueprints = [d for d in os.listdir(blueprintS_DIR) 
+                        if os.path.isdir(os.path.join(blueprintS_DIR, d))]
         
-        # Get projects for each customer
-        all_projects = {}
-        for customer in customers:
-            projects = ["template"]  # Always include template
+        # Get kins for each blueprint
+        all_kins = {}
+        for blueprint in blueprints:
+            kins = ["template"]  # Always include template
             
-            # Add other projects if they exist
-            projects_dir = os.path.join(CUSTOMERS_DIR, customer, "projects")
-            if os.path.exists(projects_dir):
-                for project_id in os.listdir(projects_dir):
-                    project_path = os.path.join(projects_dir, project_id)
-                    if os.path.isdir(project_path):
-                        projects.append(project_id)
+            # Add other kins if they exist
+            kins_dir = os.path.join(blueprintS_DIR, blueprint, "kins")
+            if os.path.exists(kins_dir):
+                for kin_id in os.listdir(kins_dir):
+                    kin_path = os.path.join(kins_dir, kin_id)
+                    if os.path.isdir(kin_path):
+                        kins.append(kin_id)
             
-            all_projects[customer] = projects
+            all_kins[blueprint] = kins
         
         return jsonify({
-            "customers": customers,
-            "projects": all_projects
+            "blueprints": blueprints,
+            "kins": all_kins
         })
         
     except Exception as e:
-        logger.error(f"Error getting all projects: {str(e)}")
+        logger.error(f"Error getting all kins: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/customers/<customer>/initialize', methods=['POST'])
-def initialize_customer(customer):
+@kins_bp.route('/blueprints/<blueprint>/initialize', methods=['POST'])
+def initialize_blueprint(blueprint):
     """
-    Endpoint to manually initialize a customer.
+    Endpoint to manually initialize a blueprint.
     """
     try:
-        # Path to templates in the project
-        project_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
-        customer_template_dir = os.path.join(project_templates_dir, customer, "template")
+        # Path to templates in the kin
+        kin_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "blueprints")
+        blueprint_template_dir = os.path.join(kin_templates_dir, blueprint, "template")
         
-        # Check if customer template exists in project
-        if not os.path.exists(customer_template_dir) or not os.path.isdir(customer_template_dir):
-            return jsonify({"error": f"Customer template '{customer}' not found in project"}), 404
+        # Check if blueprint template exists in kin
+        if not os.path.exists(blueprint_template_dir) or not os.path.isdir(blueprint_template_dir):
+            return jsonify({"error": f"blueprint template '{blueprint}' not found in kin"}), 404
         
-        # Create customer directory if it doesn't exist
-        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
-        if not os.path.exists(customer_dir):
-            logger.info(f"Creating customer directory: {customer_dir}")
-            os.makedirs(customer_dir, exist_ok=True)
+        # Create blueprint directory if it doesn't exist
+        blueprint_dir = os.path.join(blueprintS_DIR, blueprint)
+        if not os.path.exists(blueprint_dir):
+            logger.info(f"Creating blueprint directory: {blueprint_dir}")
+            os.makedirs(blueprint_dir, exist_ok=True)
         
-        # Create projects directory if it doesn't exist
-        projects_dir = os.path.join(customer_dir, "projects")
-        if not os.path.exists(projects_dir):
-            logger.info(f"Creating projects directory: {projects_dir}")
-            os.makedirs(projects_dir, exist_ok=True)
+        # Create kins directory if it doesn't exist
+        kins_dir = os.path.join(blueprint_dir, "kins")
+        if not os.path.exists(kins_dir):
+            logger.info(f"Creating kins directory: {kins_dir}")
+            os.makedirs(kins_dir, exist_ok=True)
         
         # Copy template (overwrite if exists)
-        dest_template_dir = os.path.join(customer_dir, "template")
+        dest_template_dir = os.path.join(blueprint_dir, "template")
         if os.path.exists(dest_template_dir):
             import shutil
             try:
@@ -183,7 +183,7 @@ def initialize_customer(customer):
                 except:
                     pass
         
-        logger.info(f"Copying template for customer {customer} to app data")
+        logger.info(f"Copying template for blueprint {blueprint} to app data")
         
         # Custom copy function to skip .git directory and handle permission errors
         def custom_copy_tree(src, dst):
@@ -211,16 +211,16 @@ def initialize_customer(customer):
                 logger.warning(f"Error in custom_copy_tree for {src} to {dst}: {str(e)}")
         
         # Use custom copy function instead of shutil.copytree
-        custom_copy_tree(customer_template_dir, dest_template_dir)
+        custom_copy_tree(blueprint_template_dir, dest_template_dir)
         
-        return jsonify({"status": "success", "message": f"Customer '{customer}' initialized"})
+        return jsonify({"status": "success", "message": f"blueprint '{blueprint}' initialized"})
         
     except Exception as e:
-        logger.error(f"Error initializing customer: {str(e)}")
+        logger.error(f"Error initializing blueprint: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/projects/<customer>/<project_id>/build', methods=['POST'])
-def build_project(customer, project_id):
+@kins_bp.route('/kins/<blueprint>/<kin_id>/build', methods=['POST'])
+def build_kin(blueprint, kin_id):
     """
     Endpoint to send a message to Aider for file creation/modification without Claude response.
     Similar to the messages endpoint but only processes with Aider and returns its response.
@@ -236,18 +236,18 @@ def build_project(customer, project_id):
         addSystem = data.get('addSystem', None)  # Optional additional system instructions
         attachments = data.get('attachments', [])
         
-        # Validate customer
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        project_path = get_project_path(customer, project_id)
+        kin_path = get_kin_path(blueprint, kin_id)
         
-        # Check if project exists
-        if not os.path.exists(project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        # Check if kin exists
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Build context (select relevant files)
-        selected_files = build_context(customer, project_id, message_content, attachments, project_path, None, None, addSystem)
+        selected_files = build_context(blueprint, kin_id, message_content, attachments, kin_path, None, None, addSystem)
         
         # Log the selected files
         logger.info(f"Selected files for build context: {selected_files}")
@@ -255,7 +255,7 @@ def build_project(customer, project_id):
         # Call Aider with the selected context and wait for response
         try:
             # Call Aider synchronously (not in a thread)
-            aider_response = call_aider_with_context(project_path, selected_files, message_content, addSystem=addSystem)
+            aider_response = call_aider_with_context(kin_path, selected_files, message_content, addSystem=addSystem)
             logger.info("Aider processing completed")
             
             # Return the Aider response
@@ -272,45 +272,45 @@ def build_project(customer, project_id):
         logger.error(f"Error processing build request: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/projects/<customer>/<project_id>/reset', methods=['POST'])
-def reset_project(customer, project_id):
+@kins_bp.route('/kins/<blueprint>/<kin_id>/reset', methods=['POST'])
+def reset_kin(blueprint, kin_id):
     """
-    Endpoint to reset a project to its initial template state.
+    Endpoint to reset a kin to its initial template state.
     """
     try:
-        # Validate customer
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        # Get the project path
-        project_path = get_project_path(customer, project_id)
-        if not os.path.exists(project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        # Get the kin path
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Get the template path
-        template_path = os.path.join(CUSTOMERS_DIR, customer, "template")
+        template_path = os.path.join(blueprintS_DIR, blueprint, "template")
         if not os.path.exists(template_path):
-            return jsonify({"error": f"Template not found for customer '{customer}'"}), 404
+            return jsonify({"error": f"Template not found for blueprint '{blueprint}'"}), 404
         
-        # Backup the project name before deleting
-        project_name = project_id  # Use project_id as fallback
-        project_info_path = os.path.join(project_path, "project_info.json")
-        if os.path.exists(project_info_path):
+        # Backup the kin name before deleting
+        kin_name = kin_id  # Use kin_id as fallback
+        kin_info_path = os.path.join(kin_path, "kin_info.json")
+        if os.path.exists(kin_info_path):
             try:
-                with open(project_info_path, 'r') as f:
-                    project_info = json.load(f)
-                    project_name = project_info.get('name', project_id)
+                with open(kin_info_path, 'r') as f:
+                    kin_info = json.load(f)
+                    kin_name = kin_info.get('name', kin_id)
             except:
-                logger.warning(f"Could not read project_info.json for {customer}/{project_id}")
+                logger.warning(f"Could not read kin_info.json for {blueprint}/{kin_id}")
         
-        # Delete the project directory
+        # Delete the kin directory
         import shutil
         try:
-            shutil.rmtree(project_path)
+            shutil.rmtree(kin_path)
         except PermissionError:
-            logger.warning(f"Permission error removing {project_path}, trying to remove files individually")
+            logger.warning(f"Permission error removing {kin_path}, trying to remove files individually")
             # Try to remove files individually
-            for root, dirs, files in os.walk(project_path, topdown=False):
+            for root, dirs, files in os.walk(kin_path, topdown=False):
                 for name in files:
                     try:
                         os.remove(os.path.join(root, name))
@@ -322,88 +322,88 @@ def reset_project(customer, project_id):
                     except:
                         pass
             try:
-                os.rmdir(project_path)
+                os.rmdir(kin_path)
             except:
-                return jsonify({"error": f"Could not completely remove project directory. Please try again."}), 500
+                return jsonify({"error": f"Could not completely remove kin directory. Please try again."}), 500
         
-        # Reinitialize the project from template
-        initialize_project(customer, project_name, project_id=project_id)
+        # Reinitialize the kin from template
+        initialize_kin(blueprint, kin_name, kin_id=kin_id)
         
         return jsonify({
             "status": "success",
-            "message": f"Project '{project_id}' has been reset to template state"
+            "message": f"kin '{kin_id}' has been reset to template state"
         })
         
     except Exception as e:
-        logger.error(f"Error resetting project: {str(e)}")
+        logger.error(f"Error resetting kin: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/customers/<customer>/reset', methods=['POST'])
-def reset_customer(customer):
+@kins_bp.route('/blueprints/<blueprint>/reset', methods=['POST'])
+def reset_blueprint(blueprint):
     """
-    Endpoint to reset a customer and all its projects to initial template state.
-    If the customer doesn't exist, it will be created.
+    Endpoint to reset a blueprint and all its kins to initial template state.
+    If the blueprint doesn't exist, it will be created.
     """
     try:
-        # Check if customer exists
-        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
-        if not os.path.exists(customer_dir):
-            logger.info(f"Customer '{customer}' not found, creating it")
+        # Check if blueprint exists
+        blueprint_dir = os.path.join(blueprintS_DIR, blueprint)
+        if not os.path.exists(blueprint_dir):
+            logger.info(f"blueprint '{blueprint}' not found, creating it")
             
-            # Create customer directory
-            os.makedirs(customer_dir, exist_ok=True)
+            # Create blueprint directory
+            os.makedirs(blueprint_dir, exist_ok=True)
             
-            # Create projects directory
-            projects_dir = os.path.join(customer_dir, "projects")
-            os.makedirs(projects_dir, exist_ok=True)
+            # Create kins directory
+            kins_dir = os.path.join(blueprint_dir, "kins")
+            os.makedirs(kins_dir, exist_ok=True)
         
-        # First, reinitialize the customer template
-        # This will ensure we have the latest template from the project
-        response = initialize_customer(customer)
+        # First, reinitialize the blueprint template
+        # This will ensure we have the latest template from the kin
+        response = initialize_blueprint(blueprint)
         if isinstance(response, tuple) and response[1] != 200:
-            # If initialize_customer returned an error, pass it through
+            # If initialize_blueprint returned an error, pass it through
             return response
         
-        # Get list of projects
-        projects_dir = os.path.join(customer_dir, "projects")
-        if not os.path.exists(projects_dir):
-            # No projects directory, nothing more to do
+        # Get list of kins
+        kins_dir = os.path.join(blueprint_dir, "kins")
+        if not os.path.exists(kins_dir):
+            # No kins directory, nothing more to do
             return jsonify({
                 "status": "success",
-                "message": f"Customer '{customer}' has been reset (no projects found)"
+                "message": f"blueprint '{blueprint}' has been reset (no kins found)"
             })
         
-        # Get all projects for this customer
-        projects = []
-        for project_id in os.listdir(projects_dir):
-            project_path = os.path.join(projects_dir, project_id)
-            if os.path.isdir(project_path):
-                projects.append(project_id)
+        # Get all kins for this blueprint
+        kins = []
+        for kin_id in os.listdir(kins_dir):
+            kin_path = os.path.join(kins_dir, kin_id)
+            if os.path.isdir(kin_path):
+                kins.append(kin_id)
         
-        # Reset each project
+        # Reset each kin
         reset_results = []
-        for project_id in projects:
+        for kin_id in kins:
             try:
-                # Get project name before resetting
-                project_name = project_id  # Default fallback
-                project_info_path = os.path.join(projects_dir, project_id, "project_info.json")
-                if os.path.exists(project_info_path):
+                # Get kin name before resetting
+                kin_name = kin_id  # Default fallback
+                kin_info_path = os.path.join(kins_dir, kin_id, "kin_info.json")
+                if os.path.exists(kin_info_path):
                     try:
-                        with open(project_info_path, 'r') as f:
-                            project_info = json.load(f)
-                            project_name = project_info.get('name', project_id)
+                        with open(kin_info_path, 'r') as f:
+                            kin_info = json.load(f)
+                            kin_name = kin_info.get('name', kin_id)
                     except:
-                        logger.warning(f"Could not read project_info.json for {customer}/{project_id}")
+                        logger.warning(f"Could not read kin_info.json for {blueprint}/{kin_id}")
                 
-                # Delete the project directory
-                project_path = os.path.join(projects_dir, project_id)
+                # Delete the kin directory
+                kin_path = os.path.join(kins_dir, kin_id)
                 import shutil
                 try:
-                    shutil.rmtree(project_path)
+                    shutil.rmtree(kin_path)
                 except PermissionError:
-                    logger.warning(f"Permission error removing {project_path}, trying to remove files individually")
+                    logger.warning(f"Permission error removing {kin_path}, trying to remove files individually")
                     # Try to remove files individually
-                    for root, dirs, files in os.walk(project_path, topdown=False):
+                    for root, dirs, files in os.walk(kin_path, topdown=False):
                         for name in files:
                             try:
                                 os.remove(os.path.join(root, name))
@@ -415,61 +415,61 @@ def reset_customer(customer):
                             except:
                                 pass
                     try:
-                        os.rmdir(project_path)
+                        os.rmdir(kin_path)
                     except:
                         reset_results.append({
-                            "project_id": project_id,
+                            "kin_id": kin_id,
                             "status": "error",
-                            "message": "Could not completely remove project directory"
+                            "message": "Could not completely remove kin directory"
                         })
                         continue
                 
-                # Reinitialize the project from template
-                initialize_project(customer, project_name, project_id=project_id)
+                # Reinitialize the kin from template
+                initialize_kin(blueprint, kin_name, kin_id=kin_id)
                 
                 reset_results.append({
-                    "project_id": project_id,
+                    "kin_id": kin_id,
                     "status": "success",
-                    "message": f"Project reset to template state"
+                    "message": f"kin reset to template state"
                 })
                 
             except Exception as e:
-                logger.error(f"Error resetting project {project_id}: {str(e)}")
+                logger.error(f"Error resetting kin {kin_id}: {str(e)}")
                 reset_results.append({
-                    "project_id": project_id,
+                    "kin_id": kin_id,
                     "status": "error",
                     "message": str(e)
                 })
         
         return jsonify({
             "status": "success",
-            "message": f"Customer '{customer}' has been reset",
-            "projects_reset": len(reset_results),
+            "message": f"blueprint '{blueprint}' has been reset",
+            "kins_reset": len(reset_results),
             "results": reset_results
         })
         
     except Exception as e:
-        logger.error(f"Error resetting customer: {str(e)}")
+        logger.error(f"Error resetting blueprint: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/projects/<customer>/<project_id>/git_history', methods=['GET'])
-def get_git_history(customer, project_id):
+@kins_bp.route('/kins/<blueprint>/<kin_id>/git_history', methods=['GET'])
+def get_git_history(blueprint, kin_id):
     """
-    Endpoint to get Git commit history for a project.
+    Endpoint to get Git commit history for a kin.
     """
     try:
-        # Validate customer and project
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        project_path = get_project_path(customer, project_id)
-        if not os.path.exists(project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Check if .git directory exists
-        git_dir = os.path.join(project_path, ".git")
+        git_dir = os.path.join(kin_path, ".git")
         if not os.path.exists(git_dir) or not os.path.isdir(git_dir):
-            return jsonify({"error": "No Git repository found for this project"}), 404
+            return jsonify({"error": "No Git repository found for this kin"}), 404
         
         # Get git commit history using git log
         try:
@@ -477,7 +477,7 @@ def get_git_history(customer, project_id):
             import subprocess
             result = subprocess.run(
                 ["git", "log", "--pretty=format:%h|%an|%ad|%s", "--date=short", "-n", "20"],
-                cwd=project_path,
+                cwd=kin_path,
                 text=True,
                 capture_output=True,
                 check=True
@@ -507,22 +507,22 @@ def get_git_history(customer, project_id):
         logger.error(f"Error getting Git history: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/projects/<customer>/<project_id>/modes', methods=['GET'])
-def get_project_modes(customer, project_id):
+@kins_bp.route('/kins/<blueprint>/<kin_id>/modes', methods=['GET'])
+def get_kin_modes(blueprint, kin_id):
     """
-    Endpoint to get available modes for a project.
+    Endpoint to get available modes for a kin.
     """
     try:
-        # Validate customer and project
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        project_path = get_project_path(customer, project_id)
-        if not os.path.exists(project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Check for modes directory
-        modes_dir = os.path.join(project_path, "modes")
+        modes_dir = os.path.join(kin_path, "modes")
         if not os.path.exists(modes_dir):
             return jsonify({"modes": []})
         
@@ -551,29 +551,29 @@ def get_project_modes(customer, project_id):
         return jsonify({"modes": modes})
         
     except Exception as e:
-        logger.error(f"Error getting project modes: {str(e)}")
+        logger.error(f"Error getting kin modes: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/customers/create_analysis_mode', methods=['POST'])
+@kins_bp.route('/blueprints/create_analysis_mode', methods=['POST'])
 def create_analysis_mode():
     """
-    Endpoint to create or replace the analysis mode file for each customer.
-    This ensures that each customer template has a proper modes/analysis.txt file.
+    Endpoint to create or replace the analysis mode file for each blueprint.
+    This ensures that each blueprint template has a proper modes/analysis.txt file.
     """
     try:
-        # Get list of customers from request or use all available customers
+        # Get list of blueprints from request or use all available blueprints
         data = request.json or {}
-        customers = data.get('customers', None)
+        blueprints = data.get('blueprints', None)
         
-        # If no customers specified, get all available customers
-        if not customers:
-            if os.path.exists(CUSTOMERS_DIR):
-                customers = [d for d in os.listdir(CUSTOMERS_DIR) 
-                            if os.path.isdir(os.path.join(CUSTOMERS_DIR, d))]
-                logger.info(f"Processing all customers: {customers}")
+        # If no blueprints specified, get all available blueprints
+        if not blueprints:
+            if os.path.exists(blueprintS_DIR):
+                blueprints = [d for d in os.listdir(blueprintS_DIR) 
+                            if os.path.isdir(os.path.join(blueprintS_DIR, d))]
+                logger.info(f"Processing all blueprints: {blueprints}")
             else:
-                logger.error(f"Customers directory not found: {CUSTOMERS_DIR}")
-                return jsonify({"error": "Customers directory not found"}), 500
+                logger.error(f"blueprints directory not found: {blueprintS_DIR}")
+                return jsonify({"error": "blueprints directory not found"}), 500
         
         # Standard content for the analysis.txt file
         analysis_content = """# Analysis Mode: Informative Responses Without Memorization
@@ -606,18 +606,18 @@ This mode is particularly useful for:
 Your goal is to provide useful and accurate information while maintaining a clear separation between this interaction and your long-term memory.
 """
         
-        # Process each customer
+        # Process each blueprint
         results = []
-        for customer in customers:
-            result = {"customer": customer}
+        for blueprint in blueprints:
+            result = {"blueprint": blueprint}
             
-            # Path to the customer template directory
-            template_dir = os.path.join(CUSTOMERS_DIR, customer, "template")
-            logger.info(f"Processing customer {customer}, template dir: {template_dir}")
+            # Path to the blueprint template directory
+            template_dir = os.path.join(blueprintS_DIR, blueprint, "template")
+            logger.info(f"Processing blueprint {blueprint}, template dir: {template_dir}")
             
             # Check if template directory exists
             if not os.path.exists(template_dir):
-                logger.warning(f"Template directory not found for customer {customer}: {template_dir}")
+                logger.warning(f"Template directory not found for blueprint {blueprint}: {template_dir}")
                 result["status"] = "error"
                 result["message"] = f"Template directory not found: {template_dir}"
                 results.append(result)
@@ -633,7 +633,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
                     logger.info(f"Creating modes directory: {modes_dir}")
                     os.makedirs(modes_dir, exist_ok=True)
                 except Exception as e:
-                    logger.error(f"Error creating modes directory for {customer}: {str(e)}")
+                    logger.error(f"Error creating modes directory for {blueprint}: {str(e)}")
                     result["status"] = "error"
                     result["message"] = f"Error creating modes directory: {str(e)}"
                     results.append(result)
@@ -645,7 +645,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
             
             # Create or replace the analysis.txt file
             try:
-                logger.info(f"Writing analysis.txt file for {customer}")
+                logger.info(f"Writing analysis.txt file for {blueprint}")
                 with open(analysis_file, 'w', encoding='utf-8') as f:
                     f.write(analysis_content)
                 result["status"] = "success"
@@ -654,13 +654,13 @@ Your goal is to provide useful and accurate information while maintaining a clea
                 # Verify the file was actually created
                 if os.path.exists(analysis_file):
                     file_size = os.path.getsize(analysis_file)
-                    logger.info(f"Successfully created analysis.txt for {customer}, size: {file_size} bytes")
+                    logger.info(f"Successfully created analysis.txt for {blueprint}, size: {file_size} bytes")
                 else:
                     logger.warning(f"File not found after creation attempt: {analysis_file}")
                     result["status"] = "error"
                     result["message"] = "File not found after creation attempt"
             except Exception as e:
-                logger.error(f"Error creating analysis.txt for {customer}: {str(e)}")
+                logger.error(f"Error creating analysis.txt for {blueprint}: {str(e)}")
                 result["status"] = "error"
                 result["message"] = f"Error creating analysis.txt: {str(e)}"
             
@@ -675,10 +675,10 @@ Your goal is to provide useful and accurate information while maintaining a clea
         logger.error(f"Error creating analysis mode files: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/projects/<customer>/<project_id>/analysis', methods=['POST'])
-def analyze_project(customer, project_id):
+@kins_bp.route('/kins/<blueprint>/<kin_id>/analysis', methods=['POST'])
+def analyze_kin(blueprint, kin_id):
     """
-    Endpoint to analyze a project with Claude without modifying files.
+    Endpoint to analyze a kin with Claude without modifying files.
     Similar to the messages endpoint but specifically for analysis purposes.
     """
     try:
@@ -691,35 +691,35 @@ def analyze_project(customer, project_id):
         if not message_content:
             return jsonify({"error": "Message is required"}), 400
         
-        # Validate customer and project
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        project_path = get_project_path(customer, project_id)
-        if not os.path.exists(project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Build context (select relevant files)
-        selected_files = build_context(customer, project_id, message_content, project_path=project_path)
+        selected_files = build_context(blueprint, kin_id, message_content, kin_path=kin_path)
         
         # Log the selected files
         logger.info(f"Selected files for analysis: {selected_files}")
         
-        # Use Claude to analyze the project
+        # Use Claude to analyze the kin
         from services.claude_service import call_claude_with_context
         
         # Add specific system instructions for analysis mode
         analysis_system_instructions = """
-        You are in analysis mode. Your task is to analyze the project and provide insights without modifying any files.
+        You are in analysis mode. Your task is to analyze the kin and provide insights without modifying any files.
         Focus on explaining the code, architecture, and design patterns.
         Provide detailed explanations and suggestions for improvement if asked.
         Do not generate code modifications or file changes unless explicitly requested.
         """
         
-        # Call Claude to analyze the project
+        # Call Claude to analyze the kin
         claude_response = call_claude_with_context(
             selected_files, 
-            project_path, 
+            kin_path, 
             message_content,
             model=model,
             is_new_message=False,
@@ -732,11 +732,11 @@ def analyze_project(customer, project_id):
         })
         
     except Exception as e:
-        logger.error(f"Error analyzing project: {str(e)}")
+        logger.error(f"Error analyzing kin: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@projects_bp.route('/projects/<customer>/<project_id>/image', methods=['POST'])
-def generate_project_image(customer, project_id):
+@kins_bp.route('/kins/<blueprint>/<kin_id>/image', methods=['POST'])
+def generate_kin_image(blueprint, kin_id):
     """
     Endpoint to generate an image based on a message using Ideogram API.
     Uses Claude to create a detailed prompt based on the message and context.
@@ -755,16 +755,16 @@ def generate_project_image(customer, project_id):
         if not message_content:
             return jsonify({"error": "Message is required"}), 400
         
-        # Validate customer and project
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        project_path = get_project_path(customer, project_id)
-        if not os.path.exists(project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Build context (select relevant files)
-        selected_files = build_context(customer, project_id, message_content, project_path=project_path)
+        selected_files = build_context(blueprint, kin_id, message_content, kin_path=kin_path)
         
         # Log the selected files
         logger.info(f"Selected files for image generation context: {selected_files}")
@@ -788,7 +788,7 @@ def generate_project_image(customer, project_id):
         # Call Claude to create the prompt
         claude_response = call_claude_with_context(
             selected_files, 
-            project_path, 
+            kin_path, 
             f"Create a detailed image generation prompt based on this request: {message_content}",
             model="claude-3-5-haiku-latest",
             is_new_message=False,
@@ -809,8 +809,8 @@ def generate_project_image(customer, project_id):
         if "error" in result:
             return jsonify(result), 500
         
-        # Save the image to the project's images directory
-        images_dir = os.path.join(project_path, "images")
+        # Save the image to the kin's images directory
+        images_dir = os.path.join(kin_path, "images")
         os.makedirs(images_dir, exist_ok=True)
         
         # Get the image URL from the response

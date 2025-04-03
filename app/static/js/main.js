@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     // DOM elements
-    const customerSelect = document.getElementById('customer-select');
-    const projectSelect = document.getElementById('project-select');
-    const createProjectBtn = document.getElementById('create-project-btn');
-    const initializeCustomerBtn = document.getElementById('initialize-customer-btn');
+    const blueprintSelect = document.getElementById('blueprint-select');
+    const kinSelect = document.getElementById('kin-select');
+    const createkinBtn = document.getElementById('create-kin-btn');
+    const initializeblueprintBtn = document.getElementById('initialize-blueprint-btn');
     const viewAiderLogsBtn = document.getElementById('view-aider-logs-btn');
     const viewGitHistoryBtn = document.getElementById('view-git-history-btn');
     const messageInput = document.getElementById('message-input');
@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const screenshotBtn = document.getElementById('screenshot-btn');
     
     // Modal elements
-    const modal = document.getElementById('create-project-modal');
+    const modal = document.getElementById('create-kin-modal');
     const closeModal = document.querySelector('.close');
-    const projectNameInput = document.getElementById('project-name');
+    const kinNameInput = document.getElementById('kin-name');
     const confirmCreateBtn = document.getElementById('confirm-create-btn');
     
     // File browser elements
@@ -38,25 +38,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const gitHistoryTbody = document.getElementById('git-history-tbody');
     
     // Current state
-    let currentCustomer = customerSelect.value;
-    let currentProject = projectSelect.value;
+    let currentblueprint = blueprintSelect.value;
+    let currentkin = kinSelect.value;
     let messageHistory = [];
     let pollingInterval = null;
     let lastMessageTimestamp = null;
     let capturedImages = [];
     
     // Initialize
-    loadProjects(currentCustomer);
+    loadkins(currentblueprint);
     
     // Event listeners
-    customerSelect.addEventListener('change', function() {
-        currentCustomer = this.value;
-        loadProjects(currentCustomer);
-        // loadMessages will be called after projects are loaded
+    blueprintSelect.addEventListener('change', function() {
+        currentblueprint = this.value;
+        loadkins(currentblueprint);
+        // loadMessages will be called after kins are loaded
     });
     
-    projectSelect.addEventListener('change', function() {
-        currentProject = this.value;
+    kinSelect.addEventListener('change', function() {
+        currentkin = this.value;
         loadMessages();
     });
     
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('visibilitychange', function() {
         if (document.visibilityState === 'visible') {
             // Resume polling when page becomes visible
-            if (currentProject !== 'template') {
+            if (currentkin !== 'template') {
                 startPolling();
             }
         } else {
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    createProjectBtn.addEventListener('click', function() {
+    createkinBtn.addEventListener('click', function() {
         modal.style.display = 'block';
     });
     
@@ -82,17 +82,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     confirmCreateBtn.addEventListener('click', function() {
-        const projectName = projectNameInput.value.trim();
-        if (projectName) {
-            createProject(projectName);
+        const kinName = kinNameInput.value.trim();
+        if (kinName) {
+            createkin(kinName);
         }
     });
     
-    initializeCustomerBtn.addEventListener('click', function() {
-        const customer = customerSelect.value;
+    initializeblueprintBtn.addEventListener('click', function() {
+        const blueprint = blueprintSelect.value;
         
-        if (confirm(`Are you sure you want to initialize/reinitialize the '${customer}' customer?`)) {
-            fetch(`/api/proxy/customers/${customer}/initialize`, {
+        if (confirm(`Are you sure you want to initialize/reinitialize the '${blueprint}' blueprint?`)) {
+            fetch(`/api/proxy/blueprints/${blueprint}/initialize`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'  // Change content type
@@ -105,29 +105,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                logDebug(`Customer initialization: ${JSON.stringify(data)}`);
-                alert(`Customer '${customer}' initialized successfully.`);
+                logDebug(`blueprint initialization: ${JSON.stringify(data)}`);
+                alert(`blueprint '${blueprint}' initialized successfully.`);
                 
-                // Reload projects
-                loadProjects(customer);
+                // Reload kins
+                loadkins(blueprint);
             })
             .catch(error => {
-                console.error('Error initializing customer:', error);
-                logDebug('Error initializing customer: ' + error.message);
-                alert(`Error initializing customer: ${error.message}`);
+                console.error('Error initializing blueprint:', error);
+                logDebug('Error initializing blueprint: ' + error.message);
+                alert(`Error initializing blueprint: ${error.message}`);
             });
         }
     });
     
     viewAiderLogsBtn.addEventListener('click', function() {
         // Only show logs if not on template
-        if (currentProject === 'template') {
-            alert('Aider logs are not available for template projects.');
+        if (currentkin === 'template') {
+            alert('Aider logs are not available for template kins.');
             return;
         }
         
         // Fetch and display Aider logs
-        fetch(`/api/proxy/projects/${currentCustomer}/${currentProject}/aider_logs`)
+        fetch(`/api/proxy/kins/${currentblueprint}/${currentkin}/aider_logs`)
             .then(response => response.json())
             .then(data => {
                 aiderLogsContent.textContent = data.logs;
@@ -146,13 +146,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     viewGitHistoryBtn.addEventListener('click', function() {
         // Only show history if not on template
-        if (currentProject === 'template') {
-            alert('Git history is not available for template projects.');
+        if (currentkin === 'template') {
+            alert('Git history is not available for template kins.');
             return;
         }
         
         // Fetch and display Git history
-        fetch(`/api/proxy/projects/${currentCustomer}/${currentProject}/git_history`)
+        fetch(`/api/proxy/kins/${currentblueprint}/${currentkin}/git_history`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -266,23 +266,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Functions
-    function loadProjects(customer) {
-        fetch(`/api/proxy/projects/${customer}/projects`)
+    function loadkins(blueprint) {
+        fetch(`/api/proxy/kins/${blueprint}/kins`)
             .then(response => response.json())
             .then(data => {
-                projectSelect.innerHTML = '';
-                data.projects.forEach(project => {
+                kinSelect.innerHTML = '';
+                data.kins.forEach(kin => {
                     const option = document.createElement('option');
-                    option.value = project;
-                    option.textContent = project;
-                    projectSelect.appendChild(option);
+                    option.value = kin;
+                    option.textContent = kin;
+                    kinSelect.appendChild(option);
                 });
-                currentProject = projectSelect.value;
+                currentkin = kinSelect.value;
                 loadMessages();
             })
             .catch(error => {
-                console.error('Error loading projects:', error);
-                logDebug('Error loading projects: ' + error.message);
+                console.error('Error loading kins:', error);
+                logDebug('Error loading kins: ' + error.message);
             });
     }
     
@@ -299,8 +299,8 @@ document.addEventListener('DOMContentLoaded', function() {
         loadFileTree();
         
         // Only load messages if not using template
-        if (currentProject !== 'template') {
-            fetch(`/api/proxy/projects/${currentCustomer}/${currentProject}/messages`)
+        if (currentkin !== 'template') {
+            fetch(`/api/proxy/kins/${currentblueprint}/${currentkin}/messages`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.messages && data.messages.length > 0) {
@@ -407,15 +407,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to load the file tree
     function loadFileTree() {
-        // For both template and regular projects, we should load files
-        const projectPath = currentProject === 'template' ? 
-            `${currentCustomer}/template` : 
-            `${currentCustomer}/${currentProject}`;
+        // For both template and regular kins, we should load files
+        const kinPath = currentkin === 'template' ? 
+            `${currentblueprint}/template` : 
+            `${currentblueprint}/${currentkin}`;
         
         // First try to load .gitignore file
         let ignorePatterns = [];
         
-        fetch(`/api/proxy/projects/${projectPath}/files/.gitignore`)
+        fetch(`/api/proxy/kins/${kinPath}/files/.gitignore`)
             .then(response => {
                 if (response.ok) {
                     return response.text();
@@ -429,11 +429,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 // Now load the file list
-                return fetch(`/api/proxy/projects/${projectPath}/files`);
+                return fetch(`/api/proxy/kins/${kinPath}/files`);
             })
             .catch(() => {
                 // If .gitignore fetch fails, just continue with empty patterns
-                return fetch(`/api/proxy/projects/${projectPath}/files`);
+                return fetch(`/api/proxy/kins/${kinPath}/files`);
             })
             .then(response => response.json())
             .then(data => {
@@ -555,11 +555,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to open a file
     function openFile(filePath) {
-        const projectPath = currentProject === 'template' ? 
-            `${currentCustomer}/template` : 
-            `${currentCustomer}/${currentProject}`;
+        const kinPath = currentkin === 'template' ? 
+            `${currentblueprint}/template` : 
+            `${currentblueprint}/${currentkin}`;
         
-        fetch(`/api/proxy/projects/${projectPath}/files/${filePath}`)
+        fetch(`/api/proxy/kins/${kinPath}/files/${filePath}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -589,7 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
         pollingInterval = setInterval(pollMessages, 2000);
         
         // Log that polling has started
-        logDebug(`Started polling for ${currentCustomer}/${currentProject}`);
+        logDebug(`Started polling for ${currentblueprint}/${currentkin}`);
     }
     
     function stopPolling() {
@@ -602,12 +602,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function pollMessages() {
         // Only poll if we're not on the template
-        if (currentProject === 'template') {
+        if (currentkin === 'template') {
             return;
         }
         
         // Build URL with timestamp if we have one
-        let url = `/api/proxy/projects/${currentCustomer}/${currentProject}/messages`;
+        let url = `/api/proxy/kins/${currentblueprint}/${currentkin}/messages`;
         if (lastMessageTimestamp) {
             url += `?since=${encodeURIComponent(lastMessageTimestamp)}`;
         }
@@ -651,13 +651,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
-    function createProject(projectName) {
+    function createkin(kinName) {
         const data = {
-            project_name: projectName,
-            customer: currentCustomer
+            kin_name: kinName,
+            blueprint: currentblueprint
         };
         
-        fetch('/api/proxy/projects', {
+        fetch('/api/proxy/kins', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -667,15 +667,15 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             modal.style.display = 'none';
-            projectNameInput.value = '';
-            logDebug('Project created: ' + JSON.stringify(data));
+            kinNameInput.value = '';
+            logDebug('kin created: ' + JSON.stringify(data));
             
-            // Reload projects
-            loadProjects(currentCustomer);
+            // Reload kins
+            loadkins(currentblueprint);
         })
         .catch(error => {
-            console.error('Error creating project:', error);
-            logDebug('Error creating project: ' + error.message);
+            console.error('Error creating kin:', error);
+            logDebug('Error creating kin: ' + error.message);
         });
     }
     
@@ -772,9 +772,9 @@ document.addEventListener('DOMContentLoaded', function() {
             images: capturedImages
         };
         
-        logDebug(`Sending message to ${currentCustomer}/${currentProject}: ${content} with ${capturedImages.length} images`);
+        logDebug(`Sending message to ${currentblueprint}/${currentkin}: ${content} with ${capturedImages.length} images`);
         
-        fetch(`/api/proxy/projects/${currentCustomer}/${currentProject}/messages`, {
+        fetch(`/api/proxy/kins/${currentblueprint}/${currentkin}/messages`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

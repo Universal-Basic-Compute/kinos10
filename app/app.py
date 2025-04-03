@@ -30,42 +30,42 @@ else:
 @app.route('/')
 def index():
     """Render the main debug UI page."""
-    # Get list of customers
-    customers_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
-    customers = [d for d in os.listdir(customers_dir) if os.path.isdir(os.path.join(customers_dir, d))]
+    # Get list of blueprints
+    blueprints_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "blueprints")
+    blueprints = [d for d in os.listdir(blueprints_dir) if os.path.isdir(os.path.join(blueprints_dir, d))]
     
-    return render_template('index.html', customers=customers, default_customer="kinos", default_project="template")
+    return render_template('index.html', blueprints=blueprints, default_blueprint="kinos", default_kin="template")
 
-@app.route('/api/customers/<customer>/projects')
-def get_projects(customer):
-    """Get list of projects for a customer."""
+@app.route('/api/blueprints/<blueprint>/kins')
+def get_kins(blueprint):
+    """Get list of kins for a blueprint."""
     try:
-        # Try to get projects from the API first
-        url = f"{API_BASE_URL}/projects/{customer}/projects"
+        # Try to get kins from the API first
+        url = f"{API_BASE_URL}/kins/{blueprint}/kins"
         response = requests.get(url, timeout=10)
         
         if response.ok:
             return response.json()
     except Exception as e:
-        print(f"Error fetching projects from API: {str(e)}")
+        print(f"Error fetching kins from API: {str(e)}")
     
     # Fallback to local directory if API fails
     try:
-        customers_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
-        customer_dir = os.path.join(customers_dir, customer)
+        blueprints_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "blueprints")
+        blueprint_dir = os.path.join(blueprints_dir, blueprint)
         
         # Always include template
-        projects = ["template"]
+        kins = ["template"]
         
-        # Add other projects if they exist
-        projects_dir = os.path.join(customer_dir, "projects")
-        if os.path.exists(projects_dir):
-            projects.extend([d for d in os.listdir(projects_dir) if os.path.isdir(os.path.join(projects_dir, d))])
+        # Add other kins if they exist
+        kins_dir = os.path.join(blueprint_dir, "kins")
+        if os.path.exists(kins_dir):
+            kins.extend([d for d in os.listdir(kins_dir) if os.path.isdir(os.path.join(kins_dir, d))])
         
-        return jsonify({"projects": projects})
+        return jsonify({"kins": kins})
     except Exception as e:
-        print(f"Error getting local projects: {str(e)}")
-        return jsonify({"projects": ["template"], "error": str(e)})
+        print(f"Error getting local kins: {str(e)}")
+        return jsonify({"kins": ["template"], "error": str(e)})
 
 @app.route('/proxy/<path:endpoint>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def proxy_api(endpoint):

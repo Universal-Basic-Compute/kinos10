@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KinOS - Projects</title>
+    <title>KinOS - kins</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/project-map.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/kins.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/kin-map.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
@@ -36,29 +36,29 @@
         </div>
     </header>
 
-    <div class="projects-container">
+    <div class="kins-container">
         <div class="sidebar">
             <div class="sidebar-header">
-                <h2>Projects</h2>
+                <h2>kins</h2>
                 <button id="sidebar-toggle" class="sidebar-toggle">
                     <i class="fas fa-chevron-left"></i>
                 </button>
             </div>
             <div class="sidebar-content">
-                <!-- Projects will be loaded dynamically via JavaScript -->
+                <!-- kins will be loaded dynamically via JavaScript -->
                 <div class="loading">
-                    <p>Loading projects...</p>
+                    <p>Loading kins...</p>
                 </div>
             </div>
         </div>
         <div class="main-content">
             <div class="content-header">
-                <h1>{% if selected_project %}{{ selected_project }}{% else %}Project Explorer{% endif %}</h1>
+                <h1>{% if selected_kin %}{{ selected_kin }}{% else %}kin Explorer{% endif %}</h1>
             </div>
             <div class="content-body">
-                {% if selected_customer and selected_project %}
-                <div id="project-map-container" class="project-map-container" data-customer="{{ selected_customer }}" data-project="{{ selected_project }}">
-                    <div id="project-map"></div>
+                {% if selected_blueprint and selected_kin %}
+                <div id="kin-map-container" class="kin-map-container" data-blueprint="{{ selected_blueprint }}" data-kin="{{ selected_kin }}">
+                    <div id="kin-map"></div>
                 </div>
                 <div id="file-content-container" class="file-content-container" style="display: none;">
                     <div class="file-content-header">
@@ -70,7 +70,7 @@
                     <pre id="file-content" class="file-content"></pre>
                 </div>
                 {% else %}
-                <p>Select a project from the sidebar to view its map.</p>
+                <p>Select a kin from the sidebar to view its map.</p>
                 {% endif %}
             </div>
         </div>
@@ -105,7 +105,7 @@
                     <ul>
                         <li><a href="/#features">Features</a></li>
                         <li><a href="/#use-cases">Use Cases</a></li>
-                        <li><a href="/projects">Projects</a></li>
+                        <li><a href="/kins">kins</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -138,8 +138,8 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/projects.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/project-map.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/kins.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/kin-map.js') }}"></script>
     <script src="{{ url_for('static', filename='js/file-explorer.js') }}"></script>
 </body>
 </html>

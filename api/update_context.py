@@ -3,10 +3,10 @@
 Context Updater CLI Tool
 
 This script allows you to call the context updater (Aider) directly from the command line
-for a specific customer, project, and message.
+for a specific blueprint, kin, and message.
 
 Usage:
-    python update_context.py <customer> <project_id> "<message>"
+    python update_context.py <blueprint> <kin_id> "<message>"
 
 Example:
     python update_context.py kinos template "Remember that users prefer concise responses."
@@ -17,18 +17,18 @@ import sys
 import json
 import argparse
 import subprocess
-from config import CUSTOMERS_DIR, logger
-from services.file_service import get_project_path
+from config import blueprintS_DIR, logger
+from services.file_service import get_kin_path
 from services.claude_service import build_context
 from services.aider_service import call_aider_with_context
 
-def update_context(customer, project_id, message, stream=False):
+def update_context(blueprint, kin_id, message, stream=False):
     """
-    Update context files for a specific customer, project, and message.
+    Update context files for a specific blueprint, kin, and message.
     
     Args:
-        customer: Customer name
-        project_id: Project ID
+        blueprint: blueprint name
+        kin_id: kin ID
         message: Message content
         stream: Whether to stream the response (default: False)
     
@@ -36,27 +36,27 @@ def update_context(customer, project_id, message, stream=False):
         If stream=False: Aider response as a string
         If stream=True: Generator yielding response chunks
     """
-    # Validate customer
-    if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-        print(f"Error: Customer '{customer}' not found")
+    # Validate blueprint
+    if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+        print(f"Error: blueprint '{blueprint}' not found")
         return None
     
-    # Get project path
-    project_path = get_project_path(customer, project_id)
-    if not os.path.exists(project_path):
-        print(f"Error: Project '{project_id}' not found for customer '{customer}'")
+    # Get kin path
+    kin_path = get_kin_path(blueprint, kin_id)
+    if not os.path.exists(kin_path):
+        print(f"Error: kin '{kin_id}' not found for blueprint '{blueprint}'")
         return None
     
-    print(f"Updating context for {customer}/{project_id}")
+    print(f"Updating context for {blueprint}/{kin_id}")
     print(f"Message: {message}")
     
     # Build context (select relevant files)
-    selected_files = build_context(customer, project_id, message, project_path=project_path)
+    selected_files = build_context(blueprint, kin_id, message, kin_path=kin_path)
     print(f"Selected files for context: {selected_files}")
     
     # Call Aider with the selected context
     try:
-        aider_response = call_aider_with_context(project_path, selected_files, message, stream=stream)
+        aider_response = call_aider_with_context(kin_path, selected_files, message, stream=stream)
         if not stream:
             print("Context update completed successfully")
         return aider_response
@@ -68,9 +68,9 @@ def update_context(customer, project_id, message, stream=False):
         return None
 
 def main():
-    parser = argparse.ArgumentParser(description="Update context files for a specific customer and project")
-    parser.add_argument("customer", help="Customer name")
-    parser.add_argument("project_id", help="Project ID")
+    parser = argparse.ArgumentParser(description="Update context files for a specific blueprint and kin")
+    parser.add_argument("blueprint", help="blueprint name")
+    parser.add_argument("kin_id", help="kin ID")
     parser.add_argument("message", help="Message content")
     parser.add_argument("--output", "-o", help="Output file for Aider response (default: print to stdout)")
     parser.add_argument("--stream", "-s", action="store_true", help="Stream the response in real-time")
@@ -78,7 +78,7 @@ def main():
     args = parser.parse_args()
     
     # Call the update_context function
-    response = update_context(args.customer, args.project_id, args.message, stream=args.stream)
+    response = update_context(args.blueprint, args.kin_id, args.message, stream=args.stream)
     
     if response:
         if args.stream:

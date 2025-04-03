@@ -9,17 +9,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Fetch projects from API
-    fetchProjects();
+    // Fetch kins from API
+    fetchkins();
     
-    // Function to fetch projects from API
-    function fetchProjects() {
+    // Function to fetch kins from API
+    function fetchkins() {
         const sidebarContent = document.querySelector('.sidebar-content');
         if (sidebarContent) {
-            sidebarContent.innerHTML = '<div class="loading"><p>Loading projects...</p></div>';
+            sidebarContent.innerHTML = '<div class="loading"><p>Loading kins...</p></div>';
         }
         
-        fetch('/api/projects/all')
+        fetch('/api/kins/all')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -27,16 +27,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                // Render the customer sections
-                renderCustomers(data.customers, data.projects);
+                // Render the blueprint sections
+                renderblueprints(data.blueprints, data.kins);
             })
             .catch(error => {
-                console.error('Error fetching projects:', error);
+                console.error('Error fetching kins:', error);
                 // Show error message in sidebar
                 if (sidebarContent) {
                     sidebarContent.innerHTML = `
                         <div class="error-message">
-                            <p>Error loading projects. Please try again later.</p>
+                            <p>Error loading kins. Please try again later.</p>
                             <button id="retry-button" class="button primary">Retry</button>
                         </div>
                     `;
@@ -44,58 +44,58 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Add retry button functionality
                     const retryButton = document.getElementById('retry-button');
                     if (retryButton) {
-                        retryButton.addEventListener('click', fetchProjects);
+                        retryButton.addEventListener('click', fetchkins);
                     }
                 }
             });
     }
     
-    // Function to render customer sections
-    function renderCustomers(customers, projects) {
+    // Function to render blueprint sections
+    function renderblueprints(blueprints, kins) {
         const sidebarContent = document.querySelector('.sidebar-content');
         if (!sidebarContent) return;
         
         // Clear existing content
         sidebarContent.innerHTML = '';
         
-        // If no customers, show message
-        if (!customers || customers.length === 0) {
-            sidebarContent.innerHTML = '<p class="no-data">No customers found.</p>';
+        // If no blueprints, show message
+        if (!blueprints || blueprints.length === 0) {
+            sidebarContent.innerHTML = '<p class="no-data">No blueprints found.</p>';
             return;
         }
         
-        // Create customer sections
-        customers.forEach(customer => {
-            const customerProjects = projects[customer] || [];
+        // Create blueprint sections
+        blueprints.forEach(blueprint => {
+            const blueprintkins = kins[blueprint] || [];
             
-            const customerSection = document.createElement('div');
-            customerSection.className = 'customer-section';
+            const blueprintSection = document.createElement('div');
+            blueprintSection.className = 'blueprint-section';
             
-            const customerHeader = document.createElement('div');
-            customerHeader.className = 'customer-header';
-            customerHeader.innerHTML = `
-                <span class="customer-name">${customer}</span>
+            const blueprintHeader = document.createElement('div');
+            blueprintHeader.className = 'blueprint-header';
+            blueprintHeader.innerHTML = `
+                <span class="blueprint-name">${blueprint}</span>
                 <i class="fas fa-chevron-down"></i>
             `;
             
-            const projectList = document.createElement('ul');
-            projectList.className = 'project-list';
+            const kinList = document.createElement('ul');
+            kinList.className = 'kin-list';
             
-            // Add projects to the list
-            customerProjects.forEach(project => {
-                const projectItem = document.createElement('li');
-                projectItem.innerHTML = `<a href="/projects/${customer}/${project}">${project}</a>`;
-                projectList.appendChild(projectItem);
+            // Add kins to the list
+            blueprintkins.forEach(kin => {
+                const kinItem = document.createElement('li');
+                kinItem.innerHTML = `<a href="/kins/${blueprint}/${kin}">${kin}</a>`;
+                kinList.appendChild(kinItem);
             });
             
-            // Add event listener to toggle project list
-            customerHeader.addEventListener('click', function() {
+            // Add event listener to toggle kin list
+            blueprintHeader.addEventListener('click', function() {
                 this.classList.toggle('collapsed');
-                projectList.classList.toggle('expanded');
+                kinList.classList.toggle('expanded');
                 
                 // Update the chevron icon
                 const icon = this.querySelector('i');
-                if (projectList.classList.contains('expanded')) {
+                if (kinList.classList.contains('expanded')) {
                     icon.classList.remove('fa-chevron-right');
                     icon.classList.add('fa-chevron-down');
                 } else {
@@ -104,32 +104,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            customerSection.appendChild(customerHeader);
-            customerSection.appendChild(projectList);
-            sidebarContent.appendChild(customerSection);
+            blueprintSection.appendChild(blueprintHeader);
+            blueprintSection.appendChild(kinList);
+            sidebarContent.appendChild(blueprintSection);
         });
         
-        // Expand the first customer section by default
-        const firstCustomerHeader = sidebarContent.querySelector('.customer-header');
-        if (firstCustomerHeader) {
-            firstCustomerHeader.click();
+        // Expand the first blueprint section by default
+        const firstblueprintHeader = sidebarContent.querySelector('.blueprint-header');
+        if (firstblueprintHeader) {
+            firstblueprintHeader.click();
         }
         
-        // Highlight active project if applicable
-        highlightActiveProject();
+        // Highlight active kin if applicable
+        highlightActivekin();
     }
     
-    // Function to highlight the active project
-    function highlightActiveProject() {
+    // Function to highlight the active kin
+    function highlightActivekin() {
         const currentPath = window.location.pathname;
-        const projectLinks = document.querySelectorAll('.project-list li a');
+        const kinLinks = document.querySelectorAll('.kin-list li a');
         
-        projectLinks.forEach(link => {
+        kinLinks.forEach(link => {
             if (link.getAttribute('href') === currentPath) {
                 link.classList.add('active');
                 
-                // Make sure parent customer section is expanded
-                const parentList = link.closest('.project-list');
+                // Make sure parent blueprint section is expanded
+                const parentList = link.closest('.kin-list');
                 if (parentList && !parentList.classList.contains('expanded')) {
                     const parentHeader = parentList.previousElementSibling;
                     if (parentHeader) {

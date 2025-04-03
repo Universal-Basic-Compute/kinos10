@@ -2,16 +2,16 @@
 """
 Reset Tool
 
-This script provides command-line functionality to reset projects or customers
+This script provides command-line functionality to reset kins or blueprints
 to their initial template state.
 
 Usage:
-    python reset_tool.py project <customer> <project_id>
-    python reset_tool.py customer <customer>
+    python reset_tool.py kin <blueprint> <kin_id>
+    python reset_tool.py blueprint <blueprint>
 
 Options:
-    project     Reset a specific project
-    customer    Reset a customer and all its projects
+    kin     Reset a specific kin
+    blueprint    Reset a blueprint and all its kins
 """
 
 import os
@@ -35,11 +35,11 @@ logger = logging.getLogger(__name__)
 # API base URL
 API_BASE_URL = "http://localhost:5000/api/proxy"  # Change this if your API is hosted elsewhere
 
-def reset_project(customer, project_id):
-    """Reset a project to its initial template state."""
-    url = f"{API_BASE_URL}/projects/{customer}/{project_id}/reset"
+def reset_kin(blueprint, kin_id):
+    """Reset a kin to its initial template state."""
+    url = f"{API_BASE_URL}/kins/{blueprint}/{kin_id}/reset"
     
-    logger.info(f"Resetting project: {customer}/{project_id}")
+    logger.info(f"Resetting kin: {blueprint}/{kin_id}")
     
     try:
         response = requests.post(url)
@@ -59,14 +59,14 @@ def reset_project(customer, project_id):
         else:
             error_message = str(e)
             
-        logger.error(f"Error resetting project: {error_message}")
+        logger.error(f"Error resetting kin: {error_message}")
         return False
 
-def reset_customer(customer):
-    """Reset a customer and all its projects to initial template state."""
-    url = f"{API_BASE_URL}/customers/{customer}/reset"
+def reset_blueprint(blueprint):
+    """Reset a blueprint and all its kins to initial template state."""
+    url = f"{API_BASE_URL}/blueprints/{blueprint}/reset"
     
-    logger.info(f"Resetting customer: {customer}")
+    logger.info(f"Resetting blueprint: {blueprint}")
     
     try:
         response = requests.post(url)
@@ -75,20 +75,20 @@ def reset_customer(customer):
         result = response.json()
         logger.info(f"Reset successful: {result.get('message', 'No message')}")
         
-        # Log details about reset projects
-        projects_reset = result.get('projects_reset', 0)
-        logger.info(f"Projects reset: {projects_reset}")
+        # Log details about reset kins
+        kins_reset = result.get('kins_reset', 0)
+        logger.info(f"kins reset: {kins_reset}")
         
         if 'results' in result:
-            for project_result in result['results']:
-                status = project_result.get('status', 'unknown')
-                project_id = project_result.get('project_id', 'unknown')
-                message = project_result.get('message', 'No message')
+            for kin_result in result['results']:
+                status = kin_result.get('status', 'unknown')
+                kin_id = kin_result.get('kin_id', 'unknown')
+                message = kin_result.get('message', 'No message')
                 
                 if status == 'success':
-                    logger.info(f"Project {project_id}: {message}")
+                    logger.info(f"kin {kin_id}: {message}")
                 else:
-                    logger.warning(f"Project {project_id}: {message}")
+                    logger.warning(f"kin {kin_id}: {message}")
         
         return True
         
@@ -102,21 +102,21 @@ def reset_customer(customer):
         else:
             error_message = str(e)
             
-        logger.error(f"Error resetting customer: {error_message}")
+        logger.error(f"Error resetting blueprint: {error_message}")
         return False
 
 def main():
-    parser = argparse.ArgumentParser(description="Reset projects or customers to initial template state")
+    parser = argparse.ArgumentParser(description="Reset kins or blueprints to initial template state")
     subparsers = parser.add_subparsers(dest='command', help='Command to run')
     
-    # Project reset command
-    project_parser = subparsers.add_parser('project', help='Reset a project')
-    project_parser.add_argument('customer', help='Customer name')
-    project_parser.add_argument('project_id', help='Project ID')
+    # kin reset command
+    kin_parser = subparsers.add_parser('kin', help='Reset a kin')
+    kin_parser.add_argument('blueprint', help='blueprint name')
+    kin_parser.add_argument('kin_id', help='kin ID')
     
-    # Customer reset command
-    customer_parser = subparsers.add_parser('customer', help='Reset a customer and all its projects')
-    customer_parser.add_argument('customer', help='Customer name')
+    # blueprint reset command
+    blueprint_parser = subparsers.add_parser('blueprint', help='Reset a blueprint and all its kins')
+    blueprint_parser.add_argument('blueprint', help='blueprint name')
     
     # Parse arguments
     args = parser.parse_args()
@@ -126,10 +126,10 @@ def main():
         return 1
     
     # Execute the appropriate command
-    if args.command == 'project':
-        success = reset_project(args.customer, args.project_id)
-    elif args.command == 'customer':
-        success = reset_customer(args.customer)
+    if args.command == 'kin':
+        success = reset_kin(args.blueprint, args.kin_id)
+    elif args.command == 'blueprint':
+        success = reset_blueprint(args.blueprint)
     else:
         parser.print_help()
         return 1

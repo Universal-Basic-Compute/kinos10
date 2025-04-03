@@ -4,32 +4,32 @@ import json
 import datetime
 import threading
 import base64
-from config import CUSTOMERS_DIR, logger
-from services.file_service import get_project_path
+from config import blueprintS_DIR, logger
+from services.file_service import get_kin_path
 from services.claude_service import call_claude_with_context, build_context
 from services.aider_service import call_aider_with_context
 
 messages_bp = Blueprint('messages', __name__)
 
-@messages_bp.route('/projects/<customer>/<project_id>/messages', methods=['GET'])
-def get_messages(customer, project_id):
+@messages_bp.route('/kins/<blueprint>/<kin_id>/messages', methods=['GET'])
+def get_messages(blueprint, kin_id):
     """
-    Endpoint to get messages for a project.
+    Endpoint to get messages for a kin.
     Optionally filters by timestamp.
     """
     try:
         since = request.args.get('since')
         
-        # Validate customer and project
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        project_path = get_project_path(customer, project_id)
-        if not os.path.exists(project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Load messages
-        messages_file = os.path.join(project_path, "messages.json")
+        messages_file = os.path.join(kin_path, "messages.json")
         if not os.path.exists(messages_file):
             return jsonify({"messages": []}), 200
         
@@ -50,12 +50,12 @@ def get_messages(customer, project_id):
         logger.error(f"Error getting messages: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@messages_bp.route('/projects/<customer>/<project_id>/messages', methods=['POST'])
-def send_message(customer, project_id):
+@messages_bp.route('/kins/<blueprint>/<kin_id>/messages', methods=['POST'])
+def send_message(blueprint, kin_id):
     """
-    Endpoint to send a message to a project.
+    Endpoint to send a message to a kin.
     Accepts both original format and new format with username, character, etc.
-    If the project doesn't exist, it will be created from the template.
+    If the kin doesn't exist, it will be created from the template.
     """
     try:
         # Parse request data
@@ -94,58 +94,58 @@ def send_message(customer, project_id):
         # Initialize saved_images list to track saved image paths
         saved_images = []
         
-        # Validate customer
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        project_path = get_project_path(customer, project_id)
+        kin_path = get_kin_path(blueprint, kin_id)
         
-        # Track if we need to create a new project
-        project_created = False
+        # Track if we need to create a new kin
+        kin_created = False
         
-        # First, check if we need to create a new project
-        if not os.path.exists(project_path) and project_id != "template":
-            logger.info(f"Project '{project_id}' not found for customer '{customer}', creating it from template")
-            project_created = True
+        # First, check if we need to create a new kin
+        if not os.path.exists(kin_path) and kin_id != "template":
+            logger.info(f"kin '{kin_id}' not found for blueprint '{blueprint}', creating it from template")
+            kin_created = True
             
-            # Create projects directory if it doesn't exist
-            projects_dir = os.path.join(CUSTOMERS_DIR, customer, "projects")
-            os.makedirs(projects_dir, exist_ok=True)
-            logger.info(f"Created or verified projects directory: {projects_dir}")
+            # Create kins directory if it doesn't exist
+            kins_dir = os.path.join(blueprintS_DIR, blueprint, "kins")
+            os.makedirs(kins_dir, exist_ok=True)
+            logger.info(f"Created or verified kins directory: {kins_dir}")
             
-            # Create project directory
-            os.makedirs(project_path, exist_ok=True)
-            logger.info(f"Created project directory: {project_path}")
+            # Create kin directory
+            os.makedirs(kin_path, exist_ok=True)
+            logger.info(f"Created kin directory: {kin_path}")
             
-            # Copy template to project directory
-            template_path = os.path.join(CUSTOMERS_DIR, customer, "template")
+            # Copy template to kin directory
+            template_path = os.path.join(blueprintS_DIR, blueprint, "template")
             logger.info(f"Looking for template at: {template_path}")
             
             if not os.path.exists(template_path):
-                # Check if we need to initialize the customer template first
-                logger.warning(f"Template not found for customer '{customer}', attempting to initialize")
+                # Check if we need to initialize the blueprint template first
+                logger.warning(f"Template not found for blueprint '{blueprint}', attempting to initialize")
                 
-                # Try to initialize the customer template
-                project_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
-                customer_template_dir = os.path.join(project_templates_dir, customer, "template")
+                # Try to initialize the blueprint template
+                kin_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "blueprints")
+                blueprint_template_dir = os.path.join(kin_templates_dir, blueprint, "template")
                 
-                if os.path.exists(customer_template_dir):
-                    logger.info(f"Found template in project directory, copying to app data")
-                    # Create customer directory if needed
-                    customer_dir = os.path.join(CUSTOMERS_DIR, customer)
-                    os.makedirs(customer_dir, exist_ok=True)
+                if os.path.exists(blueprint_template_dir):
+                    logger.info(f"Found template in kin directory, copying to app data")
+                    # Create blueprint directory if needed
+                    blueprint_dir = os.path.join(blueprintS_DIR, blueprint)
+                    os.makedirs(blueprint_dir, exist_ok=True)
                     
-                    # Copy template from project directory to app data
+                    # Copy template from kin directory to app data
                     import shutil
-                    shutil.copytree(customer_template_dir, template_path)
-                    logger.info(f"Initialized template for customer '{customer}'")
+                    shutil.copytree(blueprint_template_dir, template_path)
+                    logger.info(f"Initialized template for blueprint '{blueprint}'")
                 else:
-                    logger.error(f"No template found for customer '{customer}' in project directory")
-                    return jsonify({"error": f"Template not found for customer '{customer}'"}), 404
+                    logger.error(f"No template found for blueprint '{blueprint}' in kin directory")
+                    return jsonify({"error": f"Template not found for blueprint '{blueprint}'"}), 404
             
             # Verify template exists after potential initialization
             if not os.path.exists(template_path):
-                return jsonify({"error": f"Template not found for customer '{customer}'"}), 404
+                return jsonify({"error": f"Template not found for blueprint '{blueprint}'"}), 404
             
             # List template contents for debugging
             template_contents = os.listdir(template_path)
@@ -155,7 +155,7 @@ def send_message(customer, project_id):
             import shutil
             for item in os.listdir(template_path):
                 s = os.path.join(template_path, item)
-                d = os.path.join(project_path, item)
+                d = os.path.join(kin_path, item)
                 try:
                     if os.path.isdir(s):
                         shutil.copytree(s, d)
@@ -166,36 +166,36 @@ def send_message(customer, project_id):
                     logger.error(f"Error copying {s} to {d}: {str(copy_error)}")
             
             # Create messages.json file
-            messages_file = os.path.join(project_path, "messages.json")
+            messages_file = os.path.join(kin_path, "messages.json")
             with open(messages_file, 'w') as f:
                 json.dump([], f)
             logger.info(f"Created messages.json file")
             
             # Create thoughts.txt file
-            thoughts_file = os.path.join(project_path, "thoughts.txt")
+            thoughts_file = os.path.join(kin_path, "thoughts.txt")
             with open(thoughts_file, 'w') as f:
-                f.write(f"# Thoughts for project: {project_id}\nCreated: {datetime.datetime.now().isoformat()}\n\n")
+                f.write(f"# Thoughts for kin: {kin_id}\nCreated: {datetime.datetime.now().isoformat()}\n\n")
             logger.info(f"Created thoughts.txt file")
             
             # Create images directory
-            images_dir = os.path.join(project_path, "images")
+            images_dir = os.path.join(kin_path, "images")
             os.makedirs(images_dir, exist_ok=True)
             logger.info(f"Created images directory: {images_dir}")
             
-            logger.info(f"Successfully created project '{project_id}' for customer '{customer}'")
+            logger.info(f"Successfully created kin '{kin_id}' for blueprint '{blueprint}'")
             
-            # Verify project directory exists and check contents
-            logger.info(f"Verifying project directory exists: {project_path}")
-            if os.path.exists(project_path):
-                dir_contents = os.listdir(project_path)
-                logger.info(f"Project directory contents: {dir_contents}")
+            # Verify kin directory exists and check contents
+            logger.info(f"Verifying kin directory exists: {kin_path}")
+            if os.path.exists(kin_path):
+                dir_contents = os.listdir(kin_path)
+                logger.info(f"kin directory contents: {dir_contents}")
             else:
-                logger.error(f"Project directory does not exist after creation: {project_path}")
+                logger.error(f"kin directory does not exist after creation: {kin_path}")
         
-        # Save images to project directory if any
+        # Save images to kin directory if any
         if images and len(images) > 0:
             # Create images directory if it doesn't exist
-            images_dir = os.path.join(project_path, "images")
+            images_dir = os.path.join(kin_path, "images")
             os.makedirs(images_dir, exist_ok=True)
             
             for i, img_base64 in enumerate(images):
@@ -221,8 +221,8 @@ def send_message(customer, project_id):
                 except Exception as e:
                     logger.error(f"Error saving image: {str(e)}")
         
-        # Now that we've ensured the project exists, proceed with message handling
-        messages_file = os.path.join(project_path, "messages.json")
+        # Now that we've ensured the kin exists, proceed with message handling
+        messages_file = os.path.join(kin_path, "messages.json")
         
         # Load existing messages
         if os.path.exists(messages_file):
@@ -255,7 +255,7 @@ def send_message(customer, project_id):
         mode = data.get('mode', '')  # Get optional mode parameter
         
         # Build context (select relevant files)
-        selected_files = build_context(customer, project_id, message_content, attachments, project_path, model, mode, addSystem)
+        selected_files = build_context(blueprint, kin_id, message_content, attachments, kin_path, model, mode, addSystem)
         
         # Add saved image files to selected files for context
         for img_path in saved_images:
@@ -271,7 +271,7 @@ def send_message(customer, project_id):
             # Pass is_new_message=True to indicate this message isn't in messages.json yet
             claude_response = call_claude_with_context(
                 selected_files, 
-                project_path, 
+                kin_path, 
                 message_content, 
                 images, 
                 model,
@@ -302,7 +302,7 @@ def send_message(customer, project_id):
             # Call Aider in parallel for file updates (don't wait for response)
             def run_aider():
                 try:
-                    aider_response = call_aider_with_context(project_path, selected_files, message_content, addSystem=addSystem)
+                    aider_response = call_aider_with_context(kin_path, selected_files, message_content, addSystem=addSystem)
                     logger.info("Aider processing completed")
                     # Log the complete Aider response
                     logger.info(f"Aider response: {aider_response}")
@@ -320,9 +320,9 @@ def send_message(customer, project_id):
                 "response": claude_response
             }
             
-            # Add project_created flag if a new project was created
-            if project_created:
-                response_data["project_created"] = True
+            # Add kin_created flag if a new kin was created
+            if kin_created:
+                response_data["kin_created"] = True
                 
             return jsonify(response_data)
             
@@ -334,8 +334,8 @@ def send_message(customer, project_id):
         logger.error(f"Error processing message: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@messages_bp.route('/projects/<customer>/<project_id>/analysis', methods=['POST'])
-def analyze_message(customer, project_id):
+@messages_bp.route('/kins/<blueprint>/<kin_id>/analysis', methods=['POST'])
+def analyze_message(blueprint, kin_id):
     """
     Endpoint to analyze a message with Claude without saving it or triggering context updates.
     Similar to the send_message endpoint but doesn't save messages or call Aider.
@@ -361,18 +361,18 @@ def analyze_message(customer, project_id):
         # Original format attachments
         attachments = data.get('attachments', [])
         
-        # Validate customer
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        project_path = get_project_path(customer, project_id)
+        kin_path = get_kin_path(blueprint, kin_id)
         
-        # Check if project exists
-        if not os.path.exists(project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        # Check if kin exists
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Build context (select relevant files)
-        selected_files = build_context(customer, project_id, message_content, attachments, project_path, model, None, addSystem)
+        selected_files = build_context(blueprint, kin_id, message_content, attachments, kin_path, model, None, addSystem)
         
         # Log the selected files
         logger.info(f"Selected files for analysis context: {selected_files}")
@@ -382,7 +382,7 @@ def analyze_message(customer, project_id):
             # Pass is_new_message=False to use existing messages from messages.json
             claude_response = call_claude_with_context(
                 selected_files, 
-                project_path, 
+                kin_path, 
                 message_content, 
                 images, 
                 model,
@@ -405,24 +405,24 @@ def analyze_message(customer, project_id):
         logger.error(f"Error processing analysis request: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@messages_bp.route('/projects/<customer>/<project_id>/aider_logs', methods=['GET'])
-def get_aider_logs(customer, project_id):
+@messages_bp.route('/kins/<blueprint>/<kin_id>/aider_logs', methods=['GET'])
+def get_aider_logs(blueprint, kin_id):
     """
-    Endpoint to get Aider logs for a project.
+    Endpoint to get Aider logs for a kin.
     """
     try:
-        # Validate customer and project
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        project_path = get_project_path(customer, project_id)
-        if not os.path.exists(project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Get Aider logs
-        aider_logs_file = os.path.join(project_path, "aider_logs.txt")
+        aider_logs_file = os.path.join(kin_path, "aider_logs.txt")
         if not os.path.exists(aider_logs_file):
-            return jsonify({"logs": "No Aider logs found for this project."}), 200
+            return jsonify({"logs": "No Aider logs found for this kin."}), 200
         
         # Read logs
         with open(aider_logs_file, 'r', encoding='utf-8') as f:

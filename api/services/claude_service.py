@@ -19,14 +19,14 @@ except Exception as e:
     logger.error(f"Error initializing Anthropic client: {str(e)}")
     raise RuntimeError(f"Could not initialize Anthropic client: {str(e)}")
 
-def call_claude_with_context(selected_files, project_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None):
+def call_claude_with_context(selected_files, kin_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None):
     """
     Call Claude API directly with the selected context files, user message, and optional images.
     Also includes conversation history from messages.json as actual messages.
     
     Args:
         selected_files: List of files to include in the context
-        project_path: Path to the project directory
+        kin_path: Path to the kin directory
         message_content: User message content
         images: List of base64-encoded images
         model: Optional model to use (defaults to MODEL from config)
@@ -44,7 +44,7 @@ def call_claude_with_context(selected_files, project_path, message_content, imag
         # Load content of selected files
         file_contents = []
         for file in selected_files:
-            file_path = os.path.join(project_path, file)
+            file_path = os.path.join(kin_path, file)
             if os.path.exists(file_path) and os.path.isfile(file_path):
                 try:
                     with open(file_path, 'r', encoding='utf-8') as f:
@@ -101,7 +101,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
         messages = []
         
         # Load conversation history from messages.json and add as actual messages
-        messages_file = os.path.join(project_path, "messages.json")
+        messages_file = os.path.join(kin_path, "messages.json")
         if os.path.exists(messages_file):
             try:
                 with open(messages_file, 'r', encoding='utf-8') as f:
@@ -202,32 +202,32 @@ Your goal is to provide useful and accurate information while maintaining a clea
             except Exception as e:
                 logger.warning(f"Could not delete temporary file {temp_file}: {str(e)}")
 
-def build_context(customer, project_id, message, attachments=None, project_path=None, model=None, mode=None, addSystem=None):
+def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None):
     """
     Build context by determining which files should be included.
     Uses Claude to select relevant files based on the message.
     
     Args:
-        customer: Customer name
-        project_id: Project ID
+        blueprint: blueprint name
+        kin_id: kin ID
         message: User message content
         attachments: Optional list of attachments to always include in context
-        project_path: Optional project path (if already known)
+        kin_path: Optional kin path (if already known)
         model: Optional model to use (ignored - always uses claude-3-5-haiku-latest)
         mode: Optional mode parameter
         addSystem: Optional additional system instructions
     """
     # Move import inside function to avoid circular imports
-    from services.file_service import get_project_path
+    from services.file_service import get_kin_path
     
-    if not project_path:
-        project_path = get_project_path(customer, project_id)
+    if not kin_path:
+        kin_path = get_kin_path(blueprint, kin_id)
     
     # Check if persona.txt exists, if so use it instead of kinos.txt and system.txt
-    persona_file = os.path.join(project_path, "persona.txt")
+    persona_file = os.path.join(kin_path, "persona.txt")
     
     # Special handling for duogaming - include character persona adaptation
-    if customer == "duogaming":
+    if blueprint == "duogaming":
         core_files = ["persona.txt", "map.json", "adaptations/character_persona.txt"]
         logger.info("Using persona.txt and character_persona.txt for DuoGaming context")
     elif os.path.exists(persona_file):
@@ -253,17 +253,17 @@ def build_context(customer, project_id, message, attachments=None, project_path=
         if attachment_files:
             logger.info(f"Including {len(attachment_files)} attachments in context: {attachment_files}")
     
-    # Get all available files in the project
+    # Get all available files in the kin
     available_files = []
-    for root, dirs, files in os.walk(project_path):
+    for root, dirs, files in os.walk(kin_path):
         for file in files:
-            rel_path = os.path.relpath(os.path.join(root, file), project_path)
+            rel_path = os.path.relpath(os.path.join(root, file), kin_path)
             if rel_path not in core_files and rel_path not in attachment_files:  # Skip core files and attachments
                 available_files.append(rel_path)
     
     # If there are no additional files, just return core files plus attachments
     if not available_files:
-        logger.info(f"No additional files found for {customer}/{project_id}, using core files and attachments only")
+        logger.info(f"No additional files found for {blueprint}/{kin_id}, using core files and attachments only")
         return core_files + attachment_files
     
     # Prepare the prompt for Claude to select relevant files

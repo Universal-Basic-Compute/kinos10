@@ -6,7 +6,7 @@ import platform
 import socket
 import requests
 import datetime
-from config import get_app_data_dir, CUSTOMERS_DIR, logger
+from config import get_app_data_dir, blueprintS_DIR, logger
 
 debug_bp = Blueprint('debug', __name__)
 
@@ -37,27 +37,27 @@ def api_debug():
         # Get directory information
         app_data_dir = get_app_data_dir()
         
-        # Check if customers directory exists and list contents
-        customers_info = {}
-        if os.path.exists(CUSTOMERS_DIR):
-            for customer in os.listdir(CUSTOMERS_DIR):
-                customer_path = os.path.join(CUSTOMERS_DIR, customer)
-                if os.path.isdir(customer_path):
+        # Check if blueprints directory exists and list contents
+        blueprints_info = {}
+        if os.path.exists(blueprintS_DIR):
+            for blueprint in os.listdir(blueprintS_DIR):
+                blueprint_path = os.path.join(blueprintS_DIR, blueprint)
+                if os.path.isdir(blueprint_path):
                     # Get template info
-                    template_path = os.path.join(customer_path, "template")
+                    template_path = os.path.join(blueprint_path, "template")
                     template_exists = os.path.exists(template_path)
                     template_files = os.listdir(template_path) if template_exists else []
                     
-                    # Get projects info
-                    projects_path = os.path.join(customer_path, "projects")
-                    projects_exists = os.path.exists(projects_path)
-                    projects = os.listdir(projects_path) if projects_exists else []
+                    # Get kins info
+                    kins_path = os.path.join(blueprint_path, "kins")
+                    kins_exists = os.path.exists(kins_path)
+                    kins = os.listdir(kins_path) if kins_exists else []
                     
-                    customers_info[customer] = {
+                    blueprints_info[blueprint] = {
                         "template_exists": template_exists,
                         "template_files": template_files,
-                        "projects_exists": projects_exists,
-                        "projects": projects
+                        "kins_exists": kins_exists,
+                        "kins": kins
                     }
         
         # Test connection to website
@@ -88,11 +88,11 @@ def api_debug():
             },
             "environment": {
                 "app_data_dir": app_data_dir,
-                "customers_dir": CUSTOMERS_DIR,
-                "customers_dir_exists": os.path.exists(CUSTOMERS_DIR),
+                "blueprints_dir": blueprintS_DIR,
+                "blueprints_dir_exists": os.path.exists(blueprintS_DIR),
                 "env_vars": env_vars
             },
-            "customers": customers_info,
+            "blueprints": blueprints_info,
             "website_connection": {
                 "url": website_url,
                 "status": website_status,
@@ -174,16 +174,16 @@ def api_debug():
             <div class="section">
                 <h2>Environment</h2>
                 <p><strong>App Data Directory:</strong> {debug_info['environment']['app_data_dir']}</p>
-                <p><strong>Customers Directory:</strong> {debug_info['environment']['customers_dir']}</p>
-                <p><strong>Customers Directory Exists:</strong> {debug_info['environment']['customers_dir_exists']}</p>
+                <p><strong>blueprints Directory:</strong> {debug_info['environment']['blueprints_dir']}</p>
+                <p><strong>blueprints Directory Exists:</strong> {debug_info['environment']['blueprints_dir_exists']}</p>
                 
                 <h3>Environment Variables</h3>
                 <pre>{json.dumps(debug_info['environment']['env_vars'], indent=2)}</pre>
             </div>
             
             <div class="section">
-                <h2>Customers</h2>
-                <pre>{json.dumps(debug_info['customers'], indent=2)}</pre>
+                <h2>blueprints</h2>
+                <pre>{json.dumps(debug_info['blueprints'], indent=2)}</pre>
             </div>
             
             <div class="section">
@@ -214,56 +214,56 @@ def api_debug():
 
 # Root and health endpoints moved to app.py
 
-@debug_bp.route('/initialize-customer/<customer>', methods=['GET'])
-def initialize_specific_customer(customer):
+@debug_bp.route('/initialize-blueprint/<blueprint>', methods=['GET'])
+def initialize_specific_blueprint(blueprint):
     """
-    Debug endpoint to manually initialize a specific customer.
+    Debug endpoint to manually initialize a specific blueprint.
     """
     try:
-        # Path to templates in the project
-        project_templates_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "customers")
-        customer_template_dir = os.path.join(project_templates_dir, customer, "template")
+        # Path to templates in the kin
+        kin_templates_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "blueprints")
+        blueprint_template_dir = os.path.join(kin_templates_dir, blueprint, "template")
         
-        # Check if customer template exists in project
-        if not os.path.exists(customer_template_dir) or not os.path.isdir(customer_template_dir):
-            return jsonify({"error": f"Customer template '{customer}' not found in project"}), 404
+        # Check if blueprint template exists in kin
+        if not os.path.exists(blueprint_template_dir) or not os.path.isdir(blueprint_template_dir):
+            return jsonify({"error": f"blueprint template '{blueprint}' not found in kin"}), 404
         
-        # Create customer directory if it doesn't exist
-        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
-        if not os.path.exists(customer_dir):
-            logger.info(f"Creating customer directory: {customer_dir}")
-            os.makedirs(customer_dir, exist_ok=True)
+        # Create blueprint directory if it doesn't exist
+        blueprint_dir = os.path.join(blueprintS_DIR, blueprint)
+        if not os.path.exists(blueprint_dir):
+            logger.info(f"Creating blueprint directory: {blueprint_dir}")
+            os.makedirs(blueprint_dir, exist_ok=True)
         
-        # Create projects directory if it doesn't exist
-        projects_dir = os.path.join(customer_dir, "projects")
-        if not os.path.exists(projects_dir):
-            logger.info(f"Creating projects directory: {projects_dir}")
-            os.makedirs(projects_dir, exist_ok=True)
+        # Create kins directory if it doesn't exist
+        kins_dir = os.path.join(blueprint_dir, "kins")
+        if not os.path.exists(kins_dir):
+            logger.info(f"Creating kins directory: {kins_dir}")
+            os.makedirs(kins_dir, exist_ok=True)
         
         # Copy template (overwrite if exists)
-        dest_template_dir = os.path.join(customer_dir, "template")
+        dest_template_dir = os.path.join(blueprint_dir, "template")
         if os.path.exists(dest_template_dir):
             import shutil
             shutil.rmtree(dest_template_dir)
         
-        logger.info(f"Copying template for customer {customer} to app data")
+        logger.info(f"Copying template for blueprint {blueprint} to app data")
         import shutil
-        shutil.copytree(customer_template_dir, dest_template_dir)
+        shutil.copytree(blueprint_template_dir, dest_template_dir)
         
         # Verify template was copied
         if os.path.exists(dest_template_dir):
             template_files = os.listdir(dest_template_dir)
-            logger.info(f"Template files for {customer}: {template_files}")
+            logger.info(f"Template files for {blueprint}: {template_files}")
             return jsonify({
                 "status": "success", 
-                "message": f"Customer '{customer}' initialized",
+                "message": f"blueprint '{blueprint}' initialized",
                 "files": template_files
             })
         else:
             return jsonify({"error": "Failed to copy template"}), 500
         
     except Exception as e:
-        logger.error(f"Error initializing customer: {str(e)}")
+        logger.error(f"Error initializing blueprint: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 @debug_bp.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])

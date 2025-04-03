@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Script to create or replace the analysis mode file for each customer.
-This ensures that each customer template has a proper modes/analysis.txt file.
+Script to create or replace the analysis mode file for each blueprint.
+This ensures that each blueprint template has a proper modes/analysis.txt file.
 """
 
 import os
 import sys
 
-# List of customers to process
-CUSTOMERS = [
+# List of blueprints to process
+blueprintS = [
     "deskmate",
     "duogaming",
     "fictra",
@@ -67,28 +67,28 @@ Your goal is to provide useful and accurate information while maintaining a clea
 """
 
 def main():
-    # Get the base directory (assuming the script is in the project root)
+    # Get the base directory (assuming the script is in the kin root)
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    customers_dir = os.path.join(base_dir, "customers")
+    blueprints_dir = os.path.join(base_dir, "blueprints")
     
-    print(f"Using customers directory: {customers_dir}")
+    print(f"Using blueprints directory: {blueprints_dir}")
     
-    # Check if customers directory exists
-    if not os.path.exists(customers_dir):
-        print(f"Error: Customers directory not found at {customers_dir}")
+    # Check if blueprints directory exists
+    if not os.path.exists(blueprints_dir):
+        print(f"Error: blueprints directory not found at {blueprints_dir}")
         sys.exit(1)
     
-    # Process each customer
-    for customer in CUSTOMERS:
-        print(f"Processing customer: {customer}")
+    # Process each blueprint
+    for blueprint in blueprintS:
+        print(f"Processing blueprint: {blueprint}")
         
-        # Path to the customer template directory
-        template_dir = os.path.join(customers_dir, customer, "template")
+        # Path to the blueprint template directory
+        template_dir = os.path.join(blueprints_dir, blueprint, "template")
         print(f"  Template directory: {template_dir}")
         
         # Check if template directory exists
         if not os.path.exists(template_dir):
-            print(f"  Warning: Template directory not found for {customer}, skipping")
+            print(f"  Warning: Template directory not found for {blueprint}, skipping")
             continue
         
         # Path to the modes directory
@@ -97,7 +97,7 @@ def main():
         
         # Create modes directory if it doesn't exist
         if not os.path.exists(modes_dir):
-            print(f"  Creating modes directory for {customer}")
+            print(f"  Creating modes directory for {blueprint}")
             os.makedirs(modes_dir, exist_ok=True)
         
         # Path to the analysis.txt file
@@ -108,7 +108,7 @@ def main():
         try:
             with open(analysis_file, 'w', encoding='utf-8') as f:
                 f.write(ANALYSIS_CONTENT)
-            print(f"  Created/updated analysis.txt for {customer}")
+            print(f"  Created/updated analysis.txt for {blueprint}")
             
             # Verify the file was created
             if os.path.exists(analysis_file):
@@ -117,9 +117,9 @@ def main():
             else:
                 print(f"  Error: File not found after creation attempt")
         except Exception as e:
-            print(f"  Error creating analysis.txt for {customer}: {str(e)}")
+            print(f"  Error creating analysis.txt for {blueprint}: {str(e)}")
     
-    print("\nDone! Analysis mode files have been created or updated for all customers.")
+    print("\nDone! Analysis mode files have been created or updated for all blueprints.")
 
 if __name__ == "__main__":
     main()

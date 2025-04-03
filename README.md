@@ -1,12 +1,12 @@
 # KinOS API
 
-KinOS API is the backend service for the KinOS Adaptive Context Management System. It provides endpoints for managing projects, messages, files, and text-to-speech functionality.
+KinOS API is the backend service for the KinOS Adaptive Context Management System. It provides endpoints for managing kins, messages, files, and text-to-speech functionality.
 
 ## Features
 
-- **Project Management**: Create and manage projects for different customers
+- **kin Management**: Create and manage kins for different blueprints
 - **Message Handling**: Process user messages with Claude AI and Aider
-- **File Management**: Access and modify project files
+- **File Management**: Access and modify kin files
 - **Text-to-Speech**: Convert text to speech using ElevenLabs
 - **Debug Tools**: Endpoints for system diagnostics and monitoring
 
@@ -50,19 +50,19 @@ The server will run on port 5000 by default (configurable via PORT environment v
 
 ## API Endpoints
 
-### Projects
-- `POST /api/projects`: Create a new project
-- `GET /api/projects/<customer>/projects`: List projects for a customer
-- `GET /api/projects/all`: List all customers and their projects
+### kins
+- `POST /api/kins`: Create a new kin
+- `GET /api/kins/<blueprint>/kins`: List kins for a blueprint
+- `GET /api/kins/all`: List all blueprints and their kins
 
 ### Messages
-- `GET /api/projects/<customer>/<project_id>/messages`: Get conversation history
-- `POST /api/projects/<customer>/<project_id>/messages`: Send a message
-- `GET /api/projects/<customer>/<project_id>/aider_logs`: Get Aider logs
+- `GET /api/kins/<blueprint>/<kin_id>/messages`: Get conversation history
+- `POST /api/kins/<blueprint>/<kin_id>/messages`: Send a message
+- `GET /api/kins/<blueprint>/<kin_id>/aider_logs`: Get Aider logs
 
 ### Files
-- `GET /api/projects/<path:project_path>/files`: List project files
-- `GET /api/projects/<path:project_path>/files/<path:file_path>`: Get file content
+- `GET /api/kins/<path:kin_path>/files`: List kin files
+- `GET /api/kins/<path:kin_path>/files/<path:file_path>`: Get file content
 
 ### Text-to-Speech
 - `POST /api/tts`: Convert text to speech
@@ -87,17 +87,17 @@ docker run -p 5000:5000 -e ANTHROPIC_API_KEY=your_key -e ELEVENLABS_API_KEY=your
 - `PORT`: Port to run the API server (default: 5000)
 - `WEBSITE_URL`: URL of the website for health checks
 
-## Project Structure
+## kin Structure
 
-The API organizes projects in a customer-centric hierarchy:
+The API organizes kins in a blueprint-centric hierarchy:
 ```
-/customers/
-  /[CUSTOMER_NAME]/
-    /template/          # Template for new projects
-    /projects/
-      /[PROJECT_ID]/    # Individual projects
+/blueprints/
+  /[blueprint_NAME]/
+    /template/          # Template for new kins
+    /kins/
+      /[kin_ID]/    # Individual kins
 ```
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This kin is licensed under the MIT License - see the LICENSE file for details.

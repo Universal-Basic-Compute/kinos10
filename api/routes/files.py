@@ -3,38 +3,38 @@ import os
 import json
 import datetime
 import base64
-from config import CUSTOMERS_DIR, logger
-from services.file_service import get_project_path
+from config import blueprintS_DIR, logger
+from services.file_service import get_kin_path
 from utils.helpers import should_ignore_file, load_gitignore
 
 files_bp = Blueprint('files', __name__)
 
-@files_bp.route('/projects/<path:project_path>/content', methods=['GET'])
-def get_project_content(project_path):
+@files_bp.route('/kins/<path:kin_path>/content', methods=['GET'])
+def get_kin_content(kin_path):
     """
-    Endpoint to get the content of all files in a project folder as JSON.
+    Endpoint to get the content of all files in a kin folder as JSON.
     Optional query parameter 'path' to filter by specific file or directory.
     
-    Project path can be either:
-    - customer/template
-    - customer/project_id
+    kin path can be either:
+    - blueprint/template
+    - blueprint/kin_id
     """
     try:
-        # Parse the project path
-        parts = project_path.split('/')
+        # Parse the kin path
+        parts = kin_path.split('/')
         if len(parts) != 2:
-            return jsonify({"error": "Invalid project path format"}), 400
+            return jsonify({"error": "Invalid kin path format"}), 400
             
-        customer, project_id = parts
+        blueprint, kin_id = parts
         
-        # Validate customer
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        # Get the full project path
-        full_project_path = get_project_path(customer, project_id)
-        if not os.path.exists(full_project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        # Get the full kin path
+        full_kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(full_kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Get optional path parameter
         path_filter = request.args.get('path', '')
@@ -42,11 +42,11 @@ def get_project_content(project_path):
         # Normalize the path filter to prevent directory traversal
         path_filter = os.path.normpath(path_filter).lstrip('/')
         
-        # Combine project path with path filter
-        target_path = os.path.join(full_project_path, path_filter)
+        # Combine kin path with path filter
+        target_path = os.path.join(full_kin_path, path_filter)
         
         # Security check to prevent directory traversal
-        if not os.path.abspath(target_path).startswith(os.path.abspath(full_project_path)):
+        if not os.path.abspath(target_path).startswith(os.path.abspath(full_kin_path)):
             return jsonify({"error": "Invalid path parameter"}), 403
             
         # Check if the target path exists
@@ -60,10 +60,10 @@ def get_project_content(project_path):
                     "files": []
                 })
             else:
-                return jsonify({"error": f"Path '{path_filter}' not found in project"}), 404
+                return jsonify({"error": f"Path '{path_filter}' not found in kin"}), 404
         
         # Load gitignore patterns
-        ignore_patterns = load_gitignore(full_project_path)
+        ignore_patterns = load_gitignore(full_kin_path)
         
         # Get the content
         if os.path.isfile(target_path):
@@ -90,11 +90,11 @@ def get_project_content(project_path):
             
             for root, dirs, files in os.walk(target_path):
                 # Filter directories to avoid walking into ignored directories
-                dirs[:] = [d for d in dirs if not should_ignore_file(os.path.relpath(os.path.join(root, d), full_project_path), ignore_patterns)]
+                dirs[:] = [d for d in dirs if not should_ignore_file(os.path.relpath(os.path.join(root, d), full_kin_path), ignore_patterns)]
                 
                 for file in files:
                     file_path = os.path.join(root, file)
-                    rel_path = os.path.relpath(file_path, full_project_path)
+                    rel_path = os.path.relpath(file_path, full_kin_path)
                     
                     # Skip ignored files
                     if should_ignore_file(rel_path, ignore_patterns):
@@ -120,46 +120,46 @@ def get_project_content(project_path):
             return jsonify(result)
     
     except Exception as e:
-        logger.error(f"Error getting project content: {str(e)}")
+        logger.error(f"Error getting kin content: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@files_bp.route('/projects/<path:project_path>/files', methods=['GET'])
-def get_project_files(project_path):
+@files_bp.route('/kins/<path:kin_path>/files', methods=['GET'])
+def get_kin_files(kin_path):
     """
-    Endpoint to get a list of files in a project.
-    Project path can be either:
-    - customer/template
-    - customer/project_id
+    Endpoint to get a list of files in a kin.
+    kin path can be either:
+    - blueprint/template
+    - blueprint/kin_id
     """
     try:
-        # Parse the project path
-        parts = project_path.split('/')
+        # Parse the kin path
+        parts = kin_path.split('/')
         if len(parts) != 2:
-            return jsonify({"error": "Invalid project path format"}), 400
+            return jsonify({"error": "Invalid kin path format"}), 400
             
-        customer, project_id = parts
+        blueprint, kin_id = parts
         
-        # Validate customer
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        # Get the full project path
-        full_project_path = get_project_path(customer, project_id)
-        if not os.path.exists(full_project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        # Get the full kin path
+        full_kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(full_kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Load gitignore patterns
-        ignore_patterns = load_gitignore(full_project_path)
+        ignore_patterns = load_gitignore(full_kin_path)
         
         # Get list of files
         files = []
-        for root, dirs, filenames in os.walk(full_project_path):
+        for root, dirs, filenames in os.walk(full_kin_path):
             # Filter directories to avoid walking into ignored directories
-            dirs[:] = [d for d in dirs if not should_ignore_file(os.path.relpath(os.path.join(root, d), full_project_path), ignore_patterns)]
+            dirs[:] = [d for d in dirs if not should_ignore_file(os.path.relpath(os.path.join(root, d), full_kin_path), ignore_patterns)]
             
             for filename in filenames:
                 file_path = os.path.join(root, filename)
-                rel_path = os.path.relpath(file_path, full_project_path)
+                rel_path = os.path.relpath(file_path, full_kin_path)
                 
                 # Skip ignored files
                 if should_ignore_file(rel_path, ignore_patterns):
@@ -174,39 +174,39 @@ def get_project_files(project_path):
         return jsonify({"files": files})
         
     except Exception as e:
-        logger.error(f"Error getting project files: {str(e)}")
+        logger.error(f"Error getting kin files: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@files_bp.route('/projects/<path:project_path>/files/<path:file_path>', methods=['GET'])
-def get_file_content(project_path, file_path):
+@files_bp.route('/kins/<path:kin_path>/files/<path:file_path>', methods=['GET'])
+def get_file_content(kin_path, file_path):
     """
     Endpoint to get the content of a file.
-    Project path can be either:
-    - customer/template
-    - customer/project_id
+    kin path can be either:
+    - blueprint/template
+    - blueprint/kin_id
     """
     try:
-        # Parse the project path
-        parts = project_path.split('/')
+        # Parse the kin path
+        parts = kin_path.split('/')
         if len(parts) != 2:
-            return jsonify({"error": "Invalid project path format"}), 400
+            return jsonify({"error": "Invalid kin path format"}), 400
             
-        customer, project_id = parts
+        blueprint, kin_id = parts
         
-        # Validate customer
-        if not os.path.exists(os.path.join(CUSTOMERS_DIR, customer)):
-            return jsonify({"error": f"Customer '{customer}' not found"}), 404
+        # Validate blueprint
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
-        # Get the full project path
-        full_project_path = get_project_path(customer, project_id)
-        if not os.path.exists(full_project_path):
-            return jsonify({"error": f"Project '{project_id}' not found for customer '{customer}'"}), 404
+        # Get the full kin path
+        full_kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(full_kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Get file content
-        file_full_path = os.path.join(full_project_path, file_path)
+        file_full_path = os.path.join(full_kin_path, file_path)
         
         # Security check to prevent directory traversal
-        if not os.path.abspath(file_full_path).startswith(os.path.abspath(full_project_path)):
+        if not os.path.abspath(file_full_path).startswith(os.path.abspath(full_kin_path)):
             return jsonify({"error": "Invalid file path"}), 403
         
         if not os.path.exists(file_full_path) or not os.path.isfile(file_full_path):

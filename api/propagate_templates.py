@@ -2,14 +2,14 @@
 """
 Template Propagation Script
 
-This script propagates changes from customer templates to their respective projects,
-preserving project-specific files and changes.
+This script propagates changes from blueprint templates to their respective kins,
+preserving kin-specific files and changes.
 
 Usage:
-    python propagate_templates.py [--customer CUSTOMER] [--dry-run]
+    python propagate_templates.py [--blueprint blueprint] [--dry-run]
 
 Options:
-    --customer CUSTOMER    Only update projects for the specified customer
+    --blueprint blueprint    Only update kins for the specified blueprint
     --dry-run             Show what would be done without making changes
 """
 
@@ -48,9 +48,9 @@ def get_app_data_dir():
     
     return app_data
 
-def get_customers_dir():
-    """Get the customers directory."""
-    return os.path.join(get_app_data_dir(), "customers")
+def get_blueprints_dir():
+    """Get the blueprints directory."""
+    return os.path.join(get_app_data_dir(), "blueprints")
 
 def get_template_files(template_path):
     """Get a list of all files in the template directory."""
@@ -62,23 +62,23 @@ def get_template_files(template_path):
             template_files.append(rel_path)
     return template_files
 
-def should_update_file(template_file, project_file):
+def should_update_file(template_file, kin_file):
     """
-    Determine if a project file should be updated from the template.
+    Determine if a kin file should be updated from the template.
     
     Rules:
-    1. If the file doesn't exist in the project, copy it from the template
+    1. If the file doesn't exist in the kin, copy it from the template
     2. If the file is a system file (kinos.txt, system.txt, persona.txt), update it
     3. If the file is in a standard directory (modes/, adaptations/, sources/), update it
     4. Never update messages.json
-    5. Otherwise, preserve the project file
+    5. Otherwise, preserve the kin file
     """
     # Never update messages.json
     if os.path.basename(template_file) == 'messages.json':
         return False
     
-    # If the file doesn't exist in the project, copy it
-    if not os.path.exists(project_file):
+    # If the file doesn't exist in the kin, copy it
+    if not os.path.exists(kin_file):
         return True
     
     # Always update system files
@@ -91,16 +91,16 @@ def should_update_file(template_file, project_file):
     if any(template_file.startswith(d) for d in standard_dirs):
         return True
     
-    # Preserve project-specific files
+    # Preserve kin-specific files
     return False
 
-def update_project(template_path, project_path, dry_run=False):
+def update_kin(template_path, kin_path, dry_run=False):
     """
-    Update a project from its template, preserving project-specific files.
+    Update a kin from its template, preserving kin-specific files.
     
     Args:
         template_path: Path to the template directory
-        project_path: Path to the project directory
+        kin_path: Path to the kin directory
         dry_run: If True, only show what would be done without making changes
     
     Returns:
@@ -110,8 +110,8 @@ def update_project(template_path, project_path, dry_run=False):
         logger.error(f"Template path does not exist: {template_path}")
         return (0, 0, 0)
     
-    if not os.path.exists(project_path):
-        logger.error(f"Project path does not exist: {project_path}")
+    if not os.path.exists(kin_path):
+        logger.error(f"kin path does not exist: {kin_path}")
         return (0, 0, 0)
     
     template_files = get_template_files(template_path)
@@ -119,10 +119,10 @@ def update_project(template_path, project_path, dry_run=False):
     files_updated = 0
     files_preserved = 0
     
-    # Ensure standard directories exist in the project
+    # Ensure standard directories exist in the kin
     standard_dirs = ['modes', 'adaptations', 'sources', 'knowledge']
     for dir_name in standard_dirs:
-        dir_path = os.path.join(project_path, dir_name)
+        dir_path = os.path.join(kin_path, dir_name)
         if not os.path.exists(dir_path):
             logger.info(f"Creating standard directory: {dir_name}")
             if not dry_run:
@@ -130,13 +130,13 @@ def update_project(template_path, project_path, dry_run=False):
     
     for rel_path in template_files:
         template_file = os.path.join(template_path, rel_path)
-        project_file = os.path.join(project_path, rel_path)
+        kin_file = os.path.join(kin_path, rel_path)
         
         # Create directory if it doesn't exist
-        os.makedirs(os.path.dirname(project_file), exist_ok=True)
+        os.makedirs(os.path.dirname(kin_file), exist_ok=True)
         
-        if should_update_file(rel_path, project_file):
-            if os.path.exists(project_file):
+        if should_update_file(rel_path, kin_file):
+            if os.path.exists(kin_file):
                 action = "Updating"
                 files_updated += 1
             else:
@@ -146,82 +146,82 @@ def update_project(template_path, project_path, dry_run=False):
             logger.info(f"{action} file: {rel_path}")
             
             if not dry_run:
-                shutil.copy2(template_file, project_file)
+                shutil.copy2(template_file, kin_file)
         else:
-            logger.debug(f"Preserving project file: {rel_path}")
+            logger.debug(f"Preserving kin file: {rel_path}")
             files_preserved += 1
     
     return (files_added, files_updated, files_preserved)
 
-def propagate_templates(customer=None, dry_run=False):
+def propagate_templates(blueprint=None, dry_run=False):
     """
-    Propagate template changes to all projects.
+    Propagate template changes to all kins.
     
     Args:
-        customer: If provided, only update projects for this customer
+        blueprint: If provided, only update kins for this blueprint
         dry_run: If True, only show what would be done without making changes
     """
-    customers_dir = get_customers_dir()
+    blueprints_dir = get_blueprints_dir()
     
-    if not os.path.exists(customers_dir):
-        logger.error(f"Customers directory not found: {customers_dir}")
+    if not os.path.exists(blueprints_dir):
+        logger.error(f"blueprints directory not found: {blueprints_dir}")
         return
     
-    # Get list of customers
-    customers = [customer] if customer else os.listdir(customers_dir)
+    # Get list of blueprints
+    blueprints = [blueprint] if blueprint else os.listdir(blueprints_dir)
     
-    total_projects = 0
+    total_kins = 0
     total_files_added = 0
     total_files_updated = 0
     total_files_preserved = 0
     
-    for cust in customers:
-        customer_dir = os.path.join(customers_dir, cust)
-        if not os.path.isdir(customer_dir):
+    for cust in blueprints:
+        blueprint_dir = os.path.join(blueprints_dir, cust)
+        if not os.path.isdir(blueprint_dir):
             continue
         
-        template_path = os.path.join(customer_dir, "template")
+        template_path = os.path.join(blueprint_dir, "template")
         if not os.path.exists(template_path):
-            logger.warning(f"Template not found for customer: {cust}")
+            logger.warning(f"Template not found for blueprint: {cust}")
             continue
         
-        projects_dir = os.path.join(customer_dir, "projects")
-        if not os.path.exists(projects_dir):
-            logger.warning(f"Projects directory not found for customer: {cust}")
+        kins_dir = os.path.join(blueprint_dir, "kins")
+        if not os.path.exists(kins_dir):
+            logger.warning(f"kins directory not found for blueprint: {cust}")
             continue
         
-        # Get list of projects
-        projects = os.listdir(projects_dir)
-        if not projects:
-            logger.info(f"No projects found for customer: {cust}")
+        # Get list of kins
+        kins = os.listdir(kins_dir)
+        if not kins:
+            logger.info(f"No kins found for blueprint: {cust}")
             continue
         
-        logger.info(f"Processing {len(projects)} projects for customer: {cust}")
+        logger.info(f"Processing {len(kins)} kins for blueprint: {cust}")
         
-        for project in projects:
-            project_path = os.path.join(projects_dir, project)
-            if not os.path.isdir(project_path):
+        for kin in kins:
+            kin_path = os.path.join(kins_dir, kin)
+            if not os.path.isdir(kin_path):
                 continue
             
-            logger.info(f"Updating project: {cust}/{project}")
+            logger.info(f"Updating kin: {cust}/{kin}")
             
-            files_added, files_updated, files_preserved = update_project(
-                template_path, project_path, dry_run
+            files_added, files_updated, files_preserved = update_kin(
+                template_path, kin_path, dry_run
             )
             
             logger.info(
-                f"Project {cust}/{project}: "
+                f"kin {cust}/{kin}: "
                 f"Added {files_added}, Updated {files_updated}, Preserved {files_preserved} files"
             )
             
-            total_projects += 1
+            total_kins += 1
             total_files_added += files_added
             total_files_updated += files_updated
             total_files_preserved += files_preserved
     
     logger.info(
         f"Template propagation complete. "
-        f"Processed {total_projects} projects: "
+        f"Processed {total_kins} kins: "
         f"Added {total_files_added}, Updated {total_files_updated}, Preserved {total_files_preserved} files"
     )
     
@@ -229,19 +229,19 @@ def propagate_templates(customer=None, dry_run=False):
         logger.info("This was a dry run. No changes were made.")
 
 def main():
-    parser = argparse.ArgumentParser(description="Propagate template changes to projects")
-    parser.add_argument("--customer", help="Only update projects for the specified customer")
+    parser = argparse.ArgumentParser(description="Propagate template changes to kins")
+    parser.add_argument("--blueprint", help="Only update kins for the specified blueprint")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be done without making changes")
     
     args = parser.parse_args()
     
     logger.info("Starting template propagation")
-    if args.customer:
-        logger.info(f"Limiting to customer: {args.customer}")
+    if args.blueprint:
+        logger.info(f"Limiting to blueprint: {args.blueprint}")
     if args.dry_run:
         logger.info("Dry run mode: no changes will be made")
     
-    propagate_templates(args.customer, args.dry_run)
+    propagate_templates(args.blueprint, args.dry_run)
 
 if __name__ == "__main__":
     main()

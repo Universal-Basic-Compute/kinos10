@@ -14,27 +14,27 @@
         
         <div class="settings-panel">
             <div class="form-group">
-                <label for="customer-select">Customer:</label>
-                <select id="customer-select">
-                    {% for customer in customers %}
-                    <option value="{{ customer }}" {% if customer == default_customer %}selected{% endif %}>{{ customer|capitalize }}</option>
+                <label for="blueprint-select">blueprint:</label>
+                <select id="blueprint-select">
+                    {% for blueprint in blueprints %}
+                    <option value="{{ blueprint }}" {% if blueprint == default_blueprint %}selected{% endif %}>{{ blueprint|capitalize }}</option>
                     {% endfor %}
                 </select>
             </div>
             
             <div class="form-group">
-                <label for="project-select">Project:</label>
-                <select id="project-select">
-                    <option value="{{ default_project }}" selected>{{ default_project }}</option>
+                <label for="kin-select">kin:</label>
+                <select id="kin-select">
+                    <option value="{{ default_kin }}" selected>{{ default_kin }}</option>
                 </select>
             </div>
             
             <div class="form-group">
-                <button id="create-project-btn">Create New Project</button>
+                <button id="create-kin-btn">Create New kin</button>
             </div>
             
             <div class="form-group">
-                <button id="initialize-customer-btn">Initialize Customer</button>
+                <button id="initialize-blueprint-btn">Initialize blueprint</button>
             </div>
             
             <div class="form-group">
@@ -48,7 +48,7 @@
         
         <div class="main-content">
             <div class="file-browser">
-                <h3>Project Files</h3>
+                <h3>kin Files</h3>
                 <div id="file-tree" class="file-tree"></div>
             </div>
             
@@ -79,14 +79,14 @@
         </div>
     </div>
     
-    <!-- Create Project Modal -->
-    <div id="create-project-modal" class="modal">
+    <!-- Create kin Modal -->
+    <div id="create-kin-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Create New Project</h2>
+            <h2>Create New kin</h2>
             <div class="form-group">
-                <label for="project-name">Project Name:</label>
-                <input type="text" id="project-name" placeholder="Enter project name">
+                <label for="kin-name">kin Name:</label>
+                <input type="text" id="kin-name" placeholder="Enter kin name">
             </div>
             <button id="confirm-create-btn">Create</button>
         </div>

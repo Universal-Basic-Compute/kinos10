@@ -3,14 +3,14 @@ import os
 import shutil
 import datetime
 from flask_cors import CORS
-from config import logger, CUSTOMERS_DIR, API_KEY
-from routes.projects import projects_bp
+from config import logger, blueprintS_DIR, API_KEY
+from routes.kins import kins_bp
 from routes.messages import messages_bp
 from routes.files import files_bp
 from routes.tts import tts_bp
 from routes.stt import stt_bp
 from routes.debug import debug_bp
-from services.file_service import initialize_customer_templates
+from services.file_service import initialize_blueprint_templates
 from propagate_templates import propagate_templates
 
 # Initialize Flask app
@@ -88,7 +88,7 @@ def log_response_info(response):
     return response
 
 # Register blueprints with appropriate URL prefixes
-app.register_blueprint(projects_bp, url_prefix='/api/proxy')
+app.register_blueprint(kins_bp, url_prefix='/api/proxy')
 app.register_blueprint(messages_bp, url_prefix='/api/proxy')
 app.register_blueprint(files_bp, url_prefix='/api/proxy')
 app.register_blueprint(tts_bp, url_prefix='/api/proxy')
@@ -113,9 +113,9 @@ def api_root():
             "version": "1.0.0",
             "endpoints": {
                 "health": "/health",
-                "projects": "/projects",
-                "messages": "/projects/{customer}/{project_id}/messages",
-                "files": "/projects/{customer}/{project_id}/files"
+                "kins": "/kins",
+                "messages": "/kins/{blueprint}/{kin_id}/messages",
+                "files": "/kins/{blueprint}/{kin_id}/files"
             }
         }), 200
     
@@ -123,7 +123,7 @@ def api_root():
     try:
         # Path to the API reference markdown file
         api_ref_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
-                                   "customers", "kinos", "template", "sources", "api_reference.md")
+                                   "blueprints", "kinos", "template", "sources", "api_reference.md")
         
         # Check if the file exists
         if not os.path.exists(api_ref_path):
@@ -278,11 +278,11 @@ def health_check():
 @app.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def global_catch_all(undefined_route):
     """Global catch-all route for undefined API endpoints."""
-    # Skip if the route starts with 'projects/' as those should be handled by other blueprints
-    if undefined_route.startswith('projects/'):
+    # Skip if the route starts with 'kins/' as those should be handled by other blueprints
+    if undefined_route.startswith('kins/'):
         return jsonify({
             "error": "Not Found",
-            "message": f"The project endpoint '/{undefined_route}' does not exist.",
+            "message": f"The kin endpoint '/{undefined_route}' does not exist.",
             "documentation_url": "http://api.kinos-engine.ai"
         }), 404
         
@@ -293,21 +293,21 @@ def global_catch_all(undefined_route):
         "documentation_url": "http://api.kinos-engine.ai"
     }), 404
 
-# Initialize customer templates
-initialize_customer_templates()
+# Initialize blueprint templates
+initialize_blueprint_templates()
 
-# Propagate template changes to all projects
-logger.info("Propagating template changes to all projects")
+# Propagate template changes to all kins
+logger.info("Propagating template changes to all kins")
 try:
     propagate_templates(dry_run=False)
     logger.info("Template propagation completed successfully")
 except Exception as e:
     logger.error(f"Error during template propagation: {str(e)}")
 
-# Function to ensure analysis.txt exists in all customer templates
+# Function to ensure analysis.txt exists in all blueprint templates
 def ensure_analysis_mode_exists():
-    """Ensure that the analysis.txt mode file exists in all customer templates."""
-    logger.info("Ensuring analysis mode exists in all customer templates")
+    """Ensure that the analysis.txt mode file exists in all blueprint templates."""
+    logger.info("Ensuring analysis mode exists in all blueprint templates")
     
     # Standard content for analysis.txt
     analysis_content = """# Analysis Mode: Informative Responses Without Memorization
@@ -340,14 +340,14 @@ This mode is particularly useful for:
 Your goal is to provide useful and accurate information while maintaining a clear separation between this interaction and your long-term memory.
 """
     
-    # Iterate through all customers
-    for customer in os.listdir(CUSTOMERS_DIR):
-        customer_dir = os.path.join(CUSTOMERS_DIR, customer)
-        if not os.path.isdir(customer_dir):
+    # Iterate through all blueprints
+    for blueprint in os.listdir(blueprintS_DIR):
+        blueprint_dir = os.path.join(blueprintS_DIR, blueprint)
+        if not os.path.isdir(blueprint_dir):
             continue
             
         # Check template directory
-        template_dir = os.path.join(customer_dir, "template")
+        template_dir = os.path.join(blueprint_dir, "template")
         if not os.path.exists(template_dir):
             continue
             
@@ -358,60 +358,60 @@ Your goal is to provide useful and accurate information while maintaining a clea
         # Check if analysis.txt exists
         analysis_file = os.path.join(modes_dir, "analysis.txt")
         if not os.path.exists(analysis_file):
-            logger.info(f"Creating analysis.txt for customer: {customer}")
+            logger.info(f"Creating analysis.txt for blueprint: {blueprint}")
             try:
                 with open(analysis_file, 'w', encoding='utf-8') as f:
                     f.write(analysis_content)
             except Exception as e:
-                logger.error(f"Error creating analysis.txt for {customer}: {str(e)}")
+                logger.error(f"Error creating analysis.txt for {blueprint}: {str(e)}")
 
-# Initialize all customer templates automatically
-logger.info("Checking for customer templates to initialize")
-project_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "customers")
+# Initialize all blueprint templates automatically
+logger.info("Checking for blueprint templates to initialize")
+kin_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "blueprints")
 
-if os.path.exists(project_templates_dir):
-    # Get list of all customers in the project directory
-    available_customers = [d for d in os.listdir(project_templates_dir) 
-                          if os.path.isdir(os.path.join(project_templates_dir, d))]
-    logger.info(f"Found customers in project directory: {available_customers}")
+if os.path.exists(kin_templates_dir):
+    # Get list of all blueprints in the kin directory
+    available_blueprints = [d for d in os.listdir(kin_templates_dir) 
+                          if os.path.isdir(os.path.join(kin_templates_dir, d))]
+    logger.info(f"Found blueprints in kin directory: {available_blueprints}")
     
     # Log the current environment for debugging
     logger.info(f"Current environment: {os.environ.get('ENVIRONMENT', 'not set')}")
     logger.info(f"Website URL: {os.environ.get('WEBSITE_URL', 'not set')}")
     
-    # Check each customer and initialize if needed
-    for customer in available_customers:
-        customer_template = os.path.join(CUSTOMERS_DIR, customer, "template")
-        if not os.path.exists(customer_template) or not os.listdir(customer_template):
-            logger.warning(f"{customer} template not found or empty, attempting to initialize")
+    # Check each blueprint and initialize if needed
+    for blueprint in available_blueprints:
+        blueprint_template = os.path.join(blueprintS_DIR, blueprint, "template")
+        if not os.path.exists(blueprint_template) or not os.listdir(blueprint_template):
+            logger.warning(f"{blueprint} template not found or empty, attempting to initialize")
             
-            # Source template in project
-            project_customer_template = os.path.join(project_templates_dir, customer, "template")
+            # Source template in kin
+            kin_blueprint_template = os.path.join(kin_templates_dir, blueprint, "template")
             
-            if os.path.exists(project_customer_template):
-                # Create customer directory if needed
-                customer_dir = os.path.join(CUSTOMERS_DIR, customer)
-                os.makedirs(customer_dir, exist_ok=True)
+            if os.path.exists(kin_blueprint_template):
+                # Create blueprint directory if needed
+                blueprint_dir = os.path.join(blueprintS_DIR, blueprint)
+                os.makedirs(blueprint_dir, exist_ok=True)
                 
-                # Create projects directory if needed
-                customer_projects_dir = os.path.join(customer_dir, "projects")
-                os.makedirs(customer_projects_dir, exist_ok=True)
+                # Create kins directory if needed
+                blueprint_kins_dir = os.path.join(blueprint_dir, "kins")
+                os.makedirs(blueprint_kins_dir, exist_ok=True)
                 
                 # Copy template
-                if os.path.exists(customer_template):
-                    shutil.rmtree(customer_template)
+                if os.path.exists(blueprint_template):
+                    shutil.rmtree(blueprint_template)
                 
-                logger.info(f"Copying {customer} template from {project_customer_template} to {customer_template}")
-                shutil.copytree(project_customer_template, customer_template)
+                logger.info(f"Copying {blueprint} template from {kin_blueprint_template} to {blueprint_template}")
+                shutil.copytree(kin_blueprint_template, blueprint_template)
                 
                 # Verify template was copied
-                if os.path.exists(customer_template):
-                    template_files = os.listdir(customer_template)
-                    logger.info(f"{customer} template files: {template_files}")
+                if os.path.exists(blueprint_template):
+                    template_files = os.listdir(blueprint_template)
+                    logger.info(f"{blueprint} template files: {template_files}")
             else:
-                logger.error(f"{customer} template not found in project directory")
+                logger.error(f"{blueprint} template not found in kin directory")
 else:
-    logger.error(f"Project templates directory not found: {project_templates_dir}")
+    logger.error(f"kin templates directory not found: {kin_templates_dir}")
 
 # Ensure analysis mode exists in all templates
 ensure_analysis_mode_exists()

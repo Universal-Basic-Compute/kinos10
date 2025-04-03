@@ -21,30 +21,30 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Back to map button
     const backToMapButton = document.getElementById('back-to-map');
-    const projectMapContainer = document.getElementById('project-map-container');
+    const kinMapContainer = document.getElementById('kin-map-container');
     const fileContentContainer = document.getElementById('file-content-container');
     
-    if (backToMapButton && projectMapContainer && fileContentContainer) {
+    if (backToMapButton && kinMapContainer && fileContentContainer) {
         backToMapButton.addEventListener('click', function() {
             fileContentContainer.style.display = 'none';
-            projectMapContainer.style.display = 'block';
+            kinMapContainer.style.display = 'block';
         });
     }
     
-    // Check if we're on a project detail page
-    if (!projectMapContainer) return;
+    // Check if we're on a kin detail page
+    if (!kinMapContainer) return;
     
-    // Get project info from data attributes
-    const customer = projectMapContainer.dataset.customer;
-    const project = projectMapContainer.dataset.project;
+    // Get kin info from data attributes
+    const blueprint = kinMapContainer.dataset.blueprint;
+    const kin = kinMapContainer.dataset.kin;
     
-    if (!customer || !project) return;
+    if (!blueprint || !kin) return;
     
     // Load file tree
-    loadFileTree(customer, project);
+    loadFileTree(blueprint, kin);
     
     // Function to load file tree
-    function loadFileTree(customer, project) {
+    function loadFileTree(blueprint, kin) {
         const fileExplorerContent = document.querySelector('.file-explorer-content');
         if (!fileExplorerContent) return;
         
@@ -56,9 +56,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         fileExplorerContent.innerHTML = '<div class="loading"><p>Loading files...</p></div>';
         
-        const projectPath = `${customer}/${project}`;
+        const kinPath = `${blueprint}/${kin}`;
         
-        fetch(`/api/projects/${projectPath}/files`)
+        fetch(`/api/kins/${kinPath}/files`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Add retry button functionality
                 const retryButton = document.getElementById('retry-files-button');
                 if (retryButton) {
-                    retryButton.addEventListener('click', () => loadFileTree(customer, project));
+                    retryButton.addEventListener('click', () => loadFileTree(blueprint, kin));
                 }
             });
     }
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.add('active');
                 
                 // Load and display file content
-                loadFileContent(customer, project, path);
+                loadFileContent(blueprint, kin, path);
             });
         });
         
@@ -258,8 +258,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Function to load file content
-    function loadFileContent(customer, project, filePath) {
-        const projectPath = `${customer}/${project}`;
+    function loadFileContent(blueprint, kin, filePath) {
+        const kinPath = `${blueprint}/${kin}`;
         const fileContentTitle = document.getElementById('file-content-title');
         const fileContent = document.getElementById('file-content');
         
@@ -270,13 +270,13 @@ document.addEventListener('DOMContentLoaded', function() {
         fileContentTitle.textContent = filePath.split('/').pop();
         
         // Hide map, show file content
-        if (projectMapContainer && fileContentContainer) {
-            projectMapContainer.style.display = 'none';
+        if (kinMapContainer && fileContentContainer) {
+            kinMapContainer.style.display = 'none';
             fileContentContainer.style.display = 'flex';
         }
         
         // Fetch file content
-        fetch(`/api/projects/${projectPath}/files/${filePath}`)
+        fetch(`/api/kins/${kinPath}/files/${filePath}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

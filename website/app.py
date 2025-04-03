@@ -10,54 +10,54 @@ app = Flask(__name__, static_folder='static', template_folder='templates', stati
 def index():
     return render_template('index.html', now=datetime.datetime.now())
 
-@app.route('/projects')
-def projects():
-    # Fetch real projects from the API
+@app.route('/kins')
+def kins():
+    # Fetch real kins from the API
     api_url = os.environ.get('API_URL', 'http://localhost:5000')
     try:
-        response = requests.get(f"{api_url}/projects/all")
+        response = requests.get(f"{api_url}/kins/all")
         if response.ok:
             data = response.json()
-            customers = data.get('customers', [])
-            projects = data.get('projects', {})
+            blueprints = data.get('blueprints', [])
+            kins = data.get('kins', {})
         else:
             # Fallback to empty data if API call fails
-            customers = []
-            projects = {}
+            blueprints = []
+            kins = {}
     except requests.RequestException:
         # Fallback to empty data if API call fails
-        customers = []
-        projects = {}
+        blueprints = []
+        kins = {}
     
-    return render_template('projects.html', 
-                          customers=customers, 
-                          projects=projects, 
+    return render_template('kins.html', 
+                          blueprints=blueprints, 
+                          kins=kins, 
                           now=datetime.datetime.now())
 
-@app.route('/projects/<customer>/<project>')
-def project_detail(customer, project):
-    # Fetch real projects from the API
+@app.route('/kins/<blueprint>/<kin>')
+def kin_detail(blueprint, kin):
+    # Fetch real kins from the API
     api_url = os.environ.get('API_URL', 'http://localhost:5000')
     try:
-        response = requests.get(f"{api_url}/projects/all")
+        response = requests.get(f"{api_url}/kins/all")
         if response.ok:
             data = response.json()
-            customers = data.get('customers', [])
-            projects = data.get('projects', {})
+            blueprints = data.get('blueprints', [])
+            kins = data.get('kins', {})
         else:
             # Fallback to empty data if API call fails
-            customers = []
-            projects = {}
+            blueprints = []
+            kins = {}
     except requests.RequestException:
         # Fallback to empty data if API call fails
-        customers = []
-        projects = {}
+        blueprints = []
+        kins = {}
     
-    return render_template('projects.html', 
-                          customers=customers, 
-                          projects=projects,
-                          selected_customer=customer,
-                          selected_project=project,
+    return render_template('kins.html', 
+                          blueprints=blueprints, 
+                          kins=kins,
+                          selected_blueprint=blueprint,
+                          selected_kin=kin,
                           now=datetime.datetime.now())
 
 @app.route('/health')
@@ -106,23 +106,23 @@ def website_debug():
             api_status = "Error"
             api_message = f"Failed to connect to API: {str(e)}"
         
-        # Test API projects endpoint
-        projects_status = "Unknown"
-        projects_message = ""
+        # Test API kins endpoint
+        kins_status = "Unknown"
+        kins_message = ""
         try:
-            projects_response = requests.get(f"{api_url}/projects/all", timeout=5)
-            if projects_response.ok:
-                projects_status = "Connected"
-                projects_message = f"Successfully connected to projects endpoint"
-                projects_data = projects_response.json()
+            kins_response = requests.get(f"{api_url}/kins/all", timeout=5)
+            if kins_response.ok:
+                kins_status = "Connected"
+                kins_message = f"Successfully connected to kins endpoint"
+                kins_data = kins_response.json()
             else:
-                projects_status = "Error"
-                projects_message = f"Projects endpoint returned status code {projects_response.status_code}"
-                projects_data = {}
+                kins_status = "Error"
+                kins_message = f"kins endpoint returned status code {kins_response.status_code}"
+                kins_data = {}
         except requests.RequestException as e:
-            projects_status = "Error"
-            projects_message = f"Failed to connect to projects endpoint: {str(e)}"
-            projects_data = {}
+            kins_status = "Error"
+            kins_message = f"Failed to connect to kins endpoint: {str(e)}"
+            kins_data = {}
         
         # Compile all debug information
         debug_info = {
@@ -147,11 +147,11 @@ def website_debug():
                 "status": api_status,
                 "message": api_message
             },
-            "projects_endpoint": {
-                "url": f"{api_url}/projects/all",
-                "status": projects_status,
-                "message": projects_message,
-                "data": projects_data
+            "kins_endpoint": {
+                "url": f"{api_url}/kins/all",
+                "status": kins_status,
+                "message": kins_message,
+                "data": kins_data
             },
             "request_info": {
                 "method": request.method,
@@ -246,13 +246,13 @@ def website_debug():
             </div>
             
             <div class="section">
-                <h2>Projects Endpoint</h2>
-                <p><strong>URL:</strong> {debug_info['projects_endpoint']['url']}</p>
-                <p><strong>Status:</strong> <span class="{'success' if debug_info['projects_endpoint']['status'] == 'Connected' else 'error'}">{debug_info['projects_endpoint']['status']}</span></p>
-                <p><strong>Message:</strong> {debug_info['projects_endpoint']['message']}</p>
+                <h2>kins Endpoint</h2>
+                <p><strong>URL:</strong> {debug_info['kins_endpoint']['url']}</p>
+                <p><strong>Status:</strong> <span class="{'success' if debug_info['kins_endpoint']['status'] == 'Connected' else 'error'}">{debug_info['kins_endpoint']['status']}</span></p>
+                <p><strong>Message:</strong> {debug_info['kins_endpoint']['message']}</p>
                 
                 <h3>Data</h3>
-                <pre>{json.dumps(debug_info['projects_endpoint']['data'], indent=2)}</pre>
+                <pre>{json.dumps(debug_info['kins_endpoint']['data'], indent=2)}</pre>
             </div>
             
             <div class="section">
@@ -346,14 +346,14 @@ def css_test():
     """Test endpoint to directly serve the CSS file"""
     return send_from_directory(os.path.join(app.static_folder, 'css'), 'styles.css')
 
-@app.route('/api/projects/<path:project_path>/files/<path:file_path>')
-def get_project_file(project_path, file_path):
-    """Proxy API requests for specific project files"""
+@app.route('/api/kins/<path:kin_path>/files/<path:file_path>')
+def get_kin_file(kin_path, file_path):
+    """Proxy API requests for specific kin files"""
     # API server URL (adjust as needed)
     api_url = os.environ.get('API_URL', 'http://localhost:5000')
     
     # Forward the request to the API server
-    url = f"{api_url}/projects/{project_path}/files/{file_path}"
+    url = f"{api_url}/kins/{kin_path}/files/{file_path}"
     
     try:
         # Forward the request
@@ -402,23 +402,23 @@ def api_test():
         api_status = "Error"
         api_message = f"Failed to connect to API server: {str(e)}"
     
-    # Check if the projects endpoint is working
-    projects_status = "Unknown"
-    projects_message = ""
+    # Check if the kins endpoint is working
+    kins_status = "Unknown"
+    kins_message = ""
     try:
-        response = requests.get(f"{api_url}/projects/all", timeout=5)
+        response = requests.get(f"{api_url}/kins/all", timeout=5)
         if response.ok:
-            projects_status = "Working"
-            projects_message = "Projects endpoint is working"
-            projects_data = response.json()
+            kins_status = "Working"
+            kins_message = "kins endpoint is working"
+            kins_data = response.json()
         else:
-            projects_status = "Error"
-            projects_message = f"Projects endpoint returned status code {response.status_code}"
-            projects_data = {}
+            kins_status = "Error"
+            kins_message = f"kins endpoint returned status code {response.status_code}"
+            kins_data = {}
     except requests.RequestException as e:
-        projects_status = "Error"
-        projects_message = f"Failed to connect to projects endpoint: {str(e)}"
-        projects_data = {}
+        kins_status = "Error"
+        kins_message = f"Failed to connect to kins endpoint: {str(e)}"
+        kins_data = {}
     
     return jsonify({
         "status": "OK",
@@ -429,12 +429,12 @@ def api_test():
             "message": api_message
         },
         "endpoints": {
-            "/api/projects/all": {
-                "status": projects_status,
-                "message": projects_message,
-                "data": projects_data if projects_status == "Working" else None
+            "/api/kins/all": {
+                "status": kins_status,
+                "message": kins_message,
+                "data": kins_data if kins_status == "Working" else None
             },
-            "/api/projects/<customer>/<project>/files": "Get files for a specific project",
+            "/api/kins/<blueprint>/<kin>/files": "Get files for a specific kin",
             "/api/health": "Health check endpoint"
         },
         "environment": {
@@ -450,15 +450,15 @@ def api_test():
         }
     })
 
-@app.route('/api/projects/all')
-def get_all_projects():
-    """API endpoint to get all customers and their projects"""
+@app.route('/api/kins/all')
+def get_all_kins():
+    """API endpoint to get all blueprints and their kins"""
     # API server URL (adjust as needed)
     api_url = os.environ.get('API_URL', 'https://kinos.onrender.com')
     
     try:
         # Forward the request to the API server
-        response = requests.get(f"{api_url}/projects/all")
+        response = requests.get(f"{api_url}/kins/all")
         
         if response.ok:
             return response.json()
@@ -472,8 +472,8 @@ def get_all_projects():
         print(f"API proxy error: {str(e)}")
         return jsonify({
             "error": "Failed to connect to API server",
-            "customers": [],
-            "projects": {}
+            "blueprints": [],
+            "kins": {}
         }), 500
 
 if __name__ == '__main__':

@@ -55,6 +55,6 @@ def get_app_data_dir():
     return app_data
 
 # Constants
-CUSTOMERS_DIR = os.path.join(get_app_data_dir(), "customers")
-# Ensure customers directory exists
-os.makedirs(CUSTOMERS_DIR, exist_ok=True)
+blueprintS_DIR = os.path.join(get_app_data_dir(), "blueprints")
+# Ensure blueprints directory exists
+os.makedirs(blueprintS_DIR, exist_ok=True)

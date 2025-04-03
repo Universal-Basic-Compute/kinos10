@@ -1,25 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if we're on a project detail page
-    const projectMapContainer = document.getElementById('project-map-container');
-    if (!projectMapContainer) return;
+    // Check if we're on a kin detail page
+    const kinMapContainer = document.getElementById('kin-map-container');
+    if (!kinMapContainer) return;
     
-    // Get project info from data attributes
-    const customer = projectMapContainer.dataset.customer;
-    const project = projectMapContainer.dataset.project;
+    // Get kin info from data attributes
+    const blueprint = kinMapContainer.dataset.blueprint;
+    const kin = kinMapContainer.dataset.kin;
     
-    if (!customer || !project) {
-        showNoMapData("No project selected");
+    if (!blueprint || !kin) {
+        showNoMapData("No kin selected");
         return;
     }
     
-    // Fetch project map data
-    fetchProjectMap(customer, project);
+    // Fetch kin map data
+    fetchkinMap(blueprint, kin);
     
-    // Function to fetch project map data
-    function fetchProjectMap(customer, project) {
-        const projectPath = `${customer}/${project}`;
+    // Function to fetch kin map data
+    function fetchkinMap(blueprint, kin) {
+        const kinPath = `${blueprint}/${kin}`;
         
-        fetch(`/api/projects/${projectPath}/files/map.json`)
+        fetch(`/api/kins/${kinPath}/files/map.json`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -30,25 +30,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data && Object.keys(data).length > 0) {
                     createForceDirectedGraph(data);
                 } else {
-                    showNoMapData("No map data available for this project");
+                    showNoMapData("No map data available for this kin");
                 }
             })
             .catch(error => {
-                console.error('Error fetching project map:', error);
-                showNoMapData("Error loading project map");
+                console.error('Error fetching kin map:', error);
+                showNoMapData("Error loading kin map");
             });
     }
     
     // Function to show a message when no map data is available
     function showNoMapData(message) {
-        const projectMap = document.getElementById('project-map');
-        if (!projectMap) return;
+        const kinMap = document.getElementById('kin-map');
+        if (!kinMap) return;
         
-        projectMap.innerHTML = `
+        kinMap.innerHTML = `
             <div class="no-map-data">
                 <i class="fas fa-map-marked-alt"></i>
                 <h3>${message}</h3>
-                <p>The project map could not be loaded. This might be because the project doesn't have a map.json file or the file is not properly formatted.</p>
+                <p>The kin map could not be loaded. This might be because the kin doesn't have a map.json file or the file is not properly formatted.</p>
             </div>
         `;
     }
@@ -62,19 +62,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Clear any existing content
-        const projectMap = document.getElementById('project-map');
-        projectMap.innerHTML = '';
+        const kinMap = document.getElementById('kin-map');
+        kinMap.innerHTML = '';
         
         // Create tooltip element
         const tooltip = document.createElement('div');
         tooltip.className = 'tooltip';
-        projectMapContainer.appendChild(tooltip);
+        kinMapContainer.appendChild(tooltip);
         
         // Set up the SVG container
-        const width = projectMap.clientWidth;
-        const height = projectMap.clientHeight;
+        const width = kinMap.clientWidth;
+        const height = kinMap.clientHeight;
         
-        const svg = d3.select('#project-map')
+        const svg = d3.select('#kin-map')
             .append('svg')
             .attr('width', width)
             .attr('height', height);
@@ -98,9 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add root node
         nodes.push({
             id: 'root',
-            name: project,
-            type: 'project',
-            description: `Root of ${project} project`
+            name: kin,
+            type: 'kin',
+            description: `Root of ${kin} kin`
         });
         
         // Helper function to process files from the map.json structure
@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add circles to nodes
         node.append('circle')
-            .attr('r', d => d.type === 'project' ? 15 : d.type === 'folder' ? 10 : 8);
+            .attr('r', d => d.type === 'kin' ? 15 : d.type === 'folder' ? 10 : 8);
         
         // Add text labels to nodes
         node.append('text')
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <i class="fas fa-home"></i>
             </button>
         `;
-        projectMapContainer.appendChild(mapControls);
+        kinMapContainer.appendChild(mapControls);
         
         // Add event listeners to control buttons
         document.getElementById('zoom-in').addEventListener('click', () => {
@@ -341,27 +341,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if we're on a project detail page
-    const projectMapContainer = document.getElementById('project-map-container');
-    if (!projectMapContainer) return;
+    // Check if we're on a kin detail page
+    const kinMapContainer = document.getElementById('kin-map-container');
+    if (!kinMapContainer) return;
     
-    // Get project info from data attributes
-    const customer = projectMapContainer.dataset.customer;
-    const project = projectMapContainer.dataset.project;
+    // Get kin info from data attributes
+    const blueprint = kinMapContainer.dataset.blueprint;
+    const kin = kinMapContainer.dataset.kin;
     
-    if (!customer || !project) {
-        showNoMapData("No project selected");
+    if (!blueprint || !kin) {
+        showNoMapData("No kin selected");
         return;
     }
     
-    // Fetch project map data
-    fetchProjectMap(customer, project);
+    // Fetch kin map data
+    fetchkinMap(blueprint, kin);
     
-    // Function to fetch project map data
-    function fetchProjectMap(customer, project) {
-        const projectPath = `${customer}/${project}`;
+    // Function to fetch kin map data
+    function fetchkinMap(blueprint, kin) {
+        const kinPath = `${blueprint}/${kin}`;
         
-        fetch(`/api/projects/${projectPath}/files/map.json`)
+        fetch(`/api/kins/${kinPath}/files/map.json`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -372,25 +372,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data && Object.keys(data).length > 0) {
                     createForceDirectedGraph(data);
                 } else {
-                    showNoMapData("No map data available for this project");
+                    showNoMapData("No map data available for this kin");
                 }
             })
             .catch(error => {
-                console.error('Error fetching project map:', error);
-                showNoMapData("Error loading project map");
+                console.error('Error fetching kin map:', error);
+                showNoMapData("Error loading kin map");
             });
     }
     
     // Function to show a message when no map data is available
     function showNoMapData(message) {
-        const projectMap = document.getElementById('project-map');
-        if (!projectMap) return;
+        const kinMap = document.getElementById('kin-map');
+        if (!kinMap) return;
         
-        projectMap.innerHTML = `
+        kinMap.innerHTML = `
             <div class="no-map-data">
                 <i class="fas fa-map-marked-alt"></i>
                 <h3>${message}</h3>
-                <p>The project map could not be loaded. This might be because the project doesn't have a map.json file or the file is not properly formatted.</p>
+                <p>The kin map could not be loaded. This might be because the kin doesn't have a map.json file or the file is not properly formatted.</p>
             </div>
         `;
     }
@@ -404,19 +404,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Clear any existing content
-        const projectMap = document.getElementById('project-map');
-        projectMap.innerHTML = '';
+        const kinMap = document.getElementById('kin-map');
+        kinMap.innerHTML = '';
         
         // Create tooltip element
         const tooltip = document.createElement('div');
         tooltip.className = 'tooltip';
-        projectMapContainer.appendChild(tooltip);
+        kinMapContainer.appendChild(tooltip);
         
         // Set up the SVG container
-        const width = projectMap.clientWidth;
-        const height = projectMap.clientHeight;
+        const width = kinMap.clientWidth;
+        const height = kinMap.clientHeight;
         
-        const svg = d3.select('#project-map')
+        const svg = d3.select('#kin-map')
             .append('svg')
             .attr('width', width)
             .attr('height', height);
@@ -440,9 +440,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add root node
         nodes.push({
             id: 'root',
-            name: project,
-            type: 'project',
-            description: `Root of ${project} project`
+            name: kin,
+            type: 'kin',
+            description: `Root of ${kin} kin`
         });
         
         // Helper function to process files from the map.json structure
@@ -608,7 +608,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add circles to nodes
         node.append('circle')
-            .attr('r', d => d.type === 'project' ? 15 : d.type === 'folder' ? 10 : 8);
+            .attr('r', d => d.type === 'kin' ? 15 : d.type === 'folder' ? 10 : 8);
         
         // Add text labels to nodes
         node.append('text')
@@ -658,7 +658,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <i class="fas fa-home"></i>
             </button>
         `;
-        projectMapContainer.appendChild(mapControls);
+        kinMapContainer.appendChild(mapControls);
         
         // Add event listeners to control buttons
         document.getElementById('zoom-in').addEventListener('click', () => {

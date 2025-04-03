@@ -1,5 +1,5 @@
-/* Project map styles */
-.project-map-container {
+/* kin map styles */
+.kin-map-container {
     width: 100%;
     height: calc(100vh - 80px - 80px); /* Adjust for header and footer */
     background-color: var(--gray-50);
@@ -8,7 +8,7 @@
     position: relative;
 }
 
-#project-map {
+#kin-map {
     width: 100%;
     height: 100%;
 }

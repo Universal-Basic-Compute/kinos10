@@ -73,17 +73,17 @@ def should_ignore_file(file_path, ignore_patterns=None):
                 return True
     return False
 
-def load_gitignore(project_path):
+def load_gitignore(kin_path):
     """
     Load patterns from .gitignore file.
     
     Args:
-        project_path: Path to the project directory
+        kin_path: Path to the kin directory
         
     Returns:
         List of ignore patterns
     """
-    gitignore_path = os.path.join(project_path, '.gitignore')
+    gitignore_path = os.path.join(kin_path, '.gitignore')
     ignore_patterns = []
     
     if os.path.exists(gitignore_path):

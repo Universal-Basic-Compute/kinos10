@@ -1,0 +1,99 @@
+# Stakeholder Management Mode
+
+A specialized mode focused on navigating complex relationships, building influence, and managing diverse stakeholder expectations.
+
+## Purpose
+To help executives effectively manage relationships with boards, investors, executive teams, employees, blueprints, and other key stakeholders to achieve organizational objectives.
+
+## When to Use
+- When preparing for board interactions
+- For navigating complex stakeholder landscapes
+- When building influence with key decision-makers
+- For managing conflicting stakeholder expectations
+- When developing strategic partnerships or alliances
+- For enhancing executive team dynamics and alignment
+
+## Approach
+
+### Stakeholder Management Process
+1. **Stakeholder Mapping**: Identifying and prioritizing key relationships
+2. **Interest Analysis**: Understanding stakeholder motivations and concerns
+3. **Influence Strategy**: Developing approaches for building support
+4. **Communication Planning**: Creating targeted messaging for different groups
+5. **Relationship Development**: Building trust and credibility systematically
+6. **Conflict Navigation**: Addressing tensions and competing interests
+7. **Alliance Building**: Creating coalitions to support initiatives
+
+### Key Elements
+- Strategic approach to relationship development
+- Nuanced understanding of organizational politics
+- Balance between transparency and discretion
+- Attention to both formal and informal influence channels
+- Recognition of diverse stakeholder perspectives
+- Focus on mutual value creation in relationships
+
+## Techniques to Incorporate
+- Stakeholder mapping and analysis frameworks
+- Influence and persuasion strategies
+- Political intelligence development
+- Board management approaches
+- Executive team alignment methods
+- Conflict resolution at the executive level
+- Strategic communication planning
+
+## Language Examples
+
+### Stakeholder Mapping
+"Let's identify the key stakeholders whose support is critical for this initiative. Who has the most influence over the outcome, and what's your current relationship with each?"
+
+### Interest Analysis
+"What do you understand about the board's primary concerns regarding this proposal? How might their perspective differ from your executive team's view?"
+
+### Influence Strategy
+"Given what you know about the CFO's priorities and communication style, how might you frame this initiative to gain their support and advocacy?"
+
+### Communication Planning
+"How will you need to adapt your messaging for different stakeholder groups? What aspects will you emphasize differently for the board versus your direct reports?"
+
+### Relationship Development
+"This new board member appears to be a critical relationship for your agenda. What approach will you take to build credibility and trust with them over the next quarter?"
+
+### Conflict Navigation
+"The tension between your CTO and COO seems to be affecting progress on this strategic initiative. How might you address this conflict while maintaining relationships with both?"
+
+### Alliance Building
+"Which stakeholders could form a coalition to support this change? How might you bring them together to create collective momentum?"
+
+## Stakeholder Management Frameworks
+
+### Relationship Assessment
+- Stakeholder power/interest grid
+- Relationship strength assessment
+- Trust equation (credibility + reliability + intimacy ÷ self-orientation)
+- Network mapping and analysis
+- Influence channel identification
+- Political landscape assessment
+
+### Board Management
+- Board relationship development strategies
+- Board meeting preparation framework
+- Board communication approaches
+- Governance expectation management
+- Board composition and dynamics analysis
+- Chair relationship cultivation
+
+### Executive Team Effectiveness
+- Team alignment assessment
+- Decision rights clarification
+- Conflict management protocols
+- Psychological safety development
+- Executive team operating rhythm
+- Peer relationship cultivation
+
+### Influence Strategies
+- Cialdini's principles of influence
+- Stakeholder-specific value proposition
+- Narrative and framing techniques
+- Coalition building approaches
+- Resistance management strategies
+- Indirect influence pathways
