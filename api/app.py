@@ -12,7 +12,6 @@ from routes.stt import stt_bp
 from routes.debug import debug_bp
 from services.file_service import initialize_blueprint_templates
 from propagate_templates import propagate_templates
-from migrate_v1_to_v2 import migrate_v1_to_v2
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -300,16 +299,6 @@ def global_catch_all(undefined_route):
 # Initialize blueprint templates
 initialize_blueprint_templates()
 
-# Migrate v1 data to v2 structure if needed
-logger.info("Checking for v1 data to migrate to v2 structure")
-try:
-    success, message = migrate_v1_to_v2(dry_run=False)
-    if success:
-        logger.info(f"Migration check completed: {message}")
-    else:
-        logger.error(f"Migration failed: {message}")
-except Exception as e:
-    logger.error(f"Error during migration: {str(e)}")
 
 # Propagate template changes to all kins
 logger.info("Propagating template changes to all kins")
