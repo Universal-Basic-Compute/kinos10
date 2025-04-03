@@ -1,0 +1,151 @@
+2025-04-03 15:37:46,527 - INFO - Starting v1 to v2 API migration
+2025-04-03 15:37:46,528 - INFO - Using Windows path: C:\data\KinOS
+2025-04-03 15:37:46,530 - INFO - Created v2 blueprints directory: C:\data\KinOS\v2\blueprints
+2025-04-03 15:37:46,533 - INFO - Found 24 customers to migrate: ['deskmate', 'duogaming', 'fictra', 'fictra-foundation', 'fictra-participants', 'fictra-sovereign', 'harmonyprotocol', 'kinkong', 'kinos', 'konginvest', 'marketingmesh', 'sottowelcome', 'stride', 'stridecoaching', 'strideentrepreneur', 'strideexecutive', 'stridewomen', 'therapykin', 'therapykinathletes', 'therapykincrypto', 'therapykinexecutives', 'therapykinherosjourney', 'therapykinsexologist', 'therapykinwelcome']
+2025-04-03 15:37:46,534 - INFO - Processing customer: deskmate (will become blueprint)
+2025-04-03 15:37:46,534 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\deskmate
+2025-04-03 15:37:46,534 - INFO - Copying template from C:\data\KinOS\customers\deskmate\template to C:\data\KinOS\v2\blueprints\deskmate\template
+2025-04-03 15:37:46,572 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\deskmate\kins
+2025-04-03 15:37:46,573 - INFO - Found 2 projects for customer deskmate
+2025-04-03 15:37:46,574 - INFO - Processing project: deskmate/default-user (will become kin)
+2025-04-03 15:37:46,574 - INFO - Copying project from C:\data\KinOS\customers\deskmate\projects\default-user to C:\data\KinOS\v2\blueprints\deskmate\kins\default-user
+2025-04-03 15:37:46,651 - INFO - Processing project: deskmate/test-at-example-dot-com (will become kin)
+2025-04-03 15:37:46,651 - INFO - Copying project from C:\data\KinOS\customers\deskmate\projects\test-at-example-dot-com to C:\data\KinOS\v2\blueprints\deskmate\kins\test-at-example-dot-com
+2025-04-03 15:37:46,753 - INFO - Processing customer: duogaming (will become blueprint)
+2025-04-03 15:37:46,754 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\duogaming
+2025-04-03 15:37:46,754 - INFO - Copying template from C:\data\KinOS\customers\duogaming\template to C:\data\KinOS\v2\blueprints\duogaming\template
+2025-04-03 15:37:46,881 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\duogaming\kins
+2025-04-03 15:37:46,881 - INFO - Found 1 projects for customer duogaming
+2025-04-03 15:37:46,882 - INFO - Processing project: duogaming/NLR-Zephyr (will become kin)
+2025-04-03 15:37:46,883 - INFO - Copying project from C:\data\KinOS\customers\duogaming\projects\NLR-Zephyr to C:\data\KinOS\v2\blueprints\duogaming\kins\NLR-Zephyr
+2025-04-03 15:37:46,973 - INFO - Processing customer: fictra (will become blueprint)
+2025-04-03 15:37:46,974 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\fictra
+2025-04-03 15:37:46,975 - INFO - Copying template from C:\data\KinOS\customers\fictra\template to C:\data\KinOS\v2\blueprints\fictra\template
+2025-04-03 15:37:46,992 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\fictra\kins
+2025-04-03 15:37:46,992 - INFO - Found 0 projects for customer fictra
+2025-04-03 15:37:46,993 - INFO - Processing customer: fictra-foundation (will become blueprint)
+2025-04-03 15:37:46,994 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\fictra-foundation
+2025-04-03 15:37:46,995 - INFO - Copying template from C:\data\KinOS\customers\fictra-foundation\template to C:\data\KinOS\v2\blueprints\fictra-foundation\template
+2025-04-03 15:37:47,009 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\fictra-foundation\kins
+2025-04-03 15:37:47,009 - INFO - Found 0 projects for customer fictra-foundation
+2025-04-03 15:37:47,009 - INFO - Processing customer: fictra-participants (will become blueprint)
+2025-04-03 15:37:47,011 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\fictra-participants
+2025-04-03 15:37:47,011 - INFO - Copying template from C:\data\KinOS\customers\fictra-participants\template to C:\data\KinOS\v2\blueprints\fictra-participants\template
+2025-04-03 15:37:47,025 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\fictra-participants\kins
+2025-04-03 15:37:47,026 - INFO - Found 0 projects for customer fictra-participants
+2025-04-03 15:37:47,026 - INFO - Processing customer: fictra-sovereign (will become blueprint)
+2025-04-03 15:37:47,027 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\fictra-sovereign
+2025-04-03 15:37:47,028 - INFO - Copying template from C:\data\KinOS\customers\fictra-sovereign\template to C:\data\KinOS\v2\blueprints\fictra-sovereign\template
+2025-04-03 15:37:47,050 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\fictra-sovereign\kins
+2025-04-03 15:37:47,050 - INFO - Found 0 projects for customer fictra-sovereign
+2025-04-03 15:37:47,051 - INFO - Processing customer: harmonyprotocol (will become blueprint)
+2025-04-03 15:37:47,051 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\harmonyprotocol
+2025-04-03 15:37:47,052 - INFO - Copying template from C:\data\KinOS\customers\harmonyprotocol\template to C:\data\KinOS\v2\blueprints\harmonyprotocol\template
+2025-04-03 15:37:47,088 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\harmonyprotocol\kins
+2025-04-03 15:37:47,089 - INFO - Found 0 projects for customer harmonyprotocol
+2025-04-03 15:37:47,089 - INFO - Processing customer: kinkong (will become blueprint)
+2025-04-03 15:37:47,089 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\kinkong
+2025-04-03 15:37:47,090 - INFO - Copying template from C:\data\KinOS\customers\kinkong\template to C:\data\KinOS\v2\blueprints\kinkong\template
+2025-04-03 15:37:47,144 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\kinkong\kins
+2025-04-03 15:37:47,145 - INFO - Found 0 projects for customer kinkong
+2025-04-03 15:37:47,146 - INFO - Processing customer: kinos (will become blueprint)
+2025-04-03 15:37:47,146 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\kinos
+2025-04-03 15:37:47,147 - INFO - Copying template from C:\data\KinOS\customers\kinos\template to C:\data\KinOS\v2\blueprints\kinos\template
+2025-04-03 15:37:47,179 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\kinos\kins
+2025-04-03 15:37:47,180 - INFO - Found 1 projects for customer kinos
+2025-04-03 15:37:47,181 - INFO - Processing project: kinos/deskmate (will become kin)
+2025-04-03 15:37:47,182 - INFO - Copying project from C:\data\KinOS\customers\kinos\projects\deskmate to C:\data\KinOS\v2\blueprints\kinos\kins\deskmate
+2025-04-03 15:37:47,281 - INFO - Processing customer: konginvest (will become blueprint)
+2025-04-03 15:37:47,282 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\konginvest
+2025-04-03 15:37:47,282 - INFO - Copying template from C:\data\KinOS\customers\konginvest\template to C:\data\KinOS\v2\blueprints\konginvest\template
+2025-04-03 15:37:47,288 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\konginvest\kins
+2025-04-03 15:37:47,289 - INFO - Found 0 projects for customer konginvest
+2025-04-03 15:37:47,289 - INFO - Processing customer: marketingmesh (will become blueprint)
+2025-04-03 15:37:47,289 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\marketingmesh
+2025-04-03 15:37:47,291 - INFO - Copying template from C:\data\KinOS\customers\marketingmesh\template to C:\data\KinOS\v2\blueprints\marketingmesh\template
+2025-04-03 15:37:47,327 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\marketingmesh\kins
+2025-04-03 15:37:47,328 - INFO - Found 1 projects for customer marketingmesh
+2025-04-03 15:37:47,329 - INFO - Processing project: marketingmesh/nlr_at_universalbasiccompute_dot_ai (will become kin)
+2025-04-03 15:37:47,330 - INFO - Copying project from C:\data\KinOS\customers\marketingmesh\projects\nlr_at_universalbasiccompute_dot_ai to C:\data\KinOS\v2\blueprints\marketingmesh\kins\nlr_at_universalbasiccompute_dot_ai
+2025-04-03 15:37:47,818 - INFO - Processing customer: sottowelcome (will become blueprint)
+2025-04-03 15:37:47,820 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\sottowelcome
+2025-04-03 15:37:47,821 - INFO - Copying template from C:\data\KinOS\customers\sottowelcome\template to C:\data\KinOS\v2\blueprints\sottowelcome\template
+2025-04-03 15:37:47,856 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\sottowelcome\kins
+2025-04-03 15:37:47,857 - INFO - Found 1 projects for customer sottowelcome
+2025-04-03 15:37:47,857 - INFO - Processing project: sottowelcome/bbe5a276-5f75-436a-854d-265560bebb66 (will become kin)
+2025-04-03 15:37:47,857 - INFO - Copying project from C:\data\KinOS\customers\sottowelcome\projects\bbe5a276-5f75-436a-854d-265560bebb66 to C:\data\KinOS\v2\blueprints\sottowelcome\kins\bbe5a276-5f75-436a-854d-265560bebb66
+2025-04-03 15:37:48,044 - INFO - Processing customer: stride (will become blueprint)
+2025-04-03 15:37:48,045 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\stride
+2025-04-03 15:37:48,045 - INFO - Copying template from C:\data\KinOS\customers\stride\template to C:\data\KinOS\v2\blueprints\stride\template
+2025-04-03 15:37:48,092 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\stride\kins
+2025-04-03 15:37:48,093 - INFO - Found 0 projects for customer stride
+2025-04-03 15:37:48,093 - INFO - Processing customer: stridecoaching (will become blueprint)
+2025-04-03 15:37:48,094 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\stridecoaching
+2025-04-03 15:37:48,095 - INFO - Copying template from C:\data\KinOS\customers\stridecoaching\template to C:\data\KinOS\v2\blueprints\stridecoaching\template
+2025-04-03 15:37:48,098 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\stridecoaching\kins
+2025-04-03 15:37:48,098 - INFO - Found 0 projects for customer stridecoaching
+2025-04-03 15:37:48,098 - INFO - Processing customer: strideentrepreneur (will become blueprint)
+2025-04-03 15:37:48,099 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\strideentrepreneur
+2025-04-03 15:37:48,099 - INFO - Copying template from C:\data\KinOS\customers\strideentrepreneur\template to C:\data\KinOS\v2\blueprints\strideentrepreneur\template
+2025-04-03 15:37:48,131 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\strideentrepreneur\kins
+2025-04-03 15:37:48,132 - INFO - Found 0 projects for customer strideentrepreneur
+2025-04-03 15:37:48,132 - INFO - Processing customer: strideexecutive (will become blueprint)
+2025-04-03 15:37:48,133 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\strideexecutive
+2025-04-03 15:37:48,133 - INFO - Copying template from C:\data\KinOS\customers\strideexecutive\template to C:\data\KinOS\v2\blueprints\strideexecutive\template
+2025-04-03 15:37:48,183 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\strideexecutive\kins
+2025-04-03 15:37:48,183 - INFO - Found 0 projects for customer strideexecutive
+2025-04-03 15:37:48,184 - INFO - Processing customer: stridewomen (will become blueprint)
+2025-04-03 15:37:48,185 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\stridewomen
+2025-04-03 15:37:48,185 - INFO - Copying template from C:\data\KinOS\customers\stridewomen\template to C:\data\KinOS\v2\blueprints\stridewomen\template
+2025-04-03 15:37:48,211 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\stridewomen\kins
+2025-04-03 15:37:48,212 - INFO - Found 0 projects for customer stridewomen
+2025-04-03 15:37:48,212 - INFO - Processing customer: therapykin (will become blueprint)
+2025-04-03 15:37:48,213 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykin
+2025-04-03 15:37:48,214 - INFO - Copying template from C:\data\KinOS\customers\therapykin\template to C:\data\KinOS\v2\blueprints\therapykin\template
+2025-04-03 15:37:48,275 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykin\kins
+2025-04-03 15:37:48,276 - INFO - Found 2 projects for customer therapykin
+2025-04-03 15:37:48,276 - INFO - Processing project: therapykin/Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc (will become kin)
+2025-04-03 15:37:48,277 - INFO - Copying project from C:\data\KinOS\customers\therapykin\projects\Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc to C:\data\KinOS\v2\blueprints\therapykin\kins\Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc
+2025-04-03 15:37:48,426 - INFO - Processing project: therapykin/NicolasReynolds (will become kin)
+2025-04-03 15:37:48,427 - INFO - Copying project from C:\data\KinOS\customers\therapykin\projects\NicolasReynolds to C:\data\KinOS\v2\blueprints\therapykin\kins\NicolasReynolds
+2025-04-03 15:37:50,234 - INFO - Processing customer: therapykinathletes (will become blueprint)
+2025-04-03 15:37:50,235 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykinathletes
+2025-04-03 15:37:50,235 - INFO - Copying template from C:\data\KinOS\customers\therapykinathletes\template to C:\data\KinOS\v2\blueprints\therapykinathletes\template
+2025-04-03 15:37:50,263 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykinathletes\kins
+2025-04-03 15:37:50,263 - INFO - Found 0 projects for customer therapykinathletes
+2025-04-03 15:37:50,264 - INFO - Processing customer: therapykincrypto (will become blueprint)
+2025-04-03 15:37:50,264 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykincrypto
+2025-04-03 15:37:50,265 - INFO - Copying template from C:\data\KinOS\customers\therapykincrypto\template to C:\data\KinOS\v2\blueprints\therapykincrypto\template
+2025-04-03 15:37:50,289 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykincrypto\kins
+2025-04-03 15:37:50,290 - INFO - Found 1 projects for customer therapykincrypto
+2025-04-03 15:37:50,290 - INFO - Processing project: therapykincrypto/NicolasReynolds (will become kin)
+2025-04-03 15:37:50,290 - INFO - Copying project from C:\data\KinOS\customers\therapykincrypto\projects\NicolasReynolds to C:\data\KinOS\v2\blueprints\therapykincrypto\kins\NicolasReynolds
+2025-04-03 15:37:50,425 - INFO - Processing customer: therapykinexecutives (will become blueprint)
+2025-04-03 15:37:50,426 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykinexecutives
+2025-04-03 15:37:50,426 - INFO - Copying template from C:\data\KinOS\customers\therapykinexecutives\template to C:\data\KinOS\v2\blueprints\therapykinexecutives\template
+2025-04-03 15:37:50,451 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykinexecutives\kins
+2025-04-03 15:37:50,451 - INFO - Found 1 projects for customer therapykinexecutives
+2025-04-03 15:37:50,452 - INFO - Processing project: therapykinexecutives/NicolasReynolds (will become kin)
+2025-04-03 15:37:50,452 - INFO - Copying project from C:\data\KinOS\customers\therapykinexecutives\projects\NicolasReynolds to C:\data\KinOS\v2\blueprints\therapykinexecutives\kins\NicolasReynolds
+2025-04-03 15:37:50,622 - INFO - Processing customer: therapykinherosjourney (will become blueprint)
+2025-04-03 15:37:50,622 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykinherosjourney
+2025-04-03 15:37:50,623 - INFO - Copying template from C:\data\KinOS\customers\therapykinherosjourney\template to C:\data\KinOS\v2\blueprints\therapykinherosjourney\template
+2025-04-03 15:37:50,666 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykinherosjourney\kins
+2025-04-03 15:37:50,666 - INFO - Found 1 projects for customer therapykinherosjourney
+2025-04-03 15:37:50,666 - INFO - Processing project: therapykinherosjourney/NicolasReynolds (will become kin)
+2025-04-03 15:37:50,667 - INFO - Copying project from C:\data\KinOS\customers\therapykinherosjourney\projects\NicolasReynolds to C:\data\KinOS\v2\blueprints\therapykinherosjourney\kins\NicolasReynolds
+2025-04-03 15:37:50,869 - INFO - Processing customer: therapykinsexologist (will become blueprint)
+2025-04-03 15:37:50,870 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykinsexologist
+2025-04-03 15:37:50,870 - INFO - Copying template from C:\data\KinOS\customers\therapykinsexologist\template to C:\data\KinOS\v2\blueprints\therapykinsexologist\template
+2025-04-03 15:37:50,910 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykinsexologist\kins
+2025-04-03 15:37:50,911 - INFO - Found 0 projects for customer therapykinsexologist
+2025-04-03 15:37:50,911 - INFO - Processing customer: therapykinwelcome (will become blueprint)
+2025-04-03 15:37:50,911 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykinwelcome
+2025-04-03 15:37:50,912 - INFO - Copying template from C:\data\KinOS\customers\therapykinwelcome\template to C:\data\KinOS\v2\blueprints\therapykinwelcome\template
+2025-04-03 15:37:50,933 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykinwelcome\kins
+2025-04-03 15:37:50,934 - INFO - Found 1 projects for customer therapykinwelcome
+2025-04-03 15:37:50,934 - INFO - Processing project: therapykinwelcome/Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc (will become kin)
+2025-04-03 15:37:50,935 - INFO - Copying project from C:\data\KinOS\customers\therapykinwelcome\projects\Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc to C:\data\KinOS\v2\blueprints\therapykinwelcome\kins\Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc
+2025-04-03 15:37:51,256 - INFO - Created directory junction from C:\data\KinOS\customers_v2 to C:\data\KinOS\v2\blueprints
+2025-04-03 15:37:51,276 - INFO - Created directory junction from C:\data\KinOS\v1 to C:\data\KinOS\customers
+2025-04-03 15:37:51,277 - INFO - Migration statistics: {'blueprints_total': 24, 'blueprints_migrated': 24, 'templates_migrated': 24, 'kins_total': 12, 'kins_migrated': 12, 'errors': []}

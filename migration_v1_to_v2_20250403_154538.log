@@ -1,0 +1,202 @@
+2025-04-03 15:45:38,877 - INFO - Starting v1 to v2 API migration
+2025-04-03 15:45:38,877 - INFO - Using Windows path: C:\data\KinOS
+2025-04-03 15:45:38,878 - INFO - Created v2 blueprints directory: C:\data\KinOS\v2\blueprints
+2025-04-03 15:45:38,880 - INFO - Found 24 customers to migrate: ['deskmate', 'duogaming', 'fictra', 'fictra-foundation', 'fictra-participants', 'fictra-sovereign', 'harmonyprotocol', 'kinkong', 'kinos', 'konginvest', 'marketingmesh', 'sottowelcome', 'stride', 'stridecoaching', 'strideentrepreneur', 'strideexecutive', 'stridewomen', 'therapykin', 'therapykinathletes', 'therapykincrypto', 'therapykinexecutives', 'therapykinherosjourney', 'therapykinsexologist', 'therapykinwelcome']
+2025-04-03 15:45:38,881 - INFO - Processing customer: deskmate (will become blueprint)
+2025-04-03 15:45:38,881 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\deskmate
+2025-04-03 15:45:38,882 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\deskmate\template
+2025-04-03 15:45:38,887 - INFO - Copying template from C:\data\KinOS\customers\deskmate\template to C:\data\KinOS\v2\blueprints\deskmate\template
+2025-04-03 15:45:38,912 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\deskmate\kins
+2025-04-03 15:45:38,913 - INFO - Found 2 projects for customer deskmate
+2025-04-03 15:45:38,913 - INFO - Processing project: deskmate/default-user (will become kin)
+2025-04-03 15:45:38,914 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\deskmate\kins\default-user
+2025-04-03 15:45:38,924 - INFO - Copying project from C:\data\KinOS\customers\deskmate\projects\default-user to C:\data\KinOS\v2\blueprints\deskmate\kins\default-user
+2025-04-03 15:45:38,968 - INFO - Processing project: deskmate/test-at-example-dot-com (will become kin)
+2025-04-03 15:45:38,969 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\deskmate\kins\test-at-example-dot-com
+2025-04-03 15:45:38,969 - WARNING - Permission error removing C:\data\KinOS\v2\blueprints\deskmate\kins\test-at-example-dot-com, trying to remove files individually
+2025-04-03 15:45:38,986 - INFO - Copying project from C:\data\KinOS\customers\deskmate\projects\test-at-example-dot-com to C:\data\KinOS\v2\blueprints\deskmate\kins\test-at-example-dot-com
+2025-04-03 15:45:39,047 - INFO - Processing customer: duogaming (will become blueprint)
+2025-04-03 15:45:39,048 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\duogaming
+2025-04-03 15:45:39,048 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\duogaming\template
+2025-04-03 15:45:39,052 - WARNING - Permission error removing C:\data\KinOS\v2\blueprints\duogaming\template, trying to remove files individually
+2025-04-03 15:45:39,065 - INFO - Copying template from C:\data\KinOS\customers\duogaming\template to C:\data\KinOS\v2\blueprints\duogaming\template
+2025-04-03 15:45:39,118 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\duogaming\kins
+2025-04-03 15:45:39,118 - INFO - Found 1 projects for customer duogaming
+2025-04-03 15:45:39,118 - INFO - Processing project: duogaming/NLR-Zephyr (will become kin)
+2025-04-03 15:45:39,119 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\duogaming\kins\NLR-Zephyr
+2025-04-03 15:45:39,123 - WARNING - Permission error removing C:\data\KinOS\v2\blueprints\duogaming\kins\NLR-Zephyr, trying to remove files individually
+2025-04-03 15:45:39,138 - INFO - Copying project from C:\data\KinOS\customers\duogaming\projects\NLR-Zephyr to C:\data\KinOS\v2\blueprints\duogaming\kins\NLR-Zephyr
+2025-04-03 15:45:39,195 - INFO - Processing customer: fictra (will become blueprint)
+2025-04-03 15:45:39,196 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\fictra
+2025-04-03 15:45:39,196 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\fictra\template
+2025-04-03 15:45:39,199 - INFO - Copying template from C:\data\KinOS\customers\fictra\template to C:\data\KinOS\v2\blueprints\fictra\template
+2025-04-03 15:45:39,211 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\fictra\kins
+2025-04-03 15:45:39,212 - INFO - Found 0 projects for customer fictra
+2025-04-03 15:45:39,212 - INFO - Processing customer: fictra-foundation (will become blueprint)
+2025-04-03 15:45:39,212 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\fictra-foundation
+2025-04-03 15:45:39,213 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\fictra-foundation\template
+2025-04-03 15:45:39,216 - INFO - Copying template from C:\data\KinOS\customers\fictra-foundation\template to C:\data\KinOS\v2\blueprints\fictra-foundation\template
+2025-04-03 15:45:39,227 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\fictra-foundation\kins
+2025-04-03 15:45:39,227 - INFO - Found 0 projects for customer fictra-foundation
+2025-04-03 15:45:39,227 - INFO - Processing customer: fictra-participants (will become blueprint)
+2025-04-03 15:45:39,228 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\fictra-participants
+2025-04-03 15:45:39,228 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\fictra-participants\template
+2025-04-03 15:45:39,231 - INFO - Copying template from C:\data\KinOS\customers\fictra-participants\template to C:\data\KinOS\v2\blueprints\fictra-participants\template
+2025-04-03 15:45:39,241 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\fictra-participants\kins
+2025-04-03 15:45:39,242 - INFO - Found 0 projects for customer fictra-participants
+2025-04-03 15:45:39,242 - INFO - Processing customer: fictra-sovereign (will become blueprint)
+2025-04-03 15:45:39,243 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\fictra-sovereign
+2025-04-03 15:45:39,243 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\fictra-sovereign\template
+2025-04-03 15:45:39,247 - INFO - Copying template from C:\data\KinOS\customers\fictra-sovereign\template to C:\data\KinOS\v2\blueprints\fictra-sovereign\template
+2025-04-03 15:45:39,262 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\fictra-sovereign\kins
+2025-04-03 15:45:39,263 - INFO - Found 0 projects for customer fictra-sovereign
+2025-04-03 15:45:39,263 - INFO - Processing customer: harmonyprotocol (will become blueprint)
+2025-04-03 15:45:39,264 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\harmonyprotocol
+2025-04-03 15:45:39,265 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\harmonyprotocol\template
+2025-04-03 15:45:39,272 - INFO - Copying template from C:\data\KinOS\customers\harmonyprotocol\template to C:\data\KinOS\v2\blueprints\harmonyprotocol\template
+2025-04-03 15:45:39,302 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\harmonyprotocol\kins
+2025-04-03 15:45:39,302 - INFO - Found 0 projects for customer harmonyprotocol
+2025-04-03 15:45:39,303 - INFO - Processing customer: kinkong (will become blueprint)
+2025-04-03 15:45:39,303 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\kinkong
+2025-04-03 15:45:39,304 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\kinkong\template
+2025-04-03 15:45:39,311 - INFO - Copying template from C:\data\KinOS\customers\kinkong\template to C:\data\KinOS\v2\blueprints\kinkong\template
+2025-04-03 15:45:39,340 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\kinkong\kins
+2025-04-03 15:45:39,340 - INFO - Found 0 projects for customer kinkong
+2025-04-03 15:45:39,341 - INFO - Processing customer: kinos (will become blueprint)
+2025-04-03 15:45:39,341 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\kinos
+2025-04-03 15:45:39,341 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\kinos\template
+2025-04-03 15:45:39,346 - INFO - Copying template from C:\data\KinOS\customers\kinos\template to C:\data\KinOS\v2\blueprints\kinos\template
+2025-04-03 15:45:39,365 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\kinos\kins
+2025-04-03 15:45:39,365 - INFO - Found 1 projects for customer kinos
+2025-04-03 15:45:39,365 - INFO - Processing project: kinos/deskmate (will become kin)
+2025-04-03 15:45:39,366 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\kinos\kins\deskmate
+2025-04-03 15:45:39,378 - INFO - Copying project from C:\data\KinOS\customers\kinos\projects\deskmate to C:\data\KinOS\v2\blueprints\kinos\kins\deskmate
+2025-04-03 15:45:39,423 - INFO - Processing customer: konginvest (will become blueprint)
+2025-04-03 15:45:39,423 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\konginvest
+2025-04-03 15:45:39,423 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\konginvest\template
+2025-04-03 15:45:39,425 - INFO - Copying template from C:\data\KinOS\customers\konginvest\template to C:\data\KinOS\v2\blueprints\konginvest\template
+2025-04-03 15:45:39,427 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\konginvest\kins
+2025-04-03 15:45:39,428 - INFO - Found 0 projects for customer konginvest
+2025-04-03 15:45:39,428 - INFO - Processing customer: marketingmesh (will become blueprint)
+2025-04-03 15:45:39,428 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\marketingmesh
+2025-04-03 15:45:39,429 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\marketingmesh\template
+2025-04-03 15:45:39,432 - INFO - Copying template from C:\data\KinOS\customers\marketingmesh\template to C:\data\KinOS\v2\blueprints\marketingmesh\template
+2025-04-03 15:45:39,445 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\marketingmesh\kins
+2025-04-03 15:45:39,446 - INFO - Found 1 projects for customer marketingmesh
+2025-04-03 15:45:39,446 - INFO - Processing project: marketingmesh/nlr_at_universalbasiccompute_dot_ai (will become kin)
+2025-04-03 15:45:39,447 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\marketingmesh\kins\nlr_at_universalbasiccompute_dot_ai
+2025-04-03 15:45:39,451 - WARNING - Permission error removing C:\data\KinOS\v2\blueprints\marketingmesh\kins\nlr_at_universalbasiccompute_dot_ai, trying to remove files individually
+2025-04-03 15:45:39,552 - INFO - Copying project from C:\data\KinOS\customers\marketingmesh\projects\nlr_at_universalbasiccompute_dot_ai to C:\data\KinOS\v2\blueprints\marketingmesh\kins\nlr_at_universalbasiccompute_dot_ai
+2025-04-03 15:45:39,852 - INFO - Processing customer: sottowelcome (will become blueprint)
+2025-04-03 15:45:39,852 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\sottowelcome
+2025-04-03 15:45:39,853 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\sottowelcome\template
+2025-04-03 15:45:39,858 - INFO - Copying template from C:\data\KinOS\customers\sottowelcome\template to C:\data\KinOS\v2\blueprints\sottowelcome\template
+2025-04-03 15:45:39,878 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\sottowelcome\kins
+2025-04-03 15:45:39,880 - INFO - Found 1 projects for customer sottowelcome
+2025-04-03 15:45:39,880 - INFO - Processing project: sottowelcome/bbe5a276-5f75-436a-854d-265560bebb66 (will become kin)
+2025-04-03 15:45:39,880 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\sottowelcome\kins\bbe5a276-5f75-436a-854d-265560bebb66
+2025-04-03 15:45:39,885 - WARNING - Permission error removing C:\data\KinOS\v2\blueprints\sottowelcome\kins\bbe5a276-5f75-436a-854d-265560bebb66, trying to remove files individually
+2025-04-03 15:45:39,926 - INFO - Copying project from C:\data\KinOS\customers\sottowelcome\projects\bbe5a276-5f75-436a-854d-265560bebb66 to C:\data\KinOS\v2\blueprints\sottowelcome\kins\bbe5a276-5f75-436a-854d-265560bebb66
+2025-04-03 15:45:40,032 - INFO - Processing customer: stride (will become blueprint)
+2025-04-03 15:45:40,033 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\stride
+2025-04-03 15:45:40,033 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\stride\template
+2025-04-03 15:45:40,039 - INFO - Copying template from C:\data\KinOS\customers\stride\template to C:\data\KinOS\v2\blueprints\stride\template
+2025-04-03 15:45:40,064 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\stride\kins
+2025-04-03 15:45:40,064 - INFO - Found 0 projects for customer stride
+2025-04-03 15:45:40,065 - INFO - Processing customer: stridecoaching (will become blueprint)
+2025-04-03 15:45:40,065 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\stridecoaching
+2025-04-03 15:45:40,065 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\stridecoaching\template
+2025-04-03 15:45:40,067 - INFO - Copying template from C:\data\KinOS\customers\stridecoaching\template to C:\data\KinOS\v2\blueprints\stridecoaching\template
+2025-04-03 15:45:40,068 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\stridecoaching\kins
+2025-04-03 15:45:40,069 - INFO - Found 0 projects for customer stridecoaching
+2025-04-03 15:45:40,069 - INFO - Processing customer: strideentrepreneur (will become blueprint)
+2025-04-03 15:45:40,070 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\strideentrepreneur
+2025-04-03 15:45:40,070 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\strideentrepreneur\template
+2025-04-03 15:45:40,073 - INFO - Copying template from C:\data\KinOS\customers\strideentrepreneur\template to C:\data\KinOS\v2\blueprints\strideentrepreneur\template
+2025-04-03 15:45:40,089 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\strideentrepreneur\kins
+2025-04-03 15:45:40,089 - INFO - Found 0 projects for customer strideentrepreneur
+2025-04-03 15:45:40,090 - INFO - Processing customer: strideexecutive (will become blueprint)
+2025-04-03 15:45:40,091 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\strideexecutive
+2025-04-03 15:45:40,091 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\strideexecutive\template
+2025-04-03 15:45:40,098 - INFO - Copying template from C:\data\KinOS\customers\strideexecutive\template to C:\data\KinOS\v2\blueprints\strideexecutive\template
+2025-04-03 15:45:40,121 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\strideexecutive\kins
+2025-04-03 15:45:40,121 - INFO - Found 0 projects for customer strideexecutive
+2025-04-03 15:45:40,121 - INFO - Processing customer: stridewomen (will become blueprint)
+2025-04-03 15:45:40,122 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\stridewomen
+2025-04-03 15:45:40,122 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\stridewomen\template
+2025-04-03 15:45:40,126 - INFO - Copying template from C:\data\KinOS\customers\stridewomen\template to C:\data\KinOS\v2\blueprints\stridewomen\template
+2025-04-03 15:45:40,139 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\stridewomen\kins
+2025-04-03 15:45:40,139 - INFO - Found 0 projects for customer stridewomen
+2025-04-03 15:45:40,140 - INFO - Processing customer: therapykin (will become blueprint)
+2025-04-03 15:45:40,140 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykin
+2025-04-03 15:45:40,140 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykin\template
+2025-04-03 15:45:40,146 - INFO - Copying template from C:\data\KinOS\customers\therapykin\template to C:\data\KinOS\v2\blueprints\therapykin\template
+2025-04-03 15:45:40,168 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykin\kins
+2025-04-03 15:45:40,168 - INFO - Found 2 projects for customer therapykin
+2025-04-03 15:45:40,169 - INFO - Processing project: therapykin/Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc (will become kin)
+2025-04-03 15:45:40,169 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykin\kins\Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc
+2025-04-03 15:45:40,175 - WARNING - Permission error removing C:\data\KinOS\v2\blueprints\therapykin\kins\Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc, trying to remove files individually
+2025-04-03 15:45:40,198 - INFO - Copying project from C:\data\KinOS\customers\therapykin\projects\Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc to C:\data\KinOS\v2\blueprints\therapykin\kins\Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc
+2025-04-03 15:45:40,297 - INFO - Processing project: therapykin/NicolasReynolds (will become kin)
+2025-04-03 15:45:40,297 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykin\kins\NicolasReynolds
+2025-04-03 15:45:40,303 - WARNING - Permission error removing C:\data\KinOS\v2\blueprints\therapykin\kins\NicolasReynolds, trying to remove files individually
+2025-04-03 15:45:41,002 - INFO - Copying project from C:\data\KinOS\customers\therapykin\projects\NicolasReynolds to C:\data\KinOS\v2\blueprints\therapykin\kins\NicolasReynolds
+2025-04-03 15:45:42,327 - INFO - Processing customer: therapykinathletes (will become blueprint)
+2025-04-03 15:45:42,328 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykinathletes
+2025-04-03 15:45:42,328 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykinathletes\template
+2025-04-03 15:45:42,332 - INFO - Copying template from C:\data\KinOS\customers\therapykinathletes\template to C:\data\KinOS\v2\blueprints\therapykinathletes\template
+2025-04-03 15:45:42,346 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykinathletes\kins
+2025-04-03 15:45:42,346 - INFO - Found 0 projects for customer therapykinathletes
+2025-04-03 15:45:42,347 - INFO - Processing customer: therapykincrypto (will become blueprint)
+2025-04-03 15:45:42,347 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykincrypto
+2025-04-03 15:45:42,347 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykincrypto\template
+2025-04-03 15:45:42,351 - INFO - Copying template from C:\data\KinOS\customers\therapykincrypto\template to C:\data\KinOS\v2\blueprints\therapykincrypto\template
+2025-04-03 15:45:42,366 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykincrypto\kins
+2025-04-03 15:45:42,366 - INFO - Found 1 projects for customer therapykincrypto
+2025-04-03 15:45:42,366 - INFO - Processing project: therapykincrypto/NicolasReynolds (will become kin)
+2025-04-03 15:45:42,367 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykincrypto\kins\NicolasReynolds
+2025-04-03 15:45:42,372 - WARNING - Permission error removing C:\data\KinOS\v2\blueprints\therapykincrypto\kins\NicolasReynolds, trying to remove files individually
+2025-04-03 15:45:42,399 - INFO - Copying project from C:\data\KinOS\customers\therapykincrypto\projects\NicolasReynolds to C:\data\KinOS\v2\blueprints\therapykincrypto\kins\NicolasReynolds
+2025-04-03 15:45:42,492 - INFO - Processing customer: therapykinexecutives (will become blueprint)
+2025-04-03 15:45:42,492 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykinexecutives
+2025-04-03 15:45:42,492 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykinexecutives\template
+2025-04-03 15:45:42,498 - INFO - Copying template from C:\data\KinOS\customers\therapykinexecutives\template to C:\data\KinOS\v2\blueprints\therapykinexecutives\template
+2025-04-03 15:45:42,518 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykinexecutives\kins
+2025-04-03 15:45:42,518 - INFO - Found 1 projects for customer therapykinexecutives
+2025-04-03 15:45:42,519 - INFO - Processing project: therapykinexecutives/NicolasReynolds (will become kin)
+2025-04-03 15:45:42,519 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykinexecutives\kins\NicolasReynolds
+2025-04-03 15:45:42,524 - WARNING - Permission error removing C:\data\KinOS\v2\blueprints\therapykinexecutives\kins\NicolasReynolds, trying to remove files individually
+2025-04-03 15:45:42,552 - INFO - Copying project from C:\data\KinOS\customers\therapykinexecutives\projects\NicolasReynolds to C:\data\KinOS\v2\blueprints\therapykinexecutives\kins\NicolasReynolds
+2025-04-03 15:45:42,651 - INFO - Processing customer: therapykinherosjourney (will become blueprint)
+2025-04-03 15:45:42,652 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykinherosjourney
+2025-04-03 15:45:42,653 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykinherosjourney\template
+2025-04-03 15:45:42,659 - INFO - Copying template from C:\data\KinOS\customers\therapykinherosjourney\template to C:\data\KinOS\v2\blueprints\therapykinherosjourney\template
+2025-04-03 15:45:42,694 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykinherosjourney\kins
+2025-04-03 15:45:42,694 - INFO - Found 1 projects for customer therapykinherosjourney
+2025-04-03 15:45:42,694 - INFO - Processing project: therapykinherosjourney/NicolasReynolds (will become kin)
+2025-04-03 15:45:42,695 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykinherosjourney\kins\NicolasReynolds
+2025-04-03 15:45:42,700 - WARNING - Permission error removing C:\data\KinOS\v2\blueprints\therapykinherosjourney\kins\NicolasReynolds, trying to remove files individually
+2025-04-03 15:45:42,742 - INFO - Copying project from C:\data\KinOS\customers\therapykinherosjourney\projects\NicolasReynolds to C:\data\KinOS\v2\blueprints\therapykinherosjourney\kins\NicolasReynolds
+2025-04-03 15:45:42,884 - INFO - Processing customer: therapykinsexologist (will become blueprint)
+2025-04-03 15:45:42,884 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykinsexologist
+2025-04-03 15:45:42,885 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykinsexologist\template
+2025-04-03 15:45:42,891 - INFO - Copying template from C:\data\KinOS\customers\therapykinsexologist\template to C:\data\KinOS\v2\blueprints\therapykinsexologist\template
+2025-04-03 15:45:42,916 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykinsexologist\kins
+2025-04-03 15:45:42,916 - INFO - Found 0 projects for customer therapykinsexologist
+2025-04-03 15:45:42,916 - INFO - Processing customer: therapykinwelcome (will become blueprint)
+2025-04-03 15:45:42,917 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\therapykinwelcome
+2025-04-03 15:45:42,917 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykinwelcome\template
+2025-04-03 15:45:42,921 - INFO - Copying template from C:\data\KinOS\customers\therapykinwelcome\template to C:\data\KinOS\v2\blueprints\therapykinwelcome\template
+2025-04-03 15:45:42,934 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\therapykinwelcome\kins
+2025-04-03 15:45:42,935 - INFO - Found 1 projects for customer therapykinwelcome
+2025-04-03 15:45:42,935 - INFO - Processing project: therapykinwelcome/Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc (will become kin)
+2025-04-03 15:45:42,935 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\therapykinwelcome\kins\Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc
+2025-04-03 15:45:42,940 - WARNING - Permission error removing C:\data\KinOS\v2\blueprints\therapykinwelcome\kins\Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc, trying to remove files individually
+2025-04-03 15:45:43,022 - INFO - Copying project from C:\data\KinOS\customers\therapykinwelcome\projects\Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc to C:\data\KinOS\v2\blueprints\therapykinwelcome\kins\Demo6c9ad070-938d-4535-a203-a9dfbf9a13fc
+2025-04-03 15:45:43,417 - WARNING - Customers v2 link already exists, removing: C:\data\KinOS\customers_v2
+2025-04-03 15:45:43,418 - WARNING - V1 API link already exists, removing: C:\data\KinOS\v1
+2025-04-03 15:45:43,451 - INFO - Created directory junction from C:\data\KinOS\customers_v2 to C:\data\KinOS\v2\blueprints
+2025-04-03 15:45:43,478 - INFO - Created directory junction from C:\data\KinOS\v1 to C:\data\KinOS\customers
+2025-04-03 15:45:43,478 - INFO - Migration statistics: {'blueprints_total': 24, 'blueprints_migrated': 24, 'templates_migrated': 24, 'kins_total': 12, 'kins_migrated': 12, 'errors': []}
+2025-04-03 15:45:43,479 - INFO - Migration report saved to migration_report_20250403_154543.txt
+2025-04-03 15:45:43,480 - INFO - Migration execution completed. See migration_report_20250403_154543.txt for details.

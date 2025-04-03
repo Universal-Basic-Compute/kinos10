@@ -1,0 +1,15 @@
+2025-04-03 15:41:18,308 - INFO - Starting v1 to v2 API migration
+2025-04-03 15:41:18,308 - INFO - Using Windows path: C:\data\KinOS
+2025-04-03 15:41:18,309 - INFO - Created v2 blueprints directory: C:\data\KinOS\v2\blueprints
+2025-04-03 15:41:18,311 - INFO - Found 24 customers to migrate: ['deskmate', 'duogaming', 'fictra', 'fictra-foundation', 'fictra-participants', 'fictra-sovereign', 'harmonyprotocol', 'kinkong', 'kinos', 'konginvest', 'marketingmesh', 'sottowelcome', 'stride', 'stridecoaching', 'strideentrepreneur', 'strideexecutive', 'stridewomen', 'therapykin', 'therapykinathletes', 'therapykincrypto', 'therapykinexecutives', 'therapykinherosjourney', 'therapykinsexologist', 'therapykinwelcome']
+2025-04-03 15:41:18,313 - INFO - Processing customer: deskmate (will become blueprint)
+2025-04-03 15:41:18,314 - INFO - Created v2 blueprint directory: C:\data\KinOS\v2\blueprints\deskmate
+2025-04-03 15:41:18,314 - WARNING - V2 template directory already exists, removing: C:\data\KinOS\v2\blueprints\deskmate\template
+2025-04-03 15:41:18,320 - INFO - Copying template from C:\data\KinOS\customers\deskmate\template to C:\data\KinOS\v2\blueprints\deskmate\template
+2025-04-03 15:41:18,343 - INFO - Created v2 kins directory: C:\data\KinOS\v2\blueprints\deskmate\kins
+2025-04-03 15:41:18,344 - INFO - Found 2 projects for customer deskmate
+2025-04-03 15:41:18,344 - INFO - Processing project: deskmate/default-user (will become kin)
+2025-04-03 15:41:18,344 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\deskmate\kins\default-user
+2025-04-03 15:41:18,356 - INFO - Copying project from C:\data\KinOS\customers\deskmate\projects\default-user to C:\data\KinOS\v2\blueprints\deskmate\kins\default-user
+2025-04-03 15:41:18,405 - INFO - Processing project: deskmate/test-at-example-dot-com (will become kin)
+2025-04-03 15:41:18,406 - WARNING - V2 kin directory already exists, removing: C:\data\KinOS\v2\blueprints\deskmate\kins\test-at-example-dot-com
