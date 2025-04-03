@@ -4,7 +4,7 @@ import shutil
 import datetime
 from flask_cors import CORS
 from config import logger, blueprintS_DIR, API_KEY
-from routes.kins import kins_bp
+from routes.projects import kins_bp
 from routes.messages import messages_bp
 from routes.files import files_bp
 from routes.tts import tts_bp
