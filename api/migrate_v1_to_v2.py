@@ -230,6 +230,8 @@ def migrate_v1_to_v2(dry_run=False):
     v1_to_v2_customers_link = os.path.join(app_data_dir, "customers_v2")
     # Link from old structure to new structure for API compatibility
     v1_api_link = os.path.join(app_data_dir, "v1")
+    # Link from root blueprints to v2/blueprints for compatibility with rest of codebase
+    blueprints_link = os.path.join(app_data_dir, "blueprints")
     
     if not dry_run:
         # Create customers_v2 link
@@ -268,6 +270,11 @@ def migrate_v1_to_v2(dry_run=False):
                 
                 subprocess.run(['mklink', '/J', v1_api_link, v1_customers_dir], shell=True, check=True)
                 logger.info(f"Created directory junction from {v1_api_link} to {v1_customers_dir}")
+                
+                # Create link from root blueprints to v2/blueprints for compatibility
+                if not os.path.exists(blueprints_link):
+                    subprocess.run(['mklink', '/J', blueprints_link, v2_blueprints_dir], shell=True, check=True)
+                    logger.info(f"Created directory junction from {blueprints_link} to {v2_blueprints_dir}")
             else:
                 # Use symbolic link on Unix-like systems
                 os.symlink(v2_blueprints_dir, v1_to_v2_customers_link)
@@ -275,6 +282,11 @@ def migrate_v1_to_v2(dry_run=False):
                 
                 os.symlink(v1_customers_dir, v1_api_link)
                 logger.info(f"Created symbolic link from {v1_api_link} to {v1_customers_dir}")
+                
+                # Create link from root blueprints to v2/blueprints for compatibility
+                if not os.path.exists(blueprints_link):
+                    os.symlink(v2_blueprints_dir, blueprints_link)
+                    logger.info(f"Created symbolic link from {blueprints_link} to {v2_blueprints_dir}")
         except Exception as e:
             logger.error(f"Error creating symbolic links: {str(e)}")
             stats["errors"].append(f"Error creating symbolic links: {str(e)}")

@@ -50,7 +50,20 @@ def get_app_data_dir():
 
 def get_blueprints_dir():
     """Get the blueprints directory."""
-    return os.path.join(get_app_data_dir(), "blueprints")
+    app_data_dir = get_app_data_dir()
+    
+    # Check both possible locations (with and without v2 prefix)
+    v2_blueprints_dir = os.path.join(app_data_dir, "v2", "blueprints")
+    direct_blueprints_dir = os.path.join(app_data_dir, "blueprints")
+    
+    # Prefer v2 path if it exists and has content
+    if os.path.exists(v2_blueprints_dir) and os.listdir(v2_blueprints_dir):
+        logger.info(f"Using v2 blueprints directory: {v2_blueprints_dir}")
+        return v2_blueprints_dir
+    
+    # Fall back to direct path
+    logger.info(f"Using direct blueprints directory: {direct_blueprints_dir}")
+    return direct_blueprints_dir
 
 def get_template_files(template_path):
     """Get a list of all files in the template directory."""
