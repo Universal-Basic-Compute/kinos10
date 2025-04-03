@@ -452,6 +452,66 @@ def reset_blueprint(blueprint):
         logger.error(f"Error resetting blueprint: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@kins_bp.route('/kins/<blueprint>/<kin_id>/rename', methods=['POST'])
+def rename_kin(blueprint, kin_id):
+    """
+    Endpoint to rename a kin.
+    Expects a JSON body with the new name: {"new_name": "New Kin Name"}
+    """
+    try:
+        # Parse request data
+        data = request.json
+        new_name = data.get('new_name', '')
+        
+        # Validate new name
+        if not new_name:
+            return jsonify({"error": "New name is required"}), 400
+        
+        # Validate blueprint
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
+            
+        # Get the kin path
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Check if this is a template (which shouldn't be renamed)
+        if kin_id == "template":
+            return jsonify({"error": "Cannot rename the template kin"}), 400
+        
+        # Update the kin_info.json file or create it if it doesn't exist
+        kin_info_path = os.path.join(kin_path, "kin_info.json")
+        kin_info = {}
+        
+        if os.path.exists(kin_info_path):
+            try:
+                with open(kin_info_path, 'r') as f:
+                    kin_info = json.load(f)
+            except Exception as e:
+                logger.warning(f"Error reading kin_info.json: {str(e)}")
+        
+        # Update the name
+        kin_info['name'] = new_name
+        kin_info['updated_at'] = datetime.datetime.now().isoformat()
+        
+        # Save the updated info
+        with open(kin_info_path, 'w') as f:
+            json.dump(kin_info, f, indent=2)
+        
+        logger.info(f"Renamed kin {blueprint}/{kin_id} to '{new_name}'")
+        
+        return jsonify({
+            "status": "success",
+            "message": f"kin '{kin_id}' renamed to '{new_name}'",
+            "kin_id": kin_id,
+            "name": new_name
+        })
+        
+    except Exception as e:
+        logger.error(f"Error renaming kin: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @kins_bp.route('/kins/<blueprint>/<kin_id>/git_history', methods=['GET'])
 def get_git_history(blueprint, kin_id):
     """
