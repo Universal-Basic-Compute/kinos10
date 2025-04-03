@@ -87,12 +87,12 @@ def log_response_info(response):
     logger.info(f"Response: {response.status_code}")
     return response
 
-# Register blueprints in a specific order
-app.register_blueprint(projects_bp)
-app.register_blueprint(messages_bp)
-app.register_blueprint(files_bp)
-app.register_blueprint(tts_bp)
-app.register_blueprint(stt_bp)
+# Register blueprints with appropriate URL prefixes
+app.register_blueprint(projects_bp, url_prefix='/api/proxy')
+app.register_blueprint(messages_bp, url_prefix='/api/proxy')
+app.register_blueprint(files_bp, url_prefix='/api/proxy')
+app.register_blueprint(tts_bp, url_prefix='/api/proxy')
+app.register_blueprint(stt_bp, url_prefix='/api/proxy')
 # Register debug_bp last with a url_prefix to avoid conflicts
 app.register_blueprint(debug_bp, url_prefix='/debug-api')
 
