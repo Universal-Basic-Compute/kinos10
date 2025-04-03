@@ -152,6 +152,48 @@ Get detailed information about a specific kin.
 }
 ```
 
+### Rename Kin
+
+Rename a kin without changing its ID.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint_id}/kins/{kin_id}/rename`
+
+**Request Body:**
+```json
+{
+  "new_name": "Updated Kin Name"
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "kin 'my-kin-id' renamed to 'Updated Kin Name'",
+  "kin_id": "my-kin-id",
+  "name": "Updated Kin Name"
+}
+```
+
+**Example Usage:**
+```javascript
+fetch('/v2/blueprints/kinos/kins/my-kin-id/rename', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    new_name: 'Updated Kin Name'
+  })
+})
+.then(response => response.json())
+.then(data => {
+  console.log('Kin renamed:', data);
+});
+```
+
+This endpoint updates the display name of a kin while preserving its ID and all associated files and data. The new name is stored in the kin's metadata file.
+
 ### Get Kin Messages
 
 Get messages for a specific kin.
