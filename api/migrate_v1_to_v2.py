@@ -253,12 +253,12 @@ Paths:
 - V1 API link: {v1_api_link}
 
 Terminology Changes:
-- "customers" → "blueprints"
-- "projects" → "kins"
+- "customers" -> "blueprints"
+- "projects" -> "kins"
 """
     
     report_file = f"migration_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-    with open(report_file, 'w') as f:
+    with open(report_file, 'w', encoding='utf-8') as f:
         f.write(report)
     
     logger.info(f"Migration report saved to {report_file}")
