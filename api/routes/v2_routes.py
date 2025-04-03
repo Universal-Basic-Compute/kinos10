@@ -249,6 +249,15 @@ def generate_kin_image_singular_v2(blueprint, kin_id):
     from routes.projects import generate_kin_image
     return generate_kin_image(blueprint, kin_id)
 
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/image', methods=['POST'])
+def generate_kin_image_singular_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to generate an image based on a message (singular form).
+    Maps to the original generate_kin_image function.
+    """
+    from routes.projects import generate_kin_image
+    return generate_kin_image(blueprint, kin_id)
+
 @v2_bp.route('/tts', methods=['POST'])
 def text_to_speech_v2():
     """
