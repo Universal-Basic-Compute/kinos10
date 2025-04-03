@@ -172,6 +172,7 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
                 stderr=subprocess.PIPE,
                 text=True,
                 encoding='utf-8',  # Add explicit UTF-8 encoding
+                errors='replace',  # Replace invalid characters instead of failing
                 bufsize=1  # Line buffered
             )
             
@@ -221,9 +222,10 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
                 input=static_prompt,
                 text=True,
                 encoding='utf-8',  # Add explicit UTF-8 encoding
+                errors='replace',  # Replace invalid characters instead of failing
                 capture_output=True,
                 check=True,
-                timeout=300  # Add a 5-minute timeout
+                timeout=600  # Increase to a 10-minute timeout
             )
             
             # Save Aider logs to a file in the project directory
@@ -243,6 +245,24 @@ def call_aider_with_context(project_path, selected_files, message_content, strea
             
             # Return the stdout from Aider
             return result.stdout
+    except subprocess.TimeoutExpired as e:
+        logger.error(f"Aider command timed out after {e.timeout} seconds")
+        
+        # Save timeout error logs
+        with open(aider_logs_file, 'a', encoding='utf-8') as f:
+            f.write(f"Error: Command timed out after {e.timeout} seconds\n")
+            f.write("--- End of Aider timeout error ---\n\n")
+        
+        # Clean up temporary file if it exists
+        if temp_system_file and os.path.exists(temp_system_file):
+            try:
+                os.remove(temp_system_file)
+                logger.info(f"Removed temporary system file")
+            except Exception as e:
+                logger.error(f"Error removing temporary system file: {str(e)}")
+        
+        raise RuntimeError(f"Aider command timed out after {e.timeout} seconds")
+        
     except subprocess.CalledProcessError as e:
         logger.error(f"Aider command failed with exit code {e.returncode}")
         logger.error(f"Stderr: {e.stderr}")
