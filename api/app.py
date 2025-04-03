@@ -65,7 +65,7 @@ def check_origin():
 def verify_api_key():
     """Verify API key for all requests except health check, root endpoint, and API documentation."""
     # Skip verification for health check, root endpoint, and API documentation
-    if request.path == '/health' or request.path == '/' or request.path == '/debug-api/debug':
+    if request.path == '/health' or request.path == '/' or request.path == '/debug-api/debug' or request.path.startswith('/v2/'):
         return None
         
     # Get API key from header or query parameter
@@ -93,6 +93,9 @@ app.register_blueprint(messages_bp, url_prefix='/api/proxy')
 app.register_blueprint(files_bp, url_prefix='/api/proxy')
 app.register_blueprint(tts_bp, url_prefix='/api/proxy')
 app.register_blueprint(stt_bp, url_prefix='/api/proxy')
+# Register v2 blueprint for the v2 API
+from routes.v2_routes import v2_bp
+app.register_blueprint(v2_bp, url_prefix='/v2')
 # Register debug_bp last with a url_prefix to avoid conflicts
 app.register_blueprint(debug_bp, url_prefix='/debug-api')
 
