@@ -3,12 +3,68 @@ import datetime
 import os
 import requests
 import json
+import markdown
 
 app = Flask(__name__, static_folder='static', template_folder='templates', static_url_path='')
 
 @app.route('/')
 def index():
-    return render_template('index.html', now=datetime.datetime.now())
+    """Serve the v2 API reference as the main documentation"""
+    try:
+        # Path to the v2 API reference markdown file
+        api_ref_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
+                                   'blueprints', 'kinos', 'template', 'sources', 
+                                   'api_reference_v2.md')
+        
+        # Check if the file exists
+        if not os.path.exists(api_ref_path):
+            return render_template('index.html', now=datetime.datetime.now())
+        
+        # Read the markdown content
+        with open(api_ref_path, 'r', encoding='utf-8') as f:
+            md_content = f.read()
+        
+        # Convert markdown to HTML
+        html_content = markdown.markdown(md_content, extensions=['fenced_code', 'tables'])
+        
+        # Render the documentation template with the HTML content
+        return render_template('documentation.html', 
+                              title="KinOS API Reference v2",
+                              content=html_content)
+    except Exception as e:
+        print(f"Error serving API documentation: {str(e)}")
+        # Fall back to the original index page if there's an error
+        return render_template('index.html', now=datetime.datetime.now())
+
+@app.route('/v1')
+def api_v1_docs():
+    """Serve the v1 API reference documentation"""
+    try:
+        # Path to the v1 API reference markdown file
+        api_ref_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
+                                   'blueprints', 'kinos', 'template', 'sources', 
+                                   'api_reference.md')
+        
+        # Check if the file exists
+        if not os.path.exists(api_ref_path):
+            return render_template('error.html', 
+                                  message="API v1 reference documentation not found"), 404
+        
+        # Read the markdown content
+        with open(api_ref_path, 'r', encoding='utf-8') as f:
+            md_content = f.read()
+        
+        # Convert markdown to HTML
+        html_content = markdown.markdown(md_content, extensions=['fenced_code', 'tables'])
+        
+        # Render the documentation template with the HTML content
+        return render_template('documentation.html', 
+                              title="KinOS API Reference v1 (Legacy)",
+                              content=html_content)
+    except Exception as e:
+        print(f"Error serving API v1 documentation: {str(e)}")
+        return render_template('error.html', 
+                              message=f"Error loading API v1 documentation: {str(e)}"), 500
 
 @app.route('/kins')
 def kins():
@@ -448,6 +504,36 @@ def api_test():
             "url": request.url,
             "headers": dict(request.headers)
         }
+    })
+
+@app.route('/check-templates')
+def check_templates():
+    """Check if the templates directory exists and what templates are available"""
+    template_dir = app.template_folder
+    templates = []
+    
+    if os.path.exists(template_dir):
+        templates = os.listdir(template_dir)
+    
+    return jsonify({
+        "template_dir": template_dir,
+        "exists": os.path.exists(template_dir),
+        "templates": templates
+    })
+
+@app.route('/check-api-docs')
+def check_api_docs():
+    """Check if the API reference files exist"""
+    base_dir = os.path.dirname(os.path.dirname(__file__))
+    v1_path = os.path.join(base_dir, 'blueprints', 'kinos', 'template', 'sources', 'api_reference.md')
+    v2_path = os.path.join(base_dir, 'blueprints', 'kinos', 'template', 'sources', 'api_reference_v2.md')
+    
+    return jsonify({
+        "base_dir": base_dir,
+        "v1_path": v1_path,
+        "v1_exists": os.path.exists(v1_path),
+        "v2_path": v2_path,
+        "v2_exists": os.path.exists(v2_path)
     })
 
 @app.route('/api/kins/all')
