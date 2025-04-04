@@ -90,7 +90,8 @@ def get_random_files(kin_path, count=3):
         '.vscode', '.idea', '.vs',       # Editors
         '__pycache__', '*.pyc', '*.pyo', # Python
         '.DS_Store',                     # macOS
-        '.aider*'                        # Aider files
+        '.aider*',                       # Aider files
+        'aider_logs.txt'                 # Aider logs file
     ]
     
     for root, dirs, files in os.walk(kin_path):
