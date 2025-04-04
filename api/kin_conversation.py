@@ -8,6 +8,7 @@ The conversation continues for a specified number of exchanges.
 Usage:
     python kin_conversation.py <blueprint1> <kin_id1> <blueprint2> <kin_id2> [--message "Initial message"] 
                               [--conversation-length N] [--wait-time SECONDS]
+                              [--telegram-token TOKEN] [--telegram-chat-id CHAT_ID]
 
 Example:
     python kin_conversation.py therapykindouble WarmMink92 therapykindouble CoolFox45 --conversation-length 5 --wait-time 30
@@ -162,7 +163,76 @@ def send_message(blueprint, kin_id, message, api_key):
         logger.error(f"Error sending message: {str(e)}")
         return f"I'm sorry, I couldn't process that message properly due to an error: {str(e)}"
 
-def run_conversation(blueprint1, kin_id1, blueprint2, kin_id2, initial_message=None, conversation_length=3, wait_time=60):
+def send_telegram_notification(token, chat_id, sender_blueprint, sender_kin, receiver_blueprint, receiver_kin, message, response=None):
+    """
+    Send a notification to Telegram about a message exchange.
+    
+    Args:
+        token: Telegram bot token
+        chat_id: Telegram chat ID
+        sender_blueprint: Blueprint name of the sender
+        sender_kin: Kin ID of the sender
+        receiver_blueprint: Blueprint name of the receiver
+        receiver_kin: Kin ID of the receiver
+        message: The message content
+        response: Optional response content
+    
+    Returns:
+        Boolean indicating success
+    """
+    if not token or not chat_id:
+        logger.warning(f"Telegram token or chat ID not provided, skipping notification")
+        return False
+    
+    # Telegram API endpoint
+    api_url = f"https://api.telegram.org/bot{token}/sendMessage"
+    
+    # Convert chat_id to integer if it's a string
+    try:
+        if isinstance(chat_id, str):
+            chat_id = int(chat_id)
+        logger.info(f"Using chat_id as integer: {chat_id}")
+    except ValueError:
+        logger.warning(f"Could not convert chat_id to integer, using as is: {chat_id}")
+    
+    # Prepare message
+    if response:
+        # This is a complete exchange (message and response)
+        telegram_message = f"💬 *Message Exchange*\n\n"
+        telegram_message += f"*From:* {sender_blueprint}/{sender_kin} ➡️ *To:* {receiver_blueprint}/{receiver_kin}\n\n"
+        telegram_message += f"📤 *Message:*\n{message[:500]}...\n\n"
+        telegram_message += f"📥 *Response:*\n{response[:500]}...\n"
+    else:
+        # This is just the initial message
+        telegram_message = f"💬 *Conversation Started*\n\n"
+        telegram_message += f"*From:* {sender_blueprint}/{sender_kin} ➡️ *To:* {receiver_blueprint}/{receiver_kin}\n\n"
+        telegram_message += f"📤 *Initial Message:*\n{message[:500]}...\n"
+    
+    # Prepare request
+    payload = {
+        "chat_id": chat_id,
+        "text": telegram_message,
+        "parse_mode": "Markdown"
+    }
+    
+    try:
+        # Make request
+        logger.info(f"Sending request to Telegram API: {api_url} with chat_id: {chat_id}")
+        response = requests.post(api_url, json=payload)
+        
+        # Check for errors
+        if response.status_code != 200:
+            logger.error(f"Telegram API error: {response.status_code} - {response.text}")
+            return False
+        
+        logger.info(f"Telegram notification sent successfully")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error sending Telegram notification: {str(e)}")
+        return False
+
+def run_conversation(blueprint1, kin_id1, blueprint2, kin_id2, initial_message=None, conversation_length=3, wait_time=60, telegram_token=None, telegram_chat_id=None):
     """
     Run a conversation between two kins.
     
@@ -174,6 +244,8 @@ def run_conversation(blueprint1, kin_id1, blueprint2, kin_id2, initial_message=N
         initial_message: Optional initial message (if None, generates a random thought)
         conversation_length: Number of exchanges in the conversation
         wait_time: Wait time between messages in seconds
+        telegram_token: Optional Telegram bot token
+        telegram_chat_id: Optional Telegram chat ID
     
     Returns:
         Boolean indicating success
@@ -200,6 +272,18 @@ def run_conversation(blueprint1, kin_id1, blueprint2, kin_id2, initial_message=N
         logger.info(f"## {blueprint1}/{kin_id1} (Initial)\n")
         logger.info(f"{current_message}\n")
         
+        # Send Telegram notification for initial message
+        if telegram_token and telegram_chat_id:
+            send_telegram_notification(
+                telegram_token, 
+                telegram_chat_id, 
+                blueprint1, 
+                kin_id1, 
+                blueprint2, 
+                kin_id2, 
+                current_message
+            )
+        
         # Run the conversation
         current_blueprint = blueprint2
         current_kin = kin_id2
@@ -215,6 +299,19 @@ def run_conversation(blueprint1, kin_id1, blueprint2, kin_id2, initial_message=N
             # Log the response
             logger.info(f"## {current_blueprint}/{current_kin}\n")
             logger.info(f"{response}\n")
+            
+            # Send Telegram notification for this exchange
+            if telegram_token and telegram_chat_id:
+                send_telegram_notification(
+                    telegram_token, 
+                    telegram_chat_id, 
+                    other_blueprint, 
+                    other_kin, 
+                    current_blueprint, 
+                    current_kin, 
+                    current_message, 
+                    response
+                )
             
             # Update current message for next exchange
             current_message = response
@@ -244,8 +341,19 @@ def main():
     parser.add_argument("--message", help="Initial message (if not provided, generates a random thought)")
     parser.add_argument("--conversation-length", type=int, default=3, help="Number of exchanges in the conversation (default: 3)")
     parser.add_argument("--wait-time", type=int, default=60, help="Wait time between messages in seconds (default: 60)")
+    parser.add_argument("--telegram-token", help="Telegram bot token for notifications")
+    parser.add_argument("--telegram-chat-id", help="Telegram chat ID for notifications")
     
     args = parser.parse_args()
+    
+    # Get Telegram credentials from environment variables if not provided as arguments
+    telegram_token = args.telegram_token or os.getenv("TELEGRAM_BOT_TOKEN")
+    telegram_chat_id = args.telegram_chat_id or os.getenv("TELEGRAM_CHAT_ID")
+    
+    if telegram_token and telegram_chat_id:
+        logger.info(f"Using Telegram credentials from {'arguments' if args.telegram_token else 'environment variables'}")
+    else:
+        logger.warning("Telegram credentials not found in arguments or environment variables")
     
     # Run the conversation
     success = run_conversation(
@@ -255,7 +363,9 @@ def main():
         args.kin_id2,
         args.message,
         args.conversation_length,
-        args.wait_time
+        args.wait_time,
+        telegram_token,
+        telegram_chat_id
     )
     
     return 0 if success else 1
