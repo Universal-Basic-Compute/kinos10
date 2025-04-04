@@ -421,9 +421,9 @@ else:
 ensure_analysis_mode_exists()
 
 # Generate modes.txt for all blueprints
-def generate_modes_txt_for_all():
+def generate_modes_txt_for_all(force=False):
     """Generate modes.txt files for all blueprint templates."""
-    logger.info("Generating modes.txt files for all blueprint templates")
+    logger.info(f"Generating modes.txt files for all blueprint templates (force={force})")
     try:
         # Import the generate_modes_txt script
         from generate_modes_txt import main as generate_modes_main
@@ -431,6 +431,8 @@ def generate_modes_txt_for_all():
         import sys
         original_argv = sys.argv
         sys.argv = [sys.argv[0]]
+        if force:
+            sys.argv.append("--force")
         generate_modes_main()
         sys.argv = original_argv
         logger.info("Completed modes.txt generation for all blueprints")
@@ -439,7 +441,7 @@ def generate_modes_txt_for_all():
 
 # Generate modes.txt files in a separate thread to avoid blocking startup
 import threading
-modes_thread = threading.Thread(target=generate_modes_txt_for_all)
+modes_thread = threading.Thread(target=generate_modes_txt_for_all, args=(False,))  # Don't force regeneration by default
 modes_thread.daemon = True
 modes_thread.start()
 

@@ -236,6 +236,7 @@ def main():
     parser.add_argument("--blueprint", help="Only generate for the specified blueprint")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be done without making changes")
     parser.add_argument("--batch-size", type=int, default=8, help="Number of blueprints to process in each batch (default: 8)")
+    parser.add_argument("--force", action="store_true", help="Force regeneration even if modes.txt already exists")
     
     args = parser.parse_args()
     
@@ -256,7 +257,8 @@ def main():
         "total": len(blueprints),
         "successful": 0,
         "failed": 0,
-        "skipped": 0
+        "skipped": 0,
+        "already_exists": 0
     }
     
     # Process blueprints in batches
@@ -272,6 +274,13 @@ def main():
             if not os.path.exists(template_dir):
                 logger.warning(f"Template directory not found for {blueprint}: {template_dir}")
                 results["skipped"] += 1
+                continue
+            
+            # Check if modes.txt already exists and we're not forcing regeneration
+            modes_txt_path = os.path.join(template_dir, "modes.txt")
+            if os.path.exists(modes_txt_path) and not args.force:
+                logger.info(f"modes.txt already exists for {blueprint}, skipping (use --force to regenerate)")
+                results["already_exists"] += 1
                 continue
             
             # Generate modes.txt
