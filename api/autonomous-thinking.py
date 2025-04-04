@@ -25,7 +25,9 @@ import argparse
 import requests
 import logging
 import anthropic
+import io
 from datetime import datetime
+from flask import Flask, request, Request
 
 # Configure logging
 logging.basicConfig(
@@ -236,7 +238,7 @@ def generate_random_thought(kin_path, random_files):
 
 def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection"):
     """
-    Send a message to the kin's message endpoint.
+    Send a message to the kin by calling the function directly.
     
     Args:
         blueprint: Blueprint name
@@ -247,53 +249,90 @@ def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection"):
     Returns:
         The response from the kin
     """
-    
-    # API endpoint
-    api_url = f"http://localhost:5000/api/proxy/kins/{blueprint}/{kin_id}/messages"
-    
-    # Get API key from environment variable
-    api_key = os.getenv("API_SECRET_KEY")
-    if not api_key:
-        logger.error("API_SECRET_KEY environment variable not set in .env file")
-        raise ValueError("API key not configured")
-    
-    # Prepare request
-    headers = {
-        "Content-Type": "application/json",
-        "X-API-Key": api_key
-    }
-    
-    payload = {
-        "content": message,
-        "mode": mode,
-        "model": "claude-3-7-sonnet-latest"  # Use the big model
-    }
-    
-    logger.info(f"Sending message to kin {blueprint}/{kin_id} with mode {mode}")
-    
     try:
-        # Make request
-        response = requests.post(api_url, headers=headers, json=payload)
+        # Import necessary modules
+        from routes.messages import analyze_message
+        from flask import jsonify
         
-        # Check for errors
-        if response.status_code != 200:
-            logger.error(f"API error: {response.status_code} - {response.text}")
-            return f"Error: {response.status_code} - {response.text}"
+        # Call the analyze_message function directly
+        # This function doesn't save the message to history but still processes it
+        logger.info(f"Directly calling analyze_message for {blueprint}/{kin_id} with mode {mode}")
         
-        # Parse response
-        result = response.json()
+        # Prepare the data that would normally be in the request
+        data = {
+            "message": message,
+            "mode": mode,
+            "model": "claude-3-7-sonnet-latest"  # Use the big model
+        }
         
-        # Extract the response text
-        if "response" in result:
-            logger.info(f"Received response: {result['response'][:100]}...")
-            return result["response"]
+        # Call the function directly
+        result = analyze_message(blueprint, kin_id)
+        
+        # Extract the response
+        if isinstance(result, tuple):
+            # If it returned (response, status_code)
+            response_data = result[0].json
         else:
-            logger.error(f"No response field in API result: {result}")
-            return f"Error: No response field in API result: {result}"
-        
+            # If it returned just the response
+            response_data = result.json
+            
+        if "response" in response_data:
+            logger.info(f"Received response: {response_data['response'][:100]}...")
+            return response_data["response"]
+        else:
+            logger.error(f"No response field in result: {response_data}")
+            return f"Error: No response field in result: {response_data}"
+            
     except Exception as e:
         logger.error(f"Error sending message to kin: {str(e)}")
-        return f"Error: {str(e)}"
+        
+        # Fallback to API call if direct function call fails
+        try:
+            # API endpoint - try the public API instead of localhost
+            api_url = f"https://api.kinos-engine.ai/v2/blueprints/{blueprint}/kins/{kin_id}/analysis"
+            
+            # Get API key from environment variable
+            api_key = os.getenv("API_SECRET_KEY")
+            if not api_key:
+                logger.error("API_SECRET_KEY environment variable not set in .env file")
+                raise ValueError("API key not configured")
+            
+            # Prepare request
+            headers = {
+                "Content-Type": "application/json",
+                "X-API-Key": api_key
+            }
+            
+            payload = {
+                "message": message,
+                "mode": mode,
+                "model": "claude-3-7-sonnet-latest"  # Use the big model
+            }
+            
+            logger.info(f"Falling back to API call for {blueprint}/{kin_id}")
+            
+            # Make request
+            response = requests.post(api_url, headers=headers, json=payload)
+            
+            # Check for errors
+            if response.status_code != 200:
+                logger.error(f"API error: {response.status_code} - {response.text}")
+                return f"Error: {response.status_code} - {response.text}"
+            
+            # Parse response
+            result = response.json()
+            
+            # Extract the response text
+            if "response" in result:
+                logger.info(f"Received response from API: {result['response'][:100]}...")
+                return result["response"]
+            else:
+                logger.error(f"No response field in API result: {result}")
+                return f"Error: No response field in API result: {result}"
+                
+        except Exception as fallback_error:
+            logger.error(f"Fallback API call also failed: {str(fallback_error)}")
+            return f"Error: Direct function call failed: {str(e)}. API fallback also failed: {str(fallback_error)}"
 
 def send_telegram_notification(token, chat_id, thought, response):
     """
@@ -331,14 +370,14 @@ def send_telegram_notification(token, chat_id, thought, response):
     
     # Prepare request
     payload = {
-        "chat_id": chat_id,  # Now as integer
+        "chat_id": chat_id,
         "text": message,
         "parse_mode": "Markdown"
     }
     
     try:
         # Make request
-        logger.info(f"Sending request to Telegram API: {api_url} with chat_id as integer: {chat_id}")
+        logger.info(f"Sending request to Telegram API: {api_url} with chat_id: {chat_id}")
         response = requests.post(api_url, json=payload)
         
         # Check for errors
@@ -387,27 +426,39 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
         logger.info(f"Starting iteration {i+1}/{iterations}")
         logger.info(f"Current thought: {current_thought}")
         
-        # Send message to kin
-        response = send_message_to_kin(blueprint, kin_id, current_thought)
-        
-        # Send Telegram notification
-        if telegram_token and telegram_chat_id:
-            logger.info(f"Attempting to send Telegram notification with token: {telegram_token[:4] if telegram_token else 'None'}... and chat ID: {telegram_chat_id}")
-            notification_sent = send_telegram_notification(telegram_token, telegram_chat_id, current_thought, response)
-            if notification_sent:
-                logger.info("Telegram notification sent successfully")
-            else:
-                logger.warning("Failed to send Telegram notification")
-        else:
-            logger.warning(f"Skipping Telegram notification - Token provided: {telegram_token is not None}, Chat ID provided: {telegram_chat_id is not None}")
-        
-        # Use the response as the input for the next iteration
-        if i < iterations - 1:  # Only update if there are more iterations to come
-            logger.info(f"Waiting {wait_time} seconds before next iteration...")
-            time.sleep(wait_time)
+        try:
+            # Send message to kin
+            response = send_message_to_kin(blueprint, kin_id, current_thought, mode="self-reflection")
             
-            # Use the previous response as the new thought
-            current_thought = response
+            # Send Telegram notification
+            if telegram_token and telegram_chat_id:
+                logger.info(f"Attempting to send Telegram notification with token: {telegram_token[:4] if telegram_token else 'None'}... and chat ID: {telegram_chat_id}")
+                notification_sent = send_telegram_notification(telegram_token, telegram_chat_id, current_thought, response)
+                if notification_sent:
+                    logger.info("Telegram notification sent successfully")
+                else:
+                    logger.warning("Failed to send Telegram notification")
+            else:
+                logger.warning(f"Skipping Telegram notification - Token provided: {telegram_token is not None}, Chat ID provided: {telegram_chat_id is not None}")
+            
+            # Use the response as the input for the next iteration
+            if i < iterations - 1:  # Only update if there are more iterations to come
+                logger.info(f"Waiting {wait_time} seconds before next iteration...")
+                time.sleep(wait_time)
+                
+                # Use the previous response as the new thought
+                current_thought = response
+        except Exception as e:
+            logger.error(f"Error in iteration {i+1}: {str(e)}")
+            # Continue with next iteration despite errors
+            if i < iterations - 1:
+                logger.info(f"Waiting {wait_time} seconds before next iteration...")
+                time.sleep(wait_time)
+                
+                # Generate a new thought since the previous one failed
+                random_files = get_random_files(kin_path, count=3)
+                logger.info(f"Selected new random files after error: {random_files}")
+                current_thought = generate_random_thought(kin_path, random_files)
     
     logger.info(f"Completed {iterations} autonomous thinking iterations")
     return True
@@ -420,6 +471,7 @@ def main():
     parser.add_argument("--telegram-chat-id", help="Telegram chat ID")
     parser.add_argument("--iterations", type=int, default=3, help="Number of thinking iterations (default: 3)")
     parser.add_argument("--wait-time", type=int, default=600, help="Wait time between iterations in seconds (default: 600 = 10 minutes)")
+    parser.add_argument("--api-url", help="Base URL for API calls (default: uses direct function calls)")
     
     args = parser.parse_args()
     
@@ -441,16 +493,20 @@ def main():
         logger.warning("Telegram credentials not found in arguments or .env file")
     
     # Run autonomous thinking
-    success = autonomous_thinking(
-        args.blueprint,
-        args.kin_id,
-        telegram_token,
-        telegram_chat_id,
-        args.iterations,
-        args.wait_time
-    )
-    
-    return 0 if success else 1
+    try:
+        success = autonomous_thinking(
+            args.blueprint,
+            args.kin_id,
+            telegram_token,
+            telegram_chat_id,
+            args.iterations,
+            args.wait_time
+        )
+        
+        return 0 if success else 1
+    except Exception as e:
+        logger.error(f"Unhandled exception in autonomous thinking: {str(e)}")
+        return 1
 
 if __name__ == "__main__":
     sys.exit(main())
