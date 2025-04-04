@@ -462,16 +462,16 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         except Exception as e:
             logger.error(f"Error reading map.json: {str(e)}")
     
-    # Load modes.json content if it exists
+    # Load modes.txt content if it exists
     modes_content = ""
-    modes_file_path = os.path.join(kin_path, "modes.json")
+    modes_file_path = os.path.join(kin_path, "modes.txt")
     if os.path.exists(modes_file_path):
         try:
             with open(modes_file_path, 'r', encoding='utf-8') as f:
                 modes_content = f.read()
-            logger.info("Successfully loaded modes.json for context builder")
+            logger.info("Successfully loaded modes.txt for context builder")
         except Exception as e:
-            logger.error(f"Error reading modes.json: {str(e)}")
+            logger.error(f"Error reading modes.txt: {str(e)}")
     
     # Add mode information to the prompt if provided
     mode_info = f"\nMode: {mode}" if mode else ""
@@ -487,13 +487,13 @@ MAP.JSON CONTENT:
 {map_content}
 """
 
-    # Add modes.json content if it exists
+    # Add modes.txt content if it exists
     if modes_content:
         system_prompt += f"""
-MODES.JSON CONTENT:
+MODES.TXT CONTENT:
 {modes_content}
 
-IMPORTANT: Based on the user's message, you should always suggest one appropriate mode from modes.json that would be most relevant for handling this request.
+IMPORTANT: Based on the user's message, you should always suggest one appropriate mode from modes.txt that would be most relevant for handling this request.
 """
 
     system_prompt += """
