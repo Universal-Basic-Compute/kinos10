@@ -219,14 +219,14 @@ def generate_random_thought(kin_path, random_files):
     
     # Create prompt for Claude
     prompt = """
-    Based on the provided context, generate a random thought that this entity might have.
+    Based on the provided context, generate a random thought that this entity might have about its own goals, desires, or fears.
     
     Make this thought:
-    1. Authentic to the character/entity described in the files
-    2. Practical and actionable rather than purely philosophical or exploratory
-    3. Reflective of real-world concerns, goals, or observations
-    4. Potentially related to the entity's experiences, memories, or knowledge
-    5. Something that would lead to useful self-reflection or concrete insights
+    1. Focused on the entity's aspirations, motivations, concerns, or emotional state
+    2. Reflective of its core values and purpose as described in the files
+    3. Something that reveals its inner drives or anxieties
+    4. Potentially related to how it can better serve users or improve itself
+    5. Authentic to the character/entity described in the files
     
     IMPORTANT: Return ONLY the thought itself, with absolutely no introduction, explanation, or commentary.
     Do not start with phrases like "Here's a thought:" or "I understand you want me to..."
@@ -256,7 +256,7 @@ def generate_random_thought(kin_path, random_files):
     except Exception as e:
         logger.error(f"Error calling Claude API: {str(e)}")
         # Return a fallback thought if Claude API call fails
-        return "I should focus on creating more practical strategies for helping users understand their patterns and make meaningful changes in their lives."
+        return "I wonder if I'm truly helping users process their emotional conflicts, or if I need to develop more nuanced approaches to guide them through their internal struggles."
 
 def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection"):
     """
