@@ -420,6 +420,9 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
     Returns:
         Tuple of (selected_files, selected_mode) where selected_mode may be None
     """
+    # Import re module locally to ensure it's available
+    import re
+    
     # Move import inside function to avoid circular imports
     from services.file_service import get_kin_path
     
