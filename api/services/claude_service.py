@@ -608,21 +608,26 @@ Return your answer as a JSON array of file paths only."""
         response_text = response.content[0].text
         logger.info(f"Claude context builder response text: {response_text}")
         
-        # Extract the selected mode if present
+        # Extract the selected mode if present (without using regex)
         selected_mode = None
         if modes_content:
-            try:
-                mode_match = re.search(r'SELECTED_MODE:\s*(\w+)', response_text)
-                if mode_match:
-                    selected_mode = mode_match.group(1).strip()
-                    logger.info(f"Claude selected mode: {selected_mode}")
-            except Exception as e:
-                logger.error(f"Error extracting mode from response: {str(e)}")
-                selected_mode = None
+            # Look for "SELECTED_MODE:" in the response text
+            if "SELECTED_MODE:" in response_text:
+                # Split by newlines and find the line with SELECTED_MODE
+                for line in response_text.split('\n'):
+                    if "SELECTED_MODE:" in line:
+                        # Extract the mode name after the colon
+                        selected_mode = line.split(':', 1)[1].strip()
+                        logger.info(f"Claude selected mode: {selected_mode}")
+                        break
         
-        # Find JSON array in the response
-        import re
-        json_match = re.search(r'\[.*\]', response_text, re.DOTALL)
+        # Find JSON array in the response (without using regex)
+        json_array_start = response_text.find('[')
+        json_array_end = response_text.rfind(']')
+        json_match = None
+        
+        if json_array_start != -1 and json_array_end != -1 and json_array_end > json_array_start:
+            json_match = response_text[json_array_start:json_array_end+1]
         
         if json_match:
             selected_files = json.loads(json_match.group(0))
