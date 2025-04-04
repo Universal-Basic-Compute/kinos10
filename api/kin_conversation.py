@@ -190,19 +190,15 @@ def run_conversation(blueprint1, kin_id1, blueprint2, kin_id2, initial_message=N
             current_message = generate_random_thought(blueprint1, kin_id1, api_key)
             logger.info(f"Starting conversation with generated thought: {current_message}")
         
-        # Create conversation log file
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        log_file = f"conversation_{blueprint1}_{kin_id1}_and_{blueprint2}_{kin_id2}_{timestamp}.txt"
+        # Log conversation start
+        logger.info(f"# Conversation between {blueprint1}/{kin_id1} and {blueprint2}/{kin_id2}")
+        logger.info(f"# Started at: {datetime.now().isoformat()}")
+        logger.info(f"# Conversation length: {conversation_length} exchanges")
+        logger.info(f"# Wait time: {wait_time} seconds\n")
         
-        with open(log_file, 'w', encoding='utf-8') as f:
-            f.write(f"# Conversation between {blueprint1}/{kin_id1} and {blueprint2}/{kin_id2}\n")
-            f.write(f"# Started at: {datetime.now().isoformat()}\n")
-            f.write(f"# Conversation length: {conversation_length} exchanges\n")
-            f.write(f"# Wait time: {wait_time} seconds\n\n")
-            
-            # First message from kin1 (thought or provided message)
-            f.write(f"## {blueprint1}/{kin_id1} (Initial)\n\n")
-            f.write(f"{current_message}\n\n")
+        # First message from kin1 (thought or provided message)
+        logger.info(f"## {blueprint1}/{kin_id1} (Initial)\n")
+        logger.info(f"{current_message}\n")
         
         # Run the conversation
         current_blueprint = blueprint2
@@ -217,9 +213,8 @@ def run_conversation(blueprint1, kin_id1, blueprint2, kin_id2, initial_message=N
             response = send_message(current_blueprint, current_kin, current_message, api_key)
             
             # Log the response
-            with open(log_file, 'a', encoding='utf-8') as f:
-                f.write(f"## {current_blueprint}/{current_kin}\n\n")
-                f.write(f"{response}\n\n")
+            logger.info(f"## {current_blueprint}/{current_kin}\n")
+            logger.info(f"{response}\n")
             
             # Update current message for next exchange
             current_message = response
@@ -233,7 +228,7 @@ def run_conversation(blueprint1, kin_id1, blueprint2, kin_id2, initial_message=N
                 logger.info(f"Waiting {wait_time} seconds before next exchange...")
                 time.sleep(wait_time)
         
-        logger.info(f"Conversation completed. Log saved to {log_file}")
+        logger.info(f"Conversation completed.")
         return True
         
     except Exception as e:
