@@ -27,7 +27,7 @@ import logging
 import anthropic
 import io
 from datetime import datetime
-from flask import Flask, request, Request
+from flask import Flask, request
 
 # Configure logging
 logging.basicConfig(
@@ -274,87 +274,106 @@ def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection"):
     try:
         # Import necessary modules
         from routes.messages import analyze_message
-        from flask import jsonify
+        from flask import jsonify, Request
         
         # Call the analyze_message function directly
         # This function doesn't save the message to history but still processes it
         logger.info(f"Directly calling analyze_message for {blueprint}/{kin_id} with mode {mode}")
         
+        # Create a mock request object with the necessary data
+        class MockRequest:
+            def __init__(self, json_data):
+                self.json = json_data
+                
         # Prepare the data that would normally be in the request
-        data = {
+        request_data = {
             "message": message,
             "mode": mode,
             "model": "claude-3-7-sonnet-latest"  # Use the big model
         }
         
-        # Call the function directly
-        result = analyze_message(blueprint, kin_id)
+        # Create a mock request with our data
+        mock_request = MockRequest(request_data)
         
-        # Extract the response
-        if isinstance(result, tuple):
-            # If it returned (response, status_code)
-            response_data = result[0].json
-        else:
-            # If it returned just the response
-            response_data = result.json
+        # Temporarily replace the global request object
+        from flask import request as flask_request
+        original_request = flask_request
+        
+        # Call the function directly with the blueprint and kin_id
+        try:
+            # This approach may not work in all environments due to Flask context
+            result = analyze_message(blueprint, kin_id)
             
-        if "response" in response_data:
-            logger.info(f"Received response: {response_data['response'][:100]}...")
-            return response_data["response"]
-        else:
-            logger.error(f"No response field in result: {response_data}")
-            return f"Error: No response field in result: {response_data}"
+            # Extract the response
+            if isinstance(result, tuple):
+                # If it returned (response, status_code)
+                response_data = result[0].json
+            else:
+                # If it returned just the response
+                response_data = result.json
+                
+            if "response" in response_data:
+                logger.info(f"Received response: {response_data['response'][:100]}...")
+                return response_data["response"]
+            else:
+                logger.error(f"No response field in result: {response_data}")
+                return f"Error: No response field in result: {response_data}"
+        except Exception as direct_call_error:
+            logger.error(f"Error in direct function call: {str(direct_call_error)}")
+            # Continue to fallback
             
     except Exception as e:
-        logger.error(f"Error sending message to kin: {str(e)}")
+        logger.error(f"Error setting up direct call: {str(e)}")
+    
+    # Fallback to API call if direct function call fails
+    try:
+        # API endpoint - try the public API instead of localhost
+        api_url = f"https://api.kinos-engine.ai/v2/blueprints/{blueprint}/kins/{kin_id}/analysis"
         
-        # Fallback to API call if direct function call fails
-        try:
-            # API endpoint - try the public API instead of localhost
-            api_url = f"https://api.kinos-engine.ai/v2/blueprints/{blueprint}/kins/{kin_id}/analysis"
+        # Get API key from environment variable
+        api_key = os.getenv("API_SECRET_KEY")
+        if not api_key:
+            logger.error("API_SECRET_KEY environment variable not set in .env file")
+            raise ValueError("API key not configured")
+        
+        # Prepare request
+        headers = {
+            "Content-Type": "application/json",
+            "X-API-Key": api_key
+        }
+        
+        payload = {
+            "message": message,
+            "mode": mode,
+            "model": "claude-3-7-sonnet-latest"  # Use the big model
+        }
+        
+        logger.info(f"Making API call to {api_url} for {blueprint}/{kin_id}")
+        logger.info(f"Payload: {payload}")
+        
+        # Make request
+        response = requests.post(api_url, headers=headers, json=payload)
+        
+        # Check for errors
+        if response.status_code != 200:
+            logger.error(f"API error: {response.status_code} - {response.text}")
+            return f"Error: {response.status_code} - {response.text}"
+        
+        # Parse response
+        result = response.json()
+        logger.info(f"API response: {result}")
+        
+        # Extract the response text
+        if "response" in result:
+            logger.info(f"Received response from API: {result['response'][:100]}...")
+            return result["response"]
+        else:
+            logger.error(f"No response field in API result: {result}")
+            return f"Error: No response field in API result: {result}"
             
-            # Get API key from environment variable
-            api_key = os.getenv("API_SECRET_KEY")
-            if not api_key:
-                logger.error("API_SECRET_KEY environment variable not set in .env file")
-                raise ValueError("API key not configured")
-            
-            # Prepare request
-            headers = {
-                "Content-Type": "application/json",
-                "X-API-Key": api_key
-            }
-            
-            payload = {
-                "message": message,
-                "mode": mode,
-                "model": "claude-3-7-sonnet-latest"  # Use the big model
-            }
-            
-            logger.info(f"Falling back to API call for {blueprint}/{kin_id}")
-            
-            # Make request
-            response = requests.post(api_url, headers=headers, json=payload)
-            
-            # Check for errors
-            if response.status_code != 200:
-                logger.error(f"API error: {response.status_code} - {response.text}")
-                return f"Error: {response.status_code} - {response.text}"
-            
-            # Parse response
-            result = response.json()
-            
-            # Extract the response text
-            if "response" in result:
-                logger.info(f"Received response from API: {result['response'][:100]}...")
-                return result["response"]
-            else:
-                logger.error(f"No response field in API result: {result}")
-                return f"Error: No response field in API result: {result}"
-                
-        except Exception as fallback_error:
-            logger.error(f"Fallback API call also failed: {str(fallback_error)}")
-            return f"Error: Direct function call failed: {str(e)}. API fallback also failed: {str(fallback_error)}"
+    except Exception as fallback_error:
+        logger.error(f"Fallback API call failed: {str(fallback_error)}")
+        return f"Error: API call failed: {str(fallback_error)}"
 
 def send_telegram_notification(token, chat_id, thought, response):
     """
