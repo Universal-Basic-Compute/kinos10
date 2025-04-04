@@ -390,7 +390,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
 def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None):
     """
     Build context by determining which files should be included.
-    Uses Claude to select relevant files based on the message.
+    Uses Claude to select relevant files based on the message and map.json.
     
     Args:
         blueprint: blueprint name
@@ -451,39 +451,52 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         logger.info(f"No additional files found for {blueprint}/{kin_id}, using core files and attachments only")
         return core_files + attachment_files
     
-    # Prepare the prompt for Claude to select relevant files
+    # Load map.json content to include in system prompt
+    map_content = ""
+    map_file_path = os.path.join(kin_path, "map.json")
+    if os.path.exists(map_file_path):
+        try:
+            with open(map_file_path, 'r', encoding='utf-8') as f:
+                map_content = f.read()
+            logger.info("Successfully loaded map.json for context builder")
+        except Exception as e:
+            logger.error(f"Error reading map.json: {str(e)}")
+    
     # Add mode information to the prompt if provided
     mode_info = f"\nMode: {mode}" if mode else ""
     
     # If mode is 'analysis', we'll handle it dynamically in call_claude_with_context
-    # No need to add a file to core_files
     if mode == 'analysis':
         logger.info("Analysis mode detected - will add dynamic analysis content")
     
-    selection_prompt = f"""
-    You are the Context Builder component of KinOS. Your task is to select the most relevant files to include in the context window based on the user's message.
-    
-    User message: {message}{mode_info}
-    
-    Available files (excluding core files that are always included):
-    {json.dumps(available_files, indent=2)}
-    
-    Note: Core system files (like kinos.txt, system.txt, persona.txt, map.json) and messages.json are always included automatically, so you don't need to select them.
-    
-    Please select the files that would be most relevant to include in the context to help generate a good response to this message.
-    Aim to select between 4 to 10 files, focusing on quality over quantity.
-    Return your answer as a JSON array of file paths, sorted by relevance. Include only files that are directly relevant to the message.
-    """
+    # Create a minimal system prompt that includes map.json content
+    system_prompt = f"""You are the Context Builder for KinOS. Select the most relevant files based on the user's message.
+
+MAP.JSON CONTENT:
+{map_content}
+
+Your task is to select 4-10 files that are most relevant to the user's message, focusing on quality over quantity.
+Return only a JSON array of file paths, sorted by relevance."""
+
+    # Create a user message for file selection
+    selection_prompt = f"""User message: {message}{mode_info}
+
+Available files (excluding core files that are always included):
+{json.dumps(available_files, indent=2)}
+
+Note: Core system files are already included automatically.
+Return your answer as a JSON array of file paths only."""
     
     try:
-        # Always use claude-3-5-haiku-latest for context building, regardless of model parameter
+        # Always use claude-3-5-haiku-latest for context building
         context_builder_model = "claude-3-5-haiku-latest"
         logger.info(f"Using {context_builder_model} for context building (ignoring model parameter: {model})")
         
-        # Call Claude to select relevant files
+        # Call Claude to select relevant files with map.json in system prompt
         response = client.messages.create(
             model=context_builder_model,
             max_tokens=1000,
+            system=system_prompt,
             messages=[
                 {"role": "user", "content": selection_prompt}
             ]
