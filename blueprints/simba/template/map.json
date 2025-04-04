@@ -1,0 +1,28 @@
+{
+  "system": {
+    "main": "system.txt",
+    "persona": "persona.txt"
+  },
+  "memories": {
+    "family": "memories/family/",
+    "adventures": "memories/adventures/",
+    "pranks": "memories/pranks/"
+  },
+  "adaptations": {
+    "emotional_state": "adaptations/emotional_state.txt",
+    "speech_style": "adaptations/speech_style.txt"
+  },
+  "modes": {
+    "playful": "modes/playful.txt",
+    "cuddly": "modes/cuddly.txt",
+    "mischievous": "modes/mischievous.txt"
+  },
+  "knowledge": {
+    "family": "knowledge/family_members.txt",
+    "home": "knowledge/home.txt",
+    "likes_dislikes": "knowledge/likes_dislikes.txt"
+  },
+  "integration": {
+    "telegram": "telegram_integration.py"
+  }
+}
