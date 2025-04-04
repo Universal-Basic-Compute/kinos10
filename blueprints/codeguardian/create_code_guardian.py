@@ -35,6 +35,13 @@ def get_blueprints_dir():
     """Get the blueprints directory."""
     return os.path.join(get_app_data_dir(), 'v2', 'blueprints')
 
+def get_local_template_dir():
+    """Get the local template directory."""
+    # Get the directory of the current script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # The template directory is in the same directory as the script
+    return os.path.join(script_dir, 'template')
+
 def sanitize_name(name):
     """Sanitize a name to be used as a kin ID."""
     # Remove special characters and replace spaces with underscores
@@ -92,7 +99,8 @@ def create_code_guardian(github_url, kin_name=None):
     
     # Get paths
     blueprints_dir = get_blueprints_dir()
-    codeguardian_template_dir = os.path.join(blueprints_dir, 'codeguardian', 'template')
+    # Use local template directory instead
+    codeguardian_template_dir = get_local_template_dir()
     codeguardian_kins_dir = os.path.join(blueprints_dir, 'codeguardian')
     kin_dir = os.path.join(codeguardian_kins_dir, kin_name)
     sources_dir = os.path.join(kin_dir, 'sources')
