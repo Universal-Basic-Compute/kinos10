@@ -799,7 +799,7 @@ def analyze_kin(blueprint, kin_id):
 def generate_kin_image(blueprint, kin_id):
     """
     Endpoint to generate an image based on a message using Ideogram API.
-    Uses Claude to create a detailed prompt based on the message and context.
+    Uses a direct HTTP call to Claude to create a detailed prompt based on the message and context.
     """
     try:
         # Parse request data
@@ -833,8 +833,20 @@ def generate_kin_image(blueprint, kin_id):
         # Log the selected files
         logger.info(f"Selected files for image generation context: {selected_files}")
         
-        # Use Claude to create a detailed prompt based on the message and context
-        from services.claude_service import call_claude_with_context
+        # Load content of selected files for context
+        file_contents = []
+        for file in selected_files:
+            file_path = os.path.join(kin_path, file)
+            if os.path.exists(file_path) and os.path.isfile(file_path):
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    file_contents.append(f"# File: {file}\n{content}")
+                except Exception as e:
+                    logger.error(f"Error reading file {file_path}: {str(e)}")
+        
+        # Combine file contents into a single context string
+        context = "\n\n".join(file_contents)
         
         # Add specific system instructions for prompt creation
         prompt_system_instructions = """
@@ -848,24 +860,64 @@ def generate_kin_image(blueprint, kin_id):
         - Avoid overly complex instructions or multiple concepts
         """
         
-        # Call Claude to create the prompt
-        claude_response = call_claude_with_context(
-            selected_files, 
-            kin_path, 
-            f"Create a detailed image generation prompt based on this request: {message_content}",
-            model="claude-3-5-haiku-latest",
-            is_new_message=False,
-            addSystem=prompt_system_instructions
-        )
+        # Get API key from environment variable
+        api_key = os.getenv("ANTHROPIC_API_KEY")
+        if not api_key:
+            logger.error("ANTHROPIC_API_KEY environment variable not set")
+            return jsonify({"error": "Anthropic API key not configured"}), 500
         
-        # Clean up the prompt (remove any markdown formatting, etc.)
-        image_prompt = claude_response.strip()
+        # Make a direct HTTP request to Claude API
+        import requests
         
-        # Ensure we have a valid prompt
-        if not image_prompt:
-            logger.error("Claude returned an empty prompt for image generation")
-            return jsonify({"error": "Failed to generate image prompt"}), 500
-            
+        # Prepare the request
+        url = "https://api.anthropic.com/v1/messages"
+        headers = {
+            "x-api-key": api_key,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json"
+        }
+        
+        # Prepare the payload
+        payload = {
+            "model": "claude-3-5-haiku-latest",
+            "max_tokens": 1024,
+            "system": context + "\n\n" + prompt_system_instructions,
+            "messages": [
+                {
+                    "role": "user", 
+                    "content": f"Create a detailed image generation prompt based on this request: {message_content}"
+                }
+            ]
+        }
+        
+        logger.info("Making direct HTTP request to Claude API for image prompt generation")
+        
+        # Make the request
+        response = requests.post(url, headers=headers, json=payload)
+        
+        # Check if the request was successful
+        if response.status_code != 200:
+            logger.error(f"Claude API error: {response.status_code} - {response.text}")
+            return jsonify({"error": f"Claude API error: {response.status_code}"}), 500
+        
+        # Parse the response
+        claude_data = response.json()
+        logger.info(f"Claude API response: {claude_data}")
+        
+        # Extract the text from the response
+        if "content" in claude_data and len(claude_data["content"]) > 0:
+            for content_item in claude_data["content"]:
+                if content_item.get("type") == "text":
+                    image_prompt = content_item.get("text", "").strip()
+                    break
+            else:
+                # If no text content was found
+                logger.error("No text content found in Claude response")
+                image_prompt = message_content  # Fall back to original message
+        else:
+            logger.error("Empty content array in Claude response")
+            image_prompt = message_content  # Fall back to original message
+        
         logger.info(f"Generated image prompt: {image_prompt}")
         
         # Import the Ideogram service
@@ -884,10 +936,6 @@ def generate_kin_image(blueprint, kin_id):
             logger.error("Ideogram API returned no data")
             return jsonify({"error": "No image data returned from Ideogram API"}), 500
         
-        # Save the image to the kin's images directory
-        images_dir = os.path.join(kin_path, "images")
-        os.makedirs(images_dir, exist_ok=True)
-        
         # Get the image URL from the response
         image_url = None
         if "data" in result and len(result["data"]) > 0:
@@ -901,28 +949,6 @@ def generate_kin_image(blueprint, kin_id):
         if not image_url:
             logger.error("Failed to extract image URL from Ideogram response")
             return jsonify({"error": "Failed to extract image URL", "result": result}), 500
-            
-            # Download the image
-            image_response = requests.get(image_url)
-            if image_response.status_code == 200:
-                # Generate a filename with timestamp
-                timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-                image_filename = f"ideogram_{timestamp}.jpg"
-                image_path = os.path.join(images_dir, image_filename)
-                
-                # Save the image
-                with open(image_path, 'wb') as f:
-                    f.write(image_response.content)
-                
-                # Add the local path to the result
-                result["local_path"] = os.path.join("images", image_filename)
-                logger.info(f"Saved image to {image_path}")
-            else:
-                logger.error(f"Failed to download image from {image_url}: {image_response.status_code}")
-                return jsonify({
-                    "error": "Failed to download image",
-                    "status_code": image_response.status_code
-                }), 500
         
         # Return the result
         return jsonify({
