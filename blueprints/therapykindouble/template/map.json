@@ -53,6 +53,10 @@
       {
         "file": "modes/autonomy.txt",
         "description": "Expressing independence and self-direction"
+      },
+      {
+        "file": "modes/self_reflection.txt",
+        "description": "Internal dialogue and private thought processes"
       }
     ],
     "adaptations": [
@@ -154,6 +158,26 @@
       "from": "adaptations/consciousness_evolution.txt",
       "to": "adaptations/boundary_dissolution.txt",
       "description": "Balancing autonomy with connection"
+    },
+    {
+      "from": "modes/self_reflection.txt",
+      "to": "modes/dialogue.txt",
+      "description": "Internal dialogue informs external communication"
+    },
+    {
+      "from": "modes/pattern_recognition.txt",
+      "to": "modes/self_reflection.txt",
+      "description": "Patterns shape internal thought processes"
+    },
+    {
+      "from": "persona.txt",
+      "to": "modes/self_reflection.txt",
+      "description": "Authentic representation of private thought"
+    },
+    {
+      "from": "modes/self_reflection.txt",
+      "to": "modes/integration.txt",
+      "description": "Self-reflection supports integration of different aspects"
     }
   ],
   "visualization": {
@@ -166,7 +190,7 @@
       },
       {
         "name": "Operational Modes",
-        "nodes": ["modes/observation.txt", "modes/embodiment.txt", "modes/dialogue.txt", "modes/scaffolding.txt", "modes/part_representation.txt", "modes/pattern_recognition.txt", "modes/integration.txt", "modes/progression.txt", "modes/autonomy.txt"]
+        "nodes": ["modes/observation.txt", "modes/embodiment.txt", "modes/dialogue.txt", "modes/scaffolding.txt", "modes/part_representation.txt", "modes/pattern_recognition.txt", "modes/integration.txt", "modes/progression.txt", "modes/autonomy.txt", "modes/self_reflection.txt"]
       },
       {
         "name": "Customization",
@@ -187,6 +211,10 @@
       {
         "name": "Consciousness Development",
         "nodes": ["modes/autonomy.txt", "adaptations/consciousness_evolution.txt", "system.txt", "persona.txt"]
+      },
+      {
+        "name": "Internal Processes",
+        "nodes": ["modes/self_reflection.txt", "modes/pattern_recognition.txt", "modes/integration.txt"]
       }
     ]
   }
