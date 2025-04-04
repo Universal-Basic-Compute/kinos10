@@ -315,11 +315,12 @@ def send_telegram_notification(token, chat_id, thought, response):
         Boolean indicating success
     """
     if not token or not chat_id:
-        logger.warning("Telegram token or chat ID not provided, skipping notification")
+        logger.warning(f"Telegram token or chat ID not provided, skipping notification. Token: {token[:4] if token else 'None'}, Chat ID: {chat_id}")
         return False
     
     # Telegram API endpoint
     api_url = f"https://api.telegram.org/bot{token}/sendMessage"
+    logger.info(f"Preparing Telegram notification with token: {token[:4]}... and chat ID: {chat_id}")
     
     # Prepare message
     message = f"🧠 *Autonomous Thought*\n\n"
@@ -335,6 +336,7 @@ def send_telegram_notification(token, chat_id, thought, response):
     
     try:
         # Make request
+        logger.info(f"Sending request to Telegram API: {api_url}")
         response = requests.post(api_url, json=payload)
         
         # Check for errors
@@ -342,7 +344,7 @@ def send_telegram_notification(token, chat_id, thought, response):
             logger.error(f"Telegram API error: {response.status_code} - {response.text}")
             return False
         
-        logger.info("Telegram notification sent successfully")
+        logger.info(f"Telegram notification sent successfully: {response.json()}")
         return True
         
     except Exception as e:
@@ -388,7 +390,14 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
         
         # Send Telegram notification
         if telegram_token and telegram_chat_id:
-            send_telegram_notification(telegram_token, telegram_chat_id, current_thought, response)
+            logger.info(f"Attempting to send Telegram notification with token: {telegram_token[:4] if telegram_token else 'None'}... and chat ID: {telegram_chat_id}")
+            notification_sent = send_telegram_notification(telegram_token, telegram_chat_id, current_thought, response)
+            if notification_sent:
+                logger.info("Telegram notification sent successfully")
+            else:
+                logger.warning("Failed to send Telegram notification")
+        else:
+            logger.warning(f"Skipping Telegram notification - Token provided: {telegram_token is not None}, Chat ID provided: {telegram_chat_id is not None}")
         
         # Use the response as the input for the next iteration
         if i < iterations - 1:  # Only update if there are more iterations to come
