@@ -247,13 +247,6 @@ def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection"):
     Returns:
         The response from the kin
     """
-    # Load environment variables from .env file
-    from dotenv import load_dotenv
-    import os
-    
-    # Load .env file from the parent directory of the script
-    dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
-    load_dotenv(dotenv_path)
     
     # API endpoint
     api_url = f"http://localhost:5000/api/proxy/kins/{blueprint}/{kin_id}/messages"
@@ -422,12 +415,29 @@ def main():
     
     args = parser.parse_args()
     
+    # Load environment variables from .env file
+    from dotenv import load_dotenv
+    import os
+    
+    # Load .env file from the parent directory of the script
+    dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+    load_dotenv(dotenv_path)
+    
+    # Get Telegram credentials from environment variables if not provided as arguments
+    telegram_token = args.telegram_token or os.getenv("TELEGRAM_BOT_TOKEN")
+    telegram_chat_id = args.telegram_chat_id or os.getenv("TELEGRAM_CHAT_ID")
+    
+    if telegram_token and telegram_chat_id:
+        logger.info(f"Using Telegram credentials from {'arguments' if args.telegram_token else '.env file'}")
+    else:
+        logger.warning("Telegram credentials not found in arguments or .env file")
+    
     # Run autonomous thinking
     success = autonomous_thinking(
         args.blueprint,
         args.kin_id,
-        args.telegram_token,
-        args.telegram_chat_id,
+        telegram_token,
+        telegram_chat_id,
         args.iterations,
         args.wait_time
     )
