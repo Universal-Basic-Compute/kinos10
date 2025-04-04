@@ -550,6 +550,40 @@ Get available modes for a kin.
 }
 ```
 
+### Trigger Autonomous Thinking
+
+Trigger autonomous thinking for a kin, which generates random thoughts and self-reflections.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/autonomous_thinking`
+
+**Request Body:**
+```json
+{
+  "iterations": 3,  // Optional, default: 3
+  "wait_time": 600  // Optional, default: 600 seconds (10 minutes)
+}
+```
+
+**Response:**
+```json
+{
+  "status": "started",
+  "message": "Autonomous thinking started for kinos/my-kin-id",
+  "blueprint": "kinos",
+  "kin_id": "my-kin-id",
+  "iterations": 3,
+  "wait_time": 600
+}
+```
+
+This endpoint starts a background process that:
+1. Selects random files from the kin
+2. Generates thoughts based on these files
+3. Sends the thoughts to the kin for self-reflection
+4. Repeats this process for the specified number of iterations
+
+The process runs asynchronously, so the endpoint returns immediately while the thinking continues in the background.
+
 ### Text-to-Speech
 
 Convert text to speech using ElevenLabs API.
