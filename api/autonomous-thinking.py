@@ -204,8 +204,9 @@ def generate_random_thought(kin_path, random_files):
     4. Potentially related to the entity's experiences, memories, or knowledge
     5. Something that would lead to interesting self-reflection
     
-    Return ONLY the thought itself, with no additional explanation or commentary.
-    The thought should be 1-3 sentences long.
+    IMPORTANT: Return ONLY the thought itself, with absolutely no introduction, explanation, or commentary.
+    Do not start with phrases like "Here's a thought:" or "I understand you want me to..."
+    The thought should be 1-3 sentences long and start immediately.
     """
     
     # Get Anthropic client
