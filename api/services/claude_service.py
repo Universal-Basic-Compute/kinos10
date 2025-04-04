@@ -421,10 +421,13 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
     """
     # Debug print to help identify the issue
     print("Starting build_context function")
-    
+        
     # Move import inside function to avoid circular imports
     from services.file_service import get_kin_path
-    
+        
+    # Import json here to ensure it's available
+    import json
+        
     if not kin_path:
         kin_path = get_kin_path(blueprint, kin_id)
     
@@ -610,7 +613,7 @@ Return your answer as a JSON array of file paths only."""
         # Debug print before processing selected mode and JSON array
         print("About to process selected mode and JSON array")
         
-        # Extract the selected mode if present (without using regex)
+        # Extract the selected mode if present
         selected_mode = None
         if modes_content:
             # Look for "SELECTED_MODE:" in the response text
@@ -623,11 +626,11 @@ Return your answer as a JSON array of file paths only."""
                         logger.info(f"Claude selected mode: {selected_mode}")
                         break
         
-        # Find JSON array in the response (without using regex)
+        # Find JSON array in the response
         json_array_start = response_text.find('[')
         json_array_end = response_text.rfind(']')
-        json_match = None
         
+        selected_files = []
         if json_array_start != -1 and json_array_end != -1 and json_array_end > json_array_start:
             json_match = response_text[json_array_start:json_array_end+1]
             
@@ -637,10 +640,8 @@ Return your answer as a JSON array of file paths only."""
                 logger.info(f"Claude selected files: {selected_files}")
             except json.JSONDecodeError as e:
                 logger.warning(f"Could not parse JSON from Claude's response: {e}")
-                selected_files = []
         else:
             logger.warning("Could not extract JSON from Claude's response, using empty list")
-            selected_files = []
             
     except Exception as e:
         logger.error(f"Error calling Claude for file selection: {str(e)}")
