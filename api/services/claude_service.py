@@ -3,7 +3,6 @@ import json
 import logging
 import anthropic
 import datetime
-import re
 from config import MODEL, logger
 
 # Initialize Anthropic client
