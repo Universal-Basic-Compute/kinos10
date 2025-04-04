@@ -23,6 +23,7 @@ import argparse
 import requests
 import logging
 from datetime import datetime
+from dotenv import load_dotenv
 
 # Configure logging
 logging.basicConfig(
@@ -36,6 +37,13 @@ logger = logging.getLogger(__name__)
 
 def get_api_key():
     """Get API key from environment variable."""
+    # Load environment variables from .env file
+    load_dotenv()
+    
+    # Also try to load from the parent directory (where the .env file might be)
+    parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    load_dotenv(os.path.join(parent_dir, '.env'))
+    
     api_key = os.getenv("API_SECRET_KEY")
     if not api_key:
         logger.error("API_SECRET_KEY environment variable not set")
@@ -345,6 +353,11 @@ def main():
     parser.add_argument("--telegram-chat-id", help="Telegram chat ID for notifications")
     
     args = parser.parse_args()
+    
+    # Load environment variables from .env file
+    load_dotenv()
+    parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    load_dotenv(os.path.join(parent_dir, '.env'))
     
     # Get Telegram credentials from environment variables if not provided as arguments
     telegram_token = args.telegram_token or os.getenv("TELEGRAM_BOT_TOKEN")

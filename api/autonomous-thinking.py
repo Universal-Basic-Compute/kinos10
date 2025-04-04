@@ -28,6 +28,7 @@ import anthropic
 import io
 from datetime import datetime
 from flask import Flask, request
+from dotenv import load_dotenv
 
 # Configure logging
 logging.basicConfig(
@@ -474,10 +475,10 @@ def main():
     args = parser.parse_args()
     
     # Load environment variables from .env file
-    from dotenv import load_dotenv
-    import os
+    # Try loading from current directory first
+    load_dotenv()
     
-    # Load .env file from the parent directory of the script
+    # Then try loading from the parent directory of the script
     dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
     load_dotenv(dotenv_path)
     
