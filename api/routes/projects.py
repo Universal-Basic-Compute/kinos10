@@ -760,10 +760,12 @@ def analyze_kin(blueprint, kin_id):
             return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Build context (select relevant files)
-        selected_files = build_context(blueprint, kin_id, message_content, kin_path=kin_path)
+        selected_files, selected_mode = build_context(blueprint, kin_id, message_content, kin_path=kin_path)
         
-        # Log the selected files
+        # Log the selected files and mode
         logger.info(f"Selected files for analysis: {selected_files}")
+        if selected_mode:
+            logger.info(f"Selected mode: {selected_mode}")
         
         # Use Claude to analyze the kin
         from services.claude_service import call_claude_with_context
@@ -783,13 +785,20 @@ def analyze_kin(blueprint, kin_id):
             message_content,
             model=model,
             is_new_message=False,
-            addSystem=analysis_system_instructions
+            addSystem=analysis_system_instructions,
+            mode=selected_mode  # Pass the selected mode
         )
         
-        return jsonify({
+        response_data = {
             "status": "success",
             "response": claude_response
-        })
+        }
+        
+        # Add selected_mode if one was determined
+        if selected_mode:
+            response_data["mode"] = selected_mode
+            
+        return jsonify(response_data)
         
     except Exception as e:
         logger.error(f"Error analyzing kin: {str(e)}")

@@ -255,15 +255,17 @@ def send_message(blueprint, kin_id):
         mode = data.get('mode', '')  # Get optional mode parameter
         
         # Build context (select relevant files)
-        selected_files = build_context(blueprint, kin_id, message_content, attachments, kin_path, model, mode, addSystem)
+        selected_files, selected_mode = build_context(blueprint, kin_id, message_content, attachments, kin_path, model, mode, addSystem)
         
         # Add saved image files to selected files for context
         for img_path in saved_images:
             if img_path not in selected_files:
                 selected_files.append(img_path)
         
-        # Log the selected files
+        # Log the selected files and mode
         logger.info(f"Selected files for context: {selected_files}")
+        if selected_mode:
+            logger.info(f"Selected mode: {selected_mode}")
         
         # Call Claude and Aider with the selected context
         try:
@@ -277,7 +279,8 @@ def send_message(blueprint, kin_id):
                 model,
                 history_length,
                 is_new_message=True,
-                addSystem=addSystem
+                addSystem=addSystem,
+                mode=selected_mode  # Pass the selected mode
             )
             
             # Create assistant message object
@@ -323,6 +326,10 @@ def send_message(blueprint, kin_id):
             # Add kin_created flag if a new kin was created
             if kin_created:
                 response_data["kin_created"] = True
+            
+            # Add selected_mode if one was determined
+            if selected_mode:
+                response_data["mode"] = selected_mode
                 
             return jsonify(response_data)
             
@@ -372,10 +379,12 @@ def analyze_message(blueprint, kin_id):
             return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Build context (select relevant files)
-        selected_files = build_context(blueprint, kin_id, message_content, attachments, kin_path, model, None, addSystem)
+        selected_files, selected_mode = build_context(blueprint, kin_id, message_content, attachments, kin_path, model, None, addSystem)
         
-        # Log the selected files
+        # Log the selected files and mode
         logger.info(f"Selected files for analysis context: {selected_files}")
+        if selected_mode:
+            logger.info(f"Selected mode: {selected_mode}")
         
         # Call Claude with the selected context
         try:
@@ -388,14 +397,21 @@ def analyze_message(blueprint, kin_id):
                 model,
                 history_length,
                 is_new_message=False,  # Don't treat as a new message
-                addSystem=addSystem
+                addSystem=addSystem,
+                mode=selected_mode  # Pass the selected mode
             )
             
             # Return the Claude response directly in the API response
-            return jsonify({
+            response_data = {
                 "status": "completed",
                 "response": claude_response
-            })
+            }
+            
+            # Add selected_mode if one was determined
+            if selected_mode:
+                response_data["mode"] = selected_mode
+                
+            return jsonify(response_data)
             
         except Exception as e:
             logger.error(f"Error processing analysis: {str(e)}")

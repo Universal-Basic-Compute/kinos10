@@ -19,7 +19,7 @@ except Exception as e:
     logger.error(f"Error initializing Anthropic client: {str(e)}")
     raise RuntimeError(f"Could not initialize Anthropic client: {str(e)}")
 
-def call_claude_with_context(selected_files, kin_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None):
+def call_claude_with_context(selected_files, kin_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None, mode=None):
     """
     Call Claude API directly with the selected context files, user message, and optional images.
     Also includes conversation history from messages.json as actual messages.
@@ -33,6 +33,7 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
         history_length: Number of recent messages to include in context (default: 25)
         is_new_message: Whether this is a new message not yet in messages.json (default: True)
         addSystem: Optional additional text to append to the system prompt
+        mode: Optional mode to use for this interaction
     
     Returns:
         Claude response as a string
@@ -52,6 +53,18 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
                     file_contents.append(f"# File: {file}\n{content}")
                 except Exception as e:
                     logger.error(f"Error reading file {file_path}: {str(e)}")
+        
+        # If a specific mode is provided, add the corresponding mode file to the context
+        if mode:
+            mode_file_path = os.path.join(kin_path, f"modes/{mode}.txt")
+            if os.path.exists(mode_file_path):
+                try:
+                    with open(mode_file_path, 'r', encoding='utf-8') as f:
+                        mode_content = f.read()
+                    file_contents.append(f"# Active Mode: {mode}\n{mode_content}")
+                    logger.info(f"Added mode file for {mode} to context")
+                except Exception as e:
+                    logger.error(f"Error reading mode file {mode_file_path}: {str(e)}")
         
         # Check if we need to add dynamic analysis mode content
         if 'analysis' in message_content.lower():
@@ -401,6 +414,9 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         model: Optional model to use (ignored - always uses claude-3-5-haiku-latest)
         mode: Optional mode parameter
         addSystem: Optional additional system instructions
+        
+    Returns:
+        Tuple of (selected_files, selected_mode) where selected_mode may be None
     """
     # Move import inside function to avoid circular imports
     from services.file_service import get_kin_path
@@ -523,11 +539,11 @@ MODES.TXT CONTENT:
 {modes_content}
 
 IMPORTANT: Based on the user's message, you should always suggest one appropriate mode from modes.txt that would be most relevant for handling this request.
+First line of your response should be "SELECTED_MODE: [mode_name]" followed by a blank line.
 """
 
     system_prompt += """
-Your task is to select 4-10 files that are most relevant to the user's message, focusing on quality over quantity.
-Return only a JSON array of file paths, sorted by relevance."""
+After the mode selection (if applicable), provide a JSON array of 4-10 files that are most relevant to the user's message, focusing on quality over quantity."""
 
     # Create a user message for file selection
     selection_prompt = f"""User message: {message}{mode_info}
@@ -553,8 +569,17 @@ Return your answer as a JSON array of file paths only."""
             ]
         )
         
-        # Extract the JSON array from Claude's response
+        # Extract the response text
         response_text = response.content[0].text
+        
+        # Extract the selected mode if present
+        selected_mode = None
+        if modes_content:
+            mode_match = re.search(r'SELECTED_MODE:\s*(\w+)', response_text)
+            if mode_match:
+                selected_mode = mode_match.group(1).strip()
+                logger.info(f"Claude selected mode: {selected_mode}")
+        
         # Find JSON array in the response
         import re
         json_match = re.search(r'\[.*\]', response_text, re.DOTALL)
@@ -569,8 +594,13 @@ Return your answer as a JSON array of file paths only."""
     except Exception as e:
         logger.error(f"Error calling Claude for file selection: {str(e)}")
         selected_files = []
+        selected_mode = None
     
     # Combine core files, attachments, and selected files
     all_files = core_files + attachment_files + selected_files
     
-    return all_files
+    # If a mode was explicitly provided, use that instead of the selected one
+    if mode:
+        selected_mode = mode
+    
+    return all_files, selected_mode
