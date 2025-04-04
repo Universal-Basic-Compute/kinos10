@@ -838,21 +838,14 @@ def generate_kin_image(blueprint, kin_id):
         
         # Add specific system instructions for prompt creation
         prompt_system_instructions = """
-        Your task is to create a detailed, vivid image generation prompt based on the user's message.
-        The prompt should be descriptive and specific, focusing on visual elements.
-        Do not include any explanations or commentary - just output the prompt text that will be sent to an image generation API.
-        The prompt should be 1-3 paragraphs long and include details about:
-        - Main subject and composition
-        - Style, mood, and atmosphere
-        - Colors, lighting, and visual effects
-        - Background and environment
-        - Any specific artistic influences if relevant
+        Your task is to create a concise, effective prompt for the Ideogram image generation API based on the user's message.
+        Format your response as a single, focused prompt without explanations or commentary.
 
-        Important style requirements:
-        - Use a soothing pencil style illustration
-        - Incorporate the site's color palette: white, teal, light green, purple, violet, yellow, and orange
-        - Keep the style clean, modern, and therapeutic
-        - Ensure the image feels calming and supportive
+        The prompt should:
+        - Be 1-3 sentences long
+        - Describe the main subject and visual elements clearly
+        - Include specific style keywords that Ideogram responds well to
+        - Avoid overly complex instructions or multiple concepts
         """
         
         # Call Claude to create the prompt
