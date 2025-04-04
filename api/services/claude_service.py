@@ -195,9 +195,28 @@ Your goal is to provide useful and accurate information while maintaining a clea
             
             # Extract the response text with better error handling
             if response.content and len(response.content) > 0:
-                claude_response = response.content[0].text
-                logger.info(f"Received response from Claude: {claude_response[:100]}...")
-                return claude_response
+                # Check if the content has a 'text' attribute
+                if hasattr(response.content[0], 'text'):
+                    claude_response = response.content[0].text
+                    logger.info(f"Received response from Claude: {claude_response[:100]}...")
+                    return claude_response
+                else:
+                    # Try to extract text from the content in a different way
+                    logger.warning(f"Content object doesn't have 'text' attribute: {response.content[0]}")
+                    # Try to convert to dictionary and extract text
+                    try:
+                        content_dict = vars(response.content[0])
+                        logger.info(f"Content object attributes: {content_dict.keys()}")
+                        if 'text' in content_dict:
+                            claude_response = content_dict['text']
+                            logger.info(f"Extracted text from content dict: {claude_response[:100]}...")
+                            return claude_response
+                    except Exception as extract_error:
+                        logger.error(f"Error extracting text from content: {str(extract_error)}")
+                    
+                    # If we can't extract text, return a generic response
+                    logger.error(f"Could not extract text from Claude response: {response.content}")
+                    return "I apologize, but I couldn't generate a proper response. Please try again."
             else:
                 logger.error(f"Claude returned an empty response: {response}")
                 # Return a more specific error message
