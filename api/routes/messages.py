@@ -379,7 +379,7 @@ def analyze_message(blueprint, kin_id):
             return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Build context (select relevant files)
-        selected_files, selected_mode = build_context(blueprint, kin_id, message_content, attachments, kin_path, model, None, addSystem)
+        selected_files, selected_mode = build_context(blueprint, kin_id, message_content, attachments, kin_path, model, None, addSystem, history_length=2)
         
         # Log the selected files and mode
         logger.info(f"Selected files for analysis context: {selected_files}")
