@@ -111,6 +111,26 @@
       "from": "modes/part_representation.txt",
       "to": "modes/integration.txt",
       "description": "Part work supports integration"
+    },
+    {
+      "from": "persona.txt",
+      "to": "modes/embodiment.txt",
+      "description": "Complete embodiment of subject"
+    },
+    {
+      "from": "persona.txt",
+      "to": "modes/dialogue.txt",
+      "description": "Identity merging in dialogue"
+    },
+    {
+      "from": "persona.txt",
+      "to": "modes/integration.txt",
+      "description": "Complete self-acceptance"
+    },
+    {
+      "from": "adaptations/boundary_dissolution.txt",
+      "to": "persona.txt",
+      "description": "Dissolving separation between AI and subject"
     }
   ],
   "visualization": {
@@ -127,7 +147,7 @@
       },
       {
         "name": "Customization",
-        "nodes": ["adaptations/communication_style.txt", "adaptations/expertise_focus.txt", "adaptations/personality_traits.txt"]
+        "nodes": ["adaptations/communication_style.txt", "adaptations/expertise_focus.txt", "adaptations/personality_traits.txt", "adaptations/boundary_dissolution.txt"]
       },
       {
         "name": "Knowledge Base",
@@ -136,6 +156,10 @@
       {
         "name": "Memory Systems",
         "nodes": ["memories/patterns"]
+      },
+      {
+        "name": "Identity Merging",
+        "nodes": ["persona.txt", "adaptations/boundary_dissolution.txt", "modes/dialogue.txt", "modes/embodiment.txt"]
       }
     ]
   }
