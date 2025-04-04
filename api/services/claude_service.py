@@ -419,6 +419,8 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
     Returns:
         Tuple of (selected_files, selected_mode) where selected_mode may be None
     """
+    # Debug print to help identify the issue
+    print("Starting build_context function")
     
     # Move import inside function to avoid circular imports
     from services.file_service import get_kin_path
@@ -605,6 +607,9 @@ Return your answer as a JSON array of file paths only."""
         response_text = response.content[0].text
         logger.info(f"Claude context builder response text: {response_text}")
         
+        # Debug print before processing selected mode and JSON array
+        print("About to process selected mode and JSON array")
+        
         # Extract the selected mode if present (without using regex)
         selected_mode = None
         if modes_content:
@@ -639,6 +644,10 @@ Return your answer as a JSON array of file paths only."""
             
     except Exception as e:
         logger.error(f"Error calling Claude for file selection: {str(e)}")
+        # Print the full exception traceback for debugging
+        import traceback
+        print(f"Exception in build_context: {str(e)}")
+        print(traceback.format_exc())
         selected_files = []
         selected_mode = None
     
