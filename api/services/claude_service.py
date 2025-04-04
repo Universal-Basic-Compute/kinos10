@@ -584,6 +584,11 @@ Return your answer as a JSON array of file paths only."""
         logger.info(f"Using {context_builder_model} for context building (ignoring model parameter: {model})")
         
         # Call Claude to select relevant files with map.json in system prompt
+        logger.info(f"Making Claude API call for context building with:")
+        logger.info(f"  Model: {context_builder_model}")
+        logger.info(f"  System prompt: {system_prompt}")
+        logger.info(f"  User message: {selection_prompt}")
+        
         response = client.messages.create(
             model=context_builder_model,
             max_tokens=1000,
@@ -593,8 +598,12 @@ Return your answer as a JSON array of file paths only."""
             ]
         )
         
+        # Log the full response
+        logger.info(f"Claude context builder response: {response}")
+        
         # Extract the response text
         response_text = response.content[0].text
+        logger.info(f"Claude context builder response text: {response_text}")
         
         # Extract the selected mode if present
         selected_mode = None
