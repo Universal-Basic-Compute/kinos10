@@ -117,20 +117,21 @@ def api_root():
         return jsonify({
             "status": "running",
             "message": "KinOS API is running",
-            "version": "1.0.0",
+            "version": "2.0.0",
             "endpoints": {
                 "health": "/health",
-                "kins": "/kins",
-                "messages": "/kins/{blueprint}/{kin_id}/messages",
-                "files": "/kins/{blueprint}/{kin_id}/files"
+                "blueprints": "/v2/blueprints",
+                "kins": "/v2/blueprints/{blueprint}/kins",
+                "messages": "/v2/blueprints/{blueprint}/kins/{kin_id}/messages",
+                "files": "/v2/blueprints/{blueprint}/kins/{kin_id}/files"
             }
         }), 200
     
     # Otherwise, return the API reference documentation as HTML
     try:
-        # Path to the API reference markdown file
+        # Path to the API reference markdown file - CHANGED TO V2
         api_ref_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
-                                   "blueprints", "kinos", "template", "sources", "api_reference.md")
+                                   "blueprints", "kinos", "template", "sources", "api_reference_v2.md")
         
         # Check if the file exists
         if not os.path.exists(api_ref_path):
