@@ -240,13 +240,13 @@ Send a message to a kin.
 **Request Body:**
 ```json
 {
-  "content": "Can you explain how this code works?",
-  "attachments": [],  // Optional
-  "images": [],  // Optional, base64-encoded images
-  "model": "claude-3-5-haiku-latest",  // Optional, defaults to claude-3-5-haiku-latest
-  "history_length": 25,  // Optional, number of recent messages to include in context (defaults to 25)
-  "mode": "code_review",  // Optional, specifies a mode to help guide context selection
-  "system_instructions": "Always respond in a concise manner"  // Optional, additional text to append to the system prompt
+  "content": "Hello, can you help me with this?",
+  "images": ["data:image/jpeg;base64,..."],
+  "attachments": ["file1.txt", "file2.md"],
+  "model": "claude-3-5-haiku-latest",
+  "history_length": 25,
+  "mode": "creative",
+  "addSystem": "Additional system instructions to guide the response"
 }
 ```
 
@@ -395,30 +395,32 @@ Get the Aider logs for a kin.
 }
 ```
 
-### Analyze Kin
-
-Analyze a message with Claude without saving it or triggering context updates.
+### Analyze Message
 
 **Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/analysis`
+
+Analyze a message with Claude without saving it to the conversation history.
 
 **Request Body:**
 ```json
 {
-  "message": "What is the purpose of this kin?",
-  "images": [],  // Optional, base64-encoded images
-  "model": "claude-3-5-haiku-latest",  // Optional, defaults to claude-3-5-haiku-latest
-  "history_length": 25,  // Optional, number of recent messages to include in context (defaults to 25)
-  "system_instructions": "Provide a detailed analysis"  // Optional, additional system instructions
+  "message": "What is the purpose of this code?",
+  "images": ["data:image/jpeg;base64,..."],
+  "model": "claude-3-5-haiku-latest",
+  "addSystem": "Focus on explaining the architecture"
 }
 ```
 
 **Response:**
 ```json
 {
-  "status": "completed",
-  "response": "Based on my analysis of the kin files..."
+  "status": "success",
+  "response": "This code implements a context builder that...",
+  "mode": "observation"
 }
 ```
+
+The response includes the mode that was used for the analysis, which may be automatically selected based on the message content.
 
 ### Generate Image
 
