@@ -608,10 +608,14 @@ Return your answer as a JSON array of file paths only."""
         # Extract the selected mode if present
         selected_mode = None
         if modes_content:
-            mode_match = re.search(r'SELECTED_MODE:\s*(\w+)', response_text)
-            if mode_match:
-                selected_mode = mode_match.group(1).strip()
-                logger.info(f"Claude selected mode: {selected_mode}")
+            try:
+                mode_match = re.search(r'SELECTED_MODE:\s*(\w+)', response_text)
+                if mode_match:
+                    selected_mode = mode_match.group(1).strip()
+                    logger.info(f"Claude selected mode: {selected_mode}")
+            except Exception as e:
+                logger.error(f"Error extracting mode from response: {str(e)}")
+                selected_mode = None
         
         # Find JSON array in the response
         import re
