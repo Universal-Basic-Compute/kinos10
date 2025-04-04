@@ -192,8 +192,30 @@ def generate_random_thought(kin_path, random_files):
             except Exception as e:
                 logger.error(f"Error reading file {file_path}: {str(e)}")
     
-    # Combine file contents into a single context string
-    context = "\n\n".join(file_contents)
+    # Load recent message history (last 50 messages)
+    messages_file = os.path.join(kin_path, "messages.json")
+    recent_messages = []
+    if os.path.exists(messages_file):
+        try:
+            with open(messages_file, 'r', encoding='utf-8') as f:
+                messages = json.load(f)
+                # Get the last 50 messages
+                recent_messages = messages[-50:] if len(messages) >= 50 else messages
+        except Exception as e:
+            logger.error(f"Error reading messages.json: {str(e)}")
+    
+    # Format the message history for inclusion in the context
+    message_history = ""
+    if recent_messages:
+        message_history = "\n\n# Recent Message History\n"
+        for msg in recent_messages:
+            role = msg.get('role', 'unknown')
+            content = msg.get('content', '')
+            timestamp = msg.get('timestamp', '')
+            message_history += f"{role.capitalize()} ({timestamp}): {content}\n\n"
+    
+    # Combine file contents and message history into a single context string
+    context = "\n\n".join(file_contents) + message_history
     
     # Create prompt for Claude
     prompt = """
