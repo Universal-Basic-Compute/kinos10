@@ -806,6 +806,10 @@ def generate_kin_image(blueprint, kin_id):
         data = request.json
         message_content = data.get('message', '')
         
+        # If message is empty, check for 'content' for backward compatibility
+        if not message_content and 'content' in data:
+            message_content = data.get('content', '')
+            
         # Optional parameters
         aspect_ratio = data.get('aspect_ratio', 'ASPECT_1_1')
         model = data.get('model', 'V_2')
@@ -857,6 +861,12 @@ def generate_kin_image(blueprint, kin_id):
         
         # Clean up the prompt (remove any markdown formatting, etc.)
         image_prompt = claude_response.strip()
+        
+        # Ensure we have a valid prompt
+        if not image_prompt:
+            logger.error("Claude returned an empty prompt for image generation")
+            return jsonify({"error": "Failed to generate image prompt"}), 500
+            
         logger.info(f"Generated image prompt: {image_prompt}")
         
         # Import the Ideogram service
@@ -867,15 +877,31 @@ def generate_kin_image(blueprint, kin_id):
         
         # Check for errors
         if "error" in result:
+            logger.error(f"Ideogram API error: {result['error']}")
             return jsonify(result), 500
+            
+        # Verify we have data in the result
+        if "data" not in result or not result["data"]:
+            logger.error("Ideogram API returned no data")
+            return jsonify({"error": "No image data returned from Ideogram API"}), 500
         
         # Save the image to the kin's images directory
         images_dir = os.path.join(kin_path, "images")
         os.makedirs(images_dir, exist_ok=True)
         
         # Get the image URL from the response
-        if "data" in result and len(result["data"]) > 0 and "url" in result["data"][0]:
-            image_url = result["data"][0]["url"]
+        image_url = None
+        if "data" in result and len(result["data"]) > 0:
+            if "url" in result["data"][0]:
+                image_url = result["data"][0]["url"]
+                logger.info(f"Got image URL from Ideogram: {image_url}")
+            else:
+                logger.error("No URL found in Ideogram response data")
+                return jsonify({"error": "No image URL in response", "result": result}), 500
+        
+        if not image_url:
+            logger.error("Failed to extract image URL from Ideogram response")
+            return jsonify({"error": "Failed to extract image URL", "result": result}), 500
             
             # Download the image
             image_response = requests.get(image_url)
