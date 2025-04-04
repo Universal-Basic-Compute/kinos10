@@ -255,7 +255,7 @@ def send_message(blueprint, kin_id):
         mode = data.get('mode', '')  # Get optional mode parameter
         
         # Build context (select relevant files)
-        selected_files, selected_mode = build_context(blueprint, kin_id, message_content, attachments, kin_path, model, mode, addSystem)
+        selected_files, selected_mode = build_context(blueprint, kin_id, message_content, attachments, kin_path, model, mode, addSystem, history_length=2)
         
         # Add saved image files to selected files for context
         for img_path in saved_images:

@@ -401,10 +401,10 @@ Your goal is to provide useful and accurate information while maintaining a clea
             except Exception as e:
                 logger.warning(f"Could not delete temporary file {temp_file}: {str(e)}")
 
-def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None):
+def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None, history_length=2):
     """
     Build context by determining which files should be included.
-    Uses Claude to select relevant files based on the message and map.json.
+    Uses Claude to select relevant files based on the message, map.json, and recent conversation history.
     
     Args:
         blueprint: blueprint name
@@ -415,6 +415,7 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         model: Optional model to use (ignored - always uses claude-3-5-haiku-latest)
         mode: Optional mode parameter
         addSystem: Optional additional system instructions
+        history_length: Number of recent messages to include for context (default: 2)
         
     Returns:
         Tuple of (selected_files, selected_mode) where selected_mode may be None
@@ -526,6 +527,28 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
     if mode == 'analysis':
         logger.info("Analysis mode detected - will add dynamic analysis content")
     
+    # Load recent message history
+    recent_messages = []
+    messages_file = os.path.join(kin_path, "messages.json")
+    if os.path.exists(messages_file):
+        try:
+            with open(messages_file, 'r', encoding='utf-8') as f:
+                messages = json.load(f)
+                if messages:
+                    recent_messages = messages[-history_length:] if len(messages) >= history_length else messages
+        except Exception as e:
+            logger.error(f"Error reading messages.json: {str(e)}")
+    
+    # Format the last messages for inclusion in the prompt
+    last_messages_text = ""
+    if recent_messages:
+        last_messages_text = "\n\nRecent conversation history:\n"
+        for msg in recent_messages:
+            role = msg.get('role', 'unknown')
+            content = msg.get('content', '')
+            timestamp = msg.get('timestamp', '')
+            last_messages_text += f"{role.capitalize()} ({timestamp}): {content}\n\n"
+    
     # Create a minimal system prompt that includes map.json and modes.json content
     system_prompt = f"""You are the Context Builder for KinOS. Select the most relevant files based on the user's message.
 
@@ -549,7 +572,7 @@ After the mode selection (if applicable), provide a JSON array of 4-10 files tha
     # Create a user message for file selection
     selection_prompt = f"""User message: {message}{mode_info}
 
-Available files (excluding core files that are always included):
+{last_messages_text}Available files (excluding core files that are always included):
 {json.dumps(available_files, indent=2)}
 
 Note: Core system files are already included automatically.

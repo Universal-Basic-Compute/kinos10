@@ -51,7 +51,7 @@ def update_context(blueprint, kin_id, message, stream=False):
     print(f"Message: {message}")
     
     # Build context (select relevant files)
-    selected_files = build_context(blueprint, kin_id, message, kin_path=kin_path)
+    selected_files, _ = build_context(blueprint, kin_id, message, kin_path=kin_path, history_length=2)
     print(f"Selected files for context: {selected_files}")
     
     # Call Aider with the selected context

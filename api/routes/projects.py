@@ -247,7 +247,7 @@ def build_kin(blueprint, kin_id):
             return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Build context (select relevant files)
-        selected_files = build_context(blueprint, kin_id, message_content, attachments, kin_path, None, None, addSystem)
+        selected_files, _ = build_context(blueprint, kin_id, message_content, attachments, kin_path, None, None, addSystem, history_length=2)
         
         # Log the selected files
         logger.info(f"Selected files for build context: {selected_files}")
@@ -760,7 +760,7 @@ def analyze_kin(blueprint, kin_id):
             return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Build context (select relevant files)
-        selected_files, selected_mode = build_context(blueprint, kin_id, message_content, kin_path=kin_path)
+        selected_files, selected_mode = build_context(blueprint, kin_id, message_content, kin_path=kin_path, history_length=2)
         
         # Log the selected files and mode
         logger.info(f"Selected files for analysis: {selected_files}")
