@@ -179,21 +179,33 @@ Your goal is to provide useful and accurate information while maintaining a clea
         # Use provided model if specified, otherwise use default from config
         model_to_use = model if model else MODEL
         logger.info(f"Calling Claude API with {len(messages)} messages" + (" and images in previous message" if images else "") + f", using model: {model_to_use}")
-        response = client.messages.create(
-            model=model_to_use,
-            max_tokens=4000,
-            system=context,  # Pass context as system parameter
-            messages=messages
-        )
+        logger.info(f"System context length: {len(context)} characters")
+        logger.info(f"First few messages: {messages[:2] if len(messages) > 0 else 'No messages'}")
         
-        # Extract the response text
-        if response.content and len(response.content) > 0:
-            claude_response = response.content[0].text
-            logger.info(f"Received response from Claude: {claude_response[:100]}...")
-            return claude_response
-        else:
-            logger.error("Claude returned an empty response")
-            return "I apologize, but I couldn't generate a response. Please try again."
+        try:
+            response = client.messages.create(
+                model=model_to_use,
+                max_tokens=4000,
+                system=context,  # Pass context as system parameter
+                messages=messages
+            )
+            
+            # Add detailed logging of the response
+            logger.info(f"Claude API response received: {response}")
+            
+            # Extract the response text with better error handling
+            if response.content and len(response.content) > 0:
+                claude_response = response.content[0].text
+                logger.info(f"Received response from Claude: {claude_response[:100]}...")
+                return claude_response
+            else:
+                logger.error(f"Claude returned an empty response: {response}")
+                # Return a more specific error message
+                return "I apologize, but I couldn't generate a response due to an empty content array. Please try again."
+        except Exception as e:
+            logger.error(f"Error calling Claude API: {str(e)}")
+            # Include the exception details in the returned message for debugging
+            return f"I apologize, but I encountered an error: {str(e)}. Please try again."
     except Exception as e:
         logger.error(f"Error calling Claude API: {str(e)}")
         raise RuntimeError(f"Claude API call failed: {str(e)}")
