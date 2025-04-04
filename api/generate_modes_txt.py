@@ -192,8 +192,8 @@ Format the output as a well-structured markdown document with clear headings and
         # Call Claude API
         logger.info(f"Calling Claude API to generate modes.txt for {blueprint}")
         response = client.messages.create(
-            model="claude-3-5-haiku-latest",
-            max_tokens=4000,
+            model="claude-3-7-sonnet-latest",
+            max_tokens=1000,
             system=context,
             messages=[
                 {"role": "user", "content": prompt}
