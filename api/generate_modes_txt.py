@@ -235,6 +235,7 @@ def main():
     parser = argparse.ArgumentParser(description="Generate modes.txt files for blueprint templates")
     parser.add_argument("--blueprint", help="Only generate for the specified blueprint")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be done without making changes")
+    parser.add_argument("--batch-size", type=int, default=4, help="Number of blueprints to process in each batch (default: 4)")
     
     args = parser.parse_args()
     
@@ -248,7 +249,7 @@ def main():
         blueprints = [d for d in os.listdir(blueprints_dir) 
                     if os.path.isdir(os.path.join(blueprints_dir, d))]
     
-    logger.info(f"Processing {len(blueprints)} blueprints: {blueprints}")
+    logger.info(f"Processing {len(blueprints)} blueprints in batches of {args.batch_size}")
     
     # Track results
     results = {
@@ -258,23 +259,28 @@ def main():
         "skipped": 0
     }
     
-    # Process each blueprint
-    for blueprint in blueprints:
-        template_dir = os.path.join(blueprints_dir, blueprint, "template")
+    # Process blueprints in batches
+    for i in range(0, len(blueprints), args.batch_size):
+        batch = blueprints[i:i+args.batch_size]
+        logger.info(f"Processing batch {i//args.batch_size + 1}: {batch}")
         
-        # Check if template directory exists
-        if not os.path.exists(template_dir):
-            logger.warning(f"Template directory not found for {blueprint}: {template_dir}")
-            results["skipped"] += 1
-            continue
-        
-        # Generate modes.txt
-        success = generate_modes_txt(blueprint, template_dir, args.dry_run)
-        
-        if success:
-            results["successful"] += 1
-        else:
-            results["failed"] += 1
+        # Process each blueprint in the current batch
+        for blueprint in batch:
+            template_dir = os.path.join(blueprints_dir, blueprint, "template")
+            
+            # Check if template directory exists
+            if not os.path.exists(template_dir):
+                logger.warning(f"Template directory not found for {blueprint}: {template_dir}")
+                results["skipped"] += 1
+                continue
+            
+            # Generate modes.txt
+            success = generate_modes_txt(blueprint, template_dir, args.dry_run)
+            
+            if success:
+                results["successful"] += 1
+            else:
+                results["failed"] += 1
     
     # Log results
     logger.info(f"Results: {results}")
