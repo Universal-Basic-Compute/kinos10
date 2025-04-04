@@ -578,6 +578,8 @@ def trigger_autonomous_thinking(blueprint, kin_id):
     try:
         # Parse request data
         data = request.json or {}
+        import subprocess
+        import sys
         iterations = data.get('iterations', 3)
         wait_time = data.get('wait_time', 600)
         
