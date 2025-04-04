@@ -101,13 +101,40 @@ def analyze_messages(messages, client):
         response_text = response.content[0].text
         
         # Find JSON in the response (it might be wrapped in markdown code blocks)
-        import re
-        json_match = re.search(r'```json\s*([\s\S]*?)\s*```|```\s*([\s\S]*?)\s*```|(\{[\s\S]*\})', response_text)
+        json_str = None
         
-        if json_match:
-            # Get the first non-None group
-            json_str = next(group for group in json_match.groups() if group is not None)
-            analysis = json.loads(json_str)
+        # Try to extract JSON from code blocks
+        if "```json" in response_text:
+            parts = response_text.split("```json", 1)
+            if len(parts) > 1:
+                code_block = parts[1].split("```", 1)
+                if len(code_block) > 0:
+                    json_str = code_block[0].strip()
+        
+        # If not found in json code block, try regular code block
+        if json_str is None and "```" in response_text:
+            parts = response_text.split("```", 1)
+            if len(parts) > 1:
+                code_block = parts[1].split("```", 1)
+                if len(code_block) > 0:
+                    json_str = code_block[0].strip()
+        
+        # If still not found, look for JSON object directly
+        if json_str is None:
+            json_start = response_text.find('{')
+            json_end = response_text.rfind('}')
+            if json_start != -1 and json_end != -1 and json_end > json_start:
+                json_str = response_text[json_start:json_end+1]
+        
+        if json_str:
+            try:
+                analysis = json.loads(json_str)
+            except json.JSONDecodeError:
+                logger.warning("Could not parse JSON from extracted string")
+                analysis = {
+                    "summary": "Error parsing response",
+                    "raw_response": response_text
+                }
         else:
             # If no JSON found, try to parse the entire response
             try:

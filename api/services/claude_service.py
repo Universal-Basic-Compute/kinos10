@@ -420,8 +420,6 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
     Returns:
         Tuple of (selected_files, selected_mode) where selected_mode may be None
     """
-    # Import re module locally to ensure it's available
-    import re
     
     # Move import inside function to avoid circular imports
     from services.file_service import get_kin_path
@@ -628,10 +626,14 @@ Return your answer as a JSON array of file paths only."""
         
         if json_array_start != -1 and json_array_end != -1 and json_array_end > json_array_start:
             json_match = response_text[json_array_start:json_array_end+1]
-        
-        if json_match:
-            selected_files = json.loads(json_match.group(0))
-            logger.info(f"Claude selected files: {selected_files}")
+            
+            # Try to parse the JSON array
+            try:
+                selected_files = json.loads(json_match)
+                logger.info(f"Claude selected files: {selected_files}")
+            except json.JSONDecodeError as e:
+                logger.warning(f"Could not parse JSON from Claude's response: {e}")
+                selected_files = []
         else:
             logger.warning("Could not extract JSON from Claude's response, using empty list")
             selected_files = []
