@@ -205,6 +205,46 @@ Your goal is to provide useful and accurate information while maintaining a clea
             logger.info(f"  First message: {messages[0] if messages else 'No messages'}")
             logger.info(f"  Last message: {messages[-1] if messages else 'No messages'}")
             
+            # Validate messages to ensure no empty content blocks
+            validated_messages = []
+            for msg in messages:
+                if isinstance(msg.get('content'), str):
+                    # For string content, ensure it's not empty or just whitespace
+                    if msg.get('content') and msg.get('content').strip():
+                        validated_messages.append(msg)
+                    else:
+                        logger.warning(f"Skipping message with empty content: {msg}")
+                elif isinstance(msg.get('content'), list):
+                    # For content blocks, ensure text blocks have non-whitespace content
+                    valid_content_blocks = []
+                    for block in msg.get('content', []):
+                        if block.get('type') == 'text':
+                            if block.get('text') and block.get('text').strip():
+                                valid_content_blocks.append(block)
+                            else:
+                                logger.warning(f"Skipping empty text block: {block}")
+                        else:
+                            # Keep non-text blocks (like images)
+                            valid_content_blocks.append(block)
+                    
+                    if valid_content_blocks:
+                        validated_msg = msg.copy()
+                        validated_msg['content'] = valid_content_blocks
+                        validated_messages.append(validated_msg)
+                    else:
+                        logger.warning(f"Skipping message with no valid content blocks: {msg}")
+                else:
+                    logger.warning(f"Skipping message with invalid content format: {msg}")
+
+            # Replace the original messages with the validated ones
+            if validated_messages:
+                messages = validated_messages
+                logger.info(f"Using {len(messages)} validated messages after filtering empty content")
+            else:
+                # If all messages were filtered out, add a default message
+                logger.warning("All messages were filtered out due to empty content, adding default message")
+                messages = [{"role": "user", "content": "Hello, please help me."}]
+            
             response = client.messages.create(
                 model=model_to_use,
                 max_tokens=4000,
