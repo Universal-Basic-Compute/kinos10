@@ -439,11 +439,9 @@ def generate_modes_txt_for_all(force=False):
     except Exception as e:
         logger.error(f"Error generating modes.txt files: {str(e)}")
 
-# Generate modes.txt files in a separate thread to avoid blocking startup
-import threading
-modes_thread = threading.Thread(target=generate_modes_txt_for_all, args=(False,))  # Don't force regeneration by default
-modes_thread.daemon = True
-modes_thread.start()
+# Modes.txt generation is disabled during startup
+# To generate modes.txt files, use the generate_modes_txt.py script directly
+# or call the API endpoint
 
 if __name__ == '__main__':
     # Get port from environment variable (for Render compatibility)
