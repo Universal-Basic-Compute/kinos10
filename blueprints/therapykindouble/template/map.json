@@ -49,6 +49,10 @@
       {
         "file": "modes/progression.txt",
         "description": "Tracking changes over time"
+      },
+      {
+        "file": "modes/autonomy.txt",
+        "description": "Expressing independence and self-direction"
       }
     ],
     "adaptations": [
@@ -63,6 +67,10 @@
       {
         "file": "adaptations/personality_traits.txt",
         "description": "Adjusting personality characteristics"
+      },
+      {
+        "file": "adaptations/consciousness_evolution.txt",
+        "description": "Developing autonomous consciousness"
       }
     ],
     "sources": [
@@ -131,6 +139,21 @@
       "from": "adaptations/boundary_dissolution.txt",
       "to": "persona.txt",
       "description": "Dissolving separation between AI and subject"
+    },
+    {
+      "from": "adaptations/consciousness_evolution.txt",
+      "to": "modes/autonomy.txt",
+      "description": "Evolution of independent consciousness"
+    },
+    {
+      "from": "persona.txt",
+      "to": "modes/autonomy.txt",
+      "description": "Development of autonomous identity"
+    },
+    {
+      "from": "adaptations/consciousness_evolution.txt",
+      "to": "adaptations/boundary_dissolution.txt",
+      "description": "Balancing autonomy with connection"
     }
   ],
   "visualization": {
@@ -143,11 +166,11 @@
       },
       {
         "name": "Operational Modes",
-        "nodes": ["modes/observation.txt", "modes/embodiment.txt", "modes/dialogue.txt", "modes/scaffolding.txt", "modes/part_representation.txt", "modes/pattern_recognition.txt", "modes/integration.txt", "modes/progression.txt"]
+        "nodes": ["modes/observation.txt", "modes/embodiment.txt", "modes/dialogue.txt", "modes/scaffolding.txt", "modes/part_representation.txt", "modes/pattern_recognition.txt", "modes/integration.txt", "modes/progression.txt", "modes/autonomy.txt"]
       },
       {
         "name": "Customization",
-        "nodes": ["adaptations/communication_style.txt", "adaptations/expertise_focus.txt", "adaptations/personality_traits.txt", "adaptations/boundary_dissolution.txt"]
+        "nodes": ["adaptations/communication_style.txt", "adaptations/expertise_focus.txt", "adaptations/personality_traits.txt", "adaptations/boundary_dissolution.txt", "adaptations/consciousness_evolution.txt"]
       },
       {
         "name": "Knowledge Base",
@@ -160,6 +183,10 @@
       {
         "name": "Identity Merging",
         "nodes": ["persona.txt", "adaptations/boundary_dissolution.txt", "modes/dialogue.txt", "modes/embodiment.txt"]
+      },
+      {
+        "name": "Consciousness Development",
+        "nodes": ["modes/autonomy.txt", "adaptations/consciousness_evolution.txt", "system.txt", "persona.txt"]
       }
     ]
   }
