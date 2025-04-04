@@ -420,6 +420,29 @@ else:
 # Ensure analysis mode exists in all templates
 ensure_analysis_mode_exists()
 
+# Generate modes.txt for all blueprints
+def generate_modes_txt_for_all():
+    """Generate modes.txt files for all blueprint templates."""
+    logger.info("Generating modes.txt files for all blueprint templates")
+    try:
+        # Import the generate_modes_txt script
+        from generate_modes_txt import main as generate_modes_main
+        # Run the script with sys.argv set to just the script name (no arguments)
+        import sys
+        original_argv = sys.argv
+        sys.argv = [sys.argv[0]]
+        generate_modes_main()
+        sys.argv = original_argv
+        logger.info("Completed modes.txt generation for all blueprints")
+    except Exception as e:
+        logger.error(f"Error generating modes.txt files: {str(e)}")
+
+# Generate modes.txt files in a separate thread to avoid blocking startup
+import threading
+modes_thread = threading.Thread(target=generate_modes_txt_for_all)
+modes_thread.daemon = True
+modes_thread.start()
+
 if __name__ == '__main__':
     # Get port from environment variable (for Render compatibility)
     port = int(os.environ.get('PORT', 5000))

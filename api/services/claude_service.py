@@ -473,6 +473,35 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         except Exception as e:
             logger.error(f"Error reading modes.txt: {str(e)}")
     
+    # If modes.txt doesn't exist but there are mode files, try to generate it
+    if not modes_content and os.path.exists(os.path.join(kin_path, "modes")):
+        try:
+            # Import the generate_modes_txt function
+            from generate_modes_txt import generate_modes_txt
+            
+            # Get the blueprint name from the kin_path
+            parts = os.path.normpath(kin_path).split(os.sep)
+            # Find the index of "blueprints" in the path
+            try:
+                blueprints_index = parts.index("blueprints")
+                if len(parts) > blueprints_index + 1:
+                    blueprint = parts[blueprints_index + 1]
+                    # Check if this is a template
+                    if parts[blueprints_index + 2] == "template":
+                        # Generate modes.txt for this template
+                        logger.info(f"Attempting to generate modes.txt for {blueprint}")
+                        generate_modes_txt(blueprint, kin_path, dry_run=False)
+                        
+                        # Try to load the generated file
+                        if os.path.exists(modes_file_path):
+                            with open(modes_file_path, 'r', encoding='utf-8') as f:
+                                modes_content = f.read()
+                            logger.info("Successfully generated and loaded modes.txt for context builder")
+            except (ValueError, IndexError):
+                logger.warning("Could not determine blueprint from path for modes.txt generation")
+        except Exception as e:
+            logger.error(f"Error generating modes.txt: {str(e)}")
+    
     # Add mode information to the prompt if provided
     mode_info = f"\nMode: {mode}" if mode else ""
     
