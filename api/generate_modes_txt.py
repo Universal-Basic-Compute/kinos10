@@ -235,7 +235,7 @@ def main():
     parser = argparse.ArgumentParser(description="Generate modes.txt files for blueprint templates")
     parser.add_argument("--blueprint", help="Only generate for the specified blueprint")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be done without making changes")
-    parser.add_argument("--batch-size", type=int, default=4, help="Number of blueprints to process in each batch (default: 4)")
+    parser.add_argument("--batch-size", type=int, default=8, help="Number of blueprints to process in each batch (default: 8)")
     
     args = parser.parse_args()
     
