@@ -462,6 +462,17 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         except Exception as e:
             logger.error(f"Error reading map.json: {str(e)}")
     
+    # Load modes.json content if it exists
+    modes_content = ""
+    modes_file_path = os.path.join(kin_path, "modes.json")
+    if os.path.exists(modes_file_path):
+        try:
+            with open(modes_file_path, 'r', encoding='utf-8') as f:
+                modes_content = f.read()
+            logger.info("Successfully loaded modes.json for context builder")
+        except Exception as e:
+            logger.error(f"Error reading modes.json: {str(e)}")
+    
     # Add mode information to the prompt if provided
     mode_info = f"\nMode: {mode}" if mode else ""
     
@@ -469,12 +480,23 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
     if mode == 'analysis':
         logger.info("Analysis mode detected - will add dynamic analysis content")
     
-    # Create a minimal system prompt that includes map.json content
+    # Create a minimal system prompt that includes map.json and modes.json content
     system_prompt = f"""You are the Context Builder for KinOS. Select the most relevant files based on the user's message.
 
 MAP.JSON CONTENT:
 {map_content}
+"""
 
+    # Add modes.json content if it exists
+    if modes_content:
+        system_prompt += f"""
+MODES.JSON CONTENT:
+{modes_content}
+
+IMPORTANT: Based on the user's message, you should always suggest one appropriate mode from modes.json that would be most relevant for handling this request.
+"""
+
+    system_prompt += """
 Your task is to select 4-10 files that are most relevant to the user's message, focusing on quality over quantity.
 Return only a JSON array of file paths, sorted by relevance."""
 
