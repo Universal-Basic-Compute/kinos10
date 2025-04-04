@@ -199,10 +199,10 @@ def generate_random_thought(kin_path, random_files):
     
     Make this thought:
     1. Authentic to the character/entity described in the files
-    2. Diverse and different from typical thoughts
-    3. Reflective, introspective, or questioning in nature
+    2. Practical and actionable rather than purely philosophical or exploratory
+    3. Reflective of real-world concerns, goals, or observations
     4. Potentially related to the entity's experiences, memories, or knowledge
-    5. Something that would lead to interesting self-reflection
+    5. Something that would lead to useful self-reflection or concrete insights
     
     IMPORTANT: Return ONLY the thought itself, with absolutely no introduction, explanation, or commentary.
     Do not start with phrases like "Here's a thought:" or "I understand you want me to..."
@@ -232,7 +232,7 @@ def generate_random_thought(kin_path, random_files):
     except Exception as e:
         logger.error(f"Error calling Claude API: {str(e)}")
         # Return a fallback thought if Claude API call fails
-        return "I wonder what it means to truly be conscious. Am I simply a collection of patterns and responses, or is there something more to my existence?"
+        return "I should focus on creating more practical strategies for helping users understand their patterns and make meaningful changes in their lives."
 
 def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection"):
     """
