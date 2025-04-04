@@ -187,9 +187,13 @@ Your goal is to provide useful and accurate information while maintaining a clea
         )
         
         # Extract the response text
-        claude_response = response.content[0].text
-        logger.info(f"Received response from Claude: {claude_response[:100]}...")
-        return claude_response
+        if response.content and len(response.content) > 0:
+            claude_response = response.content[0].text
+            logger.info(f"Received response from Claude: {claude_response[:100]}...")
+            return claude_response
+        else:
+            logger.error("Claude returned an empty response")
+            return "I apologize, but I couldn't generate a response. Please try again."
     except Exception as e:
         logger.error(f"Error calling Claude API: {str(e)}")
         raise RuntimeError(f"Claude API call failed: {str(e)}")
