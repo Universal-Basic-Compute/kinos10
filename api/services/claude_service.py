@@ -419,6 +419,9 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
     Returns:
         Tuple of (selected_files, selected_mode) where selected_mode may be None
     """
+    # Import modules needed within this function
+    import re
+    
     # Debug print to help identify the issue
     print("Starting build_context function")
         
