@@ -50,6 +50,14 @@
         {
           "path": "modes/analysis.txt",
           "description": "Mode for informative responses without memorization"
+        },
+        {
+          "path": "modes/code_reading.txt",
+          "description": "Mode for efficient code comprehension"
+        },
+        {
+          "path": "modes/security.txt",
+          "description": "Mode for identifying security patterns and vulnerabilities"
         }
       ]
     },
@@ -65,6 +73,10 @@
         {
           "path": "knowledge/design_patterns.txt",
           "description": "Common software design patterns and their recognition"
+        },
+        {
+          "path": "knowledge/code_metrics.txt",
+          "description": "Code quality metrics and measurements"
         }
       ]
     }

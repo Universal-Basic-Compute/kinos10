@@ -1,0 +1,82 @@
+# Code Quality Metrics and Measurements
+
+Code metrics provide quantitative measures to assess code quality, complexity, and maintainability. Understanding these metrics helps in objectively evaluating codebases.
+
+## Complexity Metrics
+
+### Cyclomatic Complexity
+- **Definition**: Measures the number of linearly independent paths through code
+- **Calculation**: Based on control flow graph (decision points + 1)
+- **Interpretation**: Higher values indicate more complex code that is harder to test and maintain
+- **Thresholds**: 1-10 (simple), 11-20 (moderate), 21-50 (complex), >50 (untestable)
+
+### Cognitive Complexity
+- **Definition**: Measures how difficult code is to understand for humans
+- **Calculation**: Based on nesting, breaks in linear flow, and logical structures
+- **Interpretation**: Focuses on readability rather than just structural complexity
+- **Advantage**: Better aligned with human perception of complexity than cyclomatic complexity
+
+## Size and Volume Metrics
+
+### Lines of Code (LOC)
+- **Definition**: Raw count of code lines, sometimes excluding comments and blank lines
+- **Variants**: Physical LOC, Logical LOC (statements)
+- **Limitations**: Doesn't account for complexity or quality
+- **Usage**: Useful for effort estimation and productivity measurement
+
+### Halstead Metrics
+- **Definition**: Set of metrics based on operators and operands in code
+- **Components**: Program length, vocabulary, volume, difficulty, effort
+- **Interpretation**: Measures program size and complexity from a linguistic perspective
+- **Application**: Estimating development and maintenance effort
+
+## Maintainability Metrics
+
+### Maintainability Index
+- **Definition**: Composite metric indicating how maintainable code is
+- **Calculation**: Based on cyclomatic complexity, LOC, and Halstead volume
+- **Scale**: 0-100, where higher values indicate better maintainability
+- **Thresholds**: <65 (hard to maintain), 65-85 (moderately maintainable), >85 (highly maintainable)
+
+### Change Frequency
+- **Definition**: How often code is modified over time
+- **Significance**: High change frequency may indicate unstable or problematic code
+- **Analysis**: Often combined with complexity metrics to identify high-risk areas
+
+## Coupling and Cohesion Metrics
+
+### Afferent Coupling (Ca)
+- **Definition**: Number of classes that depend on a given class
+- **Interpretation**: High values indicate high responsibility and impact of changes
+
+### Efferent Coupling (Ce)
+- **Definition**: Number of classes that a given class depends on
+- **Interpretation**: High values indicate vulnerability to changes in other components
+
+### Lack of Cohesion of Methods (LCOM)
+- **Definition**: Measures the cohesiveness of a class based on method relationships
+- **Interpretation**: Higher values suggest a class may have too many responsibilities
+- **Implication**: May indicate need for class splitting or refactoring
+
+## Test-Related Metrics
+
+### Code Coverage
+- **Definition**: Percentage of code executed during tests
+- **Types**: Statement, branch, path, and function coverage
+- **Limitations**: High coverage doesn't guarantee quality tests
+- **Usage**: Identifying untested code areas
+
+### Mutation Score
+- **Definition**: Percentage of introduced defects (mutations) detected by tests
+- **Calculation**: (Killed mutants / Total mutants) × 100%
+- **Advantage**: Measures test effectiveness, not just execution
+- **Interpretation**: Higher scores indicate more effective test suites
+
+## Practical Application
+
+When analyzing a codebase:
+1. Use multiple metrics for a balanced assessment
+2. Consider context and domain-specific factors
+3. Track metrics over time to identify trends
+4. Focus on outliers rather than average values
+5. Use metrics as indicators for further investigation, not absolute judgments

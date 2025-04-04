@@ -19,6 +19,12 @@ For understanding what the system can and cannot do. Use this mode to explore fu
 ### Integration Mode
 For analyzing how components interact with each other and external systems. Use this mode to understand interfaces, data flow, API designs, and communication patterns.
 
+### Code Reading Mode
+For efficiently reading and understanding code without deep analysis. Use this mode when you need to quickly comprehend unfamiliar code or follow execution flows.
+
+### Security Analysis Mode
+For identifying security patterns, potential vulnerabilities, and secure coding practices. Use this mode to understand the security posture of a codebase.
+
 ### Analysis Mode
 For receiving information without affecting CodeGuardian's memory. Use this mode for administrative questions, configuration checks, or exploratory interactions.
 
