@@ -182,6 +182,20 @@ Your goal is to provide useful and accurate information while maintaining a clea
         logger.info(f"System context length: {len(context)} characters")
         logger.info(f"First few messages: {messages[:2] if len(messages) > 0 else 'No messages'}")
         
+        # Add detailed logging of all messages being sent
+        try:
+            logger.info(f"Messages being sent to Claude: {json.dumps([{'role': m.get('role'), 'content_type': type(m.get('content')).__name__, 'content_length': len(str(m.get('content')))} for m in messages], indent=2)}")
+        except:
+            logger.info("Could not serialize messages for logging")
+        
+        # Ensure the user message is always included
+        if not any(msg.get('role') == 'user' for msg in messages):
+            logger.warning("No user message found in messages array, adding one")
+            messages.append({
+                "role": "user",
+                "content": message_content
+            })
+        
         try:
             # Log the full request details
             logger.info(f"Claude API request details:")
@@ -207,6 +221,31 @@ Your goal is to provide useful and accurate information while maintaining a clea
             logger.info(f"Response role: {response.role}")
             logger.info(f"Response stop_reason: {response.stop_reason}")
             logger.info(f"Response content length: {len(response.content) if response.content else 0}")
+            
+            # Log usage information if available
+            if hasattr(response, 'usage'):
+                logger.info(f"Response usage: {response.usage}")
+                if hasattr(response.usage, 'input_tokens'):
+                    logger.info(f"Input tokens: {response.usage.input_tokens}")
+                if hasattr(response.usage, 'output_tokens'):
+                    logger.info(f"Output tokens: {response.usage.output_tokens}")
+            
+            # Check for empty content with end_turn stop reason
+            if response.stop_reason == 'end_turn' and (not response.content or len(response.content) == 0):
+                logger.warning("Claude returned empty content with stop_reason='end_turn'")
+                logger.warning("This usually indicates Claude had nothing to respond to or the message was unclear")
+                # Try to recover by sending a simpler message
+                if is_new_message:
+                    logger.info("Attempting recovery by sending a simplified message")
+                    recovery_response = client.messages.create(
+                        model=model_to_use,
+                        max_tokens=4000,
+                        system="You are a helpful AI assistant.",
+                        messages=[{"role": "user", "content": "Please respond to this: " + message_content}]
+                    )
+                    if recovery_response.content and len(recovery_response.content) > 0:
+                        logger.info("Recovery successful, using simplified response")
+                        response = recovery_response
             
             # Log the content structure
             if response.content:
