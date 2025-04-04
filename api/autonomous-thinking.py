@@ -419,8 +419,14 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
         logger.info(f"Current thought: {current_thought}")
         
         try:
-            # Send message to kin
-            response = send_message_to_kin(blueprint, kin_id, current_thought, mode="self-reflection")
+            # For the first iteration, send the random thought directly
+            if i == 0:
+                # Send message to kin
+                response = send_message_to_kin(blueprint, kin_id, current_thought, mode="self-reflection")
+            else:
+                # For subsequent iterations, send a message with the continuation prompt
+                # Include <system> tags in the actual message content, not as a separate system parameter
+                response = send_message_to_kin(blueprint, kin_id, "<system>Continue your thoughts</system>", mode="self-reflection")
             
             # Send Telegram notification
             if telegram_token and telegram_chat_id:
