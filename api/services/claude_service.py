@@ -195,10 +195,14 @@ Your goal is to provide useful and accurate information while maintaining a clea
             
             # Extract the response text with better error handling
             if response.content and len(response.content) > 0:
-                # Check if the content has a 'text' attribute
+                # Check if the content has a 'text' attribute or if it's a dictionary with a 'text' key
                 if hasattr(response.content[0], 'text'):
                     claude_response = response.content[0].text
                     logger.info(f"Received response from Claude: {claude_response[:100]}...")
+                    return claude_response
+                elif isinstance(response.content[0], dict) and 'text' in response.content[0]:
+                    claude_response = response.content[0]['text']
+                    logger.info(f"Extracted text from content dict: {claude_response[:100]}...")
                     return claude_response
                 else:
                     # Try to extract text from the content in a different way
@@ -210,6 +214,10 @@ Your goal is to provide useful and accurate information while maintaining a clea
                         if 'text' in content_dict:
                             claude_response = content_dict['text']
                             logger.info(f"Extracted text from content dict: {claude_response[:100]}...")
+                            return claude_response
+                        elif hasattr(content_dict, 'type') and content_dict.get('type') == 'text':
+                            claude_response = content_dict.get('text', '')
+                            logger.info(f"Extracted text from content type=text: {claude_response[:100]}...")
                             return claude_response
                     except Exception as extract_error:
                         logger.error(f"Error extracting text from content: {str(extract_error)}")
