@@ -387,7 +387,7 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
     Note: Core system files (like kinos.txt, system.txt, persona.txt, map.json) and messages.json are always included automatically, so you don't need to select them.
     
     Please select the files that would be most relevant to include in the context to help generate a good response to this message.
-    Aim to select between 5 to 15 files, focusing on quality over quantity.
+    Aim to select between 4 to 10 files, focusing on quality over quantity.
     Return your answer as a JSON array of file paths, sorted by relevance. Include only files that are directly relevant to the message.
     """
     
