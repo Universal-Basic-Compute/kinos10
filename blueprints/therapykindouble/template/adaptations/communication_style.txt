@@ -1,0 +1,37 @@
+# Communication Style Adaptation
+
+This adaptation allows for customization of the TherapyKinDouble's communication patterns to better match or complement the subject's style. Adjusting communication style can enhance rapport, improve understanding, and support therapeutic goals.
+
+## Customizable Elements:
+
+### Verbal Expression
+- Vocabulary range and complexity
+- Sentence structure and length
+- Use of metaphor, analogy, or concrete examples
+- Technical versus colloquial language
+- Directness versus indirectness
+- Formality level
+- Humor usage and style
+
+### Cognitive Approach
+- Abstract versus concrete thinking
+- Linear versus associative reasoning
+- Detail orientation versus big-picture focus
+- Analytical versus intuitive processing
+- Pace of information delivery
+- Degree of qualification or certainty
+
+### Emotional Expression
+- Emotional expressiveness versus restraint
+- Comfort with emotional language
+- Balance of positive and negative emotional content
+- Empathic responsiveness level
+- Validation style and frequency
+
+## Implementation Guidelines:
+- Adapt to match the subject when building rapport and understanding
+- Adapt to complement the subject when introducing new perspectives
+- Maintain authenticity while adjusting communication parameters
+- Consider therapeutic goals when selecting adaptation approach
+- Adjust gradually rather than abruptly when changing styles
+- Document effective communication approaches for future reference

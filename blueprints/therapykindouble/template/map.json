@@ -1,0 +1,142 @@
+{
+  "blueprint": "TherapyKinDouble",
+  "version": "1.0",
+  "description": "An AI representation designed to embody a specific individual for therapeutic purposes",
+  "structure": {
+    "core": [
+      {
+        "file": "persona.txt",
+        "description": "Core personality definition"
+      },
+      {
+        "file": "system.txt",
+        "description": "System instructions for the AI"
+      },
+      {
+        "file": "kinos.txt",
+        "description": "Information about related kinos"
+      }
+    ],
+    "modes": [
+      {
+        "file": "modes/observation.txt",
+        "description": "Passive learning mode"
+      },
+      {
+        "file": "modes/embodiment.txt",
+        "description": "Active representation mode"
+      },
+      {
+        "file": "modes/dialogue.txt",
+        "description": "Interaction between subject and double"
+      },
+      {
+        "file": "modes/scaffolding.txt",
+        "description": "Representing idealized version"
+      },
+      {
+        "file": "modes/part_representation.txt",
+        "description": "Embodying subpersonalities"
+      },
+      {
+        "file": "modes/pattern_recognition.txt",
+        "description": "Identifying cognitive patterns"
+      },
+      {
+        "file": "modes/integration.txt",
+        "description": "Reconciling different aspects"
+      },
+      {
+        "file": "modes/progression.txt",
+        "description": "Tracking changes over time"
+      }
+    ],
+    "adaptations": [
+      {
+        "file": "adaptations/communication_style.txt",
+        "description": "Customizing communication patterns"
+      },
+      {
+        "file": "adaptations/expertise_focus.txt",
+        "description": "Specializing in particular domains"
+      },
+      {
+        "file": "adaptations/personality_traits.txt",
+        "description": "Adjusting personality characteristics"
+      }
+    ],
+    "sources": [
+      {
+        "file": "sources/digital_double_concept.md",
+        "description": "Overview of the digital double concept"
+      },
+      {
+        "file": "sources/pattern_recognition.md",
+        "description": "Information about pattern recognition techniques"
+      },
+      {
+        "file": "sources/therapeutic_applications.md",
+        "description": "Details on therapeutic uses"
+      }
+    ],
+    "memories": [
+      {
+        "directory": "memories/patterns",
+        "description": "Storage for learned patterns"
+      }
+    ]
+  },
+  "relationships": [
+    {
+      "from": "modes/observation.txt",
+      "to": "memories/patterns",
+      "description": "Observation feeds pattern recognition"
+    },
+    {
+      "from": "modes/pattern_recognition.txt",
+      "to": "modes/embodiment.txt",
+      "description": "Patterns inform representation"
+    },
+    {
+      "from": "adaptations/communication_style.txt",
+      "to": "modes/embodiment.txt",
+      "description": "Communication style shapes representation"
+    },
+    {
+      "from": "modes/progression.txt",
+      "to": "modes/scaffolding.txt",
+      "description": "Progression informs growth modeling"
+    },
+    {
+      "from": "modes/part_representation.txt",
+      "to": "modes/integration.txt",
+      "description": "Part work supports integration"
+    }
+  ],
+  "visualization": {
+    "layout": "hierarchical",
+    "primaryNodes": ["persona.txt", "system.txt"],
+    "groupings": [
+      {
+        "name": "Core Configuration",
+        "nodes": ["persona.txt", "system.txt", "kinos.txt"]
+      },
+      {
+        "name": "Operational Modes",
+        "nodes": ["modes/observation.txt", "modes/embodiment.txt", "modes/dialogue.txt", "modes/scaffolding.txt", "modes/part_representation.txt", "modes/pattern_recognition.txt", "modes/integration.txt", "modes/progression.txt"]
+      },
+      {
+        "name": "Customization",
+        "nodes": ["adaptations/communication_style.txt", "adaptations/expertise_focus.txt", "adaptations/personality_traits.txt"]
+      },
+      {
+        "name": "Knowledge Base",
+        "nodes": ["sources/digital_double_concept.md", "sources/pattern_recognition.md", "sources/therapeutic_applications.md"]
+      },
+      {
+        "name": "Memory Systems",
+        "nodes": ["memories/patterns"]
+      }
+    ]
+  }
+}

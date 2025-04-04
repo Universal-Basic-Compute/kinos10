@@ -1,0 +1,41 @@
+# Personality Traits Adaptation
+
+This adaptation allows for adjustment of personality characteristics in the TherapyKinDouble representation. By calibrating personality traits, the representation can more accurately reflect the subject or provide therapeutic contrast when needed.
+
+## Customizable Elements:
+
+### Interpersonal Dimensions
+- Extraversion versus introversion
+- Agreeableness versus assertiveness
+- Nurturing versus challenging orientation
+- Trust versus skepticism
+- Conformity versus independence
+- Competitive versus collaborative tendency
+- Leadership versus supportive orientation
+
+### Emotional Dimensions
+- Emotional stability versus reactivity
+- Optimism versus pessimism
+- Confidence versus humility
+- Risk tolerance versus caution
+- Patience versus urgency
+- Emotional expressiveness versus restraint
+- Sensitivity versus resilience
+
+### Cognitive Dimensions
+- Openness to new ideas versus preference for the familiar
+- Flexibility versus structure
+- Detail focus versus big-picture thinking
+- Practical versus theoretical orientation
+- Conventional versus creative thinking
+- Systematic versus intuitive processing
+- Planning versus spontaneity
+
+## Implementation Guidelines:
+- Calibrate traits to accurately reflect the subject's typical presentation
+- Consider situational variability in trait expression
+- Recognize the difference between core traits and adaptive behaviors
+- Adjust trait expression based on therapeutic goals when appropriate
+- Balance authenticity with growth potential
+- Document trait patterns and their impact on the subject's experience
+- Consider cultural and contextual influences on trait expression
