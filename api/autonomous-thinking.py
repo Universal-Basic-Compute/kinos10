@@ -228,13 +228,21 @@ def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection"):
     Returns:
         The response from the kin
     """
+    # Load environment variables from .env file
+    from dotenv import load_dotenv
+    import os
+    
+    # Load .env file from the parent directory of the script
+    dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+    load_dotenv(dotenv_path)
+    
     # API endpoint
     api_url = f"http://localhost:5000/api/proxy/kins/{blueprint}/{kin_id}/messages"
     
     # Get API key from environment variable
     api_key = os.getenv("API_SECRET_KEY")
     if not api_key:
-        logger.error("API_SECRET_KEY environment variable not set")
+        logger.error("API_SECRET_KEY environment variable not set in .env file")
         raise ValueError("API key not configured")
     
     # Prepare request
