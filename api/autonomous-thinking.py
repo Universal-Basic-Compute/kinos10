@@ -91,7 +91,8 @@ def get_random_files(kin_path, count=3):
         '__pycache__', '*.pyc', '*.pyo', # Python
         '.DS_Store',                     # macOS
         '.aider*',                       # Aider files
-        'aider_logs.txt'                 # Aider logs file
+        'aider_logs.txt',                # Aider logs file
+        '.aider.chat.history.md'         # Explicitly add this file
     ]
     
     for root, dirs, files in os.walk(kin_path):
@@ -106,13 +107,29 @@ def get_random_files(kin_path, count=3):
         for file in files:
             rel_path = os.path.relpath(os.path.join(root, file), kin_path)
             
-            # Skip files that match ignore patterns
-            if any(
-                (ignore_pattern == rel_path or
-                 rel_path.startswith(f"{ignore_pattern}/") or
-                 (ignore_pattern.startswith('*.') and rel_path.endswith(ignore_pattern[1:])))
-                for ignore_pattern in ignore_patterns
-            ):
+            # Improved pattern matching for files
+            should_ignore = False
+            for pattern in ignore_patterns:
+                # Exact match
+                if pattern == rel_path:
+                    should_ignore = True
+                    break
+                # Directory prefix match
+                elif pattern.endswith('/') and rel_path.startswith(f"{pattern[:-1]}/"):
+                    should_ignore = True
+                    break
+                # File extension match
+                elif pattern.startswith('*.') and rel_path.endswith(pattern[1:]):
+                    should_ignore = True
+                    break
+                # Wildcard prefix match (e.g., .aider*)
+                elif '*' in pattern and not pattern.startswith('*.'):
+                    prefix = pattern.split('*')[0]
+                    if rel_path.startswith(prefix):
+                        should_ignore = True
+                        break
+            
+            if should_ignore:
                 continue
                 
             # Skip system files, messages.json, and non-text files

@@ -21,7 +21,8 @@ def should_ignore_file(file_path, ignore_patterns=None):
         '.vscode', '.idea', '.vs',       # Editors
         '__pycache__', '*.pyc', '*.pyo', # Python
         '.DS_Store',                     # macOS
-        '.aider*'                        # Aider files
+        '.aider*',                       # Aider files
+        '.aider.chat.history.md'         # Explicitly add this file
     ]
     
     if ignore_patterns is None:
@@ -41,8 +42,7 @@ def should_ignore_file(file_path, ignore_patterns=None):
         elif '*' in pattern:
             # Simple wildcard pattern (e.g., .aider*)
             prefix = pattern.split('*')[0]
-            suffix = pattern.split('*')[1]
-            if file_path.startswith(prefix) and file_path.endswith(suffix):
+            if file_path.startswith(prefix):
                 return True
         elif file_path == pattern or file_path.startswith(f"{pattern}/"):
             # Exact match or directory
