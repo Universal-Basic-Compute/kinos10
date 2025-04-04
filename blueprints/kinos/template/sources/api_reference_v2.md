@@ -550,6 +550,43 @@ Get available modes for a kin.
 }
 ```
 
+### Create CodeGuardian
+
+Create a new CodeGuardian kin for a GitHub repository.
+
+**Endpoint:** `POST /v2/blueprints/codeguardian/create`
+
+**Request Body:**
+```json
+{
+  "github_url": "https://github.com/username/repo",
+  "kin_name": "CustomGuardianName"  // Optional
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "CodeGuardian 'RepoGuardian' created successfully for username/repo",
+  "blueprint": "codeguardian",
+  "kin_id": "RepoGuardian",
+  "repository": {
+    "owner": "username",
+    "repo": "repo",
+    "url": "https://github.com/username/repo"
+  }
+}
+```
+
+This endpoint:
+1. Clones the specified GitHub repository
+2. Creates a new kin based on the CodeGuardian template
+3. Copies the repository code into the kin's sources/repo directory
+4. Updates the kin's metadata with repository information
+
+The CodeGuardian can then be used to analyze and explain the codebase.
+
 ### Trigger Autonomous Thinking
 
 Trigger autonomous thinking for a kin, which generates random thoughts and self-reflections.

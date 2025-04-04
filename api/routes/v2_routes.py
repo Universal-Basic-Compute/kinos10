@@ -312,6 +312,15 @@ def get_kin_modes_v2(blueprint, kin_id):
     from routes.projects import get_kin_modes
     return get_kin_modes(blueprint, kin_id)
 
+@v2_bp.route('/blueprints/codeguardian/create', methods=['POST'])
+def create_code_guardian_v2():
+    """
+    V2 API endpoint to create a CodeGuardian kin for a GitHub repository.
+    Maps to the original create_code_guardian_api function.
+    """
+    from routes.projects import create_code_guardian_api
+    return create_code_guardian_api()
+
 @v2_bp.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def catch_all_v2(undefined_route):
     """Catch-all route for undefined v2 API endpoints."""

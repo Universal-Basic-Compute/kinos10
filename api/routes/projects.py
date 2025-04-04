@@ -680,6 +680,68 @@ def get_kin_modes(blueprint, kin_id):
         logger.error(f"Error getting kin modes: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@kins_bp.route('/blueprints/codeguardian/create', methods=['POST'])
+def create_code_guardian_api():
+    """
+    Endpoint to create a CodeGuardian kin for a GitHub repository.
+    
+    Expected JSON body:
+    {
+        "github_url": "https://github.com/username/repo",
+        "kin_name": "Optional custom name"  // Optional
+    }
+    """
+    try:
+        # Parse request data
+        data = request.json
+        github_url = data.get('github_url')
+        kin_name = data.get('kin_name')
+        
+        # Validate required parameters
+        if not github_url:
+            return jsonify({"error": "GitHub URL is required"}), 400
+        
+        # Import the create_code_guardian function
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), "blueprints", "codeguardian"))
+        from create_code_guardian import create_code_guardian, extract_repo_info
+        
+        # Extract repository information for validation
+        try:
+            repo_info = extract_repo_info(github_url)
+            logger.info(f"Repository information: {repo_info}")
+        except ValueError as e:
+            return jsonify({"error": f"Invalid GitHub URL: {str(e)}"}), 400
+        
+        # Create the CodeGuardian
+        try:
+            result = create_code_guardian(github_url, kin_name)
+            if not result:
+                return jsonify({"error": "Failed to create CodeGuardian"}), 500
+            
+            # If kin_name wasn't provided, it was generated based on the repo
+            if not kin_name:
+                kin_name = f"{repo_info['repo']}Guardian"
+            
+            return jsonify({
+                "status": "success",
+                "message": f"CodeGuardian '{kin_name}' created successfully for {repo_info['full_name']}",
+                "blueprint": "codeguardian",
+                "kin_id": kin_name,
+                "repository": {
+                    "owner": repo_info['owner'],
+                    "repo": repo_info['repo'],
+                    "url": github_url
+                }
+            })
+            
+        except Exception as e:
+            logger.error(f"Error creating CodeGuardian: {str(e)}")
+            return jsonify({"error": f"Error creating CodeGuardian: {str(e)}"}), 500
+        
+    except Exception as e:
+        logger.error(f"Error processing request: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @kins_bp.route('/blueprints/create_analysis_mode', methods=['POST'])
 def create_analysis_mode():
     """
