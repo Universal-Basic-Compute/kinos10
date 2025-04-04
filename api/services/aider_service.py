@@ -112,7 +112,8 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                 file in template_files or 
                 file.startswith("modes/") or 
                 file.startswith("adaptations/") or
-                file.startswith("knowledge/")):
+                file.startswith("knowledge/") or
+                file.startswith("sources/")):  # Add sources/ directory as read-only
                 cmd.extend(["--read", file])
                 logger.info(f"Added {file} as --read (non-editable) file")
             else:
