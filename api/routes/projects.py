@@ -567,6 +567,70 @@ def get_git_history(blueprint, kin_id):
         logger.error(f"Error getting Git history: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@kins_bp.route('/kins/<blueprint>/<kin_id>/autonomous_thinking', methods=['POST'])
+def trigger_autonomous_thinking(blueprint, kin_id):
+    """
+    Endpoint to trigger autonomous thinking for a kin.
+    Optional parameters:
+    - iterations: Number of thinking iterations (default: 3)
+    - wait_time: Wait time between iterations in seconds (default: 600 = 10 minutes)
+    """
+    try:
+        # Parse request data
+        data = request.json or {}
+        iterations = data.get('iterations', 3)
+        wait_time = data.get('wait_time', 600)
+        
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Construct the path to the script
+        script_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "autonomous-thinking.py")
+        
+        # Run the script as a subprocess
+        logger.info(f"Triggering autonomous thinking for {blueprint}/{kin_id} with {iterations} iterations")
+        
+        # Start the process in the background
+        import threading
+        def run_autonomous_thinking():
+            try:
+                result = subprocess.run(
+                    [sys.executable, script_path, blueprint, kin_id, "--iterations", str(iterations), "--wait-time", str(wait_time)],
+                    capture_output=True,
+                    text=True
+                )
+                
+                if result.returncode == 0:
+                    logger.info(f"Autonomous thinking completed successfully for {blueprint}/{kin_id}")
+                else:
+                    logger.error(f"Autonomous thinking failed with exit code {result.returncode}")
+                    logger.error(f"Error output: {result.stderr}")
+            except Exception as e:
+                logger.error(f"Error running autonomous thinking: {str(e)}")
+        
+        # Start the thread
+        thread = threading.Thread(target=run_autonomous_thinking)
+        thread.daemon = True
+        thread.start()
+        
+        return jsonify({
+            "status": "started",
+            "message": f"Autonomous thinking started for {blueprint}/{kin_id}",
+            "blueprint": blueprint,
+            "kin_id": kin_id,
+            "iterations": iterations,
+            "wait_time": wait_time
+        })
+        
+    except Exception as e:
+        logger.error(f"Error triggering autonomous thinking: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @kins_bp.route('/kins/<blueprint>/<kin_id>/modes', methods=['GET'])
 def get_kin_modes(blueprint, kin_id):
     """

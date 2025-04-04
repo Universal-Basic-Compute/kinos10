@@ -294,6 +294,15 @@ def build_kin_v2(blueprint, kin_id):
     from routes.projects import build_kin
     return build_kin(blueprint, kin_id)
 
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/autonomous_thinking', methods=['POST'])
+def trigger_autonomous_thinking_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to trigger autonomous thinking for a kin.
+    Maps to the original trigger_autonomous_thinking function.
+    """
+    from routes.projects import trigger_autonomous_thinking
+    return trigger_autonomous_thinking(blueprint, kin_id)
+
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/modes', methods=['GET'])
 def get_kin_modes_v2(blueprint, kin_id):
     """
