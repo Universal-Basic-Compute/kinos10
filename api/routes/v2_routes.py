@@ -294,49 +294,14 @@ def build_kin_v2(blueprint, kin_id):
     from routes.projects import build_kin
     return build_kin(blueprint, kin_id)
 
-## Modes
-
-Modes allow a kin to operate in different functional states, each with specific behaviors and capabilities. The system automatically suggests appropriate modes based on the user's message, or you can explicitly specify a mode.
-
-### Get Available Modes
-
-**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/modes`
-
-Returns a list of available modes for a kin.
-
-**Response:**
-```json
-{
-  "modes": [
-    {
-      "id": "creative",
-      "title": "Creative Mode: Imaginative and Expressive Responses"
-    },
-    {
-      "id": "observation",
-      "title": "Observation Mode: Passive Learning"
-    },
-    {
-      "id": "embodiment",
-      "title": "Embodiment Mode: Active Representation"
-    }
-  ]
-}
-```
-
-### Using Modes
-
-To use a specific mode, include the `mode` parameter in your request when sending a message:
-
-**Example:**
-```json
-{
-  "content": "Write a short story about a robot learning to paint.",
-  "mode": "creative"
-}
-```
-
-The system will also automatically suggest an appropriate mode based on the message content if a `modes.txt` file exists in the kin's template.
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/modes', methods=['GET'])
+def get_kin_modes_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to get available modes for a kin.
+    Maps to the original get_kin_modes function.
+    """
+    from routes.projects import get_kin_modes
+    return get_kin_modes(blueprint, kin_id)
 
 @v2_bp.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def catch_all_v2(undefined_route):
