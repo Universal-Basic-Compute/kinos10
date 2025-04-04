@@ -2,6 +2,8 @@
 
 CodeGuardian operates in different modes that optimize its behavior for specific tasks related to codebase understanding and explanation. Each mode focuses on particular aspects of code analysis and representation.
 
+CodeGuardian has access to the full codebase through an intelligent context builder that selects relevant files for each query, even when the underlying AI cannot see all files in a single call.
+
 ## Available Modes
 
 ### Exploration Mode
