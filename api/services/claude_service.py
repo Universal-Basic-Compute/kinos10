@@ -318,14 +318,19 @@ Your goal is to provide useful and accurate information while maintaining a clea
                 logger.error(f"Claude returned an empty response: {response}")
                 
                 # Check if there were output tokens despite empty content
-                if hasattr(response, 'usage') and response.usage and response.usage.output_tokens > 0:
+                if hasattr(response, 'usage') and response.usage and hasattr(response.usage, 'output_tokens') and response.usage.output_tokens > 0:
                     logger.warning(f"Claude returned {response.usage.output_tokens} output tokens but empty content array")
                     
                     # For image generation, use a default artistic prompt
                     return "A beautiful, detailed illustration in a professional style with vibrant colors and balanced composition."
                 else:
-                    # Return a more specific error message
-                    return "I apologize, but I couldn't generate a response due to an empty content array. Please try again."
+                    # Check if this is an end_turn with empty content
+                    if hasattr(response, 'stop_reason') and response.stop_reason == 'end_turn':
+                        logger.warning("Claude returned stop_reason='end_turn' with empty content")
+                        return "I understand your message, but I'm not sure what specific information you're looking for. Could you please provide more details or clarify your question?"
+                    else:
+                        # Return a more specific error message
+                        return "I apologize, but I couldn't generate a response due to an empty content array. Please try again."
         except Exception as e:
             logger.error(f"Error calling Claude API: {str(e)}")
             # Include the exception details in the returned message for debugging
