@@ -575,7 +575,7 @@ First line of your response should be "SELECTED_MODE: [mode_name]" followed by a
 """
 
     system_prompt += """
-After the mode selection (if applicable), provide a JSON array of 4-10 files that are most relevant to the user's message, focusing on quality over quantity."""
+After the mode selection (if applicable), provide a JSON array of 5-15 files that are most relevant to the user's message, focusing on quality over quantity."""
 
     # Create a user message for file selection
     selection_prompt = f"""User message: {message}{mode_info}
