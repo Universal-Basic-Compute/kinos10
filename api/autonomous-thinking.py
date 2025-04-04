@@ -32,8 +32,8 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.StreamHandler(),
-        logging.FileHandler(f"autonomous_thinking_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
+        logging.StreamHandler()
+        # Removed the FileHandler to prevent creating a log file
     ]
 )
 logger = logging.getLogger(__name__)
