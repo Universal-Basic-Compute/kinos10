@@ -277,8 +277,16 @@ Your goal is to provide useful and accurate information while maintaining a clea
                     return "I apologize, but I couldn't generate a proper response. Please try again."
             else:
                 logger.error(f"Claude returned an empty response: {response}")
-                # Return a more specific error message
-                return "I apologize, but I couldn't generate a response due to an empty content array. Please try again."
+                
+                # Check if there were output tokens despite empty content
+                if hasattr(response, 'usage') and response.usage and response.usage.output_tokens > 0:
+                    logger.warning(f"Claude returned {response.usage.output_tokens} output tokens but empty content array")
+                    
+                    # For image generation, use a default artistic prompt
+                    return "A beautiful, detailed illustration in a professional style with vibrant colors and balanced composition."
+                else:
+                    # Return a more specific error message
+                    return "I apologize, but I couldn't generate a response due to an empty content array. Please try again."
         except Exception as e:
             logger.error(f"Error calling Claude API: {str(e)}")
             # Include the exception details in the returned message for debugging
