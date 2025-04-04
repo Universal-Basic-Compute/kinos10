@@ -847,6 +847,12 @@ def generate_kin_image(blueprint, kin_id):
         - Colors, lighting, and visual effects
         - Background and environment
         - Any specific artistic influences if relevant
+
+        Important style requirements:
+        - Use a soothing pencil style illustration
+        - Incorporate the site's color palette: white, teal, light green, purple, violet, yellow, and orange
+        - Keep the style clean, modern, and therapeutic
+        - Ensure the image feels calming and supportive
         """
         
         # Call Claude to create the prompt
