@@ -27,7 +27,9 @@ def get_app_data_dir():
     
     # Default locations based on OS
     if os.name == 'nt':  # Windows
-        return os.path.join(os.environ.get('APPDATA', ''), 'KinOS')
+        return 'C:\\data\\KinOS'
+    elif os.path.exists('/data'):
+        return '/data/KinOS'
     else:  # Linux/Mac
         return os.path.join(os.path.expanduser('~'), '.kinos')
 
@@ -170,7 +172,7 @@ def create_code_guardian(github_url, kin_name=None):
         return False
     
     # Now define the kin directory path
-    kin_dir = os.path.join(codeguardian_dir, kin_name)
+    kin_dir = os.path.join(codeguardian_dir, "kins", kin_name)
     sources_dir = os.path.join(kin_dir, 'sources')
     repo_dir = os.path.join(sources_dir, 'repo')
     
