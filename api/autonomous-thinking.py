@@ -319,27 +319,30 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
     logger.info(f"Starting autonomous thinking for {blueprint}/{kin_id}")
     logger.info(f"Will run {iterations} iterations with {wait_time} seconds between each")
     
+    # Generate the initial random thought
+    random_files = get_random_files(kin_path, count=3)
+    logger.info(f"Selected random files for initial thought: {random_files}")
+    current_thought = generate_random_thought(kin_path, random_files)
+    
+    # Run the thinking iterations
     for i in range(iterations):
         logger.info(f"Starting iteration {i+1}/{iterations}")
-        
-        # Get random files
-        random_files = get_random_files(kin_path, count=3)
-        logger.info(f"Selected random files: {random_files}")
-        
-        # Generate random thought
-        thought = generate_random_thought(kin_path, random_files)
+        logger.info(f"Current thought: {current_thought}")
         
         # Send message to kin
-        response = send_message_to_kin(blueprint, kin_id, thought)
+        response = send_message_to_kin(blueprint, kin_id, current_thought)
         
         # Send Telegram notification
         if telegram_token and telegram_chat_id:
-            send_telegram_notification(telegram_token, telegram_chat_id, thought, response)
+            send_telegram_notification(telegram_token, telegram_chat_id, current_thought, response)
         
-        # Wait before next iteration (except for the last one)
-        if i < iterations - 1:
+        # Use the response as the input for the next iteration
+        if i < iterations - 1:  # Only update if there are more iterations to come
             logger.info(f"Waiting {wait_time} seconds before next iteration...")
             time.sleep(wait_time)
+            
+            # Use the previous response as the new thought
+            current_thought = response
     
     logger.info(f"Completed {iterations} autonomous thinking iterations")
     return True
