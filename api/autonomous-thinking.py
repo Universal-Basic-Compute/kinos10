@@ -215,7 +215,7 @@ def generate_random_thought(kin_path, random_files):
     try:
         # Call Claude API
         response = client.messages.create(
-            model="claude-3-5-haiku-latest",
+            model="claude-3-7-sonnet-latest",  # Use the more powerful Sonnet model for better quality thoughts
             max_tokens=1000,
             system=context,
             messages=[
