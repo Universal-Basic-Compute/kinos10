@@ -2,8 +2,12 @@ from flask import Flask, request, jsonify
 import os
 import shutil
 import datetime
+import subprocess
+import sys
 from flask_cors import CORS
 from config import logger, blueprintS_DIR, API_KEY
+from apscheduler.schedulers.background import BackgroundScheduler
+import atexit
 from routes.projects import kins_bp
 from routes.messages import messages_bp
 from routes.files import files_bp
@@ -438,6 +442,37 @@ def generate_modes_txt_for_all(force=False):
         logger.info("Completed modes.txt generation for all blueprints")
     except Exception as e:
         logger.error(f"Error generating modes.txt files: {str(e)}")
+
+# Set up scheduler for autonomous thinking
+def run_autonomous_thinking():
+    logger.info("Running scheduled autonomous thinking for therapykindouble/WarmMink92")
+    try:
+        # Construct the path to the script
+        script_path = os.path.join(os.path.dirname(__file__), "autonomous-thinking.py")
+        
+        # Run the script as a subprocess
+        result = subprocess.run(
+            [sys.executable, script_path, "therapykindouble", "WarmMink92", "--iterations", "3"],
+            capture_output=True,
+            text=True
+        )
+        
+        if result.returncode == 0:
+            logger.info("Autonomous thinking completed successfully")
+        else:
+            logger.error(f"Autonomous thinking failed with exit code {result.returncode}")
+            logger.error(f"Error output: {result.stderr}")
+            
+    except Exception as e:
+        logger.error(f"Error running autonomous thinking: {str(e)}")
+
+# Initialize the scheduler
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=run_autonomous_thinking, trigger="interval", hours=1)
+scheduler.start()
+
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
 
 # Modes.txt generation is disabled during startup
 # To generate modes.txt files, use the generate_modes_txt.py script directly
