@@ -903,7 +903,7 @@ def generate_kin_image(blueprint, kin_id):
             return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Build context (select relevant files)
-        selected_files = build_context(blueprint, kin_id, message_content, kin_path=kin_path)
+        selected_files, _ = build_context(blueprint, kin_id, message_content, kin_path=kin_path)
         
         # Log the selected files
         logger.info(f"Selected files for image generation context: {selected_files}")
