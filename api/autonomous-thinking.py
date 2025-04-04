@@ -316,6 +316,14 @@ def send_telegram_notification(token, chat_id, thought, response):
     api_url = f"https://api.telegram.org/bot{token}/sendMessage"
     logger.info(f"Preparing Telegram notification with token: {token[:4]}... and chat ID: {chat_id}")
     
+    # Convert chat_id to integer if it's a string
+    try:
+        if isinstance(chat_id, str):
+            chat_id = int(chat_id)
+        logger.info(f"Using chat_id as integer: {chat_id}")
+    except ValueError:
+        logger.warning(f"Could not convert chat_id to integer, using as is: {chat_id}")
+    
     # Prepare message
     message = f"🧠 *Autonomous Thought*\n\n"
     message += f"💭 *Thought:*\n{thought}\n\n"
@@ -323,14 +331,14 @@ def send_telegram_notification(token, chat_id, thought, response):
     
     # Prepare request
     payload = {
-        "chat_id": chat_id,
+        "chat_id": chat_id,  # Now as integer
         "text": message,
         "parse_mode": "Markdown"
     }
     
     try:
         # Make request
-        logger.info(f"Sending request to Telegram API: {api_url}")
+        logger.info(f"Sending request to Telegram API: {api_url} with chat_id as integer: {chat_id}")
         response = requests.post(api_url, json=payload)
         
         # Check for errors
