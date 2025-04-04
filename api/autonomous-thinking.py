@@ -83,9 +83,37 @@ def get_kin_path(blueprint, kin_id):
 def get_random_files(kin_path, count=3):
     """Get a list of random files from the kin directory."""
     all_files = []
-    for root, _, files in os.walk(kin_path):
+    
+    # Define patterns to ignore
+    ignore_patterns = [
+        '.git', '.svn', '.hg',           # Version control
+        '.vscode', '.idea', '.vs',       # Editors
+        '__pycache__', '*.pyc', '*.pyo', # Python
+        '.DS_Store',                     # macOS
+        '.aider*'                        # Aider files
+    ]
+    
+    for root, dirs, files in os.walk(kin_path):
+        # Filter out ignored directories to avoid walking into them
+        dirs[:] = [d for d in dirs if not any(
+            (ignore_pattern == d or 
+             (ignore_pattern.endswith('/') and d.startswith(ignore_pattern[:-1])) or
+             (ignore_pattern.startswith('*.') and d.endswith(ignore_pattern[1:])))
+            for ignore_pattern in ignore_patterns
+        )]
+        
         for file in files:
             rel_path = os.path.relpath(os.path.join(root, file), kin_path)
+            
+            # Skip files that match ignore patterns
+            if any(
+                (ignore_pattern == rel_path or
+                 rel_path.startswith(f"{ignore_pattern}/") or
+                 (ignore_pattern.startswith('*.') and rel_path.endswith(ignore_pattern[1:])))
+                for ignore_pattern in ignore_patterns
+            ):
+                continue
+                
             # Skip system files, messages.json, and non-text files
             if (rel_path not in ["persona.txt", "kinos.txt", "system.txt", "messages.json"] and
                 not rel_path.endswith(('.jpg', '.jpeg', '.png', '.gif', '.mp3', '.mp4'))):
