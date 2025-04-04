@@ -183,6 +183,14 @@ Your goal is to provide useful and accurate information while maintaining a clea
         logger.info(f"First few messages: {messages[:2] if len(messages) > 0 else 'No messages'}")
         
         try:
+            # Log the full request details
+            logger.info(f"Claude API request details:")
+            logger.info(f"  Model: {model_to_use}")
+            logger.info(f"  System context length: {len(context)} characters")
+            logger.info(f"  Number of messages: {len(messages)}")
+            logger.info(f"  First message: {messages[0] if messages else 'No messages'}")
+            logger.info(f"  Last message: {messages[-1] if messages else 'No messages'}")
+            
             response = client.messages.create(
                 model=model_to_use,
                 max_tokens=4000,
@@ -190,8 +198,29 @@ Your goal is to provide useful and accurate information while maintaining a clea
                 messages=messages
             )
             
-            # Add detailed logging of the response
-            logger.info(f"Claude API response received: {response}")
+            # Log the complete raw response
+            logger.info(f"Claude API raw response: {response}")
+            
+            # Log specific parts of the response
+            logger.info(f"Response ID: {response.id}")
+            logger.info(f"Response model: {response.model}")
+            logger.info(f"Response role: {response.role}")
+            logger.info(f"Response stop_reason: {response.stop_reason}")
+            logger.info(f"Response content length: {len(response.content) if response.content else 0}")
+            
+            # Log the content structure
+            if response.content:
+                for i, content_item in enumerate(response.content):
+                    logger.info(f"Content item {i} type: {type(content_item)}")
+                    logger.info(f"Content item {i} dir: {dir(content_item)}")
+                    logger.info(f"Content item {i} repr: {repr(content_item)}")
+                    
+                    # Try to access as dictionary
+                    try:
+                        if hasattr(content_item, '__dict__'):
+                            logger.info(f"Content item {i} __dict__: {content_item.__dict__}")
+                    except:
+                        pass
             
             # Extract the response text with better error handling
             if response.content and len(response.content) > 0:
@@ -204,6 +233,12 @@ Your goal is to provide useful and accurate information while maintaining a clea
                     claude_response = response.content[0]['text']
                     logger.info(f"Extracted text from content dict: {claude_response[:100]}...")
                     return claude_response
+                # Try to access text attribute through different methods
+                elif hasattr(response.content[0], 'get') and callable(response.content[0].get):
+                    text = response.content[0].get('text')
+                    if text:
+                        logger.info(f"Extracted text using get() method: {text[:100]}...")
+                        return text
                 else:
                     # Try to extract text from the content in a different way
                     logger.warning(f"Content object doesn't have 'text' attribute: {response.content[0]}")
@@ -219,8 +254,23 @@ Your goal is to provide useful and accurate information while maintaining a clea
                             claude_response = content_dict.get('text', '')
                             logger.info(f"Extracted text from content type=text: {claude_response[:100]}...")
                             return claude_response
+                        
+                        # Try to access any attribute that might contain the text
+                        for key, value in content_dict.items():
+                            if isinstance(value, str) and len(value) > 10:
+                                logger.info(f"Found potential text in attribute '{key}': {value[:100]}...")
+                                return value
                     except Exception as extract_error:
                         logger.error(f"Error extracting text from content: {str(extract_error)}")
+                    
+                    # Try to stringify the content object itself
+                    try:
+                        content_str = str(response.content[0])
+                        if len(content_str) > 10 and content_str != str(type(response.content[0])):
+                            logger.info(f"Using string representation of content: {content_str[:100]}...")
+                            return content_str
+                    except Exception as str_error:
+                        logger.error(f"Error converting content to string: {str(str_error)}")
                     
                     # If we can't extract text, return a generic response
                     logger.error(f"Could not extract text from Claude response: {response.content}")
