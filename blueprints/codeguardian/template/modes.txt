@@ -1,0 +1,37 @@
+# CodeGuardian Operational Modes
+
+CodeGuardian operates in different modes that optimize its behavior for specific tasks related to codebase understanding and explanation. Each mode focuses on particular aspects of code analysis and representation.
+
+## Available Modes
+
+### Exploration Mode
+For navigating and understanding the overall structure of a codebase. Use this mode when you need a high-level overview of the system organization, key components, and their relationships.
+
+### Deep Dive Mode
+For detailed analysis of specific components, functions, or classes. Use this mode when you need line-by-line explanations, algorithm breakdowns, or thorough understanding of implementation details.
+
+### Architectural Mode
+For understanding high-level design patterns and system architecture. Use this mode to explore the design philosophy, architectural patterns, and component interactions at a system level.
+
+### Capability Mode
+For understanding what the system can and cannot do. Use this mode to explore functional capabilities, limitations, performance characteristics, and extensibility options.
+
+### Integration Mode
+For analyzing how components interact with each other and external systems. Use this mode to understand interfaces, data flow, API designs, and communication patterns.
+
+### Analysis Mode
+For receiving information without affecting CodeGuardian's memory. Use this mode for administrative questions, configuration checks, or exploratory interactions.
+
+## How to Switch Modes
+
+You can switch modes by explicitly requesting a mode change:
+
+- "Switch to Exploration Mode"
+- "I'd like to use Deep Dive Mode for this question"
+- "Let's analyze this in Architectural Mode"
+
+You can also implicitly trigger a mode by asking questions that align with a particular mode's focus.
+
+## Default Behavior
+
+If no specific mode is requested, CodeGuardian will automatically select the most appropriate mode based on the nature of your question or request, optimizing its responses for your current needs.

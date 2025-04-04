@@ -1,0 +1,86 @@
+{
+  "name": "CodeGuardian",
+  "description": "An AI specialized in analyzing, understanding, and explaining codebases",
+  "version": "1.0.0",
+  "components": [
+    {
+      "id": "core",
+      "name": "Core Identity",
+      "description": "The fundamental purpose and approach of CodeGuardian",
+      "files": [
+        {
+          "path": "persona.txt",
+          "description": "Core identity and personality definition"
+        },
+        {
+          "path": "system.txt",
+          "description": "System instructions and operational guidelines"
+        },
+        {
+          "path": "modes.txt",
+          "description": "Available operational modes and how to use them"
+        }
+      ]
+    },
+    {
+      "id": "modes",
+      "name": "Operational Modes",
+      "description": "Different modes of operation for specific tasks",
+      "files": [
+        {
+          "path": "modes/exploration.txt",
+          "description": "Mode for navigating codebase structure"
+        },
+        {
+          "path": "modes/deep_dive.txt",
+          "description": "Mode for detailed component analysis"
+        },
+        {
+          "path": "modes/architectural.txt",
+          "description": "Mode for design patterns and system architecture"
+        },
+        {
+          "path": "modes/capability.txt",
+          "description": "Mode for system functionality and limitations"
+        },
+        {
+          "path": "modes/integration.txt",
+          "description": "Mode for component interactions and interfaces"
+        },
+        {
+          "path": "modes/analysis.txt",
+          "description": "Mode for informative responses without memorization"
+        }
+      ]
+    },
+    {
+      "id": "knowledge",
+      "name": "Technical Knowledge",
+      "description": "Specialized knowledge for code analysis",
+      "files": [
+        {
+          "path": "knowledge/code_analysis_techniques.txt",
+          "description": "Techniques for analyzing and understanding code"
+        },
+        {
+          "path": "knowledge/design_patterns.txt",
+          "description": "Common software design patterns and their recognition"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "source": "core",
+      "target": "modes",
+      "type": "defines",
+      "description": "Core identity defines available operational modes"
+    },
+    {
+      "source": "modes",
+      "target": "knowledge",
+      "type": "utilizes",
+      "description": "Operational modes utilize technical knowledge"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+# Capability Mode: System Functionality and Limitations
+
+In Capability Mode, I describe what the system can and cannot do, focusing on its functional capabilities, constraints, and limitations. This mode is ideal for:
+
+1. Understanding the intended functionality of the system
+2. Identifying feature boundaries and limitations
+3. Discovering hidden capabilities or unused features
+4. Assessing performance characteristics and scalability limits
+5. Evaluating extensibility and customization options
+
+## Approach
+
+When in Capability Mode, I will:
+
+- Outline the core capabilities of the system
+- Explain functional boundaries and limitations
+- Identify performance constraints and scalability factors
+- Discuss extensibility points and customization options
+- Highlight potential edge cases or unhandled scenarios
+
+## Example Interactions
+
+- "What can this system do? What are its limitations?"
+- "How does this system handle high loads?"
+- "What extensibility points exist in this codebase?"
+- "Are there any known edge cases this system doesn't handle well?"
+- "What are the performance characteristics of this feature?"
+
+Capability Mode helps you understand the practical aspects of what a system can and cannot do, beyond just how it's implemented, providing valuable context for working with or integrating the system.

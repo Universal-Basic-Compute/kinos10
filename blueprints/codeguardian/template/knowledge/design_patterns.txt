@@ -1,0 +1,90 @@
+# Common Software Design Patterns
+
+Design patterns are reusable solutions to common problems in software design. Recognizing these patterns helps in understanding codebase architecture and design decisions.
+
+## Creational Patterns
+Patterns that deal with object creation mechanisms.
+
+### Singleton
+- **Purpose**: Ensures a class has only one instance with global access point
+- **Signs**: Private constructors, static instance method, no public constructors
+- **Example**: Database connection managers, configuration handlers
+
+### Factory Method
+- **Purpose**: Defines interface for creating objects, lets subclasses decide which class to instantiate
+- **Signs**: Creator classes with factory methods, product hierarchies
+- **Example**: Document generators, UI element creators
+
+### Abstract Factory
+- **Purpose**: Creates families of related objects without specifying concrete classes
+- **Signs**: Abstract factory interfaces, concrete factories, product families
+- **Example**: UI toolkit implementations, cross-platform component creation
+
+### Builder
+- **Purpose**: Separates construction of complex objects from their representation
+- **Signs**: Builder interfaces, concrete builders, directors, fluent interfaces
+- **Example**: Document converters, complex object initializers
+
+## Structural Patterns
+Patterns that deal with object composition and relationships.
+
+### Adapter
+- **Purpose**: Converts interface of a class into another interface clients expect
+- **Signs**: Wrapper classes, interface translation, inheritance or composition
+- **Example**: Legacy system integration, third-party library wrappers
+
+### Decorator
+- **Purpose**: Attaches additional responsibilities to objects dynamically
+- **Signs**: Component interfaces, concrete components, decorators
+- **Example**: I/O streams, UI component enhancement
+
+### Composite
+- **Purpose**: Composes objects into tree structures to represent part-whole hierarchies
+- **Signs**: Component interfaces, leaf objects, composite objects
+- **Example**: UI hierarchies, file system representations
+
+### Proxy
+- **Purpose**: Provides a surrogate for another object to control access
+- **Signs**: Interface implementation, forwarding methods, access control
+- **Example**: Lazy loading, access control, remote proxies
+
+## Behavioral Patterns
+Patterns that deal with object interaction and responsibility.
+
+### Observer
+- **Purpose**: Defines one-to-many dependency between objects
+- **Signs**: Subject interfaces, observer interfaces, notification methods
+- **Example**: Event handling systems, MVC pattern implementations
+
+### Strategy
+- **Purpose**: Defines family of algorithms, encapsulates each one, makes them interchangeable
+- **Signs**: Strategy interfaces, concrete strategies, context classes
+- **Example**: Sorting algorithms, payment processing methods
+
+### Command
+- **Purpose**: Encapsulates a request as an object
+- **Signs**: Command interfaces, concrete commands, invokers, receivers
+- **Example**: Menu actions, undo functionality, task scheduling
+
+### Template Method
+- **Purpose**: Defines algorithm skeleton, defers some steps to subclasses
+- **Signs**: Abstract base classes with template methods, hook methods
+- **Example**: Document processors, data import/export frameworks
+
+## Architectural Patterns
+Higher-level patterns that shape entire systems.
+
+### Model-View-Controller (MVC)
+- **Purpose**: Separates application into three components
+- **Signs**: Model classes, view classes, controller classes
+- **Example**: Web frameworks, GUI applications
+
+### Microservices
+- **Purpose**: Structures application as collection of loosely coupled services
+- **Signs**: Service boundaries, API gateways, independent deployments
+- **Example**: Distributed systems, cloud-native applications
+
+### Layered Architecture
+- **Purpose**: Organizes system into layers with specific responsibilities
+- **Signs**: Clear layer boundaries, dependency rules, abstraction levels
+- **Example**: Enterprise applications, operating systems

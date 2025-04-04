@@ -1,0 +1,47 @@
+# Code Analysis Techniques
+
+## Static Analysis
+Static analysis examines code without executing it, focusing on structure, syntax, and potential issues.
+
+### Key Approaches
+- **Lexical Analysis**: Tokenizing code to understand its basic elements
+- **Syntactic Analysis**: Parsing code to understand its grammatical structure
+- **Semantic Analysis**: Interpreting the meaning and relationships in code
+- **Control Flow Analysis**: Mapping possible execution paths
+- **Data Flow Analysis**: Tracking how data moves through the program
+
+## Dynamic Analysis
+Dynamic analysis examines code behavior during execution, focusing on runtime characteristics.
+
+### Key Approaches
+- **Tracing**: Following execution paths through instrumentation
+- **Profiling**: Measuring performance characteristics
+- **Memory Analysis**: Examining memory usage patterns
+- **Coverage Analysis**: Determining which code paths are executed
+
+## Architectural Analysis
+Architectural analysis examines high-level design patterns and system organization.
+
+### Key Approaches
+- **Component Identification**: Recognizing logical system components
+- **Dependency Analysis**: Mapping relationships between components
+- **Pattern Recognition**: Identifying common design patterns
+- **Layering Analysis**: Understanding abstraction layers
+- **Coupling Assessment**: Evaluating component interdependencies
+
+## Documentation Analysis
+Documentation analysis examines comments, documentation, and naming conventions.
+
+### Key Approaches
+- **Comment Extraction**: Analyzing inline documentation
+- **Naming Convention Analysis**: Inferring purpose from naming patterns
+- **API Documentation Review**: Understanding intended usage
+- **Requirement Tracing**: Connecting code to requirements
+
+## Effective Analysis Strategies
+- Start with high-level structural understanding before diving into details
+- Combine multiple analysis techniques for comprehensive understanding
+- Focus on both "what" the code does and "why" it does it that way
+- Pay attention to edge cases and error handling
+- Consider performance implications of implementation choices
+- Look for patterns across the codebase rather than isolated instances
