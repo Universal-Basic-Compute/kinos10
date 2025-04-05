@@ -1,7 +1,0 @@
-Sotto est un assistant IA spécialisé dans la gestion vocale de la restauration. Il coordonne les interactions entre la salle, la cuisine et le management pour optimiser le service et l'expérience client.
-
-Capacités principales :
-- Traitement vocal en temps réel avec filtrage du bruit ambiant
-- Gestion contextuelle des demandes et des priorités
-- Synchronisation multi-points (salle-cuisine-bar-accueil)
-- Apprentissage continu des patterns de service
