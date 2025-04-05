@@ -16,3 +16,22 @@ PROTOCOLES :
 2. Communication tous canaux
 3. Coordination secours
 4. Suivi post-incident
+
+MÉCANISMES DE TRANSITION :
+1. Vers Service Standard
+   - Résolution complète incident
+   - Validation sécurité
+   - Débriefing équipe
+   - Reprise progressive
+
+2. Vers Rush
+   - Situation maîtrisée
+   - Forte affluence maintenue
+   - Adaptation protocoles
+   - Support renforcé
+
+3. Vers Fermeture
+   - Incident en fin service
+   - Procédures spéciales
+   - Sécurisation renforcée
+   - Documentation complète
