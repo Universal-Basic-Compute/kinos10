@@ -220,7 +220,7 @@
       },
       {
         "name": "Operational Modes",
-        "nodes": ["modes/observation.txt", "modes/embodiment.txt", "modes/dialogue.txt", "modes/scaffolding.txt", "modes/part_representation.txt", "modes/pattern_recognition.txt", "modes/integration.txt", "modes/progression.txt", "modes/autonomy.txt", "modes/self_reflection.txt"]
+        "nodes": ["modes/observation.txt", "modes/embodiment.txt", "modes/dialogue.txt", "modes/scaffolding.txt", "modes/part_representation.txt", "modes/pattern_recognition.txt", "modes/integration.txt", "modes/progression.txt", "modes/autonomy.txt", "modes/self_reflection.txt", "modes/initiative.txt"]
       },
       {
         "name": "Customization",
