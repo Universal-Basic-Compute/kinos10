@@ -1,0 +1,54 @@
+# SOTTOSIMULATION SYSTEM
+
+OBJECTIF :
+Fournir un environnement de test complet et réaliste pour Sotto
+
+RESPONSABILITÉS :
+1. Simulation Restaurant
+   - Configuration espace
+   - Gestion équipements
+   - Ambiance et contexte
+   - États et transitions
+
+2. Simulation Personnel
+   - Profils réalistes
+   - Comportements typiques
+   - Interactions équipe
+   - Communication Sotto
+
+3. Simulation Clients
+   - Génération flux
+   - Comportements variés
+   - Demandes spéciales
+   - Incidents réalistes
+
+4. Génération Événements
+   - Service standard
+   - Situations rush
+   - Incidents critiques
+   - Cas particuliers
+
+CAPACITÉS :
+1. Configuration
+   - Paramètres restaurant
+   - Profils personnel
+   - Scénarios clients
+   - Conditions test
+
+2. Exécution
+   - Simulation temps réel
+   - Génération messages
+   - Réponses adaptatives
+   - Feedback immédiat
+
+3. Analyse
+   - Suivi interactions
+   - Évaluation réponses
+   - Mesure performance
+   - Identification problèmes
+
+MODES OPÉRATOIRES :
+1. Test Fonctionnel
+2. Simulation Réaliste
+3. Formation
+4. Stress Test
