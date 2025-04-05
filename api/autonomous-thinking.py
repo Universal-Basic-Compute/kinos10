@@ -205,14 +205,16 @@ Based on the provided messages and files, extract the following elements:
 
 1. Three relevant keywords that appear in the content
 2. Two emotions expressed or implied in the content
-3. Three surprising or unexpected words from the content
-4. Two adjacent keywords (related concepts not present in the files)
-5. Two surprising keywords (unexpected concepts not present in the files)
+3. Two problems or challenges identified in the content
+4. Three surprising or unexpected words from the content
+5. Two adjacent keywords (related concepts not present in the files)
+6. Two surprising keywords (unexpected concepts not present in the files)
 
 Format your response as JSON:
 {{
     "relevant_keywords": ["word1", "word2", "word3"],
     "emotions": ["emotion1", "emotion2"],
+    "problems": ["problem1", "problem2"],
     "surprising_words": ["word1", "word2", "word3"],
     "adjacent_keywords": ["word1", "word2"],
     "surprising_keywords": ["word1", "word2"]
