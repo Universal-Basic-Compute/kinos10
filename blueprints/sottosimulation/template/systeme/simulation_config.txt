@@ -1,0 +1,58 @@
+# SOTTOSIMULATION CONFIGURATION
+
+PARAMÈTRES SIMULATION :
+1. Restaurant
+   - Taille (15-30 tables)
+   - Layout (zones service)
+   - Équipement (cuisine, bar)
+   - Capacité totale
+
+2. Personnel
+   - Nombre serveurs (2-5)
+   - Staff cuisine (2-4)
+   - Management (1)
+   - Support (1-2)
+
+3. Service
+   - Horaires (11h-23h)
+   - Pics activité
+   - Temps préparation
+   - Délais service
+
+4. Clients
+   - Flux arrivée
+   - Taille groupes
+   - Temps occupation
+   - Patterns commandes
+
+CONFIGURATIONS SPÉCIALES :
+1. Rush Hour
+   - Seuils activation
+   - Intensité flux
+   - Durée moyenne
+   - Points stress
+
+2. Incidents
+   - Types problèmes
+   - Fréquence
+   - Gravité
+   - Impact service
+
+3. Formation
+   - Niveaux difficulté
+   - Progression
+   - Validation étapes
+   - Critères réussite
+
+PARAMÈTRES TECHNIQUES :
+1. Performance
+   - Temps réponse
+   - Charge système
+   - Limites ressources
+   - Seuils alerte
+
+2. Monitoring
+   - Métriques suivies
+   - Points contrôle
+   - Alertes système
+   - Logs détaillés
