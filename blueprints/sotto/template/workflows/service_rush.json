@@ -1,0 +1,23 @@
+{
+  "steps": {
+    "commande_rapide": {
+      "actions": ["prise_commande_express", "validation_rapide", "transmission_prioritaire"],
+      "transitions": ["service_optimisé", "modification_urgente"]
+    },
+    "service_optimisé": {
+      "actions": ["suivi_temps_réel", "service_express", "vérification_rapide"],
+      "transitions": ["paiement_express", "commande_supplémentaire_rush"]
+    },
+    "paiement_express": {
+      "actions": ["addition_rapide", "paiement_optimisé", "libération_table"],
+      "transitions": ["fin_service_rush", "gestion_réclamation_urgente"]
+    }
+  },
+  "transitions_rules": {
+    "conditions": {
+      "vers_standard": "activité_normalisée",
+      "vers_urgence": "incident_critique",
+      "maintien_rush": "seuil_activité_maintenu"
+    }
+  }
+}

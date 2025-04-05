@@ -31,7 +31,11 @@
       "preparation": "modes/preparation.txt",
       "closing": "modes/fermeture.txt",
       "emergency": "modes/urgence.txt",
-      "learning": "modes/learning.txt"
+      "learning": "modes/learning.txt",
+      "analysis": "modes/analysis.txt",
+      "debug": "modes/debug.txt",
+      "training": "modes/training.txt",
+      "calibration": "modes/calibration.txt"
     }
   },
   "data_flows": {

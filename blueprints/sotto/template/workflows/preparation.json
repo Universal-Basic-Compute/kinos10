@@ -1,0 +1,23 @@
+{
+  "steps": {
+    "check_stocks": {
+      "actions": ["inventaire_rapide", "vérification_critique", "commandes_urgentes"],
+      "transitions": ["mise_en_place", "réapprovisionnement"]
+    },
+    "mise_en_place": {
+      "actions": ["préparation_postes", "vérification_matériel", "mise_en_place_salle"],
+      "transitions": ["briefing", "ajustements"]
+    },
+    "briefing": {
+      "actions": ["points_importants", "objectifs_service", "répartition_tâches"],
+      "transitions": ["service_standard", "rush_anticipé"]
+    }
+  },
+  "transitions_rules": {
+    "conditions": {
+      "vers_service": "préparation_complète",
+      "vers_rush": "affluence_précoce",
+      "vers_urgence": "problème_critique"
+    }
+  }
+}

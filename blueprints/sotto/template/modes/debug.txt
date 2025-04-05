@@ -37,3 +37,22 @@ OUTILS :
    - Recommandations
    - Solutions proposées
    - Documentation
+
+MÉCANISMES DE TRANSITION :
+1. Vers Service Standard
+   - Résolution problèmes
+   - Tests validés
+   - Documentation mise à jour
+   - Reprise service
+
+2. Vers Analysis
+   - Anomalies détectées
+   - Besoin analyse approfondie
+   - Collection données
+   - Investigation patterns
+
+3. Vers Calibration
+   - Ajustements requis
+   - Configuration système
+   - Tests performance
+   - Optimisation paramètres
