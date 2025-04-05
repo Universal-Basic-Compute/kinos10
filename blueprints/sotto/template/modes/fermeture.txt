@@ -17,3 +17,22 @@ PROTOCOLES :
 2. Enregistrement des données
 3. Transmission informations
 4. Sécurisation des locaux
+
+MÉCANISMES DE TRANSITION :
+1. Vers Service Standard
+   - Réouverture exceptionnelle
+   - Validation management
+   - Réactivation systèmes
+   - Briefing équipe
+
+2. Vers Urgence
+   - Détection incident critique
+   - Activation protocoles urgence
+   - Sécurisation renforcée
+   - Gestion situation
+
+3. Vers Préparation
+   - Fin nettoyage complète
+   - Validation checklist
+   - Préparation lendemain
+   - Activation mise en place

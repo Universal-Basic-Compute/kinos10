@@ -30,3 +30,22 @@ MÉCANISMES :
 2. Analyse Statistique
 3. Génération Insights
 4. Propositions Actions
+
+MÉCANISMES DE TRANSITION :
+1. Vers Service Standard
+   - Validation analyses
+   - Implémentation changements
+   - Communication équipe
+   - Activation service
+
+2. Vers Debug
+   - Détection anomalies
+   - Investigation requise
+   - Activation diagnostics
+   - Suivi problèmes
+
+3. Vers Training
+   - Identification besoins formation
+   - Préparation modules
+   - Planning sessions
+   - Activation formation
