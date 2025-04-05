@@ -158,8 +158,11 @@ def get_anthropic_client():
 
 def extract_keywords(kin_path, random_files, client):
     """
-    First stage: Extract keywords from messages and random files.
+    First stage: Extract keywords from messages and files.
     """
+    logger.info("Starting keyword extraction stage")
+    logger.info(f"Loading messages and files from {kin_path}")
+
     # Load messages.json
     messages_file = os.path.join(kin_path, "messages.json")
     messages_content = ""
@@ -168,6 +171,7 @@ def extract_keywords(kin_path, random_files, client):
             with open(messages_file, 'r', encoding='utf-8') as f:
                 messages = json.load(f)
                 messages_content = "\n".join([f"{m.get('role')}: {m.get('content')}" for m in messages[-10:]])  # Last 10 messages
+            logger.info(f"Loaded {len(messages)} messages from messages.json")
         except Exception as e:
             logger.error(f"Error reading messages.json: {str(e)}")
 
