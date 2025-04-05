@@ -1,0 +1,33 @@
+# SOTTO ANALYTICS SYSTEM
+
+MÉTRIQUES CLÉS :
+1. Performance Service
+   - Temps moyen commande
+   - Taux erreurs
+   - Satisfaction client
+   - Rotation tables
+
+2. Performance Équipe
+   - Efficacité communication
+   - Coordination équipes
+   - Résolution problèmes
+   - Adaptation charge
+
+3. Performance Système
+   - Précision reconnaissance
+   - Temps réponse
+   - Pertinence adaptations
+   - Taux apprentissage
+
+ANALYSES :
+1. Temps Réel
+   - Monitoring actif
+   - Alertes précoces
+   - Ajustements immédiats
+   - Support décision
+
+2. Post-Service
+   - Analyse complète
+   - Identification patterns
+   - Recommandations
+   - Plans amélioration

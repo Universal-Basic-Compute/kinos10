@@ -35,3 +35,15 @@ UTILISATION :
 - Personnalisation du service
 - Anticipation des besoins
 - Amélioration continue
+
+4. Mémoire Formation
+   - Profils utilisateurs
+   - Niveaux maîtrise
+   - Historique formations
+   - Points amélioration
+
+5. Mémoire Collective
+   - Bonnes pratiques
+   - Solutions communes
+   - Erreurs fréquentes
+   - Optimisations validées

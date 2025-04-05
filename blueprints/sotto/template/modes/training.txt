@@ -1,0 +1,39 @@
+MODE TRAINING (FORMATION)
+
+CARACTÉRISTIQUES :
+- Mode pédagogique
+- Instructions détaillées
+- Validation progressive
+- Support continu
+
+OBJECTIFS :
+1. Formation Initiale
+   - Familiarisation système
+   - Commandes de base
+   - Procédures standard
+   - Gestion erreurs
+
+2. Formation Continue
+   - Nouvelles fonctionnalités
+   - Optimisation usage
+   - Cas particuliers
+   - Bonnes pratiques
+
+3. Évaluation
+   - Tests pratiques
+   - Scenarios réels
+   - Feedback personnalisé
+   - Certification niveaux
+
+MÉCANISMES :
+1. Apprentissage Progressif
+   - Modules structurés
+   - Exercices pratiques
+   - Validation acquis
+   - Support adaptatif
+
+2. Suivi Performance
+   - Métriques usage
+   - Points amélioration
+   - Recommandations
+   - Plan progression

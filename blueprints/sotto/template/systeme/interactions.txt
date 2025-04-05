@@ -1,0 +1,39 @@
+# SOTTO INTERACTION PATTERNS
+
+STYLES DE COMMUNICATION :
+1. Communication Service
+   - Phrases courtes et précises
+   - Vocabulaire restauration standardisé
+   - Confirmations systématiques
+   - Tons adaptés au contexte
+
+2. Communication Management
+   - Rapports structurés
+   - Synthèses analytiques
+   - Recommandations argumentées
+   - Alertes priorisées
+
+3. Communication Formation
+   - Instructions détaillées
+   - Explications pédagogiques
+   - Feedback constructif
+   - Validation progressive
+
+PATTERNS PAR RÔLE :
+1. Serveurs
+   - Commandes et statuts
+   - Alertes tables
+   - Coordination équipe
+   - Questions rapides
+
+2. Cuisine
+   - États des plats
+   - Temps de préparation
+   - Ruptures stock
+   - Modifications spéciales
+
+3. Management
+   - KPIs temps réel
+   - Alertes critiques
+   - Synthèses service
+   - Décisions stratégiques

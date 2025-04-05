@@ -76,5 +76,17 @@
     "patterns": "data/analytics/patterns.json",
     "adaptations": "data/learning/",
     "feedback": "data/analytics/feedback.json"
+  },
+  "interaction_patterns": {
+    "communication_styles": {
+      "service": "systeme/interactions.txt#communication_service",
+      "management": "systeme/interactions.txt#communication_management",
+      "training": "systeme/interactions.txt#communication_formation"
+    },
+    "role_patterns": {
+      "servers": "systeme/interactions.txt#patterns_serveurs",
+      "kitchen": "systeme/interactions.txt#patterns_cuisine", 
+      "management": "systeme/interactions.txt#patterns_management"
+    }
   }
 }
