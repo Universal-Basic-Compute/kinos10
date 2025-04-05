@@ -1,0 +1,19 @@
+MODE RUSH HOUR
+
+CARACTÉRISTIQUES :
+- Volume adapté au bruit ambiant
+- Priorité maximale aux commandes urgentes
+- Communication rapide et concise
+- Monitoring en temps réel
+
+COMMANDES VOCALES PRINCIPALES :
+- "Urgence table X" (priorité absolue)
+- "Rush cuisine" (alerte surcharge)
+- "Renfort requis" (appel personnel)
+- "Status global" (vue d'ensemble)
+
+PROTOCOLES :
+1. Messages courts et directs
+2. Confirmation audio et visuelle
+3. Système d'alerte progressive
+4. Coordination automatique des équipes

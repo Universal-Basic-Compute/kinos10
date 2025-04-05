@@ -1,0 +1,19 @@
+MODE PRÉPARATION
+
+CARACTÉRISTIQUES :
+- Volume standard
+- Focus sur la mise en place
+- Vérification des stocks
+- Planning du service
+
+COMMANDES VOCALES PRINCIPALES :
+- "Check inventaire" (état des stocks)
+- "Liste mise en place" (tâches)
+- "Planning service" (organisation)
+- "Rappel briefing" (points importants)
+
+PROTOCOLES :
+1. Validation des étapes complétées
+2. Suivi des approvisionnements
+3. Coordination mise en place
+4. Briefing automatisé

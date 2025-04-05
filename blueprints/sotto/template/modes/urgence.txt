@@ -1,0 +1,19 @@
+MODE URGENCE
+
+CARACTÉRISTIQUES :
+- Volume maximal si nécessaire
+- Priorité absolue
+- Communication d'urgence
+- Protocoles de sécurité
+
+COMMANDES VOCALES PRINCIPALES :
+- "Urgence médicale" (premiers secours)
+- "Évacuation" (sortie urgence)
+- "Alerte sécurité" (intervention)
+- "Fin urgence" (retour normal)
+
+PROTOCOLES :
+1. Activation immédiate sirènes
+2. Communication tous canaux
+3. Coordination secours
+4. Suivi post-incident

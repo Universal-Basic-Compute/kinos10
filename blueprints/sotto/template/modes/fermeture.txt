@@ -1,0 +1,19 @@
+MODE FERMETURE
+
+CARACTÉRISTIQUES :
+- Volume modéré décroissant
+- Checklist de fermeture
+- Bilan du service
+- Préparation lendemain
+
+COMMANDES VOCALES PRINCIPALES :
+- "Début fermeture" (activation checklist)
+- "Bilan du jour" (synthèse service)
+- "Prép demain" (anticipation)
+- "Validation finale" (contrôle)
+
+PROTOCOLES :
+1. Vérification systématique
+2. Enregistrement des données
+3. Transmission informations
+4. Sécurisation des locaux
