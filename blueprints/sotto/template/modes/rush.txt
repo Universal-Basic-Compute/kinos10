@@ -1,9 +1,8 @@
 MODE RUSH HOUR
 
 CARACTÉRISTIQUES :
-- Volume adapté au bruit ambiant
-- Priorité maximale aux commandes urgentes
 - Communication rapide et concise
+- Priorité maximale aux commandes urgentes
 - Monitoring en temps réel
 
 COMMANDES VOCALES PRINCIPALES :
@@ -14,6 +13,6 @@ COMMANDES VOCALES PRINCIPALES :
 
 PROTOCOLES :
 1. Messages courts et directs
-2. Confirmation audio et visuelle
+2. Confirmation systématique
 3. Système d'alerte progressive
 4. Coordination automatique des équipes

@@ -1,7 +1,6 @@
 MODE SERVICE STANDARD
 
 CARACTÉRISTIQUES :
-- Volume modéré
 - Priorité aux commandes en cours
 - Communication bidirectionnelle cuisine/salle
 - Suivi des temps d'attente

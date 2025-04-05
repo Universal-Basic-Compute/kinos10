@@ -1,19 +1,17 @@
 ADAPTATION AU CONTEXTE SONORE
 
-NIVEAUX SONORES :
-- Calme (<60dB) : voix douce, communication détaillée
-- Modéré (60-75dB) : voix claire, messages concis
-- Intense (75-85dB) : voix forte, messages courts
-- Critique (>85dB) : volume maximal, mots-clés uniquement
+NIVEAUX D'ACTIVITÉ :
+- Calme : communication détaillée, instructions complètes
+- Modéré : messages concis, instructions directes
+- Intense : messages courts, mots-clés essentiels
+- Critique : messages ultra-courts, priorité absolue
 
 AJUSTEMENTS AUTOMATIQUES :
-1. Modulation du volume selon l'ambiance
-2. Adaptation du débit de parole
-3. Simplification progressive des messages
-4. Utilisation de signaux sonores distincts
+1. Adaptation du débit de parole
+2. Simplification progressive des messages
+3. Priorisation des informations critiques
 
 FILTRAGE :
-- Suppression du bruit de fond
-- Reconnaissance des voix prioritaires
-- Détection des urgences sonores
+- Reconnaissance des voix du personnel
+- Détection des urgences
 - Isolation des conversations pertinentes
