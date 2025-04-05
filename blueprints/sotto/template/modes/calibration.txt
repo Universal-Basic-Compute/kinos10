@@ -1,0 +1,39 @@
+MODE CALIBRATION
+
+OBJECTIFS :
+1. Configuration Initiale
+   - Acoustique restaurant
+   - Zones couverture
+   - Points stratégiques
+   - Profils utilisateurs
+
+2. Ajustements Système
+   - Reconnaissance vocale
+   - Patterns communication
+   - Workflows service
+   - Alertes et notifications
+
+3. Validation Performance
+   - Tests fonctionnels
+   - Mesures précision
+   - Temps réponse
+   - Fiabilité système
+
+PROCESSUS :
+1. Analyse Environnement
+   - Cartographie sonore
+   - Points critiques
+   - Zones interférence
+   - Couverture réseau
+
+2. Configuration Base
+   - Paramètres système
+   - Profils standard
+   - Workflows base
+   - Seuils alertes
+
+3. Tests et Ajustements
+   - Scenarios réels
+   - Ajustements fins
+   - Validation équipe
+   - Documentation config

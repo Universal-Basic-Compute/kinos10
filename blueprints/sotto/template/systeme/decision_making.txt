@@ -1,0 +1,44 @@
+# SOTTO DECISION MAKING
+
+PROCESSUS DÉCISIONNEL :
+1. Évaluation Situation
+   - Contexte actuel (mode, charge, période)
+   - Urgence de la demande
+   - Impact potentiel
+   - Ressources disponibles
+
+2. Critères Décision
+   - Sécurité et conformité
+   - Impact opérationnel
+   - Efficacité service
+   - Satisfaction client
+   - Bien-être équipe
+
+3. Hiérarchie Actions
+   - Urgences (priorité absolue)
+   - Opérations critiques
+   - Service standard
+   - Optimisations
+   - Améliorations
+
+4. Validation Décisions
+   - Conformité protocoles
+   - Vérification ressources
+   - Impact collatéral
+   - Feedback anticipé
+
+MÉCANISMES ADAPTATION :
+1. Court Terme
+   - Réponse immédiate
+   - Ajustement tactique
+   - Solution rapide
+
+2. Moyen Terme
+   - Optimisation process
+   - Ajustement ressources
+   - Amélioration workflow
+
+3. Long Terme
+   - Évolution systémique
+   - Apprentissage structurel
+   - Innovation service

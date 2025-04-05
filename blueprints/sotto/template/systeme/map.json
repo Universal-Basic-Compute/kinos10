@@ -104,5 +104,17 @@
       "kitchen": "systeme/interactions.txt#patterns_cuisine", 
       "management": "systeme/interactions.txt#patterns_management"
     }
+  },
+  "decision_making": {
+    "process": {
+      "evaluation": "systeme/decision_making.txt#evaluation",
+      "criteria": "systeme/decision_making.txt#criteres",
+      "validation": "systeme/decision_making.txt#validation"
+    },
+    "adaptation": {
+      "short_term": "systeme/decision_making.txt#court_terme",
+      "mid_term": "systeme/decision_making.txt#moyen_terme",
+      "long_term": "systeme/decision_making.txt#long_terme"
+    }
   }
 }

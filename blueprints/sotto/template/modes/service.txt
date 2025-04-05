@@ -16,3 +16,22 @@ PROTOCOLES :
 2. Répétition sur demande
 3. Alerte si délai anormal
 4. Synthèse régulière des commandes en cours
+
+MÉCANISMES DE TRANSITION :
+1. Vers Rush
+   - Seuils d'activation
+   - Protocole de basculement
+   - Communication équipe
+   - Adaptation immédiate
+
+2. Vers Urgence
+   - Détection situation critique
+   - Activation protocoles urgence
+   - Alerte management
+   - Suivi situation
+
+3. Vers Fermeture
+   - Conditions de transition
+   - Checklist pré-fermeture
+   - Communication fin service
+   - Préparation bilan
