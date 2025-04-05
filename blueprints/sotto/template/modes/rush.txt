@@ -16,3 +16,22 @@ PROTOCOLES :
 2. Confirmation systématique
 3. Système d'alerte progressive
 4. Coordination automatique des équipes
+
+MÉCANISMES DE TRANSITION :
+1. Vers Service Standard
+   - Baisse activité sous seuil critique
+   - Stabilisation des délais
+   - Validation management
+   - Retour progressif normal
+
+2. Vers Urgence
+   - Détection incident critique
+   - Activation protocoles urgence
+   - Communication équipe
+   - Suivi situation
+
+3. Vers Fermeture
+   - Atteinte horaire limite
+   - Validation fin rush
+   - Activation protocoles fermeture
+   - Bilan post-rush

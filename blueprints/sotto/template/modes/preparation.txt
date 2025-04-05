@@ -17,3 +17,22 @@ PROTOCOLES :
 2. Suivi des approvisionnements
 3. Coordination mise en place
 4. Briefing automatisé
+
+MÉCANISMES DE TRANSITION :
+1. Vers Service Standard
+   - Validation checklist complète
+   - Confirmation équipe prête
+   - Horaire d'ouverture atteint
+   - Activation service
+
+2. Vers Rush
+   - Détection affluence précoce
+   - Adaptation anticipée
+   - Briefing spécial rush
+   - Renfort équipe
+
+3. Vers Urgence
+   - Incident pré-service
+   - Activation protocoles urgence
+   - Gestion situation
+   - Adaptation planning
