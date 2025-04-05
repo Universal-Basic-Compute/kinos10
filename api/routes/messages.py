@@ -4,7 +4,65 @@ import json
 import datetime
 import threading
 import base64
+import re
+import requests
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse
 from config import blueprintS_DIR, logger
+
+def extract_and_save_url_content(url, kin_path):
+    """
+    Extract content from a URL and save it to the sources directory.
+    Returns the relative path to the saved file.
+    """
+    try:
+        # Make request to URL
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        
+        # Parse HTML
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Remove script and style elements
+        for script in soup(["script", "style"]):
+            script.decompose()
+            
+        # Get text content
+        text = soup.get_text()
+        
+        # Clean up text
+        lines = (line.strip() for line in text.splitlines())
+        chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+        text = '\n'.join(chunk for chunk in chunks if chunk)
+        
+        # Create sources directory if it doesn't exist
+        sources_dir = os.path.join(kin_path, "sources")
+        os.makedirs(sources_dir, exist_ok=True)
+        
+        # Create filename from URL
+        parsed_url = urlparse(url)
+        filename = f"{parsed_url.netloc}{parsed_url.path}".replace('/', '-')
+        if not filename.endswith('.txt'):
+            filename += '.txt'
+            
+        # Ensure filename isn't too long
+        if len(filename) > 200:
+            filename = filename[:197] + '...'
+            
+        filepath = os.path.join(sources_dir, filename)
+        
+        # Save content
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(f"Source URL: {url}\nExtracted on: {datetime.datetime.now().isoformat()}\n\n")
+            f.write(text)
+            
+        # Return relative path from kin directory
+        return os.path.join("sources", filename)
+        
+    except Exception as e:
+        logger.error(f"Error extracting content from URL {url}: {str(e)}")
+        return None
 from services.file_service import get_kin_path
 from services.claude_service import call_claude_with_context, build_context
 from services.aider_service import call_aider_with_context
@@ -254,6 +312,24 @@ def send_message(blueprint, kin_id):
         # Get optional mode parameter
         mode = data.get('mode', '')  # Get optional mode parameter
         
+        # Check for URLs in the message
+        url_pattern = r'https?://[^\s<>"]+|www\.[^\s<>"]+'
+        urls = re.findall(url_pattern, message_content)
+        
+        # Extract content from URLs and add to attachments
+        for url in urls:
+            if not url.startswith('http'):
+                url = 'https://' + url
+            
+            logger.info(f"Found URL in message: {url}")
+            source_file = extract_and_save_url_content(url, kin_path)
+            
+            if source_file:
+                logger.info(f"Saved URL content to: {source_file}")
+                if not attachments:
+                    attachments = []
+                attachments.append(source_file)
+
         # Build context (select relevant files)
         selected_files, selected_mode = build_context(blueprint, kin_id, message_content, attachments, kin_path, model, mode, addSystem, history_length=2)
         
