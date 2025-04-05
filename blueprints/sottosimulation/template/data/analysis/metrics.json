@@ -1,0 +1,95 @@
+{
+  "performance_metrics": {
+    "sotto_response": {
+      "timing": {
+        "response_delay": {
+          "unit": "seconds",
+          "thresholds": {
+            "optimal": "<1.0",
+            "acceptable": "<2.0",
+            "critical": ">=2.0"
+          }
+        },
+        "command_processing": {
+          "unit": "seconds",
+          "thresholds": {
+            "optimal": "<0.5",
+            "acceptable": "<1.0",
+            "critical": ">=1.0"
+          }
+        }
+      },
+      "accuracy": {
+        "command_recognition": {
+          "unit": "percentage",
+          "thresholds": {
+            "optimal": ">=98",
+            "acceptable": ">=95",
+            "critical": "<95"
+          }
+        },
+        "context_understanding": {
+          "unit": "percentage",
+          "thresholds": {
+            "optimal": ">=95",
+            "acceptable": ">=90",
+            "critical": "<90"
+          }
+        }
+      }
+    },
+    "simulation_quality": {
+      "realism": {
+        "behavior_authenticity": {
+          "unit": "score",
+          "scale": "0-1",
+          "thresholds": {
+            "optimal": ">=0.9",
+            "acceptable": ">=0.8",
+            "critical": "<0.8"
+          }
+        },
+        "scenario_coherence": {
+          "unit": "score",
+          "scale": "0-1",
+          "thresholds": {
+            "optimal": ">=0.9",
+            "acceptable": ">=0.8",
+            "critical": "<0.8"
+          }
+        }
+      },
+      "stress_simulation": {
+        "pressure_accuracy": {
+          "unit": "score",
+          "scale": "0-1",
+          "thresholds": {
+            "optimal": ">=0.9",
+            "acceptable": ">=0.8",
+            "critical": "<0.8"
+          }
+        }
+      }
+    }
+  },
+  "operational_metrics": {
+    "service_flow": {
+      "order_processing": {
+        "unit": "minutes",
+        "thresholds": {
+          "optimal": "<15",
+          "acceptable": "<25",
+          "critical": ">=25"
+        }
+      },
+      "table_turnover": {
+        "unit": "minutes",
+        "thresholds": {
+          "optimal": "<90",
+          "acceptable": "<120",
+          "critical": ">=120"
+        }
+      }
+    }
+  }
+}
