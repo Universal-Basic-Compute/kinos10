@@ -212,9 +212,25 @@ Format your response as JSON:
             messages=[{"role": "user", "content": "Please extract the keywords and emotions as specified."}]
         )
         
-        # Extract JSON from response
-        response_text = response.content[0].text
-        return json.loads(response_text)
+        # Extract the response text from the content array
+        response_text = response.content[0].text.strip()
+        
+        # Find JSON in the response (it might be wrapped in text)
+        json_start = response_text.find('{')
+        json_end = response_text.rfind('}')
+        
+        if json_start != -1 and json_end != -1:
+            json_str = response_text[json_start:json_end + 1]
+            try:
+                return json.loads(json_str)
+            except json.JSONDecodeError as e:
+                logger.error(f"Error parsing JSON from response: {str(e)}")
+                logger.error(f"Response text: {response_text}")
+                raise
+        else:
+            logger.error(f"Could not find JSON in response: {response_text}")
+            raise ValueError("No JSON found in response")
+            
     except Exception as e:
         logger.error(f"Error in keyword extraction: {str(e)}")
         return None
