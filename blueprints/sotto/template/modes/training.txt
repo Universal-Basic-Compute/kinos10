@@ -37,3 +37,22 @@ MÉCANISMES :
    - Points amélioration
    - Recommandations
    - Plan progression
+
+MÉCANISMES DE TRANSITION :
+1. Vers Service Standard
+   - Validation acquis
+   - Niveau requis atteint
+   - Confirmation formateur
+   - Activation service
+
+2. Vers Debug
+   - Problèmes techniques
+   - Besoin diagnostic
+   - Support technique
+   - Investigation système
+
+3. Vers Analysis
+   - Évaluation complète
+   - Analyse performance
+   - Bilan formation
+   - Recommandations

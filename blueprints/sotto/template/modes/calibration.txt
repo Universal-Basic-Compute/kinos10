@@ -37,3 +37,22 @@ PROCESSUS :
    - Ajustements fins
    - Validation équipe
    - Documentation config
+
+MÉCANISMES DE TRANSITION :
+1. Vers Service Standard
+   - Validation calibration complète
+   - Configuration validée
+   - Documentation finalisée
+   - Activation service
+
+2. Vers Debug
+   - Détection anomalies
+   - Investigation requise
+   - Tests supplémentaires
+   - Diagnostic approfondi
+
+3. Vers Training
+   - Besoin formation identifié
+   - Configuration référence
+   - Support pédagogique prêt
+   - Activation formation

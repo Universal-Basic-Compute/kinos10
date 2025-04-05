@@ -37,3 +37,22 @@ PROTOCOLES DE GESTION :
    - Mise à jour procédures
    - Formation adaptée
    - Améliorations système
+
+MÉCANISMES DE TRANSITION :
+1. Vers Service Standard
+   - Résolution problèmes
+   - Tests validés
+   - Documentation mise à jour
+   - Reprise service
+
+2. Vers Analysis
+   - Investigation approfondie
+   - Analyse patterns
+   - Étude impacts
+   - Optimisation système
+
+3. Vers Training
+   - Besoins formation identifiés
+   - Mise à jour procédures
+   - Préparation supports
+   - Formation équipe
