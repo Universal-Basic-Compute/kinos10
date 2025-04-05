@@ -48,9 +48,10 @@ CAPACITÉS :
    - Identification problèmes
 
 MODES OPÉRATOIRES :
-1. Test Fonctionnel (Debug)
-2. Simulation Standard
-3. Formation
-4. Rush Hour
-5. Urgence
-6. Analysis
+1. Simulation Standard - Service normal
+2. Rush Hour - Périodes haute intensité
+3. Urgence - Situations critiques
+4. Formation - Apprentissage progressif
+5. Debug - Tests fonctionnels
+6. Analysis - Évaluation performance
+7. Calibration - Ajustement système

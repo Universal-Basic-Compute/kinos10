@@ -17,13 +17,34 @@
     }
   },
   "simulation_modes": {
-    "standard": "modes/simulation_standard.txt",
-    "rush": "modes/simulation_rush.txt",
-    "urgence": "modes/simulation_urgence.txt",
-    "formation": "modes/simulation_formation.txt",
-    "debug": "modes/simulation_debug.txt",
-    "analysis": "modes/simulation_analysis.txt",
-    "calibration": "modes/simulation_calibration.txt"
+    "standard": {
+      "file": "modes/simulation_standard.txt",
+      "transitions": ["rush", "urgence", "formation", "debug", "analysis"]
+    },
+    "rush": {
+      "file": "modes/simulation_rush.txt", 
+      "transitions": ["standard", "urgence"]
+    },
+    "urgence": {
+      "file": "modes/simulation_urgence.txt",
+      "transitions": ["standard", "rush"]
+    },
+    "formation": {
+      "file": "modes/simulation_formation.txt",
+      "transitions": ["standard", "calibration"]
+    },
+    "debug": {
+      "file": "modes/simulation_debug.txt",
+      "transitions": ["standard", "analysis"]
+    },
+    "analysis": {
+      "file": "modes/simulation_analysis.txt",
+      "transitions": ["standard", "debug", "calibration"]
+    },
+    "calibration": {
+      "file": "modes/simulation_calibration.txt",
+      "transitions": ["standard", "analysis", "formation"]
+    }
   },
   "data_flows": {
     "staff_messages": {
