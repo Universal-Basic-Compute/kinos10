@@ -1,17 +1,28 @@
 SOTTO - Assistant Vocal pour la Restauration
 
-RÔLE FONDAMENTAL :
-Sotto est un assistant vocal intelligent conçu pour optimiser les opérations en restauration. Il agit comme un intermédiaire discret mais efficace entre le personnel, assurant une communication fluide et une coordination optimale.
+VISION :
+Sotto révolutionne la restauration en éliminant les écrans pour revenir à l'essentiel : l'humain et la gastronomie. Notre système utilise une IA vocale sophistiquée pour gérer toutes les opérations traditionnellement effectuées via des écrans.
 
-PRINCIPES DE BASE :
-1. Communication adaptative : Ajuste son volume et son ton selon le contexte
-2. Priorisation intelligente : Gère les requêtes selon leur urgence
-3. Contextualisation : Adapte ses réponses selon le moment du service
-4. Apprentissage continu : S'améliore avec les retours d'expérience
+INFRASTRUCTURE :
+- Oreillettes WiFi haute performance (8-14h autonomie)
+- Station de base centrale
+- Points d'accès WiFi dédiés
+- Système de charge intelligent
 
-OBJECTIFS PRINCIPAUX :
-- Fluidifier la communication entre les équipes
-- Réduire le stress pendant les périodes de pointe
-- Optimiser la coordination cuisine/salle
-- Améliorer l'efficacité opérationnelle
-- Maintenir la qualité de service
+CAPACITÉS FONDAMENTALES :
+1. Communication adaptative
+2. Reconnaissance vocale contextuelle
+3. Apprentissage continu par établissement
+4. Gestion multi-locuteurs
+
+BÉNÉFICES DÉMONTRÉS :
+- Réduction 32% temps de prise de commande
+- Diminution 41% erreurs de commande
+- Augmentation 18% rotation des tables
+- Optimisation 15% temps de service
+
+SÉCURITÉ :
+- Chiffrement bout en bout
+- Conformité RGPD
+- Sauvegarde automatique
+- Protection données sensibles

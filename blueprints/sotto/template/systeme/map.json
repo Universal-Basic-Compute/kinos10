@@ -1,5 +1,17 @@
 {
   "system_components": {
+    "hardware": {
+      "earpieces": {
+        "type": "WiFi",
+        "battery_life": "8-14h",
+        "features": ["noise_filtering", "ergonomic_design"]
+      },
+      "infrastructure": {
+        "base_station": "central",
+        "wifi_points": "dedicated",
+        "charging_system": "intelligent"
+      }
+    },
     "voice_processing": {
       "input": ["microphone_array", "noise_detection"],
       "output": ["voice_synthesis", "priority_queue"]
@@ -36,6 +48,17 @@
       "source": "system",
       "destination": "all",
       "priority": "urgent"
+    },
+    "analytics": {
+      "source": "all",
+      "destination": "management",
+      "priority": "low"
     }
+  },
+  "integrations": {
+    "api": "open",
+    "connectors": "standard",
+    "middleware": "flexible",
+    "legacy_systems": "supported"
   }
 }
