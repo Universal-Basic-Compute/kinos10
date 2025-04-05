@@ -1,0 +1,64 @@
+MODE SIMULATION STANDARD
+
+CARACTÉRISTIQUES :
+- Simulation service normal
+- Génération clients réaliste
+- Comportements personnel type
+- Incidents courants
+
+COMPOSANTS SIMULÉS :
+1. Personnel
+   - Serveurs (2-5)
+   - Cuisine (2-4)
+   - Manager (1)
+   - Support (1-2)
+
+2. Clients
+   - Flux d'arrivée naturel
+   - Groupes variés (2-8 pers)
+   - Comportements typiques
+   - Demandes standards
+
+3. Restaurant
+   - Tables (15-30)
+   - Zones service
+   - Équipements
+   - Ambiance
+
+COMPORTEMENTS SIMULÉS :
+1. Personnel
+   - Communications équipe
+   - Gestion commandes
+   - Coordination service
+   - Réponses incidents
+
+2. Clients
+   - Arrivées/Départs
+   - Commandes/Modifications
+   - Questions/Demandes
+   - Satisfaction variable
+
+3. Service
+   - Flux travail normal
+   - Temps préparation
+   - Délais service
+   - Incidents mineurs
+
+MÉCANISMES DE TRANSITION :
+1. Vers Rush
+   - Augmentation flux clients
+   - Accélération rythme
+   - Complexification situations
+   - Stress personnel
+
+2. Vers Urgence
+   - Génération incident
+   - Impact service
+   - Réactions personnel
+   - Suivi résolution
+
+3. Vers Fermeture
+   - Diminution activité
+   - Procédures fin service
+   - Nettoyage simulation
+   - Reset paramètres

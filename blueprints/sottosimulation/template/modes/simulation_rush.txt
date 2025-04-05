@@ -1,0 +1,52 @@
+MODE SIMULATION RUSH
+
+CARACTÉRISTIQUES :
+- Haute intensité
+- Stress système
+- Incidents multiples
+- Contraintes temps
+
+GÉNÉRATION ÉVÉNEMENTS :
+1. Flux Clients
+   - Arrivées groupées
+   - Files d'attente
+   - Demandes simultanées
+   - Impatience croissante
+
+2. Complexité Service
+   - Commandes multiples
+   - Modifications urgentes
+   - Demandes spéciales
+   - Coordination intense
+
+3. Incidents
+   - Retards cuisine
+   - Erreurs service
+   - Plaintes clients
+   - Problèmes équipement
+
+COMPORTEMENTS SIMULÉS :
+1. Personnel
+   - Stress croissant
+   - Communications tendues
+   - Erreurs possibles
+   - Fatigue progressive
+
+2. Clients
+   - Impatience
+   - Exigences accrues
+   - Tensions possibles
+   - Satisfaction variable
+
+MÉCANISMES TRANSITION :
+1. Vers Standard
+   - Diminution pression
+   - Normalisation flux
+   - Stabilisation service
+   - Récupération équipe
+
+2. Vers Urgence
+   - Incident critique
+   - Débordement système
+   - Rupture service
+   - Intervention requise
