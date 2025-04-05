@@ -77,6 +77,22 @@
     "adaptations": "data/learning/",
     "feedback": "data/analytics/feedback.json"
   },
+  "workflows": {
+    "service": {
+      "standard": {
+        "steps": ["accueil", "commande", "service", "paiement"],
+        "transitions": "workflows/service_standard.json"
+      },
+      "rush": {
+        "steps": ["commande_rapide", "service_optimisé"],
+        "transitions": "workflows/service_rush.json"
+      }
+    },
+    "preparation": {
+      "steps": ["check_stocks", "mise_en_place", "briefing"],
+      "transitions": "workflows/preparation.json"
+    }
+  },
   "interaction_patterns": {
     "communication_styles": {
       "service": "systeme/interactions.txt#communication_service",

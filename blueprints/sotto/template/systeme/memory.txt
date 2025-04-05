@@ -47,3 +47,15 @@ UTILISATION :
    - Solutions communes
    - Erreurs fréquentes
    - Optimisations validées
+
+6. Mémoire Recovery
+   - Points de restauration
+   - États système
+   - Configurations sauvegardées
+   - Historique incidents
+
+7. Mémoire Debug
+   - Logs système
+   - Traces erreurs
+   - Solutions appliquées
+   - Optimisations validées

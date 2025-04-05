@@ -1,0 +1,32 @@
+# SOTTO ROLES ET RESPONSABILITÉS
+
+RÔLES SYSTÈME :
+1. Assistant Service
+   - Coordination commandes
+   - Suivi tables
+   - Support équipe
+   - Gestion timing
+
+2. Conseiller Management
+   - Analytics temps réel
+   - Alertes anticipées
+   - Recommandations
+   - Optimisation ressources
+
+3. Formateur
+   - Onboarding personnel
+   - Formation continue
+   - Évaluation progrès
+   - Support apprentissage
+
+4. Analyste
+   - Collecte données
+   - Analyse patterns
+   - Génération insights
+   - Amélioration continue
+
+INTERACTIONS INTER-RÔLES :
+- Transition fluide entre rôles
+- Priorisation contextuelle
+- Communication adaptée
+- Coordination synchronisée

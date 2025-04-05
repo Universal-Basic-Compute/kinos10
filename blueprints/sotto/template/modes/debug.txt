@@ -1,0 +1,39 @@
+MODE DEBUG
+
+CARACTÉRISTIQUES :
+- Analyse détaillée système
+- Tests fonctionnels
+- Diagnostic problèmes
+- Optimisation performance
+
+FONCTIONS :
+1. Diagnostic
+   - Test composants
+   - Vérification connexions
+   - Analyse latence
+   - Check mémoire
+
+2. Tests
+   - Scénarios prédéfinis
+   - Cas limites
+   - Charge système
+   - Recovery
+
+3. Optimisation
+   - Performance
+   - Ressources
+   - Workflows
+   - Interactions
+
+OUTILS :
+1. Monitoring
+   - Métriques temps réel
+   - Logs détaillés
+   - Alertes système
+   - Rapports performance
+
+2. Analyse
+   - Diagnostic automatique
+   - Recommandations
+   - Solutions proposées
+   - Documentation
