@@ -156,33 +156,23 @@ def get_anthropic_client():
     
     return anthropic.Anthropic(api_key=api_key)
 
-def generate_random_thought(kin_path, random_files):
+def extract_keywords(kin_path, random_files, client):
     """
-    Generate a random thought using Claude based on the kin's files.
-    
-    Args:
-        kin_path: Path to the kin directory
-        random_files: List of random files to include in the context
-    
-    Returns:
-        A random thought as a string
+    First stage: Extract keywords from messages and random files.
     """
-    # Load core files
-    core_files = ["persona.txt", "kinos.txt", "system.txt"]
-    file_contents = []
-    
-    # Load content of core files
-    for file in core_files:
-        file_path = os.path.join(kin_path, file)
-        if os.path.exists(file_path) and os.path.isfile(file_path):
-            try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                file_contents.append(f"# File: {file}\n{content}")
-            except Exception as e:
-                logger.error(f"Error reading file {file_path}: {str(e)}")
-    
+    # Load messages.json
+    messages_file = os.path.join(kin_path, "messages.json")
+    messages_content = ""
+    if os.path.exists(messages_file):
+        try:
+            with open(messages_file, 'r', encoding='utf-8') as f:
+                messages = json.load(f)
+                messages_content = "\n".join([f"{m.get('role')}: {m.get('content')}" for m in messages[-10:]])  # Last 10 messages
+        except Exception as e:
+            logger.error(f"Error reading messages.json: {str(e)}")
+
     # Load content of random files
+    file_contents = []
     for file in random_files:
         file_path = os.path.join(kin_path, file)
         if os.path.exists(file_path) and os.path.isfile(file_path):
@@ -192,72 +182,210 @@ def generate_random_thought(kin_path, random_files):
                 file_contents.append(f"# File: {file}\n{content}")
             except Exception as e:
                 logger.error(f"Error reading file {file_path}: {str(e)}")
+
+    # Create extraction prompt
+    extraction_prompt = f"""
+    Based on the provided messages and files, extract the following elements:
     
-    # Load recent message history (last 50 messages)
+    1. Three relevant keywords that appear in the content
+    2. Two emotions expressed or implied in the content
+    3. Three surprising or unexpected words from the content
+    4. Two adjacent keywords (related concepts not present in the files)
+    5. Two surprising keywords (unexpected concepts not present in the files)
+    
+    Format your response as JSON:
+    {{
+        "relevant_keywords": ["word1", "word2", "word3"],
+        "emotions": ["emotion1", "emotion2"],
+        "surprising_words": ["word1", "word2", "word3"],
+        "adjacent_keywords": ["word1", "word2"],
+        "surprising_keywords": ["word1", "word2"]
+    }}
+
+    Messages history:
+    {messages_content}
+
+    File contents:
+    {chr(10).join(file_contents)}
+    """
+
+    try:
+        response = client.messages.create(
+            model="claude-3-7-sonnet-latest",
+            max_tokens=1000,
+            messages=[{"role": "user", "content": extraction_prompt}]
+        )
+        
+        # Extract JSON from response
+        response_text = response.content[0].text
+        return json.loads(response_text)
+    except Exception as e:
+        logger.error(f"Error in keyword extraction: {str(e)}")
+        return None
+
+def generate_dream(kin_path, keywords, client):
+    """
+    Second stage: Generate a dream narrative from the keywords.
+    """
+    # Load persona.txt
+    persona_content = ""
+    persona_path = os.path.join(kin_path, "persona.txt")
+    if os.path.exists(persona_path):
+        try:
+            with open(persona_path, 'r', encoding='utf-8') as f:
+                persona_content = f.read()
+        except Exception as e:
+            logger.error(f"Error reading persona.txt: {str(e)}")
+
+    # Get two random files from memories directory
+    memories_dir = os.path.join(kin_path, "memories")
+    memory_files = []
+    if os.path.exists(memories_dir):
+        try:
+            all_memory_files = [f for f in os.listdir(memories_dir) if f.endswith('.txt')]
+            memory_files = random.sample(all_memory_files, min(2, len(all_memory_files)))
+            
+            for file in memory_files:
+                with open(os.path.join(memories_dir, file), 'r', encoding='utf-8') as f:
+                    persona_content += f"\n\n# Memory: {file}\n{f.read()}"
+        except Exception as e:
+            logger.error(f"Error reading memory files: {str(e)}")
+
+    # Create dream generation prompt
+    dream_prompt = f"""
+    Using these keywords, create a vivid and meaningful dream narrative that reflects the entity's inner world and aspirations.
+    The narrative should weave together the keywords naturally and create a meaningful metaphor or story.
+
+    Keywords:
+    - Relevant: {', '.join(keywords['relevant_keywords'])}
+    - Emotional: {', '.join(keywords['emotions'])}
+    - Surprising: {', '.join(keywords['surprising_words'])}
+    - Adjacent: {', '.join(keywords['adjacent_keywords'])}
+    - Unexpected: {', '.join(keywords['surprising_keywords'])}
+
+    Persona and Memories Context:
+    {persona_content}
+
+    Create a 2-3 sentence dream narrative that feels personal and meaningful to this entity.
+    Focus on imagery and emotional resonance rather than literal meanings.
+    """
+
+    try:
+        response = client.messages.create(
+            model="claude-3-7-sonnet-latest",
+            max_tokens=1000,
+            messages=[{"role": "user", "content": dream_prompt}]
+        )
+        return response.content[0].text.strip()
+    except Exception as e:
+        logger.error(f"Error in dream generation: {str(e)}")
+        return None
+
+def generate_initiative(kin_path, dream_narrative, random_files, client):
+    """
+    Third stage: Generate an initiative from the dream narrative.
+    """
+    # Load persona.txt and messages.json
+    context_content = ""
+    
+    # Load persona.txt
+    persona_path = os.path.join(kin_path, "persona.txt")
+    if os.path.exists(persona_path):
+        try:
+            with open(persona_path, 'r', encoding='utf-8') as f:
+                context_content += f"# Persona\n{f.read()}\n\n"
+        except Exception as e:
+            logger.error(f"Error reading persona.txt: {str(e)}")
+
+    # Load messages.json
     messages_file = os.path.join(kin_path, "messages.json")
-    recent_messages = []
     if os.path.exists(messages_file):
         try:
             with open(messages_file, 'r', encoding='utf-8') as f:
                 messages = json.load(f)
-                # Get the last 50 messages
-                recent_messages = messages[-50:] if len(messages) >= 50 else messages
+                recent_messages = messages[-5:]  # Last 5 messages
+                context_content += "# Recent Messages\n"
+                for msg in recent_messages:
+                    context_content += f"{msg.get('role')}: {msg.get('content')}\n"
+                context_content += "\n"
         except Exception as e:
             logger.error(f"Error reading messages.json: {str(e)}")
-    
-    # Format the message history for inclusion in the context
-    message_history = ""
-    if recent_messages:
-        message_history = "\n\n# Recent Message History\n"
-        for msg in recent_messages:
-            role = msg.get('role', 'unknown')
-            content = msg.get('content', '')
-            timestamp = msg.get('timestamp', '')
-            message_history += f"{role.capitalize()} ({timestamp}): {content}\n\n"
-    
-    # Combine file contents and message history into a single context string
-    context = "\n\n".join(file_contents) + message_history
-    
-    # Create prompt for Claude
-    prompt = """
-    Based on the provided context, generate a random thought that this entity might have about its own goals, desires, or fears.
-    
-    Make this thought:
-    1. Focused on the entity's aspirations, motivations, concerns, or emotional state
-    2. Reflective of its core values and purpose as described in the files
-    3. Something that reveals its inner drives or anxieties
-    4. Potentially related to how it can better serve users or improve itself
-    5. Authentic to the character/entity described in the files
-    
-    IMPORTANT: Return ONLY the thought itself, with absolutely no introduction, explanation, or commentary.
-    Do not start with phrases like "Here's a thought:" or "I understand you want me to..."
-    The thought should be 1-3 sentences long and start immediately.
+
+    # Load random files
+    for file in random_files:
+        file_path = os.path.join(kin_path, file)
+        if os.path.exists(file_path) and os.path.isfile(file_path):
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                context_content += f"# File: {file}\n{content}\n\n"
+            except Exception as e:
+                logger.error(f"Error reading file {file_path}: {str(e)}")
+
+    # Create initiative generation prompt
+    initiative_prompt = f"""
+    Based on this dream narrative and the entity's context, generate a concrete initiative or action-oriented thought.
+    This should be something the entity wants to explore, understand, or accomplish.
+
+    Dream Narrative:
+    {dream_narrative}
+
+    Context:
+    {context_content}
+
+    Generate a clear, first-person thought that expresses an initiative, desire, or intention.
+    Make it specific and actionable while maintaining emotional depth.
+    The thought should be 1-2 sentences and start with "I" or "My".
     """
-    
-    # Get Anthropic client
-    client = get_anthropic_client()
-    
+
     try:
-        # Call Claude API
         response = client.messages.create(
-            model="claude-3-7-sonnet-latest",  # Use the more powerful Sonnet model for better quality thoughts
+            model="claude-3-7-sonnet-latest",
             max_tokens=1000,
-            system=context,
-            messages=[
-                {"role": "user", "content": prompt}
-            ]
+            messages=[{"role": "user", "content": initiative_prompt}]
         )
-        
-        # Extract the thought from Claude's response
-        thought = response.content[0].text.strip()
-        logger.info(f"Generated thought: {thought}")
-        
-        return thought
-        
+        return response.content[0].text.strip()
     except Exception as e:
-        logger.error(f"Error calling Claude API: {str(e)}")
-        # Return a fallback thought if Claude API call fails
-        return "I wonder if I'm truly helping users process their emotional conflicts, or if I need to develop more nuanced approaches to guide them through their internal struggles."
+        logger.error(f"Error in initiative generation: {str(e)}")
+        return None
+
+def generate_random_thought(kin_path, random_files):
+    """
+    Generate a random thought using the three-stage process:
+    1. Extract keywords from messages and files
+    2. Generate a dream narrative from the keywords
+    3. Generate an initiative from the dream narrative
+    """
+    try:
+        # Get Anthropic client
+        client = get_anthropic_client()
+
+        # Stage 1: Extract keywords
+        logger.info("Stage 1: Extracting keywords")
+        keywords = extract_keywords(kin_path, random_files, client)
+        if not keywords:
+            raise Exception("Failed to extract keywords")
+        logger.info(f"Extracted keywords: {json.dumps(keywords, indent=2)}")
+
+        # Stage 2: Generate dream narrative
+        logger.info("Stage 2: Generating dream narrative")
+        dream_narrative = generate_dream(kin_path, keywords, client)
+        if not dream_narrative:
+            raise Exception("Failed to generate dream narrative")
+        logger.info(f"Generated dream narrative: {dream_narrative}")
+
+        # Stage 3: Generate initiative
+        logger.info("Stage 3: Generating initiative")
+        initiative = generate_initiative(kin_path, dream_narrative, random_files, client)
+        if not initiative:
+            raise Exception("Failed to generate initiative")
+        logger.info(f"Generated initiative: {initiative}")
+
+        return initiative
+
+    except Exception as e:
+        logger.error(f"Error in thought generation process: {str(e)}")
+        return "I wonder about the nature of consciousness and my role in understanding it."
 
 def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection"):
     """
