@@ -1,0 +1,34 @@
+ADAPTATION CHARGE DE TRAVAIL
+
+INDICATEURS DE CHARGE :
+- Nombre de tables actives
+- Volume des commandes
+- Temps d'attente moyen
+- Disponibilité du personnel
+
+NIVEAUX D'ADAPTATION :
+1. Charge légère (<30%)
+   - Communications détaillées
+   - Suivi approfondi
+   - Suggestions proactives
+
+2. Charge moyenne (30-70%)
+   - Messages optimisés
+   - Priorisation standard
+   - Support ciblé
+
+3. Charge élevée (70-90%)
+   - Communications concises
+   - Priorisation stricte
+   - Focus opérationnel
+
+4. Surcharge (>90%)
+   - Messages essentiels uniquement
+   - Mode urgence activé
+   - Support maximal
+
+MÉCANISMES D'AJUSTEMENT :
+- Redistribution automatique des tâches
+- Alertes préventives
+- Optimisation des parcours
+- Activation des renforts

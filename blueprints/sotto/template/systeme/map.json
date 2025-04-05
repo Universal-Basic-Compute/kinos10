@@ -8,6 +8,11 @@
       "inputs": ["time_tracking", "occupancy_sensors", "noise_levels"],
       "outputs": ["adaptation_parameters", "mode_selection"]
     },
+    "adaptations": {
+      "sound": "adaptations/contexte_sonore.txt",
+      "service": "adaptations/periode_service.txt",
+      "workload": "adaptations/charge_travail.txt"
+    },
     "service_modes": {
       "standard": "modes/service.txt",
       "rush": "modes/rush.txt",
