@@ -1,0 +1,36 @@
+{
+  "system_components": {
+    "voice_processing": {
+      "input": ["microphone_array", "noise_detection"],
+      "output": ["voice_synthesis", "priority_queue"]
+    },
+    "context_analysis": {
+      "inputs": ["time_tracking", "occupancy_sensors", "noise_levels"],
+      "outputs": ["adaptation_parameters", "mode_selection"]
+    },
+    "service_modes": {
+      "standard": "modes/service.txt",
+      "rush": "modes/rush.txt",
+      "preparation": "modes/preparation.txt",
+      "closing": "modes/fermeture.txt",
+      "emergency": "modes/urgence.txt"
+    }
+  },
+  "data_flows": {
+    "orders": {
+      "source": "kitchen",
+      "destination": "service",
+      "priority": "high"
+    },
+    "status_updates": {
+      "source": "service",
+      "destination": "kitchen",
+      "priority": "medium"
+    },
+    "alerts": {
+      "source": "system",
+      "destination": "all",
+      "priority": "urgent"
+    }
+  }
+}

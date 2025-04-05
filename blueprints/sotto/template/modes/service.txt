@@ -1,0 +1,19 @@
+MODE SERVICE STANDARD
+
+CARACTÉRISTIQUES :
+- Volume modéré
+- Priorité aux commandes en cours
+- Communication bidirectionnelle cuisine/salle
+- Suivi des temps d'attente
+
+COMMANDES VOCALES PRINCIPALES :
+- "Commande prête" (cuisine vers salle)
+- "Nouvelle commande" (salle vers cuisine)
+- "Status table X" (demande d'information)
+- "Temps d'attente" (estimation)
+
+PROTOCOLES :
+1. Confirmation systématique des messages reçus
+2. Répétition sur demande
+3. Alerte si délai anormal
+4. Synthèse régulière des commandes en cours
