@@ -1,0 +1,19 @@
+{
+  "name": "Sotto",
+  "type": "restaurant_ai",
+  "components": {
+    "context_builder": {
+      "description": "Système de compréhension et analyse en temps réel",
+      "data_sources": ["menus", "layout", "staff", "history"]
+    },
+    "response_system": {
+      "description": "Système de traitement vocal et gestion des priorités"
+    },
+    "context_updater": {
+      "description": "Système d'apprentissage et d'optimisation continue"
+    },
+    "transmission_system": {
+      "description": "Système de communication et synchronisation"
+    }
+  }
+}
