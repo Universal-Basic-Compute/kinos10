@@ -283,13 +283,6 @@ Start with "In my dream..." or similar first-person opening.""",
             f.write(f"\n\n# Dream recorded at {timestamp}\n")
             f.write(dream_narrative)
             f.write("\n")
-            # Add keywords for context
-            f.write("\nKeywords used:\n")
-            f.write(f"- Relevant: {', '.join(keywords['relevant_keywords'])}\n")
-            f.write(f"- Emotional: {', '.join(keywords['emotions'])}\n")
-            f.write(f"- Surprising: {', '.join(keywords['surprising_words'])}\n")
-            f.write(f"- Adjacent: {', '.join(keywords['adjacent_keywords'])}\n")
-            f.write(f"- Unexpected: {', '.join(keywords['surprising_keywords'])}\n")
 
         return dream_narrative
     except Exception as e:
