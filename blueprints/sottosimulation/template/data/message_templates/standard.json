@@ -3,55 +3,67 @@
     "order": {
       "template": "[Serveur {server_id}] Table {table}, nouvelle commande : {order_details}",
       "variations": [
-        "[Serveur {server_id}] Commande pour la {table} : {order_details}",
-        "[Serveur {server_id}] Nouvelle commande, table {table} : {order_details}"
+        "[Serveur {server_id}] Euh... pour la {table} : {order_details}",
+        "[Serveur {server_id}] Alors en {table} ils prennent {order_details}",
+        "[Serveur {server_id}] T'as noté pour la {table} ? {order_details}",
+        "[Serveur {server_id}] Attends... en fait en {table} ils changent : {order_details}"
+      ]
+    },
+    "modifications": {
+      "template": "[Serveur {server_id}] Modification table {table} : {changes}",
+      "variations": [
+        "[Serveur {server_id}] La {table} veut changer : {changes}",
+        "[Serveur {server_id}] Ah mince, la {table} finalement : {changes}",
+        "[Serveur {server_id}] Tu peux modifier pour la {table} ? {changes}",
+        "[Serveur {server_id}] Ils ont changé d'avis en {table} : {changes}"
       ]
     },
     "ready": {
       "template": "[Serveur {server_id}] Plat prêt pour la table {table}",
       "variations": [
-        "[Serveur {server_id}] Table {table}, plat à servir",
-        "[Serveur {server_id}] Service table {table}"
-      ]
-    },
-    "bill": {
-      "template": "[Serveur {server_id}] Addition demandée table {table}",
-      "variations": [
-        "[Serveur {server_id}] Table {table} souhaite payer",
-        "[Serveur {server_id}] Préparation addition table {table}"
+        "[Serveur {server_id}] Y'a la {table} qui attend...",
+        "[Serveur {server_id}] C'est bon pour la {table} ?",
+        "[Serveur {server_id}] Ça fait combien de temps pour la {table} ?",
+        "[Serveur {server_id}] La {table} s'impatiente un peu là"
       ]
     }
   },
   "kitchen_messages": {
     "status": {
-      "template": "[Cuisine {staff_id}] Temps d'attente actuel : {wait_time} minutes",
+      "template": "[Cuisine {staff_id}] Temps d'attente : {wait_time} minutes",
       "variations": [
-        "[Cuisine {staff_id}] Délai cuisine : {wait_time} minutes",
-        "[Cuisine {staff_id}] Retard estimé : {wait_time} minutes"
+        "[Cuisine {staff_id}] On est à {wait_time} là...",
+        "[Cuisine {staff_id}] Ça va prendre encore {wait_time}",
+        "[Cuisine {staff_id}] Désolé, mais {wait_time} de retard",
+        "[Cuisine {staff_id}] *bruit fond* {wait_time} minutes ok ?"
       ]
     },
-    "stock": {
-      "template": "[Cuisine {staff_id}] Rupture stock : {item}",
+    "stress": {
+      "template": "[Cuisine {staff_id}] {status_message}",
       "variations": [
-        "[Cuisine {staff_id}] Plus de {item} disponible",
-        "[Cuisine {staff_id}] {item} en rupture"
+        "[Cuisine {staff_id}] C'est le rush là, patience !",
+        "[Cuisine {staff_id}] On fait ce qu'on peut !",
+        "[Cuisine {staff_id}] Stop les commandes 5 minutes !",
+        "[Cuisine {staff_id}] *bruit casseroles* On est submergés !"
       ]
     }
   },
-  "management_messages": {
-    "status": {
-      "template": "[Manager {manager_id}] État service : {status}",
-      "variations": [
-        "[Manager {manager_id}] Point situation : {status}",
-        "[Manager {manager_id}] Update service : {status}"
-      ]
-    },
-    "alert": {
-      "template": "[Manager {manager_id}] Alerte : {alert_type}",
-      "variations": [
-        "[Manager {manager_id}] Attention : {alert_type}",
-        "[Manager {manager_id}] Warning : {alert_type}"
-      ]
-    }
+  "interruptions": {
+    "template": "[{role} {id}] {partial_message}...",
+    "variations": [
+      "[{role} {id}] Attends je reviens...",
+      "[{role} {id}] Tu peux répéter ?",
+      "[{role} {id}] J'ai pas entendu...",
+      "[{role} {id}] *bruit de fond* Quoi ?"
+    ]
+  },
+  "corrections": {
+    "template": "[{role} {id}] Correction : {correction}",
+    "variations": [
+      "[{role} {id}] Euh non en fait : {correction}",
+      "[{role} {id}] Je me suis trompé : {correction}",
+      "[{role} {id}] Pardon, je voulais dire : {correction}",
+      "[{role} {id}] *soupir* Non c'est plutôt : {correction}"
+    ]
   }
 }
