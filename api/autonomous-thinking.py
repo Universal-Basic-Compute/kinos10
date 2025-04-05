@@ -183,37 +183,33 @@ def extract_keywords(kin_path, random_files, client):
             except Exception as e:
                 logger.error(f"Error reading file {file_path}: {str(e)}")
 
-    # Create extraction prompt
-    extraction_prompt = f"""
-    Based on the provided messages and files, extract the following elements:
-    
-    1. Three relevant keywords that appear in the content
-    2. Two emotions expressed or implied in the content
-    3. Three surprising or unexpected words from the content
-    4. Two adjacent keywords (related concepts not present in the files)
-    5. Two surprising keywords (unexpected concepts not present in the files)
-    
-    Format your response as JSON:
-    {{
-        "relevant_keywords": ["word1", "word2", "word3"],
-        "emotions": ["emotion1", "emotion2"],
-        "surprising_words": ["word1", "word2", "word3"],
-        "adjacent_keywords": ["word1", "word2"],
-        "surprising_keywords": ["word1", "word2"]
-    }}
-
-    Messages history:
-    {messages_content}
-
-    File contents:
-    {chr(10).join(file_contents)}
-    """
-
     try:
         response = client.messages.create(
             model="claude-3-7-sonnet-latest",
             max_tokens=1000,
-            messages=[{"role": "user", "content": extraction_prompt}]
+            system=f"""Messages history:
+{messages_content}
+
+File contents:
+{chr(10).join(file_contents)}
+
+Based on the provided messages and files, extract the following elements:
+
+1. Three relevant keywords that appear in the content
+2. Two emotions expressed or implied in the content
+3. Three surprising or unexpected words from the content
+4. Two adjacent keywords (related concepts not present in the files)
+5. Two surprising keywords (unexpected concepts not present in the files)
+
+Format your response as JSON:
+{{
+    "relevant_keywords": ["word1", "word2", "word3"],
+    "emotions": ["emotion1", "emotion2"],
+    "surprising_words": ["word1", "word2", "word3"],
+    "adjacent_keywords": ["word1", "word2"],
+    "surprising_keywords": ["word1", "word2"]
+}}""",
+            messages=[{"role": "user", "content": "Please extract the keywords and emotions as specified."}]
         )
         
         # Extract JSON from response
