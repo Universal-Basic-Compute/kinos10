@@ -48,7 +48,9 @@ CAPACITÉS :
    - Identification problèmes
 
 MODES OPÉRATOIRES :
-1. Test Fonctionnel
-2. Simulation Réaliste
+1. Test Fonctionnel (Debug)
+2. Simulation Standard
 3. Formation
-4. Stress Test
+4. Rush Hour
+5. Urgence
+6. Analysis
