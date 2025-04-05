@@ -1,0 +1,54 @@
+{
+  "profiles": [
+    {
+      "type": "standard",
+      "patience": 0.7,
+      "complexity": 0.3,
+      "noise_level": 0.2,
+      "behaviors": [
+        "normal_order",
+        "occasional_modification",
+        "standard_payment"
+      ]
+    },
+    {
+      "type": "demanding",
+      "patience": 0.4,
+      "complexity": 0.7,
+      "noise_level": 0.5,
+      "behaviors": [
+        "complex_order",
+        "frequent_modifications",
+        "special_requests"
+      ]
+    },
+    {
+      "type": "difficult",
+      "patience": 0.2,
+      "complexity": 0.8,
+      "noise_level": 0.8,
+      "behaviors": [
+        "complaints",
+        "urgent_demands",
+        "conflict_prone"
+      ]
+    }
+  ],
+  "group_types": {
+    "small": {
+      "size": [2, 4],
+      "frequency": 0.6,
+      "order_complexity": 0.3
+    },
+    "medium": {
+      "size": [5, 8],
+      "frequency": 0.3,
+      "order_complexity": 0.6
+    },
+    "large": {
+      "size": [9, 15],
+      "frequency": 0.1,
+      "order_complexity": 0.9
+    }
+  }
+}

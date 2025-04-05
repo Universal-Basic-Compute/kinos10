@@ -1,0 +1,66 @@
+{
+  "servers": {
+    "profiles": [
+      {
+        "id": "server_1",
+        "experience": "junior",
+        "stress_tolerance": 0.7,
+        "error_rate": 0.05,
+        "communication_style": "direct",
+        "fatigue_rate": 0.1
+      },
+      {
+        "id": "server_2",
+        "experience": "senior",
+        "stress_tolerance": 0.9,
+        "error_rate": 0.02,
+        "communication_style": "detailed",
+        "fatigue_rate": 0.08
+      }
+    ],
+    "behaviors": {
+      "standard": ["take_order", "serve_table", "handle_payment"],
+      "rush": ["quick_service", "priority_management"],
+      "emergency": ["follow_protocol", "assist_team"]
+    }
+  },
+  "kitchen": {
+    "profiles": [
+      {
+        "id": "chef_1",
+        "role": "head_chef",
+        "stress_tolerance": 0.9,
+        "management_skill": 0.8,
+        "communication_style": "assertive"
+      },
+      {
+        "id": "cook_1",
+        "role": "line_cook",
+        "stress_tolerance": 0.7,
+        "speed": 0.8,
+        "error_rate": 0.04
+      }
+    ],
+    "behaviors": {
+      "standard": ["prepare_dishes", "manage_orders"],
+      "rush": ["optimize_preparation", "handle_pressure"],
+      "emergency": ["manage_crisis", "adapt_service"]
+    }
+  },
+  "management": {
+    "profiles": [
+      {
+        "id": "manager_1",
+        "experience": "senior",
+        "leadership": 0.9,
+        "crisis_management": 0.8,
+        "communication_skill": 0.9
+      }
+    ],
+    "behaviors": {
+      "standard": ["supervise", "coordinate"],
+      "rush": ["resource_management", "team_support"],
+      "emergency": ["crisis_response", "situation_control"]
+    }
+  }
+}
