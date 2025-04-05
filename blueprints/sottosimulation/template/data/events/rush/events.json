@@ -1,0 +1,43 @@
+{
+  "rush_triggers": {
+    "capacity_threshold": {
+      "tables_occupied": 0.8,
+      "waiting_customers": 10,
+      "order_volume": "high"
+    },
+    "timing_factors": {
+      "peak_hours": ["12:00-14:00", "19:00-21:30"],
+      "special_events": ["weekend", "holiday"]
+    }
+  },
+  "rush_events": {
+    "service_pressure": {
+      "frequency": "very_high",
+      "message_templates": [
+        "File d'attente {waiting_count} groupes",
+        "Délai attente estimé {wait_time} minutes",
+        "Besoin renfort service immédiat"
+      ]
+    },
+    "kitchen_pressure": {
+      "frequency": "very_high",
+      "message_templates": [
+        "Surcharge cuisine, délai {delay_time} minutes",
+        "Rush cuisine, {pending_orders} commandes en attente",
+        "Besoin support cuisine urgent"
+      ]
+    }
+  },
+  "stress_indicators": {
+    "service": {
+      "waiting_time": "increasing",
+      "customer_complaints": "rising",
+      "staff_errors": "frequent"
+    },
+    "kitchen": {
+      "preparation_delays": "significant",
+      "order_backlog": "high",
+      "quality_issues": "potential"
+    }
+  }
+}

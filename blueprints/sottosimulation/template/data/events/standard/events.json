@@ -1,0 +1,68 @@
+{
+  "regular_events": {
+    "service_flow": {
+      "table_assignment": {
+        "frequency": "high",
+        "priority": "normal",
+        "message_templates": [
+          "Nouvelle table {table_number}, {guests} personnes",
+          "Table {table_number} attribuée, {guests} couverts"
+        ]
+      },
+      "order_taking": {
+        "frequency": "high",
+        "priority": "normal",
+        "message_templates": [
+          "Prise de commande table {table_number}",
+          "Nouvelle commande table {table_number}"
+        ]
+      },
+      "service_completion": {
+        "frequency": "high",
+        "priority": "normal",
+        "message_templates": [
+          "Table {table_number} terminée",
+          "Débarrassage table {table_number}"
+        ]
+      }
+    },
+    "kitchen_flow": {
+      "order_preparation": {
+        "frequency": "high",
+        "priority": "normal",
+        "message_templates": [
+          "Commande table {table_number} en préparation",
+          "Début préparation table {table_number}"
+        ]
+      },
+      "dish_ready": {
+        "frequency": "high",
+        "priority": "high",
+        "message_templates": [
+          "Table {table_number} prête à servir",
+          "Plats terminés table {table_number}"
+        ]
+      }
+    }
+  },
+  "minor_incidents": {
+    "service_issues": {
+      "frequency": "medium",
+      "priority": "medium",
+      "types": [
+        "retard_service",
+        "erreur_commande",
+        "demande_spéciale"
+      ]
+    },
+    "kitchen_issues": {
+      "frequency": "medium",
+      "priority": "medium",
+      "types": [
+        "retard_preparation",
+        "rupture_ingredient",
+        "modification_commande"
+      ]
+    }
+  }
+}
