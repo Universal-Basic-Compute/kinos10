@@ -1,0 +1,64 @@
+# SOTTOSIMULATION ENGINE
+
+COMPOSANTS SIMULATION :
+1. Générateur Messages Personnel
+   - Messages serveurs
+   - Messages cuisine
+   - Messages management
+   - Messages support
+
+2. Générateur Comportements Clients
+   - Arrivées/Départs
+   - Commandes/Modifications
+   - Demandes spéciales
+   - Réclamations
+
+3. Générateur Événements
+   - Incidents techniques
+   - Situations urgence
+   - Pics activité
+   - Changements contexte
+
+4. Analyseur Réponses Sotto
+   - Capture réponses
+   - Évaluation pertinence
+   - Mesure efficacité
+   - Feedback performance
+
+PATTERNS DE MESSAGES :
+1. Service Standard
+   - "Table 4, commande : [...]"
+   - "Plat prêt pour table 7"
+   - "Client demande addition table 12"
+   - "Modification commande table 3"
+
+2. Rush Hour
+   - "Table 15 en attente depuis 10min"
+   - "Besoin renfort en salle"
+   - "Retard cuisine 20min"
+   - "File d'attente 8 groupes"
+
+3. Urgences
+   - "Client malaise table 9"
+   - "Panne four principal"
+   - "Débordement cuisine"
+   - "Conflit client table 5"
+
+PARAMÈTRES SIMULATION :
+1. Timing
+   - Fréquence messages
+   - Délais réponse
+   - Durée situations
+   - Intervalles événements
+
+2. Complexité
+   - Nombre agents simultanés
+   - Intrication situations
+   - Difficulté résolution
+   - Charge cognitive
+
+3. Réalisme
+   - Variabilité comportements
+   - Cohérence situations
+   - Crédibilité dialogues
+   - Naturel interactions

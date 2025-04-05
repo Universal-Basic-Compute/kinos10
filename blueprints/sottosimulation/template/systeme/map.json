@@ -1,0 +1,43 @@
+{
+  "simulation_components": {
+    "message_generator": {
+      "staff": ["servers", "kitchen", "management"],
+      "clients": ["orders", "requests", "complaints"],
+      "events": ["incidents", "emergencies", "peaks"]
+    },
+    "behavior_engine": {
+      "staff_profiles": "data/simulation_profiles/staff.json",
+      "client_profiles": "data/simulation_profiles/clients.json",
+      "event_patterns": "data/simulation_profiles/events.json"
+    },
+    "analysis_system": {
+      "response_tracking": "data/analysis/responses.json",
+      "performance_metrics": "data/analysis/metrics.json",
+      "improvement_suggestions": "data/analysis/improvements.json"
+    }
+  },
+  "simulation_modes": {
+    "standard": "modes/simulation_standard.txt",
+    "rush": "modes/simulation_rush.txt",
+    "urgence": "modes/simulation_urgence.txt",
+    "formation": "modes/simulation_formation.txt",
+    "debug": "modes/simulation_debug.txt"
+  },
+  "data_flows": {
+    "staff_messages": {
+      "source": "message_generator",
+      "destination": "sotto",
+      "type": "voice_command"
+    },
+    "client_interactions": {
+      "source": "behavior_engine",
+      "destination": "staff_simulation",
+      "type": "client_action"
+    },
+    "analysis_data": {
+      "source": "sotto_responses",
+      "destination": "analysis_system",
+      "type": "performance_data"
+    }
+  }
+}
