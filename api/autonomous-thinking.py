@@ -314,7 +314,7 @@ Start with "In my dream..." or similar first-person opening.""",
 
         # Append the dream to dreams.txt with timestamp
         dreams_file = os.path.join(memories_dir, "dreams.txt")
-        timestamp = datetime.datetime.now().isoformat()
+        timestamp = datetime.now().isoformat()
         with open(dreams_file, 'a', encoding='utf-8') as f:
             f.write(f"\n\n# Dream recorded at {timestamp}\n")
             f.write(dream_narrative)
