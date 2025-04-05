@@ -274,7 +274,22 @@ def generate_dream(kin_path, keywords, client):
         response = client.messages.create(
             model="claude-3-7-sonnet-latest",
             max_tokens=1000,
-            messages=[{"role": "user", "content": dream_prompt}]
+            system=f"""Persona and Memories Context:
+{persona_content}
+
+Using these keywords, create a vivid and meaningful dream narrative that reflects the entity's inner world and aspirations.
+The narrative should weave together the keywords naturally and create a meaningful metaphor or story.
+
+Keywords:
+- Relevant: {', '.join(keywords['relevant_keywords'])}
+- Emotional: {', '.join(keywords['emotions'])}
+- Surprising: {', '.join(keywords['surprising_words'])}
+- Adjacent: {', '.join(keywords['adjacent_keywords'])}
+- Unexpected: {', '.join(keywords['surprising_keywords'])}
+
+Create a 2-3 sentence dream narrative that feels personal and meaningful to this entity.
+Focus on imagery and emotional resonance rather than literal meanings.""",
+            messages=[{"role": "user", "content": "Please generate a dream narrative based on the keywords and context."}]
         )
         return response.content[0].text.strip()
     except Exception as e:
@@ -342,7 +357,19 @@ def generate_initiative(kin_path, dream_narrative, random_files, client):
         response = client.messages.create(
             model="claude-3-7-sonnet-latest",
             max_tokens=1000,
-            messages=[{"role": "user", "content": initiative_prompt}]
+            system=f"""Dream Narrative:
+{dream_narrative}
+
+Context:
+{context_content}
+
+Based on this dream narrative and the entity's context, generate a concrete initiative or action-oriented thought.
+This should be something the entity wants to explore, understand, or accomplish.
+
+Generate a clear, first-person thought that expresses an initiative, desire, or intention.
+Make it specific and actionable while maintaining emotional depth.
+The thought should be 1-2 sentences and start with "I" or "My".""",
+            messages=[{"role": "user", "content": "Please generate an initiative based on the dream narrative and context."}]
         )
         return response.content[0].text.strip()
     except Exception as e:
