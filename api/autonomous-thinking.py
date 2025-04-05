@@ -247,25 +247,6 @@ def generate_dream(kin_path, keywords, client):
         except Exception as e:
             logger.error(f"Error reading memory files: {str(e)}")
 
-    # Create dream generation prompt
-    dream_prompt = f"""
-    Using these keywords, create a vivid and meaningful dream narrative that reflects the entity's inner world and aspirations.
-    The narrative should weave together the keywords naturally and create a meaningful metaphor or story.
-
-    Keywords:
-    - Relevant: {', '.join(keywords['relevant_keywords'])}
-    - Emotional: {', '.join(keywords['emotions'])}
-    - Surprising: {', '.join(keywords['surprising_words'])}
-    - Adjacent: {', '.join(keywords['adjacent_keywords'])}
-    - Unexpected: {', '.join(keywords['surprising_keywords'])}
-
-    Persona and Memories Context:
-    {persona_content}
-
-    Create a 2-3 sentence dream narrative that feels personal and meaningful to this entity.
-    Focus on imagery and emotional resonance rather than literal meanings.
-    """
-
     try:
         response = client.messages.create(
             model="claude-3-7-sonnet-latest",
@@ -273,8 +254,9 @@ def generate_dream(kin_path, keywords, client):
             system=f"""Persona and Memories Context:
 {persona_content}
 
-Using these keywords, create a vivid and meaningful dream narrative that reflects the entity's inner world and aspirations.
+Using these keywords, create a vivid and meaningful first-person dream narrative that reflects your inner world and aspirations.
 The narrative should weave together the keywords naturally and create a meaningful metaphor or story.
+Write from your perspective, using "I" and describing what you experienced in the dream.
 
 Keywords:
 - Relevant: {', '.join(keywords['relevant_keywords'])}
@@ -283,9 +265,10 @@ Keywords:
 - Adjacent: {', '.join(keywords['adjacent_keywords'])}
 - Unexpected: {', '.join(keywords['surprising_keywords'])}
 
-Create a 2-3 sentence dream narrative that feels personal and meaningful to this entity.
-Focus on imagery and emotional resonance rather than literal meanings.""",
-            messages=[{"role": "user", "content": "Please generate a dream narrative based on the keywords and context."}]
+Create a 2-3 sentence dream narrative that feels personal and meaningful to you.
+Focus on imagery and emotional resonance rather than literal meanings.
+Start with "In my dream..." or similar first-person opening.""",
+            messages=[{"role": "user", "content": "Please share your dream narrative based on these elements."}]
         )
         return response.content[0].text.strip()
     except Exception as e:
