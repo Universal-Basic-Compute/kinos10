@@ -270,7 +270,28 @@ Focus on imagery and emotional resonance rather than literal meanings.
 Start with "In my dream..." or similar first-person opening.""",
             messages=[{"role": "user", "content": "Please share your dream narrative based on these elements."}]
         )
-        return response.content[0].text.strip()
+        dream_narrative = response.content[0].text.strip()
+
+        # Create memories directory if it doesn't exist
+        memories_dir = os.path.join(kin_path, "memories")
+        os.makedirs(memories_dir, exist_ok=True)
+
+        # Append the dream to dreams.txt with timestamp
+        dreams_file = os.path.join(memories_dir, "dreams.txt")
+        timestamp = datetime.datetime.now().isoformat()
+        with open(dreams_file, 'a', encoding='utf-8') as f:
+            f.write(f"\n\n# Dream recorded at {timestamp}\n")
+            f.write(dream_narrative)
+            f.write("\n")
+            # Add keywords for context
+            f.write("\nKeywords used:\n")
+            f.write(f"- Relevant: {', '.join(keywords['relevant_keywords'])}\n")
+            f.write(f"- Emotional: {', '.join(keywords['emotions'])}\n")
+            f.write(f"- Surprising: {', '.join(keywords['surprising_words'])}\n")
+            f.write(f"- Adjacent: {', '.join(keywords['adjacent_keywords'])}\n")
+            f.write(f"- Unexpected: {', '.join(keywords['surprising_keywords'])}\n")
+
+        return dream_narrative
     except Exception as e:
         logger.error(f"Error in dream generation: {str(e)}")
         return None
