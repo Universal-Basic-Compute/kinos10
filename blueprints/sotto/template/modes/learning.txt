@@ -74,4 +74,29 @@ INTÉGRATION MÉMOIRE :
 3. Mise à jour base de connaissances
 4. Activation nouvelles capacités
 
+MÉCANISMES DE TRANSITION :
+1. Vers Service Standard
+   - Apprentissage complété
+   - Validation des connaissances
+   - Configuration validée
+   - Activation service
+
+2. Vers Analysis
+   - Besoin analyse approfondie
+   - Données suffisantes collectées
+   - Patterns identifiés
+   - Activation analyse
+
+3. Vers Training
+   - Besoins formation détectés
+   - Préparation supports
+   - Planning sessions établi
+   - Activation formation
+
+4. Vers Calibration
+   - Ajustements nécessaires
+   - Configuration requise
+   - Tests système prêts
+   - Activation calibration
+
 Note : Ce mode doit être activé régulièrement pour maintenir à jour la connaissance du restaurant et s'adapter à ses évolutions.
