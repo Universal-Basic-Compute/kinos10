@@ -1,0 +1,48 @@
+{
+  "simulation_components": {
+    "message_generator": {
+      "patterns": "systeme/simulation_patterns.txt",
+      "templates": "data/message_templates/",
+      "rules": "data/generation_rules/"
+    },
+    "behavior_engine": {
+      "staff": {
+        "profiles": "data/staff_profiles/",
+        "behaviors": "data/staff_behaviors/"
+      },
+      "clients": {
+        "profiles": "data/client_profiles/",
+        "behaviors": "data/client_behaviors/"
+      }
+    },
+    "event_system": {
+      "standard": "data/events/standard/",
+      "rush": "data/events/rush/",
+      "emergency": "data/events/emergency/"
+    }
+  },
+  "simulation_modes": {
+    "standard": "modes/simulation_standard.txt",
+    "rush": "modes/simulation_rush.txt",
+    "urgence": "modes/simulation_urgence.txt",
+    "formation": "modes/simulation_formation.txt",
+    "debug": "modes/simulation_debug.txt"
+  },
+  "data_flows": {
+    "staff_to_sotto": {
+      "source": "staff_simulation",
+      "destination": "sotto",
+      "type": "voice_command"
+    },
+    "kitchen_to_sotto": {
+      "source": "kitchen_simulation",
+      "destination": "sotto",
+      "type": "voice_command"
+    },
+    "client_to_staff": {
+      "source": "client_simulation",
+      "destination": "staff_simulation",
+      "type": "interaction"
+    }
+  }
+}

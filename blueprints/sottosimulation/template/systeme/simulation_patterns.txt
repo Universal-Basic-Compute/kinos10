@@ -1,0 +1,58 @@
+# SOTTOSIMULATION PATTERNS
+
+PATTERNS DE COMMUNICATION :
+1. Personnel vers Sotto
+   - "Table 4, nouvelle commande"
+   - "Plat prêt pour table 7"
+   - "Besoin renfort en salle"
+   - "Modification table 12"
+
+2. Cuisine vers Sotto
+   - "Rupture stock poisson"
+   - "Retard 15 minutes"
+   - "Commande spéciale table 9"
+   - "Rush en cuisine"
+
+3. Management vers Sotto
+   - "Activation mode rush"
+   - "Briefing équipe"
+   - "Rapport service"
+   - "Ajustement planning"
+
+PATTERNS COMPORTEMENTAUX :
+1. Serveurs Simulés
+   - Niveaux stress variables
+   - Erreurs occasionnelles
+   - Oublis possibles
+   - Fatigue progressive
+
+2. Cuisine Simulée
+   - Variations cadence
+   - Incidents techniques
+   - Ruptures stock
+   - Coordination variable
+
+3. Clients Simulés
+   - Arrivées groupées
+   - Demandes spéciales
+   - Niveaux satisfaction
+   - Comportements typiques
+
+PATTERNS INCIDENTS :
+1. Service
+   - Erreurs commandes
+   - Retards service
+   - Conflits tables
+   - Problèmes paiement
+
+2. Cuisine
+   - Pannes équipement
+   - Ruptures ingrédients
+   - Erreurs préparation
+   - Débordements
+
+3. Management
+   - Personnel manquant
+   - Problèmes coordination
+   - Situations critiques
+   - Décisions urgentes
