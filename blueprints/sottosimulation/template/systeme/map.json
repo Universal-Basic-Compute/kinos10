@@ -21,7 +21,9 @@
     "rush": "modes/simulation_rush.txt",
     "urgence": "modes/simulation_urgence.txt",
     "formation": "modes/simulation_formation.txt",
-    "debug": "modes/simulation_debug.txt"
+    "debug": "modes/simulation_debug.txt",
+    "analysis": "modes/simulation_analysis.txt",
+    "calibration": "modes/simulation_calibration.txt"
   },
   "data_flows": {
     "staff_messages": {

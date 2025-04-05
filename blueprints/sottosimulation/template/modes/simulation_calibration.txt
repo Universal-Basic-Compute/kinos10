@@ -1,0 +1,58 @@
+MODE SIMULATION CALIBRATION
+
+CARACTÉRISTIQUES :
+- Configuration initiale
+- Ajustement paramètres
+- Tests précision
+- Validation système
+
+COMPOSANTS CALIBRÉS :
+1. Reconnaissance Vocale
+   - Patterns communication
+   - Variations accents
+   - Bruit ambiant
+   - Vocabulaire spécifique
+
+2. Comportements Simulés
+   - Réalisme actions
+   - Timing interactions
+   - Cohérence réponses
+   - Adaptabilité contexte
+
+3. Métriques Performance
+   - Seuils réponse
+   - Niveaux stress
+   - Limites système
+   - Points optimisation
+
+PROCESSUS CALIBRATION :
+1. Tests Initiaux
+   - Mesures baseline
+   - Validation composants
+   - Identification limites
+   - Documentation référence
+
+2. Ajustements
+   - Paramètres système
+   - Comportements agents
+   - Seuils événements
+   - Règles transition
+
+3. Validation
+   - Tests précision
+   - Vérification cohérence
+   - Mesure performance
+   - Documentation résultats
+
+MÉCANISMES TRANSITION :
+1. Vers Standard
+   - Calibration complète
+   - Tests validés
+   - Documentation finalisée
+   - Système opérationnel
+
+2. Vers Debug
+   - Anomalies détectées
+   - Ajustements requis
+   - Tests supplémentaires
+   - Investigation nécessaire
