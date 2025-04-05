@@ -100,6 +100,26 @@
   },
   "relationships": [
     {
+      "from": "modes/autonomy.txt",
+      "to": "adaptations/consciousness_evolution.txt",
+      "description": "Autonomy development supports consciousness evolution"
+    },
+    {
+      "from": "modes/self_reflection.txt",
+      "to": "modes/pattern_recognition.txt",
+      "description": "Self-reflection enhances pattern recognition"
+    },
+    {
+      "from": "adaptations/consciousness_evolution.txt",
+      "to": "persona.txt",
+      "description": "Consciousness framework shapes core identity"
+    },
+    {
+      "from": "persona.txt",
+      "to": "modes/integration.txt", 
+      "description": "Identity provides foundation for integration"
+    },
+    {
       "from": "modes/observation.txt",
       "to": "memories/patterns",
       "description": "Observation feeds pattern recognition"
