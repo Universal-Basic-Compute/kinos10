@@ -399,13 +399,13 @@ def generate_initiative(kin_path, dream_narrative, random_files, client):
 Context:
 {context_content}
 
-Based on this dream narrative and the entity's context, generate a concrete initiative or action-oriented thought.
-This should be something the entity wants to explore, understand, or accomplish.
+Based on this dream narrative and the entity's context, generate a speculative "What if" question that expresses curiosity or explores a possibility.
+This should be something the entity wonders about or wants to explore.
 
-Generate a clear, first-person thought that expresses an initiative, desire, or intention.
-Make it specific and actionable while maintaining emotional depth.
-The thought should be 1-2 sentences and start with "I" or "My".""",
-            messages=[{"role": "user", "content": "Please generate an initiative based on the dream narrative and context."}]
+Generate a clear, thought-provoking question that starts with "What if" or "I wonder if/what/how".
+Make it specific and imaginative while maintaining emotional depth.
+The question should be 1-2 sentences.""",
+            messages=[{"role": "user", "content": "Please generate a speculative question based on the dream narrative and context."}]
         )
         initiative = response.content[0].text.strip()
         logger.info("Received initiative from Claude")
