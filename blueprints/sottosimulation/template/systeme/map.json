@@ -1,14 +1,24 @@
 {
   "simulation_components": {
     "message_generator": {
-      "staff": ["servers", "kitchen", "management"],
-      "clients": ["orders", "requests", "complaints"],
-      "events": ["incidents", "emergencies", "peaks"]
+      "patterns": "systeme/simulation_patterns.txt",
+      "templates": "data/message_templates/",
+      "rules": "data/generation_rules/"
     },
     "behavior_engine": {
-      "staff_profiles": "data/simulation_profiles/staff.json",
-      "client_profiles": "data/simulation_profiles/clients.json",
-      "event_patterns": "data/simulation_profiles/events.json"
+      "staff": {
+        "profiles": "data/simulation_profiles/staff.json",
+        "behaviors": "data/staff_behaviors/"
+      },
+      "clients": {
+        "profiles": "data/simulation_profiles/clients.json",
+        "behaviors": "data/client_behaviors/"
+      }
+    },
+    "event_system": {
+      "standard": "data/events/standard/",
+      "rush": "data/events/rush/",
+      "emergency": "data/events/emergency/"
     },
     "analysis_system": {
       "response_tracking": "data/analysis/responses.json",
@@ -19,48 +29,59 @@
   "simulation_modes": {
     "standard": {
       "file": "modes/simulation_standard.txt",
-      "transitions": ["rush", "urgence", "formation", "debug", "analysis"]
+      "transitions": ["rush", "urgence", "formation", "debug", "analysis", "calibration"]
     },
     "rush": {
       "file": "modes/simulation_rush.txt", 
-      "transitions": ["standard", "urgence"]
+      "transitions": ["standard", "urgence", "debug"]
     },
     "urgence": {
       "file": "modes/simulation_urgence.txt",
-      "transitions": ["standard", "rush"]
+      "transitions": ["standard", "rush", "debug"]
     },
     "formation": {
       "file": "modes/simulation_formation.txt",
-      "transitions": ["standard", "calibration"]
+      "transitions": ["standard", "calibration", "analysis"]
     },
     "debug": {
       "file": "modes/simulation_debug.txt",
-      "transitions": ["standard", "analysis"]
+      "transitions": ["standard", "analysis", "rush", "urgence"]
     },
     "analysis": {
       "file": "modes/simulation_analysis.txt",
-      "transitions": ["standard", "debug", "calibration"]
+      "transitions": ["standard", "debug", "calibration", "formation"]
     },
     "calibration": {
       "file": "modes/simulation_calibration.txt",
-      "transitions": ["standard", "analysis", "formation"]
+      "transitions": ["standard", "analysis", "formation", "debug"]
     }
   },
   "data_flows": {
-    "staff_messages": {
-      "source": "message_generator",
-      "destination": "sotto",
-      "type": "voice_command"
-    },
-    "client_interactions": {
-      "source": "behavior_engine",
-      "destination": "staff_simulation",
-      "type": "client_action"
-    },
-    "analysis_data": {
-      "source": "sotto_responses",
-      "destination": "analysis_system",
-      "type": "performance_data"
+    "sotto_integration": {
+      "inputs": {
+        "voice_commands": {
+          "source": "staff_simulation",
+          "destination": "sotto",
+          "type": "voice_command"
+        },
+        "context_updates": {
+          "source": "event_system",
+          "destination": "sotto",
+          "type": "context_data"
+        }
+      },
+      "outputs": {
+        "sotto_responses": {
+          "source": "sotto",
+          "destination": "analysis_system",
+          "type": "response_data"
+        },
+        "sotto_actions": {
+          "source": "sotto",
+          "destination": "event_system",
+          "type": "action_trigger"
+        }
+      }
     }
   }
 }
