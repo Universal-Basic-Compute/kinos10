@@ -1,0 +1,53 @@
+{
+  "staff_behavior": {
+    "stress_impact": {
+      "communication": {
+        "low_stress": {
+          "style": "detailed",
+          "tempo": "normal",
+          "error_rate": 0.02
+        },
+        "medium_stress": {
+          "style": "concise",
+          "tempo": "fast",
+          "error_rate": 0.05
+        },
+        "high_stress": {
+          "style": "minimal",
+          "tempo": "very_fast",
+          "error_rate": 0.1
+        }
+      },
+      "performance": {
+        "low_stress": {
+          "speed": 1.0,
+          "accuracy": 0.98
+        },
+        "medium_stress": {
+          "speed": 1.2,
+          "accuracy": 0.95
+        },
+        "high_stress": {
+          "speed": 1.5,
+          "accuracy": 0.85
+        }
+      }
+    },
+    "fatigue_impact": {
+      "communication": {
+        "fresh": {
+          "error_rate": 0.02,
+          "response_time": 1.0
+        },
+        "tired": {
+          "error_rate": 0.08,
+          "response_time": 1.3
+        },
+        "exhausted": {
+          "error_rate": 0.15,
+          "response_time": 1.8
+        }
+      }
+    }
+  }
+}

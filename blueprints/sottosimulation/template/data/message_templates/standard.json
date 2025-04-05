@@ -1,0 +1,57 @@
+{
+  "server_messages": {
+    "order": {
+      "template": "Table {table}, nouvelle commande : {order_details}",
+      "variations": [
+        "Commande pour la {table} : {order_details}",
+        "Nouvelle commande, table {table} : {order_details}"
+      ]
+    },
+    "ready": {
+      "template": "Plat prêt pour la table {table}",
+      "variations": [
+        "Table {table}, plat à servir",
+        "Service table {table}"
+      ]
+    },
+    "bill": {
+      "template": "Addition demandée table {table}",
+      "variations": [
+        "Table {table} souhaite payer",
+        "Préparation addition table {table}"
+      ]
+    }
+  },
+  "kitchen_messages": {
+    "status": {
+      "template": "Temps d'attente actuel : {wait_time} minutes",
+      "variations": [
+        "Délai cuisine : {wait_time} minutes",
+        "Retard estimé : {wait_time} minutes"
+      ]
+    },
+    "stock": {
+      "template": "Rupture stock : {item}",
+      "variations": [
+        "Plus de {item} disponible",
+        "{item} en rupture"
+      ]
+    }
+  },
+  "management_messages": {
+    "status": {
+      "template": "État service : {status}",
+      "variations": [
+        "Point situation : {status}",
+        "Update service : {status}"
+      ]
+    },
+    "alert": {
+      "template": "Alerte : {alert_type}",
+      "variations": [
+        "Attention : {alert_type}",
+        "Warning : {alert_type}"
+      ]
+    }
+  }
+}
