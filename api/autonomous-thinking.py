@@ -180,9 +180,13 @@ def extract_keywords(kin_path, random_files, client):
                 with open(file_path, 'r', encoding='utf-8') as f:
                     content = f.read()
                 file_contents.append(f"# File: {file}\n{content}")
+                logger.info(f"Loaded content from file: {file}")
             except Exception as e:
                 logger.error(f"Error reading file {file_path}: {str(e)}")
 
+    logger.info("Making API call to Claude for keyword extraction")
+    logger.info("Making API call to Claude for dream generation")
+    logger.info("Making API call to Claude for initiative generation")
     try:
         response = client.messages.create(
             model="claude-3-7-sonnet-latest",
@@ -212,17 +216,20 @@ Format your response as JSON:
             messages=[{"role": "user", "content": "Please extract the keywords and emotions as specified."}]
         )
         
-        # Extract the response text from the content array
+        logger.info("Received response from Claude")
         response_text = response.content[0].text.strip()
+        logger.debug(f"Raw response from Claude: {response_text}")
         
-        # Find JSON in the response (it might be wrapped in text)
         json_start = response_text.find('{')
         json_end = response_text.rfind('}')
         
         if json_start != -1 and json_end != -1:
             json_str = response_text[json_start:json_end + 1]
             try:
-                return json.loads(json_str)
+                keywords = json.loads(json_str)
+                logger.info("Successfully parsed keywords JSON")
+                logger.info(f"Extracted keywords: {json.dumps(keywords, indent=2)}")
+                return keywords
             except json.JSONDecodeError as e:
                 logger.error(f"Error parsing JSON from response: {str(e)}")
                 logger.error(f"Response text: {response_text}")
@@ -239,6 +246,9 @@ def generate_dream(kin_path, keywords, client):
     """
     Second stage: Generate a dream narrative from the keywords.
     """
+    logger.info("Starting dream generation stage")
+    logger.info(f"Using keywords: {json.dumps(keywords, indent=2)}")
+
     # Load persona.txt
     persona_content = ""
     persona_path = os.path.join(kin_path, "persona.txt")
@@ -246,6 +256,7 @@ def generate_dream(kin_path, keywords, client):
         try:
             with open(persona_path, 'r', encoding='utf-8') as f:
                 persona_content = f.read()
+            logger.info("Loaded persona.txt content")
         except Exception as e:
             logger.error(f"Error reading persona.txt: {str(e)}")
 
@@ -256,10 +267,12 @@ def generate_dream(kin_path, keywords, client):
         try:
             all_memory_files = [f for f in os.listdir(memories_dir) if f.endswith('.txt')]
             memory_files = random.sample(all_memory_files, min(2, len(all_memory_files)))
+            logger.info(f"Selected memory files: {memory_files}")
             
             for file in memory_files:
                 with open(os.path.join(memories_dir, file), 'r', encoding='utf-8') as f:
                     persona_content += f"\n\n# Memory: {file}\n{f.read()}"
+                logger.info(f"Added content from memory file: {file}")
         except Exception as e:
             logger.error(f"Error reading memory files: {str(e)}")
 
@@ -287,10 +300,13 @@ Start with "In my dream..." or similar first-person opening.""",
             messages=[{"role": "user", "content": "Please share your dream narrative based on these elements."}]
         )
         dream_narrative = response.content[0].text.strip()
+        logger.info("Received dream narrative from Claude")
+        logger.info(f"Dream narrative: {dream_narrative}")
 
         # Create memories directory if it doesn't exist
         memories_dir = os.path.join(kin_path, "memories")
         os.makedirs(memories_dir, exist_ok=True)
+        logger.info(f"Ensured memories directory exists: {memories_dir}")
 
         # Append the dream to dreams.txt with timestamp
         dreams_file = os.path.join(memories_dir, "dreams.txt")
@@ -299,6 +315,7 @@ Start with "In my dream..." or similar first-person opening.""",
             f.write(f"\n\n# Dream recorded at {timestamp}\n")
             f.write(dream_narrative)
             f.write("\n")
+        logger.info(f"Saved dream to dreams.txt with timestamp {timestamp}")
 
         return dream_narrative
     except Exception as e:
@@ -309,6 +326,9 @@ def generate_initiative(kin_path, dream_narrative, random_files, client):
     """
     Third stage: Generate an initiative from the dream narrative.
     """
+    logger.info("Starting initiative generation stage")
+    logger.info(f"Using dream narrative: {dream_narrative}")
+
     # Load persona.txt and messages.json
     context_content = ""
     
@@ -318,6 +338,7 @@ def generate_initiative(kin_path, dream_narrative, random_files, client):
         try:
             with open(persona_path, 'r', encoding='utf-8') as f:
                 context_content += f"# Persona\n{f.read()}\n\n"
+            logger.info("Loaded persona.txt content")
         except Exception as e:
             logger.error(f"Error reading persona.txt: {str(e)}")
 
@@ -332,6 +353,7 @@ def generate_initiative(kin_path, dream_narrative, random_files, client):
                 for msg in recent_messages:
                     context_content += f"{msg.get('role')}: {msg.get('content')}\n"
                 context_content += "\n"
+            logger.info(f"Loaded {len(recent_messages)} recent messages")
         except Exception as e:
             logger.error(f"Error reading messages.json: {str(e)}")
 
@@ -343,6 +365,7 @@ def generate_initiative(kin_path, dream_narrative, random_files, client):
                 with open(file_path, 'r', encoding='utf-8') as f:
                     content = f.read()
                 context_content += f"# File: {file}\n{content}\n\n"
+                logger.info(f"Added content from file: {file}")
             except Exception as e:
                 logger.error(f"Error reading file {file_path}: {str(e)}")
 
@@ -380,7 +403,10 @@ Make it specific and actionable while maintaining emotional depth.
 The thought should be 1-2 sentences and start with "I" or "My".""",
             messages=[{"role": "user", "content": "Please generate an initiative based on the dream narrative and context."}]
         )
-        return response.content[0].text.strip()
+        initiative = response.content[0].text.strip()
+        logger.info("Received initiative from Claude")
+        logger.info(f"Generated initiative: {initiative}")
+        return initiative
     except Exception as e:
         logger.error(f"Error in initiative generation: {str(e)}")
         return None
