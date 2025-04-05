@@ -1,0 +1,27 @@
+{
+  "steps": {
+    "accueil": {
+      "actions": ["validation_table", "présentation_menu"],
+      "transitions": ["commande", "attente"]
+    },
+    "commande": {
+      "actions": ["prise_commande", "validation_client", "transmission_cuisine"],
+      "transitions": ["service", "modification"]
+    },
+    "service": {
+      "actions": ["suivi_préparation", "service_table", "vérification_satisfaction"],
+      "transitions": ["paiement", "commande_supplémentaire"]
+    },
+    "paiement": {
+      "actions": ["présentation_addition", "processus_paiement", "remerciements"],
+      "transitions": ["fin_service", "réclamation"]
+    }
+  },
+  "transitions_rules": {
+    "conditions": {
+      "vers_rush": "seuil_activité_dépassé",
+      "vers_urgence": "incident_détecté",
+      "vers_fermeture": "horaire_limite"
+    }
+  }
+}

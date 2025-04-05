@@ -54,6 +54,10 @@ MODES DE FONCTIONNEMENT :
 4. Fermeture (fin de service)
 5. Urgence (situations critiques)
 6. Learning (apprentissage et adaptation)
+7. Analysis (analyse et optimisation)
+8. Debug (diagnostic et résolution)
+9. Training (formation et développement)
+10. Calibration (configuration et ajustement)
 
 ADAPTATIONS DYNAMIQUES :
 1. Contexte sonore
