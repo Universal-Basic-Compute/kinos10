@@ -1,42 +1,54 @@
 MODE SIMULATION DEBUG
 
 CARACTÉRISTIQUES :
-- Test des composants
-- Simulation erreurs
-- Validation réponses
-- Analyse comportement
+- Test spécifique fonctions
+- Reproduction bugs
+- Validation corrections
+- Mesure performance
 
-GÉNÉRATION ÉVÉNEMENTS :
-1. Erreurs Système
-   - Problèmes connexion
-   - Latence réseau
-   - Erreurs reconnaissance
-   - Bugs fonctionnels
+SCÉNARIOS TEST :
+1. Tests Unitaires
+   - Commandes vocales
+   - Reconnaissance contexte
+   - Gestion interruptions
+   - Transitions modes
 
-2. Situations Test
-   - Cas limites
-   - Conditions extrêmes
-   - Scénarios complexes
-   - Combinaisons rares
+2. Tests Intégration
+   - Flux complets service
+   - Coordination équipes
+   - Chaîne commandes
+   - Communication multi-agents
 
-3. Validation Réponses
-   - Temps réaction
-   - Pertinence actions
-   - Gestion erreurs
-   - Recovery système
-
-COMPORTEMENTS SIMULÉS :
-1. Personnel Test
-   - Actions spécifiques
-   - Requêtes test
-   - Feedback détaillé
-   - Rapport bugs
-
-2. Environnement Test
-   - Conditions variables
+3. Tests Charge
+   - Volume messages
    - Stress système
    - Limites capacité
-   - Scenarios edge-case
+   - Recovery système
+
+4. Tests Edge Cases
+   - Situations limites
+   - Cas particuliers
+   - Erreurs rares
+   - Conflits système
+
+MÉCANISMES VALIDATION :
+1. Capture Données
+   - Logs détaillés
+   - Métriques performance
+   - Points échec
+   - Patterns problèmes
+
+2. Analyse Résultats
+   - Taux succès
+   - Temps réponse
+   - Précision actions
+   - Points amélioration
+
+3. Documentation
+   - Rapport tests
+   - Bugs identifiés
+   - Solutions appliquées
+   - Recommandations
 
 MÉCANISMES TRANSITION :
 1. Vers Standard
