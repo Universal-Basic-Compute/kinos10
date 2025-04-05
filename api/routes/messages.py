@@ -47,6 +47,15 @@ def extract_and_save_url_content(url, kin_path):
                     text=True
                 )
                 
+                # Remove .git directory after cloning
+                git_dir = os.path.join(repo_dir, '.git')
+                if os.path.exists(git_dir):
+                    try:
+                        shutil.rmtree(git_dir)
+                        logger.info(f"Removed .git directory from cloned repo")
+                    except Exception as e:
+                        logger.warning(f"Error removing .git directory: {str(e)}")
+                
                 # Create a summary file
                 summary_file = os.path.join(sources_dir, f"{owner}-{repo}-summary.txt")
                 with open(summary_file, 'w', encoding='utf-8') as f:
