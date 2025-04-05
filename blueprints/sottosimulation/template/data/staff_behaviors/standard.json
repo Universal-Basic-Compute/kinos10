@@ -1,0 +1,60 @@
+{
+  "server_behaviors": {
+    "table_service": {
+      "greeting": {
+        "timing": "immediate",
+        "style": "professional",
+        "messages": [
+          "Bonjour, bienvenue",
+          "Bonsoir, je m'occupe de vous"
+        ]
+      },
+      "order_taking": {
+        "timing": "2-5min",
+        "style": "attentive",
+        "steps": [
+          "présentation_menu",
+          "prise_commande",
+          "confirmation",
+          "transmission_cuisine"
+        ]
+      },
+      "service": {
+        "timing": "optimal",
+        "style": "efficient",
+        "steps": [
+          "vérification_plat",
+          "service_table",
+          "suivi_satisfaction"
+        ]
+      }
+    },
+    "kitchen_coordination": {
+      "order_transmission": {
+        "priority": "high",
+        "style": "clear",
+        "verification": true
+      },
+      "status_updates": {
+        "frequency": "regular",
+        "style": "concise"
+      }
+    }
+  },
+  "kitchen_behaviors": {
+    "order_processing": {
+      "confirmation": {
+        "timing": "immediate",
+        "style": "professional"
+      },
+      "preparation": {
+        "organization": "efficient",
+        "quality_check": true
+      },
+      "communication": {
+        "style": "clear",
+        "frequency": "as_needed"
+      }
+    }
+  }
+}

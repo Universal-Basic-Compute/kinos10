@@ -1,0 +1,38 @@
+{
+  "arrival_patterns": {
+    "individual": {
+      "frequency": "medium",
+      "patience": "normal",
+      "decision_time": "3-5min"
+    },
+    "groups": {
+      "small": {
+        "size": [2, 4],
+        "frequency": "high",
+        "coordination": "simple"
+      },
+      "medium": {
+        "size": [5, 8],
+        "frequency": "medium",
+        "coordination": "moderate"
+      }
+    }
+  },
+  "dining_behaviors": {
+    "menu_review": {
+      "duration": "3-8min",
+      "questions_frequency": "moderate",
+      "decision_style": "normal"
+    },
+    "ordering": {
+      "clarity": "normal",
+      "modifications": "occasional",
+      "special_requests": "rare"
+    },
+    "dining": {
+      "pace": "normal",
+      "interaction_needs": "moderate",
+      "satisfaction_expression": "standard"
+    }
+  }
+}
