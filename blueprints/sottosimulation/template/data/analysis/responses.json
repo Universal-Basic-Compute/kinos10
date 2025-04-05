@@ -1,0 +1,51 @@
+{
+  "response_tracking": {
+    "metrics": {
+      "response_time": {
+        "unit": "seconds",
+        "thresholds": {
+          "excellent": "<1.0",
+          "good": "<2.0",
+          "acceptable": "<3.0",
+          "poor": ">=3.0"
+        }
+      },
+      "accuracy": {
+        "unit": "percentage",
+        "thresholds": {
+          "excellent": ">=98",
+          "good": ">=95",
+          "acceptable": ">=90",
+          "poor": "<90"
+        }
+      },
+      "relevance": {
+        "unit": "score",
+        "scale": "0-1",
+        "thresholds": {
+          "excellent": ">=0.9",
+          "good": ">=0.8",
+          "acceptable": ">=0.7",
+          "poor": "<0.7"
+        }
+      }
+    },
+    "context_evaluation": {
+      "parameters": [
+        "situation_understanding",
+        "priority_assessment",
+        "resource_allocation",
+        "team_coordination"
+      ],
+      "scoring": {
+        "scale": "0-5",
+        "weights": {
+          "situation_understanding": 0.3,
+          "priority_assessment": 0.3,
+          "resource_allocation": 0.2,
+          "team_coordination": 0.2
+        }
+      }
+    }
+  }
+}

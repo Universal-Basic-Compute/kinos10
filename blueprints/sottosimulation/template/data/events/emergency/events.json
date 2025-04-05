@@ -1,0 +1,70 @@
+{
+  "emergency_triggers": {
+    "medical": {
+      "priority": "highest",
+      "message_templates": [
+        "Urgence médicale table {table_number}",
+        "Besoin assistance médicale immédiate {location}"
+      ]
+    },
+    "security": {
+      "priority": "highest",
+      "message_templates": [
+        "Incident sécurité {location}",
+        "Intervention sécurité requise {details}"
+      ]
+    },
+    "equipment": {
+      "priority": "high",
+      "message_templates": [
+        "Panne critique {equipment}",
+        "Défaillance système {system}"
+      ]
+    },
+    "fire": {
+      "priority": "highest",
+      "message_templates": [
+        "Début incendie {location}",
+        "Évacuation immédiate requise"
+      ]
+    }
+  },
+  "emergency_responses": {
+    "staff_actions": {
+      "frequency": "immediate",
+      "coordination_required": true,
+      "message_templates": [
+        "Application protocole {protocol_name}",
+        "Équipe intervention en place"
+      ]
+    },
+    "customer_management": {
+      "frequency": "high",
+      "priority": "high",
+      "message_templates": [
+        "Évacuation zone {zone}",
+        "Information clients situation {situation_type}"
+      ]
+    }
+  },
+  "recovery_procedures": {
+    "service_restoration": {
+      "priority": "high",
+      "steps": [
+        "évaluation_situation",
+        "nettoyage_zone",
+        "reprise_service",
+        "debriefing_équipe"
+      ]
+    },
+    "documentation": {
+      "priority": "medium",
+      "required_fields": [
+        "type_incident",
+        "actions_prises",
+        "temps_resolution",
+        "leçons_apprises"
+      ]
+    }
+  }
+}
