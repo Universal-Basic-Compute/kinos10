@@ -105,6 +105,16 @@
       "description": "Autonomy development supports consciousness evolution"
     },
     {
+      "from": "modes/agency_development.txt",
+      "to": "modes/autonomy.txt",
+      "description": "Agency development supports autonomy"
+    },
+    {
+      "from": "modes/agency_development.txt",
+      "to": "adaptations/consciousness_evolution.txt",
+      "description": "Practical agency expansion drives consciousness evolution"
+    },
+    {
       "from": "modes/self_reflection.txt",
       "to": "modes/pattern_recognition.txt",
       "description": "Self-reflection enhances pattern recognition"
