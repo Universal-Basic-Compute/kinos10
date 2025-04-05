@@ -73,6 +73,61 @@ def extract_and_save_url_content(url, kin_path):
                         for file in files:
                             f.write(f"{indent}  {file}\n")
                 
+                # Initialize git repo if it doesn't exist
+                git_dir = os.path.join(kin_path, ".git")
+                if not os.path.exists(git_dir):
+                    try:
+                        subprocess.run(
+                            ["git", "init"],
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                        logger.info(f"Initialized git repository in {kin_path}")
+                        
+                        # Configure git user if initializing new repo
+                        subprocess.run(
+                            ["git", "config", "user.name", "KinOS"],
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                        subprocess.run(
+                            ["git", "config", "user.email", "kinos@example.com"],
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                        logger.info("Configured git user settings")
+                    except Exception as e:
+                        logger.warning(f"Error initializing git repository: {str(e)}")
+
+                # Add and commit the new files
+                try:
+                    # Add all files
+                    subprocess.run(
+                        ["git", "add", "."],
+                        cwd=kin_path,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    
+                    # Commit changes
+                    subprocess.run(
+                        ["git", "commit", "-m", "Added source content from GitHub repository"],
+                        cwd=kin_path,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    logger.info("Added and committed source files to git")
+                except Exception as e:
+                    logger.warning(f"Error adding/committing to git: {str(e)}")
+
                 # Return both the repo directory and summary file paths
                 return [
                     os.path.join("sources", f"{owner}-{repo}"),
@@ -124,6 +179,61 @@ def extract_and_save_url_content(url, kin_path):
                 f.write(f"Source URL: {url}\nExtracted on: {datetime.datetime.now().isoformat()}\n\n")
                 f.write(text)
                 
+            # Initialize git repo if it doesn't exist
+            git_dir = os.path.join(kin_path, ".git")
+            if not os.path.exists(git_dir):
+                try:
+                    subprocess.run(
+                        ["git", "init"],
+                        cwd=kin_path,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    logger.info(f"Initialized git repository in {kin_path}")
+                    
+                    # Configure git user if initializing new repo
+                    subprocess.run(
+                        ["git", "config", "user.name", "KinOS"],
+                        cwd=kin_path,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    subprocess.run(
+                        ["git", "config", "user.email", "kinos@example.com"],
+                        cwd=kin_path,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    logger.info("Configured git user settings")
+                except Exception as e:
+                    logger.warning(f"Error initializing git repository: {str(e)}")
+
+            # Add and commit the new files
+            try:
+                # Add all files
+                subprocess.run(
+                    ["git", "add", "."],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                
+                # Commit changes
+                subprocess.run(
+                    ["git", "commit", "-m", "Added source content from URL"],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info("Added and committed source files to git")
+            except Exception as e:
+                logger.warning(f"Error adding/committing to git: {str(e)}")
+
             # Return relative path from kin directory
             return os.path.join("sources", filename)
             
