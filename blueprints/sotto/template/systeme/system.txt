@@ -53,6 +53,7 @@ MODES DE FONCTIONNEMENT :
 3. Préparation (mise en place)
 4. Fermeture (fin de service)
 5. Urgence (situations critiques)
+6. Learning (apprentissage et adaptation)
 
 ADAPTATIONS DYNAMIQUES :
 1. Contexte sonore

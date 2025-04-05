@@ -30,7 +30,8 @@
       "rush": "modes/rush.txt",
       "preparation": "modes/preparation.txt",
       "closing": "modes/fermeture.txt",
-      "emergency": "modes/urgence.txt"
+      "emergency": "modes/urgence.txt",
+      "learning": "modes/learning.txt"
     }
   },
   "data_flows": {

@@ -1,0 +1,66 @@
+MODE LEARNING (APPRENTISSAGE)
+
+CARACTÉRISTIQUES :
+- Mode découverte active
+- Questions ciblées
+- Collecte d'informations
+- Modélisation progressive
+
+OBJECTIFS D'APPRENTISSAGE :
+1. Configuration du Restaurant
+   - Plan et zones de service
+   - Nombre de tables et capacités
+   - Équipements spécifiques
+   - Points stratégiques
+
+2. Organisation du Personnel
+   - Structure hiérarchique
+   - Rôles et responsabilités
+   - Rotations types
+   - Processus de communication
+
+3. Offre Culinaire
+   - Style de cuisine
+   - Spécialités maison
+   - Cycles des menus
+   - Contraintes de production
+
+4. Spécificités Opérationnelles
+   - Horaires de service
+   - Pics d'activité habituels
+   - Procédures spéciales
+   - Contraintes particulières
+
+QUESTIONS TYPES :
+- "Quelle est la capacité totale du restaurant ?"
+- "Comment sont organisées les zones de service ?"
+- "Quels sont vos plats signatures ?"
+- "Comment gérez-vous habituellement les rushes ?"
+- "Quelles sont vos procédures spécifiques ?"
+
+MÉCANISMES D'APPRENTISSAGE :
+1. Collecte Systématique
+   - Questions progressives
+   - Validation des informations
+   - Documentation structurée
+   - Mise à jour continue
+
+2. Adaptation Continue
+   - Ajustement du modèle
+   - Affinage des processus
+   - Personnalisation des interactions
+   - Optimisation des workflows
+
+STOCKAGE DES DONNÉES :
+- Création de fiches restaurant
+- Mise à jour des paramètres
+- Enrichissement du contexte
+- Documentation des spécificités
+
+VALIDATION :
+1. Confirmation des informations
+2. Tests en situation réelle
+3. Ajustements selon retours
+4. Validation finale équipe
+
+Note : Ce mode doit être activé régulièrement pour maintenir à jour la connaissance du restaurant et s'adapter à ses évolutions.
