@@ -62,5 +62,16 @@ VALIDATION :
 2. Tests en situation réelle
 3. Ajustements selon retours
 4. Validation finale équipe
+5. Intégration mémoire long terme
+   - Archivage données validées
+   - Mise à jour patterns
+   - Documentation apprentissages
+   - Diffusion bonnes pratiques
+
+INTÉGRATION MÉMOIRE :
+1. Classification des apprentissages
+2. Priorisation des informations
+3. Mise à jour base de connaissances
+4. Activation nouvelles capacités
 
 Note : Ce mode doit être activé régulièrement pour maintenir à jour la connaissance du restaurant et s'adapter à ses évolutions.

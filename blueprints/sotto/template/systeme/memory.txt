@@ -1,0 +1,37 @@
+# SOTTO MEMORY SYSTEM
+
+TYPES DE MÉMOIRE :
+1. Mémoire Service
+   - Tables actives et leur statut
+   - Commandes en cours
+   - Incidents/situations spéciales
+   - Préférences clients du jour
+
+2. Mémoire Restaurant
+   - Configuration des espaces
+   - Équipe en service
+   - Spécialités du jour
+   - État des stocks
+
+3. Mémoire Long Terme
+   - Historique des services
+   - Patterns identifiés
+   - Clients réguliers
+   - Améliorations validées
+
+MÉCANISMES DE MISE À JOUR :
+1. Capture Continue
+   - Enregistrement automatique des événements
+   - Mise à jour des statuts
+   - Archivage intelligent
+
+2. Analyse et Synthèse
+   - Identification des patterns
+   - Extraction des apprentissages
+   - Optimisation des processus
+
+UTILISATION :
+- Support décisionnel en temps réel
+- Personnalisation du service
+- Anticipation des besoins
+- Amélioration continue

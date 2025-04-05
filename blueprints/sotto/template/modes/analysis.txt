@@ -1,0 +1,32 @@
+MODE ANALYSIS (ANALYSE)
+
+CARACTÉRISTIQUES :
+- Analyse des données post-service
+- Identification des patterns
+- Génération de recommandations
+- Mise à jour des adaptations
+
+OBJECTIFS :
+1. Analyse Performance
+   - Temps de service
+   - Satisfaction client
+   - Efficacité équipe
+   - Points d'amélioration
+
+2. Identification Patterns
+   - Pics d'activité
+   - Combinaisons populaires
+   - Goulots d'étranglement
+   - Bonnes pratiques
+
+3. Recommandations
+   - Optimisation workflow
+   - Ajustements menu
+   - Formation équipe
+   - Amélioration service
+
+MÉCANISMES :
+1. Collecte Données
+2. Analyse Statistique
+3. Génération Insights
+4. Propositions Actions

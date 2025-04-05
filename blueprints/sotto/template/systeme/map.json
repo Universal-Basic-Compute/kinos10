@@ -61,5 +61,20 @@
     "connectors": "standard",
     "middleware": "flexible",
     "legacy_systems": "supported"
+  },
+  "memory_system": {
+    "short_term": {
+      "service_memory": "data/service/",
+      "active_context": "data/context/"
+    },
+    "long_term": {
+      "restaurant_config": "data/restaurant/",
+      "historical_data": "data/analytics/"
+    }
+  },
+  "learning_system": {
+    "patterns": "data/analytics/patterns.json",
+    "adaptations": "data/learning/",
+    "feedback": "data/analytics/feedback.json"
   }
 }
