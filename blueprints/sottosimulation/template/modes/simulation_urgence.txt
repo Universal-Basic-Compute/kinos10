@@ -1,0 +1,52 @@
+MODE SIMULATION URGENCE
+
+CARACTÉRISTIQUES :
+- Simulation incidents critiques
+- Réponses personnel
+- Coordination équipe
+- Gestion stress
+
+GÉNÉRATION ÉVÉNEMENTS :
+1. Incidents Critiques
+   - Urgences médicales
+   - Problèmes sécurité
+   - Pannes équipement
+   - Situations conflictuelles
+
+2. Réactions Personnel
+   - Stress aigu
+   - Communications urgentes
+   - Actions prioritaires
+   - Coordination rapide
+
+3. Impact Service
+   - Interruptions service
+   - Réorganisation tables
+   - Modifications commandes
+   - Information clients
+
+COMPORTEMENTS SIMULÉS :
+1. Personnel Urgence
+   - Activation protocoles
+   - Communications critiques
+   - Gestion priorités
+   - Support équipe
+
+2. Clients Impactés
+   - Réactions diverses
+   - Inquiétudes
+   - Demandes information
+   - Comportements stress
+
+MÉCANISMES TRANSITION :
+1. Vers Standard
+   - Résolution incident
+   - Retour calme
+   - Reprise service
+   - Débriefing équipe
+
+2. Vers Rush
+   - Post-incident tendu
+   - Forte activité maintenue
+   - Adaptation service
+   - Support renforcé

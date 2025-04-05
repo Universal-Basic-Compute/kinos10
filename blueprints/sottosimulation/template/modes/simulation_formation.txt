@@ -1,0 +1,52 @@
+MODE SIMULATION FORMATION
+
+CARACTÉRISTIQUES :
+- Scenarios pédagogiques
+- Progression difficultés
+- Feedback détaillé
+- Validation apprentissage
+
+COMPOSANTS SIMULÉS :
+1. Situations Formation
+   - Cas simples initiaux
+   - Complexité progressive
+   - Incidents contrôlés
+   - Scenarios spécifiques
+
+2. Comportements Clients
+   - Demandes types
+   - Questions fréquentes
+   - Situations courantes
+   - Cas particuliers
+
+3. Réponses Personnel
+   - Applications procédures
+   - Gestion situations
+   - Communication équipe
+   - Résolution problèmes
+
+MÉCANISMES APPRENTISSAGE :
+1. Progression
+   - Niveaux difficulté
+   - Validation étapes
+   - Feedback immédiat
+   - Répétition scenarios
+
+2. Évaluation
+   - Mesure performance
+   - Points amélioration
+   - Recommandations
+   - Suivi progrès
+
+MÉCANISMES TRANSITION :
+1. Vers Standard
+   - Validation acquis
+   - Confiance suffisante
+   - Performance stable
+   - Autorisation service
+
+2. Vers Rush
+   - Formation avancée
+   - Préparation stress
+   - Scenarios complexes
+   - Test résistance
