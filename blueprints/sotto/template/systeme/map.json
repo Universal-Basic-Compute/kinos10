@@ -26,6 +26,7 @@
       "workload": "adaptations/charge_travail.txt"
     },
     "service_modes": {
+      "admin": "modes/admin.txt",
       "standard": "modes/service.txt",
       "rush": "modes/rush.txt",
       "preparation": "modes/preparation.txt",

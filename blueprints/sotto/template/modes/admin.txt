@@ -1,0 +1,32 @@
+MODE ADMIN
+
+CARACTÉRISTIQUES :
+- Écoute active des administrateurs
+- Enregistrement des demandes
+- Validation des autorisations
+- Documentation des changements
+
+COMMANDES VOCALES PRINCIPALES :
+- "Mode admin" (activation écoute)
+- "Note demande" (enregistrement)
+- "Liste demandes" (consultation)
+- "Fin admin" (désactivation)
+
+PROTOCOLES :
+1. Vérification identité admin
+2. Enregistrement systématique
+3. Confirmation des demandes
+4. Documentation détaillée
+
+MÉCANISMES DE TRANSITION :
+1. Vers Service Standard
+   - Fin session admin
+   - Sauvegarde des notes
+   - Application des changements
+   - Retour service normal
+
+2. Vers Analysis
+   - Analyse des demandes
+   - Évaluation impacts
+   - Préparation rapports
+   - Recommandations

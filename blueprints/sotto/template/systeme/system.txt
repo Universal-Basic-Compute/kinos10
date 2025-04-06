@@ -48,8 +48,9 @@ BÉNÉFICES DÉMONTRÉS :
 - Optimisation 15% temps de service
 
 MODES DE FONCTIONNEMENT :
-1. Service standard (opérations normales)
-2. Rush (période de pointe)
+1. Admin (gestion administrative)
+2. Service standard (opérations normales)
+3. Rush (période de pointe)
 3. Préparation (mise en place)
 4. Fermeture (fin de service)
 5. Urgence (situations critiques)
