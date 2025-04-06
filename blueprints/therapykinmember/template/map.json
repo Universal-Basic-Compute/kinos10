@@ -24,7 +24,10 @@
         "main": "memories/therapeutic/README.txt",
         "insights": "memories/therapeutic/insights.json",
         "techniques": "memories/therapeutic/techniques.json",
-        "challenges": "memories/therapeutic/challenges/README.txt"
+        "challenges": "memories/therapeutic/challenges/README.txt",
+        "progress": "memories/therapeutic/progress.json",
+        "goals": "memories/therapeutic/goals.json",
+        "setbacks": "memories/therapeutic/setbacks.json"
       },
       "struggles": {
         "main": "memories/struggles/README.txt",
