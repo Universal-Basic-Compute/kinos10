@@ -29,6 +29,7 @@ import io
 from datetime import datetime
 from flask import Flask, request
 from dotenv import load_dotenv
+from config import BASE_URL
 
 # Configure logging
 logging.basicConfig(
@@ -473,8 +474,8 @@ def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection", remo
         # Fallback to API call
         try:
             # Choose API URL based on remote flag
-            base_url = "https://api.kinos-engine.ai" if remote else "http://localhost:5000"
-            api_url = f"{base_url}/api/proxy/kins/{blueprint}/{kin_id}/messages"
+            base_url = "https://api.kinos-engine.ai" if remote else BASE_URL
+            api_url = f"{base_url}/kins/{blueprint}/{kin_id}/messages"
             
             logger.info(f"Using {'remote' if remote else 'local'} API: {api_url}")
             

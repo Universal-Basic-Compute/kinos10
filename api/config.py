@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 
+# API base URL
+BASE_URL = os.getenv("BASE_URL", "http://localhost:5000/api/proxy")  # Default value if not defined
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
