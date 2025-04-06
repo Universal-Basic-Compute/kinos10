@@ -32,7 +32,7 @@
         "insights": "memories/therapeutic/insights.json",
         "techniques": {
           "main": "memories/therapeutic/techniques/README.txt",
-          "techniques": "memories/therapeutic/techniques.json"
+          "data": "memories/therapeutic/techniques.json"
         },
         "challenges": {
           "main": "memories/therapeutic/challenges/README.txt",
