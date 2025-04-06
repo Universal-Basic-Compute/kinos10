@@ -524,6 +524,30 @@ Send a message to Aider for file creation/modification without Claude response.
 }
 ```
 
+### Listen to Kin
+
+Send a message to Aider for file creation/modification (alias for /build endpoint).
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/listen`
+
+**Request Body:**
+```json
+{
+  "message": "Create a new file called example.txt with some sample content",
+  "addSystem": "Focus on creating well-structured files"  // Optional
+}
+```
+
+**Response:**
+```json
+{
+  "status": "completed",
+  "response": "I've created the example.txt file with sample content..."
+}
+```
+
+This endpoint is an alias for the `/build` endpoint and behaves exactly the same way. It's provided for semantic clarity when the interaction is framed as "listening" to the kin rather than "building" it.
+
 ### Get Kin Modes
 
 Get available modes for a kin.
