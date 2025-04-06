@@ -473,7 +473,7 @@ def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False):
     try:
         # Choose API URL based on remote flag
         base_url = "https://api.kinos-engine.ai" if remote else BASE_URL
-        api_url = f"{base_url}/kins/{blueprint}/{kin_id}/messages"
+        api_url = f"{base_url}/v2/blueprints/{blueprint}/kins/{kin_id}/messages"
         
         logger.info(f"Using {'remote' if remote else 'local'} API: {api_url}")
         
