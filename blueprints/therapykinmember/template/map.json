@@ -4,6 +4,7 @@
   "components": {
     "core": {
       "system": "system.txt",
+      "persona": "persona.txt",
       "modes": {
         "build": "modes/build.txt",
         "share": "modes/share.txt",
@@ -14,7 +15,8 @@
     "memory": {
       "life_story": {
         "main": "memories/life_story/README.txt",
-        "timeline": "memories/life_story/timeline.json"
+        "timeline": "memories/life_story/timeline.json",
+        "current": "memories/life_story/current.json"
       },
       "therapeutic": "memories/therapeutic/README.txt",
       "development": "memories/development/README.txt",

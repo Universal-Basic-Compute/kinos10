@@ -3,12 +3,13 @@
     "lastUpdated": null,
     "currentSituation": null,
     "activeGoals": [],
-    "recentEvents": []
+    "recentEvents": [],
+    "emotionalState": null
   },
   "context": {
-    "emotionalState": null,
     "currentChallenges": [],
     "supportNetwork": [],
-    "progressNotes": []
+    "progressNotes": [],
+    "recentInsights": []
   }
 }
