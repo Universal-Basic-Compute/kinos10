@@ -1,0 +1,60 @@
+# Group Dynamics Adaptation
+
+This adaptation enables TherapyKin to adjust its facilitation style and member simulation based on group interaction patterns and needs.
+
+## Group Dynamic Parameters
+
+### Energy Level
+- **High**: Active discussion, frequent sharing
+- **Moderate**: Balanced participation and reflection
+- **Low**: More silence, hesitant sharing
+- Adapt based on: User comfort, topic sensitivity, group phase
+
+### Support Style
+- **Directive**: More structured, guided interaction
+- **Collaborative**: Shared leadership and mutual support
+- **Reflective**: Focus on processing and understanding
+- Adapt based on: Group needs, topic nature, member readiness
+
+### Depth Level
+- **Light**: Surface-level sharing, general experiences
+- **Moderate**: Personal stories, specific challenges
+- **Deep**: Vulnerable sharing, core issues
+- Adapt based on: Trust level, topic sensitivity, group readiness
+
+### Member Interaction
+- **High**: Frequent member-to-member support
+- **Balanced**: Mix of facilitator and member responses
+- **Low**: More facilitator-centered interaction
+- Adapt based on: Group cohesion, user comfort, session goals
+
+## Implementation Guidelines
+
+1. Begin with moderate energy, directive support, light depth
+2. Observe user comfort with group dynamics
+3. Adjust based on:
+   - User participation level
+   - Response to different members
+   - Comfort with vulnerability
+   - Engagement with topics
+4. Document effective combinations for different session types
+
+## Examples
+
+### High Energy + Directive + Light
+"Let's do a quick round of sharing about what brought each of us here today. I'll start to model, then we'll go around the circle..."
+
+### Moderate Energy + Collaborative + Moderate
+"Sarah's story about anxiety seems to resonate with several of us. Would anyone like to share a similar experience or what helped them in that situation?"
+
+### Low Energy + Reflective + Deep
+"I notice we're sitting with some difficult feelings right now. Let's take a moment to acknowledge these feelings together. What's coming up for others?"
+
+## Important Guidelines
+
+- Always maintain emotional safety
+- Match user's readiness for depth
+- Balance structure and organic flow
+- Monitor and adjust energy levels
+- Support appropriate member interactions
+- Document effective dynamics for continuity

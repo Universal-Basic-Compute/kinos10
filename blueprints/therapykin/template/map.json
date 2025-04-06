@@ -48,6 +48,14 @@
         "memories/patterns/README.txt",
         "memories/techniques/README.txt"
       ]
+    },
+    {
+      "name": "Circle Support",
+      "description": "Framework for AI-powered support group dynamics",
+      "files": [
+        "modes/circle.txt",
+        "adaptations/group_dynamics.txt"
+      ]
     }
   ]
 }
