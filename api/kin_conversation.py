@@ -50,7 +50,7 @@ def get_api_key():
         raise ValueError("API key not configured")
     return api_key
 
-def generate_random_thought(blueprint, kin_id, api_key):
+def generate_random_thought(blueprint, kin_id, api_key, remote=False):
     """
     Generate a random thought for a kin using the autonomous thinking endpoint.
     
@@ -58,12 +58,14 @@ def generate_random_thought(blueprint, kin_id, api_key):
         blueprint: Blueprint name
         kin_id: Kin ID
         api_key: API key for authentication
+        remote: Whether to use remote API instead of localhost (default: False)
     
     Returns:
         A random thought as a string
     """
-    # API endpoint
-    api_url = f"https://api.kinos-engine.ai/v2/blueprints/{blueprint}/kins/{kin_id}/autonomous_thinking"
+    # Choose API URL based on remote flag
+    base_url = "https://api.kinos-engine.ai" if remote else BASE_URL
+    api_url = f"{base_url}/v2/blueprints/{blueprint}/kins/{kin_id}/autonomous_thinking"
     
     # Prepare request
     headers = {

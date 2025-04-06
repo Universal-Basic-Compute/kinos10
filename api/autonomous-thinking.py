@@ -29,7 +29,7 @@ import io
 from datetime import datetime
 from flask import Flask, request
 from dotenv import load_dotenv
-from config import BASE_URL
+from config import BASE_URL, logger
 
 # Configure logging
 logging.basicConfig(
@@ -617,7 +617,7 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
     # Generate the initial random thought
     random_files = get_random_files(kin_path, count=3)
     logger.info(f"Selected random files for initial thought: {random_files}")
-    current_thought = generate_random_thought(kin_path, random_files)
+    current_thought = generate_random_thought(blueprint, kin_id, api_key, remote=remote)
     
     # Run the thinking iterations
     for i in range(iterations):
@@ -662,7 +662,7 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
                 # Generate a new thought since the previous one failed
                 random_files = get_random_files(kin_path, count=3)
                 logger.info(f"Selected new random files after error: {random_files}")
-                current_thought = generate_random_thought(kin_path, random_files)
+                current_thought = generate_random_thought(blueprint, kin_id, api_key, remote=remote)
     
     logger.info(f"Completed {iterations} autonomous thinking iterations")
     return True
