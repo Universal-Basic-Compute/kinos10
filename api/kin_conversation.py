@@ -351,6 +351,7 @@ def main():
     parser.add_argument("--wait-time", type=int, default=60, help="Wait time between messages in seconds (default: 60)")
     parser.add_argument("--telegram-token", help="Telegram bot token for notifications")
     parser.add_argument("--telegram-chat-id", help="Telegram chat ID for notifications")
+    parser.add_argument("--remote", action="store_true", help="Use remote API instead of localhost")
     
     args = parser.parse_args()
     

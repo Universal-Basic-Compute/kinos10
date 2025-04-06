@@ -476,11 +476,7 @@ def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False):
         api_url = f"{base_url}/v2/blueprints/{blueprint}/kins/{kin_id}/messages"
         
         logger.info(f"=== Sending Message to Kin ===")
-        logger.info(f"Blueprint: {blueprint}")
-        logger.info(f"Kin ID: {kin_id}")
-        logger.info(f"Message: {message[:100]}...")
-        logger.info(f"Mode: {mode}")
-        logger.info(f"Remote: {remote}")
+        logger.info(f"Using {'remote' if remote else 'local'} API")
         logger.info(f"API URL: {api_url}")
         
         # Get API key from environment variable
