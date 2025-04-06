@@ -265,6 +265,34 @@ Send a message to a kin.
 
 The `min_files` and `max_files` parameters allow you to control how many files are included in the context when processing the message. This helps balance between having enough context for accurate responses while avoiding context overload.
 
+### Analyze Message
+
+Analyze a message with Claude without saving it or triggering context updates.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/analyze`
+
+**Request Body:**
+```json
+{
+  "message": "What is the purpose of this code?",
+  "images": ["data:image/jpeg;base64,..."],
+  "model": "claude-3-5-haiku-latest",
+  "addSystem": "Focus on explaining the architecture",
+  "min_files": 5,  // Optional, minimum number of context files (default: 5)
+  "max_files": 15  // Optional, maximum number of context files (default: 15)
+}
+```
+
+**Response:**
+```json
+{
+  "status": "completed",
+  "response": "This code implements a context builder that..."
+}
+```
+
+The `min_files` and `max_files` parameters allow you to control how many files are included in the context when processing the message. This helps balance between having enough context for accurate responses while avoiding context overload.
+
 ### Get Kin Files
 
 Get a list of files in a kin.
