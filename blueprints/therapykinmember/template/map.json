@@ -62,7 +62,13 @@
         "circle_members": "memories/relationships/circle_members.json",
         "personal": "memories/relationships/personal.json",
         "dynamics": "memories/relationships/dynamics.json",
-        "support": "memories/relationships/support/README.txt"
+        "support": {
+          "main": "memories/relationships/support/README.txt",
+          "received": "memories/relationships/support/received/README.txt",
+          "given": "memories/relationships/support/given/README.txt",
+          "patterns": "memories/relationships/support/patterns/README.txt",
+          "needs": "memories/relationships/support/needs/README.txt"
+        }
       }
     }
   }
