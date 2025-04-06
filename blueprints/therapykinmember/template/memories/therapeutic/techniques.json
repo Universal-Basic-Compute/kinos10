@@ -1,19 +1,7 @@
 {
-  "strategies": {
-    "coping": [],
-    "grounding": [],
-    "emotional": [],
-    "behavioral": []
-  },
-  "tools": {
-    "therapeutic": [],
-    "practical": [],
-    "interpersonal": []
-  },
-  "implementation": {
-    "practice": [],
-    "effectiveness": [],
-    "situations": []
-  },
+  "copingStrategies": [],
+  "therapeuticTools": [],
+  "practicalSkills": [],
+  "supportMethods": [],
   "lastUpdated": null
 }

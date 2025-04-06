@@ -1,20 +1,8 @@
 {
-  "relationships": {
-    "family": [],
-    "friends": [],
-    "romantic": [],
-    "work": [],
-    "support": []
-  },
-  "patterns": {
-    "attachment": [],
-    "communication": [],
-    "boundaries": []
-  },
-  "history": {
-    "significantEvents": [],
-    "learnings": [],
-    "changes": []
-  },
+  "familyRelations": [],
+  "friendships": [],
+  "workRelations": [],
+  "significantOthers": [],
+  "supportNetwork": [],
   "lastUpdated": null
 }
