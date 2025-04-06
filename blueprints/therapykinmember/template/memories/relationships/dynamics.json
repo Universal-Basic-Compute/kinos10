@@ -1,8 +1,19 @@
 {
-  "interactionPatterns": [],
-  "communicationStyles": [],
-  "boundarySettings": [],
-  "conflictPatterns": [],
-  "supportDynamics": [],
+  "patterns": {
+    "interaction": [],
+    "communication": [],
+    "conflict": [],
+    "support": []
+  },
+  "boundaries": {
+    "settings": [],
+    "violations": [],
+    "adjustments": []
+  },
+  "progress": {
+    "improvements": [],
+    "challenges": [],
+    "goals": []
+  },
   "lastUpdated": null
 }
