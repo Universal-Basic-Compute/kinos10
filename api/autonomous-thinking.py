@@ -475,6 +475,8 @@ def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False):
         base_url = "https://api.kinos-engine.ai" if remote else BASE_URL
         api_url = f"{base_url}/v2/blueprints/{blueprint}/kins/{kin_id}/messages"
         
+        logger.info(f"Using API URL: {api_url}")  # Log l'URL utilisée
+        
         logger.info(f"Using {'remote' if remote else 'local'} API: {api_url}")
         
         # Get API key from environment variable
