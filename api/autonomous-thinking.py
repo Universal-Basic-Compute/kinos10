@@ -496,33 +496,29 @@ def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False):
         
         if mode:  # Add mode only if specified
             payload["mode"] = mode
-            
-            logger.info(f"Making API call to {api_url} for {blueprint}/{kin_id}")
-            logger.info(f"Payload: {payload}")
-            
-            # Make request
-            response = requests.post(api_url, headers=headers, json=payload)
-            
-            # Check for errors
-            if response.status_code != 200:
-                logger.error(f"API error: {response.status_code} - {response.text}")
-                return f"Error: {response.status_code} - {response.text}"
-            
-            # Parse response
-            result = response.json()
-            logger.info(f"API response: {result}")
-            
-            # Extract the response text
-            if "response" in result:
-                logger.info(f"Received response from API: {result['response'][:100]}...")
-                return result["response"]
-            else:
-                logger.error(f"No response field in API result: {result}")
-                return f"Error: No response field in API result: {result}"
-                
-        except Exception as fallback_error:
-            logger.error(f"Fallback API call failed: {str(fallback_error)}")
-            return f"Error: API call failed: {str(fallback_error)}"
+        
+        logger.info(f"Making API call to {api_url} for {blueprint}/{kin_id}")
+        logger.info(f"Payload: {payload}")
+        
+        # Make request
+        response = requests.post(api_url, headers=headers, json=payload)
+        
+        # Check for errors
+        if response.status_code != 200:
+            logger.error(f"API error: {response.status_code} - {response.text}")
+            return f"Error: {response.status_code} - {response.text}"
+        
+        # Parse response
+        result = response.json()
+        logger.info(f"API response: {result}")
+        
+        # Extract the response text
+        if "response" in result:
+            logger.info(f"Received response from API: {result['response'][:100]}...")
+            return result["response"]
+        else:
+            logger.error(f"No response field in API result: {result}")
+            return f"Error: No response field in API result: {result}"
             
     except Exception as e:
         logger.error(f"Error sending message to kin: {str(e)}")
