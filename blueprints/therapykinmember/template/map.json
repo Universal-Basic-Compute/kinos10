@@ -29,7 +29,6 @@
         "goals": "memories/therapeutic/goals.json",
         "setbacks": "memories/therapeutic/setbacks.json"
       },
-      "development": null,
       "struggles": {
         "main": "memories/struggles/README.txt",
         "current": "memories/struggles/current.json",
