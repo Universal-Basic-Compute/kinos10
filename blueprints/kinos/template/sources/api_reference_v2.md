@@ -502,6 +502,35 @@ Reset a kin to its initial template state.
 }
 ```
 
+### Copy Kin
+
+Copy a kin to create a new kin with the same content within the same blueprint.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/copy`
+
+**Request Body:**
+```json
+{
+  "new_name": "Copy of My Kin"
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success", 
+  "message": "Kin 'source-kin-id' copied to 'Copy of My Kin'",
+  "source_kin_id": "source-kin-id",
+  "new_kin_id": "new-kin-id",
+  "new_kin_name": "Copy of My Kin"
+}
+```
+
+This endpoint:
+1. Creates a new kin with the provided name
+2. Copies all files from the source kin to the new kin
+3. Updates the new kin's metadata to reflect it was copied from the source kin
+
 ### Build Kin
 
 Send a message to Aider for file creation/modification without Claude response.
