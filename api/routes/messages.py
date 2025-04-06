@@ -652,6 +652,22 @@ def analyze_message(blueprint, kin_id):
         # Support both formats: new format with 'message' and original format with 'content'
         message_content = data.get('message', data.get('content', ''))
         
+        # Get optional parameters for context building
+        min_files = data.get('min_files', 5)  # Default to 5
+        max_files = data.get('max_files', 15)  # Default to 15
+        
+        # Validate the values
+        try:
+            min_files = int(min_files)
+            max_files = int(max_files)
+            if min_files < 1:
+                min_files = 1
+            if max_files < min_files:
+                max_files = min_files
+        except (ValueError, TypeError):
+            min_files = 5
+            max_files = 15
+
         # Support both formats: new format with 'screenshot' and original format with 'images'
         images = data.get('images', [])
         if 'screenshot' in data and data['screenshot']:
@@ -677,7 +693,19 @@ def analyze_message(blueprint, kin_id):
             return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Build context (select relevant files)
-        selected_files, selected_mode = build_context(blueprint, kin_id, message_content, attachments, kin_path, model, None, addSystem, history_length=2)
+        selected_files, selected_mode = build_context(
+            blueprint, 
+            kin_id, 
+            message_content, 
+            attachments, 
+            kin_path, 
+            model, 
+            None, 
+            addSystem, 
+            history_length=2,
+            min_files=min_files,
+            max_files=max_files
+        )
         
         # Log the selected files and mode
         logger.info(f"Selected files for analysis context: {selected_files}")
