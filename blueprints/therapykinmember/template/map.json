@@ -10,7 +10,8 @@
         "share": "modes/share.txt",
         "learn": "modes/learn.txt",
         "reflect": "modes/reflect.txt",
-        "circle": "modes/circle.txt"
+        "circle": "modes/circle.txt",
+        "interact": "modes/interact.txt"
       }
     },
     "memory": {
@@ -64,10 +65,22 @@
         "dynamics": "memories/relationships/dynamics.json",
         "support": {
           "main": "memories/relationships/support/README.txt",
-          "received": "memories/relationships/support/received/README.txt",
-          "given": "memories/relationships/support/given/README.txt",
-          "patterns": "memories/relationships/support/patterns/README.txt",
-          "needs": "memories/relationships/support/needs/README.txt"
+          "received": {
+            "main": "memories/relationships/support/received/README.txt",
+            "data": "memories/relationships/support/received/data.json"
+          },
+          "given": {
+            "main": "memories/relationships/support/given/README.txt",
+            "data": "memories/relationships/support/given/data.json"
+          },
+          "patterns": {
+            "main": "memories/relationships/support/patterns/README.txt",
+            "analysis": "memories/relationships/support/patterns/analysis.json"
+          },
+          "needs": {
+            "main": "memories/relationships/support/needs/README.txt",
+            "data": "memories/relationships/support/needs/data.json"
+          }
         }
       }
     }
