@@ -614,6 +614,12 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
     logger.info(f"Starting autonomous thinking for {blueprint}/{kin_id}")
     logger.info(f"Will run {iterations} iterations with {wait_time} seconds between each")
     
+    # Get API key from environment
+    api_key = os.getenv("API_SECRET_KEY")
+    if not api_key:
+        logger.error("API_SECRET_KEY environment variable not set")
+        return False
+
     # Generate the initial random thought
     random_files = get_random_files(kin_path, count=3)
     logger.info(f"Selected random files for initial thought: {random_files}")
@@ -662,6 +668,7 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
                 # Generate a new thought since the previous one failed
                 random_files = get_random_files(kin_path, count=3)
                 logger.info(f"Selected new random files after error: {random_files}")
+                # Use the api_key we got at the start of the function
                 current_thought = generate_random_thought(blueprint, kin_id, api_key, remote=remote)
     
     logger.info(f"Completed {iterations} autonomous thinking iterations")

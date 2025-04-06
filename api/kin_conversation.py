@@ -24,6 +24,7 @@ import requests
 import logging
 from datetime import datetime
 from dotenv import load_dotenv
+from config import BASE_URL, logger
 
 # Configure logging
 logging.basicConfig(
