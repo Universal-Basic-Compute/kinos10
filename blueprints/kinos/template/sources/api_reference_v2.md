@@ -531,6 +531,19 @@ This endpoint:
 2. Copies all files from the source kin to the new kin
 3. Updates the new kin's metadata to reflect it was copied from the source kin
 
+This endpoint is particularly useful for creating personalized templates:
+1. Start with a base kin that has your desired configuration and files
+2. Copy it to create new instances while preserving all customizations
+3. Each copy maintains its own independent state and files
+
+Common use cases:
+- Create pre-configured kins with specific modes, knowledge, or settings
+- Save a well-tuned kin as a starting point for similar projects
+- Share standardized configurations across multiple instances
+- Test different variations of a kin while keeping the original intact
+
+The copied kin inherits all files and configurations from the source kin, making it an efficient way to replicate successful setups without starting from scratch.
+
 ### Build Kin
 
 Send a message to Aider for file creation/modification without Claude response.
