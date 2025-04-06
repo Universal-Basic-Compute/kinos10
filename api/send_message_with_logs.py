@@ -15,11 +15,12 @@ import json
 import requests
 import argparse
 from dotenv import load_dotenv
+from config import BASE_URL
 
 def send_message(blueprint, kin_id, message, api_key):
     """Send a message to a kin and return the response."""
-    # API endpoint - use localhost to see logs in your local console
-    api_url = f"http://localhost:5000/api/proxy/kins/{blueprint}/{kin_id}/messages"
+    # API endpoint - use BASE_URL from config
+    api_url = f"{BASE_URL}/kins/{blueprint}/{kin_id}/messages"
     
     # Prepare headers and payload
     headers = {
