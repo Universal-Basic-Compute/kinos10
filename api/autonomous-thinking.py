@@ -455,7 +455,7 @@ def generate_random_thought(kin_path, random_files):
         logger.error(f"Error in thought generation process: {str(e)}")
         return "I wonder about the nature of consciousness and my role in understanding it."
 
-def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection"):
+def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection", remote=False):
     """
     Send a message to the kin by calling the function directly.
     
@@ -464,6 +464,7 @@ def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection"):
         kin_id: Kin ID
         message: Message content
         mode: Message mode (default: self-reflection)
+        remote: Whether to use remote API instead of localhost (default: False)
     
     Returns:
         The response from the kin
@@ -471,8 +472,11 @@ def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection"):
     try:
         # Fallback to API call
         try:
-            # API endpoint - try the public API instead of localhost
-            api_url = f"https://api.kinos-engine.ai/v2/blueprints/{blueprint}/kins/{kin_id}/messages"
+            # Choose API URL based on remote flag
+            base_url = "https://api.kinos-engine.ai" if remote else "http://localhost:5000"
+            api_url = f"{base_url}/api/proxy/kins/{blueprint}/{kin_id}/messages"
+            
+            logger.info(f"Using {'remote' if remote else 'local'} API: {api_url}")
             
             # Get API key from environment variable
             api_key = os.getenv("API_SECRET_KEY")
@@ -581,7 +585,7 @@ def send_telegram_notification(token, chat_id, thought, response):
         logger.error(f"Error sending Telegram notification: {str(e)}")
         return False
 
-def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id=None, iterations=3, wait_time=600):
+def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id=None, iterations=3, wait_time=600, remote=False):
     """
     Run the autonomous thinking process for a kin.
     
@@ -619,7 +623,7 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
             # For the first iteration, send the random thought directly
             if i == 0:
                 # Send message to kin
-                response = send_message_to_kin(blueprint, kin_id, current_thought, mode="self-reflection")
+                response = send_message_to_kin(blueprint, kin_id, current_thought, mode="self-reflection", remote=remote)
             else:
                 # For subsequent iterations, send a message with the continuation prompt
                 # Include <system> tags in the actual message content, not as a separate system parameter
@@ -666,6 +670,7 @@ def main():
     parser.add_argument("--telegram-chat-id", help="Telegram chat ID")
     parser.add_argument("--iterations", type=int, default=3, help="Number of thinking iterations (default: 3)")
     parser.add_argument("--wait-time", type=int, default=600, help="Wait time between iterations in seconds (default: 600 = 10 minutes)")
+    parser.add_argument("--remote", action="store_true", help="Use remote API instead of localhost")
     parser.add_argument("--api-url", help="Base URL for API calls (default: uses direct function calls)")
     
     args = parser.parse_args()
@@ -695,7 +700,8 @@ def main():
             telegram_token,
             telegram_chat_id,
             args.iterations,
-            args.wait_time
+            args.wait_time,
+            remote=args.remote
         )
         
         return 0 if success else 1
