@@ -9,7 +9,8 @@
         "build": "modes/build.txt",
         "share": "modes/share.txt",
         "learn": "modes/learn.txt",
-        "reflect": "modes/reflect.txt"
+        "reflect": "modes/reflect.txt",
+        "circle": "modes/circle.txt"
       }
     },
     "memory": {
