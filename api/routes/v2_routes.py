@@ -294,6 +294,15 @@ def build_kin_v2(blueprint, kin_id):
     from routes.projects import build_kin
     return build_kin(blueprint, kin_id)
 
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/listen', methods=['POST'])
+def listen_to_kin_v2(blueprint, kin_id):
+    """
+    V2 API endpoint that redirects /listen to /build.
+    This is an alias for the build endpoint.
+    """
+    from routes.projects import build_kin
+    return build_kin(blueprint, kin_id)
+
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/autonomous_thinking', methods=['POST'])
 def trigger_autonomous_thinking_v2(blueprint, kin_id):
     """
