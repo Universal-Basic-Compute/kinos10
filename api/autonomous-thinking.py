@@ -456,7 +456,7 @@ def generate_random_thought(kin_path, random_files):
         logger.error(f"Error in thought generation process: {str(e)}")
         return "I wonder about the nature of consciousness and my role in understanding it."
 
-def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection", remote=False):
+def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False):
     """
     Send a message to the kin by calling the function directly.
     
@@ -464,38 +464,38 @@ def send_message_to_kin(blueprint, kin_id, message, mode="self-reflection", remo
         blueprint: Blueprint name
         kin_id: Kin ID
         message: Message content
-        mode: Message mode (default: self-reflection)
+        mode: Message mode (optional)
         remote: Whether to use remote API instead of localhost (default: False)
     
     Returns:
         The response from the kin
     """
     try:
-        # Fallback to API call
-        try:
-            # Choose API URL based on remote flag
-            base_url = "https://api.kinos-engine.ai" if remote else BASE_URL
-            api_url = f"{base_url}/kins/{blueprint}/{kin_id}/messages"
-            
-            logger.info(f"Using {'remote' if remote else 'local'} API: {api_url}")
-            
-            # Get API key from environment variable
-            api_key = os.getenv("API_SECRET_KEY")
-            if not api_key:
-                logger.error("API_SECRET_KEY environment variable not set in .env file")
-                raise ValueError("API key not configured")
-            
-            # Prepare request
-            headers = {
-                "Content-Type": "application/json",
-                "X-API-Key": api_key
-            }
-            
-            payload = {
-                "content": message,
-                "mode": mode,
-                "model": "claude-3-7-sonnet-latest"  # Use the big model
-            }
+        # Choose API URL based on remote flag
+        base_url = "https://api.kinos-engine.ai" if remote else BASE_URL
+        api_url = f"{base_url}/kins/{blueprint}/{kin_id}/messages"
+        
+        logger.info(f"Using {'remote' if remote else 'local'} API: {api_url}")
+        
+        # Get API key from environment variable
+        api_key = os.getenv("API_SECRET_KEY")
+        if not api_key:
+            logger.error("API_SECRET_KEY environment variable not set in .env file")
+            raise ValueError("API key not configured")
+        
+        # Prepare request
+        headers = {
+            "Content-Type": "application/json",
+            "X-API-Key": api_key
+        }
+        
+        payload = {
+            "content": message,
+            "model": "claude-3-7-sonnet-latest"  # Use the big model
+        }
+        
+        if mode:  # Add mode only if specified
+            payload["mode"] = mode
             
             logger.info(f"Making API call to {api_url} for {blueprint}/{kin_id}")
             logger.info(f"Payload: {payload}")
