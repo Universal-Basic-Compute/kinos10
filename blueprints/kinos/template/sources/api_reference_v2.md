@@ -124,7 +124,7 @@ Create a new kin for a blueprint.
 }
 ```
 
-**Response:**
+**Response (Success):**
 ```json
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",
@@ -134,6 +134,21 @@ Create a new kin for a blueprint.
   "status": "created"
 }
 ```
+
+**Response (Already Exists):**
+```json
+{
+  "error": "Kin already exists",
+  "status": 409,
+  "existing_kin": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "My New Kin",
+    "blueprint_id": "kinos"
+  }
+}
+```
+
+When attempting to create a kin with a name that already exists, the API returns a 409 Conflict status code with details about the existing kin. This allows clients to handle duplicate kin creation appropriately.
 
 ### Get Kin Details
 
