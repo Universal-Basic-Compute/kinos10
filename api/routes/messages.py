@@ -296,6 +296,10 @@ def send_message(blueprint, kin_id):
         # Parse request data
         data = request.json
         
+        # Log the blueprint being accessed
+        logger.info(f"Attempting to access blueprint: {blueprint}")
+        logger.info(f"blueprintS_DIR path: {blueprintS_DIR}")
+        
         # Support both formats: new format with 'message' and original format with 'content'
         message_content = data.get('message', data.get('content', ''))
         
@@ -329,8 +333,17 @@ def send_message(blueprint, kin_id):
         # Initialize saved_images list to track saved image paths
         saved_images = []
         
-        # Validate blueprint
-        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+        # Check if blueprint exists with detailed logging
+        blueprint_path = os.path.join(blueprintS_DIR, blueprint)
+        logger.info(f"Full blueprint path: {blueprint_path}")
+        logger.info(f"Directory exists: {os.path.exists(blueprint_path)}")
+
+        if os.path.exists(blueprint_path):
+            logger.info(f"Blueprint directory contents: {os.listdir(blueprint_path)}")
+
+        if not os.path.exists(blueprint_path):
+            logger.error(f"Blueprint '{blueprint}' not found at path: {blueprint_path}")
+            logger.error(f"Available blueprints: {os.listdir(blueprintS_DIR)}")
             return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
             
         kin_path = get_kin_path(blueprint, kin_id)
