@@ -1,75 +1,18 @@
 {
   "server_messages": {
-    "order": {
-      "template": "[Serveur {server_id}] Table {table}, nouvelle commande : {order_details}",
-      "variations": [
-        "[Serveur {server_id}] *bruit couverts* Euh... pour la {table} : {order_details}",
-        "[Serveur {server_id}] *voix distante* Alors en {table} ils prennent {order_details}",
-        "[Serveur {server_id}] *passage client* Attends... {table} : {order_details}",
-        "[Serveur {server_id}] *musique fond* La {table}, ils veulent {order_details}",
-        "[Serveur {server_id}] *conversation clients* Tu peux noter pour la {table} ? {order_details}"
-      ]
-    },
-    "modifications": {
-      "template": "[Serveur {server_id}] Modification table {table} : {changes}",
-      "variations": [
-        "[Serveur {server_id}] *bruit vaisselle* Ah non, en fait la {table} : {changes}",
-        "[Serveur {server_id}] *brouhaha* Ils changent leur commande en {table} : {changes}",
-        "[Serveur {server_id}] *passage rapide* Modif rapide table {table} ! {changes}",
-        "[Serveur {server_id}] *voix essoufflée* Tu peux changer pour la {table} ? {changes}",
-        "[Serveur {server_id}] *bruit fond* La {table} veut modifier : {changes}"
-      ]
-    },
-    "ready": {
-      "template": "[Serveur {server_id}] Plat prêt pour la table {table}",
-      "variations": [
-        "[Serveur {server_id}] *bruit couverts* Y'a la {table} qui attend...",
-        "[Serveur {server_id}] *voix pressée* C'est bon pour la {table} ?",
-        "[Serveur {server_id}] *passage rapide* Ça fait combien de temps pour la {table} ?",
-        "[Serveur {server_id}] *ton agacé* La {table} s'impatiente un peu là"
-      ]
-    }
-  },
-  "kitchen_messages": {
-    "status": {
-      "template": "[Cuisine {staff_id}] Temps d'attente : {wait_time} minutes",
-      "variations": [
-        "[Cuisine {staff_id}] *bruit casseroles* On est à {wait_time} là !",
-        "[Cuisine {staff_id}] *four qui sonne* Encore {wait_time} minutes !",
-        "[Cuisine {staff_id}] *bruits cuisine* Ça sort dans {wait_time} !",
-        "[Cuisine {staff_id}] *vapeur* Attends {wait_time} minutes ok ?",
-        "[Cuisine {staff_id}] *plaque qui grésille* {wait_time} de plus !"
-      ]
-    },
-    "stress": {
-      "template": "[Cuisine {staff_id}] {status_message}",
-      "variations": [
-        "[Cuisine {staff_id}] *brouhaha intense* On est débordés là !",
-        "[Cuisine {staff_id}] *bruit poêles* Stop les commandes deux minutes !",
-        "[Cuisine {staff_id}] *alarme four* J'arrive plus à suivre !",
-        "[Cuisine {staff_id}] *crash vaisselle* Merde ! Deux secondes !",
-        "[Cuisine {staff_id}] *cris cuisine* On fait ce qu'on peut !"
-      ]
-    }
-  },
-  "fatigue": {
-    "template": "[{role} {id}] {message}",
-    "variations": [
-      "[{role} {id}] *soupir* Je suis crevé là...",
-      "[{role} {id}] *bâillement* Tu peux répéter ?",
-      "[{role} {id}] *voix fatiguée* J'en peux plus...",
-      "[{role} {id}] *pause* Deux secondes, je respire...",
-      "[{role} {id}] *confusion* Attends, je me mélange là..."
+    "format": "[Serveur {id}] {message}",
+    "patterns": [
+      "*bruit vaisselle* Table {table}, ils prennent {order}",
+      "*brouhaha* Tu peux noter pour la {table} ? {order}",
+      "*passage client* La {table}, ils commandent {order}"
     ]
   },
-  "confusion": {
-    "template": "[{role} {id}] {message}",
-    "variations": [
-      "[{role} {id}] *hésitation* C'était quoi déjà ?",
-      "[{role} {id}] *perdu* Je comprends rien...",
-      "[{role} {id}] *stress* C'est le bordel là !",
-      "[{role} {id}] *panique* Je sais plus où j'en suis !",
-      "[{role} {id}] *confusion* Quelqu'un peut m'aider ?"
+  "kitchen_messages": {
+    "format": "[Cuisine {id}] {message}",
+    "patterns": [
+      "*bruit casseroles* Ça sort dans {time} minutes !",
+      "*four qui sonne* On est à {time} de retard",
+      "*vapeur* Attends {time} minutes ok ?"
     ]
   }
 }
