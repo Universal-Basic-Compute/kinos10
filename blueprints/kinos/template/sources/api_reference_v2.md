@@ -246,7 +246,9 @@ Send a message to a kin.
   "model": "claude-3-5-haiku-latest",
   "history_length": 25,
   "mode": "creative",
-  "addSystem": "Additional system instructions to guide the response"
+  "addSystem": "Additional system instructions to guide the response",
+  "min_files": 5,  // Optional, minimum number of context files (default: 5)
+  "max_files": 15  // Optional, maximum number of context files (default: 15)
 }
 ```
 
@@ -260,6 +262,8 @@ Send a message to a kin.
   "timestamp": "2023-09-15T14:31:00.123456"
 }
 ```
+
+The `min_files` and `max_files` parameters allow you to control how many files are included in the context when processing the message. This helps balance between having enough context for accurate responses while avoiding context overload.
 
 ### Get Kin Files
 
