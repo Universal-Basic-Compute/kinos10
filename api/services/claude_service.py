@@ -400,7 +400,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
             except Exception as e:
                 logger.warning(f"Could not delete temporary file {temp_file}: {str(e)}")
 
-def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None, history_length=2):
+def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None, history_length=2, min_files=5, max_files=15):
     """
     Build context by determining which files should be included.
     Uses Claude to select relevant files based on the message, map.json, and recent conversation history.
@@ -415,6 +415,8 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         mode: Optional mode parameter
         addSystem: Optional additional system instructions
         history_length: Number of recent messages to include for context (default: 2)
+        min_files: Minimum number of files to include in context (default: 5)
+        max_files: Maximum number of files to include in context (default: 15)
         
     Returns:
         Tuple of (selected_files, selected_mode) where selected_mode may be None
@@ -575,7 +577,7 @@ First line of your response should be "SELECTED_MODE: [mode_name]" followed by a
 """
 
     system_prompt += """
-After the mode selection (if applicable), provide a JSON array of 5-15 files that are most relevant to the user's message, focusing on quality over quantity."""
+After the mode selection (if applicable), provide a JSON array of {min_files}-{max_files} files that are most relevant to the user's message, focusing on quality over quantity."""
 
     # Create a user message for file selection
     selection_prompt = f"""User message: {message}{mode_info}
