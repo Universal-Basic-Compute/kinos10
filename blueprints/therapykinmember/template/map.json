@@ -16,12 +16,30 @@
       "life_story": {
         "main": "memories/life_story/README.txt",
         "timeline": "memories/life_story/timeline.json",
-        "current": "memories/life_story/current.json"
+        "current": "memories/life_story/current.json",
+        "background": "memories/life_story/background/README.txt",
+        "experiences": "memories/life_story/experiences/README.txt"
       },
-      "therapeutic": "memories/therapeutic/README.txt",
-      "development": "memories/development/README.txt",
-      "struggles": "memories/struggles/README.txt",
-      "relationships": "memories/relationships/README.txt"
+      "therapeutic": {
+        "main": "memories/therapeutic/README.txt",
+        "insights": "memories/therapeutic/insights.json",
+        "techniques": "memories/therapeutic/techniques.json",
+        "challenges": "memories/therapeutic/challenges/README.txt"
+      },
+      "struggles": {
+        "main": "memories/struggles/README.txt",
+        "current": "memories/struggles/current.json",
+        "past": "memories/struggles/past.json",
+        "patterns": "memories/struggles/patterns/README.txt",
+        "coping": "memories/struggles/coping/README.txt"
+      },
+      "relationships": {
+        "main": "memories/relationships/README.txt",
+        "circle_members": "memories/relationships/circle_members.json",
+        "personal": "memories/relationships/personal.json",
+        "dynamics": "memories/relationships/dynamics.json",
+        "support": "memories/relationships/support/README.txt"
+      }
     }
   }
 }
