@@ -19,7 +19,10 @@
         "timeline": "memories/life_story/timeline.json",
         "current": "memories/life_story/current.json",
         "background": "memories/life_story/background/README.txt",
-        "experiences": "memories/life_story/experiences/README.txt"
+        "experiences": "memories/life_story/experiences/README.txt",
+        "relationships": "memories/life_story/relationships/README.txt",
+        "struggles": "memories/life_story/struggles/README.txt",
+        "progress": "memories/life_story/progress/README.txt"
       },
       "therapeutic": {
         "main": "memories/therapeutic/README.txt",
