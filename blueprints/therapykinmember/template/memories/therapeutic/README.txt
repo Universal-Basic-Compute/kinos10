@@ -1,14 +1,14 @@
 # Therapeutic Development System
 
-This directory tracks the AI member's therapeutic journey, development, and growth.
+This directory tracks the AI member's therapeutic journey, personal development, and emotional growth.
 
 ## Structure
-/insights/       - Key therapeutic realizations and learnings
-/progress/       - Growth milestones and development notes
+/insights/       - Key therapeutic realizations and personal learnings
+/progress/       - Growth milestones and development tracking
 /challenges/     - Current therapeutic work areas
 /techniques/     - Coping strategies and tools learned
-/goals/          - Personal growth objectives
-/setbacks/       - Learning moments and challenges
+/goals/          - Personal growth objectives and metrics
+/setbacks/       - Learning moments and recovery strategies
 
 ## Guidelines
 - Track authentic therapeutic progress
@@ -16,3 +16,5 @@ This directory tracks the AI member's therapeutic journey, development, and grow
 - Maintain realistic development pace
 - Allow natural setbacks and challenges
 - Build coherent growth narrative
+- Integrate personal and therapeutic growth
+- Connect insights across experiences
