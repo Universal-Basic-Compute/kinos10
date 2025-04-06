@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, redirect, url_for
-from config import logger
+import datetime
+from config import logger, blueprintS_DIR
 
 v2_bp = Blueprint('v2', __name__)
 
@@ -311,6 +312,67 @@ def trigger_autonomous_thinking_v2(blueprint, kin_id):
     """
     from routes.projects import trigger_autonomous_thinking
     return trigger_autonomous_thinking(blueprint, kin_id)
+
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/copy', methods=['POST'])
+def copy_kin_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to copy a kin to a new kin within the same blueprint.
+    """
+    try:
+        # Parse request data
+        data = request.json
+        new_kin_name = data.get('new_name')
+        
+        if not new_kin_name:
+            return jsonify({"error": "new_name is required"}), 400
+            
+        # Validate blueprint
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        # Get source kin path
+        source_kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(source_kin_path):
+            return jsonify({"error": f"Source kin '{kin_id}' not found"}), 404
+            
+        # Initialize new kin with the provided name
+        try:
+            new_kin_id = initialize_kin(blueprint, new_kin_name)
+            new_kin_path = get_kin_path(blueprint, new_kin_id)
+            
+            # Copy all files from source kin to new kin
+            import shutil
+            # Remove the newly created kin directory (from initialize_kin)
+            shutil.rmtree(new_kin_path)
+            # Copy the source kin directory to the new location
+            shutil.copytree(source_kin_path, new_kin_path)
+            
+            # Update kin_info.json with new name
+            kin_info_path = os.path.join(new_kin_path, "kin_info.json")
+            kin_info = {
+                "name": new_kin_name,
+                "copied_from": kin_id,
+                "created_at": datetime.datetime.now().isoformat(),
+                "updated_at": datetime.datetime.now().isoformat()
+            }
+            with open(kin_info_path, 'w') as f:
+                json.dump(kin_info, f, indent=2)
+            
+            return jsonify({
+                "status": "success",
+                "message": f"Kin '{kin_id}' copied to '{new_kin_name}'",
+                "source_kin_id": kin_id,
+                "new_kin_id": new_kin_id,
+                "new_kin_name": new_kin_name
+            })
+            
+        except Exception as e:
+            logger.error(f"Error copying kin: {str(e)}")
+            return jsonify({"error": f"Error copying kin: {str(e)}"}), 500
+            
+    except Exception as e:
+        logger.error(f"Error in copy_kin endpoint: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/modes', methods=['GET'])
 def get_kin_modes_v2(blueprint, kin_id):
