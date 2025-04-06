@@ -3,7 +3,7 @@ import subprocess
 import datetime
 import json
 import logging
-from config import logger
+from config import logger, BASE_URL
 
 def call_aider_with_context(kin_path, selected_files, message_content, stream=False, addSystem=None):
     """
