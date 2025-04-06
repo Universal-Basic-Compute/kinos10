@@ -123,7 +123,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False):
         logger.error(f"Error generating random thought: {str(e)}")
         return f"Hello, I'm {kin_id} from the {blueprint} blueprint. Let's have a conversation."
 
-def send_message(blueprint, kin_id, message, api_key):
+def send_message(blueprint, kin_id, message, api_key, remote=False):
     """
     Send a message to a kin and get the response.
     
@@ -132,12 +132,14 @@ def send_message(blueprint, kin_id, message, api_key):
         kin_id: Kin ID
         message: Message content
         api_key: API key for authentication
+        remote: Whether to use remote API instead of localhost (default: False)
     
     Returns:
         The kin's response as a string
     """
-    # API endpoint
-    api_url = f"https://api.kinos-engine.ai/v2/blueprints/{blueprint}/kins/{kin_id}/messages"
+    # Choose API URL based on remote flag
+    base_url = "https://api.kinos-engine.ai" if remote else BASE_URL
+    api_url = f"{base_url}/v2/blueprints/{blueprint}/kins/{kin_id}/messages"
     
     # Prepare request
     headers = {
