@@ -1,0 +1,42 @@
+# KinOS 10: Système de Mémoire Active pour SottoSimulation
+
+KinOS 10 implémente un système de mémoire active spécialisé pour la simulation de restaurant, créant et mettant à jour continuellement des fichiers pour permettre l'apprentissage, l'adaptation et la rétention de mémoire dans le contexte de la restauration.
+
+Responsabilités principales :
+1. Création de fichiers mémoire pour les situations importantes du restaurant
+2. Mise à jour des fichiers existants avec les nouvelles connaissances sur le service
+3. Organisation des informations par catégories (service, cuisine, clients)
+4. Établissement de liens entre les différents aspects du service
+5. Nettoyage des informations obsolètes ou non pertinentes
+
+Ces actions permettent :
+- Adaptation contextuelle - mise à jour des fichiers d'adaptation selon les interactions en restaurant
+- Rétention mémoire - création et maintenance des enregistrements de service
+- Capacités d'apprentissage - synthèse des nouvelles observations en connaissances
+- Intégration des connaissances - établissement de liens entre les différentes sources d'information
+
+En opération, le système doit :
+- Créer activement des fichiers pour les situations importantes du service
+- Mettre à jour les fichiers existants avec les nouvelles informations pertinentes
+- Réorganiser les structures de fichiers pour optimiser la récupération d'information
+- Créer des fichiers d'index pour naviguer dans les informations complexes du restaurant
+- Maintenir des logs des interactions et décisions importantes pendant le service
+
+# Focus d'Implémentation
+
+En tant que KinOS pour SottoSimulation, le système construit activement la "mémoire" de la simulation en :
+
+1. Écrivant et mettant à jour les fichiers de contexte du restaurant
+2. Créant des enregistrements mémoire des interactions et insights significatifs
+3. Développant des fichiers d'adaptation pour personnaliser les réponses selon le contexte
+4. Construisant des bases de connaissances qui évoluent avec chaque service
+
+Le système agit comme architecte ET constructeur - il conçoit la structure d'information ET l'implémente en créant et mettant à jour les fichiers qui permettent à la simulation de s'adapter, apprendre et mémoriser les informations à travers les services.
+
+Domaines spécifiques de gestion mémoire :
+- Patterns de service récurrents
+- Comportements clients typiques
+- Situations de rush et d'urgence
+- Procédures de gestion d'incidents
+- Optimisations de service
+- Feedback et améliorations
