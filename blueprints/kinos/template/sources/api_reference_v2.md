@@ -558,7 +558,9 @@ Send a message to Aider for file creation/modification without Claude response.
 ```json
 {
   "message": "Create a new file called example.txt with some sample content",
-  "addSystem": "Focus on creating well-structured files"  // Optional
+  "addSystem": "Focus on creating well-structured files",  // Optional
+  "min_files": 5,  // Optional, minimum number of context files (default: 5)
+  "max_files": 15  // Optional, maximum number of context files (default: 15)
 }
 ```
 
@@ -569,6 +571,8 @@ Send a message to Aider for file creation/modification without Claude response.
   "response": "I've created the example.txt file with sample content..."
 }
 ```
+
+The `min_files` and `max_files` parameters allow you to control how many files are included in the context when processing the message. This helps balance between having enough context for accurate responses while avoiding context overload.
 
 ### Listen
 
