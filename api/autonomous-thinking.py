@@ -475,9 +475,13 @@ def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False):
         base_url = "https://api.kinos-engine.ai" if remote else BASE_URL
         api_url = f"{base_url}/v2/blueprints/{blueprint}/kins/{kin_id}/messages"
         
-        logger.info(f"Using API URL: {api_url}")  # Log l'URL utilisée
-        
-        logger.info(f"Using {'remote' if remote else 'local'} API: {api_url}")
+        logger.info(f"=== Sending Message to Kin ===")
+        logger.info(f"Blueprint: {blueprint}")
+        logger.info(f"Kin ID: {kin_id}")
+        logger.info(f"Message: {message[:100]}...")
+        logger.info(f"Mode: {mode}")
+        logger.info(f"Remote: {remote}")
+        logger.info(f"API URL: {api_url}")
         
         # Get API key from environment variable
         api_key = os.getenv("API_SECRET_KEY")
@@ -495,15 +499,19 @@ def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False):
             "content": message,
             "model": "claude-3-7-sonnet-latest"  # Use the big model
         }
-        
         if mode:  # Add mode only if specified
             payload["mode"] = mode
-        
-        logger.info(f"Making API call to {api_url} for {blueprint}/{kin_id}")
-        logger.info(f"Payload: {payload}")
+            
+        logger.info(f"Request Headers: {headers}")
+        logger.info(f"Request Payload: {payload}")
         
         # Make request
+        logger.info("Making API request...")
         response = requests.post(api_url, headers=headers, json=payload)
+        
+        # Log response details
+        logger.info(f"Response Status Code: {response.status_code}")
+        logger.info(f"Response Headers: {dict(response.headers)}")
         
         # Check for errors
         if response.status_code != 200:
@@ -512,18 +520,20 @@ def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False):
         
         # Parse response
         result = response.json()
-        logger.info(f"API response: {result}")
+        logger.info(f"Response JSON: {result}")
         
         # Extract the response text
         if "response" in result:
-            logger.info(f"Received response from API: {result['response'][:100]}...")
-            return result["response"]
+            response_text = result["response"]
+            logger.info(f"Extracted response: {response_text[:100]}...")
+            return response_text
         else:
             logger.error(f"No response field in API result: {result}")
             return f"Error: No response field in API result: {result}"
             
     except Exception as e:
         logger.error(f"Error sending message to kin: {str(e)}")
+        logger.exception("Full exception details:")
         return f"Error: {str(e)}"
 
 def send_telegram_notification(token, chat_id, thought, response):
