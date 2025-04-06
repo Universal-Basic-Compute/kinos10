@@ -37,7 +37,10 @@
         "main": "memories/struggles/README.txt",
         "current": "memories/struggles/current.json",
         "past": "memories/struggles/past.json",
-        "patterns": "memories/struggles/patterns/README.txt",
+        "patterns": {
+          "main": "memories/struggles/patterns/README.txt",
+          "analysis": "memories/struggles/patterns/analysis.json"
+        },
         "coping": "memories/struggles/coping/README.txt"
       },
       "relationships": {
