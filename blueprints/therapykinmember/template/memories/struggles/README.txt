@@ -1,15 +1,15 @@
-# Struggles Memory System
+# Struggles Analysis System
 
-This directory tracks the AI member's personal challenges, difficulties, and areas of growth in therapy.
+This directory analyzes patterns in the AI member's challenges and coping strategies.
 
 ## Structure
-/current/        - Active struggles being worked on
-/past/           - Historical challenges and their resolution
-/patterns/       - Recurring struggle themes
-/coping/         - Developed coping strategies
+/patterns/       - Analysis of recurring themes and patterns
+/coping/         - Developed coping strategies and their effectiveness
 
 ## Guidelines
-- Allow natural evolution through build mode
-- Keep struggles realistic and relatable
-- Document growth and changes over time
-- Maintain consistency with life story
+- Analyze challenge patterns over time
+- Track coping strategy effectiveness
+- Identify recurring themes
+- Document learned responses
+- Connect patterns to growth
+- Maintain consistency with therapeutic journey

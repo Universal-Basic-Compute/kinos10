@@ -45,8 +45,6 @@
       },
       "struggles": {
         "main": "memories/struggles/README.txt",
-        "current": "memories/struggles/current.json",
-        "past": "memories/struggles/past.json",
         "patterns": {
           "main": "memories/struggles/patterns/README.txt",
           "analysis": "memories/struggles/patterns/analysis.json"
