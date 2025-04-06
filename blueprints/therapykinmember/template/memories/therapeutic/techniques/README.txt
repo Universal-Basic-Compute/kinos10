@@ -9,3 +9,8 @@ This directory tracks the therapeutic techniques, coping strategies, and tools l
 - Record adaptations and modifications
 - Connect to personal growth
 - Monitor long-term benefits
+
+## Related Components
+- Coping Strategies (/memories/struggles/coping/strategies.json)
+- Strategy Effectiveness (/memories/struggles/coping/effectiveness.json)
+- Support Methods (/memories/relationships/support/)

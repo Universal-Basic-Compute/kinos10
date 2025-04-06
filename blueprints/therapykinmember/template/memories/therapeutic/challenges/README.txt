@@ -13,3 +13,8 @@ This directory tracks all current and historical challenges being addressed in t
 - Note support received
 - Maintain growth timeline
 - Connect to overall therapeutic journey
+
+## Related Components
+- Life Story Struggles (/memories/life_story/struggles/)
+- Coping Strategies (/memories/struggles/coping/)
+- Support Patterns (/memories/relationships/support/)
