@@ -183,6 +183,18 @@ def propagate_templates(blueprint=None, dry_run=False):
     # Get list of blueprints
     blueprints = [blueprint] if blueprint else os.listdir(blueprints_dir)
     
+    # Initialize template from source code first
+    kin_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "blueprints")
+    for cust in blueprints:
+        blueprint_template_dir = os.path.join(kin_templates_dir, cust, "template")
+        if os.path.exists(blueprint_template_dir):
+            # Copy template to app data
+            dest_template_dir = os.path.join(blueprints_dir, cust, "template")
+            if os.path.exists(dest_template_dir):
+                shutil.rmtree(dest_template_dir)
+            shutil.copytree(blueprint_template_dir, dest_template_dir)
+            logger.info(f"Initialized template for blueprint {cust} from source code")
+    
     total_kins = 0
     total_files_added = 0
     total_files_updated = 0
