@@ -511,7 +511,7 @@ Copy a kin to create a new kin with the same content within the same blueprint.
 **Request Body:**
 ```json
 {
-  "new_name": "Copy of My Kin"
+  "new_name": "copyofmykin"
 }
 ```
 
@@ -519,10 +519,10 @@ Copy a kin to create a new kin with the same content within the same blueprint.
 ```json
 {
   "status": "success", 
-  "message": "Kin 'source-kin-id' copied to 'Copy of My Kin'",
+  "message": "Kin 'source-kin-id' copied to 'copyofmykin'",
   "source_kin_id": "source-kin-id",
   "new_kin_id": "new-kin-id",
-  "new_kin_name": "Copy of My Kin"
+  "new_kin_name": "copyofmykin"
 }
 ```
 
