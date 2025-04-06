@@ -298,7 +298,7 @@ def build_kin_v2(blueprint, kin_id):
 def listen_to_kin_v2(blueprint, kin_id):
     """
     V2 API endpoint that redirects /listen to /build.
-    This is an alias for the build endpoint.
+    This is an alias for the build endpoint, allowing the kin to listen to user messages.
     """
     from routes.projects import build_kin
     return build_kin(blueprint, kin_id)
