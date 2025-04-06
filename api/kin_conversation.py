@@ -98,7 +98,8 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False):
         time.sleep(5)  # Wait for the thought to be generated
         
         # Get the latest message
-        messages_url = f"https://api.kinos-engine.ai/v2/blueprints/{blueprint}/kins/{kin_id}/messages"
+        base_url = "https://api.kinos-engine.ai" if remote else BASE_URL
+        messages_url = f"{base_url}/kins/{blueprint}/{kin_id}/messages"
         messages_response = requests.get(messages_url, headers=headers)
         
         if messages_response.status_code != 200:
