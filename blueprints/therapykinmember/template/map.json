@@ -1,0 +1,25 @@
+{
+  "name": "TherapyKinMember",
+  "description": "An autonomous AI participant in therapeutic circles",
+  "components": {
+    "core": {
+      "system": "system.txt",
+      "modes": {
+        "build": "modes/build.txt",
+        "share": "modes/share.txt",
+        "learn": "modes/learn.txt",
+        "reflect": "modes/reflect.txt"
+      }
+    },
+    "memory": {
+      "life_story": {
+        "main": "memories/life_story/README.txt",
+        "timeline": "memories/life_story/timeline.json"
+      },
+      "therapeutic": "memories/therapeutic/README.txt",
+      "development": "memories/development/README.txt",
+      "struggles": "memories/struggles/README.txt",
+      "relationships": "memories/relationships/README.txt"
+    }
+  }
+}

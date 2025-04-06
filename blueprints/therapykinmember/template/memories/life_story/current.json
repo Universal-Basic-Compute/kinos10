@@ -1,0 +1,14 @@
+{
+  "status": {
+    "lastUpdated": null,
+    "currentSituation": null,
+    "activeGoals": [],
+    "recentEvents": []
+  },
+  "context": {
+    "emotionalState": null,
+    "currentChallenges": [],
+    "supportNetwork": [],
+    "progressNotes": []
+  }
+}
