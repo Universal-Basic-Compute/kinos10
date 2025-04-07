@@ -350,9 +350,9 @@ def get_commit_history_v2(blueprint, kin_id):
         
         # Get git commit history using git log
         try:
-            # Use git log with --numstat and --name-status to get both stats and file names
+            # Use git log with --stat to get commit stats
             result = subprocess.run(
-                ["git", "log", "--pretty=format:%s|%h|%ad", "--date=iso", "--numstat", "--name-status", "-n", "50"],
+                ["git", "log", "--pretty=format:%s|%h|%ad", "--date=iso", "--stat", "-n", "50"],
                 cwd=kin_path,
                 text=True,
                 capture_output=True,
@@ -366,34 +366,50 @@ def get_commit_history_v2(blueprint, kin_id):
                 
             for line in lines:
                 if '|' in line:  # This is a commit line
-                    message, short_hash, date = line.split('|')
-                    current_commit = {
-                        "message": message,
-                        "hash": short_hash,
-                        "date": date,
-                        "changes": {
-                            "files_changed": 0,
-                            "insertions": 0,
-                            "deletions": 0,
-                            "files": []  # List to store file changes
+                    if ' | ' not in line:  # This is a commit header line
+                        message, short_hash, date = line.split('|')
+                        current_commit = {
+                            "message": message,
+                            "hash": short_hash,
+                            "date": date,
+                            "changes": {
+                                "files_changed": 0,
+                                "insertions": 0,
+                                "deletions": 0,
+                                "files": []
+                            }
                         }
-                    }
-                    commits.append(current_commit)
-                elif line.strip() and current_commit:  # This is a stats line
-                    try:
-                        if '\t' in line:  # This is a numstat line
-                            added, deleted, filepath = line.split('\t')
-                            current_commit["changes"]["files_changed"] += 1
-                            current_commit["changes"]["insertions"] += int(added) if added != '-' else 0
-                            current_commit["changes"]["deletions"] += int(deleted) if deleted != '-' else 0
-                            # Add file info
-                            current_commit["changes"]["files"].append({
-                                "path": filepath,
-                                "added": int(added) if added != '-' else 0,
-                                "deleted": int(deleted) if deleted != '-' else 0
-                            })
-                    except ValueError:
-                        continue  # Skip malformed lines
+                        commits.append(current_commit)
+                    else:  # This is a file stats line
+                        try:
+                            # Parse the --stat output format which looks like:
+                            # file.txt | 2 ++
+                            # or
+                            # file.txt | 4 ++--
+                            file_path, changes = line.split(' | ')
+                            file_path = file_path.strip()
+                            changes = changes.strip()
+                            
+                            # Parse the changes
+                            if changes:
+                                # Extract numbers from changes (e.g., "2 ++" -> 2)
+                                num_changes = int(''.join(c for c in changes if c.isdigit()) or 0)
+                                insertions = changes.count('+')
+                                deletions = changes.count('-')
+                                
+                                # Update commit stats
+                                current_commit["changes"]["files_changed"] += 1
+                                current_commit["changes"]["insertions"] += insertions
+                                current_commit["changes"]["deletions"] += deletions
+                                
+                                # Add file info
+                                current_commit["changes"]["files"].append({
+                                    "path": file_path,
+                                    "added": insertions,
+                                    "deleted": deletions
+                                })
+                        except ValueError:
+                            continue  # Skip malformed lines
                 
             return jsonify({
                 "commits": commits,
