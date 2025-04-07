@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, url_for
+from flask import Blueprint, request, jsonify, redirect, url_for, current_app as app
 import os
 import json
 import datetime
@@ -98,24 +98,26 @@ def create_kin_v2(blueprint):
     V2 API endpoint to create a new kin.
     Maps to the original create_kin function but adapts the request.
     """
-    # Adapt the request format from v2 to v1
-    from flask import request
-    original_data = request.json or {}
+    # Get the original data
+    original_data = request.get_json() or {}
     
-    # Transform the request data
+    # Transform the data to v1 format
     v1_data = {
         "blueprint": blueprint,
         "kin_name": original_data.get("name", ""),
         "template_override": original_data.get("template_override")
     }
     
-    # Create a new request context with the transformed data
-    from werkzeug.local import LocalProxy
-    request.json = v1_data
-    
-    # Call the original function
+    # Import the create_kin function
     from routes.projects import create_kin
-    return create_kin()
+    
+    # Create a new request context with the transformed data
+    with app.test_request_context(
+        method='POST',
+        path=f'/api/proxy/kins',
+        json=v1_data
+    ) as ctx:
+        return create_kin()
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>', methods=['GET'])
 def get_kin_details_v2(blueprint, kin_id):
