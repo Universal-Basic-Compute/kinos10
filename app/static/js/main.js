@@ -830,12 +830,65 @@ document.addEventListener('DOMContentLoaded', function() {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${role}-message`;
         
+        // Add avatar container
+        const avatarContainer = document.createElement('div');
+        avatarContainer.className = 'avatar-container';
+        
+        // Add avatar image based on role
+        const avatarImg = document.createElement('img');
+        avatarImg.className = 'avatar';
+        if (role === 'user') {
+            avatarImg.src = '/static/images/user-avatar.png';
+        } else {
+            avatarImg.src = '/static/images/assistant-avatar.png';
+        }
+        avatarContainer.appendChild(avatarImg);
+        
+        // Create message content container
+        const contentContainer = document.createElement('div');
+        contentContainer.className = 'message-content';
+        
         // Format content with line breaks
         const formattedContent = content.replace(/\n/g, '<br>');
-        messageDiv.innerHTML = formattedContent;
+        contentContainer.innerHTML = formattedContent;
+        
+        // Add TTS button for assistant messages
+        if (role === 'assistant') {
+            const ttsButton = document.createElement('button');
+            ttsButton.className = 'tts-button';
+            ttsButton.innerHTML = '🔊';
+            ttsButton.onclick = () => playTTS(content);
+            contentContainer.appendChild(ttsButton);
+        }
+        
+        // Assemble the message
+        messageDiv.appendChild(avatarContainer);
+        messageDiv.appendChild(contentContainer);
         
         messagesContainer.appendChild(messageDiv);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // Add TTS function
+    async function playTTS(text) {
+        try {
+            const response = await fetch('/v2/tts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text })
+            });
+            
+            if (!response.ok) throw new Error('TTS request failed');
+            
+            // Create and play audio from the response
+            const blob = await response.blob();
+            const audio = new Audio(URL.createObjectURL(blob));
+            audio.play();
+        } catch (error) {
+            console.error('TTS error:', error);
+        }
     }
     
     function logDebug(message) {
