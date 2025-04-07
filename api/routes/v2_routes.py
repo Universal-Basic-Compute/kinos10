@@ -327,6 +327,65 @@ def trigger_autonomous_thinking_v2(blueprint, kin_id):
     from routes.projects import trigger_autonomous_thinking
     return trigger_autonomous_thinking(blueprint, kin_id)
 
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/commit-history', methods=['GET'])
+def get_commit_history_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to get Git commit history for a kin.
+    Returns commits ordered by date (latest first).
+    """
+    try:
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Check if .git directory exists
+        git_dir = os.path.join(kin_path, ".git")
+        if not os.path.exists(git_dir) or not os.path.isdir(git_dir):
+            return jsonify({"error": "No Git repository found for this kin"}), 404
+        
+        # Get git commit history using git log
+        try:
+            # Use git log to get commit history (last 50 commits by default)
+            import subprocess
+            result = subprocess.run(
+                ["git", "log", "--pretty=format:%H|%an|%ad|%s", "--date=iso", "-n", "50"],
+                cwd=kin_path,
+                text=True,
+                capture_output=True,
+                check=True
+            )
+            
+            # Parse the output
+            commits = []
+            for line in result.stdout.strip().split('\n'):
+                if line:
+                    parts = line.split('|', 3)
+                    if len(parts) == 4:
+                        hash, author, date, message = parts
+                        commits.append({
+                            "hash": hash,
+                            "author": author,
+                            "date": date,
+                            "message": message
+                        })
+            
+            return jsonify({
+                "commits": commits,
+                "total": len(commits)
+            })
+            
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Git command failed: {e.stderr}")
+            return jsonify({"error": f"Git command failed: {e.stderr}"}), 500
+        
+    except Exception as e:
+        logger.error(f"Error getting Git history: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/copy', methods=['POST'])
 def copy_kin_v2(blueprint, kin_id):
     """

@@ -442,6 +442,39 @@ Get the Aider logs for a kin.
 }
 ```
 
+### Get Commit History
+
+Get the Git commit history for a kin, ordered by date (latest first).
+
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/commit-history`
+
+**Response:**
+```json
+{
+  "commits": [
+    {
+      "hash": "a1b2c3d4",
+      "author": "KinOS",
+      "date": "2024-04-06 12:34:56 +0000",
+      "message": "Added source content from URL"
+    },
+    {
+      "hash": "e5f6g7h8",
+      "author": "KinOS", 
+      "date": "2024-04-06 12:30:00 +0000",
+      "message": "Initial commit"
+    }
+  ],
+  "total": 2
+}
+```
+
+This endpoint:
+1. Checks if the kin has a Git repository (.git directory)
+2. Uses `git log` to retrieve the commit history
+3. Returns up to 50 most recent commits, ordered by date (latest first)
+4. Each commit includes its hash, author, date, and commit message
+
 ### Analyze Message
 
 **Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/analysis`
