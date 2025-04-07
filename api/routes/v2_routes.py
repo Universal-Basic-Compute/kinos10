@@ -212,18 +212,26 @@ def analyze_message_v2(blueprint, kin_id):
         # Get message content from either query params (GET) or JSON body (POST)
         if request.method == 'GET':
             message_content = request.args.get('message', '')
+            # Remove quotes if present (since query params might include them)
+            message_content = message_content.strip('"\'')
+            
+            # Get other parameters from query string
             model = request.args.get('model', '')
             addSystem = request.args.get('addSystem', None)
             min_files = request.args.get('min_files', 5)
             max_files = request.args.get('max_files', 15)
+            
+            # Create a data dict to match POST format
+            data = {
+                'message': message_content,
+                'model': model,
+                'addSystem': addSystem,
+                'min_files': min_files,
+                'max_files': max_files
+            }
         else:  # POST
-            data = request.json
+            data = request.get_json() or {}
             message_content = data.get('message', data.get('content', ''))
-            model = data.get('model', '')
-            addSystem = data.get('addSystem', None)
-            min_files = data.get('min_files', 5)
-            max_files = data.get('max_files', 15)
-            images = data.get('images', [])
 
         # Validate required parameters
         if not message_content:
