@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, redirect, url_for, current_app as app
+import json
 import os
 import json
 import datetime
@@ -115,9 +116,17 @@ def create_kin_v2(blueprint):
     with app.test_request_context(
         method='POST',
         path=f'/api/proxy/kins',
-        json=v1_data
+        data=json.dumps(v1_data),  # Use data instead of json
+        content_type='application/json'  # Set content type explicitly
     ) as ctx:
-        return create_kin()
+        # Push the context
+        ctx.push()
+        try:
+            # Call create_kin with the transformed data
+            response = create_kin()
+            return response
+        finally:
+            ctx.pop()
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>', methods=['GET'])
 def get_kin_details_v2(blueprint, kin_id):
