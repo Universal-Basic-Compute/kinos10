@@ -3,6 +3,7 @@ import json
 import os
 import json
 import datetime
+import subprocess
 from config import logger, blueprintS_DIR
 from services.file_service import get_kin_path, initialize_kin
 
