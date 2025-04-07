@@ -227,19 +227,33 @@ def analyze_message_v2(blueprint, kin_id):
                 'model': model,
                 'addSystem': addSystem,
                 'min_files': min_files,
-                'max_files': max_files
+                'max_files': max_files,
+                'content': message_content  # Add this for backward compatibility
             }
         else:  # POST
             data = request.get_json() or {}
             message_content = data.get('message', data.get('content', ''))
+            # Ensure both message and content are set for backward compatibility
+            data['message'] = message_content
+            data['content'] = message_content
 
         # Validate required parameters
         if not message_content:
             return jsonify({"error": "Message is required"}), 400
 
-        # Import and call the original analyze_message function
+        # Import and call the original analyze_message function with the data
         from routes.messages import analyze_message
-        return analyze_message(blueprint, kin_id)
+        with app.test_request_context(
+            method='POST',
+            path=f'/api/proxy/kins/{blueprint}/{kin_id}/analysis',
+            json=data
+        ) as ctx:
+            ctx.push()
+            try:
+                response = analyze_message(blueprint, kin_id)
+                return response
+            finally:
+                ctx.pop()
 
     except Exception as e:
         logger.error(f"Error in analyze_message_v2: {str(e)}")
