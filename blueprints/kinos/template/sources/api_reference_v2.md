@@ -512,30 +512,40 @@ This endpoint:
 
 ### Analyze Message
 
-**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/analysis`
+Analyze a message with Claude without saving it or triggering context updates.
 
-Analyze a message with Claude without saving it to the conversation history.
+**Endpoints:** 
+- `POST /v2/blueprints/{blueprint}/kins/{kin_id}/analysis`
+- `GET /v2/blueprints/{blueprint}/kins/{kin_id}/analysis?message=your+message`
 
-**Request Body:**
+**POST Request Body:**
 ```json
 {
   "message": "What is the purpose of this code?",
   "images": ["data:image/jpeg;base64,..."],
   "model": "claude-3-5-haiku-latest",
-  "addSystem": "Focus on explaining the architecture"
+  "addSystem": "Focus on explaining the architecture",
+  "min_files": 5,  // Optional, minimum number of context files (default: 5)
+  "max_files": 15  // Optional, maximum number of context files (default: 15)
 }
 ```
+
+**GET Query Parameters:**
+- `message`: The message to analyze (required)
+- `model`: Model to use (optional)
+- `addSystem`: Additional system instructions (optional)
+- `min_files`: Minimum number of context files (optional, default: 5)
+- `max_files`: Maximum number of context files (optional, default: 15)
 
 **Response:**
 ```json
 {
-  "status": "success",
-  "response": "This code implements a context builder that...",
-  "mode": "observation"
+  "status": "completed",
+  "response": "This code implements a context builder that..."
 }
 ```
 
-The response includes the mode that was used for the analysis, which may be automatically selected based on the message content.
+The `min_files` and `max_files` parameters allow you to control how many files are included in the context when processing the message. This helps balance between having enough context for accurate responses while avoiding context overload.
 
 ### Generate Image
 
