@@ -453,10 +453,43 @@ Get the Git commit history for a kin, ordered by date (latest first).
 {
   "commits": [
     {
-      "message": "Added source content from URL"
+      "message": "Added source content from URL",
+      "hash": "a1b2c3d",
+      "date": "2024-04-06 12:34:56 +0000",
+      "changes": {
+        "files_changed": 3,
+        "insertions": 150,
+        "deletions": 20,
+        "files": [
+          {
+            "path": "sources/example.txt",
+            "added": 100,
+            "deleted": 10
+          },
+          {
+            "path": "knowledge/concepts.txt",
+            "added": 50,
+            "deleted": 10
+          }
+        ]
+      }
     },
     {
-      "message": "Initial commit"
+      "message": "Initial commit",
+      "hash": "e5f6g7h",
+      "date": "2024-04-06 12:30:00 +0000",
+      "changes": {
+        "files_changed": 1,
+        "insertions": 100,
+        "deletions": 0,
+        "files": [
+          {
+            "path": "system.txt",
+            "added": 100,
+            "deleted": 0
+          }
+        ]
+      }
     }
   ],
   "total": 2
@@ -465,9 +498,17 @@ Get the Git commit history for a kin, ordered by date (latest first).
 
 This endpoint:
 1. Checks if the kin has a Git repository (.git directory)
-2. Uses `git log` to retrieve the commit history
+2. Uses `git log` to retrieve the commit history with statistics
 3. Returns up to 50 most recent commits, ordered by date (latest first)
-4. Each commit includes only its message
+4. Each commit includes:
+   - The commit message
+   - Short hash for reference
+   - Date of the commit
+   - Change statistics:
+     - Number of files changed
+     - Number of lines added (insertions)
+     - Number of lines deleted (deletions)
+     - List of changed files with per-file statistics
 
 ### Analyze Message
 
