@@ -202,14 +202,40 @@ def send_message_v2(blueprint, kin_id):
     from routes.messages import send_message
     return send_message(blueprint, kin_id)
 
-@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/analysis', methods=['POST'])
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/analysis', methods=['GET', 'POST'])
 def analyze_message_v2(blueprint, kin_id):
     """
     V2 API endpoint to analyze a message with Claude without saving it.
-    Maps to the original analyze_message function.
+    Supports both GET (with query params) and POST (with JSON body).
     """
-    from routes.messages import analyze_message
-    return analyze_message(blueprint, kin_id)
+    try:
+        # Get message content from either query params (GET) or JSON body (POST)
+        if request.method == 'GET':
+            message_content = request.args.get('message', '')
+            model = request.args.get('model', '')
+            addSystem = request.args.get('addSystem', None)
+            min_files = request.args.get('min_files', 5)
+            max_files = request.args.get('max_files', 15)
+        else:  # POST
+            data = request.json
+            message_content = data.get('message', data.get('content', ''))
+            model = data.get('model', '')
+            addSystem = data.get('addSystem', None)
+            min_files = data.get('min_files', 5)
+            max_files = data.get('max_files', 15)
+            images = data.get('images', [])
+
+        # Validate required parameters
+        if not message_content:
+            return jsonify({"error": "Message is required"}), 400
+
+        # Import and call the original analyze_message function
+        from routes.messages import analyze_message
+        return analyze_message(blueprint, kin_id)
+
+    except Exception as e:
+        logger.error(f"Error in analyze_message_v2: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/aider_logs', methods=['GET'])
 def get_aider_logs_v2(blueprint, kin_id):
