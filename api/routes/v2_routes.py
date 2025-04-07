@@ -352,7 +352,7 @@ def get_commit_history_v2(blueprint, kin_id):
             # Use git log to get commit history (last 50 commits by default)
             import subprocess
             result = subprocess.run(
-                ["git", "log", "--pretty=format:%H|%an|%ad|%s", "--date=iso", "-n", "50"],
+                ["git", "log", "--pretty=format:%s", "-n", "50"],  # Only get commit messages
                 cwd=kin_path,
                 text=True,
                 capture_output=True,
@@ -363,15 +363,9 @@ def get_commit_history_v2(blueprint, kin_id):
             commits = []
             for line in result.stdout.strip().split('\n'):
                 if line:
-                    parts = line.split('|', 3)
-                    if len(parts) == 4:
-                        hash, author, date, message = parts
-                        commits.append({
-                            "hash": hash,
-                            "author": author,
-                            "date": date,
-                            "message": message
-                        })
+                    commits.append({
+                        "message": line
+                    })
             
             return jsonify({
                 "commits": commits,
