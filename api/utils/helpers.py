@@ -22,55 +22,50 @@ def should_ignore_file(file_path, ignore_patterns=None):
         '__pycache__', '*.pyc', '*.pyo', # Python
         '.DS_Store',                     # macOS
         '.aider*',                       # Aider files
-        '.aider.chat.history.md'         # Explicitly add this file
+        'aider_logs.txt',                # Aider logs
+        'messages.json',                 # Messages file (handled separately)
+        'system.txt',                    # System file (handled separately)
+        '.gitignore'                     # Git ignore file
     ]
-    
-    if ignore_patterns is None:
-        ignore_patterns = []
-    
+
     # Check against always-ignore patterns first
     for pattern in always_ignore:
+        # Directory pattern (e.g. .git/)
         if pattern.endswith('/'):
-            # Directory pattern
             dir_pattern = pattern[:-1]
-            if file_path == dir_pattern or file_path.startswith(f"{dir_pattern}/"):
+            if file_path.startswith(dir_pattern + os.sep) or file_path == dir_pattern:
                 return True
+                
+        # File extension pattern (e.g. *.pyc)
         elif pattern.startswith('*.'):
-            # File extension pattern
             if file_path.endswith(pattern[1:]):
                 return True
+                
+        # Wildcard prefix pattern (e.g. .aider*)
         elif '*' in pattern:
-            # Simple wildcard pattern (e.g., .aider*)
             prefix = pattern.split('*')[0]
             if file_path.startswith(prefix):
                 return True
-        elif file_path == pattern or file_path.startswith(f"{pattern}/"):
-            # Exact match or directory
+                
+        # Exact match
+        elif file_path == pattern or file_path.startswith(pattern + os.sep):
             return True
-    
-    # Always include .gitignore itself
-    if file_path == '.gitignore':
-        return False
-        
-    # Then check against gitignore patterns
-    for pattern in ignore_patterns:
-        # Simple pattern matching (can be expanded for more complex gitignore rules)
-        if pattern.endswith('/'):
-            # Directory pattern
-            dir_pattern = pattern[:-1]
-            if file_path == dir_pattern or file_path.startswith(f"{dir_pattern}/"):
+
+    # Then check against gitignore patterns if provided
+    if ignore_patterns:
+        for pattern in ignore_patterns:
+            if pattern.endswith('/'):
+                if file_path.startswith(pattern[:-1] + os.sep):
+                    return True
+            elif pattern.startswith('*.'):
+                if file_path.endswith(pattern[1:]):
+                    return True
+            elif file_path == pattern:
                 return True
-        elif pattern.startswith('*.'):
-            # File extension pattern
-            if file_path.endswith(pattern[1:]):
-                return True
-        elif file_path == pattern:
-            # Exact match
-            return True
-        elif pattern.startswith('**/'):
-            # Recursive wildcard
-            if file_path.endswith(pattern[3:]):
-                return True
+            elif pattern.startswith('**/'):
+                if file_path.endswith(pattern[3:]):
+                    return True
+
     return False
 
 def load_gitignore(kin_path):
