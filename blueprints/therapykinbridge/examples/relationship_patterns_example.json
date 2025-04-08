@@ -1,0 +1,85 @@
+{
+  "patterns": [
+    {
+      "id": "pattern_001",
+      "name": "Criticism-Defensiveness Cycle",
+      "description": "One partner expresses concerns in ways perceived as criticism, triggering defensiveness in the other, which then reinforces the original concern.",
+      "participants": ["Participant A", "Alex"],
+      "triggers": ["Household tasks", "Schedule changes", "Financial decisions"],
+      "sequence": [
+        "Participant A notices issue and makes request",
+        "Alex perceives request as criticism",
+        "Alex responds defensively",
+        "Participant A feels unheard and increases intensity",
+        "Alex withdraws further",
+        "Conversation ends without resolution"
+      ],
+      "frequency": "2-3 times per week",
+      "impact": "Creates distance, unresolved issues accumulate, both feel misunderstood",
+      "interventions": [
+        "Scheduled household check-ins",
+        "Shared task tracking system",
+        "Reframing requests as shared questions",
+        "Practicing non-defensive listening"
+      ],
+      "progress": [
+        {
+          "date": "2023-06-15",
+          "observation": "First successful pattern interruption during discussion about weekend plans",
+          "approach": "Alex recognized defensive response and paused before responding"
+        }
+      ]
+    }
+  ],
+  "styles": {
+    "participant1": {
+      "id": "Participant A",
+      "expressionStyle": "Direct, specific requests",
+      "listeningStyle": "Attentive but can become frustrated with perceived avoidance",
+      "emotionalExpression": "Openly expresses frustration, less comfortable with vulnerability",
+      "conflictApproach": "Engaging, prefers to address issues immediately",
+      "preferredChannels": ["Verbal discussion", "Text for quick updates"],
+      "challengeAreas": ["Patience with different timelines", "Framing requests non-critically"],
+      "strengths": ["Clear communication", "Identifies issues early", "Committed to resolution"]
+    },
+    "participant2": {
+      "id": "Alex",
+      "expressionStyle": "Indirect, general statements",
+      "listeningStyle": "Can become defensive when feeling criticized",
+      "emotionalExpression": "Reserved, processes internally before sharing",
+      "conflictApproach": "Initially avoiding, needs time to process",
+      "preferredChannels": ["Written communication", "Scheduled discussions"],
+      "challengeAreas": ["Defensive reactions", "Communicating timeline intentions"],
+      "strengths": ["Thoughtful responses when given time", "Strong follow-through once committed", "Good at finding compromises"]
+    }
+  },
+  "mismatches": [
+    {
+      "area": "Timing preferences",
+      "description": "Participant A prefers immediate addressing of issues while Alex needs processing time",
+      "impact": "Creates perception of avoidance vs. pushing",
+      "adaptations": ["Agreed 'pause protocol' for complex issues", "Clear timeframes for returning to discussions"]
+    },
+    {
+      "area": "Task awareness",
+      "description": "Participant A notices household needs earlier than Alex",
+      "impact": "Creates imbalance in who initiates household maintenance",
+      "adaptations": ["Shared responsibility list", "Weekly planning session"]
+    }
+  ],
+  "improvements": [
+    {
+      "date": "2023-06-10",
+      "area": "Request framing",
+      "description": "Participant A has begun using more collaborative language when discussing household tasks",
+      "impact": "Reduced defensive responses from Alex by approximately 50%"
+    },
+    {
+      "date": "2023-06-17",
+      "area": "Active listening",
+      "description": "Alex has practiced reflecting back concerns before responding",
+      "impact": "Participant A reports feeling more understood even when immediate resolution isn't possible"
+    }
+  ],
+  "lastUpdated": "2023-06-20"
+}
