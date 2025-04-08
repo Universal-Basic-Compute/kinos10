@@ -483,7 +483,7 @@ def api_root():
             <div class="container">
                 <h1>KinOS API Reference</h1>
                 <p>This documentation provides a comprehensive reference for the KinOS API.</p>
-                {html_content}
+                """ + html_content + """
             </div>
         </body>
         </html>
