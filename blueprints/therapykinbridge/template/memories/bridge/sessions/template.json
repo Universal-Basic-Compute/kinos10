@@ -1,0 +1,39 @@
+{
+  "individualSessions": [
+    {
+      "id": null,
+      "participantId": null,
+      "date": null,
+      "duration": null,
+      "topics": [],
+      "insights": [],
+      "concerns": [],
+      "requestedTranslations": [],
+      "sharingConsent": [],
+      "followupItems": []
+    }
+  ],
+  "sharedSessions": [
+    {
+      "id": null,
+      "date": null,
+      "duration": null,
+      "participants": [],
+      "topics": [],
+      "dynamics": [],
+      "patterns": [],
+      "agreements": [],
+      "breakthroughs": [],
+      "challenges": [],
+      "followupItems": []
+    }
+  ],
+  "outcomes": {
+    "agreementsReached": [],
+    "patternShifts": [],
+    "communicationImprovements": [],
+    "unresolvedIssues": [],
+    "nextSteps": []
+  },
+  "lastUpdated": null
+}

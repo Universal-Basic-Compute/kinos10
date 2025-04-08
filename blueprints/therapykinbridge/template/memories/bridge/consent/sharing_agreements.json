@@ -1,0 +1,65 @@
+{
+  "participants": [
+    {
+      "id": null,
+      "name": null,
+      "generalConsent": null,
+      "lastUpdated": null
+    }
+  ],
+  "contentCategories": [
+    {
+      "category": "personal_history",
+      "description": "Information about personal background and experiences",
+      "defaultSetting": "ask_each_time"
+    },
+    {
+      "category": "emotional_reactions",
+      "description": "Information about emotional responses to situations",
+      "defaultSetting": "ask_each_time"
+    },
+    {
+      "category": "relationship_concerns",
+      "description": "Specific concerns about the relationship",
+      "defaultSetting": "ask_each_time"
+    },
+    {
+      "category": "needs_and_requests",
+      "description": "Personal needs and specific requests",
+      "defaultSetting": "can_share"
+    },
+    {
+      "category": "pattern_observations",
+      "description": "Observations about relationship patterns",
+      "defaultSetting": "can_share"
+    }
+  ],
+  "participantPreferences": {
+    "participant1": {
+      "id": null,
+      "categorySettings": {
+        "personal_history": null,
+        "emotional_reactions": null,
+        "relationship_concerns": null,
+        "needs_and_requests": null,
+        "pattern_observations": null
+      },
+      "specificExclusions": [],
+      "specificInclusions": []
+    },
+    "participant2": {
+      "id": null,
+      "categorySettings": {
+        "personal_history": null,
+        "emotional_reactions": null,
+        "relationship_concerns": null,
+        "needs_and_requests": null,
+        "pattern_observations": null
+      },
+      "specificExclusions": [],
+      "specificInclusions": []
+    }
+  },
+  "sessionConsent": [],
+  "lastUpdated": null
+}

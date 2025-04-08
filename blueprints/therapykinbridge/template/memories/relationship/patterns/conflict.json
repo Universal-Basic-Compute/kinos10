@@ -1,0 +1,46 @@
+{
+  "patterns": [
+    {
+      "id": null,
+      "name": null,
+      "description": null,
+      "triggers": [],
+      "sequence": [],
+      "escalationPoints": [],
+      "deescalationStrategies": [],
+      "frequency": null,
+      "intensity": null,
+      "resolution": null
+    }
+  ],
+  "topics": [
+    {
+      "subject": null,
+      "frequency": null,
+      "intensity": null,
+      "underlyingNeeds": [],
+      "resolutionStatus": null
+    }
+  ],
+  "approaches": {
+    "participant1": {
+      "id": null,
+      "primaryStyle": null,
+      "secondaryStyle": null,
+      "triggers": [],
+      "avoidancePatterns": [],
+      "escalationSignals": []
+    },
+    "participant2": {
+      "id": null,
+      "primaryStyle": null,
+      "secondaryStyle": null,
+      "triggers": [],
+      "avoidancePatterns": [],
+      "escalationSignals": []
+    }
+  },
+  "resolutionHistory": [],
+  "improvements": [],
+  "lastUpdated": null
+}

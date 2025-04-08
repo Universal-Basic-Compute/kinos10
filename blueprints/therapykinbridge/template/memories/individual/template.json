@@ -1,0 +1,47 @@
+{
+  "perspective": {
+    "relationshipView": null,
+    "primaryConcerns": [],
+    "perceivedStrengths": [],
+    "perceivedChallenges": [],
+    "expectations": [],
+    "disappointments": []
+  },
+  "needs": {
+    "expressedNeeds": [],
+    "impliedNeeds": [],
+    "priorityNeeds": [],
+    "unmetNeeds": [],
+    "needFulfillmentPatterns": []
+  },
+  "communication": {
+    "expressionStyle": null,
+    "listeningStyle": null,
+    "emotionalExpression": null,
+    "conflictApproach": null,
+    "feedbackReception": null,
+    "challengeAreas": [],
+    "strengths": []
+  },
+  "emotions": {
+    "primaryEmotions": [],
+    "secondaryEmotions": [],
+    "triggers": [],
+    "regulationStrategies": [],
+    "expressionPatterns": []
+  },
+  "history": {
+    "relevantExperiences": [],
+    "relationshipPatterns": [],
+    "familyOfOriginInfluences": [],
+    "significantAttachments": [],
+    "traumaFactors": []
+  },
+  "goals": {
+    "personalGoals": [],
+    "relationshipGoals": [],
+    "hiddenAgendas": [],
+    "growthAreas": []
+  },
+  "lastUpdated": null
+}

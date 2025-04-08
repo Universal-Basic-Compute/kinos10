@@ -1,0 +1,39 @@
+{
+  "communication": [
+    {
+      "skillName": null,
+      "description": null,
+      "dateIntroduced": null,
+      "participants": [],
+      "practiceInstances": [],
+      "masteryLevel": null,
+      "challengeAreas": [],
+      "successContexts": []
+    }
+  ],
+  "conflict_management": [
+    {
+      "skillName": null,
+      "description": null,
+      "dateIntroduced": null,
+      "participants": [],
+      "practiceInstances": [],
+      "masteryLevel": null,
+      "challengeAreas": [],
+      "successContexts": []
+    }
+  ],
+  "connection_building": [
+    {
+      "skillName": null,
+      "description": null,
+      "dateIntroduced": null,
+      "participants": [],
+      "practiceInstances": [],
+      "masteryLevel": null,
+      "challengeAreas": [],
+      "successContexts": []
+    }
+  ],
+  "lastUpdated": null
+}

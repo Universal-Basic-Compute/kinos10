@@ -1,0 +1,36 @@
+{
+  "breakthroughs": [
+    {
+      "id": null,
+      "date": null,
+      "description": null,
+      "context": null,
+      "participants": [],
+      "insightType": null,
+      "impact": null,
+      "followupActions": []
+    }
+  ],
+  "insights": [
+    {
+      "id": null,
+      "date": null,
+      "description": null,
+      "patternRecognition": null,
+      "participantId": null,
+      "applicationAreas": [],
+      "integrationStatus": null
+    }
+  ],
+  "achievements": [
+    {
+      "id": null,
+      "date": null,
+      "description": null,
+      "goalReference": null,
+      "contributingFactors": [],
+      "celebrationNotes": null
+    }
+  ],
+  "lastUpdated": null
+}

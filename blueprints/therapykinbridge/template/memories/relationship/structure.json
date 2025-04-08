@@ -1,0 +1,35 @@
+{
+  "relationshipType": {
+    "category": null,
+    "subtype": null,
+    "duration": null,
+    "status": null,
+    "description": null
+  },
+  "participants": [
+    {
+      "id": null,
+      "role": null,
+      "joinDate": null
+    }
+  ],
+  "context": {
+    "livingArrangement": null,
+    "sharedResponsibilities": [],
+    "significantFactors": [],
+    "externalStressors": []
+  },
+  "dynamics": {
+    "powerBalance": null,
+    "decisionMaking": null,
+    "communicationStyle": null,
+    "conflictPatterns": []
+  },
+  "history": {
+    "formationDate": null,
+    "significantEvents": [],
+    "previousChallenges": [],
+    "previousInterventions": []
+  },
+  "lastUpdated": null
+}

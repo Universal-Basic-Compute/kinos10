@@ -1,0 +1,24 @@
+{
+  "translations": [
+    {
+      "id": null,
+      "timestamp": null,
+      "senderId": null,
+      "receiverId": null,
+      "originalMessage": null,
+      "translatedMessage": null,
+      "emotionalContent": {
+        "primaryEmotion": null,
+        "secondaryEmotions": [],
+        "intensity": null
+      },
+      "underlyingNeeds": [],
+      "patternContext": null,
+      "deliveryStatus": null,
+      "receiverResponse": null,
+      "effectivenessRating": null,
+      "followupNeeded": null
+    }
+  ],
+  "lastUpdated": null
+}

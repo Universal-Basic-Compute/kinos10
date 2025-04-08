@@ -1,0 +1,41 @@
+{
+  "patterns": [
+    {
+      "id": null,
+      "name": null,
+      "description": null,
+      "participants": [],
+      "triggers": [],
+      "sequence": [],
+      "frequency": null,
+      "impact": null,
+      "interventions": [],
+      "progress": []
+    }
+  ],
+  "styles": {
+    "participant1": {
+      "id": null,
+      "expressionStyle": null,
+      "listeningStyle": null,
+      "emotionalExpression": null,
+      "conflictApproach": null,
+      "preferredChannels": [],
+      "challengeAreas": [],
+      "strengths": []
+    },
+    "participant2": {
+      "id": null,
+      "expressionStyle": null,
+      "listeningStyle": null,
+      "emotionalExpression": null,
+      "conflictApproach": null,
+      "preferredChannels": [],
+      "challengeAreas": [],
+      "strengths": []
+    }
+  },
+  "mismatches": [],
+  "improvements": [],
+  "lastUpdated": null
+}

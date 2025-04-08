@@ -1,0 +1,29 @@
+{
+  "relationshipGoals": [
+    {
+      "id": null,
+      "description": null,
+      "importance": null,
+      "timeframe": null,
+      "status": null,
+      "milestones": [],
+      "challenges": [],
+      "progress": null
+    }
+  ],
+  "sharedValues": [
+    {
+      "value": null,
+      "importance": null,
+      "alignment": null,
+      "expression": null
+    }
+  ],
+  "visionStatements": {
+    "shortTerm": null,
+    "mediumTerm": null,
+    "longTerm": null
+  },
+  "priorities": [],
+  "lastUpdated": null
+}
