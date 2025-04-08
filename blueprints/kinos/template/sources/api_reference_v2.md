@@ -134,7 +134,7 @@ Create a new kin for a blueprint.
 **Request Body:**
 ```json
 {
-  "name": "My New Kin",
+  "name": "my-new-kin",
   "template_override": "deskmate"  // Optional
 }
 ```
@@ -143,7 +143,7 @@ Create a new kin for a blueprint.
 ```json
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",
-  "name": "My New Kin",
+  "name": "my-new-kin",
   "blueprint_id": "kinos",
   "created_at": "2023-09-15T14:30:45.123456",
   "status": "created"
@@ -157,7 +157,7 @@ Create a new kin for a blueprint.
   "status": 409,
   "existing_kin": {
     "id": "550e8400-e29b-41d4-a716-446655440000",
-    "name": "My New Kin",
+    "name": "my-new-kin",
     "blueprint_id": "kinos"
   }
 }
@@ -175,7 +175,7 @@ Get detailed information about a specific kin.
 ```json
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",
-  "name": "My Custom Kin",
+  "name": "my-custom-kin",
   "blueprint_id": "kinos",
   "created_at": "2023-09-15T14:30:45.123456",
   "updated_at": "2023-09-15T14:30:45.123456"
@@ -191,7 +191,7 @@ Rename a kin without changing its ID.
 **Request Body:**
 ```json
 {
-  "new_name": "Updated Kin Name"
+  "new_name": "updated-kin-name"
 }
 ```
 
@@ -199,9 +199,9 @@ Rename a kin without changing its ID.
 ```json
 {
   "status": "success",
-  "message": "kin 'my-kin-id' renamed to 'Updated Kin Name'",
+  "message": "kin 'my-kin-id' renamed to 'updated-kin-name'",
   "kin_id": "my-kin-id",
-  "name": "Updated Kin Name"
+  "name": "updated-kin-name"
 }
 ```
 
@@ -213,7 +213,7 @@ fetch('/v2/blueprints/kinos/kins/my-kin-id/rename', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    new_name: 'Updated Kin Name'
+    new_name: 'updated-kin-name'
   })
 })
 .then(response => response.json())
@@ -662,7 +662,7 @@ Copy a kin to create a new kin with the same content within the same blueprint.
 **Request Body:**
 ```json
 {
-  "new_name": "copyofmykin"
+  "new_name": "copy-of-my-kin"
 }
 ```
 
@@ -670,10 +670,10 @@ Copy a kin to create a new kin with the same content within the same blueprint.
 ```json
 {
   "status": "success", 
-  "message": "Kin 'source-kin-id' copied to 'copyofmykin'",
+  "message": "Kin 'source-kin-id' copied to 'copy-of-my-kin'",
   "source_kin_id": "source-kin-id",
   "new_kin_id": "new-kin-id",
-  "new_kin_name": "copyofmykin"
+  "new_kin_name": "copy-of-my-kin"
 }
 ```
 
