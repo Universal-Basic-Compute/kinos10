@@ -83,11 +83,11 @@ def should_update_file(template_file, kin_file):
     1. If the file doesn't exist in the kin, copy it from the template
     2. If the file is a system file (kinos.txt, system.txt, persona.txt), update it
     3. If the file is in a standard directory (modes/, adaptations/, sources/), update it
-    4. Never update messages.json
+    4. Never update messages.json or any .json file
     5. Otherwise, preserve the kin file
     """
-    # Never update messages.json
-    if os.path.basename(template_file) == 'messages.json':
+    # Never update messages.json or any .json file
+    if os.path.basename(template_file) == 'messages.json' or template_file.endswith('.json'):
         return False
     
     # If the file doesn't exist in the kin, copy it
