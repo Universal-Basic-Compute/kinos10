@@ -218,6 +218,19 @@ Your goal is to provide useful and accurate information while maintaining a clea
                 "role": "user",
                 "content": message_content
             })
+        else:
+            # For analysis mode, we still need to include the message
+            # Check if the last message already contains this content to avoid duplication
+            should_add_message = True
+            if messages and messages[-1].get('role') == 'user':
+                if messages[-1].get('content') == message_content:
+                    should_add_message = False
+            
+            if should_add_message:
+                messages.append({
+                    "role": "user",
+                    "content": message_content
+                })
         
         # Call Claude API with system message as a separate parameter
         # Use provided model if specified, otherwise use default from config
