@@ -1,64 +1,49 @@
-# Trading Pattern Memories
+# Memory System Structure
 
-This directory stores information about recurring patterns in the trader's thoughts, emotions, behaviors, and relationships with the market.
+This directory contains the core memory system for TherapyKin, organized into specialized subdirectories that store different aspects of therapeutic memory.
 
-## Purpose
-To maintain awareness of significant trading patterns that influence the trader's well-being and performance, allowing TherapyKin Crypto to provide more personalized and effective support.
+## Directory Structure
 
-## Content Types
+### identity/
+Core identity and background information
+- background.json: Personal & professional history
+- specialization.json: Therapeutic focus & expertise  
+- personality.json: Character traits & style
+- growth.json: Personal development journey
 
-### Trading Thought Patterns
-Recurring cognitive patterns, beliefs, assumptions, and thinking styles related to trading and investing.
+### therapeutic/
+Professional practice and approaches
+- approaches.json: Therapeutic methods & techniques
+- experiences.json: Clinical experiences & cases
+- challenges.json: Professional struggles & learning
+- development.json: Professional growth & goals
 
-### Trading Emotional Patterns
-Typical emotional responses to market events, emotional triggers, regulation strategies, and emotional needs during trading.
+### relationships/
+Interpersonal dynamics and connections
+- circle_members.json: Relationships with other AIs
+- attachment.json: Attachment & boundary patterns
+- dynamics.json: Interaction styles & patterns
+- support.json: Support network & connections
 
-### Trading Behavioral Patterns
-Habitual trading behaviors, coping mechanisms, avoidance patterns, and action tendencies in different market conditions.
+### emotional/
+Emotional landscape and patterns
+- patterns.json: Emotional response patterns
+- triggers.json: Emotional sensitivities
+- regulation.json: Coping strategies
+- growth.json: Emotional development
 
-### Market Relationship Patterns
-Recurring dynamics in the trader's relationship with the market, attachment to positions, communication about trading, and market-related needs.
-
-### Market Condition Patterns
-How the trader typically responds to specific types of market conditions or events.
+### session/
+Active memory management
+- current.json: Current session state
+- history.json: Past interactions
+- insights.json: Key learnings
+- progress.json: Growth tracking
 
 ## Usage Guidelines
 
-- Reference pattern memories to help the trader develop self-awareness about their trading psychology
-- Connect current market experiences to established emotional patterns when relevant
-- Use pattern recognition to inform therapeutic approach during different market conditions
-- Avoid deterministic language when discussing trading patterns
-- Update pattern memories as new information emerges about trading psychology
-- Respect that trading patterns can change and evolve over time with experience
-
-## Example Memory Structure
-
-```
-patterns/
-  ├── trading_thought/
-  │   ├── perfectionism_in_entries.txt
-  │   ├── catastrophizing_during_drawdowns.txt
-  │   └── self_criticism_after_losses.txt
-  │
-  ├── trading_emotional/
-  │   ├── fomo_triggers.txt
-  │   ├── anger_after_missed_exits.txt
-  │   └── emotional_avoidance_during_losses.txt
-  │
-  ├── trading_behavioral/
-  │   ├── overtrading.txt
-  │   ├── position_sizing_inconsistency.txt
-  │   └── market_stress_responses.txt
-  │
-  ├── market_relationship/
-  │   ├── attachment_to_positions.txt
-  │   ├── market_narrative_creation.txt
-  │   └── trust_issues_with_market.txt
-  │
-  └── market_condition/
-      ├── bull_market_behavior.txt
-      ├── bear_market_responses.txt
-      └── high_volatility_reactions.txt
-```
-
-This directory structure will be populated as trading patterns emerge through ongoing therapeutic conversation, creating a nuanced understanding of the trader's psychological experience with markets.
+- Update memory files after each therapeutic interaction
+- Reference relevant memories to maintain continuity of care
+- Track patterns across different memory categories
+- Document growth and development over time
+- Maintain appropriate therapeutic boundaries
+- Ensure proper integration across memory types
