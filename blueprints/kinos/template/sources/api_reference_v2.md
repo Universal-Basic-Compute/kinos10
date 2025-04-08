@@ -2,6 +2,55 @@
 
 This document provides a comprehensive reference for version 2 of the KinOS API available at `https://api.kinos-engine.ai/v2`.
 
+## Table of Contents
+
+- [Base URL](#base-url)
+- [Authentication](#authentication)
+- [API Endpoints](#api-endpoints)
+  - [Blueprint Management](#blueprint-management)
+    - [Get Blueprints](#get-blueprints)
+    - [Get Blueprint Details](#get-blueprint-details)
+    - [Initialize Blueprint](#initialize-blueprint)
+    - [Reset Blueprint](#reset-blueprint)
+  - [Kin Management](#kin-management)
+    - [Get Blueprint Kins](#get-blueprint-kins)
+    - [Create Kin](#create-kin)
+    - [Get Kin Details](#get-kin-details)
+    - [Rename Kin](#rename-kin)
+    - [Copy Kin](#copy-kin)
+    - [Reset Kin](#reset-kin)
+  - [Message Interaction](#message-interaction)
+    - [Get Kin Messages](#get-kin-messages)
+    - [Send Message](#send-message)
+    - [Analyze Message](#analyze-message)
+  - [File Operations](#file-operations)
+    - [Get Kin Files](#get-kin-files)
+    - [Get File Content](#get-file-content)
+    - [Get Kin Content](#get-kin-content)
+    - [Get Aider Logs](#get-aider-logs)
+    - [Get Commit History](#get-commit-history)
+  - [Kin Building](#kin-building)
+    - [Build Kin](#build-kin)
+    - [Listen](#listen)
+  - [Modes and Configuration](#modes-and-configuration)
+    - [Get Kin Modes](#get-kin-modes)
+  - [Special Features](#special-features)
+    - [Generate Image](#generate-image)
+    - [Create CodeGuardian](#create-codeguardian)
+    - [Trigger Autonomous Thinking](#trigger-autonomous-thinking)
+  - [Media Processing](#media-processing)
+    - [Text-to-Speech](#text-to-speech)
+    - [Speech-to-Text](#speech-to-text)
+  - [System Information](#system-information)
+    - [Health Check](#health-check)
+    - [API Information](#api-information)
+- [Error Handling](#error-handling)
+- [Working with Images](#working-with-images)
+- [Pagination](#pagination)
+- [Versioning](#versioning)
+- [Rate Limiting](#rate-limiting)
+- [Glossary](#glossary)
+
 ## Base URL
 
 All API v2 endpoints are relative to the base URL:
@@ -31,7 +80,11 @@ curl https://api.kinos-engine.ai/v2/blueprints?api_key=your_api_key_here
 
 ## API Endpoints
 
-### Get Blueprints
+### Blueprint Management
+
+These endpoints allow you to manage blueprints, which are the templates that define the behavior and capabilities of kins.
+
+#### Get Blueprints
 
 Get a list of all blueprints.
 
@@ -69,7 +122,7 @@ fetch('/v2/blueprints')
   });
 ```
 
-### Get Blueprint Details
+#### Get Blueprint Details
 
 Get detailed information about a specific blueprint.
 
@@ -87,7 +140,7 @@ Get detailed information about a specific blueprint.
 }
 ```
 
-### Initialize Blueprint
+#### Initialize Blueprint
 
 Initialize or reinitialize a blueprint's template.
 
@@ -101,7 +154,43 @@ Initialize or reinitialize a blueprint's template.
 }
 ```
 
-### Get Blueprint Kins
+#### Reset Blueprint
+
+Reset a blueprint and all its kins to initial template state.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/reset`
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Blueprint 'kinos' has been reset",
+  "kins_reset": 3,
+  "results": [
+    {
+      "kin_id": "my-kin-1",
+      "status": "success",
+      "message": "Kin reset to template state"
+    },
+    {
+      "kin_id": "my-kin-2",
+      "status": "success",
+      "message": "Kin reset to template state"
+    },
+    {
+      "kin_id": "my-kin-3",
+      "status": "success",
+      "message": "Kin reset to template state"
+    }
+  ]
+}
+```
+
+### Kin Management
+
+These endpoints allow you to create, manage, and manipulate kins, which are instances of blueprints with their own state and memory.
+
+#### Get Blueprint Kins
 
 Get a list of kins for a specific blueprint.
 
@@ -125,7 +214,7 @@ Get a list of kins for a specific blueprint.
 }
 ```
 
-### Create Kin
+#### Create Kin
 
 Create a new kin for a blueprint.
 
@@ -165,7 +254,7 @@ Create a new kin for a blueprint.
 
 When attempting to create a kin with a name that already exists, the API returns a 409 Conflict status code with details about the existing kin. This allows clients to handle duplicate kin creation appropriately.
 
-### Get Kin Details
+#### Get Kin Details
 
 Get detailed information about a specific kin.
 
@@ -182,7 +271,7 @@ Get detailed information about a specific kin.
 }
 ```
 
-### Rename Kin
+#### Rename Kin
 
 Rename a kin without changing its ID.
 
@@ -224,7 +313,67 @@ fetch('/v2/blueprints/kinos/kins/my-kin-id/rename', {
 
 This endpoint updates the display name of a kin while preserving its ID and all associated files and data. The new name is stored in the kin's metadata file.
 
-### Get Kin Messages
+#### Copy Kin
+
+Copy a kin to create a new kin with the same content within the same blueprint.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/copy`
+
+**Request Body:**
+```json
+{
+  "new_name": "copy-of-my-kin"
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success", 
+  "message": "Kin 'source-kin-id' copied to 'copy-of-my-kin'",
+  "source_kin_id": "source-kin-id",
+  "new_kin_id": "new-kin-id",
+  "new_kin_name": "copy-of-my-kin"
+}
+```
+
+This endpoint:
+1. Creates a new kin with the provided name
+2. Copies all files from the source kin to the new kin
+3. Updates the new kin's metadata to reflect it was copied from the source kin
+
+This endpoint is particularly useful for creating personalized templates:
+1. Start with a base kin that has your desired configuration and files
+2. Copy it to create new instances while preserving all customizations
+3. Each copy maintains its own independent state and files
+
+Common use cases:
+- Create pre-configured kins with specific modes, knowledge, or settings
+- Save a well-tuned kin as a starting point for similar projects
+- Share standardized configurations across multiple instances
+- Test different variations of a kin while keeping the original intact
+
+The copied kin inherits all files and configurations from the source kin, making it an efficient way to replicate successful setups without starting from scratch.
+
+#### Reset Kin
+
+Reset a kin to its initial template state.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/reset`
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Kin 'my-kin-id' has been reset to template state"
+}
+```
+
+### Message Interaction
+
+These endpoints allow you to interact with kins through messages, analyze content, and receive responses.
+
+#### Get Kin Messages
 
 Get messages for a specific kin.
 
@@ -261,7 +410,7 @@ Get messages for a specific kin.
 }
 ```
 
-### Send Message
+#### Send Message
 
 Send a message to a kin.
 
@@ -304,25 +453,32 @@ Unlike mode selection which uses predefined behavior sets, `addSystem` allows fo
 
 The `min_files` and `max_files` parameters allow you to control how many files are included in the context when processing the message. This helps balance between having enough context for accurate responses while avoiding context overload.
 
-### Analyze Message
+#### Analyze Message
 
 Analyze a message with Claude without saving it or triggering context updates.
 
-**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/analyze`
+**Endpoints:** 
+- `POST /v2/blueprints/{blueprint}/kins/{kin_id}/analysis`
+- `GET /v2/blueprints/{blueprint}/kins/{kin_id}/analysis?message=your+message`
 
-**Request Body:**
+**POST Request Body:**
 ```json
 {
   "message": "What is the purpose of this code?",
   "images": ["data:image/jpeg;base64,..."],
-  "model": "claude-3-7-sonnet-latest",
+  "model": "claude-3-5-haiku-latest",
   "addSystem": "Focus on explaining the architecture",
   "min_files": 5,  // Optional, minimum number of context files (default: 5)
   "max_files": 15  // Optional, maximum number of context files (default: 15)
 }
 ```
 
-The `addSystem` parameter allows you to append custom instructions to the system prompt that's sent to Claude. These instructions are added at the end of the system prompt after all the context files, giving you a way to provide additional guidance or constraints for this specific analysis without modifying any files.
+**GET Query Parameters:**
+- `message`: The message to analyze (required)
+- `model`: Model to use (optional, default: claude-3-7-sonnet-latest)
+- `addSystem`: Additional system instructions (optional)
+- `min_files`: Minimum number of context files (optional, default: 5)
+- `max_files`: Maximum number of context files (optional, default: 15)
 
 **Response:**
 ```json
@@ -334,7 +490,11 @@ The `addSystem` parameter allows you to append custom instructions to the system
 
 The `min_files` and `max_files` parameters allow you to control how many files are included in the context when processing the message. This helps balance between having enough context for accurate responses while avoiding context overload.
 
-### Get Kin Files
+### File Operations
+
+These endpoints allow you to access, view, and manage files within a kin.
+
+#### Get Kin Files
 
 Get a list of files in a kin.
 
@@ -368,7 +528,7 @@ Get a list of files in a kin.
 }
 ```
 
-### Get File Content
+#### Get File Content
 
 Get the content of a specific file.
 
@@ -391,7 +551,7 @@ For JSON response format, add query parameter `?format=json`:
 }
 ```
 
-### Get Kin Content
+#### Get Kin Content
 
 Get the content of all files in a kin folder as JSON.
 
@@ -436,7 +596,7 @@ Get the content of all files in a kin folder as JSON.
 }
 ```
 
-### Get Aider Logs
+#### Get Aider Logs
 
 Get the Aider logs for a kin.
 
@@ -468,7 +628,7 @@ Get the Aider logs for a kin.
 }
 ```
 
-### Get Commit History
+#### Get Commit History
 
 Get the Git commit history for a kin, ordered by date (latest first).
 
@@ -536,44 +696,97 @@ This endpoint:
      - Number of lines deleted (deletions)
      - List of changed files with per-file statistics
 
-### Analyze Message
+### Kin Building
 
-Analyze a message with Claude without saving it or triggering context updates.
+These endpoints allow you to modify and update a kin's files and structure.
 
-**Endpoints:** 
-- `POST /v2/blueprints/{blueprint}/kins/{kin_id}/analysis`
-- `GET /v2/blueprints/{blueprint}/kins/{kin_id}/analysis?message=your+message`
+#### Build Kin
 
-**POST Request Body:**
+Send a message to Aider for file creation/modification without Claude response.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/build`
+
+**Request Body:**
 ```json
 {
-  "message": "What is the purpose of this code?",
-  "images": ["data:image/jpeg;base64,..."],
-  "model": "claude-3-5-haiku-latest",
-  "addSystem": "Focus on explaining the architecture",
+  "message": "Create a new file called example.txt with some sample content",
+  "addSystem": "Focus on creating well-structured files",  // Optional
   "min_files": 5,  // Optional, minimum number of context files (default: 5)
   "max_files": 15  // Optional, maximum number of context files (default: 15)
 }
 ```
 
-**GET Query Parameters:**
-- `message`: The message to analyze (required)
-- `model`: Model to use (optional, default: claude-3-7-sonnet-latest)
-- `addSystem`: Additional system instructions (optional)
-- `min_files`: Minimum number of context files (optional, default: 5)
-- `max_files`: Maximum number of context files (optional, default: 15)
+The `addSystem` parameter allows you to append custom instructions to the system prompt that's sent to Aider. These instructions are added at the end of the system prompt after all the context files, providing additional guidance for how the files should be created or modified.
 
 **Response:**
 ```json
 {
   "status": "completed",
-  "response": "This code implements a context builder that..."
+  "response": "I've created the example.txt file with sample content..."
 }
 ```
 
 The `min_files` and `max_files` parameters allow you to control how many files are included in the context when processing the message. This helps balance between having enough context for accurate responses while avoiding context overload.
 
-### Generate Image
+#### Listen
+
+Have the kin listen to a message for file creation/modification (alias for /build endpoint).
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/listen`
+
+**Request Body:**
+```json
+{
+  "message": "Create a new file called example.txt with some sample content",
+  "addSystem": "Focus on creating well-structured files"  // Optional
+}
+```
+
+**Response:**
+```json
+{
+  "status": "completed",
+  "response": "I've created the example.txt file with sample content..."
+}
+```
+
+This endpoint is an alias for the `/build` endpoint and behaves exactly the same way. It's provided for semantic clarity when having the kin listen to user messages for file operations.
+
+### Modes and Configuration
+
+These endpoints allow you to manage and interact with different operational modes of a kin.
+
+#### Get Kin Modes
+
+Get available modes for a kin.
+
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/modes`
+
+**Response:**
+```json
+{
+  "modes": [
+    {
+      "id": "analysis",
+      "title": "Analysis Mode: Informative Responses Without Memorization"
+    },
+    {
+      "id": "code_review",
+      "title": "Code Review Mode"
+    },
+    {
+      "id": "creative",
+      "title": "Creative Writing Mode"
+    }
+  ]
+}
+```
+
+### Special Features
+
+These endpoints provide specialized functionality for specific use cases.
+
+#### Generate Image
 
 Generate an image based on a message using Ideogram API.
 
@@ -607,173 +820,7 @@ Generate an image based on a message using Ideogram API.
 }
 ```
 
-### Reset Blueprint
-
-Reset a blueprint and all its kins to initial template state.
-
-**Endpoint:** `POST /v2/blueprints/{blueprint}/reset`
-
-**Response:**
-```json
-{
-  "status": "success",
-  "message": "Blueprint 'kinos' has been reset",
-  "kins_reset": 3,
-  "results": [
-    {
-      "kin_id": "my-kin-1",
-      "status": "success",
-      "message": "Kin reset to template state"
-    },
-    {
-      "kin_id": "my-kin-2",
-      "status": "success",
-      "message": "Kin reset to template state"
-    },
-    {
-      "kin_id": "my-kin-3",
-      "status": "success",
-      "message": "Kin reset to template state"
-    }
-  ]
-}
-```
-
-### Reset Kin
-
-Reset a kin to its initial template state.
-
-**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/reset`
-
-**Response:**
-```json
-{
-  "status": "success",
-  "message": "Kin 'my-kin-id' has been reset to template state"
-}
-```
-
-### Copy Kin
-
-Copy a kin to create a new kin with the same content within the same blueprint.
-
-**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/copy`
-
-**Request Body:**
-```json
-{
-  "new_name": "copy-of-my-kin"
-}
-```
-
-**Response:**
-```json
-{
-  "status": "success", 
-  "message": "Kin 'source-kin-id' copied to 'copy-of-my-kin'",
-  "source_kin_id": "source-kin-id",
-  "new_kin_id": "new-kin-id",
-  "new_kin_name": "copy-of-my-kin"
-}
-```
-
-This endpoint:
-1. Creates a new kin with the provided name
-2. Copies all files from the source kin to the new kin
-3. Updates the new kin's metadata to reflect it was copied from the source kin
-
-This endpoint is particularly useful for creating personalized templates:
-1. Start with a base kin that has your desired configuration and files
-2. Copy it to create new instances while preserving all customizations
-3. Each copy maintains its own independent state and files
-
-Common use cases:
-- Create pre-configured kins with specific modes, knowledge, or settings
-- Save a well-tuned kin as a starting point for similar projects
-- Share standardized configurations across multiple instances
-- Test different variations of a kin while keeping the original intact
-
-The copied kin inherits all files and configurations from the source kin, making it an efficient way to replicate successful setups without starting from scratch.
-
-### Build Kin
-
-Send a message to Aider for file creation/modification without Claude response.
-
-**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/build`
-
-**Request Body:**
-```json
-{
-  "message": "Create a new file called example.txt with some sample content",
-  "addSystem": "Focus on creating well-structured files",  // Optional
-  "min_files": 5,  // Optional, minimum number of context files (default: 5)
-  "max_files": 15  // Optional, maximum number of context files (default: 15)
-}
-```
-
-The `addSystem` parameter allows you to append custom instructions to the system prompt that's sent to Aider. These instructions are added at the end of the system prompt after all the context files, providing additional guidance for how the files should be created or modified.
-
-**Response:**
-```json
-{
-  "status": "completed",
-  "response": "I've created the example.txt file with sample content..."
-}
-```
-
-The `min_files` and `max_files` parameters allow you to control how many files are included in the context when processing the message. This helps balance between having enough context for accurate responses while avoiding context overload.
-
-### Listen
-
-Have the kin listen to a message for file creation/modification (alias for /build endpoint).
-
-**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/listen`
-
-**Request Body:**
-```json
-{
-  "message": "Create a new file called example.txt with some sample content",
-  "addSystem": "Focus on creating well-structured files"  // Optional
-}
-```
-
-**Response:**
-```json
-{
-  "status": "completed",
-  "response": "I've created the example.txt file with sample content..."
-}
-```
-
-This endpoint is an alias for the `/build` endpoint and behaves exactly the same way. It's provided for semantic clarity when having the kin listen to user messages for file operations.
-
-### Get Kin Modes
-
-Get available modes for a kin.
-
-**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/modes`
-
-**Response:**
-```json
-{
-  "modes": [
-    {
-      "id": "analysis",
-      "title": "Analysis Mode: Informative Responses Without Memorization"
-    },
-    {
-      "id": "code_review",
-      "title": "Code Review Mode"
-    },
-    {
-      "id": "creative",
-      "title": "Creative Writing Mode"
-    }
-  ]
-}
-```
-
-### Create CodeGuardian
+#### Create CodeGuardian
 
 Create a new CodeGuardian kin for a GitHub repository.
 
@@ -810,7 +857,7 @@ This endpoint:
 
 The CodeGuardian can then be used to analyze and explain the codebase.
 
-### Trigger Autonomous Thinking
+#### Trigger Autonomous Thinking
 
 Trigger autonomous thinking for a kin, which generates random thoughts and self-reflections.
 
@@ -844,7 +891,11 @@ This endpoint starts a background process that:
 
 The process runs asynchronously, so the endpoint returns immediately while the thinking continues in the background.
 
-### Text-to-Speech
+### Media Processing
+
+These endpoints allow you to convert between text and audio formats.
+
+#### Text-to-Speech
 
 Convert text to speech using ElevenLabs API.
 
@@ -875,7 +926,7 @@ For JSON response (add query parameter `?format=json`):
 }
 ```
 
-### Speech-to-Text
+#### Speech-to-Text
 
 Convert audio to text using OpenAI's Whisper API.
 
@@ -903,7 +954,11 @@ Convert audio to text using OpenAI's Whisper API.
 }
 ```
 
-### Health Check
+### System Information
+
+These endpoints provide information about the API system status and configuration.
+
+#### Health Check
 
 Check if the API is running properly.
 
@@ -924,7 +979,7 @@ Check if the API is running properly.
 }
 ```
 
-### API Information
+#### API Information
 
 Get general information about the API.
 
@@ -1026,3 +1081,29 @@ The API implements rate limiting to ensure fair usage. Rate limit information is
 - `X-RateLimit-Reset`: Time when the rate limit window resets (Unix timestamp)
 
 When rate limits are exceeded, the API returns a 429 Too Many Requests status code.
+
+## Glossary
+
+- **Blueprint**: A template that defines the behavior, capabilities, and structure of kins. Blueprints contain the core files and configuration that determine how kins function.
+
+- **Kin**: An instance of a blueprint. Each kin has its own state, memory, and files, allowing for personalized interactions while inheriting the core functionality of its blueprint.
+
+- **Mode**: A predefined behavior setting that modifies how a kin responds to messages. Modes can change the tone, style, or purpose of interactions without requiring changes to the kin's files.
+
+- **Context**: The collection of files and information provided to Claude when processing a message. The context determines what knowledge the AI has access to when generating a response.
+
+- **Aider**: A tool that processes messages to create or modify files within a kin. Aider helps kins maintain their memory and knowledge by updating files based on conversations.
+
+- **Template**: The original version of a blueprint that serves as the starting point for all kins created from that blueprint.
+
+- **System Prompt**: Instructions provided to Claude that define how it should behave and respond. The system prompt includes content from core files and selected context files.
+
+- **Core Files**: Essential files like `kinos.txt`, `system.txt`, or `persona.txt` that define a kin's fundamental behavior and are always included in the context.
+
+- **Autonomous Thinking**: A process where a kin generates thoughts and reflections without user input, helping it develop its understanding and personality.
+
+- **CodeGuardian**: A specialized blueprint designed to analyze and explain code repositories.
+
+- **Analysis Mode**: A special mode that provides information and explanations without modifying the kin's memory or files.
+
+- **Build/Listen**: Endpoints that allow kins to modify their own files based on user messages, enabling them to learn and adapt over time.
