@@ -12,6 +12,31 @@ def get_kin_path(blueprint, kin_id):
     else:
         return os.path.join(blueprintS_DIR, blueprint, "kins", kin_id)
 
+def get_channel_path(kin_path, channel_id=None):
+    """
+    Get the path to a channel directory within a kin.
+    
+    Args:
+        kin_path: Path to the kin directory
+        channel_id: Channel ID (if None, returns the main channel)
+    
+    Returns:
+        Path to the channel directory
+    """
+    if not channel_id:
+        # Return the main channel (root of kin directory)
+        return kin_path
+    
+    # Create channels directory if it doesn't exist
+    channels_dir = os.path.join(kin_path, "channels")
+    os.makedirs(channels_dir, exist_ok=True)
+    
+    # Return the specific channel directory
+    channel_path = os.path.join(channels_dir, channel_id)
+    os.makedirs(channel_path, exist_ok=True)
+    
+    return channel_path
+
 def initialize_kin(blueprint, kin_name, template_override=None, kin_id=None):
     """
     Initialize a new kin for a blueprint.
@@ -142,6 +167,113 @@ def initialize_kin(blueprint, kin_name, template_override=None, kin_id=None):
         raise RuntimeError(f"kin directory does not exist after creation")
     
     return kin_id
+
+def create_channel(kin_path, channel_name, user_id=None, channel_type="direct", metadata=None, channel_id=None):
+    """
+    Create a new channel in a kin.
+    
+    Args:
+        kin_path: Path to the kin directory
+        channel_name: Name of the channel
+        user_id: Optional user ID for user-specific channels
+        channel_type: Type of channel (default: "direct")
+        metadata: Optional metadata for the channel
+        channel_id: Optional specific channel ID (if None, generates UUID)
+    
+    Returns:
+        Channel ID
+    """
+    # Create channels directory if it doesn't exist
+    channels_dir = os.path.join(kin_path, "channels")
+    os.makedirs(channels_dir, exist_ok=True)
+    
+    # Generate a unique channel ID if not provided
+    if channel_id is None:
+        import uuid
+        channel_id = f"channel_{str(uuid.uuid4())}"
+    
+    # Create channel directory
+    channel_path = os.path.join(channels_dir, channel_id)
+    os.makedirs(channel_path, exist_ok=True)
+    
+    # Create channel metadata file
+    channel_info = {
+        "id": channel_id,
+        "name": channel_name,
+        "created_at": datetime.datetime.now().isoformat(),
+        "updated_at": datetime.datetime.now().isoformat(),
+        "type": channel_type,
+        "metadata": metadata or {}
+    }
+    
+    if user_id:
+        channel_info["user_id"] = user_id
+    
+    # Save channel info
+    channel_info_path = os.path.join(channel_path, "channel_info.json")
+    with open(channel_info_path, 'w', encoding='utf-8') as f:
+        json.dump(channel_info, f, indent=2)
+    
+    # Create empty messages.json file
+    messages_file = os.path.join(channel_path, "messages.json")
+    with open(messages_file, 'w', encoding='utf-8') as f:
+        json.dump([], f)
+    
+    return channel_id
+
+def get_channels(kin_path):
+    """
+    Get a list of all channels in a kin.
+    
+    Args:
+        kin_path: Path to the kin directory
+    
+    Returns:
+        List of channel info dictionaries
+    """
+    channels = []
+    
+    # Add main channel
+    main_channel = {
+        "id": "main",
+        "name": "Main Channel",
+        "created_at": datetime.datetime.fromtimestamp(os.path.getctime(kin_path)).isoformat(),
+        "updated_at": datetime.datetime.fromtimestamp(os.path.getmtime(kin_path)).isoformat(),
+        "type": "main",
+        "is_main": True
+    }
+    channels.append(main_channel)
+    
+    # Check if channels directory exists
+    channels_dir = os.path.join(kin_path, "channels")
+    if not os.path.exists(channels_dir):
+        return channels
+    
+    # Get all channel directories
+    for channel_id in os.listdir(channels_dir):
+        channel_path = os.path.join(channels_dir, channel_id)
+        if os.path.isdir(channel_path):
+            # Try to load channel info
+            channel_info_path = os.path.join(channel_path, "channel_info.json")
+            if os.path.exists(channel_info_path):
+                try:
+                    with open(channel_info_path, 'r', encoding='utf-8') as f:
+                        channel_info = json.load(f)
+                    channels.append(channel_info)
+                except Exception as e:
+                    logger.error(f"Error loading channel info for {channel_id}: {str(e)}")
+            else:
+                # Create basic channel info if file doesn't exist
+                channel_info = {
+                    "id": channel_id,
+                    "name": f"Channel {channel_id}",
+                    "created_at": datetime.datetime.fromtimestamp(os.path.getctime(channel_path)).isoformat(),
+                    "updated_at": datetime.datetime.fromtimestamp(os.path.getmtime(channel_path)).isoformat(),
+                    "type": "unknown"
+                }
+                channels.append(channel_info)
+    
+    return channels
 
 def load_file_content(kin_path, file_path):
     """Load the content of a file from the kin."""

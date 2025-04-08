@@ -19,7 +19,7 @@ except Exception as e:
     logger.error(f"Error initializing Anthropic client: {str(e)}")
     raise RuntimeError(f"Could not initialize Anthropic client: {str(e)}")
 
-def call_claude_with_context(selected_files, kin_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None, mode=None):
+def call_claude_with_context(selected_files, kin_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None, mode=None, channel_messages=None, channel_id=None):
     """
     Call Claude API directly with the selected context files, user message, and optional images.
     Also includes conversation history from messages.json as actual messages.
@@ -34,6 +34,8 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
         is_new_message: Whether this is a new message not yet in messages.json (default: True)
         addSystem: Optional additional text to append to the system prompt
         mode: Optional mode to use for this interaction
+        channel_messages: Optional list of messages from a specific channel
+        channel_id: Optional channel ID
     
     Returns:
         Claude response as a string
@@ -144,34 +146,54 @@ Your goal is to provide useful and accurate information while maintaining a clea
         # Initialize messages array
         messages = []
         
-        # Load conversation history from messages.json and add as actual messages
-        messages_file = os.path.join(kin_path, "messages.json")
-        if os.path.exists(messages_file):
-            try:
-                with open(messages_file, 'r', encoding='utf-8') as f:
-                    message_data = json.load(f)
-                    
-                    # Limit to specified number of recent messages
-                    recent_messages = message_data[-history_length:] if len(message_data) > history_length else message_data
-                    
-                    # Add each message as a proper message object
-                    for msg in recent_messages:
-                        role = msg.get('role', '')
-                        content = msg.get('content', '')
+        # Use channel-specific messages if provided, otherwise load from messages.json
+        if channel_messages:
+            # Use the provided channel messages
+            recent_messages = channel_messages
+            logger.info(f"Using {len(recent_messages)} provided channel messages")
+        else:
+            # Determine which messages file to use based on channel_id
+            if channel_id:
+                # Get channel path
+                from services.file_service import get_channel_path
+                channel_path = get_channel_path(kin_path, channel_id)
+                messages_file = os.path.join(channel_path, "messages.json")
+                logger.info(f"Using channel-specific messages file: {messages_file}")
+            else:
+                # Use main messages file
+                messages_file = os.path.join(kin_path, "messages.json")
+                logger.info(f"Using main messages file: {messages_file}")
+            
+            # Load conversation history from messages file
+            if os.path.exists(messages_file):
+                try:
+                    with open(messages_file, 'r', encoding='utf-8') as f:
+                        message_data = json.load(f)
                         
-                        # Only add if it has valid role and content
-                        if role in ['user', 'assistant'] and content:
-                            # Skip if this is the same as the current message we're about to add
-                            if is_new_message and role == 'user' and content == message_content:
-                                logger.info("Skipping duplicate message from history")
-                                continue
-                            
-                            messages.append({
-                                "role": role,
-                                "content": content
-                            })
-            except Exception as e:
-                logger.error(f"Error reading messages.json: {str(e)}")
+                        # Limit to specified number of recent messages
+                        recent_messages = message_data[-history_length:] if len(message_data) > history_length else message_data
+                except Exception as e:
+                    logger.error(f"Error reading messages file: {str(e)}")
+                    recent_messages = []
+            else:
+                recent_messages = []
+        
+        # Add each message as a proper message object
+        for msg in recent_messages:
+            role = msg.get('role', '')
+            content = msg.get('content', '')
+            
+            # Only add if it has valid role and content
+            if role in ['user', 'assistant'] and content:
+                # Skip if this is the same as the current message we're about to add
+                if is_new_message and role == 'user' and content == message_content:
+                    logger.info("Skipping duplicate message from history")
+                    continue
+                
+                messages.append({
+                    "role": role,
+                    "content": content
+                })
         
         # If there are images, create a separate message with just the images
         if images and len(images) > 0:

@@ -189,18 +189,388 @@ def get_messages_v2(blueprint, kin_id):
     """
     V2 API endpoint to get messages for a kin.
     Maps to the original get_messages function.
+    
+    Query parameters:
+    - channel_id: Optional channel ID (if not provided, uses main channel)
     """
-    from routes.messages import get_messages
-    return get_messages(blueprint, kin_id)
+    # Check if channel_id is provided in query parameters
+    channel_id = request.args.get('channel_id')
+    
+    if channel_id:
+        # If channel_id is provided, use the channel-specific endpoint
+        return get_channel_messages_v2(blueprint, kin_id, channel_id)
+    else:
+        # Otherwise, use the original function (main channel)
+        from routes.messages import get_messages
+        return get_messages(blueprint, kin_id)
+
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/channels/<channel_id>/messages', methods=['GET'])
+def get_channel_messages_v2(blueprint, kin_id, channel_id):
+    """
+    V2 API endpoint to get messages for a specific channel.
+    """
+    try:
+        since = request.args.get('since')
+        
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Handle main channel specially
+        if channel_id == "main":
+            # Use the original get_messages function
+            from routes.messages import get_messages
+            return get_messages(blueprint, kin_id)
+        
+        # Get channel path
+        from services.file_service import get_channel_path
+        channel_path = get_channel_path(kin_path, channel_id)
+        
+        # Check if channel exists
+        if not os.path.exists(channel_path):
+            return jsonify({"error": f"Channel '{channel_id}' not found"}), 404
+        
+        # Load messages
+        messages_file = os.path.join(channel_path, "messages.json")
+        if not os.path.exists(messages_file):
+            return jsonify({"messages": []}), 200
+        
+        with open(messages_file, 'r') as f:
+            messages = json.load(f)
+        
+        # Filter by timestamp if provided
+        if since:
+            try:
+                since_dt = datetime.datetime.fromisoformat(since)
+                messages = [m for m in messages if datetime.datetime.fromisoformat(m.get('timestamp', '')) > since_dt]
+            except ValueError:
+                return jsonify({"error": "Invalid timestamp format"}), 400
+        
+        return jsonify({"messages": messages, "channel_id": channel_id})
+        
+    except Exception as e:
+        logger.error(f"Error getting channel messages: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/messages', methods=['POST'])
 def send_message_v2(blueprint, kin_id):
     """
     V2 API endpoint to send a message to a kin.
     Maps to the original send_message function.
+    
+    Request body can include:
+    - channel_id: Optional channel ID (if not provided, uses main channel)
     """
-    from routes.messages import send_message
-    return send_message(blueprint, kin_id)
+    # Get the original data
+    original_data = request.get_json() or {}
+    
+    # Check if channel_id is provided in the request
+    channel_id = original_data.get('channel_id')
+    
+    if channel_id:
+        # If channel_id is provided, use the channel-specific endpoint
+        return send_channel_message_v2(blueprint, kin_id, channel_id)
+    else:
+        # Otherwise, use the original function (main channel)
+        from routes.messages import send_message
+        return send_message(blueprint, kin_id)
+
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/channels/<channel_id>/messages', methods=['POST'])
+def send_channel_message_v2(blueprint, kin_id, channel_id=None):
+    """
+    V2 API endpoint to send a message to a specific channel.
+    """
+    try:
+        # Parse request data
+        data = request.json
+        
+        # If channel_id is not in the URL, try to get it from the request body
+        if channel_id is None:
+            channel_id = data.get('channel_id')
+            
+            # If still None, use the main channel
+            if channel_id is None:
+                # Use the original send_message function
+                from routes.messages import send_message
+                return send_message(blueprint, kin_id)
+        
+        # Support both formats: new format with 'message' and original format with 'content'
+        message_content = data.get('message', data.get('content', ''))
+        
+        # Support both formats: new format with 'screenshot' and original format with 'images'
+        images = data.get('images', [])
+        if 'screenshot' in data and data['screenshot']:
+            # Add screenshot to images array if it's not empty
+            images.append(data['screenshot'])
+        
+        # Get optional fields from new format
+        username = data.get('username', '')
+        character = data.get('character', '')
+        token = data.get('token', '')  # Can be used for authentication in the future
+        model = data.get('model', '')  # Optional model parameter
+        history_length = data.get('history_length', 25)  # Default to 25 messages
+        addSystem = data.get('addSystem', None)  # Optional additional system instructions
+        
+        # Ensure history_length is an integer and has a reasonable value (default: 25)
+        try:
+            history_length = int(history_length)
+            if history_length < 0:
+                history_length = 0
+            elif history_length > 50:  # Set a reasonable upper limit
+                history_length = 50
+        except (ValueError, TypeError):
+            history_length = 10  # Default if invalid value
+        
+        # Original format attachments
+        attachments = data.get('attachments', [])
+        
+        # Initialize saved_images list to track saved image paths
+        saved_images = []
+        
+        # Validate blueprint
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        
+        # Track if we need to create a new kin
+        kin_created = False
+        
+        # First, check if we need to create a new kin
+        if not os.path.exists(kin_path) and kin_id != "template":
+            # Use the original send_message function to create the kin
+            from routes.messages import send_message
+            return send_message(blueprint, kin_id)
+        
+        # Handle main channel specially
+        if channel_id == "main":
+            # Use the original send_message function
+            from routes.messages import send_message
+            return send_message(blueprint, kin_id)
+        
+        # Get channel path
+        from services.file_service import get_channel_path
+        channel_path = get_channel_path(kin_path, channel_id)
+        
+        # Check if channel exists, create it if not
+        if not os.path.exists(channel_path):
+            from services.file_service import create_channel
+            channel_name = data.get('channel_name', f"Channel {channel_id}")
+            create_channel(kin_path, channel_name, None, "direct", None, channel_id)
+        
+        # Save images to kin directory if any
+        if images and len(images) > 0:
+            # Create images directory if it doesn't exist
+            images_dir = os.path.join(kin_path, "images")
+            os.makedirs(images_dir, exist_ok=True)
+            
+            for i, img_base64 in enumerate(images):
+                try:
+                    # Clean up the base64 data
+                    if ',' in img_base64:
+                        # Extract the base64 part after the comma
+                        img_base64 = img_base64.split(',', 1)[1]
+                    
+                    # Generate filename with date
+                    date_str = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+                    image_filename = f"{date_str}_{i}.jpg"
+                    image_path = os.path.join(images_dir, image_filename)
+                    
+                    # Save the image
+                    with open(image_path, 'wb') as f:
+                        image_data = base64.b64decode(img_base64)
+                        f.write(image_data)
+                    
+                    # Add relative path to saved images
+                    saved_images.append(os.path.join("images", image_filename))
+                    logger.info(f"Saved image to {image_path}")
+                except Exception as e:
+                    logger.error(f"Error saving image: {str(e)}")
+        
+        # Now that we've ensured the kin and channel exist, proceed with message handling
+        messages_file = os.path.join(channel_path, "messages.json")
+        
+        # Load existing messages
+        if os.path.exists(messages_file):
+            with open(messages_file, 'r') as f:
+                messages = json.load(f)
+        else:
+            # If messages.json doesn't exist, create it
+            messages = []
+            with open(messages_file, 'w') as f:
+                json.dump(messages, f)
+        
+        # Prepare user message object
+        user_message = {
+            "role": "user",
+            "content": message_content,
+            "timestamp": datetime.datetime.now().isoformat(),
+            "channel_id": channel_id  # Add channel_id to the message
+        }
+        
+        # Add image paths to the message if any were saved
+        if saved_images:
+            user_message["images"] = saved_images
+        
+        # Add optional fields if they exist
+        if username:
+            user_message["username"] = username
+        if character:
+            user_message["character"] = character
+        
+        # Get optional mode parameter
+        mode = data.get('mode', '')  # Get optional mode parameter
+        
+        # Check for URLs in the message
+        url_pattern = r'https?://[^\s<>"]+|www\.[^\s<>"]+'
+        urls = re.findall(url_pattern, message_content)
+        
+        # Extract content from URLs and add to attachments
+        for url in urls:
+            if not url.startswith('http'):
+                url = 'https://' + url
+            
+            logger.info(f"Found URL in message: {url}")
+            source_files = extract_and_save_url_content(url, kin_path)
+            
+            if source_files:
+                logger.info(f"Saved URL content to: {source_files}")
+                if not attachments:
+                    attachments = []
+                # Handle both single file and list of files
+                if isinstance(source_files, list):
+                    attachments.extend(source_files)
+                else:
+                    attachments.append(source_files)
+
+        # Get optional parameters for context building
+        min_files = data.get('min_files', 5)  # Default to 5
+        max_files = data.get('max_files', 15)  # Default to 15
+        
+        # Validate the values
+        try:
+            min_files = int(min_files)
+            max_files = int(max_files)
+            if min_files < 1:
+                min_files = 1
+            if max_files < min_files:
+                max_files = min_files
+        except (ValueError, TypeError):
+            min_files = 5
+            max_files = 15
+
+        # Build context (select relevant files)
+        selected_files, selected_mode = build_context(
+            blueprint, 
+            kin_id, 
+            message_content, 
+            attachments, 
+            kin_path, 
+            model, 
+            mode, 
+            addSystem, 
+            history_length=2,
+            min_files=min_files,
+            max_files=max_files
+        )
+        
+        # Add saved image files to selected files for context
+        for img_path in saved_images:
+            if img_path not in selected_files:
+                selected_files.append(img_path)
+        
+        # Add channel-specific messages to context
+        # Load the last few messages from this channel
+        channel_context = []
+        if len(messages) > 0:
+            # Get the last few messages (up to history_length)
+            channel_context = messages[-min(history_length, len(messages)):]
+        
+        # Log the selected files and mode
+        logger.info(f"Selected files for context: {selected_files}")
+        if selected_mode:
+            logger.info(f"Selected mode: {selected_mode}")
+        
+        # Call Claude and Aider with the selected context
+        try:
+            # Call Claude directly for a response
+            # Pass is_new_message=True to indicate this message isn't in messages.json yet
+            claude_response = call_claude_with_context(
+                selected_files, 
+                kin_path, 
+                message_content, 
+                images, 
+                model,
+                history_length,
+                is_new_message=True,
+                addSystem=addSystem,
+                mode=selected_mode,  # Pass the selected mode
+                channel_messages=channel_context  # Pass channel-specific messages
+            )
+            
+            # Create assistant message object
+            assistant_message = {
+                "role": "assistant",
+                "content": claude_response,
+                "timestamp": datetime.datetime.now().isoformat(),
+                "channel_id": channel_id  # Add channel_id to the message
+            }
+            
+            # Add character if it was provided
+            if character:
+                assistant_message["character"] = character
+            
+            # NOW add both messages to the messages array and save to messages.json
+            messages.append(user_message)
+            messages.append(assistant_message)
+            
+            # Save updated messages with both user and assistant messages
+            with open(messages_file, 'w') as f:
+                json.dump(messages, f, indent=2)
+            
+            # Call Aider in parallel for file updates (don't wait for response)
+            def run_aider():
+                try:
+                    aider_response = call_aider_with_context(kin_path, selected_files, message_content, addSystem=addSystem)
+                    logger.info("Aider processing completed")
+                    # Log the complete Aider response
+                    logger.info(f"Aider response: {aider_response}")
+                except Exception as e:
+                    logger.error(f"Error in Aider thread: {str(e)}")
+            
+            # Start Aider in a separate thread
+            aider_thread = threading.Thread(target=run_aider)
+            aider_thread.start()
+            
+            # Return the Claude response directly in the API response
+            response_data = {
+                "status": "completed",
+                "message_id": str(len(messages) - 1),
+                "response": claude_response,
+                "channel_id": channel_id
+            }
+            
+            # Add kin_created flag if a new kin was created
+            if kin_created:
+                response_data["kin_created"] = True
+            
+            # Add selected_mode if one was determined
+            if selected_mode:
+                response_data["mode"] = selected_mode
+                
+            return jsonify(response_data)
+            
+        except Exception as e:
+            logger.error(f"Error processing message: {str(e)}")
+            return jsonify({"error": f"Error processing message: {str(e)}"}), 500
+        
+    except Exception as e:
+        logger.error(f"Error processing message: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/analysis', methods=['GET', 'POST'])
 def analyze_message_v2(blueprint, kin_id):
@@ -556,6 +926,128 @@ def get_kin_modes_v2(blueprint, kin_id):
     from routes.projects import get_kin_modes
     return get_kin_modes(blueprint, kin_id)
 
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/channels', methods=['GET'])
+def get_channels_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to get a list of channels for a kin.
+    """
+    try:
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Get channels
+        from services.file_service import get_channels
+        channels = get_channels(kin_path)
+        
+        return jsonify({"channels": channels})
+        
+    except Exception as e:
+        logger.error(f"Error getting channels: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/channels', methods=['POST'])
+def create_channel_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to create a new channel for a kin.
+    """
+    try:
+        # Parse request data
+        data = request.json
+        channel_name = data.get('name', '')
+        user_id = data.get('user_id')
+        channel_type = data.get('type', 'direct')
+        metadata = data.get('metadata', {})
+        
+        # Validate required parameters
+        if not channel_name:
+            return jsonify({"error": "Channel name is required"}), 400
+        
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Create channel
+        from services.file_service import create_channel
+        channel_id = create_channel(kin_path, channel_name, user_id, channel_type, metadata)
+        
+        return jsonify({
+            "status": "success",
+            "message": f"Channel '{channel_name}' created",
+            "channel_id": channel_id
+        })
+        
+    except Exception as e:
+        logger.error(f"Error creating channel: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/channels/<channel_id>', methods=['GET'])
+def get_channel_v2(blueprint, kin_id, channel_id):
+    """
+    V2 API endpoint to get details about a specific channel.
+    """
+    try:
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Handle main channel specially
+        if channel_id == "main":
+            main_channel = {
+                "id": "main",
+                "name": "Main Channel",
+                "created_at": datetime.datetime.fromtimestamp(os.path.getctime(kin_path)).isoformat(),
+                "updated_at": datetime.datetime.fromtimestamp(os.path.getmtime(kin_path)).isoformat(),
+                "type": "main",
+                "is_main": True
+            }
+            return jsonify(main_channel)
+        
+        # Get channel path
+        from services.file_service import get_channel_path
+        channel_path = get_channel_path(kin_path, channel_id)
+        
+        # Check if channel exists
+        if not os.path.exists(channel_path):
+            return jsonify({"error": f"Channel '{channel_id}' not found"}), 404
+        
+        # Get channel info
+        channel_info_path = os.path.join(channel_path, "channel_info.json")
+        if os.path.exists(channel_info_path):
+            try:
+                with open(channel_info_path, 'r', encoding='utf-8') as f:
+                    channel_info = json.load(f)
+                return jsonify(channel_info)
+            except Exception as e:
+                logger.error(f"Error loading channel info: {str(e)}")
+                return jsonify({"error": f"Error loading channel info: {str(e)}"}), 500
+        else:
+            # Create basic channel info if file doesn't exist
+            channel_info = {
+                "id": channel_id,
+                "name": f"Channel {channel_id}",
+                "created_at": datetime.datetime.fromtimestamp(os.path.getctime(channel_path)).isoformat(),
+                "updated_at": datetime.datetime.fromtimestamp(os.path.getmtime(channel_path)).isoformat(),
+                "type": "unknown"
+            }
+            return jsonify(channel_info)
+        
+    except Exception as e:
+        logger.error(f"Error getting channel: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @v2_bp.route('/blueprints/codeguardian/create', methods=['POST'])
 def create_code_guardian_v2():
     """
@@ -564,6 +1056,86 @@ def create_code_guardian_v2():
     """
     from routes.projects import create_code_guardian_api
     return create_code_guardian_api()
+
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/channels/<channel_id>', methods=['PUT'])
+def update_channel_v2(blueprint, kin_id, channel_id):
+    """
+    V2 API endpoint to update a channel.
+    """
+    try:
+        # Parse request data
+        data = request.json
+        
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Cannot update the main channel
+        if channel_id == "main":
+            return jsonify({"error": "Cannot update the main channel"}), 400
+        
+        # Get channel path
+        from services.file_service import get_channel_path
+        channel_path = get_channel_path(kin_path, channel_id)
+        
+        # Check if channel exists
+        if not os.path.exists(channel_path):
+            return jsonify({"error": f"Channel '{channel_id}' not found"}), 404
+        
+        # Update channel info
+        from utils.channel_utils import update_channel_info
+        updated_info = update_channel_info(kin_path, channel_id, data)
+        
+        if updated_info:
+            return jsonify({
+                "status": "success",
+                "message": f"Channel '{channel_id}' updated",
+                "channel": updated_info
+            })
+        else:
+            return jsonify({"error": "Failed to update channel info"}), 500
+        
+    except Exception as e:
+        logger.error(f"Error updating channel: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/channels/<channel_id>', methods=['DELETE'])
+def delete_channel_v2(blueprint, kin_id, channel_id):
+    """
+    V2 API endpoint to delete a channel.
+    """
+    try:
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Cannot delete the main channel
+        if channel_id == "main":
+            return jsonify({"error": "Cannot delete the main channel"}), 400
+        
+        # Delete the channel
+        from utils.channel_utils import delete_channel
+        success = delete_channel(kin_path, channel_id)
+        
+        if success:
+            return jsonify({
+                "status": "success",
+                "message": f"Channel '{channel_id}' deleted"
+            })
+        else:
+            return jsonify({"error": "Failed to delete channel"}), 500
+        
+    except Exception as e:
+        logger.error(f"Error deleting channel: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @v2_bp.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def catch_all_v2(undefined_route):

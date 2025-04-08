@@ -19,9 +19,17 @@ This document provides a comprehensive reference for version 2 of the KinOS API 
     - [Rename Kin](#rename-kin)
     - [Copy Kin](#copy-kin)
     - [Reset Kin](#reset-kin)
+  - [Channel Management](#channel-management)
+    - [Get Channels](#get-channels)
+    - [Create Channel](#create-channel)
+    - [Get Channel Details](#get-channel-details)
+    - [Update Channel](#update-channel)
+    - [Delete Channel](#delete-channel)
   - [Message Interaction](#message-interaction)
     - [Get Kin Messages](#get-kin-messages)
     - [Send Message](#send-message)
+    - [Get Channel Messages](#get-channel-messages)
+    - [Send Channel Message](#send-channel-message)
     - [Analyze Message](#analyze-message)
   - [File Operations](#file-operations)
     - [Get Kin Files](#get-kin-files)
@@ -383,6 +391,7 @@ Get messages for a specific kin.
 - `since` (optional): ISO timestamp to get only messages after this time
 - `limit` (optional): Maximum number of messages to return (default: 50)
 - `offset` (optional): Number of messages to skip (for pagination)
+- `channel_id` (optional): Channel ID to get messages from (if not provided, uses main channel)
 
 **Response:**
 ```json
@@ -410,6 +419,46 @@ Get messages for a specific kin.
 }
 ```
 
+#### Get Channel Messages
+
+Get messages for a specific channel within a kin.
+
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/channels/{channel_id}/messages`
+
+**Query Parameters:**
+- `since` (optional): ISO timestamp to get only messages after this time
+- `limit` (optional): Maximum number of messages to return (default: 50)
+- `offset` (optional): Number of messages to skip (for pagination)
+
+**Response:**
+```json
+{
+  "messages": [
+    {
+      "id": "msg_123456",
+      "role": "user",
+      "content": "Hello, can you help me with this issue?",
+      "timestamp": "2023-09-15T14:30:45.123456",
+      "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000"
+    },
+    {
+      "id": "msg_123457",
+      "role": "assistant",
+      "content": "Of course! I'd be happy to help with your issue. What's happening?",
+      "timestamp": "2023-09-15T14:30:50.654321",
+      "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000"
+    }
+  ],
+  "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000",
+  "pagination": {
+    "total": 24,
+    "limit": 50,
+    "offset": 0,
+    "has_more": false
+  }
+}
+```
+
 #### Send Message
 
 Send a message to a kin.
@@ -427,7 +476,8 @@ Send a message to a kin.
   "mode": "creative",
   "addSystem": "Additional system instructions to guide the response",
   "min_files": 5,  // Optional, minimum number of context files (default: 5)
-  "max_files": 15  // Optional, maximum number of context files (default: 15)
+  "max_files": 15,  // Optional, maximum number of context files (default: 15)
+  "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000"  // Optional, channel to send message to
 }
 ```
 
@@ -447,11 +497,45 @@ Unlike mode selection which uses predefined behavior sets, `addSystem` allows fo
   "status": "completed",
   "role": "assistant",
   "content": "The code works by...",
-  "timestamp": "2023-09-15T14:31:00.123456"
+  "timestamp": "2023-09-15T14:31:00.123456",
+  "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000"  // Included if a channel was specified
 }
 ```
 
 The `min_files` and `max_files` parameters allow you to control how many files are included in the context when processing the message. This helps balance between having enough context for accurate responses while avoiding context overload.
+
+#### Send Channel Message
+
+Send a message to a specific channel within a kin.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/channels/{channel_id}/messages`
+
+**Request Body:**
+```json
+{
+  "content": "Hello, can you help me with this issue?",
+  "images": ["data:image/jpeg;base64,..."],
+  "attachments": ["file1.txt", "file2.md"],
+  "model": "claude-3-7-sonnet-latest",
+  "history_length": 25,
+  "mode": "creative",
+  "addSystem": "Additional system instructions to guide the response",
+  "min_files": 5,  // Optional, minimum number of context files (default: 5)
+  "max_files": 15  // Optional, maximum number of context files (default: 15)
+}
+```
+
+**Response:**
+```json
+{
+  "id": "msg_123458",
+  "status": "completed",
+  "role": "assistant",
+  "content": "I'll help you with your issue...",
+  "timestamp": "2023-09-15T14:31:00.123456",
+  "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000"
+}
+```
 
 #### Analyze Message
 
@@ -695,6 +779,145 @@ This endpoint:
      - Number of lines added (insertions)
      - Number of lines deleted (deletions)
      - List of changed files with per-file statistics
+
+### Channel Management
+
+These endpoints allow you to create and manage channels within a kin, enabling multiple conversation threads.
+
+#### Get Channels
+
+Get a list of all channels for a kin.
+
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/channels`
+
+**Response:**
+```json
+{
+  "channels": [
+    {
+      "id": "main",
+      "name": "Main Channel",
+      "created_at": "2023-09-15T14:30:45.123456",
+      "updated_at": "2023-09-15T14:30:45.123456",
+      "type": "main",
+      "is_main": true
+    },
+    {
+      "id": "channel_550e8400-e29b-41d4-a716-446655440000",
+      "name": "Support Chat",
+      "created_at": "2023-09-15T14:30:45.123456",
+      "updated_at": "2023-09-15T14:30:45.123456",
+      "type": "direct",
+      "user_id": "user_123",
+      "metadata": {
+        "description": "Support conversation about API integration",
+        "tags": ["support", "api"]
+      }
+    }
+  ]
+}
+```
+
+#### Create Channel
+
+Create a new channel for a kin.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/channels`
+
+**Request Body:**
+```json
+{
+  "name": "Support Chat",
+  "type": "direct",
+  "user_id": "user_123",
+  "metadata": {
+    "description": "Support conversation about API integration",
+    "tags": ["support", "api"]
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Channel 'Support Chat' created",
+  "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000"
+}
+```
+
+#### Get Channel Details
+
+Get detailed information about a specific channel.
+
+**Endpoint:** `GET /v2/blueprints/{blueprint}/kins/{kin_id}/channels/{channel_id}`
+
+**Response:**
+```json
+{
+  "id": "channel_550e8400-e29b-41d4-a716-446655440000",
+  "name": "Support Chat",
+  "created_at": "2023-09-15T14:30:45.123456",
+  "updated_at": "2023-09-15T14:30:45.123456",
+  "type": "direct",
+  "user_id": "user_123",
+  "metadata": {
+    "description": "Support conversation about API integration",
+    "tags": ["support", "api"]
+  }
+}
+```
+
+#### Update Channel
+
+Update a channel's information.
+
+**Endpoint:** `PUT /v2/blueprints/{blueprint}/kins/{kin_id}/channels/{channel_id}`
+
+**Request Body:**
+```json
+{
+  "name": "Updated Channel Name",
+  "metadata": {
+    "description": "Updated description",
+    "tags": ["updated", "tags"]
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Channel 'channel_550e8400-e29b-41d4-a716-446655440000' updated",
+  "channel": {
+    "id": "channel_550e8400-e29b-41d4-a716-446655440000",
+    "name": "Updated Channel Name",
+    "created_at": "2023-09-15T14:30:45.123456",
+    "updated_at": "2023-09-15T14:31:00.123456",
+    "type": "direct",
+    "user_id": "user_123",
+    "metadata": {
+      "description": "Updated description",
+      "tags": ["updated", "tags"]
+    }
+  }
+}
+```
+
+#### Delete Channel
+
+Delete a channel.
+
+**Endpoint:** `DELETE /v2/blueprints/{blueprint}/kins/{kin_id}/channels/{channel_id}`
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Channel 'channel_550e8400-e29b-41d4-a716-446655440000' deleted"
+}
+```
 
 ### Kin Building
 
@@ -1087,6 +1310,10 @@ When rate limits are exceeded, the API returns a 429 Too Many Requests status co
 - **Blueprint**: A template that defines the behavior, capabilities, and structure of kins. Blueprints contain the core files and configuration that determine how kins function.
 
 - **Kin**: An instance of a blueprint. Each kin has its own state, memory, and files, allowing for personalized interactions while inheriting the core functionality of its blueprint.
+
+- **Channel**: A conversation thread within a kin that maintains its own message history. Channels allow a kin to have multiple separate conversations with different users or for different purposes.
+
+- **Main Channel**: The default channel that exists for every kin, represented by the root messages.json file. This maintains backward compatibility with the original single-conversation model.
 
 - **Mode**: A predefined behavior setting that modifies how a kin responds to messages. Modes can change the tone, style, or purpose of interactions without requiring changes to the kin's files.
 
