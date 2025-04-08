@@ -55,15 +55,10 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
                     logger.error(f"Error reading file {file_path}: {str(e)}")
         
         # If analysis mode is active (either explicitly set or detected in message),
-        # use only the analysis mode content and skip persona/system files
+        # add analysis mode content but keep core files
         is_analysis_mode = (mode == 'analysis' or 'analysis' in message_content.lower())
         
         if is_analysis_mode:
-            # Filter out persona.txt, kinos.txt, and system.txt from file_contents
-            file_contents = [fc for fc in file_contents if not any(
-                core_file in fc for core_file in ["# File: persona.txt", "# File: kinos.txt", "# File: system.txt"]
-            )]
-            
             # Create dynamic analysis mode content
             analysis_content = """# Analysis Mode: Informative Responses Without Memorization
 
@@ -96,7 +91,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
 """
             # Add the analysis content to file_contents
             file_contents.append(f"# Active Mode: analysis\n{analysis_content}")
-            logger.info(f"Added analysis mode content and removed persona/system files from context")
+            logger.info(f"Added analysis mode content while keeping core files in context")
         # If not analysis mode, add the specified mode file to the context
         elif mode:
             mode_file_path = os.path.join(kin_path, f"modes/{mode}.txt")
