@@ -334,6 +334,40 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
         # Original format attachments
         attachments = data.get('attachments', [])
         
+        # Get addContext parameter - list of files/directories to always include
+        add_context = data.get('addContext', [])
+        if add_context and not isinstance(add_context, list):
+            # If it's not a list, convert it to a list with a single item
+            add_context = [add_context]
+
+        # Process addContext to expand directories and verify files exist
+        processed_add_context = []
+        if add_context:
+            for path in add_context:
+                full_path = os.path.join(kin_path, path)
+                if os.path.exists(full_path):
+                    if os.path.isdir(full_path):
+                        # If it's a directory, add all files in it
+                        for root, _, files in os.walk(full_path):
+                            for file in files:
+                                file_path = os.path.join(root, file)
+                                rel_path = os.path.relpath(file_path, kin_path)
+                                processed_add_context.append(rel_path)
+                                logger.info(f"Added file from directory in addContext: {rel_path}")
+                    else:
+                        # It's a file, add it directly
+                        processed_add_context.append(path)
+                        logger.info(f"Added file from addContext: {path}")
+                else:
+                    logger.warning(f"File or directory in addContext not found: {path}")
+
+        # Add processed_add_context to attachments
+        if processed_add_context:
+            if not attachments:
+                attachments = []
+            attachments.extend(processed_add_context)
+            logger.info(f"Added {len(processed_add_context)} files from addContext to attachments")
+        
         # Initialize saved_images list to track saved image paths
         saved_images = []
         

@@ -475,11 +475,20 @@ Send a message to a kin.
   "history_length": 25,
   "mode": "creative",
   "addSystem": "Additional system instructions to guide the response",
+  "addContext": ["memories/conversation_123.txt", "knowledge/topic.md", "sources/"],
   "min_files": 5,  // Optional, minimum number of context files (default: 5)
   "max_files": 15,  // Optional, maximum number of context files (default: 15)
   "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000"  // Optional, channel to send message to
 }
 ```
+
+The `addContext` parameter allows you to specify additional files or directories that should always be included in the context for this message. This is useful for:
+
+- Including specific memory files relevant to the current conversation
+- Adding knowledge files that contain information needed for the response
+- Ensuring entire directories of related content are available to the AI
+
+When specifying a directory (e.g., "sources/"), all files within that directory will be included in the context. This parameter works alongside the automatic context building system but ensures these specific files are always included.
 
 The `addSystem` parameter allows you to append custom instructions to the system prompt that's sent to Claude. These instructions are added at the end of the system prompt after all the context files, giving you a way to provide additional guidance or constraints for this specific interaction without modifying any files. This is particularly useful for:
 
@@ -520,6 +529,7 @@ Send a message to a specific channel within a kin.
   "history_length": 25,
   "mode": "creative",
   "addSystem": "Additional system instructions to guide the response",
+  "addContext": ["memories/conversation_123.txt", "knowledge/topic.md", "sources/"],
   "min_files": 5,  // Optional, minimum number of context files (default: 5)
   "max_files": 15  // Optional, maximum number of context files (default: 15)
 }
