@@ -339,7 +339,16 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
         if add_context and not isinstance(add_context, list):
             # If it's not a list, convert it to a list with a single item
             add_context = [add_context]
-
+        
+        # Initialize saved_images list to track saved image paths
+        saved_images = []
+        
+        # Validate blueprint
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        
         # Process addContext to expand directories and verify files exist
         processed_add_context = []
         if add_context:
@@ -367,15 +376,6 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
                 attachments = []
             attachments.extend(processed_add_context)
             logger.info(f"Added {len(processed_add_context)} files from addContext to attachments")
-        
-        # Initialize saved_images list to track saved image paths
-        saved_images = []
-        
-        # Validate blueprint
-        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
-            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
-            
-        kin_path = get_kin_path(blueprint, kin_id)
         
         # Track if we need to create a new kin
         kin_created = False
