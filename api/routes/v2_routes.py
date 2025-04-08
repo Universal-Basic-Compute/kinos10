@@ -348,9 +348,94 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
         
         # First, check if we need to create a new kin
         if not os.path.exists(kin_path) and kin_id != "template":
-            # Use the original send_message function to create the kin
-            from routes.messages import send_message
-            return send_message(blueprint, kin_id)
+            # Create the kin from template
+            logger.info(f"Kin '{kin_id}' not found for blueprint '{blueprint}', creating it from template")
+            kin_created = True
+            
+            # Create kins directory if it doesn't exist
+            kins_dir = os.path.join(blueprintS_DIR, blueprint, "kins")
+            os.makedirs(kins_dir, exist_ok=True)
+            logger.info(f"Created or verified kins directory: {kins_dir}")
+            
+            # Create kin directory
+            os.makedirs(kin_path, exist_ok=True)
+            logger.info(f"Created kin directory: {kin_path}")
+            
+            # Copy template to kin directory
+            template_path = os.path.join(blueprintS_DIR, blueprint, "template")
+            logger.info(f"Looking for template at: {template_path}")
+            
+            if not os.path.exists(template_path):
+                # Check if we need to initialize the blueprint template first
+                logger.warning(f"Template not found for blueprint '{blueprint}', attempting to initialize")
+                
+                # Try to initialize the blueprint template
+                kin_templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "blueprints")
+                blueprint_template_dir = os.path.join(kin_templates_dir, blueprint, "template")
+                
+                if os.path.exists(blueprint_template_dir):
+                    logger.info(f"Found template in kin directory, copying to app data")
+                    # Create blueprint directory if needed
+                    blueprint_dir = os.path.join(blueprintS_DIR, blueprint)
+                    os.makedirs(blueprint_dir, exist_ok=True)
+                    
+                    # Copy template from kin directory to app data
+                    import shutil
+                    shutil.copytree(blueprint_template_dir, template_path)
+                    logger.info(f"Initialized template for blueprint '{blueprint}'")
+                else:
+                    logger.error(f"No template found for blueprint '{blueprint}' in kin directory")
+                    return jsonify({"error": f"Template not found for blueprint '{blueprint}'"}), 404
+            
+            # Verify template exists after potential initialization
+            if not os.path.exists(template_path):
+                return jsonify({"error": f"Template not found for blueprint '{blueprint}'"}), 404
+            
+            # List template contents for debugging
+            template_contents = os.listdir(template_path)
+            logger.info(f"Template contents: {template_contents}")
+            
+            # Use a more robust copy method
+            import shutil
+            for item in os.listdir(template_path):
+                s = os.path.join(template_path, item)
+                d = os.path.join(kin_path, item)
+                try:
+                    if os.path.isdir(s):
+                        shutil.copytree(s, d)
+                    else:
+                        shutil.copy2(s, d)
+                    logger.info(f"Copied {s} to {d}")
+                except Exception as copy_error:
+                    logger.error(f"Error copying {s} to {d}: {str(copy_error)}")
+            
+            # Create messages.json file
+            messages_file = os.path.join(kin_path, "messages.json")
+            with open(messages_file, 'w') as f:
+                json.dump([], f)
+            logger.info(f"Created messages.json file")
+            
+            # Create thoughts.txt file
+            thoughts_file = os.path.join(kin_path, "thoughts.txt")
+            with open(thoughts_file, 'w') as f:
+                f.write(f"# Thoughts for kin: {kin_id}\nCreated: {datetime.datetime.now().isoformat()}\n\n")
+            logger.info(f"Created thoughts.txt file")
+            
+            # Create images directory
+            images_dir = os.path.join(kin_path, "images")
+            os.makedirs(images_dir, exist_ok=True)
+            logger.info(f"Created images directory: {images_dir}")
+            
+            logger.info(f"Successfully created kin '{kin_id}' for blueprint '{blueprint}'")
+            
+            # Verify kin directory exists and check contents
+            logger.info(f"Verifying kin directory exists: {kin_path}")
+            if os.path.exists(kin_path):
+                dir_contents = os.listdir(kin_path)
+                logger.info(f"Kin directory contents: {dir_contents}")
+            else:
+                logger.error(f"Kin directory does not exist after creation: {kin_path}")
+                return jsonify({"error": f"Failed to create kin directory"}), 500
         
         # Handle main channel specially
         if channel_id == "main":
