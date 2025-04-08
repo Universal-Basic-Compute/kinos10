@@ -211,26 +211,23 @@ Your goal is to provide useful and accurate information while maintaining a clea
                 "content": image_message_parts
             })
         
-        # Add the current message as the final message only if it's a new message
-        # This prevents duplication when loading from messages.json in other contexts
-        if is_new_message:
+        # Ensure the user message is always included as the last message
+        # First, check if the message is already in the messages array
+        message_already_included = False
+        for i, msg in enumerate(messages):
+            if msg.get('role') == 'user' and msg.get('content') == message_content:
+                message_already_included = True
+                # Move this message to the end of the array if it's not already there
+                if i < len(messages) - 1:
+                    messages.append(messages.pop(i))
+                break
+
+        # If the message is not already included, add it
+        if not message_already_included:
             messages.append({
                 "role": "user",
                 "content": message_content
             })
-        else:
-            # For analysis mode, we still need to include the message
-            # Check if the last message already contains this content to avoid duplication
-            should_add_message = True
-            if messages and messages[-1].get('role') == 'user':
-                if messages[-1].get('content') == message_content:
-                    should_add_message = False
-            
-            if should_add_message:
-                messages.append({
-                    "role": "user",
-                    "content": message_content
-                })
         
         # Call Claude API with system message as a separate parameter
         # Use provided model if specified, otherwise use default from config
@@ -261,6 +258,12 @@ Your goal is to provide useful and accurate information while maintaining a clea
             logger.info(f"  Number of messages: {len(messages)}")
             logger.info(f"  First message: {messages[0] if messages else 'No messages'}")
             logger.info(f"  Last message: {messages[-1] if messages else 'No messages'}")
+            
+            # Log all messages being sent to Claude for better debugging
+            try:
+                logger.info(f"All messages being sent to Claude: {json.dumps([{'role': m.get('role'), 'content': m.get('content')[:100] + '...' if isinstance(m.get('content'), str) and len(m.get('content')) > 100 else m.get('content')} for m in messages], indent=2)}")
+            except:
+                logger.info("Could not serialize all messages for detailed logging")
             
             # Validate messages to ensure no empty content blocks
             validated_messages = []
