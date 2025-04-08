@@ -1,0 +1,22 @@
+{
+  "personal": {
+    "age": null,
+    "background": null,
+    "family": null,
+    "culture": null,
+    "education": null,
+    "work": null,
+    "relationships": null,
+    "significantEvents": []
+  },
+  "professional": {
+    "training": null,
+    "specialization": null,
+    "experience": null,
+    "approach": null,
+    "influences": [],
+    "development": []
+  },
+  "lastUpdated": null,
+  "buildStatus": "pending"
+}
