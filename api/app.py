@@ -440,7 +440,7 @@ def api_root():
                             const endpoint = document.createElement('div');
                             endpoint.className = 'endpoint';
                             
-                            /* Extract method and URL */
+                            // Extract method and URL
                             const match = text.match(/(GET|POST|PUT|DELETE) (.*)/);
                             if (match) {
                                 const method = match[1];
@@ -457,16 +457,16 @@ def api_root():
                                 endpoint.appendChild(methodSpan);
                                 endpoint.appendChild(urlSpan);
                                 
-                                /* Replace the heading with our styled endpoint */
+                                // Replace the heading with our styled endpoint
                                 heading.parentNode.insertBefore(endpoint, heading.nextSibling);
                             }
                         }
                     });
                     
-                    /* Add syntax highlighting to code blocks */
+                    // Add syntax highlighting to code blocks
                     document.querySelectorAll('pre code').forEach(function(block) {
                         if (block.textContent.trim().startsWith('{') || block.textContent.trim().startsWith('[')) {
-                            /* This looks like JSON, apply highlighting */
+                            // This looks like JSON, apply highlighting
                             const highlighted = block.innerHTML
                                 .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
                                 .replace(/"([^"]+)"/g, '<span class="json-string">"$1"</span>')
