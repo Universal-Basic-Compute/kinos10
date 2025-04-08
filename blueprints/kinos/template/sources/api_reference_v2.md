@@ -258,7 +258,7 @@ Send a message to a kin.
   "content": "Hello, can you help me with this?",
   "images": ["data:image/jpeg;base64,..."],
   "attachments": ["file1.txt", "file2.md"],
-  "model": "claude-3-5-haiku-latest",
+  "model": "claude-3-7-sonnet-latest",
   "history_length": 25,
   "mode": "creative",
   "addSystem": "Additional system instructions to guide the response",
@@ -300,7 +300,7 @@ Analyze a message with Claude without saving it or triggering context updates.
 {
   "message": "What is the purpose of this code?",
   "images": ["data:image/jpeg;base64,..."],
-  "model": "claude-3-5-haiku-latest",
+  "model": "claude-3-7-sonnet-latest",
   "addSystem": "Focus on explaining the architecture",
   "min_files": 5,  // Optional, minimum number of context files (default: 5)
   "max_files": 15  // Optional, maximum number of context files (default: 15)
@@ -543,7 +543,7 @@ Analyze a message with Claude without saving it or triggering context updates.
 
 **GET Query Parameters:**
 - `message`: The message to analyze (required)
-- `model`: Model to use (optional)
+- `model`: Model to use (optional, default: claude-3-7-sonnet-latest)
 - `addSystem`: Additional system instructions (optional)
 - `min_files`: Minimum number of context files (optional, default: 5)
 - `max_files`: Maximum number of context files (optional, default: 15)
