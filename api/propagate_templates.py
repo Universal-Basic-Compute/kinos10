@@ -86,13 +86,13 @@ def should_update_file(template_file, kin_file):
     4. Never update messages.json or any .json file
     5. Otherwise, preserve the kin file
     """
-    # Never update messages.json or any .json file
-    if os.path.basename(template_file) == 'messages.json' or template_file.endswith('.json'):
-        return False
-    
     # If the file doesn't exist in the kin, copy it
     if not os.path.exists(kin_file):
         return True
+        
+    # Never update messages.json or any .json file
+    if os.path.basename(template_file) == 'messages.json' or template_file.endswith('.json'):
+        return False
     
     # Always update system files
     system_files = ['kinos.txt', 'system.txt', 'persona.txt']
