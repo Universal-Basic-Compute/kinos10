@@ -4,8 +4,14 @@ import os
 import json
 import datetime
 import subprocess
+import re
+import base64
+import threading
 from config import logger, blueprintS_DIR
 from services.file_service import get_kin_path, initialize_kin
+from services.claude_service import call_claude_with_context, build_context
+from services.aider_service import call_aider_with_context
+from routes.messages import extract_and_save_url_content
 
 v2_bp = Blueprint('v2', __name__)
 
