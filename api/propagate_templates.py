@@ -100,7 +100,7 @@ def should_update_file(template_file, kin_file):
         return True
     
     # Always update files in standard directories
-    standard_dirs = ['modes/', 'adaptations/', 'sources/', 'knowledge/']
+    standard_dirs = ['modes/', 'adaptations/', 'sources/', 'knowledge/', 'memories/', 'images/', 'examples/', 'templates/']
     if any(template_file.startswith(d) for d in standard_dirs):
         return True
     
