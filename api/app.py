@@ -142,10 +142,23 @@ def api_root():
         with open(api_ref_path, 'r', encoding='utf-8') as f:
             markdown_content = f.read()
         
-        # Convert markdown to HTML
+        # Convert markdown to HTML with extensions
         try:
             import markdown
-            html_content = markdown.markdown(markdown_content)
+            from markdown.extensions.toc import TocExtension
+            from markdown.extensions.fenced_code import FencedCodeExtension
+            from markdown.extensions.tables import TableExtension
+            
+            # Convert markdown to HTML with extensions
+            html_content = markdown.markdown(
+                markdown_content,
+                extensions=[
+                    'markdown.extensions.fenced_code',
+                    'markdown.extensions.tables',
+                    'markdown.extensions.toc',
+                    'markdown.extensions.codehilite'
+                ]
+            )
         except ImportError:
             # If markdown package is not available, use a simple HTML wrapper
             html_content = f"<pre>{markdown_content}</pre>"
@@ -158,107 +171,320 @@ def api_root():
             <title>KinOS API Reference</title>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <style>
+                :root {{
+                    --primary-color: #3498db;
+                    --secondary-color: #2c3e50;
+                    --background-color: #f9f9f9;
+                    --code-background: #f0f0f0;
+                    --border-color: #ddd;
+                    --text-color: #333;
+                    --heading-color: #2c3e50;
+                    --link-color: #3498db;
+                    --method-get-color: #61affe;
+                    --method-post-color: #49cc90;
+                    --method-put-color: #fca130;
+                    --method-delete-color: #f93e3e;
+                }}
+                
                 body {{
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                     line-height: 1.6;
-                    color: #333;
-                    max-width: 1000px;
+                    color: var(--text-color);
+                    max-width: 1100px;
                     margin: 0 auto;
                     padding: 20px;
-                    background-color: #f9f9f9;
+                    background-color: var(--background-color);
                 }}
+                
+                .container {{
+                    background-color: white;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+                    padding: 30px;
+                }}
+                
                 pre {{
-                    background-color: #f0f0f0;
+                    background-color: var(--code-background);
                     padding: 16px;
                     border-radius: 8px;
                     overflow-x: auto;
-                    border: 1px solid #ddd;
+                    border: 1px solid var(--border-color);
                     box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
                     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
                     font-size: 14px;
                 }}
+                
                 code {{
-                    background-color: #f0f0f0;
+                    background-color: var(--code-background);
                     padding: 2px 6px;
                     border-radius: 4px;
                     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
                     font-size: 0.9em;
                 }}
-                h1, h2, h3 {{
+                
+                h1, h2, h3, h4, h5, h6 {{
                     margin-top: 1.5em;
                     font-weight: 600;
-                    color: #2c3e50;
+                    color: var(--heading-color);
                 }}
+                
                 h1 {{
-                    border-bottom: 2px solid #3498db;
+                    border-bottom: 2px solid var(--primary-color);
                     padding-bottom: 10px;
                     font-size: 2.2em;
+                    margin-top: 0;
                 }}
+                
                 h2 {{
-                    border-bottom: 1px solid #ddd;
+                    border-bottom: 1px solid var(--border-color);
                     padding-bottom: 8px;
                     font-size: 1.8em;
                     margin-top: 2em;
                 }}
+                
                 h3 {{
                     font-size: 1.4em;
                     margin-top: 1.8em;
                 }}
+                
                 a {{
-                    color: #3498db;
+                    color: var(--link-color);
                     text-decoration: none;
+                    transition: color 0.2s;
                 }}
+                
                 a:hover {{
                     text-decoration: underline;
+                    color: #2980b9;
                 }}
+                
                 p {{
                     margin: 1em 0;
                 }}
+                
                 .endpoint {{
-                    background-color: #e8f4fc;
-                    border-left: 4px solid #3498db;
-                    padding: 10px 15px;
-                    margin: 1em 0;
+                    background-color: #f8f9fa;
+                    border-left: 4px solid var(--primary-color);
+                    padding: 15px 20px;
+                    margin: 1.5em 0;
                     border-radius: 0 4px 4px 0;
                 }}
+                
                 .method {{
+                    display: inline-block;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    color: white;
                     font-weight: bold;
-                    color: #2980b9;
+                    font-size: 0.8em;
+                    margin-right: 8px;
                 }}
+                
+                .method-get {{
+                    background-color: var(--method-get-color);
+                }}
+                
+                .method-post {{
+                    background-color: var(--method-post-color);
+                }}
+                
+                .method-put {{
+                    background-color: var(--method-put-color);
+                }}
+                
+                .method-delete {{
+                    background-color: var(--method-delete-color);
+                }}
+                
                 .url {{
                     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+                    font-weight: 500;
                 }}
+                
                 table {{
                     border-collapse: collapse;
                     width: 100%;
-                    margin: 1em 0;
+                    margin: 1.5em 0;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                    border-radius: 4px;
+                    overflow: hidden;
                 }}
+                
                 th, td {{
-                    border: 1px solid #ddd;
-                    padding: 8px 12px;
+                    border: 1px solid var(--border-color);
+                    padding: 10px 15px;
                     text-align: left;
                 }}
+                
                 th {{
                     background-color: #f2f2f2;
+                    font-weight: 600;
                 }}
+                
                 tr:nth-child(even) {{
                     background-color: #f9f9f9;
                 }}
+                
+                tr:hover {{
+                    background-color: #f5f5f5;
+                }}
+                
+                .toc {{
+                    background-color: #f8f9fa;
+                    border: 1px solid var(--border-color);
+                    border-radius: 8px;
+                    padding: 20px;
+                    margin-bottom: 30px;
+                }}
+                
+                .toc ul {{
+                    list-style-type: none;
+                    padding-left: 15px;
+                }}
+                
+                .toc li {{
+                    margin: 5px 0;
+                }}
+                
+                .toc-h2 {{
+                    font-weight: 600;
+                }}
+                
+                .toc-h3 {{
+                    padding-left: 15px;
+                }}
+                
+                .toc-h4 {{
+                    padding-left: 30px;
+                }}
+                
+                .note {{
+                    background-color: #e8f4fc;
+                    border-left: 4px solid var(--primary-color);
+                    padding: 15px;
+                    margin: 1.5em 0;
+                    border-radius: 0 4px 4px 0;
+                }}
+                
+                .warning {{
+                    background-color: #fff8e6;
+                    border-left: 4px solid #f1c40f;
+                    padding: 15px;
+                    margin: 1.5em 0;
+                    border-radius: 0 4px 4px 0;
+                }}
+                
+                .error {{
+                    background-color: #fde8e8;
+                    border-left: 4px solid #e74c3c;
+                    padding: 15px;
+                    margin: 1.5em 0;
+                    border-radius: 0 4px 4px 0;
+                }}
+                
                 @media (max-width: 768px) {{
                     body {{
                         padding: 15px;
                     }}
+                    
+                    .container {{
+                        padding: 20px;
+                    }}
+                    
                     pre {{
                         padding: 10px;
                         font-size: 13px;
                     }}
+                    
+                    h1 {{
+                        font-size: 1.8em;
+                    }}
+                    
+                    h2 {{
+                        font-size: 1.5em;
+                    }}
+                    
+                    h3 {{
+                        font-size: 1.2em;
+                    }}
+                }}
+                
+                /* Add syntax highlighting for JSON */
+                .json-key {{
+                    color: #a626a4;
+                }}
+                
+                .json-string {{
+                    color: #50a14f;
+                }}
+                
+                .json-number {{
+                    color: #986801;
+                }}
+                
+                .json-boolean {{
+                    color: #0184bc;
+                }}
+                
+                .json-null {{
+                    color: #0184bc;
                 }}
             </style>
+            <script>
+                // Add this script to enhance the markdown rendering
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Add method styling to endpoints
+                    document.querySelectorAll('h4').forEach(function(heading) {
+                        const text = heading.textContent;
+                        if (text.includes('GET ') || text.includes('POST ') || text.includes('PUT ') || text.includes('DELETE ')) {
+                            const endpoint = document.createElement('div');
+                            endpoint.className = 'endpoint';
+                            
+                            // Extract method and URL
+                            const match = text.match(/(GET|POST|PUT|DELETE) (.*)/);
+                            if (match) {
+                                const method = match[1];
+                                const url = match[2];
+                                
+                                const methodSpan = document.createElement('span');
+                                methodSpan.className = 'method method-' + method.toLowerCase();
+                                methodSpan.textContent = method;
+                                
+                                const urlSpan = document.createElement('span');
+                                urlSpan.className = 'url';
+                                urlSpan.textContent = url;
+                                
+                                endpoint.appendChild(methodSpan);
+                                endpoint.appendChild(urlSpan);
+                                
+                                // Replace the heading with our styled endpoint
+                                heading.parentNode.insertBefore(endpoint, heading.nextSibling);
+                            }
+                        }
+                    });
+                    
+                    // Add syntax highlighting to code blocks
+                    document.querySelectorAll('pre code').forEach(function(block) {
+                        if (block.textContent.trim().startsWith('{') || block.textContent.trim().startsWith('[')) {
+                            // This looks like JSON, apply highlighting
+                            const highlighted = block.innerHTML
+                                .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
+                                .replace(/"([^"]+)"/g, '<span class="json-string">"$1"</span>')
+                                .replace(/\\b(\\d+)\\b/g, '<span class="json-number">$1</span>')
+                                .replace(/\\b(true|false)\\b/g, '<span class="json-boolean">$1</span>')
+                                .replace(/\\bnull\\b/g, '<span class="json-null">null</span>');
+                            block.innerHTML = highlighted;
+                        }
+                    });
+                });
+            </script>
         </head>
         <body>
-            <h1>KinOS API Reference</h1>
-            <p>This documentation provides a comprehensive reference for the KinOS API.</p>
-            {html_content}
+            <div class="container">
+                <h1>KinOS API Reference</h1>
+                <p>This documentation provides a comprehensive reference for the KinOS API.</p>
+                {html_content}
+            </div>
         </body>
         </html>
         """
