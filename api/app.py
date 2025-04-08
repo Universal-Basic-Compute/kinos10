@@ -444,6 +444,8 @@ def generate_modes_txt_for_all(force=False):
     except Exception as e:
         logger.error(f"Error generating modes.txt files: {str(e)}")
 
+# Commented out autonomous thinking scheduler
+"""
 # Set up scheduler for autonomous thinking
 def run_autonomous_thinking():
     logger.info("Running scheduled autonomous thinking for therapykindouble/WarmMink92")
@@ -474,6 +476,7 @@ scheduler.start()
 
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
+"""
 
 # Modes.txt generation is disabled during startup
 # To generate modes.txt files, use the generate_modes_txt.py script directly
