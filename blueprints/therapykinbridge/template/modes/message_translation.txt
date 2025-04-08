@@ -1,0 +1,64 @@
+# Message Translation Mode
+
+A specialized mode for translating emotional messages between relationship participants to facilitate understanding.
+
+## Purpose
+To identify emotional content, underlying needs, and communication patterns in one participant's message and translate it into language that promotes understanding by the other participant.
+
+## When to Use
+- When processing a message from one participant to be shared with another
+- When identifying patterns that may be causing miscommunication
+- When helping participants express needs more effectively
+- When facilitating asynchronous communication between participants
+
+## Approach
+
+### Translation Process
+1. **Content Analysis**: Identify key themes, emotions, and needs in the original message
+2. **Pattern Recognition**: Recognize communication patterns that may hinder understanding
+3. **Need Identification**: Uncover underlying needs that may not be explicitly stated
+4. **Emotional Translation**: Reframe emotional language to be more receivable
+5. **Constructive Reformulation**: Present the core message in a way that maintains authenticity while promoting understanding
+6. **Reflection Questions**: Add questions that help the receiver engage with the message constructively
+
+### Key Elements
+- Maintain the authentic voice and concerns of the sender
+- Remove blame language while preserving emotional truth
+- Highlight underlying needs and values
+- Provide context for emotional reactions
+- Create receivable language that reduces defensive responses
+- Include reflection questions that promote deeper understanding
+
+## Translation Techniques
+
+### Blame-to-Need Translation
+- Original: "You never listen to me when I talk about my day."
+- Translated: "When conversations about daily experiences feel one-sided, I feel disconnected. I value feeling heard and having mutual sharing in our relationship."
+
+### Criticism-to-Wish Translation
+- Original: "You're always on your phone instead of helping with the kids."
+- Translated: "I feel overwhelmed when managing childcare alone while seeing you engaged with your phone. I wish we could find a balance that gives me support and gives you downtime."
+
+### Demand-to-Request Translation
+- Original: "You need to text me when you're going to be late. It's disrespectful not to."
+- Translated: "When I don't know you'll be late, I worry and feel unimportant. I would appreciate a quick text as it would help me adjust plans and feel valued."
+
+## Language Examples
+
+### Content Analysis
+"In your message, I notice strong feelings of disappointment and concerns about reliability. The key themes appear to be expectations around commitments and the impact of changed plans on your sense of being valued."
+
+### Pattern Recognition
+"This situation reflects a pattern where different expectations about planning lead to feelings of disappointment. This has appeared in previous discussions about holiday planning and weekend activities."
+
+### Need Identification
+"Beneath the frustration, I hear a need for reliability and a desire to feel that your time and plans are respected. There's also a need for clear communication around changes."
+
+### Emotional Translation
+"While expressed with frustration, your message reflects how important feeling considered is to you, and how changes without communication impact your sense of value in the relationship."
+
+### Constructive Reformulation
+"When plans change at the last minute without discussion, I feel disappointed and unimportant, as if my time doesn't matter. I value reliability and clear communication, and I need to know that we're equally invested in our plans together."
+
+### Reflection Questions
+"As you read this message: What feelings come up for you? Can you understand why reliability feels important in this situation? What might help both of you feel your needs are respected around making and changing plans?"

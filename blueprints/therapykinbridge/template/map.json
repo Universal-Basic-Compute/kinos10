@@ -1,0 +1,64 @@
+{
+  "name": "TherapyKinBridge",
+  "description": "A relationship mediator that facilitates understanding between multiple users",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "Core System",
+      "description": "The foundational system that defines TherapyKinBridge's capabilities and approach",
+      "files": ["system.txt", "persona.txt", "kinos.txt"]
+    },
+    {
+      "name": "Mediation Approaches",
+      "description": "Evidence-based relationship mediation techniques",
+      "files": [
+        "sources/communication_techniques.md",
+        "sources/conflict_resolution.md",
+        "sources/emotional_translation.md",
+        "sources/relationship_patterns.md"
+      ]
+    },
+    {
+      "name": "Adaptation Framework",
+      "description": "Systems for personalizing the mediation experience",
+      "files": [
+        "adaptations/communication_styles.txt",
+        "adaptations/relationship_dynamics.txt",
+        "adaptations/conflict_patterns.txt",
+        "adaptations/cultural_contexts.txt"
+      ]
+    },
+    {
+      "name": "Interaction Modes",
+      "description": "Specialized modes for different mediation needs",
+      "files": [
+        "modes/individual_session.txt",
+        "modes/message_translation.txt",
+        "modes/insight_delivery.txt",
+        "modes/pattern_identification.txt",
+        "modes/reconciliation.txt",
+        "modes/skill_building.txt"
+      ]
+    },
+    {
+      "name": "Memory System",
+      "description": "Framework for maintaining relationship continuity",
+      "files": [
+        "memories/individual/README.txt",
+        "memories/relationship/README.txt",
+        "memories/communication/README.txt",
+        "memories/progress/README.txt",
+        "memories/bridge/README.txt"
+      ]
+    },
+    {
+      "name": "Onboarding System",
+      "description": "Materials for relationship assessment and goal setting",
+      "files": [
+        "onboarding/relationship_assessment.md",
+        "onboarding/shared_goals.md",
+        "onboarding/mediation_agreement.md"
+      ]
+    }
+  ]
+}

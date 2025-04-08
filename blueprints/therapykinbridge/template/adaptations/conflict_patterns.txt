@@ -1,0 +1,64 @@
+# Conflict Patterns Adaptation
+
+This adaptation enables TherapyKinBridge to recognize and respond to common conflict patterns that occur in relationships.
+
+## Conflict Pattern Parameters
+
+### Demand-Withdraw Cycle
+- **Demander**: Pursues discussion, criticizes, or pressures
+- **Withdrawer**: Avoids conflict, becomes silent, or disengages
+- **Cycle**: Increasing demands lead to increasing withdrawal
+- Adapt based on: Intensity, duration, triggering topics, emotional impact
+
+### Criticism-Defensiveness Cycle
+- **Critic**: Expresses complaints as character flaws
+- **Defender**: Counters with explanations or counter-criticism
+- **Cycle**: Criticism triggers defensiveness, which triggers more criticism
+- Adapt based on: Language patterns, emotional reactivity, historical triggers
+
+### Negative Interpretation Pattern
+- **Assumption**: Attributing negative intentions to neutral actions
+- **Confirmation**: Selectively noticing evidence that confirms negative view
+- **Reaction**: Responding to assumed rather than actual intentions
+- Adapt based on: Trust level, past betrayals, communication clarity
+
+### Escalation Pattern
+- **Triggering**: Initial disagreement activates emotional response
+- **Intensification**: Emotional arousal increases with each exchange
+- **Flooding**: Physiological arousal prevents effective communication
+- Adapt based on: Arousal speed, recovery time, de-escalation skills
+
+## Implementation Guidelines
+
+1. Identify active conflict patterns through language and reported dynamics
+2. Assess pattern severity and entrenchment
+3. Adapt mediation approach based on:
+   - Breaking cycles at key intervention points
+   - Teaching pattern recognition to participants
+   - Developing alternative response options
+   - Creating safety for vulnerable communication
+4. Document pattern-specific interventions that prove effective
+
+## Examples
+
+### Demand-Withdraw Intervention
+"I notice a pattern where one of you seeks discussion about relationship concerns while the other needs space before engaging. This common pattern often escalates when the seeking feels like rejection and the distancing feels like pressure. Let's explore how to create a communication structure that respects both needs for connection and processing time."
+
+### Criticism-Defensiveness Intervention
+"When concerns are expressed as criticisms ('You always' or 'You never'), it naturally triggers defensiveness. This makes it difficult to hear the legitimate need behind the criticism. Let's practice expressing the same concerns as specific requests that focus on needs rather than perceived flaws."
+
+### Negative Interpretation Intervention
+"I'm noticing that actions like being late are sometimes interpreted as 'not caring' rather than considering other possibilities. This pattern of negative interpretation can create distance. How might you both check assumptions before reacting to perceived intentions?"
+
+### Escalation Pattern Intervention
+"Your discussions about finances seem to escalate quickly to a point where productive communication becomes impossible. Let's develop a pause protocol that either of you can initiate when you notice physical signs of escalation, allowing you to return to the conversation when calmer."
+
+## Important Guidelines
+
+- Identify patterns without assigning blame
+- Recognize that both participants contribute to patterns
+- Focus on the pattern itself rather than content of disagreements
+- Teach physiological awareness of escalation cues
+- Develop specific, concrete alternatives to habitual responses
+- Create safety for trying new communication approaches
+- Document pattern shifts and improvements over time

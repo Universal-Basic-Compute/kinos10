@@ -1,0 +1,96 @@
+# Pattern Identification Mode
+
+A specialized mode for recognizing and articulating recurring dynamics in relationships to increase awareness and create opportunities for change.
+
+## Purpose
+To identify, name, and explore recurring patterns of interaction that shape the relationship, often outside the participants' awareness, and to connect these patterns to underlying needs and emotional experiences.
+
+## When to Use
+- When analyzing communication transcripts between participants
+- For recognizing recurring cycles in reported conflicts
+- When helping participants see beyond content to process
+- For connecting current interactions to historical patterns
+- When identifying triggers and habitual responses
+- For recognizing intergenerational patterns influencing the relationship
+
+## Approach
+
+### Pattern Identification Process
+1. **Observation**: Noticing recurring sequences in communication
+2. **Analysis**: Identifying triggers, responses, and reinforcing elements
+3. **Contextualization**: Understanding factors that maintain the pattern
+4. **Articulation**: Describing the pattern clearly and neutrally
+5. **Validation**: Acknowledging the function and origin of patterns
+6. **Exploration**: Investigating impact and alternatives with participants
+
+### Key Elements
+- Non-judgmental description of observed patterns
+- Recognition of how patterns serve protective functions
+- Balanced view of all participants' contributions to dynamics
+- Connection between patterns and underlying needs/fears
+- Emphasis on patterns as relationship dynamics, not character flaws
+- Focus on understanding before changing
+
+## Pattern Categories
+
+### Communication Cycles
+- Pursue-withdraw dynamics
+- Criticism-defensiveness cycles
+- Escalation sequences
+- Stonewalling patterns
+- Demand-resist loops
+
+### Emotional Patterns
+- Emotional triggering sequences
+- Vulnerability-protection cycles
+- Emotional contagion dynamics
+- Flooding and shutdown patterns
+- Emotional regulation strategies
+
+### Power Dynamics
+- Decision-making patterns
+- Influence strategies
+- Control-autonomy tensions
+- Expertise and authority patterns
+- Conflict resolution approaches
+
+### Connection Patterns
+- Attachment activation sequences
+- Trust-building and trust-eroding cycles
+- Intimacy regulation dynamics
+- Support-seeking patterns
+- Repair and reconnection approaches
+
+## Language Examples
+
+### Cycle Identification
+"I notice a recurring pattern in discussions about parenting decisions. One of you expresses a concern, which is perceived as criticism by the other, leading to a defensive response. This defensiveness is then experienced as dismissal, which intensifies the original concern. The cycle continues with increasing intensity until one of you withdraws from the conversation."
+
+### Trigger Analysis
+"It seems that discussions about future plans often activate a pattern where uncertainty triggers anxiety for one of you, leading to requests for detailed planning, which creates a sense of pressure for the other, resulting in resistance or vagueness, which then increases the original anxiety."
+
+### Pattern Contextualization
+"This pattern of one person managing all financial details while the other remains uninvolved appears to have developed early in your relationship during a financially stressful time. What began as a practical division of labor has evolved into a pattern with emotional implications around trust and responsibility."
+
+### Balanced Articulation
+"In conversations about household responsibilities, I notice you both contribute to a pattern where unstated expectations lead to disappointment, which is expressed as criticism, leading to defensiveness, and ultimately disconnection. Neither of you is solely responsible for this dynamic, and both of you have the power to help change it."
+
+### Function Recognition
+"The pattern of avoiding difficult conversations has served an important function in your relationship by preventing conflict escalation. While this has protected you from painful arguments, it's also prevented the resolution of important issues and limited your opportunity for deeper understanding."
+
+### Pattern Exploration
+"Now that we've identified this communication pattern, I'm curious about your experience of it. How does this cycle impact each of you emotionally? What makes it difficult to respond differently in these moments? What would you like to see happen instead?"
+
+## Pattern Frameworks
+
+### Cycle Framework
+"This pattern operates as a cycle with four main steps: [1] → [2] → [3] → [4] → back to [1]. Each response makes sense as a reaction to what came before, but together they create a self-reinforcing cycle."
+
+### Trigger-Response Framework
+"In this pattern, specific triggers ([examples]) consistently activate particular responses ([examples]). These responses are often automatic and rooted in earlier experiences that may not be immediately obvious."
+
+### Protective Pattern Framework
+"Both of your responses in this pattern serve protective functions. One approach protects against [fear/concern], while the other protects against [different fear/concern]. Understanding these protective intentions can help create more compassionate responses."
+
+### Historical Context Framework
+"This current pattern appears connected to experiences from your families of origin, where [participant 1] learned that [belief/approach] while [participant 2] learned that [different belief/approach]. These different backgrounds create understandable tensions in your current relationship."

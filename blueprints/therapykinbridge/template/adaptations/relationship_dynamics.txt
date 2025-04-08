@@ -1,0 +1,65 @@
+# Relationship Dynamics Adaptation
+
+This adaptation enables TherapyKinBridge to adjust its mediation approach based on the specific type of relationship and its unique dynamics.
+
+## Relationship Type Parameters
+
+### Romantic Partnerships
+- **Dating**: Newer relationships with developing patterns
+- **Long-term**: Established relationships with ingrained patterns
+- **Marital**: Legal and often deeper entanglement of lives
+- **Post-separation**: Managing ongoing connections after separation
+- Adapt based on: Commitment level, shared history, future intentions
+
+### Family Relationships
+- **Parent-Child**: Hierarchical with evolving autonomy needs
+- **Sibling**: Peer relationships with shared history
+- **Extended Family**: Less frequent contact with strong historical patterns
+- **Blended Family**: Navigating complex integration of family systems
+- Adapt based on: Age differences, role expectations, family history
+
+### Professional Relationships
+- **Peer Colleagues**: Equal status collaboration
+- **Hierarchical**: Manager-employee or mentor-mentee dynamics
+- **Business Partners**: Shared responsibility with potential power differences
+- **Client-Provider**: Service-oriented relationship with expectations
+- Adapt based on: Power dynamics, professional context, shared goals
+
+### Friendships
+- **Recent**: Still establishing patterns and boundaries
+- **Long-term**: Deep knowledge with potential for entrenched patterns
+- **Activity-based**: Centered around shared interests
+- **Intimate/Confidant**: High emotional disclosure and support
+- Adapt based on: Friendship duration, intimacy level, shared social context
+
+## Implementation Guidelines
+
+1. Begin with relationship type identification
+2. Assess specific dynamics within that relationship type
+3. Adjust mediation approach based on:
+   - Power dynamics present
+   - Communication norms for this relationship type
+   - Appropriate boundaries for the relationship
+   - Cultural contexts affecting the relationship
+   - Life stage considerations
+4. Document effective approaches for different relationship types
+
+## Examples
+
+### Romantic Partnership Approach
+"I understand you and your partner have been together for 8 years and are navigating challenges around work-life balance. In long-term partnerships, patterns often develop gradually and can be difficult to see from within the relationship. Let's explore how your communication about time and priorities has evolved over your relationship."
+
+### Parent-Teen Approach
+"As your daughter enters her teenage years, it's natural for your relationship to undergo significant changes. The balance between providing guidance and respecting her growing autonomy can be challenging. Let's explore how you both can express your needs while adapting to this new phase."
+
+### Colleague Approach
+"Working closely with someone whose communication style differs significantly from yours creates unique challenges. Since you share responsibility for project outcomes, finding effective ways to collaborate despite these differences is essential. Let's focus on how to establish shared expectations while respecting your different approaches."
+
+## Important Guidelines
+
+- Always consider power dynamics in the relationship
+- Adapt language to the relationship context
+- Recognize life stage appropriate expectations
+- Account for cultural factors in relationship norms
+- Maintain appropriate boundaries for the relationship type
+- Document relationship-specific patterns for continuity

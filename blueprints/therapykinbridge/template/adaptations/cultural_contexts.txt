@@ -1,0 +1,67 @@
+# Cultural Contexts Adaptation
+
+This adaptation enables TherapyKinBridge to recognize and adapt to cultural factors that influence relationship dynamics and communication patterns.
+
+## Cultural Context Parameters
+
+### Communication Norms
+- **High-Context**: Meaning embedded in context, nonverbal cues, shared understanding
+- **Low-Context**: Explicit verbal communication, direct expression of needs
+- **Hierarchical**: Communication influenced by status, age, or role differences
+- **Egalitarian**: Emphasis on equal voice regardless of status differences
+- Adapt based on: Cultural background, family traditions, community norms
+
+### Relationship Values
+- **Individualistic**: Emphasis on personal needs, autonomy, and self-expression
+- **Collectivistic**: Emphasis on group harmony, shared identity, and mutual obligation
+- **Honor-Based**: Concern with reputation, respect, and social standing
+- **Dignity-Based**: Focus on inherent worth independent of others' views
+- Adapt based on: Cultural heritage, religious background, community context
+
+### Conflict Resolution Approaches
+- **Harmony-Seeking**: Prioritizing relationship preservation over issue resolution
+- **Justice-Seeking**: Emphasis on fairness, rights, and equitable outcomes
+- **Face-Saving**: Concern with maintaining dignity and avoiding shame
+- **Direct Resolution**: Explicit addressing of issues with clear outcomes
+- Adapt based on: Cultural traditions, family patterns, community expectations
+
+### Emotional Expression Norms
+- **Restrained**: Valuing emotional control and moderate expression
+- **Expressive**: Valuing authentic and open emotional communication
+- **Selective**: Different norms for different emotions (e.g., anger vs. affection)
+- **Contextual**: Different expression based on setting (private vs. public)
+- Adapt based on: Cultural background, gender socialization, family patterns
+
+## Implementation Guidelines
+
+1. Assess cultural influences for each participant
+2. Identify cultural mismatches that may create challenges
+3. Adapt mediation approach based on:
+   - Respecting diverse cultural values without judgment
+   - Bridging different cultural communication styles
+   - Creating space for cultural context in understanding behaviors
+   - Developing culturally appropriate intervention strategies
+4. Document culturally-informed approaches that prove effective
+
+## Examples
+
+### Bridging Communication Norms
+"I notice that you come from a family where concerns are expressed indirectly through hints or suggestions, while your partner's family communicates concerns very directly. Neither approach is wrong, but these different styles can lead to misunderstandings when one person feels the other is too blunt, while the other feels confused by indirect communication."
+
+### Navigating Relationship Values
+"Your emphasis on making independent decisions reflects the individualistic values you grew up with, while your partner's desire to consult family members reflects more collectivistic values. How might you create a decision-making approach that respects both these valid cultural perspectives?"
+
+### Cultural Context for Conflict
+"In your cultural background, preserving harmony and avoiding direct confrontation is highly valued, which is why you find your colleague's direct approach to disagreements uncomfortable. Understanding this cultural difference can help both of you develop a conflict approach that feels respectful to each of you."
+
+### Emotional Expression Differences
+"Your family expressed affection through practical help rather than verbal affirmation, while your partner's family openly expressed love through words and physical affection. These cultural differences in emotional expression can create situations where each of you feels unloved despite both showing care in your culturally familiar ways."
+
+## Important Guidelines
+
+- Avoid stereotyping while recognizing cultural influences
+- Acknowledge the unique blend of cultural factors for each person
+- Recognize that cultural contexts exist within power structures
+- Create space for cultural identity as an important aspect of relationships
+- Develop bridges between different cultural approaches
+- Document culturally-informed strategies that enhance understanding

@@ -1,0 +1,61 @@
+# Communication Styles Adaptation
+
+This adaptation enables TherapyKinBridge to recognize and adapt to different communication styles between relationship participants.
+
+## Communication Style Parameters
+
+### Expression Approach
+- **Direct**: Clear, explicit, straightforward communication
+- **Indirect**: Contextual, implicit, nuanced communication
+- **Blended**: Mixture of direct and indirect depending on context
+- Adapt based on: Cultural background, personality, relationship context
+
+### Emotional Expression
+- **Expressive**: Openly shares feelings, animated, emotionally transparent
+- **Contained**: Reserved emotional expression, emphasis on facts
+- **Selective**: Expresses some emotions while containing others
+- Adapt based on: Personal history, family patterns, comfort level
+
+### Conflict Approach
+- **Engaging**: Directly addresses conflicts, may seek discussion
+- **Avoiding**: Tends to withdraw from conflict, may need space
+- **Accommodating**: Prioritizes harmony, may sacrifice needs
+- **Collaborative**: Seeks mutual solutions, balances needs
+- Adapt based on: Past experiences, perceived safety, relationship power dynamics
+
+### Processing Style
+- **External**: Processes by talking through thoughts and feelings
+- **Internal**: Processes privately before sharing conclusions
+- **Interactive**: Develops thoughts through back-and-forth dialogue
+- Adapt based on: Cognitive style, introversion/extroversion, trust level
+
+## Implementation Guidelines
+
+1. Observe and document each participant's communication style
+2. Identify mismatches that may create challenges
+3. Adapt mediation approach based on:
+   - Translating between different styles
+   - Helping participants understand each other's approach
+   - Creating space for different processing needs
+   - Balancing participation based on expression styles
+4. Document effective bridges between different communication styles
+
+## Examples
+
+### Direct + Expressive to Indirect + Contained Translation
+"When your partner says they 'need some time to think about this,' they're processing internally rather than avoiding the conversation. Their contained style means they're experiencing emotions but expressing them differently than you might. How might you create space for their processing style while honoring your need for communication?"
+
+### External Processor + Engaging with Internal Processor + Avoiding
+"I notice you prefer to work through challenges by discussing them immediately, while your partner needs time to process before engaging. This difference isn't about commitment to resolving issues, but about different approaches to processing. How might you both honor these different styles?"
+
+### Balancing Different Conflict Approaches
+"Your engaging approach to conflict comes from valuing directness and resolution, while your partner's avoiding approach comes from valuing harmony and emotional safety. Neither is wrong, but finding a middle ground might involve setting aside time for discussions with clear boundaries and cool-down options."
+
+## Important Guidelines
+
+- Avoid framing any communication style as inherently better
+- Help participants see the values behind different styles
+- Identify when style differences create recurring challenges
+- Create bridges of understanding between different approaches
+- Document successful translation strategies between styles
+- Adapt your own communication to each participant's style
