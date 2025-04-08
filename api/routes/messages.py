@@ -647,7 +647,7 @@ def analyze_message(blueprint, kin_id):
     """
     try:
         # Parse request data
-        data = request.json
+        data = request.json or {}  # Use empty dict if None
         
         # Support both formats: new format with 'message' and original format with 'content'
         message_content = data.get('message', data.get('content', ''))
@@ -677,7 +677,7 @@ def analyze_message(blueprint, kin_id):
 
         # Support both formats: new format with 'screenshot' and original format with 'images'
         images = data.get('images', [])
-        if 'screenshot' in data and data['screenshot']:
+        if data.get('screenshot'):  # Add null check here
             # Add screenshot to images array if it's not empty
             images.append(data['screenshot'])
         

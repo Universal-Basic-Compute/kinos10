@@ -231,7 +231,7 @@ def analyze_message_v2(blueprint, kin_id):
                 'content': message_content  # Add this for backward compatibility
             }
         else:  # POST
-            data = request.get_json() or {}
+            data = request.get_json() or {}  # Use empty dict if None
             message_content = data.get('message', data.get('content', ''))
             # Ensure both message and content are set for backward compatibility
             data['message'] = message_content
