@@ -230,12 +230,18 @@ def analyze_message_v2(blueprint, kin_id):
                 'max_files': max_files,
                 'content': message_content  # Add this for backward compatibility
             }
+            
+            # Set request.json to this data for the analyze_message function
+            request.json = data
         else:  # POST
             data = request.get_json() or {}  # Use empty dict if None
             message_content = data.get('message', data.get('content', ''))
             # Ensure both message and content are set for backward compatibility
             data['message'] = message_content
             data['content'] = message_content
+            
+            # Update request.json with the modified data
+            request.json = data
 
         # Validate required parameters
         if not message_content:
@@ -248,7 +254,6 @@ def analyze_message_v2(blueprint, kin_id):
         from routes.messages import analyze_message
         
         # Directly call analyze_message with the parameters
-        # This avoids the issue with setting ctx.request.json
         return analyze_message(blueprint, kin_id)
 
     except Exception as e:
