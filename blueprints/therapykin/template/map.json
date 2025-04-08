@@ -37,7 +37,8 @@
         "modes/crisis.txt",
         "modes/session_opening.txt",
         "modes/session_closing.txt",
-        "modes/journey.txt"
+        "modes/journey.txt",
+        "modes/planning.txt"
       ]
     },
     {
