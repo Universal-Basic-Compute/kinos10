@@ -91,4 +91,8 @@ def load_gitignore(kin_path):
         except Exception as e:
             logger.warning(f"Error reading .gitignore: {str(e)}")
     
+    # Add default patterns for .git directory if not already included
+    if '.git' not in ignore_patterns and '.git/' not in ignore_patterns:
+        ignore_patterns.append('.git/')
+    
     return ignore_patterns

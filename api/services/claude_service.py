@@ -479,6 +479,7 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         
     # Move import inside function to avoid circular imports
     from services.file_service import get_kin_path
+    from utils.helpers import should_ignore_file, load_gitignore
         
     # Import json here to ensure it's available
     import json
@@ -516,12 +517,21 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         if attachment_files:
             logger.info(f"Including {len(attachment_files)} attachments in context: {attachment_files}")
     
+    # Load gitignore patterns
+    ignore_patterns = load_gitignore(kin_path)
+    
     # Get all available files in the kin
     available_files = []
     for root, dirs, files in os.walk(kin_path):
+        # Filter out ignored directories to avoid walking into them
+        dirs[:] = [d for d in dirs if not should_ignore_file(os.path.relpath(os.path.join(root, d), kin_path), ignore_patterns)]
+        
         for file in files:
             rel_path = os.path.relpath(os.path.join(root, file), kin_path)
-            if rel_path not in core_files and rel_path not in attachment_files:  # Skip core files and attachments
+            # Skip core files, attachments, and files that should be ignored
+            if (rel_path not in core_files and 
+                rel_path not in attachment_files and 
+                not should_ignore_file(rel_path, ignore_patterns)):
                 available_files.append(rel_path)
     
     # If there are no additional files, just return core files plus attachments
