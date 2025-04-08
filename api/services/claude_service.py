@@ -54,20 +54,16 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
                 except Exception as e:
                     logger.error(f"Error reading file {file_path}: {str(e)}")
         
-        # If a specific mode is provided, add the corresponding mode file to the context
-        if mode:
-            mode_file_path = os.path.join(kin_path, f"modes/{mode}.txt")
-            if os.path.exists(mode_file_path):
-                try:
-                    with open(mode_file_path, 'r', encoding='utf-8') as f:
-                        mode_content = f.read()
-                    file_contents.append(f"# Active Mode: {mode}\n{mode_content}")
-                    logger.info(f"Added mode file for {mode} to context")
-                except Exception as e:
-                    logger.error(f"Error reading mode file {mode_file_path}: {str(e)}")
+        # If analysis mode is active (either explicitly set or detected in message),
+        # use only the analysis mode content and skip persona/system files
+        is_analysis_mode = (mode == 'analysis' or 'analysis' in message_content.lower())
         
-        # Check if we need to add dynamic analysis mode content
-        if 'analysis' in message_content.lower():
+        if is_analysis_mode:
+            # Filter out persona.txt, kinos.txt, and system.txt from file_contents
+            file_contents = [fc for fc in file_contents if not any(
+                core_file in fc for core_file in ["# File: persona.txt", "# File: kinos.txt", "# File: system.txt"]
+            )]
+            
             # Create dynamic analysis mode content
             analysis_content = """# Analysis Mode: Informative Responses Without Memorization
 
@@ -99,8 +95,19 @@ This mode is particularly useful for:
 Your goal is to provide useful and accurate information while maintaining a clear separation between this interaction and your long-term memory.
 """
             # Add the analysis content to file_contents
-            file_contents.append(f"# File: analysis.txt\n{analysis_content}")
-            logger.info(f"Added dynamic analysis mode content")
+            file_contents.append(f"# Active Mode: analysis\n{analysis_content}")
+            logger.info(f"Added analysis mode content and removed persona/system files from context")
+        # If not analysis mode, add the specified mode file to the context
+        elif mode:
+            mode_file_path = os.path.join(kin_path, f"modes/{mode}.txt")
+            if os.path.exists(mode_file_path):
+                try:
+                    with open(mode_file_path, 'r', encoding='utf-8') as f:
+                        mode_content = f.read()
+                    file_contents.append(f"# Active Mode: {mode}\n{mode_content}")
+                    logger.info(f"Added mode file for {mode} to context")
+                except Exception as e:
+                    logger.error(f"Error reading mode file {mode_file_path}: {str(e)}")
         
         # Combine file contents into a single context string
         context = "\n\n".join(file_contents)
