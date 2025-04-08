@@ -230,18 +230,12 @@ def analyze_message_v2(blueprint, kin_id):
                 'max_files': max_files,
                 'content': message_content  # Add this for backward compatibility
             }
-            
-            # Set request.json to this data for the analyze_message function
-            request.json = data
         else:  # POST
             data = request.get_json() or {}  # Use empty dict if None
             message_content = data.get('message', data.get('content', ''))
             # Ensure both message and content are set for backward compatibility
             data['message'] = message_content
             data['content'] = message_content
-            
-            # Update request.json with the modified data
-            request.json = data
 
         # Validate required parameters
         if not message_content:
@@ -250,15 +244,31 @@ def analyze_message_v2(blueprint, kin_id):
         # Log the message content to verify it's being passed correctly
         logger.info(f"Analysis request with message: {message_content[:100]}...")
 
-        # Import and call the original analyze_message function with the data
-        from routes.messages import analyze_message
-        
-        # Directly call analyze_message with the parameters
-        return analyze_message(blueprint, kin_id)
+        # Call analyze_message directly with the parameters extracted from the request
+        return analyze_message_with_params(blueprint, kin_id, message_content, data)
 
     except Exception as e:
         logger.error(f"Error in analyze_message_v2: {str(e)}")
         return jsonify({"error": str(e)}), 500
+
+# Add this helper function to handle the parameters directly
+def analyze_message_with_params(blueprint, kin_id, message_content, data):
+    """Helper function to call analyze_message with parameters instead of relying on request object"""
+    from routes.messages import analyze_message
+    
+    # Create a new request context with the data
+    with app.test_request_context(
+        method='POST',
+        path=f'/api/proxy/kins/{blueprint}/{kin_id}/analysis',
+        json=data
+    ) as ctx:
+        # Push the context
+        ctx.push()
+        try:
+            # Call analyze_message with the new context
+            return analyze_message(blueprint, kin_id)
+        finally:
+            ctx.pop()
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/aider_logs', methods=['GET'])
 def get_aider_logs_v2(blueprint, kin_id):
