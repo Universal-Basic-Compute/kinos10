@@ -589,8 +589,8 @@ Note: Core system files are already included automatically.
 Return your answer as a JSON array of file paths only."""
     
     try:
-        # Always use claude-3-5-haiku-latest for context building
-        context_builder_model = "claude-3-5-haiku-latest"
+        # Always use claude-3-7-sonnet-latest for context building
+        context_builder_model = "claude-3-7-sonnet-latest"
         logger.info(f"Using {context_builder_model} for context building (ignoring model parameter: {model})")
         
         # Call Claude to select relevant files with map.json in system prompt

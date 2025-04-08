@@ -902,7 +902,7 @@ def analyze_kin(blueprint, kin_id):
         # Parse request data
         data = request.json
         message_content = data.get('message', '')
-        model = data.get('model', 'claude-3-5-haiku-latest')
+        model = data.get('model', 'claude-3-7-sonnet-latest')
         
         # Validate required parameters
         if not message_content:

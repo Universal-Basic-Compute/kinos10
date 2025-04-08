@@ -28,7 +28,7 @@ else:
     logger.info(f"API_SECRET_KEY environment variable found and loaded: '{API_KEY[:3]}...{API_KEY[-3:]}'")
 
 # Define MODEL constant
-MODEL = "claude-3-5-haiku-latest"  # Use the latest Claude 3.5 Haiku model
+MODEL = "claude-3-7-sonnet-latest"  # Use the latest Claude 3.7 Sonnet model
 
 # Get application data directory
 def get_app_data_dir():
