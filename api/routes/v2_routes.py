@@ -241,8 +241,13 @@ def analyze_message_v2(blueprint, kin_id):
         if not message_content:
             return jsonify({"error": "Message is required"}), 400
 
+        # Log the message content to verify it's being passed correctly
+        logger.info(f"Analysis request with message: {message_content[:100]}...")
+
         # Import and call the original analyze_message function with the data
         from routes.messages import analyze_message
+        
+        # Create a new request context with the message content
         with app.test_request_context(
             method='POST',
             path=f'/api/proxy/kins/{blueprint}/{kin_id}/analysis',

@@ -652,6 +652,13 @@ def analyze_message(blueprint, kin_id):
         # Support both formats: new format with 'message' and original format with 'content'
         message_content = data.get('message', data.get('content', ''))
         
+        # Log the message content to verify it's being passed correctly
+        logger.info(f"Analysis request with message: {message_content[:100]}...")
+        
+        # Validate required parameters
+        if not message_content:
+            return jsonify({"error": "Message is required"}), 400
+        
         # Get optional parameters for context building
         min_files = data.get('min_files', 5)  # Default to 5
         max_files = data.get('max_files', 15)  # Default to 15
@@ -700,7 +707,7 @@ def analyze_message(blueprint, kin_id):
             attachments, 
             kin_path, 
             model, 
-            None, 
+            "analysis",  # Explicitly set mode to "analysis"
             addSystem, 
             history_length=2,
             min_files=min_files,
@@ -709,8 +716,7 @@ def analyze_message(blueprint, kin_id):
         
         # Log the selected files and mode
         logger.info(f"Selected files for analysis context: {selected_files}")
-        if selected_mode:
-            logger.info(f"Selected mode: {selected_mode}")
+        logger.info(f"Analysis request with message: {message_content[:100]}...")
         
         # Call Claude with the selected context
         try:
@@ -718,13 +724,13 @@ def analyze_message(blueprint, kin_id):
             claude_response = call_claude_with_context(
                 selected_files, 
                 kin_path, 
-                message_content, 
+                message_content,  # Make sure this is the actual user message
                 images, 
                 model,
                 history_length,
                 is_new_message=False,  # Don't treat as a new message
                 addSystem=addSystem,
-                mode=selected_mode  # Pass the selected mode
+                mode="analysis"  # Explicitly set mode to "analysis"
             )
             
             # Return the Claude response directly in the API response

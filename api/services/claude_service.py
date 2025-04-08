@@ -228,6 +228,9 @@ Your goal is to provide useful and accurate information while maintaining a clea
                 "role": "user",
                 "content": message_content
             })
+            
+        # Add this debug log to see what's being sent to Claude
+        logger.info(f"All messages being sent to Claude: {json.dumps([{'role': m.get('role'), 'content': m.get('content')[:100] + '...' if isinstance(m.get('content'), str) and len(m.get('content')) > 100 else m.get('content')} for m in messages], indent=2)}")
         
         # Call Claude API with system message as a separate parameter
         # Use provided model if specified, otherwise use default from config
