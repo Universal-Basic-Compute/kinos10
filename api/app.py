@@ -470,9 +470,9 @@ def api_root():
                             const highlighted = block.innerHTML
                                 .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
                                 .replace(/"([^"]+)"/g, '<span class="json-string">"$1"</span>')
-                                .replace(/\\\\b(\\\\d+)\\\\b/g, '<span class="json-number">$1</span>')
-                                .replace(/\\\\b(true|false)\\\\b/g, '<span class="json-boolean">$1</span>')
-                                .replace(/\\\\bnull\\\\b/g, '<span class="json-null">null</span>');
+                                .replace(/\\b(\\d+)\\b/g, '<span class="json-number">$1</span>')
+                                .replace(/\\b(true|false)\\b/g, '<span class="json-boolean">$1</span>')
+                                .replace(/\\bnull\\b/g, '<span class="json-null">null</span>');
                             block.innerHTML = highlighted;
                         }
                     });
