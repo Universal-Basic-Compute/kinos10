@@ -1,0 +1,42 @@
+{
+  "resources": [
+    {
+      "id": null,
+      "category": null,
+      "description": null,
+      "utilization": null,
+      "potentialApplications": []
+    }
+  ],
+  "successes": [
+    {
+      "id": null,
+      "description": null,
+      "date": null,
+      "contributingFactors": [],
+      "learnings": []
+    }
+  ],
+  "values": [
+    {
+      "value": null,
+      "importance": null,
+      "alignment": null,
+      "expression": null,
+      "challenges": []
+    }
+  ],
+  "resilience": {
+    "adaptability": null,
+    "recoveryPatterns": [],
+    "supportSystems": [],
+    "copingStrategies": []
+  },
+  "connection": {
+    "rituals": [],
+    "sharedInterests": [],
+    "communicationStrengths": [],
+    "emotionalBonds": []
+  },
+  "lastUpdated": null
+}

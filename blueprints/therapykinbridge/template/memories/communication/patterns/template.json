@@ -1,0 +1,53 @@
+{
+  "interaction_cycles": [
+    {
+      "id": null,
+      "name": null,
+      "description": null,
+      "participants": [],
+      "triggers": [],
+      "sequence": [],
+      "frequency": null,
+      "impact": null,
+      "interventions": [],
+      "progress": []
+    }
+  ],
+  "triggers": [
+    {
+      "id": null,
+      "description": null,
+      "context": null,
+      "primaryParticipant": null,
+      "typicalResponse": null,
+      "underlyingConcerns": [],
+      "intensity": null
+    }
+  ],
+  "responses": {
+    "participant1": {
+      "id": null,
+      "typicalResponses": [],
+      "escalationPattern": null,
+      "deescalationStrategies": [],
+      "emotionalSignals": []
+    },
+    "participant2": {
+      "id": null,
+      "typicalResponses": [],
+      "escalationPattern": null,
+      "deescalationStrategies": [],
+      "emotionalSignals": []
+    }
+  },
+  "outcomes": [
+    {
+      "patternId": null,
+      "typicalResolution": null,
+      "emotionalAftermath": null,
+      "reconnectionApproach": null,
+      "learningOpportunities": []
+    }
+  ],
+  "lastUpdated": null
+}

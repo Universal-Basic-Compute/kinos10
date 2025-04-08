@@ -1,0 +1,51 @@
+{
+  "timeline": [
+    {
+      "id": null,
+      "date": null,
+      "event": null,
+      "significance": null,
+      "impact": null
+    }
+  ],
+  "significant_events": [
+    {
+      "id": null,
+      "category": null,
+      "description": null,
+      "date": null,
+      "emotionalImpact": null,
+      "patternInfluence": null,
+      "resolution": null
+    }
+  ],
+  "transitions": [
+    {
+      "id": null,
+      "type": null,
+      "timeframe": null,
+      "description": null,
+      "adaptations": [],
+      "challenges": [],
+      "outcomes": null
+    }
+  ],
+  "patterns_over_time": {
+    "communication": {
+      "initialPatterns": [],
+      "significantChanges": [],
+      "currentState": null
+    },
+    "conflict": {
+      "initialPatterns": [],
+      "significantChanges": [],
+      "currentState": null
+    },
+    "connection": {
+      "initialPatterns": [],
+      "significantChanges": [],
+      "currentState": null
+    }
+  },
+  "lastUpdated": null
+}
