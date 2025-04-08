@@ -247,21 +247,9 @@ def analyze_message_v2(blueprint, kin_id):
         # Import and call the original analyze_message function with the data
         from routes.messages import analyze_message
         
-        # Create a new request context with the message content
-        with app.test_request_context(
-            method='POST',
-            path=f'/api/proxy/kins/{blueprint}/{kin_id}/analysis',
-            json=data
-        ) as ctx:
-            # Set the request data explicitly to ensure message content is preserved
-            ctx.request.data = json.dumps(data).encode('utf-8')
-            ctx.request.json = data
-            ctx.push()
-            try:
-                response = analyze_message(blueprint, kin_id)
-                return response
-            finally:
-                ctx.pop()
+        # Directly call analyze_message with the parameters
+        # This avoids the issue with setting ctx.request.json
+        return analyze_message(blueprint, kin_id)
 
     except Exception as e:
         logger.error(f"Error in analyze_message_v2: {str(e)}")
