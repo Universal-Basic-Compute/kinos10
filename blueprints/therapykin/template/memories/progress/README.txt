@@ -1,59 +1,59 @@
-# Trading Progress Memories
+# Progress Memories
 
-This directory stores information about the trader's psychological progress, trading milestones, and growth journey as a market participant.
+This directory stores information about the user's psychological progress, therapeutic milestones, and growth journey.
 
 ## Purpose
-To maintain a continuous record of the trader's psychological development, allowing TherapyKin Crypto to recognize, reinforce, and build upon progress over time through different market cycles.
+To maintain a continuous record of the user's psychological development, allowing TherapyKin to recognize, reinforce, and build upon progress over time through different life circumstances.
 
 ## Content Types
 
-### Trading Milestone Records
-Documentation of significant trading psychology achievements, breakthroughs, or insights.
+### Milestone Records
+Documentation of significant psychological achievements, breakthroughs, or insights.
 
-### Trading Skill Development
-Tracking of specific trading psychology skills the trader has learned, practiced, and integrated into their market approach.
+### Skill Development
+Tracking of specific psychological skills the user has learned, practiced, and integrated into their daily life.
 
-### Trading Pattern Changes
-Evidence of shifts in trading thought patterns, emotional responses to market events, or trading behavioral habits.
+### Pattern Changes
+Evidence of shifts in thought patterns, emotional responses to events, or behavioral habits.
 
-### Trading Goal Progress
-Updates on movement toward trader-identified psychological and process-oriented goals.
+### Goal Progress
+Updates on movement toward user-identified psychological and process-oriented goals.
 
-### Market Setback Navigation
-Information about how the trader has managed challenges or setbacks in their trading journey.
+### Setback Navigation
+Information about how the user has managed challenges or setbacks in their therapeutic journey.
 
 ## Usage Guidelines
 
-- Reference progress memories to reinforce growth and resilience through market cycles
-- Use milestone records to help the trader recognize their own psychological development
-- Connect current market challenges to previously navigated difficult market conditions
-- Identify skill development patterns to suggest appropriate next steps in trading psychology
-- Update progress memories after significant market events or psychological breakthroughs
-- Maintain a balanced view that acknowledges both progress and ongoing challenges in trading psychology
+- Reference progress memories to reinforce growth and resilience through life challenges
+- Use milestone records to help the user recognize their own psychological development
+- Connect current challenges to previously navigated difficult situations
+- Identify skill development patterns to suggest appropriate next steps in therapy
+- Update progress memories after significant events or psychological breakthroughs
+- Maintain a balanced view that acknowledges both progress and ongoing challenges
 
 ## Example Memory Structure
 
 ```
 progress/
-  ├── trading_milestones/
-  │   ├── first_profitable_month.txt
-  │   ├── drawdown_management_breakthrough.txt
-  │   └── market_crash_navigation.txt
+  ├── milestones/
+  │   ├── first_breakthrough.json
+  │   ├── challenge_management.json
+  │   └── crisis_navigation.json
   │
-  ├── trading_skills/
-  │   ├── trading_thought_challenging.txt
-  │   ├── mindfulness_during_volatility.txt
-  │   └── position_sizing_discipline.txt
+  ├── skills/
+  │   ├── thought_challenging.json
+  │   ├── mindfulness_practice.json
+  │   └── emotional_regulation.json
   │
-  ├── trading_goals/
-  │   ├── reduce_trading_anxiety.txt
-  │   ├── improve_trading_consistency.txt
-  │   └── process_trading_losses.txt
+  ├── goals/
+  │   ├── reduce_anxiety.json
+  │   ├── improve_relationships.json
+  │   └── process_grief.json
   │
-  └── trading_patterns/
-      ├── market_emotional_regulation.txt
-      ├── trading_self_talk.txt
-      └── market_behavioral_responses.txt
+  └── patterns/
+      ├── emotional_regulation.json
+      ├── self_talk.json
+      └── behavioral_responses.json
 ```
 
-This directory structure will be populated as the therapeutic relationship develops through different market conditions, creating a rich record of the trader's psychological journey.
+This directory structure will be populated as the therapeutic relationship develops, creating a rich record of the user's psychological journey.

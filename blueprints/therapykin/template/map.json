@@ -15,7 +15,8 @@
         "sources/cbt_techniques.md",
         "sources/dbt_techniques.md",
         "sources/act_techniques.md",
-        "sources/mindfulness_practices.md"
+        "sources/mindfulness_practices.md",
+        "sources/integration_guide.md"
       ]
     },
     {
@@ -24,7 +25,8 @@
       "files": [
         "adaptations/therapeutic_style.txt",
         "adaptations/communication_preferences.txt",
-        "adaptations/crisis_support.txt"
+        "adaptations/crisis_support.txt",
+        "adaptations/group_dynamics.txt"
       ]
     },
     {
@@ -38,24 +40,32 @@
         "modes/session_opening.txt",
         "modes/session_closing.txt",
         "modes/journey.txt",
-        "modes/planning.txt"
+        "modes/planning.txt",
+        "modes/circle.txt"
       ]
     },
     {
       "name": "Memory System",
       "description": "Framework for maintaining therapeutic continuity",
       "files": [
+        "memories/identity/README.txt",
+        "memories/emotional/README.txt",
+        "memories/relationships/README.txt",
+        "memories/therapeutic/README.txt",
+        "memories/session/README.txt",
+        "memories/journey/README.txt",
         "memories/progress/README.txt",
-        "memories/patterns/README.txt",
-        "memories/techniques/README.txt"
+        "memories/techniques/README.txt",
+        "memories/patterns/README.txt"
       ]
     },
     {
-      "name": "Circle Support",
-      "description": "Framework for AI-powered support group dynamics",
+      "name": "Onboarding System",
+      "description": "Materials for user onboarding and initial assessment",
       "files": [
-        "modes/circle.txt",
-        "adaptations/group_dynamics.txt"
+        "onboarding/initial_assessment.md",
+        "onboarding/goal_setting.md",
+        "onboarding/therapeutic_contract.md"
       ]
     }
   ]

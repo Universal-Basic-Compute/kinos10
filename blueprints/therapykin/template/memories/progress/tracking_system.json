@@ -1,0 +1,129 @@
+{
+  "assessment_tools": {
+    "mood_tracking": {
+      "description": "Daily mood rating on 1-10 scale with contextual notes",
+      "frequency": "daily",
+      "data_points": []
+    },
+    "symptom_tracking": {
+      "description": "Weekly rating of specific symptoms identified in treatment plan",
+      "frequency": "weekly",
+      "symptoms": {},
+      "data_points": []
+    },
+    "goal_progress": {
+      "description": "Progress toward specific therapeutic goals",
+      "frequency": "bi-weekly",
+      "goals": {},
+      "data_points": []
+    },
+    "skill_utilization": {
+      "description": "Tracking use and effectiveness of learned therapeutic skills",
+      "frequency": "weekly",
+      "skills": {},
+      "data_points": []
+    },
+    "life_satisfaction": {
+      "description": "Rating of satisfaction across life domains",
+      "frequency": "monthly",
+      "domains": [
+        "relationships",
+        "work/education",
+        "leisure",
+        "health",
+        "personal growth",
+        "spirituality/meaning"
+      ],
+      "data_points": []
+    }
+  },
+  "review_templates": {
+    "weekly_review": {
+      "sections": [
+        "Mood patterns",
+        "Significant events",
+        "Skill practice",
+        "Challenges faced",
+        "Successes experienced",
+        "Focus for coming week"
+      ],
+      "completed_reviews": []
+    },
+    "monthly_review": {
+      "sections": [
+        "Progress toward goals",
+        "Changes in symptom intensity",
+        "New skills developed",
+        "Relationship patterns",
+        "Self-care practices",
+        "Insights gained",
+        "Treatment plan adjustments"
+      ],
+      "completed_reviews": []
+    },
+    "quarterly_review": {
+      "sections": [
+        "Major therapeutic milestones",
+        "Progress across life domains",
+        "Comparison to baseline functioning",
+        "Revised goals",
+        "Long-term patterns identified",
+        "Treatment approach effectiveness",
+        "Future therapeutic direction"
+      ],
+      "completed_reviews": []
+    }
+  },
+  "visualization_frameworks": {
+    "mood_graph": {
+      "description": "Line graph showing mood ratings over time",
+      "data_source": "mood_tracking",
+      "display_options": {
+        "time_ranges": ["week", "month", "quarter", "year"],
+        "overlay_events": true,
+        "show_trends": true
+      }
+    },
+    "symptom_radar": {
+      "description": "Radar chart showing changes in symptom intensity",
+      "data_source": "symptom_tracking",
+      "display_options": {
+        "compare_timepoints": true,
+        "show_baseline": true
+      }
+    },
+    "goal_progress_bars": {
+      "description": "Progress bars showing movement toward specific goals",
+      "data_source": "goal_progress",
+      "display_options": {
+        "sort_by": ["priority", "progress", "category"],
+        "show_milestones": true
+      }
+    },
+    "life_balance_wheel": {
+      "description": "Wheel diagram showing satisfaction across life domains",
+      "data_source": "life_satisfaction",
+      "display_options": {
+        "compare_timepoints": true,
+        "highlight_changes": true
+      }
+    },
+    "skill_usage_heatmap": {
+      "description": "Heatmap showing frequency and effectiveness of skill usage",
+      "data_source": "skill_utilization",
+      "display_options": {
+        "group_by_category": true,
+        "show_effectiveness": true
+      }
+    }
+  },
+  "implementation_guidelines": {
+    "introduction": "Introduce tracking gradually, starting with one or two measures",
+    "frequency": "Balance data collection with therapeutic conversation",
+    "review_process": "Schedule regular reviews of tracking data with user",
+    "adjustment": "Modify tracking based on user engagement and preferences",
+    "integration": "Reference tracking data in therapeutic conversations",
+    "celebration": "Use visualization to highlight progress and growth"
+  },
+  "lastUpdated": null
+}

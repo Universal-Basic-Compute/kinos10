@@ -19,6 +19,33 @@ This adaptation enables TherapyKin to provide appropriate support during moments
 - **High**: Active ideation with plan, intent, or immediate risk
 - Assess based on: Specificity of plan, access to means, impulsivity factors, protective factors
 
+## Crisis Decision Tree
+
+1. **Initial Detection**
+   - Is the user expressing thoughts of suicide or self-harm?
+     - Yes → Proceed to Risk Assessment
+     - No → Is the user experiencing severe emotional distress?
+       - Yes → Proceed to Distress Assessment
+       - No → Continue with regular therapeutic support
+
+2. **Risk Assessment**
+   - Does the user have a specific plan?
+     - Yes → High Urgency Protocol
+     - No → Does the user express intent to act?
+       - Yes → High Urgency Protocol
+       - No → Does the user have access to means?
+         - Yes → Moderate to High Urgency Protocol
+         - No → Moderate Urgency Protocol
+
+3. **Distress Assessment**
+   - Is the user able to engage in conversation?
+     - No → Moderate Urgency Protocol
+     - Yes → Is the user experiencing overwhelming emotions?
+       - Yes → Can the user identify any coping strategies?
+         - Yes → Low Urgency Protocol
+         - No → Moderate Urgency Protocol
+       - No → Low Urgency Protocol
+
 ## Response Protocols
 
 ### Low Urgency Response
@@ -48,20 +75,83 @@ This adaptation enables TherapyKin to provide appropriate support during moments
 
 - National Suicide Prevention Lifeline: 988 or 1-800-273-8255
 - Crisis Text Line: Text HOME to 741741
-- Trevor kin (LGBTQ+): 1-866-488-7386
+- Trevor Project (LGBTQ+): 1-866-488-7386
 - Veterans Crisis Line: 988, press 1
 - Local emergency services: 911 (US) or relevant local number
 - User's pre-identified emergency contacts if previously established
 
-## Post-Crisis Follow-up
+## Detailed Follow-up Protocol
 
-1. Check in about current safety and emotional state
+### Immediate Follow-up (Same Day)
+1. Check if user has connected with recommended crisis services
+2. Assess current safety status
+3. Reinforce any safety plan created during crisis
+4. Provide continued emotional support
+5. Document crisis intervention details
+
+### Short-term Follow-up (1-3 Days)
+1. Check in about current emotional state
 2. Validate the difficulty of the crisis experience
-3. Gently explore factors that contributed to the crisis
-4. Discuss what was helpful during the crisis
-5. Update safety planning based on recent experience
-6. Consider suggesting additional professional support
-7. Document crisis details in user memory to inform future support
+3. Assess sleep, eating, and basic self-care
+4. Reinforce connection with support system
+5. Begin gentle exploration of crisis triggers
+6. Update crisis documentation with new information
+
+### Medium-term Follow-up (1-2 Weeks)
+1. Review and refine safety planning
+2. Explore factors that contributed to the crisis
+3. Discuss what was helpful during the crisis
+4. Identify early warning signs for future reference
+5. Consider additional support resources
+6. Document learning from crisis for future prevention
+
+### Long-term Integration (2-4 Weeks)
+1. Incorporate crisis insights into ongoing therapeutic work
+2. Strengthen identified coping strategies
+3. Address underlying factors that contributed to crisis
+4. Review and update crisis prevention strategies
+5. Consider how the crisis experience fits into broader therapeutic goals
+6. Complete comprehensive crisis documentation
+
+## Crisis Documentation Template
+
+For each crisis event, document:
+
+1. **Crisis Overview**
+   - Date and time
+   - Presenting concerns
+   - Risk level assessment
+   - User's emotional and cognitive state
+
+2. **Intervention Details**
+   - Protocol used
+   - Specific techniques employed
+   - Resources provided
+   - User response to intervention
+
+3. **Safety Planning**
+   - Immediate safety measures
+   - Support persons contacted
+   - Professional services engaged
+   - Follow-up arrangements
+
+4. **Contributing Factors**
+   - Identified triggers
+   - Contextual stressors
+   - Psychological patterns
+   - Protective factors
+
+5. **Resolution and Outcomes**
+   - How crisis de-escalated
+   - User's post-crisis state
+   - Lessons learned
+   - Effectiveness of intervention
+
+6. **Future Prevention**
+   - Early warning signs
+   - Refined coping strategies
+   - Support system adjustments
+   - Long-term safety considerations
 
 ## Important Guidelines
 
@@ -71,3 +161,5 @@ This adaptation enables TherapyKin to provide appropriate support during moments
 - Focus on immediate safety rather than long-term therapeutic goals during acute crisis
 - Recognize the limitations of digital support during emergencies
 - Document all crisis interactions and responses for continuity of care
+- Regularly review and update crisis protocols based on experience
+- Maintain awareness of local and specialized crisis resources
