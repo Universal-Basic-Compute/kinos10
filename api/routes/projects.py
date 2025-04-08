@@ -921,6 +921,7 @@ def analyze_kin(blueprint, kin_id):
         
         # Log the selected files and mode
         logger.info(f"Selected files for analysis: {selected_files}")
+        logger.info(f"Analysis request with message: {message_content[:100]}...")
         if selected_mode:
             logger.info(f"Selected mode: {selected_mode}")
         
@@ -939,7 +940,7 @@ def analyze_kin(blueprint, kin_id):
         claude_response = call_claude_with_context(
             selected_files, 
             kin_path, 
-            message_content,
+            message_content,  # Ensure this is the actual user message
             model=model,
             is_new_message=False,
             addSystem=analysis_system_instructions,

@@ -248,6 +248,9 @@ def analyze_message_v2(blueprint, kin_id):
             path=f'/api/proxy/kins/{blueprint}/{kin_id}/analysis',
             json=data
         ) as ctx:
+            # Set the request data explicitly to ensure message content is preserved
+            ctx.request.data = json.dumps(data).encode('utf-8')
+            ctx.request.json = data
             ctx.push()
             try:
                 response = analyze_message(blueprint, kin_id)
