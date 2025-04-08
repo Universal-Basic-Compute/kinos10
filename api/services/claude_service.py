@@ -41,6 +41,30 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
     # Create a list to track temporary files that need to be deleted
     temp_files = []
     
+    # Import re module for regex pattern matching
+    import re
+    
+    # Look for system tags in the message content and extract them
+    system_tag_pattern = r'<system>(.*?)</system>'
+    system_instructions = None
+    if message_content and '<system>' in message_content:
+        # Extract content from system tags
+        system_matches = re.findall(system_tag_pattern, message_content, re.DOTALL)
+        if system_matches:
+            # Join all system instructions
+            system_instructions = "\n".join(system_matches)
+            # Remove system tags from message content
+            message_content = re.sub(system_tag_pattern, '', message_content, flags=re.DOTALL).strip()
+            
+            # If there's additional system instructions, append them
+            if addSystem:
+                system_instructions += f"\n\n{addSystem}"
+                addSystem = None  # Clear addSystem since we've incorporated it
+            
+            # If message is now empty after removing system tags, use a default message
+            if not message_content:
+                message_content = "Hello"
+    
     try:
         # Load content of selected files
         file_contents = []
@@ -111,6 +135,11 @@ Your goal is to provide useful and accurate information while maintaining a clea
         if addSystem:
             context += f"\n\n# Additional System Instructions\n{addSystem}"
             logger.info("Added custom system instructions to context")
+            
+        # Add system instructions extracted from message if present
+        if system_instructions:
+            context += f"\n\n# System Instructions from Message\n{system_instructions}"
+            logger.info("Added system instructions extracted from message tags")
     
         # Initialize messages array
         messages = []
