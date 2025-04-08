@@ -220,26 +220,49 @@ def initialize_blueprint(blueprint):
         logger.error(f"Error initializing blueprint: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@kins_bp.route('/kins/<blueprint>/<kin_id>/build', methods=['POST'])
+@kins_bp.route('/kins/<blueprint>/<kin_id>/build', methods=['GET', 'POST'])
 def build_kin(blueprint, kin_id):
     """
     Endpoint to send a message to Aider for file creation/modification without Claude response.
     Similar to the messages endpoint but only processes with Aider and returns its response.
+    Supports both GET (with query params) and POST (with JSON body).
     """
     try:
-        # Parse request data
-        data = request.json
-        
-        # Support both formats: new format with 'message' and original format with 'content'
-        message_content = data.get('message', data.get('content', ''))
-        
-        # Get optional fields
-        addSystem = data.get('addSystem', None)  # Optional additional system instructions
-        attachments = data.get('attachments', [])
-        
-        # Get optional parameters for context building
-        min_files = data.get('min_files', 5)  # Default to 5
-        max_files = data.get('max_files', 15)  # Default to 15
+        # Parse request data based on method
+        if request.method == 'GET':
+            # Extract parameters from query string
+            message_content = request.args.get('message', '')
+            # Remove quotes if present (since query params might include them)
+            message_content = message_content.strip('"\'')
+            
+            # Get optional parameters
+            addSystem = request.args.get('addSystem')
+            min_files = request.args.get('min_files', 5)
+            max_files = request.args.get('max_files', 15)
+            attachments = []
+            
+            # Create a data dict to match POST format
+            data = {
+                'message': message_content,
+                'addSystem': addSystem,
+                'min_files': min_files,
+                'max_files': max_files,
+                'attachments': attachments
+            }
+        else:  # POST
+            # Parse request data
+            data = request.json
+            
+            # Support both formats: new format with 'message' and original format with 'content'
+            message_content = data.get('message', data.get('content', ''))
+            
+            # Get optional fields
+            addSystem = data.get('addSystem', None)  # Optional additional system instructions
+            attachments = data.get('attachments', [])
+            
+            # Get optional parameters for context building
+            min_files = data.get('min_files', 5)  # Default to 5
+            max_files = data.get('max_files', 15)  # Default to 15
         
         # Validate the values
         try:
@@ -596,21 +619,43 @@ def get_git_history(blueprint, kin_id):
         logger.error(f"Error getting Git history: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@kins_bp.route('/kins/<blueprint>/<kin_id>/autonomous_thinking', methods=['POST'])
+@kins_bp.route('/kins/<blueprint>/<kin_id>/autonomous_thinking', methods=['GET', 'POST'])
 def trigger_autonomous_thinking(blueprint, kin_id):
     """
     Endpoint to trigger autonomous thinking for a kin.
+    Supports both GET (with query params) and POST (with JSON body).
+    
     Optional parameters:
     - iterations: Number of thinking iterations (default: 3)
     - wait_time: Wait time between iterations in seconds (default: 600 = 10 minutes)
     """
     try:
-        # Parse request data
-        data = request.json or {}
-        import subprocess
-        import sys
-        iterations = data.get('iterations', 3)
-        wait_time = data.get('wait_time', 600)
+        # Parse request data based on method
+        if request.method == 'GET':
+            # Extract parameters from query string
+            iterations = request.args.get('iterations', 3)
+            wait_time = request.args.get('wait_time', 600)
+            
+            # Convert to integers
+            try:
+                iterations = int(iterations)
+                wait_time = int(wait_time)
+            except (ValueError, TypeError):
+                iterations = 3
+                wait_time = 600
+                
+            # Create a data dict to match POST format
+            data = {
+                'iterations': iterations,
+                'wait_time': wait_time
+            }
+        else:  # POST
+            # Parse request data
+            data = request.json or {}
+            import subprocess
+            import sys
+            iterations = data.get('iterations', 3)
+            wait_time = data.get('wait_time', 600)
         
         # Validate blueprint and kin
         if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
