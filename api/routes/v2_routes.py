@@ -675,8 +675,7 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
             response_data = {
                 "status": "completed",
                 "message_id": str(len(messages) - 1),
-                "response": claude_response,
-                "content": claude_response,  # Add content field for backward compatibility
+                "content": claude_response,  # Only include content field
                 "channel_id": channel_id
             }
             
