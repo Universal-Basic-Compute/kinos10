@@ -57,6 +57,26 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         cmd.extend(["--read", messages_file])
         logger.info(f"Added messages.json as --read file")
     
+    # Always add kinos.txt and system.txt as --read if they exist
+    kinos_file = "kinos.txt"
+    kinos_path = os.path.join(kin_path, kinos_file)
+    if os.path.exists(kinos_path) and kinos_file not in selected_files:
+        cmd.extend(["--read", kinos_file])
+        logger.info(f"Added kinos.txt as --read file (core system file)")
+        
+    system_file = "system.txt"
+    system_path = os.path.join(kin_path, system_file)
+    if os.path.exists(system_path) and system_file not in selected_files:
+        cmd.extend(["--read", system_file])
+        logger.info(f"Added system.txt as --read file (core system file)")
+        
+    # Also check for persona.txt as an alternative to kinos.txt and system.txt
+    persona_file = "persona.txt"
+    persona_path = os.path.join(kin_path, persona_file)
+    if os.path.exists(persona_path) and persona_file not in selected_files:
+        cmd.extend(["--read", persona_file])
+        logger.info(f"Added persona.txt as --read file (core system file)")
+    
     # Create a temporary file for addSystem if provided
     temp_system_file = None
     if addSystem:
