@@ -267,6 +267,15 @@ Send a message to a kin.
 }
 ```
 
+The `addSystem` parameter allows you to append custom instructions to the system prompt that's sent to Claude. These instructions are added at the end of the system prompt after all the context files, giving you a way to provide additional guidance or constraints for this specific interaction without modifying any files. This is particularly useful for:
+
+- Temporarily changing the AI's behavior for a single message
+- Adding specific instructions for handling the current query
+- Providing additional context that shouldn't be permanently stored
+- Overriding or enhancing the selected mode's behavior
+
+Unlike mode selection which uses predefined behavior sets, `addSystem` allows for ad-hoc customization of the AI's behavior for a single interaction.
+
 **Response:**
 ```json
 {
@@ -297,6 +306,8 @@ Analyze a message with Claude without saving it or triggering context updates.
   "max_files": 15  // Optional, maximum number of context files (default: 15)
 }
 ```
+
+The `addSystem` parameter allows you to append custom instructions to the system prompt that's sent to Claude. These instructions are added at the end of the system prompt after all the context files, giving you a way to provide additional guidance or constraints for this specific analysis without modifying any files.
 
 **Response:**
 ```json
@@ -684,6 +695,8 @@ Send a message to Aider for file creation/modification without Claude response.
   "max_files": 15  // Optional, maximum number of context files (default: 15)
 }
 ```
+
+The `addSystem` parameter allows you to append custom instructions to the system prompt that's sent to Aider. These instructions are added at the end of the system prompt after all the context files, providing additional guidance for how the files should be created or modified.
 
 **Response:**
 ```json
