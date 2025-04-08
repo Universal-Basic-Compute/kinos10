@@ -12,7 +12,22 @@ https://api.kinos-engine.ai/v2
 
 ## Authentication
 
-Currently, the API does not require authentication.
+The API requires authentication using an API key. You can provide the API key in one of two ways:
+
+1. As a header: `X-API-Key: your_api_key_here`
+2. As a query parameter: `?api_key=your_api_key_here`
+
+All requests without a valid API key will receive a 401 Unauthorized response.
+
+Example with header authentication:
+```bash
+curl -H "X-API-Key: your_api_key_here" https://api.kinos-engine.ai/v2/blueprints
+```
+
+Example with query parameter authentication:
+```bash
+curl https://api.kinos-engine.ai/v2/blueprints?api_key=your_api_key_here
+```
 
 ## API Endpoints
 
