@@ -432,17 +432,17 @@ def api_root():
             </style>
             <script>
                 /* Add this script to enhance the markdown rendering */
-                document.addEventListener('DOMContentLoaded', function() {
+                document.addEventListener('DOMContentLoaded', function() {{
                     /* Add method styling to endpoints */
-                    document.querySelectorAll('h4').forEach(function(heading) {
+                    document.querySelectorAll('h4').forEach(function(heading) {{
                         const text = heading.textContent;
-                        if (text.includes('GET ') || text.includes('POST ') || text.includes('PUT ') || text.includes('DELETE ')) {
+                        if (text.includes('GET ') || text.includes('POST ') || text.includes('PUT ') || text.includes('DELETE ')) {{
                             const endpoint = document.createElement('div');
                             endpoint.className = 'endpoint';
                             
                             // Extract method and URL
                             const match = text.match(/(GET|POST|PUT|DELETE) (.*)/);
-                            if (match) {
+                            if (match) {{
                                 const method = match[1];
                                 const url = match[2];
                                 
@@ -459,13 +459,13 @@ def api_root():
                                 
                                 // Replace the heading with our styled endpoint
                                 heading.parentNode.insertBefore(endpoint, heading.nextSibling);
-                            }
-                        }
-                    });
+                            }}
+                        }}
+                    }});
                     
                     // Add syntax highlighting to code blocks
-                    document.querySelectorAll('pre code').forEach(function(block) {
-                        if (block.textContent.trim().startsWith('{') || block.textContent.trim().startsWith('[')) {
+                    document.querySelectorAll('pre code').forEach(function(block) {{
+                        if (block.textContent.trim().startsWith('{{') || block.textContent.trim().startsWith('[')) {{
                             // This looks like JSON, apply highlighting
                             const highlighted = block.innerHTML
                                 .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
@@ -474,9 +474,9 @@ def api_root():
                                 .replace(/\b(true|false)\b/g, '<span class="json-boolean">$1</span>')
                                 .replace(/\bnull\b/g, '<span class="json-null">null</span>');
                             block.innerHTML = highlighted;
-                        }
-                    });
-                });
+                        }}
+                    }});
+                }});
             </script>
         </head>
         <body>
