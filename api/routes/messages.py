@@ -657,6 +657,13 @@ def analyze_message(blueprint, kin_id):
         
         # Validate required parameters
         if not message_content:
+            # Check if it's in the query parameters (for GET requests)
+            message_content = request.args.get('message', '')
+            if not message_content:
+                return jsonify({"error": "Message is required"}), 400
+        
+        # Validate required parameters
+        if not message_content:
             return jsonify({"error": "Message is required"}), 400
         
         # Get optional parameters for context building
