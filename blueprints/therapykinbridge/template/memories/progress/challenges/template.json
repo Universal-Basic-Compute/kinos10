@@ -1,0 +1,30 @@
+{
+  "setbacks": [
+    {
+      "id": null,
+      "date": null,
+      "description": null,
+      "triggers": [],
+      "impact": null,
+      "resolution": null,
+      "learnings": []
+    }
+  ],
+  "adaptations": [
+    {
+      "id": null,
+      "challenge": null,
+      "previousApproach": null,
+      "adaptation": null,
+      "effectiveness": null,
+      "insights": []
+    }
+  ],
+  "resilience": {
+    "recoveryPatterns": [],
+    "supportFactors": [],
+    "reconnectionStrategies": [],
+    "emotionalRegulation": []
+  },
+  "lastUpdated": null
+}

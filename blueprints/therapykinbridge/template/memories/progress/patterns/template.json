@@ -1,0 +1,36 @@
+{
+  "interaction_changes": [
+    {
+      "id": null,
+      "originalPattern": null,
+      "currentPattern": null,
+      "contextOfChange": null,
+      "interventionsThatHelped": [],
+      "stabilityOfChange": null,
+      "impact": null
+    }
+  ],
+  "emotional_responses": [
+    {
+      "id": null,
+      "emotionType": null,
+      "previousResponse": null,
+      "currentResponse": null,
+      "triggerChanges": null,
+      "regulationImprovements": [],
+      "remainingChallenges": []
+    }
+  ],
+  "communication_shifts": [
+    {
+      "id": null,
+      "communicationArea": null,
+      "previousApproach": null,
+      "currentApproach": null,
+      "effectivenessChange": null,
+      "contributingFactors": [],
+      "exampleSituations": []
+    }
+  ],
+  "lastUpdated": null
+}

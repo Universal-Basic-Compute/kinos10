@@ -1,0 +1,42 @@
+{
+  "patterns": [
+    {
+      "id": null,
+      "name": null,
+      "description": null,
+      "participants": [],
+      "frequency": null,
+      "quality": null,
+      "challenges": []
+    }
+  ],
+  "rituals": [
+    {
+      "id": null,
+      "name": null,
+      "description": null,
+      "frequency": null,
+      "significance": null,
+      "status": null
+    }
+  ],
+  "approaches": {
+    "participant1": {
+      "id": null,
+      "connectionStyle": null,
+      "expressionMethods": [],
+      "appreciationLanguage": null,
+      "disconnectionTriggers": []
+    },
+    "participant2": {
+      "id": null,
+      "connectionStyle": null,
+      "expressionMethods": [],
+      "appreciationLanguage": null,
+      "disconnectionTriggers": []
+    }
+  },
+  "challenges": [],
+  "improvements": [],
+  "lastUpdated": null
+}

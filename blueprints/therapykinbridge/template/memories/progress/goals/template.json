@@ -1,0 +1,40 @@
+{
+  "shared_objectives": [
+    {
+      "id": null,
+      "goalReference": null,
+      "initialState": null,
+      "currentState": null,
+      "progressIndicators": [],
+      "challenges": [],
+      "nextSteps": []
+    }
+  ],
+  "individual_contributions": {
+    "participant1": [
+      {
+        "id": null,
+        "goalReference": null,
+        "contributions": [],
+        "challenges": [],
+        "insights": []
+      }
+    ],
+    "participant2": [
+      {
+        "id": null,
+        "goalReference": null,
+        "contributions": [],
+        "challenges": [],
+        "insights": []
+      }
+    ]
+  },
+  "vision_alignment": {
+    "initialAlignment": null,
+    "currentAlignment": null,
+    "growthAreas": [],
+    "sharedSuccesses": []
+  },
+  "lastUpdated": null
+}

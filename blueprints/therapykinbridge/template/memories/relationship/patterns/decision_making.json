@@ -1,0 +1,43 @@
+{
+  "patterns": [
+    {
+      "id": null,
+      "name": null,
+      "description": null,
+      "participants": [],
+      "approach": null,
+      "powerDynamics": null,
+      "effectiveness": null,
+      "challenges": []
+    }
+  ],
+  "approaches": {
+    "participant1": {
+      "id": null,
+      "decisionStyle": null,
+      "informationGathering": null,
+      "riskTolerance": null,
+      "timeframe": null,
+      "consultationPreference": null
+    },
+    "participant2": {
+      "id": null,
+      "decisionStyle": null,
+      "informationGathering": null,
+      "riskTolerance": null,
+      "timeframe": null,
+      "consultationPreference": null
+    }
+  },
+  "categories": [
+    {
+      "domain": null,
+      "typicalProcess": null,
+      "satisfaction": null,
+      "challenges": [],
+      "improvements": []
+    }
+  ],
+  "improvements": [],
+  "lastUpdated": null
+}

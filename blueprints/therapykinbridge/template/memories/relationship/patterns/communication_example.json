@@ -1,0 +1,93 @@
+{
+  "patterns": [
+    {
+      "id": "CP001",
+      "name": "Criticism-Defensiveness Cycle",
+      "description": "A recurring pattern where one participant expresses concerns as criticism, triggering defensiveness in the other, leading to escalation and eventual withdrawal.",
+      "participants": ["Alex", "Jordan"],
+      "triggers": ["Household responsibilities", "Schedule changes", "Financial decisions"],
+      "sequence": [
+        "Alex expresses frustration about unmet expectations",
+        "Jordan perceives criticism and responds defensively",
+        "Alex feels unheard and increases intensity",
+        "Jordan withdraws from the conversation",
+        "Alex experiences withdrawal as dismissal",
+        "Distance persists until external reconnection"
+      ],
+      "frequency": "Weekly",
+      "impact": "Creates emotional distance and unresolved issues",
+      "interventions": [
+        "Speaker-listener technique",
+        "Timeout protocol",
+        "Reformulating criticisms as requests"
+      ],
+      "progress": [
+        "Decreased intensity when pattern occurs",
+        "Faster recovery time after conflicts",
+        "Increased awareness when pattern begins"
+      ]
+    },
+    {
+      "id": "CP002",
+      "name": "Pursue-Withdraw Dynamic",
+      "description": "Pattern where one participant seeks discussion during conflict while the other needs space, creating a cycle of increasing pursuit and withdrawal.",
+      "participants": ["Jordan", "Alex"],
+      "triggers": ["Emotional discussions", "Conflict situations", "Stress periods"],
+      "sequence": [
+        "Conflict or disagreement arises",
+        "Jordan seeks space to process",
+        "Alex pursues resolution immediately",
+        "Jordan withdraws further feeling pressured",
+        "Alex increases pursuit feeling abandoned",
+        "Pattern escalates until exhaustion or intervention"
+      ],
+      "frequency": "During significant disagreements",
+      "impact": "Creates frustration and misunderstanding of needs",
+      "interventions": [
+        "Structured timeout agreement",
+        "Scheduled check-in after separation",
+        "Recognition of different processing needs"
+      ],
+      "progress": [
+        "Jordan now signals need for space rather than withdrawing silently",
+        "Alex respects timeout requests with less anxiety",
+        "Reconnection process becoming more consistent"
+      ]
+    }
+  ],
+  "styles": {
+    "participant1": {
+      "id": "Alex",
+      "expressionStyle": "Direct and detailed",
+      "listeningStyle": "Interruptive when emotional",
+      "emotionalExpression": "Verbally expressive, animated",
+      "conflictApproach": "Engaging, seeks immediate resolution",
+      "preferredChannels": ["Face-to-face conversation", "Phone calls"],
+      "challengeAreas": ["Listening without formulating response", "Managing emotional intensity"],
+      "strengths": ["Clearly expresses needs", "Initiates important discussions", "Seeks resolution"]
+    },
+    "participant2": {
+      "id": "Jordan",
+      "expressionStyle": "Brief and measured",
+      "listeningStyle": "Attentive until feeling criticized",
+      "emotionalExpression": "Contained, processes internally",
+      "conflictApproach": "Initially engaging, withdraws when intense",
+      "preferredChannels": ["Text messages", "Side-by-side conversations"],
+      "challengeAreas": ["Expressing emotions in the moment", "Staying engaged when overwhelmed"],
+      "strengths": ["Considers before responding", "Rarely escalates conflict", "Good at practical solutions"]
+    }
+  },
+  "mismatches": [
+    "Different needs for processing time during conflict",
+    "Varying emotional expression styles creating misinterpretation",
+    "Different approaches to problem-solving (emotional processing vs. practical solutions)",
+    "Mismatched communication channel preferences"
+  ],
+  "improvements": [
+    "Increased recognition of pattern triggers",
+    "Development of timeout protocol with clear parameters",
+    "Improved ability to express needs without criticism",
+    "Greater acceptance of different processing styles"
+  ],
+  "lastUpdated": "2023-11-15"
+}
