@@ -1,0 +1,39 @@
+{
+  "wordChoice": {
+    "participant1": {
+      "frequentTerms": [],
+      "emotionalLanguage": [],
+      "communicationPreferences": [],
+      "triggerWords": [],
+      "effectiveFraming": []
+    },
+    "participant2": {
+      "frequentTerms": [],
+      "emotionalLanguage": [],
+      "communicationPreferences": [],
+      "triggerWords": [],
+      "effectiveFraming": []
+    }
+  },
+  "framing": {
+    "participant1": {
+      "typicalFrames": [],
+      "perspectivePatterns": [],
+      "attributionStyle": null,
+      "narrativeThemes": []
+    },
+    "participant2": {
+      "typicalFrames": [],
+      "perspectivePatterns": [],
+      "attributionStyle": null,
+      "narrativeThemes": []
+    }
+  },
+  "sharedLanguage": {
+    "relationshipTerms": [],
+    "establishedMeanings": [],
+    "insideReferences": [],
+    "miscommunicationAreas": []
+  },
+  "lastUpdated": null
+}

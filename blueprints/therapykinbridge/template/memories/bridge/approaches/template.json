@@ -1,0 +1,29 @@
+{
+  "techniques": [
+    {
+      "id": null,
+      "name": null,
+      "description": null,
+      "context": null,
+      "participants": [],
+      "effectiveness": null,
+      "notes": null
+    }
+  ],
+  "effectiveness": {
+    "highlyEffective": [],
+    "moderatelyEffective": [],
+    "limitedEffectiveness": [],
+    "ineffective": []
+  },
+  "adaptations": [
+    {
+      "originalApproach": null,
+      "modification": null,
+      "reason": null,
+      "effectiveness": null,
+      "continuationPlan": null
+    }
+  ],
+  "lastUpdated": null
+}
