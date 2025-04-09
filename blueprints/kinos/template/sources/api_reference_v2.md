@@ -643,7 +643,7 @@ Analyze a message with Claude without saving it or triggering context updates.
 {
   "message": "What is the purpose of this code?",
   "images": ["data:image/jpeg;base64,..."],
-  "model": "claude-3-5-haiku-latest",
+  "model": "claude-3-7-sonnet-latest",
   "addSystem": "Focus on explaining the architecture",
   "min_files": 5,  // Optional, minimum number of context files (default: 5)
   "max_files": 15  // Optional, maximum number of context files (default: 15)

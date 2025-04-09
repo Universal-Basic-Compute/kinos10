@@ -716,7 +716,7 @@ def analyze_message_v2(blueprint, kin_id):
             message_content = message_content.strip('"\'')
             
             # Get other parameters from query string
-            model = request.args.get('model', '')
+            model = request.args.get('model', 'claude-3-7-sonnet-latest')
             addSystem = request.args.get('addSystem', None)
             min_files = request.args.get('min_files', 5)
             max_files = request.args.get('max_files', 15)
