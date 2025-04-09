@@ -625,7 +625,7 @@ def api_root():
                                 // Function to highlight JSON
                                 const highlightJSON = (json) => {{
                                     return json
-                                        .replace(/("(\\u[a-zA-Z0-9]{{4}}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {{
+                                        .replace(/("(\\u[a-zA-Z0-9]{{4}}|\\[^u]|[^\\"])*"(\\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {{
                                             let cls = 'json-number';
                                             if (/^"/.test(match)) {{
                                                 if (/:$/.test(match)) {{
