@@ -2,6 +2,7 @@ import os
 import json
 import datetime
 import logging
+import shutil
 from config import logger
 
 def get_channel_messages(kin_path, channel_id, limit=None):
@@ -37,6 +38,23 @@ def get_channel_messages(kin_path, channel_id, limit=None):
                 messages = messages[-limit:]
                 
             return messages
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON error in messages file: {str(e)}")
+            # Try to fix the file
+            if fix_channel_messages_json(kin_path, channel_id):
+                # Try loading again after fix
+                try:
+                    with open(messages_file, 'r', encoding='utf-8') as f:
+                        messages = json.load(f)
+                    
+                    # Apply limit if specified
+                    if limit and limit > 0:
+                        messages = messages[-limit:]
+                        
+                    return messages
+                except Exception as retry_error:
+                    logger.error(f"Error reading messages file after fix: {str(retry_error)}")
+            return []
         except Exception as e:
             logger.error(f"Error reading messages file: {str(e)}")
     
@@ -169,3 +187,78 @@ def update_channel_info(kin_path, channel_id, updates):
     except Exception as e:
         logger.error(f"Error saving channel info: {str(e)}")
         return None
+
+def fix_channel_messages_json(kin_path, channel_id):
+    """
+    Fix corrupted messages.json file for a channel
+    
+    Args:
+        kin_path: Path to the kin directory
+        channel_id: Channel ID with corrupted messages.json
+        
+    Returns:
+        Boolean indicating success
+    """
+    try:
+        # Get channel path
+        if channel_id and channel_id != "main":
+            # Get channel path
+            from services.file_service import get_channel_path
+            channel_path = get_channel_path(kin_path, channel_id)
+            messages_file = os.path.join(channel_path, "messages.json")
+        else:
+            # Use main messages file
+            messages_file = os.path.join(kin_path, "messages.json")
+        
+        if not os.path.exists(messages_file):
+            logger.warning(f"Messages file not found: {messages_file}")
+            return False
+        
+        # Read the file content
+        with open(messages_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Try to parse and fix the JSON
+        try:
+            # First attempt to parse as is
+            messages = json.loads(content)
+            logger.info(f"Messages file {messages_file} is valid JSON")
+            return True
+        except json.JSONDecodeError as e:
+            logger.warning(f"JSON error in {messages_file}: {str(e)}")
+            
+            # Try to fix common issues
+            if "Extra data" in str(e):
+                # Find the position of the error
+                pos = e.pos
+                # Truncate the content at the error position
+                fixed_content = content[:pos]
+                
+                # Try to find the last valid JSON structure
+                last_bracket = fixed_content.rfind(']')
+                if last_bracket > 0:
+                    fixed_content = fixed_content[:last_bracket+1]
+                    
+                    # Validate the fixed content
+                    try:
+                        messages = json.loads(fixed_content)
+                        logger.info(f"Fixed JSON in {messages_file}")
+                        
+                        # Backup the original file
+                        backup_file = f"{messages_file}.bak"
+                        shutil.copy2(messages_file, backup_file)
+                        logger.info(f"Created backup at {backup_file}")
+                        
+                        # Write the fixed content
+                        with open(messages_file, 'w', encoding='utf-8') as f:
+                            json.dump(messages, f, indent=2)
+                        
+                        logger.info(f"Successfully fixed and saved {messages_file}")
+                        return True
+                    except json.JSONDecodeError:
+                        logger.error(f"Could not fix JSON in {messages_file}")
+            
+            return False
+    except Exception as e:
+        logger.error(f"Error fixing messages file: {str(e)}")
+        return False
