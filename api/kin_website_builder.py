@@ -360,6 +360,25 @@ yarn-error.log*
         logger.error(f"Error creating basic Next.js template: {str(e)}")
         return False
 
+def check_npm_installed():
+    """
+    Check if npm is installed and available in the PATH.
+    
+    Returns:
+        Boolean indicating if npm is available
+    """
+    try:
+        # Try to run npm --version to check if npm is installed
+        subprocess.run(
+            ["npm", "--version"],
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        return True
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return False
+
 def build_website(website_dir):
     """
     Build the Next.js website.
@@ -370,6 +389,14 @@ def build_website(website_dir):
     Returns:
         Boolean indicating success
     """
+    # First check if npm is installed
+    if not check_npm_installed():
+        logger.error("npm not found. Node.js and npm must be installed to build the website.")
+        logger.error("Please install Node.js from https://nodejs.org/ and make sure it's in your PATH.")
+        logger.error("After installation, you can run this script again with the --build flag.")
+        logger.info("The website files have been set up, but not built.")
+        return False
+        
     try:
         # Check if node_modules exists
         if not os.path.exists(os.path.join(website_dir, "node_modules")):
@@ -431,10 +458,11 @@ def main():
         return 1
     
     # Build the website if requested
+    build_success = True
     if args.build:
-        if not build_website(website_dir):
-            logger.error("Failed to build website")
-            return 1
+        build_success = build_website(website_dir)
+        if not build_success:
+            logger.warning("Website setup completed but build failed")
     
     logger.info(f"Website setup complete for {args.blueprint}/{args.kin_id}")
     logger.info(f"Website directory: {website_dir}")
@@ -442,10 +470,19 @@ def main():
     # Print next steps
     print("\nNext steps:")
     print(f"1. Customize the website in {website_dir}")
-    print("2. Build the website with: npm run build")
-    print("3. Start the development server with: npm run dev")
     
-    return 0
+    if not build_success and args.build:
+        print("\nTo build the website:")
+        print("1. Install Node.js from https://nodejs.org/")
+        print("2. Make sure npm is in your PATH")
+        print(f"3. Navigate to {website_dir}")
+        print("4. Run: npm install")
+        print("5. Run: npm run build")
+    else:
+        print("2. Build the website with: npm run build")
+        print("3. Start the development server with: npm run dev")
+    
+    return 0 if not args.build or build_success else 1
 
 if __name__ == "__main__":
     sys.exit(main())
