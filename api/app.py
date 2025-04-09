@@ -192,9 +192,8 @@ def api_root():
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                     line-height: 1.6;
                     color: var(--text-color);
-                    max-width: 1100px;
-                    margin: 0 auto;
-                    padding: 20px;
+                    margin: 0;
+                    padding: 0;
                     background-color: var(--background-color);
                 }}
                 
@@ -203,6 +202,124 @@ def api_root():
                     border-radius: 8px;
                     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
                     padding: 30px;
+                    max-width: 1100px;
+                    margin: 0 auto;
+                }}
+                
+                /* Sidebar and layout styles */
+                :root {{
+                    /* Keep existing variables */
+                    --sidebar-width: 250px;
+                    --sidebar-background: #f8f9fa;
+                    --sidebar-border: #e9ecef;
+                }}
+                
+                .page-container {{
+                    display: flex;
+                    width: 100%;
+                }}
+                
+                .sidebar {{
+                    width: var(--sidebar-width);
+                    background-color: var(--sidebar-background);
+                    border-right: 1px solid var(--sidebar-border);
+                    height: 100vh;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    overflow-y: auto;
+                    padding: 20px 0;
+                    transition: transform 0.3s ease;
+                }}
+                
+                .sidebar-header {{
+                    padding: 0 20px 20px;
+                    border-bottom: 1px solid var(--sidebar-border);
+                    margin-bottom: 20px;
+                }}
+                
+                .sidebar-header h3 {{
+                    margin: 0;
+                    font-size: 1.2em;
+                }}
+                
+                .sidebar-nav {{
+                    list-style-type: none;
+                    padding: 0;
+                    margin: 0;
+                }}
+                
+                .sidebar-nav li {{
+                    padding: 8px 20px;
+                }}
+                
+                .sidebar-nav li:hover {{
+                    background-color: rgba(0,0,0,0.05);
+                }}
+                
+                .sidebar-nav a {{
+                    color: var(--text-color);
+                    text-decoration: none;
+                    display: block;
+                    font-size: 0.95em;
+                }}
+                
+                .sidebar-nav a:hover {{
+                    color: var(--link-color);
+                }}
+                
+                .sidebar-nav .section-title {{
+                    font-weight: 600;
+                    color: var(--heading-color);
+                    padding: 12px 20px 8px;
+                    font-size: 0.9em;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }}
+                
+                .content {{
+                    flex: 1;
+                    margin-left: var(--sidebar-width);
+                    padding: 20px;
+                    transition: margin-left 0.3s ease;
+                }}
+                
+                .sidebar-toggle {{
+                    display: none;
+                    position: fixed;
+                    top: 20px;
+                    left: 20px;
+                    z-index: 1000;
+                    background-color: var(--primary-color);
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    padding: 8px 12px;
+                    cursor: pointer;
+                }}
+                
+                /* Responsive styles */
+                @media (max-width: 768px) {{
+                    .sidebar {{
+                        transform: translateX(-100%);
+                        z-index: 999;
+                    }}
+                    
+                    .sidebar.active {{
+                        transform: translateX(0);
+                    }}
+                    
+                    .content {{
+                        margin-left: 0;
+                    }}
+                    
+                    .sidebar-toggle {{
+                        display: block;
+                    }}
+                    
+                    .container {{
+                        padding: 15px;
+                    }}
                 }}
                 
                 pre {{
