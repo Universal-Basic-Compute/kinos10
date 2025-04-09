@@ -1566,6 +1566,14 @@ def run_typescript_check_and_build(blueprint, kin_id, kin_path, max_retries=5):
                 text=True
             )
             logger.info(f"Successfully ran repository link script after build")
+            
+            # Push changes to the repository if errors were fixed
+            from linkrepo import sync_repository
+            sync_result = sync_repository(kin_path)
+            if sync_result["success"]:
+                logger.info(f"Successfully pushed changes to repository after build")
+            else:
+                logger.warning(f"Failed to push changes to repository: {sync_result.get('error', 'Unknown error')}")
         except Exception as e:
             logger.error(f"Error running repository link script: {str(e)}")
         
