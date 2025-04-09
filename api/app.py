@@ -435,6 +435,26 @@ def api_root():
             <script>
                 /* Add this script to enhance the markdown rendering */
                 document.addEventListener('DOMContentLoaded', function() {{
+                    /* Sidebar toggle functionality */
+                    const sidebarToggle = document.getElementById('sidebarToggle');
+                    const sidebar = document.getElementById('sidebar');
+                    
+                    if (sidebarToggle && sidebar) {
+                        sidebarToggle.addEventListener('click', function() {
+                            sidebar.classList.toggle('active');
+                        });
+                    }
+                    
+                    // Close sidebar when clicking a link on mobile
+                    const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+                    sidebarLinks.forEach(link => {
+                        link.addEventListener('click', function() {
+                            if (window.innerWidth <= 768) {
+                                sidebar.classList.remove('active');
+                            }
+                        });
+                    });
+                
                     /* Add method styling to endpoints */
                     document.querySelectorAll('h4').forEach(function(heading) {{
                         const text = heading.textContent;
