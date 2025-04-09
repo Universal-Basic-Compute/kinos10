@@ -497,11 +497,78 @@ def build_website(website_dir):
         logger.info(f"4. To start the development server: npm run dev")
         return False
 
+def clone_repository(website_dir, repo_url):
+    """
+    Clone a Git repository to the website directory.
+    
+    Args:
+        website_dir: Path to the website directory
+        repo_url: URL of the Git repository to clone
+        
+    Returns:
+        Boolean indicating success
+    """
+    try:
+        # Check if git is installed
+        try:
+            subprocess.run(
+                ["git", "--version"],
+                check=True,
+                capture_output=True,
+                text=True
+            )
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            logger.error("Git is not installed or not in PATH")
+            return False
+        
+        # Check if website directory is empty
+        if os.listdir(website_dir):
+            logger.warning(f"Website directory is not empty: {website_dir}")
+            user_input = input("Website directory is not empty. Overwrite? (y/n): ")
+            if user_input.lower() != 'y':
+                logger.info("Aborting repository clone")
+                return False
+            
+            # Remove existing files
+            for item in os.listdir(website_dir):
+                item_path = os.path.join(website_dir, item)
+                if os.path.isdir(item_path):
+                    shutil.rmtree(item_path)
+                else:
+                    os.remove(item_path)
+        
+        # Clone the repository
+        logger.info(f"Cloning repository: {repo_url}")
+        result = subprocess.run(
+            ["git", "clone", repo_url, "."],
+            cwd=website_dir,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        
+        logger.info(f"Repository cloned successfully to {website_dir}")
+        
+        # Remove .git directory to avoid conflicts
+        git_dir = os.path.join(website_dir, ".git")
+        if os.path.exists(git_dir):
+            shutil.rmtree(git_dir)
+            logger.info("Removed .git directory from cloned repository")
+        
+        return True
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Git command failed: {e.stderr}")
+        return False
+    except Exception as e:
+        logger.error(f"Error cloning repository: {str(e)}")
+        return False
+
 def main():
     parser = argparse.ArgumentParser(description="Set up and build a Next.js website for a kin")
     parser.add_argument("blueprint", help="Blueprint name")
     parser.add_argument("kin_id", help="Kin ID")
     parser.add_argument("--build", action="store_true", help="Build the website after setup")
+    parser.add_argument("--repo", help="Git repository URL to clone instead of using a template")
     
     args = parser.parse_args()
     
@@ -514,10 +581,17 @@ def main():
     # Set up website directory
     website_dir = setup_website_directory(kin_path)
     
-    # Copy Next.js template
-    if not copy_nextjs_template(website_dir):
-        logger.error("Failed to set up Next.js template")
-        return 1
+    # Clone repository or copy template based on arguments
+    if args.repo:
+        if not clone_repository(website_dir, args.repo):
+            logger.error("Failed to clone repository")
+            return 1
+        logger.info(f"Repository cloned successfully to {website_dir}")
+    else:
+        if not copy_nextjs_template(website_dir):
+            logger.error("Failed to set up Next.js template")
+            return 1
+        logger.info(f"Next.js template set up successfully in {website_dir}")
     
     # Build the website if requested
     build_success = True
