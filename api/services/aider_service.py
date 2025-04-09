@@ -306,7 +306,8 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                         git_exe = find_git_executable()
                         if not git_exe:
                             logger.warning("Git executable not found, cannot push changes")
-                            continue  # Continue with the generator
+                            yield "Git executable not found, cannot push changes"
+                            return  # Exit the generator instead of continue
                         
                         subprocess.run(
                             [git_exe, "add", "."],
