@@ -139,17 +139,75 @@ def link_repository(kin_path, github_url, token=None):
             logger.error(f"Git clone failed: {e.stderr}")
             return False
         
-        # Remove .git directory from the temporary clone
+        # Remove .git directory from the temporary clone with error handling
         temp_git_dir = os.path.join(temp_dir, ".git")
         if os.path.exists(temp_git_dir):
-            shutil.rmtree(temp_git_dir)
-            logger.info("Removed .git directory from cloned repository")
+            try:
+                shutil.rmtree(temp_git_dir)
+                logger.info("Removed .git directory from cloned repository")
+            except (PermissionError, OSError) as e:
+                logger.warning(f"Permission error removing .git directory: {str(e)}")
+                logger.info("Attempting to remove files individually...")
+                
+                # Try to remove files individually
+                for root, dirs, files in os.walk(temp_git_dir, topdown=False):
+                    for name in files:
+                        try:
+                            file_path = os.path.join(root, name)
+                            os.chmod(file_path, 0o666)  # Make file writable
+                            os.unlink(file_path)
+                        except Exception as e:
+                            logger.warning(f"Could not remove file {name}: {str(e)}")
+                    
+                    for name in dirs:
+                        try:
+                            dir_path = os.path.join(root, name)
+                            os.rmdir(dir_path)
+                        except Exception as e:
+                            logger.warning(f"Could not remove directory {name}: {str(e)}")
+                
+                # Try to remove the main .git directory
+                try:
+                    os.rmdir(temp_git_dir)
+                    logger.info("Successfully removed .git directory after individual cleanup")
+                except Exception as e:
+                    logger.warning(f"Could not completely remove .git directory: {str(e)}")
+                    logger.info("Continuing with remaining files...")
         
         # Remove existing .git directory from kin if it exists
         kin_git_dir = os.path.join(kin_path, ".git")
         if os.path.exists(kin_git_dir):
-            shutil.rmtree(kin_git_dir)
-            logger.info("Removed existing .git directory from kin")
+            try:
+                shutil.rmtree(kin_git_dir)
+                logger.info("Removed existing .git directory from kin")
+            except (PermissionError, OSError) as e:
+                logger.warning(f"Permission error removing existing .git directory: {str(e)}")
+                logger.info("Attempting to remove files individually...")
+                
+                # Try to remove files individually
+                for root, dirs, files in os.walk(kin_git_dir, topdown=False):
+                    for name in files:
+                        try:
+                            file_path = os.path.join(root, name)
+                            os.chmod(file_path, 0o666)  # Make file writable
+                            os.unlink(file_path)
+                        except Exception as e:
+                            logger.warning(f"Could not remove file {name}: {str(e)}")
+                    
+                    for name in dirs:
+                        try:
+                            dir_path = os.path.join(root, name)
+                            os.rmdir(dir_path)
+                        except Exception as e:
+                            logger.warning(f"Could not remove directory {name}: {str(e)}")
+                
+                # Try to remove the main .git directory
+                try:
+                    os.rmdir(kin_git_dir)
+                    logger.info("Successfully removed existing .git directory after individual cleanup")
+                except Exception as e:
+                    logger.warning(f"Could not completely remove existing .git directory: {str(e)}")
+                    logger.info("Continuing with remaining files...")
         
         # Copy all files from the temporary directory to the kin directory
         logger.info(f"Copying repository files to kin directory: {kin_path}")
@@ -238,13 +296,24 @@ def link_repository(kin_path, github_url, token=None):
         
         # Push to remote
         logger.info("Pushing changes to GitHub repository")
-        subprocess.run(
-            ["git", "push", "-u", "origin", "master"],
-            cwd=kin_path,
-            check=True,
-            capture_output=True,
-            text=True
-        )
+        try:
+            subprocess.run(
+                ["git", "push", "-u", "origin", "master"],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+        except subprocess.CalledProcessError:
+            # Try with 'main' branch if 'master' fails
+            logger.info("Push to 'master' failed, trying 'main' branch")
+            subprocess.run(
+                ["git", "push", "-u", "origin", "main"],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
         
         logger.info("Successfully linked kin to GitHub repository")
         return True
