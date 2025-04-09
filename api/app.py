@@ -509,6 +509,96 @@ def health_check():
         "website_url": os.environ.get('WEBSITE_URL', 'not set')
     }), 200
 
+@app.route('/website/<blueprint>/<kin_id>/<path:path>', methods=['GET'])
+def serve_kin_website(blueprint, kin_id, path=''):
+    """
+    Serve files from a kin's website directory.
+    This allows kins to have their own websites at <blueprint>-<kin>.kinos-engine.ai
+    """
+    try:
+        # Get kin path
+        from services.file_service import get_kin_path
+        kin_path = get_kin_path(blueprint, kin_id)
+        
+        # Check if kin exists
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Check if website directory exists
+        website_dir = os.path.join(kin_path, "website")
+        if not os.path.exists(website_dir):
+            return jsonify({"error": "This kin doesn't have a website"}), 404
+        
+        # Handle root path
+        if not path:
+            path = 'index.html'
+        
+        # Check if the file exists in the .next/server/pages directory (for SSR)
+        next_server_dir = os.path.join(website_dir, ".next", "server", "pages")
+        file_path = os.path.join(next_server_dir, path)
+        
+        # If not found in server/pages, check in the public directory
+        if not os.path.exists(file_path):
+            file_path = os.path.join(website_dir, "public", path)
+        
+        # If still not found, check in the .next/static directory
+        if not os.path.exists(file_path):
+            static_dir = os.path.join(website_dir, ".next", "static")
+            for root, dirs, files in os.walk(static_dir):
+                potential_path = os.path.join(root, os.path.basename(path))
+                if os.path.exists(potential_path):
+                    file_path = potential_path
+                    break
+        
+        # If file exists, serve it
+        if os.path.exists(file_path):
+            # Determine content type based on file extension
+            extension = os.path.splitext(file_path)[1].lower()
+            content_type = {
+                '.html': 'text/html',
+                '.js': 'application/javascript',
+                '.css': 'text/css',
+                '.json': 'application/json',
+                '.png': 'image/png',
+                '.jpg': 'image/jpeg',
+                '.jpeg': 'image/jpeg',
+                '.gif': 'image/gif',
+                '.svg': 'image/svg+xml',
+                '.ico': 'image/x-icon'
+            }.get(extension, 'text/plain')
+            
+            # Read and return the file
+            with open(file_path, 'rb') as f:
+                return f.read(), 200, {'Content-Type': content_type}
+        
+        # If file not found, return 404
+        return jsonify({"error": f"File '{path}' not found"}), 404
+        
+    except Exception as e:
+        logger.error(f"Error serving kin website: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/', methods=['GET'], subdomain='<subdomain>')
+def serve_kin_website_subdomain(subdomain):
+    """
+    Serve a kin's website based on the subdomain.
+    Subdomain format: <blueprint>-<kin>.kinos-engine.ai
+    """
+    try:
+        # Parse the subdomain to extract blueprint and kin
+        parts = subdomain.split('-', 1)
+        if len(parts) != 2:
+            return jsonify({"error": "Invalid subdomain format. Expected: <blueprint>-<kin>"}), 400
+            
+        blueprint, kin_id = parts
+        
+        # Redirect to the website route
+        return serve_kin_website(blueprint, kin_id, '')
+        
+    except Exception as e:
+        logger.error(f"Error serving kin website from subdomain: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def global_catch_all(undefined_route):
     """Global catch-all route for undefined API endpoints."""
@@ -669,6 +759,54 @@ def generate_modes_txt_for_all(force=False):
         logger.info("Completed modes.txt generation for all blueprints")
     except Exception as e:
         logger.error(f"Error generating modes.txt files: {str(e)}")
+
+# Function to start the Next.js server for a kin's website
+def start_kin_website_server(blueprint, kin_id, port=3000):
+    """
+    Start the Next.js server for a kin's website.
+    
+    Args:
+        blueprint: Blueprint name
+        kin_id: Kin ID
+        port: Port to run the server on (default: 3000)
+        
+    Returns:
+        The subprocess object for the server
+    """
+    try:
+        # Get kin path
+        from services.file_service import get_kin_path
+        kin_path = get_kin_path(blueprint, kin_id)
+        
+        # Check if kin exists
+        if not os.path.exists(kin_path):
+            logger.error(f"Kin '{kin_id}' not found for blueprint '{blueprint}'")
+            return None
+        
+        # Check if website directory exists
+        website_dir = os.path.join(kin_path, "website")
+        if not os.path.exists(website_dir):
+            logger.error(f"Website directory not found for {blueprint}/{kin_id}")
+            return None
+        
+        # Start the Next.js server
+        logger.info(f"Starting Next.js server for {blueprint}/{kin_id} on port {port}")
+        
+        # Use npm start to run the production server
+        process = subprocess.Popen(
+            ["npm", "start", "--", "-p", str(port)],
+            cwd=website_dir,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        
+        logger.info(f"Next.js server started with PID {process.pid}")
+        return process
+        
+    except Exception as e:
+        logger.error(f"Error starting Next.js server: {str(e)}")
+        return None
 
 # Commented out autonomous thinking scheduler
 """

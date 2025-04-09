@@ -1262,6 +1262,96 @@ def delete_channel_v2(blueprint, kin_id, channel_id):
         logger.error(f"Error deleting channel: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/website/<path:path>', methods=['GET'])
+def serve_kin_website_v2(blueprint, kin_id, path=''):
+    """
+    V2 API endpoint to serve files from a kin's website directory.
+    Maps to the original serve_kin_website function.
+    """
+    from app import serve_kin_website
+    return serve_kin_website(blueprint, kin_id, path)
+
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/website/start', methods=['POST'])
+def start_website_server_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to start the Next.js server for a kin's website.
+    """
+    try:
+        # Parse request data
+        data = request.json or {}
+        port = data.get('port', 3000)
+        
+        # Start the server
+        from app import start_kin_website_server
+        process = start_kin_website_server(blueprint, kin_id, port)
+        
+        if process:
+            return jsonify({
+                "status": "success",
+                "message": f"Next.js server started for {blueprint}/{kin_id} on port {port}",
+                "pid": process.pid,
+                "port": port
+            })
+        else:
+            return jsonify({"error": "Failed to start Next.js server"}), 500
+            
+    except Exception as e:
+        logger.error(f"Error starting website server: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/website/status', methods=['GET'])
+def check_website_status_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to check the status of a kin's website.
+    """
+    try:
+        # Get kin path
+        from services.file_service import get_kin_path
+        kin_path = get_kin_path(blueprint, kin_id)
+        
+        # Check if kin exists
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Check if website directory exists
+        website_dir = os.path.join(kin_path, "website")
+        if not os.path.exists(website_dir):
+            return jsonify({
+                "status": "not_found",
+                "message": "This kin doesn't have a website"
+            })
+        
+        # Check if .next directory exists (indicating the website has been built)
+        next_dir = os.path.join(website_dir, ".next")
+        if not os.path.exists(next_dir):
+            return jsonify({
+                "status": "not_built",
+                "message": "Website exists but hasn't been built yet"
+            })
+        
+        # Check if the website is running
+        # This is a simple check - in a real implementation, you'd want to track running processes
+        try:
+            response = requests.get(f"http://localhost:3000", timeout=1)
+            if response.status_code == 200:
+                return jsonify({
+                    "status": "running",
+                    "message": "Website is running",
+                    "url": f"http://{blueprint}-{kin_id}.kinos-engine.ai"
+                })
+        except:
+            pass
+        
+        return jsonify({
+            "status": "built",
+            "message": "Website is built but not running",
+            "url": f"http://{blueprint}-{kin_id}.kinos-engine.ai"
+        })
+            
+    except Exception as e:
+        logger.error(f"Error checking website status: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @v2_bp.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def catch_all_v2(undefined_route):
     """Catch-all route for undefined v2 API endpoints."""
