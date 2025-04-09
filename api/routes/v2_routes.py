@@ -278,14 +278,14 @@ def send_message_v2(blueprint, kin_id):
         
         # Check if channel_id is provided in the request
         channel_id = original_data.get('channel_id')
-    
-    if channel_id:
-        # If channel_id is provided, use the channel-specific endpoint
-        return send_channel_message_v2(blueprint, kin_id, channel_id)
-    else:
-        # Otherwise, use the original function (main channel)
-        from routes.messages import send_message
-        return send_message(blueprint, kin_id)
+        
+        if channel_id:
+            # If channel_id is provided, use the channel-specific endpoint
+            return send_channel_message_v2(blueprint, kin_id, channel_id)
+        else:
+            # Otherwise, use the original function (main channel)
+            from routes.messages import send_message
+            return send_message(blueprint, kin_id)
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/channels/<channel_id>/messages', methods=['POST'])
 def send_channel_message_v2(blueprint, kin_id, channel_id=None):
