@@ -286,6 +286,9 @@ def send_message_v2(blueprint, kin_id):
             # Otherwise, use the original function (main channel)
             from routes.messages import send_message
             return send_message(blueprint, kin_id)
+    except Exception as e:
+        logger.error(f"Error in send_message_v2: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/channels/<channel_id>/messages', methods=['POST'])
 def send_channel_message_v2(blueprint, kin_id, channel_id=None):
