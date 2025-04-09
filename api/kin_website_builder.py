@@ -441,9 +441,9 @@ def build_website(website_dir):
                     logger.info(f"Using npm from: {npm_cmd}")
                     break
         
-        # Check if node_modules exists
-        if not os.path.exists(os.path.join(website_dir, "node_modules")):
-            logger.info("Installing dependencies...")
+        # Install dependencies first
+        logger.info("Installing dependencies...")
+        try:
             subprocess.run(
                 [npm_cmd, "install"],
                 cwd=website_dir,
@@ -451,6 +451,15 @@ def build_website(website_dir):
                 capture_output=True,
                 text=True
             )
+            logger.info("Dependencies installed successfully")
+        except subprocess.CalledProcessError as e:
+            logger.error(f"npm install failed: {e.stderr}")
+            logger.info(f"\nTo build the website manually:")
+            logger.info(f"1. Navigate to: {website_dir}")
+            logger.info(f"2. Run: npm install")
+            logger.info(f"3. Run: npm run build")
+            logger.info(f"4. To start the development server: npm run dev")
+            return False
         
         # Build the website
         logger.info("Building the website...")
