@@ -139,7 +139,7 @@ def check_git_installed():
         
         return False
 
-def link_repository(kin_path, github_url, token=None):
+def link_repository(kin_path, github_url, token=None, username=None):
     """
     Link a kin to a GitHub repository.
     
@@ -147,6 +147,7 @@ def link_repository(kin_path, github_url, token=None):
         kin_path: Path to the kin directory
         github_url: URL of the GitHub repository
         token: Optional GitHub personal access token
+        username: Optional GitHub username
         
     Returns:
         Boolean indicating success
@@ -172,14 +173,37 @@ def link_repository(kin_path, github_url, token=None):
         
         # If token is provided, modify the repo URL to include it
         clone_url = github_url
-        if token and "github.com" in github_url:
-            # For GitHub, insert the token into the URL
-            # Convert https://github.com/user/repo to https://token@github.com/user/repo
-            parsed_url = urlparse(github_url)
-            clone_url = f"https://{token}@{parsed_url.netloc}{parsed_url.path}"
-            # Use a masked URL for logging to avoid exposing the token
-            safe_clone_url = github_url
-            logger.info(f"Using authenticated URL for private repository")
+        if "github.com" in github_url:
+            # Get username from parameter or environment
+            if not username:
+                username = os.getenv("GIT_USERNAME")
+                if username:
+                    logger.info(f"Using GitHub username from environment variable")
+            
+            # Get token from parameter or environment
+            if not token:
+                token = os.getenv("GIT_TOKEN")
+                if token:
+                    logger.info(f"Using GitHub token from environment variable")
+            
+            # Construct authentication URL if we have credentials
+            if username and token:
+                # For GitHub, insert the username and token into the URL
+                # Convert https://github.com/user/repo to https://username:token@github.com/user/repo
+                parsed_url = urlparse(github_url)
+                clone_url = f"https://{username}:{token}@{parsed_url.netloc}{parsed_url.path}"
+                # Use a masked URL for logging to avoid exposing the credentials
+                safe_clone_url = github_url
+                logger.info(f"Using authenticated URL for private repository")
+            elif token:
+                # If we only have a token, try using it directly
+                parsed_url = urlparse(github_url)
+                clone_url = f"https://{token}@{parsed_url.netloc}{parsed_url.path}"
+                safe_clone_url = github_url
+                logger.info(f"Using token-only authentication for repository")
+            else:
+                safe_clone_url = github_url
+                logger.warning("No authentication credentials provided for GitHub repository")
         else:
             safe_clone_url = github_url
         

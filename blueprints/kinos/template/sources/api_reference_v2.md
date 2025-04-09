@@ -387,7 +387,8 @@ Link a kin to a GitHub repository.
 ```json
 {
   "github_url": "https://github.com/username/repo",
-  "token": "optional_github_token"  // Optional
+  "token": "optional_github_token",  // Optional
+  "username": "optional_github_username"  // Optional
 }
 ```
 

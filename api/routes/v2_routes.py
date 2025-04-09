@@ -1365,7 +1365,8 @@ def link_repository_v2(blueprint, kin_id):
     Request Body:
     {
         "github_url": "https://github.com/username/repo",
-        "token": "optional_github_token"  // Optional
+        "token": "optional_github_token",  // Optional
+        "username": "optional_github_username"  // Optional
     }
     """
     try:
@@ -1373,6 +1374,7 @@ def link_repository_v2(blueprint, kin_id):
         data = request.json
         github_url = data.get('github_url')
         token = data.get('token')
+        username = data.get('username')  # Add username parameter
         
         # Validate required parameters
         if not github_url:
@@ -1389,8 +1391,8 @@ def link_repository_v2(blueprint, kin_id):
         # Import the link_repository function from linkrepo.py
         from linkrepo import link_repository
         
-        # Link the repository
-        success = link_repository(kin_path, github_url, token)
+        # Link the repository with username parameter
+        success = link_repository(kin_path, github_url, token, username)
         
         if success:
             return jsonify({
