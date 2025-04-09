@@ -1409,6 +1409,48 @@ def link_repository_v2(blueprint, kin_id):
         logger.error(f"Error linking repository: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/sync-repo', methods=['POST'])
+def sync_repository_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to synchronize a kin's repository with GitHub.
+    Performs git pull, merge, and push operations.
+    """
+    try:
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Import the sync_repository function from linkrepo.py
+        from linkrepo import sync_repository
+        
+        # Synchronize the repository
+        result = sync_repository(kin_path)
+        
+        if result["success"]:
+            return jsonify({
+                "status": "success",
+                "message": "Repository synchronized successfully",
+                "blueprint": blueprint,
+                "kin_id": kin_id,
+                "operations": result["operations"],
+                "repository_url": result.get("repository_url"),
+                "branch": result.get("branch")
+            })
+        else:
+            return jsonify({
+                "status": "error",
+                "message": result.get("error", "Failed to synchronize repository"),
+                "operations": result.get("operations", [])
+            }), 500
+            
+    except Exception as e:
+        logger.error(f"Error synchronizing repository: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @v2_bp.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def catch_all_v2(undefined_route):
     """Catch-all route for undefined v2 API endpoints."""

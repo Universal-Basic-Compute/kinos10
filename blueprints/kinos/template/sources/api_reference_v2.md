@@ -411,6 +411,55 @@ This endpoint:
 
 The optional `token` parameter allows authentication for private repositories. If not provided, the endpoint will attempt to use the `GIT_TOKEN` environment variable.
 
+#### Synchronize Repository
+
+Synchronize a kin's repository with GitHub by performing git pull, merge, and push operations.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/sync-repo`
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Repository synchronized successfully",
+  "blueprint": "kinos",
+  "kin_id": "my-kin-id",
+  "operations": [
+    {
+      "operation": "fetch",
+      "status": "success"
+    },
+    {
+      "operation": "pull",
+      "status": "success",
+      "files_changed": 3,
+      "message": "Changes pulled successfully"
+    },
+    {
+      "operation": "commit",
+      "status": "success",
+      "files_changed": 2,
+      "message": "Local changes committed"
+    },
+    {
+      "operation": "push",
+      "status": "success",
+      "message": "Changes pushed to remote"
+    }
+  ],
+  "repository_url": "https://github.com/username/repo",
+  "branch": "main"
+}
+```
+
+This endpoint:
+1. Fetches the latest changes from the remote repository
+2. Pulls any remote changes into the local repository
+3. Commits any local changes with an automatic commit message
+4. Pushes all changes back to the remote repository
+
+The response includes details about each operation performed and whether it was successful.
+
 ### Message Interaction
 
 These endpoints allow you to interact with kins through messages, analyze content, and receive responses.

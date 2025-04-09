@@ -443,6 +443,209 @@ def link_repository(kin_path, github_url, token=None, username=None):
         logger.error(f"Error linking repository: {str(e)}")
         return False
 
+def sync_repository(kin_path):
+    """
+    Synchronize a kin's repository with GitHub by pulling, merging, and pushing.
+    
+    Args:
+        kin_path: Path to the kin directory
+        
+    Returns:
+        Dictionary with status and details of the operation
+    """
+    # Check if git is installed
+    if not check_git_installed():
+        logger.error("Git is not installed or not in PATH")
+        return {"success": False, "error": "Git is not installed or not in PATH"}
+    
+    # Check if kin path exists
+    if not os.path.exists(kin_path):
+        logger.error(f"Kin path does not exist: {kin_path}")
+        return {"success": False, "error": f"Kin path does not exist: {kin_path}"}
+    
+    # Check if this is a git repository
+    git_dir = os.path.join(kin_path, ".git")
+    if not os.path.exists(git_dir):
+        logger.error(f"Not a git repository: {kin_path}")
+        return {"success": False, "error": "Not a git repository"}
+    
+    # Check if repo_config.json exists
+    repo_config_path = os.path.join(kin_path, "repo_config.json")
+    if not os.path.exists(repo_config_path):
+        logger.error(f"repo_config.json not found: {kin_path}")
+        return {"success": False, "error": "Repository not linked (repo_config.json not found)"}
+    
+    # Load repo_config.json
+    try:
+        with open(repo_config_path, 'r') as f:
+            repo_config = json.load(f)
+        
+        # Check if repository is linked
+        if repo_config.get('IS_REPO_LINKED', 'false').lower() != 'true':
+            logger.error(f"Repository not linked according to repo_config.json")
+            return {"success": False, "error": "Repository not linked"}
+        
+        # Get repository URL
+        repo_url = repo_config.get('repository_url')
+        if not repo_url:
+            logger.error(f"Repository URL not found in repo_config.json")
+            return {"success": False, "error": "Repository URL not found in repo_config.json"}
+    except Exception as e:
+        logger.error(f"Error reading repo_config.json: {str(e)}")
+        return {"success": False, "error": f"Error reading repo_config.json: {str(e)}"}
+    
+    # Initialize result dictionary
+    result = {
+        "success": True,
+        "operations": [],
+        "repository_url": repo_url
+    }
+    
+    try:
+        # Get current branch
+        branch_cmd = subprocess.run(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            cwd=kin_path,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        current_branch = branch_cmd.stdout.strip()
+        result["branch"] = current_branch
+        logger.info(f"Current branch: {current_branch}")
+        
+        # Fetch from remote
+        logger.info(f"Fetching from remote...")
+        fetch_cmd = subprocess.run(
+            ["git", "fetch", "origin"],
+            cwd=kin_path,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        result["operations"].append({"operation": "fetch", "status": "success"})
+        
+        # Check if there are changes to pull
+        diff_cmd = subprocess.run(
+            ["git", "diff", f"HEAD..origin/{current_branch}", "--name-only"],
+            cwd=kin_path,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        
+        changes_to_pull = diff_cmd.stdout.strip()
+        if changes_to_pull:
+            # There are changes to pull
+            logger.info(f"Changes to pull: {changes_to_pull}")
+            
+            # Pull changes
+            logger.info(f"Pulling changes from remote...")
+            pull_cmd = subprocess.run(
+                ["git", "pull", "origin", current_branch],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            result["operations"].append({
+                "operation": "pull", 
+                "status": "success",
+                "files_changed": changes_to_pull.count('\n') + 1 if changes_to_pull else 0,
+                "message": "Changes pulled successfully"
+            })
+        else:
+            logger.info("No changes to pull")
+            result["operations"].append({
+                "operation": "pull", 
+                "status": "success",
+                "files_changed": 0,
+                "message": "No changes to pull"
+            })
+        
+        # Check if there are local changes to commit
+        status_cmd = subprocess.run(
+            ["git", "status", "--porcelain"],
+            cwd=kin_path,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        
+        local_changes = status_cmd.stdout.strip()
+        if local_changes:
+            # There are local changes to commit
+            logger.info(f"Local changes to commit: {local_changes}")
+            
+            # Add all changes
+            add_cmd = subprocess.run(
+                ["git", "add", "."],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            
+            # Commit changes
+            commit_cmd = subprocess.run(
+                ["git", "commit", "-m", "Auto-commit during repository sync"],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            
+            # Count files changed
+            files_changed = len([line for line in local_changes.split('\n') if line.strip()])
+            
+            result["operations"].append({
+                "operation": "commit", 
+                "status": "success",
+                "files_changed": files_changed,
+                "message": "Local changes committed"
+            })
+        else:
+            logger.info("No local changes to commit")
+            result["operations"].append({
+                "operation": "commit", 
+                "status": "success",
+                "files_changed": 0,
+                "message": "No local changes to commit"
+            })
+        
+        # Push changes
+        logger.info(f"Pushing changes to remote...")
+        push_cmd = subprocess.run(
+            ["git", "push", "origin", current_branch],
+            cwd=kin_path,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        result["operations"].append({
+            "operation": "push", 
+            "status": "success",
+            "message": "Changes pushed to remote"
+        })
+        
+        logger.info("Repository synchronized successfully")
+        return result
+        
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Git command failed: {e.stderr}")
+        return {
+            "success": False, 
+            "error": f"Git command failed: {e.stderr}",
+            "operations": result.get("operations", [])
+        }
+    except Exception as e:
+        logger.error(f"Error synchronizing repository: {str(e)}")
+        return {
+            "success": False, 
+            "error": f"Error synchronizing repository: {str(e)}",
+            "operations": result.get("operations", [])
+        }
+
 def main():
     parser = argparse.ArgumentParser(description="Link a kin to a GitHub repository")
     parser.add_argument("blueprint", help="Blueprint name")
