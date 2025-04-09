@@ -174,7 +174,7 @@ def send_message(blueprint, kin_id):
     """
     try:
         # Parse request data
-        data = request.json
+        data = request.json or {}  # Add 'or {}' to handle None case
         
         # Log the blueprint being accessed
         logger.info(f"Attempting to access blueprint: {blueprint}")

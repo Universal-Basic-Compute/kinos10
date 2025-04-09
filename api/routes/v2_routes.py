@@ -293,7 +293,7 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
     """
     try:
         # Parse request data
-        data = request.json
+        data = request.json or {}  # Add 'or {}' to handle None case
         
         # If channel_id is not in the URL, try to get it from the request body
         if channel_id is None:

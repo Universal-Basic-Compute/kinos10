@@ -251,8 +251,8 @@ def build_kin(blueprint, kin_id):
             }
         else:  # POST
             # Parse request data
-            data = request.json
-            
+            data = request.json or {}
+        
             # Support both formats: new format with 'message' and original format with 'content'
             message_content = data.get('message', data.get('content', ''))
             
@@ -512,7 +512,7 @@ def rename_kin(blueprint, kin_id):
     """
     try:
         # Parse request data
-        data = request.json
+        data = request.json or {}
         new_name = data.get('new_name', '')
         
         # Validate new name
@@ -767,7 +767,7 @@ def create_code_guardian_api():
     """
     try:
         # Parse request data
-        data = request.json
+        data = request.json or {}
         github_url = data.get('github_url')
         kin_name = data.get('kin_name')
         
