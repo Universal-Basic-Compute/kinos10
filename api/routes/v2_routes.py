@@ -7,6 +7,7 @@ import subprocess
 import re
 import base64
 import threading
+import requests
 from config import logger, blueprintS_DIR
 from services.file_service import get_kin_path, initialize_kin
 from services.claude_service import call_claude_with_context, build_context
