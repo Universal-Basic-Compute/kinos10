@@ -15,227 +15,107 @@ from config import blueprintS_DIR, logger
 def extract_and_save_url_content(url, kin_path):
     """
     Extract content from a URL and save it to the sources directory.
-    For GitHub repos, clones the entire repository.
     Returns the relative path to the saved file.
     """
     try:
-        # Check if this is a GitHub repository URL
-        github_pattern = r'https?://github\.com/([^/]+)/([^/]+)'
-        github_match = re.match(github_pattern, url)
+        # Regular URL - proceed with normal scraping
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
         
-        if github_match:
-            # This is a GitHub repo URL
-            owner = github_match.group(1)
-            repo = github_match.group(2)
+        # Parse HTML
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Remove script and style elements
+        for script in soup(["script", "style"]):
+            script.decompose()
             
-            # Create sources directory if it doesn't exist
-            sources_dir = os.path.join(kin_path, "sources")
-            os.makedirs(sources_dir, exist_ok=True)
+        # Get text content
+        text = soup.get_text()
+        
+        # Clean up text
+        lines = (line.strip() for line in text.splitlines())
+        chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+        text = '\n'.join(chunk for chunk in chunks if chunk)
+        
+        # Create sources directory if it doesn't exist
+        sources_dir = os.path.join(kin_path, "sources")
+        os.makedirs(sources_dir, exist_ok=True)
+        
+        # Create filename from URL
+        parsed_url = urlparse(url)
+        filename = f"{parsed_url.netloc}{parsed_url.path}".replace('/', '-')
+        if not filename.endswith('.txt'):
+            filename += '.txt'
             
-            # Create a directory for this repo
-            repo_dir = os.path.join(sources_dir, f"{owner}-{repo}")
-            if os.path.exists(repo_dir):
-                shutil.rmtree(repo_dir)  # Remove if exists
-            os.makedirs(repo_dir)
+        # Ensure filename isn't too long
+        if len(filename) > 200:
+            filename = filename[:197] + '...'
             
-            # Clone the repository
+        filepath = os.path.join(sources_dir, filename)
+        
+        # Save content
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(f"Source URL: {url}\nExtracted on: {datetime.datetime.now().isoformat()}\n\n")
+            f.write(text)
+            
+        # Initialize git repo if it doesn't exist
+        git_dir = os.path.join(kin_path, ".git")
+        if not os.path.exists(git_dir):
             try:
                 subprocess.run(
-                    ["git", "clone", url, repo_dir],
-                    check=True,
-                    capture_output=True,
-                    text=True
-                )
-                
-                # Remove .git directory after cloning
-                git_dir = os.path.join(repo_dir, '.git')
-                if os.path.exists(git_dir):
-                    try:
-                        shutil.rmtree(git_dir)
-                        logger.info(f"Removed .git directory from cloned repo")
-                    except Exception as e:
-                        logger.warning(f"Error removing .git directory: {str(e)}")
-                
-                # Create a summary file
-                summary_file = os.path.join(sources_dir, f"{owner}-{repo}-summary.txt")
-                with open(summary_file, 'w', encoding='utf-8') as f:
-                    f.write(f"GitHub Repository: {url}\n")
-                    f.write(f"Cloned on: {datetime.datetime.now().isoformat()}\n\n")
-                    f.write("Repository structure:\n\n")
-                    
-                    # Add directory structure
-                    for root, dirs, files in os.walk(repo_dir):
-                        if '.git' in dirs:
-                            dirs.remove('.git')  # Skip .git directory
-                        level = root.replace(repo_dir, '').count(os.sep)
-                        indent = '  ' * level
-                        f.write(f"{indent}{os.path.basename(root)}/\n")
-                        for file in files:
-                            f.write(f"{indent}  {file}\n")
-                
-                # Initialize git repo if it doesn't exist
-                git_dir = os.path.join(kin_path, ".git")
-                if not os.path.exists(git_dir):
-                    try:
-                        subprocess.run(
-                            ["git", "init"],
-                            cwd=kin_path,
-                            check=True,
-                            capture_output=True,
-                            text=True
-                        )
-                        logger.info(f"Initialized git repository in {kin_path}")
-                        
-                        # Configure git user if initializing new repo
-                        subprocess.run(
-                            ["git", "config", "user.name", "KinOS"],
-                            cwd=kin_path,
-                            check=True,
-                            capture_output=True,
-                            text=True
-                        )
-                        subprocess.run(
-                            ["git", "config", "user.email", "kinos@example.com"],
-                            cwd=kin_path,
-                            check=True,
-                            capture_output=True,
-                            text=True
-                        )
-                        logger.info("Configured git user settings")
-                    except Exception as e:
-                        logger.warning(f"Error initializing git repository: {str(e)}")
-
-                # Add and commit the new files
-                try:
-                    # Add all files
-                    subprocess.run(
-                        ["git", "add", "."],
-                        cwd=kin_path,
-                        check=True,
-                        capture_output=True,
-                        text=True
-                    )
-                    
-                    # Commit changes
-                    subprocess.run(
-                        ["git", "commit", "-m", "Added source content from GitHub repository"],
-                        cwd=kin_path,
-                        check=True,
-                        capture_output=True,
-                        text=True
-                    )
-                    logger.info("Added and committed source files to git")
-                except Exception as e:
-                    logger.warning(f"Error adding/committing to git: {str(e)}")
-
-                # Return both the repo directory and summary file paths
-                return [
-                    os.path.join("sources", f"{owner}-{repo}"),
-                    os.path.join("sources", f"{owner}-{repo}-summary.txt")
-                ]
-                
-            except subprocess.CalledProcessError as e:
-                logger.error(f"Error cloning repository: {str(e)}")
-                return None
-        else:
-            # Regular URL - proceed with normal scraping
-            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
-            response = requests.get(url, headers=headers, timeout=10)
-            response.raise_for_status()
-            
-            # Parse HTML
-            soup = BeautifulSoup(response.text, 'html.parser')
-            
-            # Remove script and style elements
-            for script in soup(["script", "style"]):
-                script.decompose()
-                
-            # Get text content
-            text = soup.get_text()
-            
-            # Clean up text
-            lines = (line.strip() for line in text.splitlines())
-            chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
-            text = '\n'.join(chunk for chunk in chunks if chunk)
-            
-            # Create sources directory if it doesn't exist
-            sources_dir = os.path.join(kin_path, "sources")
-            os.makedirs(sources_dir, exist_ok=True)
-            
-            # Create filename from URL
-            parsed_url = urlparse(url)
-            filename = f"{parsed_url.netloc}{parsed_url.path}".replace('/', '-')
-            if not filename.endswith('.txt'):
-                filename += '.txt'
-                
-            # Ensure filename isn't too long
-            if len(filename) > 200:
-                filename = filename[:197] + '...'
-                
-            filepath = os.path.join(sources_dir, filename)
-            
-            # Save content
-            with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(f"Source URL: {url}\nExtracted on: {datetime.datetime.now().isoformat()}\n\n")
-                f.write(text)
-                
-            # Initialize git repo if it doesn't exist
-            git_dir = os.path.join(kin_path, ".git")
-            if not os.path.exists(git_dir):
-                try:
-                    subprocess.run(
-                        ["git", "init"],
-                        cwd=kin_path,
-                        check=True,
-                        capture_output=True,
-                        text=True
-                    )
-                    logger.info(f"Initialized git repository in {kin_path}")
-                    
-                    # Configure git user if initializing new repo
-                    subprocess.run(
-                        ["git", "config", "user.name", "KinOS"],
-                        cwd=kin_path,
-                        check=True,
-                        capture_output=True,
-                        text=True
-                    )
-                    subprocess.run(
-                        ["git", "config", "user.email", "kinos@example.com"],
-                        cwd=kin_path,
-                        check=True,
-                        capture_output=True,
-                        text=True
-                    )
-                    logger.info("Configured git user settings")
-                except Exception as e:
-                    logger.warning(f"Error initializing git repository: {str(e)}")
-
-            # Add and commit the new files
-            try:
-                # Add all files
-                subprocess.run(
-                    ["git", "add", "."],
+                    ["git", "init"],
                     cwd=kin_path,
                     check=True,
                     capture_output=True,
                     text=True
                 )
+                logger.info(f"Initialized git repository in {kin_path}")
                 
-                # Commit changes
+                # Configure git user if initializing new repo
                 subprocess.run(
-                    ["git", "commit", "-m", "Added source content from URL"],
+                    ["git", "config", "user.name", "KinOS"],
                     cwd=kin_path,
                     check=True,
                     capture_output=True,
                     text=True
                 )
-                logger.info("Added and committed source files to git")
+                subprocess.run(
+                    ["git", "config", "user.email", "kinos@example.com"],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info("Configured git user settings")
             except Exception as e:
-                logger.warning(f"Error adding/committing to git: {str(e)}")
+                logger.warning(f"Error initializing git repository: {str(e)}")
 
-            # Return relative path from kin directory
-            return os.path.join("sources", filename)
+        # Add and commit the new files
+        try:
+            # Add all files
+            subprocess.run(
+                ["git", "add", "."],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            
+            # Commit changes
+            subprocess.run(
+                ["git", "commit", "-m", "Added source content from URL"],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            logger.info("Added and committed source files to git")
+        except Exception as e:
+            logger.warning(f"Error adding/committing to git: {str(e)}")
+
+        # Return relative path from kin directory
+        return os.path.join("sources", filename)
             
     except Exception as e:
         logger.error(f"Error extracting content from URL {url}: {str(e)}")
