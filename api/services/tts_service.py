@@ -25,12 +25,19 @@ def text_to_speech_request(text, voice_id='UgBBYS2sOqTuMpoF3BR0', model='eleven_
     logger.info(f"TTS Service received parameters - voice_id: '{voice_id}' (type: {type(voice_id)}), model: '{model}'")
     
     # Clean up the text before sending
-    # Remove text between asterisks
     import re
+    
+    # Remove text between asterisks
     cleaned_text = re.sub(r'\*[^*]*\*', '', text)
     
     # Remove text between parentheses
     cleaned_text = re.sub(r'\([^)]*\)', '', cleaned_text)
+    
+    # Remove text between square brackets
+    cleaned_text = re.sub(r'\[[^\]]*\]', '', cleaned_text)
+    
+    # Remove text between curly braces (JSON)
+    cleaned_text = re.sub(r'\{[^}]*\}', '', cleaned_text)
     
     # Remove special characters but keep basic punctuation
     cleaned_text = re.sub(r'[#@$%^&_+=<>{}[\]|~`]', '', cleaned_text)
