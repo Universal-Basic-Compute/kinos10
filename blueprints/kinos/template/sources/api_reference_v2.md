@@ -377,6 +377,39 @@ Reset a kin to its initial template state.
 }
 ```
 
+#### Link Repository
+
+Link a kin to a GitHub repository.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/link-repo`
+
+**Request Body:**
+```json
+{
+  "github_url": "https://github.com/username/repo",
+  "token": "optional_github_token"  // Optional
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Kin 'my-kin-id' linked to GitHub repository: https://github.com/username/repo",
+  "blueprint": "kinos",
+  "kin_id": "my-kin-id",
+  "github_url": "https://github.com/username/repo"
+}
+```
+
+This endpoint:
+1. Removes any existing .git directory in the kin
+2. Clones the GitHub repository
+3. Moves all repository files to the kin root (overwriting conflicts)
+4. Initializes git, commits all files, and pushes to the repository
+
+The optional `token` parameter allows authentication for private repositories. If not provided, the endpoint will attempt to use the `GIT_TOKEN` environment variable.
+
 ### Message Interaction
 
 These endpoints allow you to interact with kins through messages, analyze content, and receive responses.
