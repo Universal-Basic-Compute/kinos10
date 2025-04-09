@@ -1,0 +1,405 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "assets": [
+    {
+      "id": "AST001",
+      "filename": "dual-token-system-diagram.png",
+      "category": "Diagrams and Illustrations",
+      "subcategory": "System Architecture",
+      "description": "Comprehensive visualization of the FICTRA dual-token system architecture",
+      "created": "2023-09-10",
+      "creator": "Design Team",
+      "format": "PNG",
+      "dimensions": "2400x1600",
+      "filesize": "245KB",
+      "location": "/assets/diagrams/system/",
+      "usage": [
+        {
+          "page": "/system/architecture",
+          "context": "Primary explanation of dual-token relationship",
+          "status": "Active"
+        },
+        {
+          "page": "/resources/documentation",
+          "context": "System overview section",
+          "status": "Active"
+        }
+      ],
+      "rights": "Proprietary - FICTRA",
+      "tags": ["dual-token", "architecture", "system diagram", "token relationship"],
+      "alternateVersions": [
+        {
+          "id": "AST001-SIM",
+          "filename": "dual-token-system-simplified.png",
+          "description": "Simplified version for general audience",
+          "dimensions": "1200x800",
+          "filesize": "120KB"
+        },
+        {
+          "id": "AST001-DET",
+          "filename": "dual-token-system-detailed.png",
+          "description": "Detailed version with technical annotations",
+          "dimensions": "3600x2400",
+          "filesize": "480KB"
+        }
+      ],
+      "version": "1.2",
+      "versionHistory": [
+        {
+          "version": "1.0",
+          "date": "2023-09-10",
+          "changes": "Initial creation"
+        },
+        {
+          "version": "1.1",
+          "date": "2023-09-25",
+          "changes": "Updated token interaction flows"
+        },
+        {
+          "version": "1.2",
+          "date": "2023-10-15",
+          "changes": "Enhanced visual clarity and added legend"
+        }
+      ]
+    },
+    {
+      "id": "AST002",
+      "filename": "verification-process-flow.png",
+      "category": "Diagrams and Illustrations",
+      "subcategory": "Process Flow",
+      "description": "Step-by-step visualization of the commodity verification process",
+      "created": "2023-09-15",
+      "creator": "Design Team",
+      "format": "PNG",
+      "dimensions": "2000x1200",
+      "filesize": "210KB",
+      "location": "/assets/diagrams/processes/",
+      "usage": [
+        {
+          "page": "/system/verification",
+          "context": "Primary explanation of verification process",
+          "status": "Active"
+        },
+        {
+          "page": "/developers/technical-docs",
+          "context": "Verification system documentation",
+          "status": "Active"
+        }
+      ],
+      "rights": "Proprietary - FICTRA",
+      "tags": ["verification", "process flow", "oracle network", "commodity verification"],
+      "alternateVersions": [
+        {
+          "id": "AST002-ANI",
+          "filename": "verification-process-animated.gif",
+          "description": "Animated version showing process flow",
+          "dimensions": "1200x720",
+          "filesize": "1.2MB"
+        }
+      ],
+      "version": "1.1",
+      "versionHistory": [
+        {
+          "version": "1.0",
+          "date": "2023-09-15",
+          "changes": "Initial creation"
+        },
+        {
+          "version": "1.1",
+          "date": "2023-10-05",
+          "changes": "Updated with dispute resolution process"
+        }
+      ]
+    },
+    {
+      "id": "AST003",
+      "filename": "token-valuation-model.png",
+      "category": "Diagrams and Illustrations",
+      "subcategory": "Economic Models",
+      "description": "Visual representation of the Payment Token valuation methodology",
+      "created": "2023-09-20",
+      "creator": "Economic Team",
+      "format": "PNG",
+      "dimensions": "1800x1200",
+      "filesize": "195KB",
+      "location": "/assets/diagrams/economics/",
+      "usage": [
+        {
+          "page": "/economics/token-valuation",
+          "context": "Primary explanation of valuation methodology",
+          "status": "Active"
+        },
+        {
+          "page": "/resources/education",
+          "context": "Economic principles section",
+          "status": "Active"
+        }
+      ],
+      "rights": "Proprietary - FICTRA",
+      "tags": ["token valuation", "economic model", "stability mechanisms", "price discovery"],
+      "alternateVersions": [
+        {
+          "id": "AST003-INT",
+          "filename": "token-valuation-interactive.svg",
+          "description": "Interactive version with adjustable parameters",
+          "dimensions": "Responsive",
+          "filesize": "280KB"
+        }
+      ],
+      "version": "1.0",
+      "versionHistory": [
+        {
+          "version": "1.0",
+          "date": "2023-09-20",
+          "changes": "Initial creation"
+        }
+      ]
+    },
+    {
+      "id": "AST004",
+      "filename": "sovereign-benefits-infographic.png",
+      "category": "Charts and Graphs",
+      "subcategory": "Value Proposition",
+      "description": "Infographic highlighting key benefits for sovereign entities",
+      "created": "2023-09-25",
+      "creator": "Marketing Team",
+      "format": "PNG",
+      "dimensions": "1600x2400",
+      "filesize": "320KB",
+      "location": "/assets/infographics/value-proposition/",
+      "usage": [
+        {
+          "page": "/value-proposition/sovereign-entities",
+          "context": "Visual summary of benefits",
+          "status": "Active"
+        },
+        {
+          "page": "/resources/education",
+          "context": "Sovereign participation section",
+          "status": "Active"
+        }
+      ],
+      "rights": "Proprietary - FICTRA",
+      "tags": ["sovereign benefits", "value proposition", "infographic", "economic sovereignty"],
+      "alternateVersions": [
+        {
+          "id": "AST004-PRINT",
+          "filename": "sovereign-benefits-print.pdf",
+          "description": "High-resolution version for printing",
+          "dimensions": "3200x4800",
+          "filesize": "4.5MB"
+        }
+      ],
+      "version": "1.1",
+      "versionHistory": [
+        {
+          "version": "1.0",
+          "date": "2023-09-25",
+          "changes": "Initial creation"
+        },
+        {
+          "version": "1.1",
+          "date": "2023-10-10",
+          "changes": "Updated with quantified benefits data"
+        }
+      ]
+    },
+    {
+      "id": "AST005",
+      "filename": "implementation-roadmap-timeline.png",
+      "category": "Charts and Graphs",
+      "subcategory": "Implementation",
+      "description": "Visual timeline of the FICTRA implementation roadmap",
+      "created": "2023-10-05",
+      "creator": "Project Management Team",
+      "format": "PNG",
+      "dimensions": "2400x1000",
+      "filesize": "275KB",
+      "location": "/assets/charts/implementation/",
+      "usage": [
+        {
+          "page": "/implementation/roadmap",
+          "context": "Primary roadmap visualization",
+          "status": "Active"
+        },
+        {
+          "page": "/about",
+          "context": "Development timeline section",
+          "status": "Active"
+        }
+      ],
+      "rights": "Proprietary - FICTRA",
+      "tags": ["implementation roadmap", "timeline", "development phases", "milestones"],
+      "alternateVersions": [
+        {
+          "id": "AST005-INT",
+          "filename": "implementation-roadmap-interactive.svg",
+          "description": "Interactive version with milestone details",
+          "dimensions": "Responsive",
+          "filesize": "320KB"
+        }
+      ],
+      "version": "1.0",
+      "versionHistory": [
+        {
+          "version": "1.0",
+          "date": "2023-10-05",
+          "changes": "Initial creation"
+        }
+      ]
+    },
+    {
+      "id": "AST006",
+      "filename": "intro-to-fictra.mp4",
+      "category": "Videos and Animations",
+      "subcategory": "Explanatory",
+      "description": "Introductory video explaining the FICTRA concept and benefits",
+      "created": "2023-10-15",
+      "creator": "Marketing Team",
+      "format": "MP4",
+      "dimensions": "1920x1080",
+      "filesize": "24.5MB",
+      "duration": "2:45",
+      "location": "/assets/videos/explanatory/",
+      "usage": [
+        {
+          "page": "/",
+          "context": "Homepage hero section",
+          "status": "Active"
+        },
+        {
+          "page": "/about",
+          "context": "Introduction section",
+          "status": "Active"
+        }
+      ],
+      "rights": "Proprietary - FICTRA",
+      "tags": ["introduction", "explainer video", "concept overview", "value proposition"],
+      "alternateVersions": [
+        {
+          "id": "AST006-SHORT",
+          "filename": "intro-to-fictra-short.mp4",
+          "description": "Shortened version (60 seconds)",
+          "dimensions": "1920x1080",
+          "filesize": "10.2MB",
+          "duration": "1:00"
+        },
+        {
+          "id": "AST006-WEB",
+          "filename": "intro-to-fictra-web.webm",
+          "description": "WebM format for better web performance",
+          "dimensions": "1920x1080",
+          "filesize": "18.7MB",
+          "duration": "2:45"
+        }
+      ],
+      "version": "1.0",
+      "versionHistory": [
+        {
+          "version": "1.0",
+          "date": "2023-10-15",
+          "changes": "Initial creation"
+        }
+      ]
+    },
+    {
+      "id": "AST007",
+      "filename": "token-interaction-animation.gif",
+      "category": "Videos and Animations",
+      "subcategory": "Conceptual",
+      "description": "Animated visualization of PT and FT interaction",
+      "created": "2023-10-20",
+      "creator": "Design Team",
+      "format": "GIF",
+      "dimensions": "800x600",
+      "filesize": "1.8MB",
+      "duration": "8 seconds",
+      "location": "/assets/animations/concepts/",
+      "usage": [
+        {
+          "page": "/system/architecture",
+          "context": "Token interaction explanation",
+          "status": "Active"
+        },
+        {
+          "page": "/resources/education",
+          "context": "Basic concepts section",
+          "status": "Active"
+        }
+      ],
+      "rights": "Proprietary - FICTRA",
+      "tags": ["token interaction", "animation", "dual-token", "conceptual"],
+      "alternateVersions": [
+        {
+          "id": "AST007-MP4",
+          "filename": "token-interaction-animation.mp4",
+          "description": "MP4 version for better quality",
+          "dimensions": "1200x900",
+          "filesize": "2.2MB",
+          "duration": "8 seconds"
+        }
+      ],
+      "version": "1.1",
+      "versionHistory": [
+        {
+          "version": "1.0",
+          "date": "2023-10-20",
+          "changes": "Initial creation"
+        },
+        {
+          "version": "1.1",
+          "date": "2023-11-05",
+          "changes": "Improved animation smoothness and added labels"
+        }
+      ]
+    },
+    {
+      "id": "AST008",
+      "filename": "commodity-market-photo.jpg",
+      "category": "Photography and Images",
+      "subcategory": "Contextual",
+      "description": "High-quality photograph of commodity trading activity",
+      "created": "2023-08-15",
+      "creator": "Getty Images",
+      "photographer": "J. Smith",
+      "format": "JPG",
+      "dimensions": "2000x1333",
+      "filesize": "1.2MB",
+      "location": "/assets/photos/contextual/",
+      "usage": [
+        {
+          "page": "/",
+          "context": "Market section background",
+          "status": "Active"
+        },
+        {
+          "page": "/value-proposition/market-participants",
+          "context": "Header image",
+          "status": "Active"
+        }
+      ],
+      "rights": "Licensed from Getty Images (License #GI-12345678)",
+      "licenseExpiration": "2025-08-15",
+      "licenseRestrictions": "Web use only, no print materials without additional licensing",
+      "tags": ["commodity market", "trading", "stock photography", "market activity"],
+      "alternateVersions": [
+        {
+          "id": "AST008-CROP",
+          "filename": "commodity-market-photo-cropped.jpg",
+          "description": "Cropped version for header use",
+          "dimensions": "1600x600",
+          "filesize": "680KB"
+        }
+      ],
+      "version": "1.0",
+      "versionHistory": [
+        {
+          "version": "1.0",
+          "date": "2023-08-15",
+          "changes": "Initial acquisition"
+        }
+      ]
+    }
+  ]
+}

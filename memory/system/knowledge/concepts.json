@@ -1,0 +1,215 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "concepts": {
+    "tokens": {
+      "paymentToken": {
+        "term": "Payment Token (PT)",
+        "definition": "The primary medium of exchange within the FICTRA ecosystem, used for commodity transactions with built-in stability mechanisms.",
+        "keyCharacteristics": [
+          "Market-determined value",
+          "Stability mechanisms",
+          "Primary transaction medium",
+          "Publicly tradable"
+        ],
+        "relatedConcepts": ["tokenValuation", "stabilityMechanisms", "transactionFees"]
+      },
+      "foundationToken": {
+        "term": "Foundation Token (FT)",
+        "definition": "Token allocated to sovereign entities based on verified commodity exports, creating an additional value stream beyond the commodity sale price.",
+        "keyCharacteristics": [
+          "Allocated to sovereign entities",
+          "Based on verified exports",
+          "Potential reserve asset",
+          "Governance participation rights"
+        ],
+        "relatedConcepts": ["allocationFormula", "sovereignEntity", "verificationSystem", "multiplierFactor"]
+      }
+    },
+    "systemComponents": {
+      "verificationSystem": {
+        "term": "Verification System",
+        "definition": "Network of oracles and validators that confirm physical commodity deliveries, triggering Foundation Token allocation.",
+        "keyCharacteristics": [
+          "Oracle network",
+          "Multi-source validation",
+          "Automated verification triggers",
+          "Dispute resolution mechanisms"
+        ],
+        "relatedConcepts": ["oracleNetwork", "verificationFees", "commodityDelivery"]
+      },
+      "oracleNetwork": {
+        "term": "Oracle Network",
+        "definition": "Distributed system of data providers that validate real-world commodity deliveries and feed this information to the blockchain.",
+        "keyCharacteristics": [
+          "Distributed validators",
+          "Multiple data sources",
+          "Economic incentives for accuracy",
+          "Consensus mechanisms"
+        ],
+        "relatedConcepts": ["verificationSystem", "dataValidation", "smartContracts"]
+      },
+      "stabilityMechanisms": {
+        "term": "Stability Mechanisms",
+        "definition": "Set of algorithmic controls and reserve management approaches that maintain appropriate stability for the Payment Token.",
+        "keyCharacteristics": [
+          "Algorithmic controls",
+          "Reserve deployment",
+          "Circuit breakers",
+          "Market operations"
+        ],
+        "relatedConcepts": ["reserveManagement", "circuitBreakers", "tokenValuation"]
+      },
+      "governanceSystem": {
+        "term": "Governance System",
+        "definition": "Multi-layered approach to system governance and decision-making, including various committees with specific responsibilities.",
+        "keyCharacteristics": [
+          "Foundation Council",
+          "Technical Committee",
+          "Economic Committee",
+          "Sovereign Committee"
+        ],
+        "relatedConcepts": ["foundationCouncil", "sovereignCommittee", "governanceVoting"]
+      }
+    },
+    "economicConcepts": {
+      "tokenValuation": {
+        "term": "Token Valuation",
+        "definition": "Methodologies and mechanisms for determining the value of both token types within the FICTRA ecosystem.",
+        "keyCharacteristics": [
+          "Market-driven mechanisms",
+          "Formula-based allocation",
+          "Stability controls",
+          "Value floor mechanisms"
+        ],
+        "relatedConcepts": ["marketOperations", "stabilityMechanisms", "reserveManagement"]
+      },
+      "allocationFormula": {
+        "term": "Allocation Formula",
+        "definition": "Mathematical formula that determines how many Foundation Tokens are issued to sovereign entities based on verified commodity exports.",
+        "keyCharacteristics": [
+          "Base multiplier",
+          "Commodity-specific adjustments",
+          "Strategic importance modifiers",
+          "Sustainability premium"
+        ],
+        "relatedConcepts": ["foundationToken", "multiplierFactor", "verificationSystem"]
+      },
+      "multiplierFactor": {
+        "term": "Multiplier Factor",
+        "definition": "Variable in the allocation formula that determines how many Foundation Tokens are issued per unit of verified commodity exports.",
+        "keyCharacteristics": [
+          "Base multiplier (typically 1.2-1.5x)",
+          "Commodity-specific adjustments",
+          "Strategic importance modifiers",
+          "Sustainability premium"
+        ],
+        "relatedConcepts": ["allocationFormula", "foundationToken", "commodityCategories"]
+      },
+      "feeStructure": {
+        "term": "Fee Structure",
+        "definition": "Comprehensive framework of transaction fees, conversion fees, and service fees within the FICTRA ecosystem.",
+        "keyCharacteristics": [
+          "Transaction fees",
+          "Conversion fees",
+          "Verification fees",
+          "Volume-based discounts"
+        ],
+        "relatedConcepts": ["transactionFees", "conversionFees", "verificationFees"]
+      }
+    },
+    "marketConcepts": {
+      "commodityTrading": {
+        "term": "Commodity Trading",
+        "definition": "The buying and selling of raw materials or primary agricultural products, such as gold, oil, or wheat.",
+        "keyCharacteristics": [
+          "Physical delivery",
+          "Price volatility",
+          "Global markets",
+          "Standardized contracts"
+        ],
+        "relatedConcepts": ["commodityCategories", "commodityDelivery", "verificationSystem"]
+      },
+      "commodityCategories": {
+        "term": "Commodity Categories",
+        "definition": "Classification of different types of commodities within the FICTRA system, each with specific verification requirements and multiplier factors.",
+        "keyCharacteristics": [
+          "Energy resources",
+          "Agricultural products",
+          "Industrial metals",
+          "Precious metals",
+          "Specialty resources"
+        ],
+        "relatedConcepts": ["multiplierFactor", "commodityTrading", "verificationSystem"]
+      },
+      "marketOperations": {
+        "term": "Market Operations",
+        "definition": "Activities and mechanisms designed to maintain efficient markets and appropriate stability for FICTRA tokens.",
+        "keyCharacteristics": [
+          "Liquidity provision",
+          "Market maker incentives",
+          "Reserve deployment",
+          "Circuit breakers"
+        ],
+        "relatedConcepts": ["stabilityMechanisms", "liquidityProvision", "reserveManagement"]
+      },
+      "liquidityProvision": {
+        "term": "Liquidity Provision",
+        "definition": "Mechanisms and incentives to ensure sufficient market depth and trading volume for FICTRA tokens.",
+        "keyCharacteristics": [
+          "Market maker incentives",
+          "Fee discounts for liquidity providers",
+          "Minimum depth requirements",
+          "Spread limitations"
+        ],
+        "relatedConcepts": ["marketOperations", "marketMakers", "tradingVolume"]
+      }
+    },
+    "participantTypes": {
+      "sovereignEntity": {
+        "term": "Sovereign Entity",
+        "definition": "National government or authorized national agency that participates in the FICTRA system as a commodity exporter.",
+        "keyCharacteristics": [
+          "Receives Foundation Tokens",
+          "Verifies commodity exports",
+          "Participates in governance",
+          "May use tokens as reserves"
+        ],
+        "relatedConcepts": ["foundationToken", "sovereignCommittee", "commodityExporter"]
+      },
+      "commodityTrader": {
+        "term": "Commodity Trader",
+        "definition": "Entity that buys and sells commodities using the FICTRA system, benefiting from reduced volatility and efficient settlement.",
+        "keyCharacteristics": [
+          "Uses Payment Tokens",
+          "Conducts transactions on platform",
+          "May provide liquidity",
+          "Benefits from efficient settlement"
+        ],
+        "relatedConcepts": ["paymentToken", "commodityTrading", "transactionFees"]
+      },
+      "marketMaker": {
+        "term": "Market Maker",
+        "definition": "Entity that provides liquidity to FICTRA token markets by maintaining continuous buy and sell orders.",
+        "keyCharacteristics": [
+          "Provides continuous liquidity",
+          "Maintains bid-ask spreads",
+          "Receives incentives",
+          "Critical for market efficiency"
+        ],
+        "relatedConcepts": ["liquidityProvision", "marketOperations", "tradingVolume"]
+      },
+      "verificationProvider": {
+        "term": "Verification Provider",
+        "definition": "Entity that participates in the oracle network to verify commodity deliveries and trigger token allocations.",
+        "keyCharacteristics": [
+          "Validates delivery documentation",
+          "Participates in oracle network",
+          "Earns verification fees",
+          "Subject to accuracy requirements"
+        ],
+        "relatedConcepts": ["oracleNetwork", "verificationSystem", "verificationFees"]
+      }
+    }
+  }
+}

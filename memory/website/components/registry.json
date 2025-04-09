@@ -1,0 +1,476 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "components": {
+    "layout": {
+      "PageLayout": {
+        "description": "Primary page layout component with header, footer, and content area",
+        "props": [
+          {
+            "name": "title",
+            "type": "string",
+            "required": true,
+            "description": "Page title for SEO and browser tab"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "required": true,
+            "description": "Meta description for SEO"
+          },
+          {
+            "name": "children",
+            "type": "ReactNode",
+            "required": true,
+            "description": "Page content"
+          },
+          {
+            "name": "headerType",
+            "type": "string",
+            "required": false,
+            "default": "standard",
+            "description": "Header variant to display"
+          },
+          {
+            "name": "footerType",
+            "type": "string",
+            "required": false,
+            "default": "standard",
+            "description": "Footer variant to display"
+          }
+        ],
+        "dependencies": ["Header", "Footer", "SEO"],
+        "usage": "Wrap all page content with this component for consistent layout"
+      },
+      "SectionContainer": {
+        "description": "Container for page sections with consistent spacing and width",
+        "props": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": false,
+            "description": "Section ID for navigation anchors"
+          },
+          {
+            "name": "background",
+            "type": "string",
+            "required": false,
+            "default": "transparent",
+            "description": "Background color or gradient"
+          },
+          {
+            "name": "width",
+            "type": "string",
+            "required": false,
+            "default": "default",
+            "description": "Container width variant (narrow, default, wide, full)"
+          },
+          {
+            "name": "padding",
+            "type": "string",
+            "required": false,
+            "default": "default",
+            "description": "Padding variant (small, default, large)"
+          },
+          {
+            "name": "children",
+            "type": "ReactNode",
+            "required": true,
+            "description": "Section content"
+          }
+        ],
+        "dependencies": [],
+        "usage": "Use to wrap each major section of a page with consistent spacing"
+      },
+      "Header": {
+        "description": "Site header with navigation and branding",
+        "props": [
+          {
+            "name": "type",
+            "type": "string",
+            "required": false,
+            "default": "standard",
+            "description": "Header variant (standard, minimal, transparent)"
+          },
+          {
+            "name": "sticky",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "Whether header should stick to top of viewport"
+          }
+        ],
+        "dependencies": ["Navigation", "Logo", "CTAButton"],
+        "usage": "Automatically included in PageLayout, rarely used directly"
+      },
+      "Footer": {
+        "description": "Site footer with navigation, legal info, and social links",
+        "props": [
+          {
+            "name": "type",
+            "type": "string",
+            "required": false,
+            "default": "standard",
+            "description": "Footer variant (standard, minimal, expanded)"
+          }
+        ],
+        "dependencies": ["FooterNavigation", "Logo", "SocialLinks"],
+        "usage": "Automatically included in PageLayout, rarely used directly"
+      },
+      "Navigation": {
+        "description": "Primary site navigation component",
+        "props": [
+          {
+            "name": "type",
+            "type": "string",
+            "required": false,
+            "default": "primary",
+            "description": "Navigation type (primary, secondary, mobile)"
+          }
+        ],
+        "dependencies": ["NavigationItem", "DropdownMenu"],
+        "usage": "Used in Header component, builds navigation from site structure"
+      }
+    },
+    "content": {
+      "Hero": {
+        "description": "Hero section for page introductions",
+        "props": [
+          {
+            "name": "title",
+            "type": "string",
+            "required": true,
+            "description": "Hero title"
+          },
+          {
+            "name": "subtitle",
+            "type": "string",
+            "required": false,
+            "description": "Optional subtitle"
+          },
+          {
+            "name": "image",
+            "type": "string",
+            "required": false,
+            "description": "Background image URL"
+          },
+          {
+            "name": "ctaText",
+            "type": "string",
+            "required": false,
+            "description": "Call to action button text"
+          },
+          {
+            "name": "ctaUrl",
+            "type": "string",
+            "required": false,
+            "description": "Call to action button URL"
+          },
+          {
+            "name": "align",
+            "type": "string",
+            "required": false,
+            "default": "center",
+            "description": "Content alignment (left, center, right)"
+          }
+        ],
+        "dependencies": ["CTAButton"],
+        "usage": "Use at the top of key pages for impactful introductions"
+      },
+      "ContentBlock": {
+        "description": "Standard content block with title, text, and optional media",
+        "props": [
+          {
+            "name": "title",
+            "type": "string",
+            "required": false,
+            "description": "Block title"
+          },
+          {
+            "name": "content",
+            "type": "string | ReactNode",
+            "required": true,
+            "description": "Main content (text or components)"
+          },
+          {
+            "name": "media",
+            "type": "string | ReactNode",
+            "required": false,
+            "description": "Optional media (image URL or component)"
+          },
+          {
+            "name": "mediaPosition",
+            "type": "string",
+            "required": false,
+            "default": "right",
+            "description": "Media position (left, right, top, bottom)"
+          },
+          {
+            "name": "background",
+            "type": "string",
+            "required": false,
+            "default": "transparent",
+            "description": "Block background color"
+          }
+        ],
+        "dependencies": ["MarkdownRenderer"],
+        "usage": "Primary component for displaying content sections"
+      },
+      "MarkdownRenderer": {
+        "description": "Renders markdown content with proper formatting",
+        "props": [
+          {
+            "name": "content",
+            "type": "string",
+            "required": true,
+            "description": "Markdown content to render"
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "required": false,
+            "description": "Additional CSS classes"
+          }
+        ],
+        "dependencies": [],
+        "usage": "Used to render markdown content from CMS or static files"
+      },
+      "FeatureGrid": {
+        "description": "Grid display of features or benefits",
+        "props": [
+          {
+            "name": "title",
+            "type": "string",
+            "required": false,
+            "description": "Grid section title"
+          },
+          {
+            "name": "subtitle",
+            "type": "string",
+            "required": false,
+            "description": "Grid section subtitle"
+          },
+          {
+            "name": "features",
+            "type": "array",
+            "required": true,
+            "description": "Array of feature objects with title, description, and icon"
+          },
+          {
+            "name": "columns",
+            "type": "number",
+            "required": false,
+            "default": 3,
+            "description": "Number of columns in grid"
+          }
+        ],
+        "dependencies": ["FeatureCard"],
+        "usage": "Use to display multiple features or benefits in a grid layout"
+      }
+    },
+    "interactive": {
+      "CTAButton": {
+        "description": "Call to action button with enhanced styling",
+        "props": [
+          {
+            "name": "text",
+            "type": "string",
+            "required": true,
+            "description": "Button text"
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "required": true,
+            "description": "Button destination URL"
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "required": false,
+            "default": "primary",
+            "description": "Button type (primary, secondary, tertiary)"
+          },
+          {
+            "name": "size",
+            "type": "string",
+            "required": false,
+            "default": "medium",
+            "description": "Button size (small, medium, large)"
+          },
+          {
+            "name": "icon",
+            "type": "string",
+            "required": false,
+            "description": "Optional icon name"
+          }
+        ],
+        "dependencies": ["Icon"],
+        "usage": "Use for primary actions and important links"
+      },
+      "TabPanel": {
+        "description": "Tabbed content display component",
+        "props": [
+          {
+            "name": "tabs",
+            "type": "array",
+            "required": true,
+            "description": "Array of tab objects with label and content"
+          },
+          {
+            "name": "defaultTab",
+            "type": "number",
+            "required": false,
+            "default": 0,
+            "description": "Index of default active tab"
+          },
+          {
+            "name": "orientation",
+            "type": "string",
+            "required": false,
+            "default": "horizontal",
+            "description": "Tab orientation (horizontal, vertical)"
+          }
+        ],
+        "dependencies": [],
+        "usage": "Use to organize related content in tabs"
+      },
+      "Accordion": {
+        "description": "Expandable accordion component for FAQs and grouped content",
+        "props": [
+          {
+            "name": "items",
+            "type": "array",
+            "required": true,
+            "description": "Array of accordion items with title and content"
+          },
+          {
+            "name": "allowMultiple",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Allow multiple sections to be open simultaneously"
+          },
+          {
+            "name": "defaultOpen",
+            "type": "array",
+            "required": false,
+            "default": "[]",
+            "description": "Array of indices for sections open by default"
+          }
+        ],
+        "dependencies": [],
+        "usage": "Ideal for FAQ sections and content that benefits from progressive disclosure"
+      }
+    },
+    "specialized": {
+      "TokenVisualizer": {
+        "description": "Visual representation of the dual-token system",
+        "props": [
+          {
+            "name": "type",
+            "type": "string",
+            "required": false,
+            "default": "standard",
+            "description": "Visualization type (standard, detailed, simplified)"
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "Whether visualization is interactive"
+          },
+          {
+            "name": "showLabels",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "Whether to show explanatory labels"
+          }
+        ],
+        "dependencies": ["D3Visualization"],
+        "usage": "Use to explain the dual-token system visually"
+      },
+      "VerificationFlow": {
+        "description": "Interactive visualization of the verification process",
+        "props": [
+          {
+            "name": "steps",
+            "type": "array",
+            "required": false,
+            "description": "Custom verification steps (uses default if not provided)"
+          },
+          {
+            "name": "animated",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "Whether to animate the flow"
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "Whether users can interact with the flow"
+          }
+        ],
+        "dependencies": ["StepVisualizer", "AnimationController"],
+        "usage": "Use to explain the verification process visually"
+      },
+      "EconomicModel": {
+        "description": "Interactive visualization of economic models",
+        "props": [
+          {
+            "name": "model",
+            "type": "string",
+            "required": true,
+            "description": "Model to visualize (tokenValuation, feeStructure, etc.)"
+          },
+          {
+            "name": "parameters",
+            "type": "object",
+            "required": false,
+            "description": "Custom parameters for the model"
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "Whether users can adjust parameters"
+          }
+        ],
+        "dependencies": ["D3Visualization", "ParameterControls"],
+        "usage": "Use to demonstrate economic concepts interactively"
+      },
+      "ValuePropositionCalculator": {
+        "description": "Interactive calculator for value proposition estimation",
+        "props": [
+          {
+            "name": "type",
+            "type": "string",
+            "required": true,
+            "description": "Calculator type (sovereign, trader, producer)"
+          },
+          {
+            "name": "defaultValues",
+            "type": "object",
+            "required": false,
+            "description": "Default parameter values"
+          },
+          {
+            "name": "showDetails",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "description": "Whether to show detailed breakdown"
+          }
+        ],
+        "dependencies": ["CalculatorForm", "ResultsDisplay"],
+        "usage": "Use to help stakeholders quantify potential benefits"
+      }
+    }
+  }
+}

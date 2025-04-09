@@ -1,0 +1,356 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "primaryNavigation": [
+    {
+      "id": "home",
+      "label": "Home",
+      "path": "/",
+      "order": 1,
+      "type": "standard"
+    },
+    {
+      "id": "about",
+      "label": "About",
+      "path": "/about",
+      "order": 2,
+      "type": "dropdown",
+      "children": [
+        {
+          "id": "mission",
+          "label": "Mission & Vision",
+          "path": "/about/mission",
+          "order": 1
+        },
+        {
+          "id": "foundation",
+          "label": "Foundation",
+          "path": "/about/foundation",
+          "order": 2
+        },
+        {
+          "id": "team",
+          "label": "Team",
+          "path": "/about/team",
+          "order": 3
+        },
+        {
+          "id": "partners",
+          "label": "Partners",
+          "path": "/about/partners",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "id": "system",
+      "label": "System",
+      "path": "/system",
+      "order": 3,
+      "type": "dropdown",
+      "children": [
+        {
+          "id": "architecture",
+          "label": "Architecture",
+          "path": "/system/architecture",
+          "order": 1
+        },
+        {
+          "id": "verification",
+          "label": "Verification",
+          "path": "/system/verification",
+          "order": 2
+        },
+        {
+          "id": "economics",
+          "label": "Economics",
+          "path": "/system/economics",
+          "order": 3,
+          "children": [
+            {
+              "id": "token-valuation",
+              "label": "Token Valuation",
+              "path": "/system/economics/token-valuation",
+              "order": 1
+            },
+            {
+              "id": "fee-structure",
+              "label": "Fee Structure",
+              "path": "/system/economics/fee-structure",
+              "order": 2
+            },
+            {
+              "id": "sustainability",
+              "label": "Economic Sustainability",
+              "path": "/system/economics/sustainability",
+              "order": 3
+            },
+            {
+              "id": "financial-plan",
+              "label": "Financial Plan",
+              "path": "/system/economics/financial-plan",
+              "order": 4
+            }
+          ]
+        },
+        {
+          "id": "implementation",
+          "label": "Implementation",
+          "path": "/system/implementation",
+          "order": 4
+        },
+        {
+          "id": "technical",
+          "label": "Technical Specs",
+          "path": "/system/technical",
+          "order": 5
+        }
+      ]
+    },
+    {
+      "id": "value",
+      "label": "Value Proposition",
+      "path": "/value-proposition",
+      "order": 4,
+      "type": "dropdown",
+      "children": [
+        {
+          "id": "sovereign",
+          "label": "For Sovereign Entities",
+          "path": "/value-proposition/sovereign-entities",
+          "order": 1
+        },
+        {
+          "id": "market",
+          "label": "For Market Participants",
+          "path": "/value-proposition/market-participants",
+          "order": 2
+        },
+        {
+          "id": "case-studies",
+          "label": "Case Studies",
+          "path": "/value-proposition/case-studies",
+          "order": 3
+        },
+        {
+          "id": "comparison",
+          "label": "Comparative Analysis",
+          "path": "/value-proposition/comparison",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "id": "resources",
+      "label": "Resources",
+      "path": "/resources",
+      "order": 5,
+      "type": "dropdown",
+      "children": [
+        {
+          "id": "documentation",
+          "label": "Documentation",
+          "path": "/resources/documentation",
+          "order": 1
+        },
+        {
+          "id": "education",
+          "label": "Educational Materials",
+          "path": "/resources/education",
+          "order": 2
+        },
+        {
+          "id": "faq",
+          "label": "FAQ",
+          "path": "/resources/faq",
+          "order": 3
+        },
+        {
+          "id": "glossary",
+          "label": "Glossary",
+          "path": "/resources/glossary",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "id": "developers",
+      "label": "Developers",
+      "path": "/developers",
+      "order": 6,
+      "type": "dropdown",
+      "children": [
+        {
+          "id": "technical-docs",
+          "label": "Technical Documentation",
+          "path": "/developers/technical-docs",
+          "order": 1
+        },
+        {
+          "id": "api",
+          "label": "API Reference",
+          "path": "/developers/api",
+          "order": 2
+        },
+        {
+          "id": "integration",
+          "label": "Integration Guides",
+          "path": "/developers/integration",
+          "order": 3
+        },
+        {
+          "id": "roadmap",
+          "label": "Development Roadmap",
+          "path": "/developers/roadmap",
+          "order": 4
+        }
+      ]
+    }
+  ],
+  "secondaryNavigation": [
+    {
+      "id": "contact",
+      "label": "Contact",
+      "path": "/contact",
+      "order": 1,
+      "type": "standard"
+    },
+    {
+      "id": "news",
+      "label": "News",
+      "path": "/news",
+      "order": 2,
+      "type": "standard"
+    },
+    {
+      "id": "careers",
+      "label": "Careers",
+      "path": "/careers",
+      "order": 3,
+      "type": "standard"
+    }
+  ],
+  "callToAction": [
+    {
+      "id": "sovereign-engagement",
+      "label": "Sovereign Engagement",
+      "path": "/engage/sovereign",
+      "order": 1,
+      "type": "primary",
+      "audience": "government"
+    },
+    {
+      "id": "trader-signup",
+      "label": "Trader Registration",
+      "path": "/engage/trader",
+      "order": 2,
+      "type": "secondary",
+      "audience": "trader"
+    },
+    {
+      "id": "developer-access",
+      "label": "Developer Access",
+      "path": "/engage/developer",
+      "order": 3,
+      "type": "secondary",
+      "audience": "developer"
+    }
+  ],
+  "footerNavigation": {
+    "company": [
+      {
+        "id": "about",
+        "label": "About",
+        "path": "/about",
+        "order": 1
+      },
+      {
+        "id": "team",
+        "label": "Team",
+        "path": "/about/team",
+        "order": 2
+      },
+      {
+        "id": "careers",
+        "label": "Careers",
+        "path": "/careers",
+        "order": 3
+      },
+      {
+        "id": "contact",
+        "label": "Contact",
+        "path": "/contact",
+        "order": 4
+      }
+    ],
+    "resources": [
+      {
+        "id": "documentation",
+        "label": "Documentation",
+        "path": "/resources/documentation",
+        "order": 1
+      },
+      {
+        "id": "faq",
+        "label": "FAQ",
+        "path": "/resources/faq",
+        "order": 2
+      },
+      {
+        "id": "glossary",
+        "label": "Glossary",
+        "path": "/resources/glossary",
+        "order": 3
+      },
+      {
+        "id": "support",
+        "label": "Support",
+        "path": "/support",
+        "order": 4
+      }
+    ],
+    "legal": [
+      {
+        "id": "terms",
+        "label": "Terms of Service",
+        "path": "/legal/terms",
+        "order": 1
+      },
+      {
+        "id": "privacy",
+        "label": "Privacy Policy",
+        "path": "/legal/privacy",
+        "order": 2
+      },
+      {
+        "id": "cookies",
+        "label": "Cookie Policy",
+        "path": "/legal/cookies",
+        "order": 3
+      }
+    ],
+    "social": [
+      {
+        "id": "twitter",
+        "label": "Twitter",
+        "path": "https://twitter.com/fictra",
+        "order": 1,
+        "external": true
+      },
+      {
+        "id": "linkedin",
+        "label": "LinkedIn",
+        "path": "https://linkedin.com/company/fictra",
+        "order": 2,
+        "external": true
+      },
+      {
+        "id": "github",
+        "label": "GitHub",
+        "path": "https://github.com/fictra",
+        "order": 3,
+        "external": true
+      }
+    ]
+  }
+}

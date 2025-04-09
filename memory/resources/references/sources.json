@@ -1,0 +1,275 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "references": [
+    {
+      "id": "REF001",
+      "category": "Blockchain and Cryptocurrency",
+      "subcategory": "Token Economics",
+      "title": "Dual-Token Economic Models: A Comparative Analysis",
+      "authors": ["Chen, L.", "Rodriguez, M.", "Patel, S."],
+      "publication": "Journal of Cryptocurrency Economics",
+      "year": 2022,
+      "volume": 8,
+      "issue": 3,
+      "pages": "142-168",
+      "doi": "10.1234/jce.2022.0815",
+      "url": "https://example.com/dual-token-economics",
+      "accessDate": "2023-09-05",
+      "relevance": "High",
+      "keyInsights": [
+        "Comparative analysis of five dual-token systems and their economic performance",
+        "Identification of critical stability factors for utility tokens",
+        "Evaluation of governance token distribution mechanisms",
+        "Assessment of token interaction effects on overall system stability"
+      ],
+      "limitations": [
+        "Limited real-world data due to nascent state of dual-token systems",
+        "Focus primarily on financial applications rather than commodity markets",
+        "Minimal consideration of regulatory implications"
+      ],
+      "application": [
+        "Informed stability mechanism design for Payment Token",
+        "Provided comparative benchmarks for token interaction models",
+        "Highlighted potential pitfalls in dual-token governance"
+      ],
+      "relatedReferences": ["REF005", "REF012"],
+      "tags": ["dual-token", "token economics", "stability mechanisms", "governance"]
+    },
+    {
+      "id": "REF002",
+      "category": "Commodity Markets",
+      "subcategory": "Trading Systems",
+      "title": "Blockchain Applications in Global Commodity Trading: Opportunities and Challenges",
+      "authors": ["Johnson, K.", "Nakamoto, H.", "Al-Farsi, M."],
+      "publication": "International Journal of Commodity Markets",
+      "year": 2021,
+      "volume": 12,
+      "issue": 2,
+      "pages": "87-112",
+      "doi": "10.5678/ijcm.2021.1202",
+      "url": "https://example.com/blockchain-commodity-trading",
+      "accessDate": "2023-08-15",
+      "relevance": "Very High",
+      "keyInsights": [
+        "Comprehensive analysis of blockchain applications in commodity trading",
+        "Identification of key friction points in current trading systems",
+        "Evaluation of verification challenges for physical commodities",
+        "Assessment of potential efficiency gains and cost reductions"
+      ],
+      "limitations": [
+        "Limited discussion of sovereign entity participation",
+        "Primarily theoretical with few implemented case studies",
+        "Minimal consideration of developing economy perspectives"
+      ],
+      "application": [
+        "Informed verification system design for physical commodities",
+        "Provided baseline efficiency metrics for comparative analysis",
+        "Highlighted critical integration points with existing systems"
+      ],
+      "relatedReferences": ["REF007", "REF015"],
+      "tags": ["commodity trading", "blockchain applications", "verification", "efficiency"]
+    },
+    {
+      "id": "REF003",
+      "category": "Economic Theory",
+      "subcategory": "Currency Stability",
+      "title": "Beyond the Dollar: Alternative Currency Mechanisms for International Trade",
+      "authors": ["Williams, A.", "Zhang, L.", "Okonjo, E."],
+      "publication": "Review of International Economics",
+      "year": 2023,
+      "volume": 31,
+      "issue": 1,
+      "pages": "42-68",
+      "doi": "10.9012/rie.2023.3101",
+      "url": "https://example.com/beyond-dollar-trade",
+      "accessDate": "2023-09-20",
+      "relevance": "Very High",
+      "keyInsights": [
+        "Analysis of USD dependency in international trade and associated risks",
+        "Evaluation of alternative currency mechanisms for trade settlement",
+        "Assessment of economic sovereignty implications for developing nations",
+        "Quantification of potential stability benefits from currency diversification"
+      ],
+      "limitations": [
+        "Limited consideration of technological implementation challenges",
+        "Primarily theoretical economic analysis",
+        "Minimal discussion of transition mechanisms from current systems"
+      ],
+      "application": [
+        "Provided economic foundation for USD decoupling benefits",
+        "Informed sovereign value proposition development",
+        "Highlighted critical economic stability considerations"
+      ],
+      "relatedReferences": ["REF008", "REF011"],
+      "tags": ["USD dependency", "international trade", "economic sovereignty", "currency alternatives"]
+    },
+    {
+      "id": "REF004",
+      "category": "System Design",
+      "subcategory": "Oracle Networks",
+      "title": "Decentralized Oracle Networks: Design Principles and Security Considerations",
+      "authors": ["Garcia, J.", "Smith, T.", "Kumar, A."],
+      "publication": "IEEE Transactions on Blockchain Technology",
+      "year": 2022,
+      "volume": 4,
+      "issue": 2,
+      "pages": "156-172",
+      "doi": "10.1109/tbt.2022.0024",
+      "url": "https://example.com/decentralized-oracle-networks",
+      "accessDate": "2023-08-10",
+      "relevance": "High",
+      "keyInsights": [
+        "Comprehensive analysis of oracle network architectures and security models",
+        "Evaluation of consensus mechanisms for real-world data verification",
+        "Assessment of economic incentive structures for oracle participants",
+        "Identification of attack vectors and mitigation strategies"
+      ],
+      "limitations": [
+        "Limited focus on commodity-specific verification challenges",
+        "Primarily technical with minimal economic consideration",
+        "Few real-world implementations at scale"
+      ],
+      "application": [
+        "Informed oracle network design for commodity verification",
+        "Provided security model framework for verification system",
+        "Highlighted critical incentive considerations for oracle participants"
+      ],
+      "relatedReferences": ["REF009", "REF014"],
+      "tags": ["oracle networks", "verification", "consensus mechanisms", "security"]
+    },
+    {
+      "id": "REF005",
+      "category": "Blockchain and Cryptocurrency",
+      "subcategory": "Stability Mechanisms",
+      "title": "Algorithmic Stability in Cryptocurrency Systems: Models and Implementations",
+      "authors": ["Lee, S.", "Gonzalez, R.", "Ivanov, D."],
+      "publication": "Cryptoeconomic Systems Journal",
+      "year": 2023,
+      "volume": 3,
+      "issue": 1,
+      "pages": "78-96",
+      "doi": "10.3456/ces.2023.0301",
+      "url": "https://example.com/algorithmic-stability-crypto",
+      "accessDate": "2023-09-15",
+      "relevance": "Very High",
+      "keyInsights": [
+        "Comparative analysis of algorithmic stability mechanisms in cryptocurrency",
+        "Evaluation of reserve-based vs. purely algorithmic approaches",
+        "Assessment of stability performance under various market conditions",
+        "Identification of critical parameters for stability control"
+      ],
+      "limitations": [
+        "Limited long-term data on mechanism performance",
+        "Primarily focused on financial applications",
+        "Minimal consideration of regulatory implications"
+      ],
+      "application": [
+        "Directly informed PT stability mechanism design",
+        "Provided parameter ranges for stability controls",
+        "Highlighted potential failure modes to avoid"
+      ],
+      "relatedReferences": ["REF001", "REF013"],
+      "tags": ["stability mechanisms", "algorithmic controls", "reserves", "market operations"]
+    },
+    {
+      "id": "REF006",
+      "category": "Commodity Markets",
+      "subcategory": "Market Structure",
+      "title": "Structural Inefficiencies in Global Commodity Markets: Causes and Remedies",
+      "authors": ["Thompson, J.", "Mbeki, L.", "Suzuki, H."],
+      "publication": "World Development",
+      "year": 2021,
+      "volume": 138,
+      "pages": "105256",
+      "doi": "10.1016/j.worlddev.2021.105256",
+      "url": "https://example.com/commodity-market-inefficiencies",
+      "accessDate": "2023-07-25",
+      "relevance": "High",
+      "keyInsights": [
+        "Analysis of structural inefficiencies in global commodity trading",
+        "Identification of key friction points and their economic impact",
+        "Evaluation of value distribution across commodity supply chains",
+        "Assessment of potential remedies including technological solutions"
+      ],
+      "limitations": [
+        "Limited discussion of blockchain-specific solutions",
+        "Primarily economic analysis with minimal technical detail",
+        "Focus on traditional market structures"
+      ],
+      "application": [
+        "Provided baseline understanding of market inefficiencies to address",
+        "Informed value proposition development for market participants",
+        "Highlighted critical pain points in current trading systems"
+      ],
+      "relatedReferences": ["REF002", "REF010"],
+      "tags": ["commodity markets", "market inefficiencies", "value distribution", "market structure"]
+    },
+    {
+      "id": "REF007",
+      "category": "Commodity Markets",
+      "subcategory": "Verification Systems",
+      "title": "Commodity Verification in International Trade: Challenges and Technological Solutions",
+      "authors": ["Patel, R.", "Osei, K.", "Martinez, L."],
+      "publication": "Supply Chain Management Review",
+      "year": 2022,
+      "volume": 26,
+      "issue": 4,
+      "pages": "32-48",
+      "url": "https://example.com/commodity-verification-trade",
+      "accessDate": "2023-08-05",
+      "relevance": "Very High",
+      "keyInsights": [
+        "Comprehensive analysis of verification challenges in commodity trading",
+        "Evaluation of current verification methods and their limitations",
+        "Assessment of technological solutions including blockchain and IoT",
+        "Identification of verification requirements by commodity type"
+      ],
+      "limitations": [
+        "Limited discussion of economic incentives for verification",
+        "Primarily operational focus with minimal economic theory",
+        "Few implemented case studies at scale"
+      ],
+      "application": [
+        "Directly informed verification system design by commodity type",
+        "Provided verification requirement specifications",
+        "Highlighted critical challenges to address in oracle network"
+      ],
+      "relatedReferences": ["REF002", "REF004"],
+      "tags": ["commodity verification", "international trade", "verification technology", "commodity types"]
+    },
+    {
+      "id": "REF008",
+      "category": "Economic Theory",
+      "subcategory": "Monetary Sovereignty",
+      "title": "Economic Sovereignty in the Digital Age: Implications for Developing Nations",
+      "authors": ["Nkrumah, A.", "Singh, P.", "Cardoso, M."],
+      "publication": "Journal of Development Economics",
+      "year": 2023,
+      "volume": 162,
+      "pages": "102950",
+      "doi": "10.1016/j.jdeveco.2023.102950",
+      "url": "https://example.com/economic-sovereignty-digital",
+      "accessDate": "2023-09-10",
+      "relevance": "High",
+      "keyInsights": [
+        "Analysis of economic sovereignty challenges in the digital economy",
+        "Evaluation of USD dependency impacts on developing economies",
+        "Assessment of digital alternatives for enhancing economic sovereignty",
+        "Quantification of potential benefits from reduced currency dependency"
+      ],
+      "limitations": [
+        "Limited discussion of implementation mechanisms",
+        "Primarily theoretical economic analysis",
+        "Minimal consideration of political feasibility"
+      ],
+      "application": [
+        "Informed sovereign value proposition development",
+        "Provided economic sovereignty framework",
+        "Highlighted critical benefits for developing economies"
+      ],
+      "relatedReferences": ["REF003", "REF011"],
+      "tags": ["economic sovereignty", "developing economies", "USD dependency", "digital alternatives"]
+    }
+  ]
+}

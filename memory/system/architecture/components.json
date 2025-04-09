@@ -1,0 +1,82 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "components": {
+    "tokens": {
+      "paymentToken": {
+        "id": "PT",
+        "description": "Used for commodity transactions with stability mechanisms",
+        "relationships": ["smartContracts", "verificationSystem", "stabilityMechanisms"],
+        "subcomponents": ["issuance", "trading", "settlement", "conversion"]
+      },
+      "foundationToken": {
+        "id": "FT",
+        "description": "Allocated to sovereign entities based on verified exports",
+        "relationships": ["smartContracts", "verificationSystem", "governanceSystem"],
+        "subcomponents": ["allocation", "utilization", "conversion", "governance"]
+      }
+    },
+    "verificationSystem": {
+      "id": "VS",
+      "description": "Ensures integrity of commodity transactions through oracle network",
+      "relationships": ["tokens", "smartContracts", "externalSystems"],
+      "subcomponents": ["oracleNetwork", "dataValidation", "disputeResolution", "certificationMechanisms"]
+    },
+    "smartContracts": {
+      "id": "SC",
+      "description": "Implements system functionality through blockchain code",
+      "relationships": ["tokens", "verificationSystem", "governanceSystem"],
+      "subcomponents": ["tokenContracts", "verificationContracts", "governanceContracts", "stabilityContracts"]
+    },
+    "governanceSystem": {
+      "id": "GS",
+      "description": "Multi-layered approach to system governance and decision-making",
+      "relationships": ["tokens", "smartContracts", "externalSystems"],
+      "subcomponents": ["foundationCouncil", "technicalCommittee", "economicCommittee", "sovereignCommittee"]
+    },
+    "stabilityMechanisms": {
+      "id": "SM",
+      "description": "Ensures appropriate stability for the Payment Token",
+      "relationships": ["tokens", "smartContracts", "externalSystems"],
+      "subcomponents": ["algorithmicControls", "reserveManagement", "marketOperations", "circuitBreakers"]
+    },
+    "externalSystems": {
+      "id": "ES",
+      "description": "Integration points with external platforms and services",
+      "relationships": ["verificationSystem", "smartContracts", "governanceSystem"],
+      "subcomponents": ["exchangeIntegrations", "bankingConnections", "commodityPlatforms", "regulatoryReporting"]
+    }
+  },
+  "interfaces": {
+    "tokenIssuance": {
+      "source": "smartContracts",
+      "target": "tokens",
+      "description": "Controls the creation and distribution of tokens"
+    },
+    "verificationProcess": {
+      "source": "verificationSystem",
+      "target": "smartContracts",
+      "description": "Validates commodity deliveries and triggers token allocation"
+    },
+    "governanceDecisions": {
+      "source": "governanceSystem",
+      "target": "smartContracts",
+      "description": "Implements governance decisions through smart contract updates"
+    },
+    "stabilityControls": {
+      "source": "stabilityMechanisms",
+      "target": "tokens",
+      "description": "Applies stability mechanisms to maintain appropriate token value"
+    },
+    "externalIntegration": {
+      "source": "externalSystems",
+      "target": "verificationSystem",
+      "description": "Connects external data sources to the verification process"
+    },
+    "tokenConversion": {
+      "source": "smartContracts",
+      "target": "tokens",
+      "description": "Manages conversion between different token types"
+    }
+  }
+}

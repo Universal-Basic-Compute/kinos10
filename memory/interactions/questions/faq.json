@@ -1,0 +1,182 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "questions": [
+    {
+      "id": "Q001",
+      "category": "System Fundamentals",
+      "question": "What is the FICTRA dual-token system?",
+      "variations": [
+        "How does FICTRA's token system work?",
+        "Can you explain the dual-token approach?",
+        "What are the two tokens in FICTRA?"
+      ],
+      "answer": {
+        "brief": "FICTRA uses two complementary tokens: Payment Tokens (PT) for commodity transactions and Foundation Tokens (FT) allocated to sovereign entities based on verified exports.",
+        "standard": "The FICTRA dual-token system consists of two complementary tokens: Payment Tokens (PT) and Foundation Tokens (FT). PTs serve as the medium of exchange for commodity transactions, with built-in stability mechanisms. FTs are allocated to sovereign entities based on verified commodity exports, creating an additional value stream beyond the commodity sale price. This dual-token approach enables FICTRA to decouple commodity trading from USD fluctuations while creating additional value for producing nations.",
+        "detailed": "The FICTRA dual-token system represents a fundamental innovation in commodity trading through its use of two distinct but complementary tokens:\n\n1. **Payment Tokens (PT)** - The primary medium of exchange within the ecosystem, used for commodity transactions. PTs have market-determined value with algorithmic stability mechanisms and reserve backing. They enable efficient settlement of commodity trades without USD exposure.\n\n2. **Foundation Tokens (FT)** - Allocated to sovereign entities based on verified commodity exports. The allocation follows a formula that includes multipliers for different commodity types and strategic factors. FTs create an additional value stream for producing nations beyond the commodity sale price.\n\nThis dual-token architecture enables FICTRA to simultaneously achieve multiple objectives: decoupling commodity trading from USD fluctuations, creating additional value for producing nations, maintaining appropriate market efficiency, and establishing a new form of digital value backed by real-world commodities.\n\nThe relationship between the tokens is managed through controlled conversion corridors and stability mechanisms that ensure system integrity while allowing market-driven price discovery."
+      },
+      "relatedQuestions": ["Q002", "Q003", "Q007"],
+      "relatedTopics": ["tokenValuation", "economicModel", "verificationSystem"],
+      "usage": {
+        "frequency": "Very High",
+        "lastUsed": "2023-11-15",
+        "effectivenessRating": 4.8
+      }
+    },
+    {
+      "id": "Q002",
+      "category": "System Fundamentals",
+      "question": "How does the verification system work?",
+      "variations": [
+        "What is the verification process in FICTRA?",
+        "How are commodity deliveries verified?",
+        "Can you explain the oracle network?"
+      ],
+      "answer": {
+        "brief": "FICTRA verifies commodity deliveries through a distributed oracle network that validates real-world transactions using multiple data sources, triggering Foundation Token allocation.",
+        "standard": "FICTRA's verification system uses a distributed oracle network to validate real-world commodity deliveries. The system collects data from multiple sources, including shipping documentation, customs records, and inspection certificates. Once a delivery is verified through consensus across these sources, the smart contract automatically triggers the appropriate Foundation Token allocation to the sovereign entity. This process ensures that token allocation is based on actual commodity exports rather than self-reported data.",
+        "detailed": "The FICTRA verification system is a sophisticated infrastructure designed to validate real-world commodity deliveries and trigger appropriate Foundation Token allocations:\n\n1. **Oracle Network** - A distributed network of independent validators that collect and verify data from multiple sources. The network includes specialized validators for different commodity types and regions.\n\n2. **Multi-source Validation** - The system cross-references data from various sources, including:\n   - Shipping documentation and bills of lading\n   - Customs declarations and export records\n   - Quality inspection certificates\n   - Payment confirmation records\n   - Satellite and IoT tracking data for certain commodities\n\n3. **Consensus Mechanism** - Verification requires consensus across multiple data sources, with weighted importance based on reliability and completeness. The system uses both automated validation for standard cases and human review for complex or unusual situations.\n\n4. **Smart Contract Triggers** - Once verification reaches the required consensus threshold, smart contracts automatically execute to allocate the appropriate Foundation Tokens to the sovereign entity based on the verification formula.\n\n5. **Dispute Resolution** - The system includes mechanisms for addressing verification challenges, with a tiered approach from automated resolution to committee review for complex cases.\n\nThe verification system is designed with multiple safeguards against manipulation, including economic incentives for honest reporting, penalties for false information, and sophisticated anomaly detection algorithms. The system continuously evolves based on operational data and emerging verification technologies."
+      },
+      "relatedQuestions": ["Q001", "Q008", "Q015"],
+      "relatedTopics": ["oracleNetwork", "smartContracts", "foundationToken"],
+      "usage": {
+        "frequency": "High",
+        "lastUsed": "2023-11-14",
+        "effectivenessRating": 4.6
+      }
+    },
+    {
+      "id": "Q003",
+      "category": "Economic Model",
+      "question": "How are Payment Tokens (PT) valued?",
+      "variations": [
+        "What determines PT price?",
+        "How stable are Payment Tokens?",
+        "What affects PT value?"
+      ],
+      "answer": {
+        "brief": "PT value is primarily market-determined through trading, with stability mechanisms including algorithmic controls and reserve backing to reduce volatility.",
+        "standard": "Payment Token (PT) value is primarily determined by market forces through trading on exchanges and OTC markets. However, FICTRA implements several stability mechanisms to reduce volatility, including algorithmic controls, strategic reserve deployment, and circuit breakers for extreme conditions. The token derives its fundamental value from utility in commodity transactions, with additional value from network effects and liquidity provision. This approach balances market efficiency with appropriate stability for a transaction medium.",
+        "detailed": "Payment Token (PT) valuation follows a sophisticated framework that balances market-driven price discovery with stability mechanisms:\n\n1. **Market Determination** - The primary price discovery happens through:\n   - Exchange trading across multiple platforms\n   - OTC (over-the-counter) markets for large transactions\n   - Derivative markets providing price signals\n   - Cross-exchange arbitrage creating equilibrium\n\n2. **Intrinsic Value Components** - PT derives fundamental value from:\n   - Direct utility in commodity transactions\n   - Settlement efficiency premium compared to traditional methods\n   - Network effects from ecosystem participation\n   - Potential appreciation through growing adoption\n\n3. **Stability Mechanisms** - Several overlapping systems maintain appropriate stability:\n   - **Reserve Backing**: Initially 35-40% of market cap, targeting 18-22% at maturity\n   - **Algorithmic Controls**: Adjustments based on volatility metrics\n   - **Circuit Breakers**: Graduated interventions for extreme movements\n   - **Supply Management**: Strategic token burns and controlled issuance\n\n4. **Volatility Management** - The system targets volatility of 30-40% of average cryptocurrency volatility through:\n   - Volatility response bands (±4% daily, ±12% weekly, ±20% monthly)\n   - Liquidity injection thresholds when volume drops significantly\n   - Buyback parameters when PT/commodity basket ratio falls below key levels\n   - Market maker incentives for consistent liquidity\n\nThis balanced approach ensures that PT maintains sufficient stability for effective use in commodity transactions while allowing market forces to determine appropriate valuation based on utility and adoption. The stability mechanisms are designed to dampen extreme movements rather than enforce a specific price, creating a more natural and sustainable value discovery process."
+      },
+      "relatedQuestions": ["Q001", "Q004", "Q010"],
+      "relatedTopics": ["tokenValuation", "stabilityMechanisms", "marketOperations"],
+      "usage": {
+        "frequency": "High",
+        "lastUsed": "2023-11-15",
+        "effectivenessRating": 4.7
+      }
+    },
+    {
+      "id": "Q004",
+      "category": "Economic Model",
+      "question": "How are Foundation Tokens (FT) allocated?",
+      "variations": [
+        "What determines FT allocation?",
+        "How do sovereign entities receive FTs?",
+        "What is the FT allocation formula?"
+      ],
+      "answer": {
+        "brief": "FTs are allocated to sovereign entities based on verified commodity exports, using a formula with multipliers for different commodity types and strategic factors.",
+        "standard": "Foundation Tokens (FT) are allocated to sovereign entities based on verified commodity exports. The allocation follows a formula: FT Allocation = PT Value of Verified Export × Multiplier Factor. The multiplier varies by commodity type (typically 1.2-1.5x base) with additional adjustments for sustainability practices and strategic importance. This creates an additional value stream for commodity-producing nations beyond the sale price, while incentivizing sustainable production and strategic resource management.",
+        "detailed": "Foundation Token (FT) allocation follows a formula-based system designed to create additional value for sovereign entities while incentivizing strategic objectives:\n\n1. **Basic Allocation Formula**:\n   ```\n   FT Allocation = PT Value of Verified Export × Multiplier Factor\n   ```\n\n2. **Multiplier Factor Determination**:\n   - Base multiplier varies by commodity category (typically 1.2-1.5x)\n   - Sustainability premium for environmentally optimized production (0.05-0.4x additional)\n   - Strategic importance modifiers for critical resources (0.0-0.5x additional)\n   - Volume-based adjustments to balance large and small exporters\n\n3. **Multiplier Matrix Example**:\n\n   | Commodity Category | Base Multiplier | Sustainability Premium | Strategic Importance | Maximum Multiplier |\n   |-------------------|-----------------|------------------------|----------------------|-------------------|\n   | Energy Resources | 1.3x | +0.1x | +0.2x | 1.6x |\n   | Agricultural Products | 1.4x | +0.15x | +0.1x | 1.65x |\n   | Industrial Metals | 1.25x | +0.1x | +0.15x | 1.5x |\n   | Precious Metals | 1.2x | +0.05x | +0.25x | 1.5x |\n\n4. **Advanced Allocation Considerations**:\n   - Export quality metrics including environmental impact and ethical production\n   - Economic development alignment with critical development sectors\n   - Strategic resource management for rare or critical materials\n   - Progressive multipliers that provide higher rewards for smaller exporters\n\n5. **Implementation Controls**:\n   - Individual sovereign cap: 28% of quarterly FT allocation (reducing over time)\n   - Minimum allocation floor: 0.4% for any verified export\n   - Dynamic adjustments based on system conditions and strategic priorities\n\nThis sophisticated allocation system ensures that FT distribution creates meaningful value for sovereign entities while advancing strategic objectives around sustainability, development, and resource management. The system is governed by the Economic Committee with input from the Sovereign Committee to ensure fair and effective implementation."
+      },
+      "relatedQuestions": ["Q001", "Q002", "Q005"],
+      "relatedTopics": ["foundationToken", "allocationFormula", "multiplierFactor"],
+      "usage": {
+        "frequency": "High",
+        "lastUsed": "2023-11-13",
+        "effectivenessRating": 4.5
+      }
+    },
+    {
+      "id": "Q005",
+      "category": "Value Proposition",
+      "question": "What benefits do sovereign entities receive?",
+      "variations": [
+        "Why would governments participate in FICTRA?",
+        "How do countries benefit from FICTRA?",
+        "What's the value proposition for sovereign entities?"
+      ],
+      "answer": {
+        "brief": "Sovereign entities benefit from additional value capture through FT allocation, reduced USD dependency, improved economic visibility, and access to alternative financial infrastructure.",
+        "standard": "Sovereign entities receive multiple benefits from FICTRA participation: 1) Additional value capture through FT allocation based on verified exports, 2) Enhanced economic sovereignty through reduced USD dependency, 3) Improved economic visibility with advanced analytics and reporting, and 4) Access to alternative financial infrastructure including sovereign swap mechanisms and preferential credit access. These benefits create a compelling case for participation, particularly for commodity-exporting nations seeking to maximize the value of their resources.",
+        "detailed": "FICTRA offers sovereign entities a comprehensive value proposition built on four key pillars:\n\n1. **Enhanced Economic Sovereignty**\n   - Reduced USD dependency and exposure to US monetary policy\n   - Mitigation of foreign exchange risks in commodity trading\n   - Alternative settlement mechanism for international trade\n   - Protection against unilateral sanctions and financial restrictions\n   - Additional tools for managing domestic monetary conditions\n\n2. **Additional Value Capture**\n   - Direct financial benefits through FT allocation based on verified exports\n   - Value multiplier effect calibrated to commodity strategic importance\n   - Potential appreciation of token value over time\n   - New revenue stream independent of commodity price fluctuations\n   - Reserve asset diversification with digital assets\n   - New resources for domestic investment and development\n\n3. **Improved Economic Visibility**\n   - Real-time tracking of commodity exports and verification\n   - Comprehensive analytics on trade patterns and trends\n   - Early detection of market anomalies and opportunities\n   - Sophisticated tools for economic modeling and planning\n   - Predictive analytics for commodity markets\n   - Enhanced accuracy in balance of payments reporting\n\n4. **Access to Alternative Financial Infrastructure**\n   - Direct access to critical commodities through token exchanges\n   - Bilateral arrangements with other sovereign entities\n   - Preferential lending through Foundation obligations\n   - New financing channels for development projects\n   - Reduced borrowing costs through token collateralization\n   - Participation in emerging financial architecture\n\nDifferent types of sovereign entities find varying aspects most compelling:\n\n- **Major Commodity Exporters**: Additional value capture, market influence, price stability\n- **Developing Economies**: USD hedging, access to credit, economic visibility\n- **Politically Non-Aligned Nations**: Economic sovereignty, alternative infrastructure, independence\n- **Advanced Economies**: System efficiency, analytics capabilities, market innovation\n\nEconomic modeling shows that for a typical mid-sized commodity exporting nation with $85B in annual exports, the direct financial benefit ranges from $1.7B to $3.6B annually, with additional strategic benefits beyond direct financial value."
+      },
+      "relatedQuestions": ["Q001", "Q004", "Q006"],
+      "relatedTopics": ["sovereignEntity", "foundationToken", "economicSovereignty"],
+      "usage": {
+        "frequency": "High",
+        "lastUsed": "2023-11-15",
+        "effectivenessRating": 4.9
+      }
+    },
+    {
+      "id": "Q006",
+      "category": "Value Proposition",
+      "question": "What benefits do market participants receive?",
+      "variations": [
+        "Why would traders use FICTRA?",
+        "How do commodity traders benefit?",
+        "What's the value proposition for market participants?"
+      ],
+      "answer": {
+        "brief": "Market participants benefit from reduced transaction costs, enhanced security, accelerated settlement, improved transparency, simplified compliance, and market stability.",
+        "standard": "Market participants in FICTRA benefit from: 1) Reduced transaction costs (0.15%-0.30% vs traditional 1-3%), 2) Enhanced security through immutable blockchain records, 3) Accelerated settlement (T+1 vs traditional T+3 to T+30), 4) Improved transparency into transaction status, 5) Simplified compliance with automated reporting, and 6) Market stability from USD decoupling. These benefits create significant operational efficiencies and financial advantages compared to traditional commodity trading systems.",
+        "detailed": "FICTRA delivers transformative value to commodity market participants by addressing critical pain points in the current trading ecosystem:\n\n1. **Universal Benefits Across Segments**\n   - **Reduced Transaction Costs**: 0.15%-0.30% compared to traditional 1-3% fees\n   - **Enhanced Security**: Immutable blockchain records reducing disputes by 40%\n   - **Accelerated Settlement**: T+1 settlement versus traditional T+3 to T+30 timeframes\n   - **Improved Transparency**: Complete visibility into transaction status and verification\n   - **Simplified Compliance**: Automated reporting reducing compliance workload by 25%\n   - **Market Stability**: Reduced volatility from USD decoupling and improved price discovery\n\n2. **Segment-Specific Benefits**\n\n   **For Commodity Traders:**\n   - Complete FX risk elimination through PT denomination\n   - Capital efficiency through faster settlement cycles\n   - Streamlined operations with automated verification\n   - Enhanced market access to global participant network\n   - Automated compliance with built-in regulatory reporting\n   - Quantified benefits include 30-50% lower settlement costs and 15-25% reduction in capital requirements\n\n   **For Commodity Producers:**\n   - Price stability through elimination of USD volatility\n   - Payment assurance through escrow-based smart contracts\n   - Expanded market access to global buyer network\n   - Sovereign value stream through FT allocation\n   - Streamlined documentation with digital verification\n   - Quantified benefits include 70-90% faster payment receipt and 15-30% more potential counterparties\n\n   **For End Buyers:**\n   - Supply chain transparency through blockchain verification\n   - Price stability through elimination of USD volatility\n   - Expanded supplier access to global producer network\n   - Streamlined procurement with digital purchasing\n   - Verified quality assurance through oracle network\n   - Quantified benefits include 5-15% lower procurement costs and 20-40% expansion in qualified supplier network\n\n   **For Financial Institutions:**\n   - Enhanced security with reduced counterparty risk\n   - Streamlined compliance with built-in KYC/AML\n   - Market intelligence on commodity flows and trends\n   - Operational efficiency in settlement and documentation\n   - New revenue streams from ecosystem services\n   - Quantified benefits include 30-50% lower transaction risk and 20-35% reduction in compliance costs\n\n3. **Quantified Value Creation**\n\nFor a mid-sized commodity trading operation with 5,000 annual transactions averaging $500,000 each ($2.5 billion annual volume):\n\n- Transaction Fee Savings: $1.25-2.5 million\n- FX Risk Management Savings: $1.5-3.0 million\n- Administrative Efficiency: $0.75-1.5 million\n- Dispute Resolution Improvement: $0.5-1.0 million\n- Working Capital Optimization: $1.0-2.0 million\n- New Market Opportunities: $1.0-3.0 million\n\n**Total Annual Value: $6.0-13.0 million**\n\nThis represents a first-year ROI of 300-650% and a three-year ROI of 1,100-2,400% based on typical implementation costs."
+      },
+      "relatedQuestions": ["Q001", "Q003", "Q005"],
+      "relatedTopics": ["commodityTrader", "paymentToken", "marketEfficiency"],
+      "usage": {
+        "frequency": "High",
+        "lastUsed": "2023-11-14",
+        "effectivenessRating": 4.8
+      }
+    },
+    {
+      "id": "Q007",
+      "category": "Implementation",
+      "question": "What is the implementation roadmap for FICTRA?",
+      "variations": [
+        "How will FICTRA be developed and deployed?",
+        "What are the phases of FICTRA implementation?",
+        "When will FICTRA be fully operational?"
+      ],
+      "answer": {
+        "brief": "FICTRA follows a phased implementation: Foundation Phase (Years 1-2) for core infrastructure, Growth Phase (Years 3-5) for expansion, and Maturity Phase (Years 6-10) for global standard establishment.",
+        "standard": "FICTRA follows a phased implementation approach: 1) Foundation Phase (Years 1-2) establishes core verification infrastructure, secures initial sovereign participants, and builds essential market operations; 2) Growth Phase (Years 3-5) expands sovereign participation, enhances token economics, and optimizes verification; 3) Maturity Phase (Years 6-10) achieves self-reinforcing network effects, implements advanced governance, and establishes global standard status. This measured approach ensures robust development while allowing adaptation based on market feedback.",
+        "detailed": "The FICTRA implementation follows a structured roadmap with clear phases and milestones:\n\n1. **Foundation Phase (Years 1-2)**\n\n   **Key Objectives:**\n   - Establish core verification infrastructure\n   - Secure initial sovereign participants (8-12)\n   - Develop essential market operations\n   - Build reserve backing\n   - Focus on PT utility and adoption\n\n   **Critical Milestones:**\n   - Core Smart Contract Development (Q1-Q2 Year 1)\n   - Verification Oracle Network (Q2-Q3 Year 1)\n   - Initial Sovereign Onboarding (Q3-Q4 Year 1)\n   - Market Operations Launch (Q4 Year 1)\n   - Foundation Phase Completion with 8-12 sovereign participants (Q4 Year 2)\n\n2. **Growth Phase (Years 3-5)**\n\n   **Key Objectives:**\n   - Expand sovereign participation (20-35)\n   - Enhance token economic features\n   - Develop advanced financial instruments\n   - Optimize verification economics\n   - Refine stability mechanisms\n\n   **Critical Milestones:**\n   - Enhanced Token Economics (Q1-Q2 Year 3)\n   - Verification System 2.0 (Q2-Q3 Year 3)\n   - Financial Instrument Development (Q3-Q4 Year 3)\n   - Major Sovereign Expansion to 25+ participants (Year 4)\n   - Growth Phase Completion with 35+ sovereign participants (Q4 Year 5)\n\n3. **Maturity Phase (Years 6-10)**\n\n   **Key Objectives:**\n   - Achieve self-reinforcing network effects (40+ sovereigns)\n   - Implement advanced governance structures\n   - Develop specialized economic zones\n   - Create comprehensive financial ecosystem\n   - Establish global standard status\n\n   **Critical Milestones:**\n   - Advanced Governance Implementation (Year 6)\n   - Specialized Economic Zones (Year 6-7)\n   - Comprehensive Financial Ecosystem (Year 7-8)\n   - Global Standard Establishment (Year 8-10)\n   - Maturity Phase Completion with 60+ sovereign participants (Year 10)\n\n**Success Metrics by Phase:**\n\n- **Foundation Phase**: 8-12 sovereign entities, $1B monthly PT transaction volume, verification cost below 0.3% of transaction value\n- **Growth Phase**: 25+ sovereign entities, $5B monthly PT transaction volume, verification cost below 0.2% of transaction value\n- **Maturity Phase**: 40+ sovereign entities, $20B monthly PT transaction volume, verification cost below 0.1% of transaction value\n\n**Resource Requirements:**\n\nThe implementation requires significant resources, including:\n- Technical team scaling from 15 specialists in Year 1 to 38+ by Year 5\n- Infrastructure distributed across 5 regions initially, expanding to 20+ regions\n- Development funding of $15-20M in Year 1, growing to $50-70M by Year 5\n- Operational funding of $10-15M in Year 1, growing to $45-60M by Year 5\n- Reserves of $50-75M in Year 1, growing to $500-750M by Year 5\n\nThis phased approach balances ambitious goals with practical implementation considerations, allowing for adaptation based on market feedback and technological developments."
+      },
+      "relatedQuestions": ["Q001", "Q008", "Q009"],
+      "relatedTopics": ["implementationRoadmap", "developmentPhases", "technicalRequirements"],
+      "usage": {
+        "frequency": "Medium",
+        "lastUsed": "2023-11-12",
+        "effectivenessRating": 4.7
+      }
+    },
+    {
+      "id": "Q008",
+      "category": "Technical Details",
+      "question": "How does FICTRA ensure security?",
+      "variations": [
+        "What security measures does FICTRA implement?",
+        "How are tokens and transactions protected?",
+        "What prevents attacks or manipulation in FICTRA?"
+      ],
+      "answer": {
+        "brief": "FICTRA implements multiple security layers including formal smart contract verification, multi-signature controls, oracle network consensus, and comprehensive monitoring systems.",
+        "standard": "FICTRA implements a multi-layered security approach: 1) Formal verification of all smart contracts with multiple independent audits, 2) Multi-signature requirements for critical operations, 3) Distributed oracle network with consensus requirements, 4) Advanced monitoring systems for anomaly detection, 5) Circuit breakers for extreme conditions, and 6) Regular security assessments and penetration testing. This comprehensive approach protects against both technical vulnerabilities and economic attack vectors.",
+        "detailed": "FICTRA's security framework implements defense-in-depth with multiple protective layers:\n\n1. **Smart Contract Security**\n   - Formal verification using mathematical proofs to validate contract behavior\n   - Multiple independent security audits by leading blockchain security firms\n   - Bug bounty program with significant rewards for vulnerability discovery\n   - Tiered deployment process with progressive exposure to risk\n   - Time-locked upgrades with multi-signature requirements\n\n2. **Oracle Network Security**\n   - Distributed verification across multiple independent nodes\n   - Consensus requirements preventing single-point manipulation\n   - Economic stake requirements creating attack cost barriers\n   - Reputation systems tracking verification accuracy\n   - Anomaly detection for unusual verification patterns\n   - Cross-validation across multiple data sources\n\n3. **Economic Security**\n   - Circuit breakers for extreme market conditions\n   - Liquidity controls preventing market manipulation\n   - Reserve management protecting against volatility\n   - Transaction volume limits preventing flash attacks\n   - Economic incentives aligned with system integrity\n\n4. **Operational Security**\n   - Multi-signature requirements for administrative functions\n   - Role-based access control for all systems\n   - Comprehensive logging and audit trails\n   - Regular security assessments and penetration testing\n   - Incident response protocols for various scenarios\n   - Cold storage for majority of reserve assets\n\n5. **Network Security**\n   - Distributed node infrastructure across multiple regions\n   - DDoS protection and mitigation systems\n   - Encrypted communications between all components\n   - Regular network security assessments\n   - Redundant infrastructure preventing single points of failure\n\n6. **Governance Security**\n   - Distributed decision-making across multiple committees\n   - Time-locked implementation of significant changes\n   - Transparent proposal and review process\n   - Emergency response capabilities for critical issues\n   - Regular governance security reviews\n\nThe security budget represents approximately 15% of the total technology budget, with additional allocation based on risk assessment and an emergency response fund of $2M always available. Security is treated as a continuous process rather than a fixed state, with ongoing monitoring, testing, and improvement."
+      },
+      "relatedQuestions": ["Q002", "Q009", "Q015"],
+      "relatedTopics": ["securityMeasures", "smartContracts", "oracleNetwork"],
+      "usage": {
+        "frequency": "Medium",
+        "lastUsed": "2023-11-10",
+        "effectivenessRating": 4.6
+      }
+    }
+  ]
+}
