@@ -910,6 +910,22 @@ def get_commit_history_v2(blueprint, kin_id):
         if not os.path.exists(git_dir) or not os.path.isdir(git_dir):
             return jsonify({"error": "No Git repository found for this kin"}), 404
         
+        # Check if git is installed
+        try:
+            # Try to run git --version to check if git is installed
+            subprocess.run(
+                ["git", "--version"],
+                check=True,
+                capture_output=True,
+                text=True
+            )
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            # Git is not installed or not in PATH
+            return jsonify({
+                "error": "Git not available",
+                "message": "Git is not installed or not in the system PATH. Cannot retrieve commit history."
+            }), 503  # Service Unavailable
+        
         # Get git commit history using git log
         try:
             # Use git log with --stat to get commit stats
@@ -984,7 +1000,10 @@ def get_commit_history_v2(blueprint, kin_id):
         
     except Exception as e:
         logger.error(f"Error getting Git history: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+        return jsonify({
+            "error": "Failed to retrieve commit history",
+            "message": str(e)
+        }), 500
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/copy', methods=['POST'])
 def copy_kin_v2(blueprint, kin_id):
