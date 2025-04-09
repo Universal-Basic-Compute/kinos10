@@ -468,14 +468,25 @@ def api_root():
                     // Add syntax highlighting to code blocks
                     document.querySelectorAll('pre code').forEach(function(block) {{
                         if (block.textContent.trim().startsWith('{{') || block.textContent.trim().startsWith('[')) {{
-                            // This looks like JSON, apply highlighting
-                            const highlighted = block.innerHTML
+                            // First, ensure we're working with clean text content
+                            let content = block.textContent;
+                            
+                            // Create a new element to hold the highlighted content
+                            const highlighted = document.createElement('div');
+                            
+                            // Apply syntax highlighting with proper HTML structure
+                            let html = content
                                 .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
                                 .replace(/"([^"]+)"/g, '<span class="json-string">"$1"</span>')
                                 .replace(/\b([0-9]+)\b/g, '<span class="json-number">$1</span>')
                                 .replace(/\b(true|false)\b/g, '<span class="json-boolean">$1</span>')
                                 .replace(/\bnull\b/g, '<span class="json-null">null</span>');
-                            block.innerHTML = highlighted;
+                            
+                            highlighted.innerHTML = html;
+                            
+                            // Replace the original content with the highlighted version
+                            block.innerHTML = '';
+                            block.appendChild(highlighted);
                         }}
                     }});
                 }});
