@@ -497,13 +497,14 @@ def build_website(website_dir):
         logger.info(f"4. To start the development server: npm run dev")
         return False
 
-def clone_repository(website_dir, repo_url):
+def clone_repository(website_dir, repo_url, token=None):
     """
     Clone a Git repository to the website directory.
     
     Args:
         website_dir: Path to the website directory
         repo_url: URL of the Git repository to clone
+        token: Optional authentication token for private repositories
         
     Returns:
         Boolean indicating success
@@ -537,10 +538,23 @@ def clone_repository(website_dir, repo_url):
                 else:
                     os.remove(item_path)
         
+        # If token is provided, modify the repo URL to include it
+        clone_url = repo_url
+        if token and "github.com" in repo_url:
+            # For GitHub, insert the token into the URL
+            # Convert https://github.com/user/repo to https://token@github.com/user/repo
+            parsed_url = urlparse(repo_url)
+            clone_url = f"https://{token}@{parsed_url.netloc}{parsed_url.path}"
+            # Use a masked URL for logging to avoid exposing the token
+            safe_clone_url = repo_url
+            logger.info(f"Using authenticated URL for private repository")
+        else:
+            safe_clone_url = repo_url
+        
         # Clone the repository
-        logger.info(f"Cloning repository: {repo_url}")
+        logger.info(f"Cloning repository: {safe_clone_url}")
         result = subprocess.run(
-            ["git", "clone", repo_url, "."],
+            ["git", "clone", clone_url, "."],
             cwd=website_dir,
             check=True,
             capture_output=True,
@@ -569,6 +583,7 @@ def main():
     parser.add_argument("kin_id", help="Kin ID")
     parser.add_argument("--build", action="store_true", help="Build the website after setup")
     parser.add_argument("--repo", help="Git repository URL to clone instead of using a template")
+    parser.add_argument("--token", help="Git authentication token for private repositories")
     
     args = parser.parse_args()
     
@@ -583,7 +598,9 @@ def main():
     
     # Clone repository or copy template based on arguments
     if args.repo:
-        if not clone_repository(website_dir, args.repo):
+        # Get token from command line or environment variable
+        token = args.token or os.getenv("GIT_TOKEN")
+        if not clone_repository(website_dir, args.repo, token):
             logger.error("Failed to clone repository")
             return 1
         logger.info(f"Repository cloned successfully to {website_dir}")
