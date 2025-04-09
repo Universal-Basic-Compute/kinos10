@@ -82,7 +82,7 @@ def should_update_file(template_file, kin_file):
     Rules:
     1. If the file doesn't exist in the kin, copy it from the template
     2. If the file is a system file (kinos.txt, system.txt, persona.txt), update it
-    3. If the file is in a standard directory (modes/, adaptations/, sources/), update it
+    3. If the file is in a standard directory (modes/, adaptations/), update it
     4. Never update messages.json or any .json file
     5. Otherwise, preserve the kin file
     """
@@ -100,7 +100,7 @@ def should_update_file(template_file, kin_file):
         return True
     
     # Always update files in standard directories
-    standard_dirs = ['modes/', 'adaptations/', 'sources/', 'knowledge/', 'memories/', 'images/', 'examples/', 'templates/']
+    standard_dirs = ['modes/', 'adaptations/']
     if any(template_file.startswith(d) for d in standard_dirs):
         return True
     
