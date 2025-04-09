@@ -37,57 +37,35 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         except Exception as e:
             logger.warning(f"Error reading repo_config.json: {str(e)}")
     
-    # If repository is linked, push changes before Aider call
+    # If repository is linked, pull changes before Aider call
     if is_repo_linked:
-        logger.info("Repository is linked. Pushing changes before Aider call...")
+        logger.info("Repository is linked. Pulling changes before Aider call...")
         try:
-            subprocess.run(
-                ["git", "add", "."],
-                cwd=kin_path,
-                check=True,
-                capture_output=True,
-                text=True
-            )
-            
-            # Commit changes if there are any
+            # Try to pull changes from the remote repository
             try:
                 subprocess.run(
-                    ["git", "commit", "-m", "Auto-commit before Aider call"],
+                    ["git", "pull", "origin", "master"],
                     cwd=kin_path,
                     check=True,
                     capture_output=True,
                     text=True
                 )
-                logger.info("Changes committed before Aider call")
-            except subprocess.CalledProcessError:
-                # No changes to commit is not an error
-                logger.info("No changes to commit before Aider call")
-            
-            # Push changes
-            try:
-                subprocess.run(
-                    ["git", "push", "origin", "master"],
-                    cwd=kin_path,
-                    check=True,
-                    capture_output=True,
-                    text=True
-                )
-                logger.info("Changes pushed to remote repository before Aider call")
+                logger.info("Changes pulled from remote repository before Aider call")
             except subprocess.CalledProcessError:
                 # Try with main branch if master fails
                 try:
                     subprocess.run(
-                        ["git", "push", "origin", "main"],
+                        ["git", "pull", "origin", "main"],
                         cwd=kin_path,
                         check=True,
                         capture_output=True,
                         text=True
                     )
-                    logger.info("Changes pushed to remote repository (main branch) before Aider call")
+                    logger.info("Changes pulled from remote repository (main branch) before Aider call")
                 except subprocess.CalledProcessError as e:
-                    logger.warning(f"Error pushing to remote repository: {e.stderr}")
+                    logger.warning(f"Error pulling from remote repository: {e.stderr}")
         except Exception as e:
-            logger.warning(f"Error pushing changes before Aider call: {str(e)}")
+            logger.warning(f"Error pulling changes before Aider call: {str(e)}")
     
     # Build the command
     cmd = ["aider", "--sonnet", "--yes-always", f"--anthropic-api-key={api_key}", "--message", str(message_content)]
