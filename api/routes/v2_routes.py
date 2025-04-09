@@ -1554,6 +1554,20 @@ def run_typescript_check_and_build(blueprint, kin_id, kin_path, max_retries=5):
         build_response = call_build_endpoint(blueprint, kin_id, current_errors)
         results["build_responses"].append(build_response)
         
+        # After the build completes, run the repository link script
+        try:
+            # Run the script to check for TypeScript errors
+            script_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "linkrepo.py")
+            subprocess.run(
+                [sys.executable, script_path, blueprint, kin_id],
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            logger.info(f"Successfully ran repository link script after build")
+        except Exception as e:
+            logger.error(f"Error running repository link script: {str(e)}")
+        
         # Run TypeScript check again
         current_errors = run_typescript_check(kin_path)
         
