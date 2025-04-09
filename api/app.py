@@ -526,10 +526,46 @@ def api_root():
             </script>
         </head>
         <body>
-            <div class="container">
-                <h1>KinOS API Reference</h1>
-                <p>This documentation provides a comprehensive reference for the KinOS API.</p>
-                """ + html_content + """
+            <button class="sidebar-toggle" id="sidebarToggle">☰ Menu</button>
+            
+            <div class="page-container">
+                <div class="sidebar" id="sidebar">
+                    <div class="sidebar-header">
+                        <h3>API Reference</h3>
+                    </div>
+                    <ul class="sidebar-nav">
+                        <li><a href="#base-url">Base URL</a></li>
+                        <li><a href="#authentication">Authentication</a></li>
+                        
+                        <div class="section-title">API Endpoints</div>
+                        <li><a href="#blueprint-management">Blueprint Management</a></li>
+                        <li><a href="#kin-management">Kin Management</a></li>
+                        <li><a href="#channel-management">Channel Management</a></li>
+                        <li><a href="#message-interaction">Message Interaction</a></li>
+                        <li><a href="#file-operations">File Operations</a></li>
+                        <li><a href="#kin-building">Kin Building</a></li>
+                        <li><a href="#modes-and-configuration">Modes & Configuration</a></li>
+                        <li><a href="#special-features">Special Features</a></li>
+                        <li><a href="#media-processing">Media Processing</a></li>
+                        <li><a href="#system-information">System Information</a></li>
+                        
+                        <div class="section-title">Additional Info</div>
+                        <li><a href="#error-handling">Error Handling</a></li>
+                        <li><a href="#working-with-images">Working with Images</a></li>
+                        <li><a href="#pagination">Pagination</a></li>
+                        <li><a href="#versioning">Versioning</a></li>
+                        <li><a href="#rate-limiting">Rate Limiting</a></li>
+                        <li><a href="#glossary">Glossary</a></li>
+                    </ul>
+                </div>
+                
+                <div class="content">
+                    <div class="container">
+                        <h1>KinOS API Reference</h1>
+                        <p>This documentation provides a comprehensive reference for the KinOS API.</p>
+                        """ + html_content + """
+                    </div>
+                </div>
             </div>
         </body>
         </html>
