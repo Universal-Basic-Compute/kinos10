@@ -1477,6 +1477,218 @@ def sync_repository_v2(blueprint, kin_id):
         logger.error(f"Error synchronizing repository: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/build-next', methods=['POST'])
+def build_next_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to run TypeScript type checking on a kin's repository.
+    If errors are found, it calls the build endpoint to fix them, and repeats
+    the process up to 5 times until no errors are found or max retries reached.
+    """
+    try:
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Parse request data
+        data = request.json or {}
+        max_retries = data.get('max_retries', 5)
+        
+        # Run TypeScript type checking and build process
+        result = run_typescript_check_and_build(blueprint, kin_id, kin_path, max_retries)
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        logger.error(f"Error in build-next endpoint: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+def run_typescript_check_and_build(blueprint, kin_id, kin_path, max_retries=5):
+    """
+    Run TypeScript type checking and build process with retries.
+    
+    Args:
+        blueprint: Blueprint name
+        kin_id: Kin ID
+        kin_path: Path to the kin directory
+        max_retries: Maximum number of retries (default: 5)
+    
+    Returns:
+        Dictionary with results
+    """
+    results = {
+        "success": False,
+        "iterations": 0,
+        "initial_errors": None,
+        "final_errors": None,
+        "build_responses": []
+    }
+    
+    # Check if TypeScript is installed
+    if not check_typescript_installed(kin_path):
+        return {
+            "success": False,
+            "error": "TypeScript is not installed in the kin repository",
+            "message": "Make sure TypeScript is installed with 'npm install typescript'"
+        }
+    
+    # Initial TypeScript check
+    initial_errors = run_typescript_check(kin_path)
+    results["initial_errors"] = initial_errors
+    
+    # If no errors, we're done
+    if not initial_errors:
+        results["success"] = True
+        results["message"] = "No TypeScript errors found"
+        return results
+    
+    # Run build and check cycle
+    current_errors = initial_errors
+    for i in range(max_retries):
+        results["iterations"] += 1
+        
+        # Call build endpoint with error information
+        build_response = call_build_endpoint(blueprint, kin_id, current_errors)
+        results["build_responses"].append(build_response)
+        
+        # Run TypeScript check again
+        current_errors = run_typescript_check(kin_path)
+        
+        # If no errors, we're done
+        if not current_errors:
+            results["success"] = True
+            results["message"] = f"All TypeScript errors fixed after {i+1} iterations"
+            break
+    
+    # Record final errors
+    results["final_errors"] = current_errors
+    
+    # If we still have errors after max retries
+    if current_errors:
+        results["message"] = f"Some TypeScript errors remain after {max_retries} iterations"
+    
+    return results
+
+def check_typescript_installed(kin_path):
+    """
+    Check if TypeScript is installed in the kin repository.
+    
+    Args:
+        kin_path: Path to the kin directory
+    
+    Returns:
+        Boolean indicating if TypeScript is installed
+    """
+    try:
+        # Check if node_modules/typescript exists
+        typescript_path = os.path.join(kin_path, "node_modules", "typescript")
+        if os.path.exists(typescript_path):
+            return True
+        
+        # Check if package.json has typescript as a dependency
+        package_json_path = os.path.join(kin_path, "package.json")
+        if os.path.exists(package_json_path):
+            with open(package_json_path, 'r') as f:
+                package_data = json.load(f)
+                
+                # Check in dependencies and devDependencies
+                dependencies = package_data.get('dependencies', {})
+                dev_dependencies = package_data.get('devDependencies', {})
+                
+                if 'typescript' in dependencies or 'typescript' in dev_dependencies:
+                    return True
+        
+        return False
+    except Exception as e:
+        logger.error(f"Error checking TypeScript installation: {str(e)}")
+        return False
+
+def run_typescript_check(kin_path):
+    """
+    Run TypeScript type checking on the kin repository.
+    
+    Args:
+        kin_path: Path to the kin directory
+    
+    Returns:
+        String with error output or None if no errors
+    """
+    try:
+        # Run npx tsc --noEmit
+        result = subprocess.run(
+            ["npx", "tsc", "--noEmit"],
+            cwd=kin_path,
+            capture_output=True,
+            text=True
+        )
+        
+        # If return code is non-zero, there are errors
+        if result.returncode != 0:
+            return result.stderr or result.stdout
+        
+        return None
+    except Exception as e:
+        logger.error(f"Error running TypeScript check: {str(e)}")
+        return f"Error running TypeScript check: {str(e)}"
+
+def call_build_endpoint(blueprint, kin_id, error_output):
+    """
+    Call the build endpoint with TypeScript error information.
+    
+    Args:
+        blueprint: Blueprint name
+        kin_id: Kin ID
+        error_output: TypeScript error output
+    
+    Returns:
+        Dictionary with build response
+    """
+    try:
+        # Prepare message for build endpoint
+        message = f"""
+        I need help fixing TypeScript errors in my project. Here are the errors:
+        
+        ```
+        {error_output}
+        ```
+        
+        Please analyze these errors and fix the TypeScript issues in the affected files.
+        """
+        
+        # Call build endpoint
+        from routes.projects import build_kin
+        
+        # Create a new request context with the data
+        with app.test_request_context(
+            method='POST',
+            path=f'/api/proxy/kins/{blueprint}/{kin_id}/build',
+            json={
+                "message": message,
+                "addSystem": "Focus on fixing TypeScript errors. Make minimal changes to resolve type issues."
+            }
+        ) as ctx:
+            # Push the context
+            ctx.push()
+            try:
+                # Call build_kin with the new context
+                response = build_kin(blueprint, kin_id)
+                
+                # Convert response to dictionary
+                if isinstance(response, tuple):
+                    response_data = response[0].json
+                else:
+                    response_data = response.json
+                
+                return response_data
+            finally:
+                ctx.pop()
+    except Exception as e:
+        logger.error(f"Error calling build endpoint: {str(e)}")
+        return {"error": str(e)}
+
 @v2_bp.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def catch_all_v2(undefined_route):
     """Catch-all route for undefined v2 API endpoints."""
