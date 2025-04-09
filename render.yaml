@@ -10,12 +10,24 @@ services:
         sync: false
       - key: WEBSITE_URL
         value: https://kinos10.onrender.com
+      - key: PATH
+        value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/render/bin
     domains:
       - api.kinos-engine.ai
     disk:
       name: kinos-data
       mountPath: /data
       sizeGB: 10
+    buildCommand: |
+      echo "Checking system environment..."
+      uname -a
+      echo "Checking for git..."
+      which git || echo "Git not found in PATH"
+      git --version || echo "Git version command failed"
+      echo "Installing git if needed..."
+      apt-get update && apt-get install -y git curl
+      echo "Verifying git installation..."
+      git --version
   
   - type: web
     name: kinos10

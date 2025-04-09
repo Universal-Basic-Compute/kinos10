@@ -42,7 +42,10 @@ def find_git_executable():
     git_paths = [
         "/usr/bin/git",
         "/usr/local/bin/git",
-        "/bin/git"
+        "/bin/git",
+        # Add more common paths for Render environment
+        "/opt/render/project/bin/git",
+        "/opt/render/bin/git"
     ]
     
     for path in git_paths:
@@ -74,6 +77,30 @@ def find_git_executable():
             return git_path
     except (subprocess.CalledProcessError, FileNotFoundError) as e:
         logger.debug(f"Could not find Git using 'which' command: {str(e)}")
+    
+    # Try to install git if it's not found
+    try:
+        logger.info("Attempting to install git...")
+        install_result = subprocess.run(
+            "apt-get update && apt-get install -y git",
+            shell=True,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        logger.info(f"Git installation result: {install_result.stdout}")
+        
+        # Check if git is now installed
+        verify_result = subprocess.run(
+            ["git", "--version"],
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        logger.info(f"Git is now installed: {verify_result.stdout.strip()}")
+        return "git"
+    except Exception as install_error:
+        logger.error(f"Failed to install git: {str(install_error)}")
     
     # If we get here, we need to modify how we use git in the calling code
     logger.error("Git executable not found after trying all methods")

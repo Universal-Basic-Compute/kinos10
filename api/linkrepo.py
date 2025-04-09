@@ -98,27 +98,49 @@ def check_git_installed():
             common_git_paths = [
                 "/usr/bin/git",
                 "/usr/local/bin/git",
-                "/bin/git"
+                "/bin/git",
+                # Add Render-specific paths
+                "/opt/render/project/bin/git",
+                "/opt/render/bin/git"
             ]
             
             for git_path in common_git_paths:
                 if os.path.exists(git_path):
                     logger.info(f"Found git at {git_path}, but it's not in PATH")
-                    
+                    try:
+                        # Try using the full path
+                        result = subprocess.run(
+                            [git_path, "--version"],
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                        logger.info(f"Git is working with full path: {result.stdout.strip()}")
+                        # Create a symlink to make it available in PATH
+                        try:
+                            subprocess.run(
+                                ["ln", "-sf", git_path, "/usr/local/bin/git"],
+                                check=True,
+                                capture_output=True,
+                                text=True
+                            )
+                            logger.info(f"Created symlink for git in /usr/local/bin/")
+                            return True
+                        except Exception as symlink_error:
+                            logger.warning(f"Could not create symlink: {str(symlink_error)}")
+                            # Return True anyway since we found a working git
+                            return True
+                    except Exception as path_error:
+                        logger.warning(f"Git at {git_path} exists but failed: {str(path_error)}")
+            
             # Check if we can install git
             try:
                 logger.info("Attempting to install git...")
-                # Fix: Use separate commands instead of &&
-                update_result = subprocess.run(
-                    ["apt-get", "update", "-y"],
-                    check=True,
-                    capture_output=True,
-                    text=True
-                )
-                logger.info(f"apt-get update result: {update_result.stdout}")
-                
+                # Use shell=True for better compatibility in container environments
+                install_cmd = "apt-get update -y && apt-get install -y git"
                 install_result = subprocess.run(
-                    ["apt-get", "install", "-y", "git"],
+                    install_cmd,
+                    shell=True,
                     check=True,
                     capture_output=True,
                     text=True
@@ -136,6 +158,21 @@ def check_git_installed():
                 return True
             except Exception as install_error:
                 logger.error(f"Failed to install git: {str(install_error)}")
+                
+                # Try with shell=True as a last resort
+                try:
+                    logger.info("Trying git with shell=True...")
+                    shell_result = subprocess.run(
+                        "git --version",
+                        shell=True,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    logger.info(f"Git works with shell=True: {shell_result.stdout.strip()}")
+                    return True
+                except Exception as shell_error:
+                    logger.error(f"Git with shell=True failed: {str(shell_error)}")
         
         return False
 
