@@ -5,6 +5,32 @@ import json
 import logging
 from config import logger, BASE_URL
 
+def find_git_executable():
+    """Find the Git executable path."""
+    # Try common locations for Git
+    git_paths = [
+        "git",  # Try PATH first
+        "/usr/bin/git",
+        "/usr/local/bin/git",
+        "/bin/git"
+    ]
+    
+    for path in git_paths:
+        try:
+            result = subprocess.run(
+                [path, "--version"],
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            logger.info(f"Found Git at: {path}")
+            return path
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            continue
+    
+    logger.error("Git executable not found")
+    return None
+
 def call_aider_with_context(kin_path, selected_files, message_content, stream=False, addSystem=None):
     """
     Call Aider CLI with the selected context files and user message.
@@ -276,8 +302,14 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                 if is_repo_linked:
                     logger.info("Repository is linked. Pushing changes after Aider call...")
                     try:
+                        # Find Git executable
+                        git_exe = find_git_executable()
+                        if not git_exe:
+                            logger.warning("Git executable not found, cannot push changes")
+                            continue  # Continue with the generator
+                        
                         subprocess.run(
-                            ["git", "add", "."],
+                            [git_exe, "add", "."],
                             cwd=kin_path,
                             check=True,
                             capture_output=True,
@@ -287,7 +319,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                         # Commit changes if there are any
                         try:
                             subprocess.run(
-                                ["git", "commit", "-m", "Auto-commit after Aider call"],
+                                [git_exe, "commit", "-m", "Auto-commit after Aider call"],
                                 cwd=kin_path,
                                 check=True,
                                 capture_output=True,
@@ -301,7 +333,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                         # Push changes
                         try:
                             subprocess.run(
-                                ["git", "push", "origin", "master"],
+                                [git_exe, "push", "origin", "master"],
                                 cwd=kin_path,
                                 check=True,
                                 capture_output=True,
@@ -312,7 +344,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                             # Try with main branch if master fails
                             try:
                                 subprocess.run(
-                                    ["git", "push", "origin", "main"],
+                                    [git_exe, "push", "origin", "main"],
                                     cwd=kin_path,
                                     check=True,
                                     capture_output=True,
@@ -362,8 +394,14 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             if is_repo_linked:
                 logger.info("Repository is linked. Pushing changes after Aider call...")
                 try:
+                    # Find Git executable
+                    git_exe = find_git_executable()
+                    if not git_exe:
+                        logger.warning("Git executable not found, cannot push changes")
+                        return result.stdout  # Return early if Git not found
+                    
                     subprocess.run(
-                        ["git", "add", "."],
+                        [git_exe, "add", "."],
                         cwd=kin_path,
                         check=True,
                         capture_output=True,
@@ -373,7 +411,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                     # Commit changes if there are any
                     try:
                         subprocess.run(
-                            ["git", "commit", "-m", "Auto-commit after Aider call"],
+                            [git_exe, "commit", "-m", "Auto-commit after Aider call"],
                             cwd=kin_path,
                             check=True,
                             capture_output=True,
@@ -387,7 +425,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                     # Push changes
                     try:
                         subprocess.run(
-                            ["git", "push", "origin", "master"],
+                            [git_exe, "push", "origin", "master"],
                             cwd=kin_path,
                             check=True,
                             capture_output=True,
@@ -398,7 +436,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                         # Try with main branch if master fails
                         try:
                             subprocess.run(
-                                ["git", "push", "origin", "main"],
+                                [git_exe, "push", "origin", "main"],
                                 cwd=kin_path,
                                 check=True,
                                 capture_output=True,
