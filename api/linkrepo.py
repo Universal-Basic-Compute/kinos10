@@ -518,15 +518,15 @@ def sync_repository(kin_path):
             text=True
         )
         logger.info("Set Git user email to reynolds.nicorr@gmail.com")
-        
+                            
         subprocess.run(
-            ["git", "config", "user.name", "KinOS"],
+            ["git", "config", "user.name", "Lesterpaintstheworld"],
             cwd=kin_path,
             check=True,
             capture_output=True,
             text=True
         )
-        logger.info("Set Git user name to KinOS")
+        logger.info("Set Git user name to Lesterpaintstheworld")
         
         # Get current branch
         branch_cmd = subprocess.run(
