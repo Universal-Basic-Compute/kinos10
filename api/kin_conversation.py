@@ -273,7 +273,7 @@ def run_conversation(blueprint1, kin_id1, blueprint2, kin_id2, initial_message=N
             current_message = initial_message
             logger.info(f"Starting conversation with provided message: {current_message}")
         else:
-            current_message = generate_random_thought(blueprint1, kin_id1, api_key)
+            current_message = generate_random_thought(blueprint1, kin_id1, api_key, remote=False)
             logger.info(f"Starting conversation with generated thought: {current_message}")
         
         # Log conversation start

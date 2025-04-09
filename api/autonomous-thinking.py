@@ -418,16 +418,32 @@ The question should be 1-2 sentences.""",
         logger.error(f"Error in initiative generation: {str(e)}")
         return None
 
-def generate_random_thought(kin_path, random_files):
+def generate_random_thought(blueprint, kin_id, api_key, remote=False):
     """
     Generate a random thought using the three-stage process:
     1. Extract keywords from messages and files
     2. Generate a dream narrative from the keywords
     3. Generate an initiative from the dream narrative
+    
+    Args:
+        blueprint: Blueprint name
+        kin_id: Kin ID
+        api_key: API key for authentication
+        remote: Whether to use remote API instead of localhost (default: False)
+    
+    Returns:
+        A random thought as a string
     """
+    # Get kin path
+    kin_path = get_kin_path(blueprint, kin_id)
+    
     try:
         # Get Anthropic client
         client = get_anthropic_client()
+        
+        # Get random files from the kin
+        random_files = get_random_files(kin_path, count=3)
+        logger.info(f"Selected random files: {random_files}")
 
         # Stage 1: Extract keywords
         logger.info("Stage 1: Extracting keywords")
@@ -601,6 +617,7 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
         telegram_chat_id: Optional Telegram chat ID
         iterations: Number of thinking iterations (default: 3)
         wait_time: Wait time between iterations in seconds (default: 600 = 10 minutes)
+        remote: Whether to use remote API instead of localhost (default: False)
     
     Returns:
         Boolean indicating success
@@ -621,8 +638,7 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
         return False
 
     # Generate the initial random thought
-    random_files = get_random_files(kin_path, count=3)
-    logger.info(f"Selected random files for initial thought: {random_files}")
+    logger.info(f"Generating initial random thought for {blueprint}/{kin_id}")
     current_thought = generate_random_thought(blueprint, kin_id, api_key, remote=remote)
     
     # Run the thinking iterations
@@ -700,9 +716,9 @@ def main():
     telegram_chat_id = args.telegram_chat_id or os.getenv("TELEGRAM_CHAT_ID")
     
     if telegram_token and telegram_chat_id:
-        logger.info(f"Using Telegram credentials from {'arguments' if args.telegram_token else '.env file'}")
+        logger.info(f"Using Telegram credentials from {'arguments' if args.telegram_token else 'environment variables'}")
     else:
-        logger.warning("Telegram credentials not found in arguments or .env file")
+        logger.warning("Telegram credentials not found in arguments or environment variables")
     
     # Run autonomous thinking
     try:
