@@ -355,6 +355,13 @@ def link_repository(kin_path, github_url, token=None, username=None):
             text=True
         )
         subprocess.run(
+            ["git", "config", "user.email", "reynolds.nicorr@gmail.com"],
+            cwd=kin_path,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        subprocess.run(
             ["git", "config", "user.email", "kinos@example.com"],
             cwd=kin_path,
             check=True,
@@ -502,6 +509,25 @@ def sync_repository(kin_path):
     }
     
     try:
+        # Configure Git user email and name
+        subprocess.run(
+            ["git", "config", "user.email", "reynolds.nicorr@gmail.com"],
+            cwd=kin_path,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        logger.info("Set Git user email to reynolds.nicorr@gmail.com")
+        
+        subprocess.run(
+            ["git", "config", "user.name", "KinOS"],
+            cwd=kin_path,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        logger.info("Set Git user name to KinOS")
+        
         # Get current branch
         branch_cmd = subprocess.run(
             ["git", "rev-parse", "--abbrev-ref", "HEAD"],
