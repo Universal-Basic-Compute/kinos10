@@ -468,25 +468,58 @@ def api_root():
                     // Add syntax highlighting to code blocks
                     document.querySelectorAll('pre code').forEach(function(block) {{
                         if (block.textContent.trim().startsWith('{{') || block.textContent.trim().startsWith('[')) {{
-                            // First, ensure we're working with clean text content
-                            let content = block.textContent;
+                            try {{
+                                // Get the raw text content
+                                const rawText = block.textContent;
                             
-                            // Create a new element to hold the highlighted content
-                            const highlighted = document.createElement('div');
+                                // Create a temporary element to work with
+                                const tempElement = document.createElement('div');
                             
-                            // Apply syntax highlighting with proper HTML structure
-                            let html = content
-                                .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
-                                .replace(/"([^"]+)"/g, '<span class="json-string">"$1"</span>')
-                                .replace(/\b([0-9]+)\b/g, '<span class="json-number">$1</span>')
-                                .replace(/\b(true|false)\b/g, '<span class="json-boolean">$1</span>')
-                                .replace(/\bnull\b/g, '<span class="json-null">null</span>');
+                                // Function to escape HTML
+                                const escapeHtml = (text) => {{
+                                    return text
+                                        .replace(/&/g, "&amp;")
+                                        .replace(/</g, "&lt;")
+                                        .replace(/>/g, "&gt;")
+                                        .replace(/"/g, "&quot;")
+                                        .replace(/'/g, "&#039;");
+                                }};
                             
-                            highlighted.innerHTML = html;
+                                // Function to highlight JSON
+                                const highlightJSON = (json) => {{
+                                    return json
+                                        .replace(/("(\\u[a-zA-Z0-9]{{4}}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {{
+                                            let cls = 'json-number';
+                                            if (/^"/.test(match)) {{
+                                                if (/:$/.test(match)) {{
+                                                    cls = 'json-key';
+                                                    // Remove the colon from the match
+                                                    match = match.replace(/:$/, '');
+                                                    return '<span class="' + cls + '">' + match + '</span>:';
+                                                }} else {{
+                                                    cls = 'json-string';
+                                                }}
+                                            }} else if (/true|false/.test(match)) {{
+                                                cls = 'json-boolean';
+                                            }} else if (/null/.test(match)) {{
+                                                cls = 'json-null';
+                                            }}
+                                            return '<span class="' + cls + '">' + match + '</span>';
+                                        }});
+                                }};
                             
-                            // Replace the original content with the highlighted version
-                            block.innerHTML = '';
-                            block.appendChild(highlighted);
+                                // Escape the HTML first
+                                const escapedText = escapeHtml(rawText);
+                            
+                                // Apply highlighting
+                                const highlighted = highlightJSON(escapedText);
+                            
+                                // Set the highlighted content
+                                block.innerHTML = highlighted;
+                            }} catch (e) {{
+                                console.error("Error highlighting JSON:", e);
+                                // If there's an error, leave the content as is
+                            }}
                         }}
                     }});
                 }});
