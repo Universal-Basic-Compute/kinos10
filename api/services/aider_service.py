@@ -97,29 +97,34 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     if is_repo_linked:
         logger.info("Repository is linked. Pulling changes before Aider call...")
         try:
-            # Try to pull changes from the remote repository
-            try:
-                subprocess.run(
-                    ["git", "pull", "origin", "master"],
-                    cwd=kin_path,
-                    check=True,
-                    capture_output=True,
-                    text=True
-                )
-                logger.info("Changes pulled from remote repository before Aider call")
-            except subprocess.CalledProcessError:
-                # Try with main branch if master fails
+            # Find Git executable
+            git_exe = find_git_executable()
+            if not git_exe:
+                logger.warning("Git executable not found, cannot pull changes")
+            else:
+                # Try to pull changes from the remote repository
                 try:
                     subprocess.run(
-                        ["git", "pull", "origin", "main"],
+                        [git_exe, "pull", "origin", "master"],
                         cwd=kin_path,
                         check=True,
                         capture_output=True,
                         text=True
                     )
-                    logger.info("Changes pulled from remote repository (main branch) before Aider call")
-                except subprocess.CalledProcessError as e:
-                    logger.warning(f"Error pulling from remote repository: {e.stderr}")
+                    logger.info("Changes pulled from remote repository before Aider call")
+                except subprocess.CalledProcessError:
+                    # Try with main branch if master fails
+                    try:
+                        subprocess.run(
+                            [git_exe, "pull", "origin", "main"],
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                        logger.info("Changes pulled from remote repository (main branch) before Aider call")
+                    except subprocess.CalledProcessError as e:
+                        logger.warning(f"Error pulling from remote repository: {e.stderr}")
         except Exception as e:
             logger.warning(f"Error pulling changes before Aider call: {str(e)}")
     
