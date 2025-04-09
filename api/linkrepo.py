@@ -237,7 +237,7 @@ def link_repository(kin_path, github_url, token=None):
             capture_output=True,
             text=True
         )
-        
+            
         # Configure git user
         subprocess.run(
             ["git", "config", "user.name", "KinOS"],
@@ -253,7 +253,18 @@ def link_repository(kin_path, github_url, token=None):
             capture_output=True,
             text=True
         )
-        
+            
+        # Create repo_config.json to indicate this is a linked repository
+        repo_config = {
+            "IS_REPO_LINKED": "true",
+            "repository_url": github_url,
+            "linked_at": datetime.now().isoformat()
+        }
+        repo_config_path = os.path.join(kin_path, "repo_config.json")
+        with open(repo_config_path, 'w') as f:
+            json.dump(repo_config, f, indent=2)
+        logger.info(f"Created repo_config.json to mark repository as linked")
+            
         # Add remote
         subprocess.run(
             ["git", "remote", "add", "origin", github_url],

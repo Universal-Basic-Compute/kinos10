@@ -25,6 +25,70 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     if not api_key:
         raise ValueError("ANTHROPIC_API_KEY environment variable not set")
     
+    # Check if this is a linked repository
+    is_repo_linked = False
+    repo_config_path = os.path.join(kin_path, "repo_config.json")
+    if os.path.exists(repo_config_path):
+        try:
+            with open(repo_config_path, 'r') as f:
+                repo_config = json.load(f)
+                is_repo_linked = repo_config.get('IS_REPO_LINKED', 'false').lower() == 'true'
+                logger.info(f"Repository linked status: {is_repo_linked}")
+        except Exception as e:
+            logger.warning(f"Error reading repo_config.json: {str(e)}")
+    
+    # If repository is linked, push changes before Aider call
+    if is_repo_linked:
+        logger.info("Repository is linked. Pushing changes before Aider call...")
+        try:
+            subprocess.run(
+                ["git", "add", "."],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            
+            # Commit changes if there are any
+            try:
+                subprocess.run(
+                    ["git", "commit", "-m", "Auto-commit before Aider call"],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info("Changes committed before Aider call")
+            except subprocess.CalledProcessError:
+                # No changes to commit is not an error
+                logger.info("No changes to commit before Aider call")
+            
+            # Push changes
+            try:
+                subprocess.run(
+                    ["git", "push", "origin", "master"],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info("Changes pushed to remote repository before Aider call")
+            except subprocess.CalledProcessError:
+                # Try with main branch if master fails
+                try:
+                    subprocess.run(
+                        ["git", "push", "origin", "main"],
+                        cwd=kin_path,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    logger.info("Changes pushed to remote repository (main branch) before Aider call")
+                except subprocess.CalledProcessError as e:
+                    logger.warning(f"Error pushing to remote repository: {e.stderr}")
+        except Exception as e:
+            logger.warning(f"Error pushing changes before Aider call: {str(e)}")
+    
     # Build the command
     cmd = ["aider", "--sonnet", "--yes-always", f"--anthropic-api-key={api_key}", "--message", str(message_content)]
     
@@ -230,6 +294,58 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                     except Exception as e:
                         logger.error(f"Error removing temporary system file: {str(e)}")
                 
+                # If repository is linked, push changes after Aider call
+                if is_repo_linked:
+                    logger.info("Repository is linked. Pushing changes after Aider call...")
+                    try:
+                        subprocess.run(
+                            ["git", "add", "."],
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                        
+                        # Commit changes if there are any
+                        try:
+                            subprocess.run(
+                                ["git", "commit", "-m", "Auto-commit after Aider call"],
+                                cwd=kin_path,
+                                check=True,
+                                capture_output=True,
+                                text=True
+                            )
+                            logger.info("Changes committed after Aider call")
+                        except subprocess.CalledProcessError:
+                            # No changes to commit is not an error
+                            logger.info("No changes to commit after Aider call")
+                        
+                        # Push changes
+                        try:
+                            subprocess.run(
+                                ["git", "push", "origin", "master"],
+                                cwd=kin_path,
+                                check=True,
+                                capture_output=True,
+                                text=True
+                            )
+                            logger.info("Changes pushed to remote repository after Aider call")
+                        except subprocess.CalledProcessError:
+                            # Try with main branch if master fails
+                            try:
+                                subprocess.run(
+                                    ["git", "push", "origin", "main"],
+                                    cwd=kin_path,
+                                    check=True,
+                                    capture_output=True,
+                                    text=True
+                                )
+                                logger.info("Changes pushed to remote repository (main branch) after Aider call")
+                            except subprocess.CalledProcessError as e:
+                                logger.warning(f"Error pushing to remote repository: {e.stderr}")
+                    except Exception as e:
+                        logger.warning(f"Error pushing changes after Aider call: {str(e)}")
+                
                 # If there was an error, yield it as well
                 if stderr_output:
                     yield f"\nErrors occurred:\n{stderr_output}"
@@ -263,6 +379,58 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                     logger.info(f"Removed temporary system file")
                 except Exception as e:
                     logger.error(f"Error removing temporary system file: {str(e)}")
+            
+            # If repository is linked, push changes after Aider call
+            if is_repo_linked:
+                logger.info("Repository is linked. Pushing changes after Aider call...")
+                try:
+                    subprocess.run(
+                        ["git", "add", "."],
+                        cwd=kin_path,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    
+                    # Commit changes if there are any
+                    try:
+                        subprocess.run(
+                            ["git", "commit", "-m", "Auto-commit after Aider call"],
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                        logger.info("Changes committed after Aider call")
+                    except subprocess.CalledProcessError:
+                        # No changes to commit is not an error
+                        logger.info("No changes to commit after Aider call")
+                    
+                    # Push changes
+                    try:
+                        subprocess.run(
+                            ["git", "push", "origin", "master"],
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                        logger.info("Changes pushed to remote repository after Aider call")
+                    except subprocess.CalledProcessError:
+                        # Try with main branch if master fails
+                        try:
+                            subprocess.run(
+                                ["git", "push", "origin", "main"],
+                                cwd=kin_path,
+                                check=True,
+                                capture_output=True,
+                                text=True
+                            )
+                            logger.info("Changes pushed to remote repository (main branch) after Aider call")
+                        except subprocess.CalledProcessError as e:
+                            logger.warning(f"Error pushing to remote repository: {e.stderr}")
+                except Exception as e:
+                    logger.warning(f"Error pushing changes after Aider call: {str(e)}")
             
             # Return the stdout from Aider
             return result.stdout
