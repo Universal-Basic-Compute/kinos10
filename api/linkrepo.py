@@ -108,12 +108,20 @@ def check_git_installed():
             # Check if we can install git
             try:
                 logger.info("Attempting to install git...")
-                install_result = subprocess.run(
-                    ["apt-get", "update", "-y", "&&", "apt-get", "install", "-y", "git"],
+                # Fix: Use separate commands instead of &&
+                update_result = subprocess.run(
+                    ["apt-get", "update", "-y"],
                     check=True,
                     capture_output=True,
-                    text=True,
-                    shell=True
+                    text=True
+                )
+                logger.info(f"apt-get update result: {update_result.stdout}")
+                
+                install_result = subprocess.run(
+                    ["apt-get", "install", "-y", "git"],
+                    check=True,
+                    capture_output=True,
+                    text=True
                 )
                 logger.info(f"Git installation result: {install_result.stdout}")
                 
