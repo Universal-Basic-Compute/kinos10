@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 import requests
+import re
 from config import logger
 from services.stt_service import transcribe_audio
 
@@ -9,6 +10,7 @@ stt_bp = Blueprint('stt', __name__)
 def speech_to_text():
     """
     Endpoint to convert speech to text using OpenAI's Whisper API.
+    Detects and filters out code blocks from transcription.
     """
     try:
         # Check if file is in request
@@ -49,8 +51,38 @@ def speech_to_text():
                 "details": response.text
             }), response.status_code
         
+        # Parse the response
+        result = response.json()
+        
+        # Check if the transcription contains code blocks and filter them out
+        if 'text' in result:
+            # Pattern for code blocks with language specification: ```language ... ```
+            code_block_pattern = r'```[\w\+\-\#]*\s*[\s\S]*?```'
+            
+            # Find all code blocks in the transcription
+            code_blocks = re.findall(code_block_pattern, result['text'])
+            
+            if code_blocks:
+                logger.info(f"Detected {len(code_blocks)} code blocks in transcription")
+                
+                # Replace code blocks with placeholders
+                filtered_text = result['text']
+                for i, block in enumerate(code_blocks):
+                    placeholder = f"[CODE_BLOCK_{i+1}]"
+                    filtered_text = filtered_text.replace(block, placeholder)
+                
+                # Add the filtered text and code blocks to the result
+                result['original_text'] = result['text']
+                result['text'] = filtered_text
+                result['code_blocks_detected'] = True
+                result['code_blocks_count'] = len(code_blocks)
+                
+                logger.info(f"Filtered out code blocks from transcription")
+            else:
+                result['code_blocks_detected'] = False
+        
         # Return the transcription result
-        return response.json()
+        return jsonify(result)
         
     except Exception as e:
         logger.error(f"Error in STT endpoint: {str(e)}")
