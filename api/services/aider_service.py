@@ -7,41 +7,40 @@ from config import logger, BASE_URL
 
 def find_git_executable():
     """Find the Git executable path."""
+    # First try the simple approach that works in linkrepo.py
+    try:
+        result = subprocess.run(
+            ["git", "--version"],
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        logger.info(f"Git is installed and available in PATH: {result.stdout.strip()}")
+        return "git"  # Just return the command name since it works in PATH
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        logger.debug(f"Simple git check failed: {str(e)}")
+    
+    # If that fails, try the more complex approaches
     # Try common locations for Git
     git_paths = [
-        "git",  # Try PATH first
         "/usr/bin/git",
         "/usr/local/bin/git",
         "/bin/git"
     ]
     
     for path in git_paths:
-        try:
-            # Use shell=True for the "git" command to let the shell find it
-            if path == "git":
+        if os.path.exists(path):
+            try:
                 result = subprocess.run(
-                    "git --version",
-                    shell=True,
+                    [path, "--version"],
                     check=True,
                     capture_output=True,
                     text=True
                 )
-                logger.info(f"Found Git in PATH: {result.stdout.strip()}")
+                logger.info(f"Found Git at specific path: {path}, version: {result.stdout.strip()}")
                 return path
-            else:
-                # For absolute paths, don't use shell=True
-                if os.path.exists(path):
-                    result = subprocess.run(
-                        [path, "--version"],
-                        check=True,
-                        capture_output=True,
-                        text=True
-                    )
-                    logger.info(f"Found Git at specific path: {path}, version: {result.stdout.strip()}")
-                    return path
-        except (subprocess.CalledProcessError, FileNotFoundError) as e:
-            logger.debug(f"Git not found at {path}: {str(e)}")
-            continue
+            except (subprocess.CalledProcessError, FileNotFoundError) as e:
+                logger.debug(f"Git at {path} exists but command failed: {str(e)}")
     
     # If we get here, try one more approach with which command
     try:
