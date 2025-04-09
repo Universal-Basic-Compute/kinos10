@@ -272,11 +272,12 @@ def send_message_v2(blueprint, kin_id):
     Request body can include:
     - channel_id: Optional channel ID (if not provided, uses main channel)
     """
-    # Get the original data
-    original_data = request.get_json() or {}
-    
-    # Check if channel_id is provided in the request
-    channel_id = original_data.get('channel_id')
+    try:
+        # Get the original data
+        original_data = request.get_json() or {}  # Add 'or {}' to handle None case
+        
+        # Check if channel_id is provided in the request
+        channel_id = original_data.get('channel_id')
     
     if channel_id:
         # If channel_id is provided, use the channel-specific endpoint
