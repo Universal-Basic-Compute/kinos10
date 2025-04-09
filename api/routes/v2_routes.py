@@ -11,7 +11,7 @@ import requests
 from config import logger, blueprintS_DIR
 from services.file_service import get_kin_path, initialize_kin
 from services.claude_service import call_claude_with_context, build_context
-from services.aider_service import call_aider_with_context
+from services.aider_service import call_aider_with_context, find_git_executable
 from routes.messages import extract_and_save_url_content
 
 v2_bp = Blueprint('v2', __name__)
@@ -910,16 +910,11 @@ def get_commit_history_v2(blueprint, kin_id):
         if not os.path.exists(git_dir) or not os.path.isdir(git_dir):
             return jsonify({"error": "No Git repository found for this kin"}), 404
         
-        # Check if git is installed
-        try:
-            # Try to run git --version to check if git is installed
-            subprocess.run(
-                ["git", "--version"],
-                check=True,
-                capture_output=True,
-                text=True
-            )
-        except (subprocess.CalledProcessError, FileNotFoundError):
+        # Use the robust git executable finder from aider_service
+        from services.aider_service import find_git_executable
+        git_exe = find_git_executable()
+        
+        if not git_exe:
             # Git is not installed or not in PATH
             return jsonify({
                 "error": "Git not available",
@@ -929,13 +924,25 @@ def get_commit_history_v2(blueprint, kin_id):
         # Get git commit history using git log
         try:
             # Use git log with --stat to get commit stats
-            result = subprocess.run(
-                ["git", "log", "--pretty=format:%s|%h|%ad", "--date=iso", "--stat", "-n", "50"],
-                cwd=kin_path,
-                text=True,
-                capture_output=True,
-                check=True
-            )
+            if git_exe == "git_with_shell":
+                # Use shell=True for environments where git is not directly accessible
+                result = subprocess.run(
+                    "git log --pretty=format:%s|%h|%ad --date=iso --stat -n 50",
+                    cwd=kin_path,
+                    shell=True,
+                    text=True,
+                    capture_output=True,
+                    check=True
+                )
+            else:
+                # Use the normal approach with the git executable
+                result = subprocess.run(
+                    [git_exe, "log", "--pretty=format:%s|%h|%ad", "--date=iso", "--stat", "-n", "50"],
+                    cwd=kin_path,
+                    text=True,
+                    capture_output=True,
+                    check=True
+                )
                 
             # Parse the output
             commits = []
