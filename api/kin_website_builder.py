@@ -377,6 +377,29 @@ def check_npm_installed():
         )
         return True
     except (subprocess.CalledProcessError, FileNotFoundError):
+        # Try with full path on Windows
+        if os.name == 'nt':
+            try:
+                # Common npm installation paths on Windows
+                npm_paths = [
+                    r"C:\Program Files\nodejs\npm.cmd",
+                    r"C:\Program Files (x86)\nodejs\npm.cmd",
+                    os.path.expanduser(r"~\AppData\Roaming\npm\npm.cmd")
+                ]
+                
+                for npm_path in npm_paths:
+                    if os.path.exists(npm_path):
+                        logger.info(f"Found npm at: {npm_path}")
+                        # Try running with full path
+                        subprocess.run(
+                            [npm_path, "--version"],
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                        return True
+            except (subprocess.CalledProcessError, FileNotFoundError):
+                pass
         return False
 
 def build_website(website_dir):
@@ -391,18 +414,38 @@ def build_website(website_dir):
     """
     # First check if npm is installed
     if not check_npm_installed():
-        logger.error("npm not found. Node.js and npm must be installed to build the website.")
+        logger.error("npm not found in PATH. Node.js and npm must be installed to build the website.")
         logger.error("Please install Node.js from https://nodejs.org/ and make sure it's in your PATH.")
-        logger.error("After installation, you can run this script again with the --build flag.")
         logger.info("The website files have been set up, but not built.")
+        logger.info(f"\nTo build the website manually:")
+        logger.info(f"1. Navigate to: {website_dir}")
+        logger.info(f"2. Run: npm install")
+        logger.info(f"3. Run: npm run build")
+        logger.info(f"4. To start the development server: npm run dev")
         return False
         
     try:
+        # Try to find npm executable
+        npm_cmd = "npm"
+        if os.name == 'nt':  # Windows
+            # Check common npm locations
+            npm_paths = [
+                r"C:\Program Files\nodejs\npm.cmd",
+                r"C:\Program Files (x86)\nodejs\npm.cmd",
+                os.path.expanduser(r"~\AppData\Roaming\npm\npm.cmd")
+            ]
+            
+            for path in npm_paths:
+                if os.path.exists(path):
+                    npm_cmd = path
+                    logger.info(f"Using npm from: {npm_cmd}")
+                    break
+        
         # Check if node_modules exists
         if not os.path.exists(os.path.join(website_dir, "node_modules")):
             logger.info("Installing dependencies...")
             subprocess.run(
-                ["npm", "install"],
+                [npm_cmd, "install"],
                 cwd=website_dir,
                 check=True,
                 capture_output=True,
@@ -412,7 +455,7 @@ def build_website(website_dir):
         # Build the website
         logger.info("Building the website...")
         result = subprocess.run(
-            ["npm", "run", "build"],
+            [npm_cmd, "run", "build"],
             cwd=website_dir,
             check=True,
             capture_output=True,
@@ -430,9 +473,19 @@ def build_website(website_dir):
             return False
     except subprocess.CalledProcessError as e:
         logger.error(f"Build command failed: {e.stderr}")
+        logger.info(f"\nTo build the website manually:")
+        logger.info(f"1. Navigate to: {website_dir}")
+        logger.info(f"2. Run: npm install")
+        logger.info(f"3. Run: npm run build")
+        logger.info(f"4. To start the development server: npm run dev")
         return False
     except Exception as e:
         logger.error(f"Error building website: {str(e)}")
+        logger.info(f"\nTo build the website manually:")
+        logger.info(f"1. Navigate to: {website_dir}")
+        logger.info(f"2. Run: npm install")
+        logger.info(f"3. Run: npm run build")
+        logger.info(f"4. To start the development server: npm run dev")
         return False
 
 def main():
@@ -478,9 +531,12 @@ def main():
         print(f"3. Navigate to {website_dir}")
         print("4. Run: npm install")
         print("5. Run: npm run build")
+        print("6. To start the development server: npm run dev")
+        print(f"\nThe website will be accessible at http://localhost:3000")
     else:
         print("2. Build the website with: npm run build")
         print("3. Start the development server with: npm run dev")
+        print(f"\nThe website will be accessible at http://localhost:3000")
     
     return 0 if not args.build or build_success else 1
 
