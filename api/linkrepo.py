@@ -82,14 +82,53 @@ def get_kin_path(blueprint, kin_id):
 def check_git_installed():
     """Check if git is installed and available in the PATH."""
     try:
-        subprocess.run(
+        result = subprocess.run(
             ["git", "--version"],
             check=True,
             capture_output=True,
             text=True
         )
+        logger.info(f"Git is installed: {result.stdout.strip()}")
         return True
-    except (subprocess.CalledProcessError, FileNotFoundError):
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        logger.error(f"Git is not installed or not in PATH: {str(e)}")
+        
+        # On Linux/Docker, try to find git in common locations
+        if os.name == 'posix':
+            common_git_paths = [
+                "/usr/bin/git",
+                "/usr/local/bin/git",
+                "/bin/git"
+            ]
+            
+            for git_path in common_git_paths:
+                if os.path.exists(git_path):
+                    logger.info(f"Found git at {git_path}, but it's not in PATH")
+                    
+            # Check if we can install git
+            try:
+                logger.info("Attempting to install git...")
+                install_result = subprocess.run(
+                    ["apt-get", "update", "-y", "&&", "apt-get", "install", "-y", "git"],
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    shell=True
+                )
+                logger.info(f"Git installation result: {install_result.stdout}")
+                
+                # Check if git is now installed
+                verify_result = subprocess.run(
+                    ["git", "--version"],
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info(f"Git is now installed: {verify_result.stdout.strip()}")
+                return True
+            except Exception as install_error:
+                logger.error(f"Failed to install git: {str(install_error)}")
+        
         return False
 
 def link_repository(kin_path, github_url, token=None):
@@ -107,6 +146,16 @@ def link_repository(kin_path, github_url, token=None):
     # Check if git is installed
     if not check_git_installed():
         logger.error("Git is not installed or not in PATH")
+        return False
+    
+    # Log environment information for debugging
+    logger.info(f"Operating system: {os.name}")
+    logger.info(f"Current working directory: {os.getcwd()}")
+    logger.info(f"Kin path: {kin_path}")
+    
+    # Check if kin path exists
+    if not os.path.exists(kin_path):
+        logger.error(f"Kin path does not exist: {kin_path}")
         return False
     
     # Create a temporary directory for cloning
@@ -129,15 +178,41 @@ def link_repository(kin_path, github_url, token=None):
         # Clone the repository to the temporary directory
         logger.info(f"Cloning repository: {safe_clone_url}")
         try:
-            subprocess.run(
+            # First, try to verify git is working
+            git_version = subprocess.run(
+                ["git", "--version"],
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            logger.info(f"Git version before clone: {git_version.stdout.strip()}")
+            
+            # Then attempt the clone
+            clone_result = subprocess.run(
                 ["git", "clone", clone_url, temp_dir],
                 check=True,
                 capture_output=True,
                 text=True
             )
             logger.info(f"Repository cloned successfully to temporary directory")
+            logger.info(f"Clone output: {clone_result.stdout}")
         except subprocess.CalledProcessError as e:
             logger.error(f"Git clone failed: {e.stderr}")
+            logger.error(f"Command that failed: git clone {safe_clone_url} {temp_dir}")
+            
+            # Try with --verbose flag for more information
+            try:
+                logger.info("Retrying clone with --verbose flag...")
+                verbose_result = subprocess.run(
+                    ["git", "clone", "--verbose", clone_url, temp_dir],
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info(f"Verbose clone output: {verbose_result.stdout}")
+            except subprocess.CalledProcessError as verbose_e:
+                logger.error(f"Verbose git clone also failed: {verbose_e.stderr}")
+            
             return False
         
         # Remove .git directory from the temporary clone with error handling

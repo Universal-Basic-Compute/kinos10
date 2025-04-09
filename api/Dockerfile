@@ -6,7 +6,9 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir aider-chat && \
     apt-get update && \
-    apt-get install -y git
+    apt-get install -y git && \
+    git --version && \
+    git config --global --add safe.directory '*'
 
 COPY . .
 
