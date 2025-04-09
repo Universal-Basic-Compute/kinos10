@@ -335,6 +335,9 @@ def send_message(blueprint, kin_id):
         if add_context and not isinstance(add_context, list):
             # If it's not a list, convert it to a list with a single item
             add_context = [add_context]
+            
+        # Get kin path before processing addContext
+        kin_path = get_kin_path(blueprint, kin_id)
 
         # Process addContext to expand directories and verify files exist
         processed_add_context = []
