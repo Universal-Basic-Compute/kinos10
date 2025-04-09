@@ -17,18 +17,49 @@ def find_git_executable():
     
     for path in git_paths:
         try:
-            result = subprocess.run(
-                [path, "--version"],
-                check=True,
-                capture_output=True,
-                text=True
-            )
-            logger.info(f"Found Git at: {path}")
-            return path
-        except (subprocess.CalledProcessError, FileNotFoundError):
+            # Use shell=True for the "git" command to let the shell find it
+            if path == "git":
+                result = subprocess.run(
+                    "git --version",
+                    shell=True,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info(f"Found Git in PATH: {result.stdout.strip()}")
+                return path
+            else:
+                # For absolute paths, don't use shell=True
+                if os.path.exists(path):
+                    result = subprocess.run(
+                        [path, "--version"],
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    logger.info(f"Found Git at specific path: {path}, version: {result.stdout.strip()}")
+                    return path
+        except (subprocess.CalledProcessError, FileNotFoundError) as e:
+            logger.debug(f"Git not found at {path}: {str(e)}")
             continue
     
-    logger.error("Git executable not found")
+    # If we get here, try one more approach with which command
+    try:
+        result = subprocess.run(
+            "which git",
+            shell=True,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        git_path = result.stdout.strip()
+        if git_path:
+            logger.info(f"Found Git using 'which' command: {git_path}")
+            return git_path
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        logger.debug(f"Could not find Git using 'which' command: {str(e)}")
+    
+    logger.error("Git executable not found after trying all methods")
     return None
 
 def call_aider_with_context(kin_path, selected_files, message_content, stream=False, addSystem=None):
