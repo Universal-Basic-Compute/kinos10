@@ -3,7 +3,195 @@ import subprocess
 import datetime
 import json
 import logging
+import tempfile
+import shutil
 from config import logger, BASE_URL
+
+def perform_git_operations_in_temp_dir(kin_path, operation="pull"):
+    """
+    Perform Git operations in a temporary directory to avoid issues with mounted volumes.
+    
+    Args:
+        kin_path: Path to the original kin directory
+        operation: Either "pull" or "push"
+        
+    Returns:
+        Boolean indicating success
+    """
+    # Create a temporary directory
+    with tempfile.TemporaryDirectory() as temp_dir:
+        logger.info(f"Created temporary directory for Git operations: {temp_dir}")
+        
+        try:
+            # Copy all files from kin_path to temp_dir (excluding .git if it exists)
+            for item in os.listdir(kin_path):
+                if item == ".git":
+                    continue
+                    
+                src = os.path.join(kin_path, item)
+                dst = os.path.join(temp_dir, item)
+                
+                if os.path.isdir(src):
+                    shutil.copytree(src, dst)
+                else:
+                    shutil.copy2(src, dst)
+            
+            logger.info(f"Copied files from {kin_path} to {temp_dir}")
+            
+            # Check if repo_config.json exists to get repository URL
+            repo_url = None
+            repo_config_path = os.path.join(kin_path, "repo_config.json")
+            if os.path.exists(repo_config_path):
+                try:
+                    with open(repo_config_path, 'r') as f:
+                        repo_config = json.load(f)
+                        repo_url = repo_config.get('repository_url')
+                except Exception as e:
+                    logger.warning(f"Error reading repo_config.json: {str(e)}")
+            
+            if not repo_url:
+                logger.error("No repository URL found in repo_config.json")
+                return False
+                
+            # Initialize Git in the temporary directory
+            subprocess.run(
+                ["git", "init"],
+                cwd=temp_dir,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            
+            # Configure Git user
+            subprocess.run(
+                ["git", "config", "user.name", "KinOS"],
+                cwd=temp_dir,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            subprocess.run(
+                ["git", "config", "user.email", "kinos@example.com"],
+                cwd=temp_dir,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            
+            # Add remote
+            subprocess.run(
+                ["git", "remote", "add", "origin", repo_url],
+                cwd=temp_dir,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            
+            if operation == "pull":
+                # Pull from remote
+                try:
+                    # Try master branch first
+                    subprocess.run(
+                        ["git", "pull", "origin", "master", "--allow-unrelated-histories"],
+                        cwd=temp_dir,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    logger.info("Pulled changes from remote repository (master branch)")
+                except subprocess.CalledProcessError:
+                    # Try main branch if master fails
+                    try:
+                        subprocess.run(
+                            ["git", "pull", "origin", "main", "--allow-unrelated-histories"],
+                            cwd=temp_dir,
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                        logger.info("Pulled changes from remote repository (main branch)")
+                    except subprocess.CalledProcessError as e:
+                        logger.warning(f"Error pulling from remote repository: {e.stderr}")
+                        return False
+                
+                # Copy files back to kin_path (only if pull was successful)
+                for item in os.listdir(temp_dir):
+                    if item == ".git":
+                        continue
+                        
+                    src = os.path.join(temp_dir, item)
+                    dst = os.path.join(kin_path, item)
+                    
+                    if os.path.isdir(src):
+                        if os.path.exists(dst):
+                            shutil.rmtree(dst)
+                        shutil.copytree(src, dst)
+                    else:
+                        shutil.copy2(src, dst)
+                
+                logger.info(f"Copied updated files back to {kin_path}")
+                return True
+                
+            elif operation == "push":
+                # Add all files
+                subprocess.run(
+                    ["git", "add", "."],
+                    cwd=temp_dir,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                
+                # Commit changes
+                try:
+                    subprocess.run(
+                        ["git", "commit", "-m", "Auto-commit after Aider call"],
+                        cwd=temp_dir,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    logger.info("Changes committed in temporary directory")
+                except subprocess.CalledProcessError:
+                    # No changes to commit is not an error
+                    logger.info("No changes to commit")
+                    return True
+                
+                # Push to remote
+                try:
+                    # Try master branch first
+                    subprocess.run(
+                        ["git", "push", "-u", "origin", "master"],
+                        cwd=temp_dir,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    logger.info("Pushed changes to remote repository (master branch)")
+                except subprocess.CalledProcessError:
+                    # Try main branch if master fails
+                    try:
+                        subprocess.run(
+                            ["git", "push", "-u", "origin", "main"],
+                            cwd=temp_dir,
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                        logger.info("Pushed changes to remote repository (main branch)")
+                    except subprocess.CalledProcessError as e:
+                        logger.warning(f"Error pushing to remote repository: {e.stderr}")
+                        return False
+                
+                return True
+            
+            else:
+                logger.error(f"Unknown operation: {operation}")
+                return False
+                
+        except Exception as e:
+            logger.error(f"Error performing Git operations in temporary directory: {str(e)}")
+            return False
 
 def find_git_executable():
     """Find the Git executable path."""
@@ -112,37 +300,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     # If repository is linked, pull changes before Aider call
     if is_repo_linked:
         logger.info("Repository is linked. Pulling changes before Aider call...")
-        try:
-            # Find Git executable
-            git_exe = find_git_executable()
-            if not git_exe:
-                logger.warning("Git executable not found, cannot pull changes")
-            else:
-                # Try to pull changes from the remote repository
-                try:
-                    subprocess.run(
-                        [git_exe, "pull", "origin", "master"],
-                        cwd=kin_path,
-                        check=True,
-                        capture_output=True,
-                        text=True
-                    )
-                    logger.info("Changes pulled from remote repository before Aider call")
-                except subprocess.CalledProcessError:
-                    # Try with main branch if master fails
-                    try:
-                        subprocess.run(
-                            [git_exe, "pull", "origin", "main"],
-                            cwd=kin_path,
-                            check=True,
-                            capture_output=True,
-                            text=True
-                        )
-                        logger.info("Changes pulled from remote repository (main branch) before Aider call")
-                    except subprocess.CalledProcessError as e:
-                        logger.warning(f"Error pulling from remote repository: {e.stderr}")
-        except Exception as e:
-            logger.warning(f"Error pulling changes before Aider call: {str(e)}")
+        perform_git_operations_in_temp_dir(kin_path, operation="pull")
     
     # Build the command
     cmd = ["aider", "--sonnet", "--yes-always", f"--anthropic-api-key={api_key}", "--message", str(message_content)]
@@ -352,117 +510,9 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                 # If repository is linked, push changes after Aider call
                 if is_repo_linked:
                     logger.info("Repository is linked. Pushing changes after Aider call...")
-                    try:
-                        # Find Git executable
-                        git_exe = find_git_executable()
-                        if not git_exe:
-                            logger.warning("Git executable not found, cannot push changes")
-                            yield "Git executable not found, cannot push changes"
-                            return  # Exit the generator instead of continue
-                        
-                        # Special handling for shell=True case
-                        use_shell = (git_exe == "git_with_shell")
-                        
-                        if use_shell:
-                            # Use shell=True for all git commands
-                            subprocess.run(
-                                "git add .",
-                                cwd=kin_path,
-                                check=True,
-                                capture_output=True,
-                                text=True,
-                                shell=True
-                            )
-                            
-                            # Commit changes if there are any
-                            try:
-                                subprocess.run(
-                                    "git commit -m \"Auto-commit after Aider call\"",
-                                    cwd=kin_path,
-                                    check=True,
-                                    capture_output=True,
-                                    text=True,
-                                    shell=True
-                                )
-                                logger.info("Changes committed after Aider call")
-                            except subprocess.CalledProcessError:
-                                # No changes to commit is not an error
-                                logger.info("No changes to commit after Aider call")
-                            
-                            # Push changes
-                            try:
-                                subprocess.run(
-                                    "git push origin master",
-                                    cwd=kin_path,
-                                    check=True,
-                                    capture_output=True,
-                                    text=True,
-                                    shell=True
-                                )
-                                logger.info("Changes pushed to remote repository after Aider call")
-                            except subprocess.CalledProcessError:
-                                # Try with main branch if master fails
-                                try:
-                                    subprocess.run(
-                                        "git push origin main",
-                                        cwd=kin_path,
-                                        check=True,
-                                        capture_output=True,
-                                        text=True,
-                                        shell=True
-                                    )
-                                    logger.info("Changes pushed to remote repository (main branch) after Aider call")
-                                except subprocess.CalledProcessError as e:
-                                    logger.warning(f"Error pushing to remote repository: {e}")
-                        else:
-                            # Use the normal approach with the git executable
-                            subprocess.run(
-                                [git_exe, "add", "."],
-                                cwd=kin_path,
-                                check=True,
-                                capture_output=True,
-                                text=True
-                            )
-                            
-                            # Commit changes if there are any
-                            try:
-                                subprocess.run(
-                                    [git_exe, "commit", "-m", "Auto-commit after Aider call"],
-                                    cwd=kin_path,
-                                    check=True,
-                                    capture_output=True,
-                                    text=True
-                                )
-                                logger.info("Changes committed after Aider call")
-                            except subprocess.CalledProcessError:
-                                # No changes to commit is not an error
-                                logger.info("No changes to commit after Aider call")
-                            
-                            # Push changes
-                            try:
-                                subprocess.run(
-                                    [git_exe, "push", "origin", "master"],
-                                    cwd=kin_path,
-                                    check=True,
-                                    capture_output=True,
-                                    text=True
-                                )
-                                logger.info("Changes pushed to remote repository after Aider call")
-                            except subprocess.CalledProcessError:
-                                # Try with main branch if master fails
-                                try:
-                                    subprocess.run(
-                                        [git_exe, "push", "origin", "main"],
-                                        cwd=kin_path,
-                                        check=True,
-                                        capture_output=True,
-                                        text=True
-                                    )
-                                    logger.info("Changes pushed to remote repository (main branch) after Aider call")
-                                except subprocess.CalledProcessError as e:
-                                    logger.warning(f"Error pushing to remote repository: {e.stderr}")
-                    except Exception as e:
-                        logger.warning(f"Error pushing changes after Aider call: {str(e)}")
+                    success = perform_git_operations_in_temp_dir(kin_path, operation="push")
+                    if not success:
+                        yield "Warning: Failed to push changes to remote repository"
                 
                 # If there was an error, yield it as well
                 if stderr_output:
@@ -501,116 +551,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             # If repository is linked, push changes after Aider call
             if is_repo_linked:
                 logger.info("Repository is linked. Pushing changes after Aider call...")
-                try:
-                    # Find Git executable
-                    git_exe = find_git_executable()
-                    if not git_exe:
-                        logger.warning("Git executable not found, cannot push changes")
-                        return result.stdout  # Return early if Git not found
-                    
-                    # Special handling for shell=True case
-                    use_shell = (git_exe == "git_with_shell")
-                    
-                    if use_shell:
-                        # Use shell=True for all git commands
-                        subprocess.run(
-                            "git add .",
-                            cwd=kin_path,
-                            check=True,
-                            capture_output=True,
-                            text=True,
-                            shell=True
-                        )
-                        
-                        # Commit changes if there are any
-                        try:
-                            subprocess.run(
-                                "git commit -m \"Auto-commit after Aider call\"",
-                                cwd=kin_path,
-                                check=True,
-                                capture_output=True,
-                                text=True,
-                                shell=True
-                            )
-                            logger.info("Changes committed after Aider call")
-                        except subprocess.CalledProcessError:
-                            # No changes to commit is not an error
-                            logger.info("No changes to commit after Aider call")
-                        
-                        # Push changes
-                        try:
-                            subprocess.run(
-                                "git push origin master",
-                                cwd=kin_path,
-                                check=True,
-                                capture_output=True,
-                                text=True,
-                                shell=True
-                            )
-                            logger.info("Changes pushed to remote repository after Aider call")
-                        except subprocess.CalledProcessError:
-                            # Try with main branch if master fails
-                            try:
-                                subprocess.run(
-                                    "git push origin main",
-                                    cwd=kin_path,
-                                    check=True,
-                                    capture_output=True,
-                                    text=True,
-                                    shell=True
-                                )
-                                logger.info("Changes pushed to remote repository (main branch) after Aider call")
-                            except subprocess.CalledProcessError as e:
-                                logger.warning(f"Error pushing to remote repository: {e}")
-                    else:
-                        # Use the normal approach with the git executable
-                        subprocess.run(
-                            [git_exe, "add", "."],
-                            cwd=kin_path,
-                            check=True,
-                            capture_output=True,
-                            text=True
-                        )
-                        
-                        # Commit changes if there are any
-                        try:
-                            subprocess.run(
-                                [git_exe, "commit", "-m", "Auto-commit after Aider call"],
-                                cwd=kin_path,
-                                check=True,
-                                capture_output=True,
-                                text=True
-                            )
-                            logger.info("Changes committed after Aider call")
-                        except subprocess.CalledProcessError:
-                            # No changes to commit is not an error
-                            logger.info("No changes to commit after Aider call")
-                        
-                        # Push changes
-                        try:
-                            subprocess.run(
-                                [git_exe, "push", "origin", "master"],
-                                cwd=kin_path,
-                                check=True,
-                                capture_output=True,
-                                text=True
-                            )
-                            logger.info("Changes pushed to remote repository after Aider call")
-                        except subprocess.CalledProcessError:
-                            # Try with main branch if master fails
-                            try:
-                                subprocess.run(
-                                    [git_exe, "push", "origin", "main"],
-                                    cwd=kin_path,
-                                    check=True,
-                                    capture_output=True,
-                                    text=True
-                                )
-                                logger.info("Changes pushed to remote repository (main branch) after Aider call")
-                            except subprocess.CalledProcessError as e:
-                                logger.warning(f"Error pushing to remote repository: {e.stderr}")
-                except Exception as e:
-                    logger.warning(f"Error pushing changes after Aider call: {str(e)}")
+                perform_git_operations_in_temp_dir(kin_path, operation="push")
             
             # Return the stdout from Aider
             return result.stdout
