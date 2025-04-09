@@ -26,8 +26,15 @@ services:
       git --version || echo "Git version command failed"
       echo "Installing git if needed..."
       apt-get update && apt-get install -y git curl
+      echo "Creating git symlinks in common locations..."
+      ln -sf $(which git) /usr/local/bin/git
+      ln -sf $(which git) /usr/bin/git
+      mkdir -p /opt/render/bin /opt/render/project/bin
+      ln -sf $(which git) /opt/render/bin/git
+      ln -sf $(which git) /opt/render/project/bin/git
       echo "Verifying git installation..."
       git --version
+      echo "Git location: $(which git)"
   
   - type: web
     name: kinos10
