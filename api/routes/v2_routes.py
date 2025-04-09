@@ -1353,6 +1353,56 @@ def check_website_status_v2(blueprint, kin_id):
         logger.error(f"Error checking website status: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/link-repo', methods=['POST'])
+def link_repository_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to link a kin to a GitHub repository.
+    
+    Request Body:
+    {
+        "github_url": "https://github.com/username/repo",
+        "token": "optional_github_token"  // Optional
+    }
+    """
+    try:
+        # Parse request data
+        data = request.json
+        github_url = data.get('github_url')
+        token = data.get('token')
+        
+        # Validate required parameters
+        if not github_url:
+            return jsonify({"error": "GitHub URL is required"}), 400
+            
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Import the link_repository function from linkrepo.py
+        from linkrepo import link_repository
+        
+        # Link the repository
+        success = link_repository(kin_path, github_url, token)
+        
+        if success:
+            return jsonify({
+                "status": "success",
+                "message": f"Kin '{kin_id}' linked to GitHub repository: {github_url}",
+                "blueprint": blueprint,
+                "kin_id": kin_id,
+                "github_url": github_url
+            })
+        else:
+            return jsonify({"error": "Failed to link repository"}), 500
+            
+    except Exception as e:
+        logger.error(f"Error linking repository: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @v2_bp.route('/<path:undefined_route>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def catch_all_v2(undefined_route):
     """Catch-all route for undefined v2 API endpoints."""
