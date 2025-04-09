@@ -102,6 +102,10 @@ def copy_nextjs_template(website_dir):
     Returns:
         Boolean indicating success
     """
+    # Force using the basic template
+    logger.info("Using basic Next.js template")
+    return create_basic_nextjs_template(website_dir)
+    
     # Path to the Next.js template
     # This should be in the script's directory under templates/nextjs
     script_dir = os.path.dirname(os.path.abspath(__file__))
