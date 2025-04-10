@@ -324,6 +324,7 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
         character = data.get('character', '')
         token = data.get('token', '')  # Can be used for authentication in the future
         model = data.get('model', '')  # Optional model parameter
+        provider = data.get('provider')  # Optional provider parameter
         history_length = data.get('history_length', 25)  # Default to 25 messages
         addSystem = data.get('addSystem', None)  # Optional additional system instructions
         
@@ -641,7 +642,7 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
                 addSystem=addSystem,
                 mode=selected_mode,  # Pass the selected mode
                 channel_messages=channel_context,  # Pass channel-specific messages
-                provider=provider  # Pass the provider
+                provider=data.get('provider')  # Pass the provider
             )
             
             # Create assistant message object
@@ -672,7 +673,7 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
                         selected_files, 
                         message_content, 
                         addSystem=addSystem,
-                        provider=provider,
+                        provider=data.get('provider'),
                         model=model
                     )
                     logger.info("Aider processing completed")
