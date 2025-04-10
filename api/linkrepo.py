@@ -778,31 +778,134 @@ def sync_repository(kin_path):
             # There are changes to pull
             logger.info(f"Changes to pull: {changes_to_pull}")
             
+            # Before attempting to pull, stash any local changes
+            logger.info("Stashing local changes before pull...")
+            try:
+                if use_shell:
+                    stash_cmd = subprocess.run(
+                        "git stash",
+                        cwd=kin_path,
+                        check=True,
+                        capture_output=True,
+                        text=True,
+                        shell=True
+                    )
+                else:
+                    stash_cmd = subprocess.run(
+                        [git_exe, "stash"],
+                        cwd=kin_path,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                logger.info(f"Stash result: {stash_cmd.stdout}")
+            except Exception as e:
+                logger.warning(f"Error stashing changes: {str(e)}")
+            
             # Pull changes with force flag
             logger.info(f"Pulling changes from remote...")
-            if use_shell:
-                pull_cmd = subprocess.run(
-                    f"git pull --force origin {current_branch}",
-                    cwd=kin_path,
-                    check=True,
-                    capture_output=True,
-                    text=True,
-                    shell=True
-                )
-            else:
-                pull_cmd = subprocess.run(
-                    [git_exe, "pull", "--force", "origin", current_branch],
-                    cwd=kin_path,
-                    check=True,
-                    capture_output=True,
-                    text=True
-                )
-            result["operations"].append({
-                "operation": "pull", 
-                "status": "success",
-                "files_changed": changes_to_pull.count('\n') + 1 if changes_to_pull else 0,
-                "message": "Changes pulled successfully"
-            })
+            try:
+                if use_shell:
+                    pull_cmd = subprocess.run(
+                        f"git pull --force origin {current_branch}",
+                        cwd=kin_path,
+                        check=True,
+                        capture_output=True,
+                        text=True,
+                        shell=True
+                    )
+                else:
+                    pull_cmd = subprocess.run(
+                        [git_exe, "pull", "--force", "origin", current_branch],
+                        cwd=kin_path,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                result["operations"].append({
+                    "operation": "pull", 
+                    "status": "success",
+                    "files_changed": changes_to_pull.count('\n') + 1 if changes_to_pull else 0,
+                    "message": "Changes pulled successfully"
+                })
+            except subprocess.CalledProcessError as e:
+                logger.warning(f"Pull failed: {e.stderr}")
+                
+                # If pull fails, reset to origin and force our changes
+                logger.info("Pull failed, resetting to origin and forcing our changes...")
+                try:
+                    # Fetch the latest from origin
+                    if use_shell:
+                        subprocess.run(
+                            f"git fetch origin {current_branch}",
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True,
+                            shell=True
+                        )
+                    else:
+                        subprocess.run(
+                            [git_exe, "fetch", "origin", current_branch],
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                    
+                    # Reset to origin/branch but keep our changes
+                    if use_shell:
+                        subprocess.run(
+                            f"git reset --soft origin/{current_branch}",
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True,
+                            shell=True
+                        )
+                    else:
+                        subprocess.run(
+                            [git_exe, "reset", "--soft", f"origin/{current_branch}"],
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                    
+                    result["operations"].append({
+                        "operation": "pull", 
+                        "status": "success",
+                        "files_changed": changes_to_pull.count('\n') + 1 if changes_to_pull else 0,
+                        "message": "Reset to origin and kept our changes"
+                    })
+                except Exception as reset_error:
+                    logger.error(f"Error resetting to origin: {str(reset_error)}")
+                    result["operations"].append({
+                        "operation": "pull", 
+                        "status": "error",
+                        "message": f"Failed to pull changes: {e.stderr}"
+                    })
+            
+            # Try to apply stashed changes if any
+            try:
+                if use_shell:
+                    stash_apply_cmd = subprocess.run(
+                        "git stash apply",
+                        cwd=kin_path,
+                        capture_output=True,
+                        text=True,
+                        shell=True
+                    )
+                else:
+                    stash_apply_cmd = subprocess.run(
+                        [git_exe, "stash", "apply"],
+                        cwd=kin_path,
+                        capture_output=True,
+                        text=True
+                    )
+                logger.info(f"Stash apply result: {stash_apply_cmd.stdout}")
+            except Exception as e:
+                logger.warning(f"Error applying stashed changes (this is normal if there were no stashed changes): {str(e)}")
         else:
             logger.info("No changes to pull")
             result["operations"].append({
