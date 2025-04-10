@@ -460,29 +460,29 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                                     # No changes to commit is not an error
                                     logger.info("No changes to commit after Aider call")
                                 
-                                # Push changes
+                                # Push changes with force flag
                                 try:
                                     subprocess.run(
-                                        "git push origin master",
+                                        "git push --force origin master",
                                         cwd=kin_path,
                                         check=True,
                                         capture_output=True,
                                         text=True,
                                         shell=True
                                     )
-                                    logger.info("Changes pushed to remote repository after Aider call")
+                                    logger.info("Changes force-pushed to remote repository after Aider call")
                                 except subprocess.CalledProcessError:
                                     # Try with main branch if master fails
                                     try:
                                         subprocess.run(
-                                            "git push origin main",
+                                            "git push --force origin main",
                                             cwd=kin_path,
                                             check=True,
                                             capture_output=True,
                                             text=True,
                                             shell=True
                                         )
-                                        logger.info("Changes pushed to remote repository (main branch) after Aider call")
+                                        logger.info("Changes force-pushed to remote repository (main branch) after Aider call")
                                     except subprocess.CalledProcessError as e:
                                         logger.warning(f"Error pushing to remote repository: {e.stderr}")
                                         yield "Warning: Failed to push changes to remote repository"
@@ -496,6 +496,31 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                                     text=True
                                 )
                                 logger.info("Configured Git to use merge strategy for pulls")
+                                
+                                # Configure Git to prioritize our changes in merges
+                                subprocess.run(
+                                    [git_exe, "config", "merge.ours.driver", "true"],
+                                    cwd=kin_path,
+                                    check=True,
+                                    capture_output=True,
+                                    text=True
+                                )
+                                logger.info("Configured Git to prioritize our changes in merges")
+                                
+                                # Create a .gitattributes file to use the ours merge driver for conflicts
+                                gitattributes_path = os.path.join(kin_path, ".gitattributes")
+                                with open(gitattributes_path, 'w') as f:
+                                    f.write("* merge=ours\n")
+                                logger.info("Created .gitattributes file to prioritize our changes")
+                                
+                                # Add the .gitattributes file to the repository
+                                subprocess.run(
+                                    [git_exe, "add", ".gitattributes"],
+                                    cwd=kin_path,
+                                    check=True,
+                                    capture_output=True,
+                                    text=True
+                                )
                                 
                                 # Use the normal approach with the git executable
                                 subprocess.run(
@@ -520,27 +545,27 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                                     # No changes to commit is not an error
                                     logger.info("No changes to commit after Aider call")
                                 
-                                # Push changes
+                                # Push changes with force flag
                                 try:
                                     subprocess.run(
-                                        [git_exe, "push", "origin", "master"],
+                                        [git_exe, "push", "--force", "origin", "master"],
                                         cwd=kin_path,
                                         check=True,
                                         capture_output=True,
                                         text=True
                                     )
-                                    logger.info("Changes pushed to remote repository after Aider call")
+                                    logger.info("Changes force-pushed to remote repository after Aider call")
                                 except subprocess.CalledProcessError:
                                     # Try with main branch if master fails
                                     try:
                                         subprocess.run(
-                                            [git_exe, "push", "origin", "main"],
+                                            [git_exe, "push", "--force", "origin", "main"],
                                             cwd=kin_path,
                                             check=True,
                                             capture_output=True,
                                             text=True
                                         )
-                                        logger.info("Changes pushed to remote repository (main branch) after Aider call")
+                                        logger.info("Changes force-pushed to remote repository (main branch) after Aider call")
                                     except subprocess.CalledProcessError as e:
                                         logger.warning(f"Error pushing to remote repository: {e.stderr}")
                                         yield "Warning: Failed to push changes to remote repository"
@@ -606,6 +631,33 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                             shell=True
                         )
                         logger.info("Configured Git to use merge strategy for pulls (shell mode)")
+                        
+                        # Configure Git to prioritize our changes in merges
+                        subprocess.run(
+                            "git config merge.ours.driver true",
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True,
+                            shell=True
+                        )
+                        logger.info("Configured Git to prioritize our changes in merges (shell mode)")
+                        
+                        # Create a .gitattributes file to use the ours merge driver for conflicts
+                        gitattributes_path = os.path.join(kin_path, ".gitattributes")
+                        with open(gitattributes_path, 'w') as f:
+                            f.write("* merge=ours\n")
+                        logger.info("Created .gitattributes file to prioritize our changes")
+                        
+                        # Add the .gitattributes file to the repository
+                        subprocess.run(
+                            "git add .gitattributes",
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True,
+                            shell=True
+                        )
                         
                         # Use shell=True for all git commands
                         subprocess.run(

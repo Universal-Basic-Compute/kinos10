@@ -457,11 +457,36 @@ def link_repository(kin_path, github_url, token=None, username=None):
                 text=True
             )
         
-        # Push to remote
-        logger.info("Pushing changes to GitHub repository")
+        # Configure Git to prioritize our changes in merges
+        subprocess.run(
+            ["git", "config", "merge.ours.driver", "true"],
+            cwd=kin_path,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        logger.info("Configured Git to prioritize our changes in merges")
+        
+        # Create a .gitattributes file to use the ours merge driver for conflicts
+        gitattributes_path = os.path.join(kin_path, ".gitattributes")
+        with open(gitattributes_path, 'w') as f:
+            f.write("* merge=ours\n")
+        logger.info("Created .gitattributes file to prioritize our changes")
+        
+        # Add the .gitattributes file to the repository
+        subprocess.run(
+            ["git", "add", ".gitattributes"],
+            cwd=kin_path,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        
+        # Push to remote with force flag
+        logger.info("Force-pushing changes to GitHub repository")
         try:
             subprocess.run(
-                ["git", "push", "-u", "origin", "master"],
+                ["git", "push", "--force", "-u", "origin", "master"],
                 cwd=kin_path,
                 check=True,
                 capture_output=True,
@@ -471,7 +496,7 @@ def link_repository(kin_path, github_url, token=None, username=None):
             # Try with 'main' branch if 'master' fails
             logger.info("Push to 'master' failed, trying 'main' branch")
             subprocess.run(
-                ["git", "push", "-u", "origin", "main"],
+                ["git", "push", "--force", "-u", "origin", "main"],
                 cwd=kin_path,
                 check=True,
                 capture_output=True,
