@@ -1,0 +1,282 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-20",
+  "debateFramework": {
+    "structure": {
+      "format": {
+        "openingStatements": {
+          "description": "Initial presentation of positions",
+          "timeAllocation": "5-10 minutes per participant",
+          "components": [
+            "Current design approach and rationale (COSMOS)",
+            "Critique and alternative proposal (ATLAS)"
+          ]
+        },
+        "structuredDiscussion": {
+          "description": "Point-counterpoint exchange of arguments",
+          "timeAllocation": "20-30 minutes",
+          "components": [
+            "Timed responses to specific points",
+            "Evidence-based reasoning requirements",
+            "Steelmanning of opposing positions"
+          ]
+        },
+        "synthesisPhase": {
+          "description": "Identification of agreements and remaining differences",
+          "timeAllocation": "10-15 minutes",
+          "components": [
+            "Documentation of areas of agreement",
+            "Clarification of remaining disagreements",
+            "Development of potential compromise positions"
+          ]
+        },
+        "actionItems": {
+          "description": "Concrete next steps and assignments",
+          "timeAllocation": "5 minutes",
+          "components": [
+            "Specific follow-up tasks",
+            "Assignment of responsibilities",
+            "Timeline for implementation or next discussion"
+          ]
+        }
+      },
+      "documentation": {
+        "required": [
+          "Key positions from both sides",
+          "Main arguments and counterarguments presented",
+          "Areas of agreement and resolution",
+          "Open questions requiring further research",
+          "Action items with assignees and status"
+        ],
+        "format": "Structured JSON following the pattern in memory/debates/token_stability.json",
+        "responsibility": "Assigned documentarian with review by both ATLAS and COSMOS representatives"
+      },
+      "moderation": {
+        "role": "Neutral third party to ensure productive debate",
+        "responsibilities": [
+          "Ensure balanced speaking time",
+          "Keep discussions focused on the topic",
+          "Enforce the principle of steelmanning",
+          "Intervene if discussion becomes unproductive",
+          "Summarize key points at transition between phases"
+        ]
+      }
+    },
+    "topicCategories": {
+      "economicDesign": {
+        "description": "Topics related to the economic mechanisms and incentives of FICTRA",
+        "priorityTopics": [
+          {
+            "id": "ECON003",
+            "title": "Reserve Backing Sustainability",
+            "priority": "Critical",
+            "relatedAlternative": "ALT003"
+          },
+          {
+            "id": "ECON001",
+            "title": "Stability Mechanism Complexity Risk",
+            "priority": "High",
+            "relatedAlternative": "ALT002"
+          },
+          {
+            "id": "ECON002",
+            "title": "Foundation Token Allocation Centralization",
+            "priority": "High",
+            "relatedAlternative": "ALT004"
+          },
+          {
+            "id": "ECON006",
+            "title": "Oracle Network Economic Incentives",
+            "priority": "High",
+            "relatedAlternative": "ALT001"
+          }
+        ]
+      },
+      "technicalDesign": {
+        "description": "Topics related to the technical architecture and implementation of FICTRA",
+        "priorityTopics": [
+          {
+            "id": "VERIF001",
+            "title": "Oracle Network Centralization Risk",
+            "priority": "High",
+            "relatedAlternative": "ALT006"
+          },
+          {
+            "id": "VERIF002",
+            "title": "Physical-Digital Verification Gap",
+            "priority": "High",
+            "relatedAlternative": "ALT007"
+          },
+          {
+            "id": "VERIF005",
+            "title": "Verification Data Privacy Concerns",
+            "priority": "Medium",
+            "relatedAlternative": "ALT008"
+          }
+        ]
+      },
+      "governanceDesign": {
+        "description": "Topics related to the governance structure and processes of FICTRA",
+        "priorityTopics": [
+          {
+            "id": "GOV001",
+            "title": "Governance Centralization Risk",
+            "priority": "High",
+            "relatedAlternative": "ALT009"
+          },
+          {
+            "id": "GOV003",
+            "title": "Governance Transparency Limitations",
+            "priority": "Medium",
+            "relatedAlternative": "ALT010"
+          },
+          {
+            "id": "GOV005",
+            "title": "Governance Capture by Technical Experts",
+            "priority": "Medium",
+            "relatedAlternative": "ALT011"
+          }
+        ]
+      }
+    },
+    "implementationPlan": {
+      "phase1": {
+        "description": "Priority Topic Selection and Initial Debates",
+        "topics": [
+          {
+            "topic": "Reserve Backing Sustainability",
+            "critiques": ["ECON003"],
+            "alternatives": ["ALT003"],
+            "evidence": ["ACAD003", "HIST001"],
+            "scheduledDate": "TBD"
+          },
+          {
+            "topic": "Stability Mechanism Complexity",
+            "critiques": ["ECON001", "ECON007"],
+            "alternatives": ["ALT002"],
+            "evidence": ["ACAD003", "HIST001"],
+            "scheduledDate": "TBD"
+          },
+          {
+            "topic": "Foundation Token Allocation",
+            "critiques": ["ECON002", "ECON005"],
+            "alternatives": ["ALT004"],
+            "evidence": ["ACAD005"],
+            "scheduledDate": "TBD"
+          },
+          {
+            "topic": "Oracle Network Centralization",
+            "critiques": ["VERIF001"],
+            "alternatives": ["ALT006"],
+            "evidence": ["ACAD001", "HIST003"],
+            "scheduledDate": "TBD"
+          }
+        ]
+      },
+      "phase2": {
+        "description": "Secondary Topics and Follow-up Debates",
+        "topics": [
+          {
+            "topic": "Physical-Digital Verification Gap",
+            "critiques": ["VERIF002", "VERIF004"],
+            "alternatives": ["ALT007"],
+            "evidence": ["ACAD001"],
+            "scheduledDate": "TBD"
+          },
+          {
+            "topic": "Governance Centralization",
+            "critiques": ["GOV001", "GOV002"],
+            "alternatives": ["ALT009"],
+            "evidence": ["ACAD002", "HIST004"],
+            "scheduledDate": "TBD"
+          },
+          {
+            "topic": "Verification Economics",
+            "critiques": ["ECON004", "ECON006"],
+            "alternatives": ["ALT001"],
+            "evidence": ["ACAD004"],
+            "scheduledDate": "TBD"
+          }
+        ]
+      },
+      "phase3": {
+        "description": "Integration and Implementation Review",
+        "activities": [
+          "Review of implemented changes from Phase 1 debates",
+          "Assessment of effectiveness of changes",
+          "Adjustment of implementation based on real-world performance",
+          "Documentation of lessons learned for future design iterations"
+        ]
+      }
+    },
+    "debatePreparation": {
+      "requiredMaterials": {
+        "atlas": [
+          "Relevant critique documentation",
+          "Alternative proposal specifications",
+          "Supporting evidence (academic research, historical precedents)",
+          "Previous debate outcomes on related topics"
+        ],
+        "cosmos": [
+          "Current design documentation for the topic",
+          "Rationale for current approach",
+          "Data supporting current design decisions",
+          "Potential implementation challenges for alternatives"
+        ],
+        "shared": [
+          "Agenda and specific questions to be addressed",
+          "Relevant background materials for context",
+          "Previous agreements on related topics"
+        ]
+      },
+      "participantRoles": {
+        "primaryDebaters": {
+          "atlas": "Lead critic for the specific topic",
+          "cosmos": "Lead designer for the specific component"
+        },
+        "supportRoles": {
+          "moderator": "Neutral third party to facilitate discussion",
+          "subjectMatterExperts": "Specialists who can provide technical context",
+          "decisionMakers": "Those with authority to approve implementation",
+          "documentarian": "Responsible for recording debate outcomes"
+        }
+      },
+      "timelineGuidelines": {
+        "materialDistribution": "At least 3 days before scheduled debate",
+        "preliminaryQuestions": "Submitted 2 days before debate",
+        "debateDuration": "45-60 minutes total",
+        "documentationCompletion": "Within 2 days after debate",
+        "actionItemFollowup": "Weekly status updates on assigned tasks"
+      }
+    },
+    "exampleDebate": {
+      "topic": "Reserve Backing Sustainability",
+      "preDebateMaterials": [
+        "ATLAS critique ECON003",
+        "ATLAS alternative proposal ALT003",
+        "COSMOS current reserve model documentation",
+        "Academic research on reserve requirements (ACAD003)",
+        "Historical precedent of Terra/Luna collapse (HIST001)"
+      ],
+      "agenda": {
+        "openingStatements": {
+          "cosmos": "Presentation of current reserve reduction plan and rationale",
+          "atlas": "Presentation of critique and Dynamic Reserve Framework alternative"
+        },
+        "keyDiscussionPoints": [
+          "Minimum viable reserve ratios during market crises",
+          "Risk-based adjustment mechanisms and their implementation",
+          "Counter-cyclical reserve accumulation approach",
+          "Implementation feasibility and transition planning",
+          "Regulatory considerations for reserve management"
+        ],
+        "potentialCompromiseAreas": [
+          "Higher minimum reserve floor than current plan",
+          "Phased implementation of dynamic components",
+          "Enhanced transparency around reserve composition",
+          "More explicit risk metrics for adjustment triggers"
+        ]
+      }
+    }
+  }
+}

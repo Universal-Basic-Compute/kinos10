@@ -13,7 +13,8 @@
     "critique",
     "debate",
     "alternative",
-    "analysis"
+    "analysis",
+    "structured_debate"
   ],
   "memoryStructure": "memory/structure.json",
   "features": {
