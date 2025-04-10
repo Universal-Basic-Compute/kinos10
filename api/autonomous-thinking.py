@@ -429,7 +429,7 @@ The question should be 1-2 sentences.""",
         logger.error(f"Error in initiative generation: {str(e)}")
         return None
 
-def generate_random_thought(blueprint, kin_id, api_key, remote=False):
+def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=None, model=None):
     """
     Generate a random thought using the three-stage process:
     1. Extract keywords from messages and files
@@ -441,6 +441,8 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False):
         kin_id: Kin ID
         api_key: API key for authentication
         remote: Whether to use remote API instead of localhost (default: False)
+        provider: Optional LLM provider to use ("claude" or "openai")
+        model: Optional model to use
     
     Returns:
         A random thought as a string
@@ -449,8 +451,13 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False):
     kin_path = get_kin_path(blueprint, kin_id)
     
     try:
-        # Get Anthropic client
-        client = get_anthropic_client()
+        # Get appropriate LLM client based on provider
+        if provider == "openai":
+            from services.llm_service import LLMProvider
+            client = LLMProvider.get_provider("openai")
+        else:
+            # Default to Claude
+            client = get_anthropic_client()
         
         # Get random files from the kin
         random_files = get_random_files(kin_path, count=3)
@@ -483,7 +490,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False):
         logger.error(f"Error in thought generation process: {str(e)}")
         return "I wonder about the nature of consciousness and my role in understanding it."
 
-def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False):
+def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False, provider=None, model=None):
     """
     Send a message to the kin by calling the function directly.
     
@@ -493,6 +500,8 @@ def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False):
         message: Message content
         mode: Message mode (optional)
         remote: Whether to use remote API instead of localhost (default: False)
+        provider: Optional LLM provider to use ("claude" or "openai")
+        model: Optional model to use
     
     Returns:
         The response from the kin
@@ -518,10 +527,18 @@ def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False):
             "X-API-Key": api_key
         }
         
+        # Determine model to use
+        model_to_use = model or "claude-3-7-sonnet-latest"
+        
         payload = {
             "content": message,
-            "model": "claude-3-7-sonnet-latest"  # Use the big model
+            "model": model_to_use
         }
+        
+        # Add provider if specified
+        if provider:
+            payload["provider"] = provider
+            
         if mode:  # Add mode only if specified
             payload["mode"] = mode
             
@@ -617,7 +634,7 @@ def send_telegram_notification(token, chat_id, thought, response):
         logger.error(f"Error sending Telegram notification: {str(e)}")
         return False
 
-def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id=None, iterations=3, wait_time=600, remote=False):
+def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id=None, iterations=3, wait_time=600, remote=False, provider=None, model=None):
     """
     Run the autonomous thinking process for a kin.
     
@@ -629,6 +646,8 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
         iterations: Number of thinking iterations (default: 3)
         wait_time: Wait time between iterations in seconds (default: 600 = 10 minutes)
         remote: Whether to use remote API instead of localhost (default: False)
+        provider: Optional LLM provider to use ("claude" or "openai")
+        model: Optional model to use
     
     Returns:
         Boolean indicating success
@@ -650,7 +669,7 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
 
     # Generate the initial random thought
     logger.info(f"Generating initial random thought for {blueprint}/{kin_id}")
-    current_thought = generate_random_thought(blueprint, kin_id, api_key, remote=remote)
+    current_thought = generate_random_thought(blueprint, kin_id, api_key, remote=remote, provider=provider, model=model)
     
     # Run the thinking iterations
     for i in range(iterations):
@@ -661,11 +680,11 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
             # For the first iteration, send the random thought directly
             if i == 0:
                 # Send message to kin
-                response = send_message_to_kin(blueprint, kin_id, current_thought, mode="self-reflection", remote=remote)
+                response = send_message_to_kin(blueprint, kin_id, current_thought, mode="self-reflection", remote=remote, provider=provider, model=model)
             else:
                 # For subsequent iterations, send a message with the continuation prompt
                 # Include <system> tags in the actual message content, not as a separate system parameter
-                response = send_message_to_kin(blueprint, kin_id, "<system>Continue your thoughts</system>", mode="self-reflection")
+                response = send_message_to_kin(blueprint, kin_id, "<system>Continue your thoughts</system>", mode="self-reflection", provider=provider, model=model)
             
             # Send Telegram notification
             if telegram_token and telegram_chat_id:
@@ -696,7 +715,7 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
                 random_files = get_random_files(kin_path, count=3)
                 logger.info(f"Selected new random files after error: {random_files}")
                 # Use the api_key we got at the start of the function
-                current_thought = generate_random_thought(blueprint, kin_id, api_key, remote=remote)
+                current_thought = generate_random_thought(blueprint, kin_id, api_key, remote=remote, provider=provider, model=model)
     
     logger.info(f"Completed {iterations} autonomous thinking iterations")
     return True
@@ -711,6 +730,8 @@ def main():
     parser.add_argument("--wait-time", type=int, default=600, help="Wait time between iterations in seconds (default: 600 = 10 minutes)")
     parser.add_argument("--remote", action="store_true", help="Use remote API instead of localhost")
     parser.add_argument("--api-url", help="Base URL for API calls (default: uses direct function calls)")
+    parser.add_argument("--provider", help="LLM provider to use (claude or openai)")
+    parser.add_argument("--model", help="Specific model to use")
     
     args = parser.parse_args()
     
@@ -740,7 +761,9 @@ def main():
             telegram_chat_id,
             args.iterations,
             args.wait_time,
-            remote=args.remote
+            remote=args.remote,
+            provider=args.provider,
+            model=args.model
         )
         
         return 0 if success else 1

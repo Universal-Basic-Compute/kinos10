@@ -239,6 +239,8 @@ def build_kin(blueprint, kin_id):
             addSystem = request.args.get('addSystem')
             min_files = request.args.get('min_files', 5)
             max_files = request.args.get('max_files', 15)
+            provider = request.args.get('provider')
+            model = request.args.get('model')
             attachments = []
             
             # Create a data dict to match POST format
@@ -247,7 +249,9 @@ def build_kin(blueprint, kin_id):
                 'addSystem': addSystem,
                 'min_files': min_files,
                 'max_files': max_files,
-                'attachments': attachments
+                'attachments': attachments,
+                'provider': provider,
+                'model': model
             }
         else:  # POST
             # Parse request data
@@ -259,6 +263,8 @@ def build_kin(blueprint, kin_id):
             # Get optional fields
             addSystem = data.get('addSystem', None)  # Optional additional system instructions
             attachments = data.get('attachments', [])
+            provider = data.get('provider')  # Optional provider parameter
+            model = data.get('model')  # Optional model parameter
             
             # Get optional parameters for context building
             min_files = data.get('min_files', 5)  # Default to 5
@@ -293,12 +299,13 @@ def build_kin(blueprint, kin_id):
             message_content, 
             attachments, 
             kin_path, 
-            None, 
+            model, 
             None, 
             addSystem, 
             history_length=2,
             min_files=min_files,
-            max_files=max_files
+            max_files=max_files,
+            provider=provider
         )
         
         # Log the selected files
@@ -307,7 +314,14 @@ def build_kin(blueprint, kin_id):
         # Call Aider with the selected context and wait for response
         try:
             # Call Aider synchronously (not in a thread)
-            aider_response = call_aider_with_context(kin_path, selected_files, message_content, addSystem=addSystem)
+            aider_response = call_aider_with_context(
+                kin_path, 
+                selected_files, 
+                message_content, 
+                addSystem=addSystem,
+                provider=provider,
+                model=model
+            )
             logger.info("Aider processing completed")
             
             # Return the Aider response
@@ -1026,6 +1040,8 @@ def generate_kin_image(blueprint, kin_id):
         aspect_ratio = data.get('aspect_ratio', 'ASPECT_1_1')
         model = data.get('model', 'V_2')
         magic_prompt_option = data.get('magic_prompt_option', 'AUTO')
+        provider = data.get('provider')  # Optional provider parameter
+        llm_model = data.get('llm_model')  # Optional LLM model parameter
         
         # Validate required parameters
         if not message_content:
@@ -1040,7 +1056,14 @@ def generate_kin_image(blueprint, kin_id):
             return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
         
         # Build context (select relevant files)
-        selected_files, _ = build_context(blueprint, kin_id, message_content, kin_path=kin_path)
+        selected_files, _ = build_context(
+            blueprint, 
+            kin_id, 
+            message_content, 
+            kin_path=kin_path,
+            model=llm_model,
+            provider=provider
+        )
         
         # Log the selected files
         logger.info(f"Selected files for image generation context: {selected_files}")
@@ -1072,63 +1095,87 @@ def generate_kin_image(blueprint, kin_id):
         - Avoid overly complex instructions or multiple concepts
         """
         
-        # Get API key from environment variable
-        api_key = os.getenv("ANTHROPIC_API_KEY")
-        if not api_key:
-            logger.error("ANTHROPIC_API_KEY environment variable not set")
-            return jsonify({"error": "Anthropic API key not configured"}), 500
-        
-        # Make a direct HTTP request to Claude API
-        import requests
-        
-        # Prepare the request
-        url = "https://api.anthropic.com/v1/messages"
-        headers = {
-            "x-api-key": api_key,
-            "anthropic-version": "2023-06-01",
-            "content-type": "application/json"
-        }
-        
-        # Prepare the payload
-        payload = {
-            "model": "claude-3-7-sonnet-latest",
-            "max_tokens": 1024,
-            "system": context + "\n\n" + prompt_system_instructions,
-            "messages": [
-                {
+        # Determine which LLM provider to use
+        if provider == "openai" or (llm_model and llm_model.startswith("gpt-")):
+            # Use OpenAI
+            from services.llm_service import LLMProvider
+            llm_client = LLMProvider.get_provider("openai")
+            
+            # Prepare the system message
+            system_message = context + "\n\n" + prompt_system_instructions
+            
+            # Generate the prompt using OpenAI
+            image_prompt = llm_client.generate_response(
+                messages=[{
                     "role": "user", 
                     "content": f"Create a detailed image generation prompt based on this request: {message_content}"
-                }
-            ]
-        }
-        
-        logger.info("Making direct HTTP request to Claude API for image prompt generation")
-        
-        # Make the request
-        response = requests.post(url, headers=headers, json=payload)
-        
-        # Check if the request was successful
-        if response.status_code != 200:
-            logger.error(f"Claude API error: {response.status_code} - {response.text}")
-            return jsonify({"error": f"Claude API error: {response.status_code}"}), 500
-        
-        # Parse the response
-        claude_data = response.json()
-        logger.info(f"Claude API response: {claude_data}")
-        
-        # Extract the text from the response
-        if "content" in claude_data and len(claude_data["content"]) > 0:
-            for content_item in claude_data["content"]:
-                if content_item.get("type") == "text":
-                    image_prompt = content_item.get("text", "").strip()
-                    break
-            else:
-                # If no text content was found
-                logger.error("No text content found in Claude response")
-                image_prompt = message_content  # Fall back to original message
+                }],
+                system=system_message,
+                max_tokens=1024,
+                model=llm_model or "gpt-4o"
+            )
+            
+            logger.info(f"Generated image prompt using OpenAI: {image_prompt}")
+            
         else:
-            logger.error("Empty content array in Claude response")
-            image_prompt = message_content  # Fall back to original message
+            # Default to Claude
+            # Get API key from environment variable
+            api_key = os.getenv("ANTHROPIC_API_KEY")
+            if not api_key:
+                logger.error("ANTHROPIC_API_KEY environment variable not set")
+                return jsonify({"error": "Anthropic API key not configured"}), 500
+            
+            # Make a direct HTTP request to Claude API
+            import requests
+            
+            # Prepare the request
+            url = "https://api.anthropic.com/v1/messages"
+            headers = {
+                "x-api-key": api_key,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json"
+            }
+            
+            # Prepare the payload
+            payload = {
+                "model": llm_model or "claude-3-7-sonnet-latest",
+                "max_tokens": 1024,
+                "system": context + "\n\n" + prompt_system_instructions,
+                "messages": [
+                    {
+                        "role": "user", 
+                        "content": f"Create a detailed image generation prompt based on this request: {message_content}"
+                    }
+                ]
+            }
+        
+            logger.info("Making direct HTTP request to Claude API for image prompt generation")
+            
+            # Make the request
+            response = requests.post(url, headers=headers, json=payload)
+            
+            # Check if the request was successful
+            if response.status_code != 200:
+                logger.error(f"Claude API error: {response.status_code} - {response.text}")
+                return jsonify({"error": f"Claude API error: {response.status_code}"}), 500
+            
+            # Parse the response
+            claude_data = response.json()
+            logger.info(f"Claude API response: {claude_data}")
+            
+            # Extract the text from the response
+            if "content" in claude_data and len(claude_data["content"]) > 0:
+                for content_item in claude_data["content"]:
+                    if content_item.get("type") == "text":
+                        image_prompt = content_item.get("text", "").strip()
+                        break
+                else:
+                    # If no text content was found
+                    logger.error("No text content found in Claude response")
+                    image_prompt = message_content  # Fall back to original message
+            else:
+                logger.error("Empty content array in Claude response")
+                image_prompt = message_content  # Fall back to original message
         
         logger.info(f"Generated image prompt: {image_prompt}")
         

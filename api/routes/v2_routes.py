@@ -667,7 +667,14 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
             # Call Aider in parallel for file updates (don't wait for response)
             def run_aider():
                 try:
-                    aider_response = call_aider_with_context(kin_path, selected_files, message_content, addSystem=addSystem)
+                    aider_response = call_aider_with_context(
+                        kin_path, 
+                        selected_files, 
+                        message_content, 
+                        addSystem=addSystem,
+                        provider=provider,
+                        model=model
+                    )
                     logger.info("Aider processing completed")
                     # Log the complete Aider response
                     logger.info(f"Aider response: {aider_response}")

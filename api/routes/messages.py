@@ -504,7 +504,8 @@ def send_message(blueprint, kin_id):
                 history_length,
                 is_new_message=True,
                 addSystem=addSystem,
-                mode=selected_mode  # Pass the selected mode
+                mode=selected_mode,  # Pass the selected mode
+                provider=provider  # Pass the provider
             )
             
             # Create assistant message object
@@ -602,6 +603,7 @@ def analyze_message(blueprint, kin_id):
         # Get optional parameters for context building
         min_files = data.get('min_files', 5)  # Default to 5
         max_files = data.get('max_files', 15)  # Default to 15
+        provider = data.get('provider')  # Optional provider parameter
         
         # Validate the values
         try:
@@ -651,7 +653,8 @@ def analyze_message(blueprint, kin_id):
             addSystem, 
             history_length=2,
             min_files=min_files,
-            max_files=max_files
+            max_files=max_files,
+            provider=provider
         )
         
         # Log the selected files and mode
@@ -671,7 +674,7 @@ def analyze_message(blueprint, kin_id):
                 is_new_message=False,  # Don't treat as a new message
                 addSystem=addSystem,
                 mode="analysis",  # Explicitly set mode to "analysis"
-                provider=data.get('provider')  # Pass provider from request data
+                provider=provider  # Pass provider from request data
             )
             
             # Return the Claude response directly in the API response
