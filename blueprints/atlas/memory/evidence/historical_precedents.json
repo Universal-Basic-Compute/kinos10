@@ -1,0 +1,236 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "historicalPrecedents": [
+    {
+      "id": "HIST001",
+      "title": "Terra/Luna Collapse (2022)",
+      "category": "Cryptocurrency",
+      "subcategory": "Stability Mechanisms",
+      "description": "The catastrophic failure of the Terra/Luna algorithmic stablecoin system in May 2022, resulting in approximately $45 billion in value destruction.",
+      "relevantDetails": [
+        "Used algorithmic mechanisms and a dual-token system (UST and Luna) for stability",
+        "Relied on market arbitrage between tokens to maintain peg",
+        "Implemented additional reserve backing only late in development",
+        "Experienced death spiral when confidence shock led to massive selling pressure",
+        "Complex stability mechanisms failed catastrophically under market stress"
+      ],
+      "lessonsLearned": [
+        "Algorithmic stability mechanisms can fail catastrophically under extreme conditions",
+        "Market confidence is critical and can evaporate rapidly",
+        "Reserve backing is essential for weathering confidence crises",
+        "Complex interacting mechanisms can have unexpected failure modes",
+        "Theoretical models often fail to account for real-world market behavior"
+      ],
+      "relevanceToFICTRA": {
+        "stabilityMechanisms": "FICTRA's multi-layered stability approach shares some similarities with Terra's complex mechanisms",
+        "dualTokenStructure": "Both systems use dual tokens with interdependent value propositions",
+        "reserveBacking": "FICTRA's planned reduction in reserve backing could create similar vulnerabilities",
+        "marketConfidence": "Both systems rely heavily on market confidence for stability"
+      },
+      "differentiatingFactors": [
+        "FICTRA includes more substantial reserve backing than Terra initially had",
+        "FICTRA's PT is not designed to maintain a strict peg like UST",
+        "FICTRA has more diverse stability mechanisms beyond just algorithmic controls",
+        "FICTRA's tokens have utility beyond the stability mechanism itself"
+      ],
+      "sources": [
+        {
+          "title": "Terra Investigation by Chainalysis",
+          "url": "https://blog.chainalysis.com/reports/terra-luna-collapse/",
+          "accessDate": "2023-09-10"
+        },
+        {
+          "title": "Bank for International Settlements Report on Stablecoin Stability",
+          "url": "https://www.bis.org/publ/work1013.pdf",
+          "accessDate": "2023-09-15"
+        }
+      ],
+      "relatedCritiques": ["ECON001", "ECON003", "ECON007"]
+    },
+    {
+      "id": "HIST002",
+      "title": "The DAO Hack (2016)",
+      "category": "Cryptocurrency",
+      "subcategory": "Governance",
+      "description": "The 2016 exploitation of vulnerabilities in The DAO smart contract, resulting in the theft of approximately $60 million in Ethereum and leading to a contentious hard fork.",
+      "relevantDetails": [
+        "Implemented on-chain governance through token voting",
+        "Complex smart contract code with insufficient security review",
+        "Vulnerability exploited due to technical complexity and oversight",
+        "Governance response was slow and contentious",
+        "Led to Ethereum hard fork and community split"
+      ],
+      "lessonsLearned": [
+        "Governance systems need effective emergency response mechanisms",
+        "Technical complexity creates security vulnerabilities",
+        "Governance decisions under crisis are particularly challenging",
+        "Formal verification and extensive security review are essential",
+        "Governance structures need clear procedures for exceptional situations"
+      ],
+      "relevanceToFICTRA": {
+        "governanceStructure": "FICTRA's multi-layered governance shares complexity challenges with The DAO",
+        "smartContracts": "Both systems rely on complex smart contracts for core functionality",
+        "emergencyResponse": "Both need mechanisms for responding to critical situations",
+        "technicalOversight": "Both face challenges in ensuring sufficient technical review"
+      },
+      "differentiatingFactors": [
+        "FICTRA has more formalized governance structures than The DAO",
+        "FICTRA includes multiple committees rather than pure token voting",
+        "FICTRA's development timeline allows for more security review",
+        "FICTRA has the benefit of learning from The DAO's experience"
+      ],
+      "sources": [
+        {
+          "title": "SEC Report on The DAO",
+          "url": "https://www.sec.gov/litigation/investreport/34-81207.pdf",
+          "accessDate": "2023-08-20"
+        },
+        {
+          "title": "Analysis of The DAO Exploit by Phil Daian",
+          "url": "https://hackingdistributed.com/2016/06/18/analysis-of-the-dao-exploit/",
+          "accessDate": "2023-08-25"
+        }
+      ],
+      "relatedCritiques": ["GOV001", "GOV004", "GOV005"]
+    },
+    {
+      "id": "HIST003",
+      "title": "Chainlink Oracle Network Evolution",
+      "category": "Cryptocurrency",
+      "subcategory": "Verification Systems",
+      "description": "The evolution of Chainlink's oracle network from 2017 to present, including its challenges with decentralization and the practical limitations of oracle networks for physical-world data.",
+      "relevantDetails": [
+        "Began with aspirations for highly decentralized verification",
+        "Gradually evolved toward more centralized trusted node operators",
+        "Faced practical challenges in truly decentralized physical-world verification",
+        "Implemented economic security through staking and reputation",
+        "Developed specialized verification approaches for different data types"
+      ],
+      "lessonsLearned": [
+        "True decentralization in oracle networks is extremely challenging",
+        "Physical-world data verification has inherent trust requirements",
+        "Economic security and reputation systems are essential but not sufficient",
+        "Different data types require specialized verification approaches",
+        "Practical implementations often compromise on decentralization ideals"
+      ],
+      "relevanceToFICTRA": {
+        "oracleNetwork": "FICTRA's verification system faces similar decentralization challenges",
+        "physicalVerification": "Both systems attempt to bridge physical-world events to blockchain",
+        "economicIncentives": "Both use economic incentives to encourage honest reporting",
+        "trustAssumptions": "Both must manage trust assumptions in verification"
+      },
+      "differentiatingFactors": [
+        "FICTRA focuses specifically on commodity verification rather than general data",
+        "FICTRA's verification has more specific requirements for physical inspection",
+        "FICTRA's system is designed specifically for its dual-token architecture",
+        "FICTRA has the benefit of learning from Chainlink's evolution"
+      ],
+      "sources": [
+        {
+          "title": "Chainlink 2.0 Whitepaper",
+          "url": "https://research.chain.link/whitepaper-v2.pdf",
+          "accessDate": "2023-09-05"
+        },
+        {
+          "title": "Analysis of Oracle Centralization in DeFi by Trail of Bits",
+          "url": "https://blog.trailofbits.com/2020/05/21/minimizing-trust-in-oracles-the-case-for-multiple-oracles/",
+          "accessDate": "2023-09-12"
+        }
+      ],
+      "relatedCritiques": ["VERIF001", "VERIF002", "VERIF004"]
+    },
+    {
+      "id": "HIST004",
+      "title": "MakerDAO Governance Evolution",
+      "category": "Cryptocurrency",
+      "subcategory": "Governance",
+      "description": "The evolution of MakerDAO's governance system from 2017 to present, including its challenges with participation, technical complexity, and centralization tendencies.",
+      "relevantDetails": [
+        "Began with aspirations for decentralized governance through MKR token voting",
+        "Gradually evolved more complex structures including domain teams and committees",
+        "Faced challenges with voter participation and delegation",
+        "Struggled with technical complexity creating barriers to governance participation",
+        "Experienced tension between efficiency and decentralization"
+      ],
+      "lessonsLearned": [
+        "Token-based governance often leads to low participation rates",
+        "Technical complexity creates significant barriers to effective governance",
+        "Specialized knowledge requirements lead to informal power centralization",
+        "Governance structures tend to evolve toward greater complexity over time",
+        "Balancing efficiency with decentralization remains a persistent challenge"
+      ],
+      "relevanceToFICTRA": {
+        "governanceStructure": "FICTRA's multi-layered governance shares complexity challenges with MakerDAO",
+        "tokenBasedVoting": "Both use tokens (FT) as part of governance",
+        "technicalComplexity": "Both systems involve highly technical decisions in governance",
+        "participationChallenges": "Both face challenges in ensuring broad stakeholder participation"
+      },
+      "differentiatingFactors": [
+        "FICTRA includes sovereign entities as key governance participants",
+        "FICTRA's governance is designed for its specific dual-token system",
+        "FICTRA has different stakeholder types than MakerDAO",
+        "FICTRA has the benefit of learning from MakerDAO's evolution"
+      ],
+      "sources": [
+        {
+          "title": "MakerDAO Governance Analysis by Messari",
+          "url": "https://messari.io/report/makerdao-governance-evolution",
+          "accessDate": "2023-09-18"
+        },
+        {
+          "title": "The Challenge of DeFi Governance by Harvard Business Review",
+          "url": "https://hbr.org/2021/05/the-promise-and-peril-of-decentralized-finance",
+          "accessDate": "2023-09-20"
+        }
+      ],
+      "relatedCritiques": ["GOV001", "GOV002", "GOV005"]
+    },
+    {
+      "id": "HIST005",
+      "title": "Bretton Woods System Collapse",
+      "category": "Traditional Finance",
+      "subcategory": "Commodity-Backed Currency",
+      "description": "The 1971 collapse of the Bretton Woods system, which had maintained fixed exchange rates backed by gold, leading to the modern era of floating exchange rates.",
+      "relevantDetails": [
+        "Established fixed exchange rates with the USD backed by gold",
+        "Created stability in international trade for several decades",
+        "Faced increasing pressure as US gold reserves became insufficient",
+        "Collapsed when the US unilaterally ended gold convertibility",
+        "Demonstrated the challenges of maintaining commodity-backed currency systems"
+      ],
+      "lessonsLearned": [
+        "Commodity-backed currency systems face fundamental scaling limitations",
+        "Reserve requirements create constraints on monetary policy",
+        "Economic sovereignty concerns can override system commitments",
+        "International monetary systems require extraordinary coordination",
+        "Market forces eventually overwhelm artificial price controls"
+      ],
+      "relevanceToFICTRA": {
+        "commodityBacking": "FICTRA's system has elements of commodity connection similar to Bretton Woods",
+        "reserveRequirements": "Both systems involve reserve backing for currency stability",
+        "internationalCoordination": "Both require coordination among sovereign entities",
+        "economicSovereignty": "Both address issues of economic sovereignty for participants"
+      },
+      "differentiatingFactors": [
+        "FICTRA uses blockchain technology not available during Bretton Woods",
+        "FICTRA doesn't establish fixed exchange rates like Bretton Woods",
+        "FICTRA's PT has market-determined value rather than fixed pegs",
+        "FICTRA's design accounts for lessons learned from Bretton Woods"
+      ],
+      "sources": [
+        {
+          "title": "The End of Bretton Woods by the Federal Reserve History",
+          "url": "https://www.federalreservehistory.org/essays/gold-convertibility-ends",
+          "accessDate": "2023-08-15"
+        },
+        {
+          "title": "International Monetary Relations After Bretton Woods by IMF",
+          "url": "https://www.imf.org/external/pubs/ft/history/2012/pdf/c18.pdf",
+          "accessDate": "2023-08-18"
+        }
+      ],
+      "relatedCritiques": ["ECON003", "ECON007"]
+    }
+  ]
+}

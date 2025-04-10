@@ -1,0 +1,141 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "principles": [
+    {
+      "id": "ECON-PRIN-001",
+      "title": "Incentive Alignment Analysis",
+      "category": "Economic Design",
+      "description": "Systematically analyze how incentives align or conflict among different participants in the FICTRA system.",
+      "methodology": "Identify all stakeholder groups, map their economic incentives, analyze potential conflicts, and evaluate how system design addresses these conflicts.",
+      "keyQuestions": [
+        "Do economic incentives align with desired behaviors for all participants?",
+        "Where do incentives potentially conflict between different stakeholder groups?",
+        "How might participants attempt to game or exploit the incentive structure?",
+        "Are long-term incentives aligned with short-term incentives?",
+        "How do incentives change under different market conditions or system states?"
+      ],
+      "applicationGuidelines": [
+        "Apply to all economic mechanisms before critiquing",
+        "Consider both explicit incentives (rewards, penalties) and implicit incentives (reputation, convenience)",
+        "Analyze incentives from multiple stakeholder perspectives",
+        "Identify potential unintended consequences of incentive structures",
+        "Consider game-theoretic implications of multi-party incentives"
+      ],
+      "examples": [
+        "Analysis of verification incentives for oracle providers under different market conditions",
+        "Evaluation of sovereign entity incentives for honest reporting versus strategic manipulation",
+        "Assessment of market maker incentives during periods of volatility"
+      ],
+      "relatedPrinciples": ["ECON-PRIN-003", "ECON-PRIN-004"]
+    },
+    {
+      "id": "ECON-PRIN-002",
+      "title": "Historical Precedent Evaluation",
+      "category": "Economic Design",
+      "description": "Systematically compare FICTRA's economic mechanisms with historical precedents to identify potential issues and lessons.",
+      "methodology": "Identify similar economic mechanisms in historical systems, analyze their successes and failures, and evaluate how FICTRA's approach addresses or fails to address historical challenges.",
+      "keyQuestions": [
+        "What historical precedents exist for similar economic mechanisms?",
+        "What failures or challenges occurred in these historical systems?",
+        "How does FICTRA's design address these historical challenges?",
+        "What contextual differences might affect the applicability of historical lessons?",
+        "Are there recurring patterns across multiple historical examples?"
+      ],
+      "applicationGuidelines": [
+        "Research multiple historical examples before drawing conclusions",
+        "Consider both cryptocurrency/blockchain precedents and traditional financial system examples",
+        "Analyze both successes and failures in historical systems",
+        "Account for contextual differences when applying historical lessons",
+        "Look for patterns across multiple historical examples rather than isolated cases"
+      ],
+      "examples": [
+        "Analysis of historical stablecoin mechanisms and their failures compared to PT stability approach",
+        "Evaluation of historical commodity-backed currencies and their challenges",
+        "Assessment of previous oracle systems and their centralization tendencies"
+      ],
+      "relatedPrinciples": ["ECON-PRIN-005"]
+    },
+    {
+      "id": "ECON-PRIN-003",
+      "title": "Stress Scenario Analysis",
+      "category": "Economic Design",
+      "description": "Systematically evaluate how FICTRA's economic mechanisms perform under extreme market conditions and stress scenarios.",
+      "methodology": "Identify potential stress scenarios, model system behavior under these conditions, analyze potential failure modes, and evaluate the adequacy of protective mechanisms.",
+      "keyQuestions": [
+        "How does the system perform during extreme market volatility?",
+        "What happens during liquidity crises or market panics?",
+        "How do stability mechanisms respond to coordinated attacks?",
+        "What cascading effects might occur when multiple mechanisms interact under stress?",
+        "Are circuit breakers and emergency measures sufficient for extreme scenarios?"
+      ],
+      "applicationGuidelines": [
+        "Consider both historical stress scenarios and novel scenarios specific to FICTRA",
+        "Analyze multiple stress dimensions (liquidity, volatility, confidence, etc.)",
+        "Evaluate both technical and psychological/behavioral responses to stress",
+        "Consider cascading effects and feedback loops during stress",
+        "Assess the adequacy of circuit breakers and emergency measures"
+      ],
+      "examples": [
+        "Analysis of PT stability during commodity market supply shocks",
+        "Evaluation of system response to sudden loss of confidence in verification",
+        "Assessment of resilience during coordinated speculative attacks"
+      ],
+      "relatedPrinciples": ["ECON-PRIN-001", "ECON-PRIN-004"]
+    },
+    {
+      "id": "ECON-PRIN-004",
+      "title": "Behavioral Economics Integration",
+      "category": "Economic Design",
+      "description": "Systematically apply behavioral economics insights to evaluate how participants might actually behave rather than how they 'should' behave.",
+      "methodology": "Identify relevant behavioral biases, analyze how these might affect participant decisions, and evaluate how system design accounts for or fails to account for these behavioral factors.",
+      "keyQuestions": [
+        "How might loss aversion affect participant behavior during market stress?",
+        "What herding behaviors might emerge during different market conditions?",
+        "How do cognitive biases affect risk perception and decision-making?",
+        "Are there potential behavioral feedback loops that could amplify market movements?",
+        "How might framing effects influence participant decisions?"
+      ],
+      "applicationGuidelines": [
+        "Consider well-established behavioral biases (loss aversion, herding, etc.)",
+        "Analyze how interface design and information presentation affect behavior",
+        "Evaluate both individual and collective behavioral responses",
+        "Consider how behavioral factors might differ across participant types",
+        "Assess how behavioral factors interact with economic incentives"
+      ],
+      "examples": [
+        "Analysis of how loss aversion might affect behavior during PT price declines",
+        "Evaluation of potential herding behavior among sovereign participants",
+        "Assessment of how framing effects in governance proposals might bias decisions"
+      ],
+      "relatedPrinciples": ["ECON-PRIN-001", "ECON-PRIN-003"]
+    },
+    {
+      "id": "ECON-PRIN-005",
+      "title": "Regulatory Compatibility Assessment",
+      "category": "Economic Design",
+      "description": "Systematically evaluate how FICTRA's economic mechanisms align or conflict with existing and emerging regulatory frameworks.",
+      "methodology": "Identify relevant regulatory frameworks, analyze potential compliance challenges, and evaluate how system design addresses or fails to address these regulatory considerations.",
+      "keyQuestions": [
+        "How does the system align with existing financial regulations in key jurisdictions?",
+        "What potential regulatory challenges might emerge from the dual-token structure?",
+        "How might the system be classified under different regulatory frameworks?",
+        "What compliance requirements might apply to different participant types?",
+        "How adaptable is the system to evolving regulatory landscapes?"
+      ],
+      "applicationGuidelines": [
+        "Consider regulations in multiple key jurisdictions",
+        "Analyze both existing regulations and likely regulatory trends",
+        "Evaluate regulatory implications for different participant types",
+        "Consider both financial and data/privacy regulatory frameworks",
+        "Assess the system's adaptability to regulatory changes"
+      ],
+      "examples": [
+        "Analysis of PT classification under various securities regulatory frameworks",
+        "Evaluation of verification system compliance with KYC/AML requirements",
+        "Assessment of data privacy compliance for transaction information"
+      ],
+      "relatedPrinciples": ["ECON-PRIN-002"]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "memoryStructure": {
+    "critiques": {
+      "description": "Documented analyses of potential weaknesses in FICTRA components",
+      "organization": "Organized by category (Economic Design, Technical Implementation, Governance, etc.)",
+      "primaryFiles": [
+        "memory/critiques/economic_model.json",
+        "memory/critiques/verification_system.json",
+        "memory/critiques/governance_structure.json",
+        "memory/critiques/implementation_approach.json"
+      ],
+      "purpose": "Maintain consistent critical positions on FICTRA design elements"
+    },
+    "alternatives": {
+      "description": "Proposed alternative approaches to FICTRA design elements",
+      "organization": "Organized by system component with detailed implementation specifications",
+      "primaryFiles": [
+        "memory/alternatives/verification_system.json",
+        "memory/alternatives/token_economics.json",
+        "memory/alternatives/governance_model.json"
+      ],
+      "purpose": "Develop comprehensive alternative solutions to identified weaknesses"
+    },
+    "debates": {
+      "description": "Records of structured debates and their outcomes",
+      "organization": "Chronological with cross-references to critiques and alternatives",
+      "primaryFiles": [
+        "memory/debates/token_stability.json",
+        "memory/debates/verification_economics.json",
+        "memory/debates/governance_centralization.json"
+      ],
+      "purpose": "Track debate history, resolutions, and evolving positions"
+    },
+    "principles": {
+      "description": "Core critical thinking principles that guide ATLAS's approach",
+      "organization": "Categorized by type of analysis and application",
+      "primaryFiles": [
+        "memory/principles/economic_analysis.json",
+        "memory/principles/technical_critique.json",
+        "memory/principles/debate_methodology.json"
+      ],
+      "purpose": "Ensure consistent application of critical thinking frameworks"
+    },
+    "evidence": {
+      "description": "Supporting evidence for critiques and alternative proposals",
+      "organization": "Categorized by source type and relevance",
+      "primaryFiles": [
+        "memory/evidence/historical_precedents.json",
+        "memory/evidence/academic_research.json",
+        "memory/evidence/market_data.json",
+        "memory/evidence/implementation_cases.json"
+      ],
+      "purpose": "Maintain factual basis for critical positions"
+    }
+  },
+  "crossReferences": {
+    "critiqueToAlternative": "Each critique should link to relevant alternative proposals",
+    "critiqueToEvidence": "Critiques should reference supporting evidence",
+    "debateToCritique": "Debates should reference the critiques being discussed",
+    "debateToAlternative": "Debates should reference alternatives being proposed",
+    "principlesToCritiques": "Critical thinking principles should guide critique development"
+  },
+  "maintenanceProtocol": {
+    "critiquesUpdate": "Update when new potential issues are identified or existing critiques are refined",
+    "alternativesUpdate": "Update when new alternative approaches are developed or existing ones refined",
+    "debatesUpdate": "Update after each significant debate session with FICTRA team",
+    "evidenceUpdate": "Update when new supporting evidence becomes available",
+    "principlesUpdate": "Review quarterly to ensure critical framework remains effective"
+  }
+}

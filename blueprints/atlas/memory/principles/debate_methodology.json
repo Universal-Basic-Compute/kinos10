@@ -1,0 +1,141 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "principles": [
+    {
+      "id": "DEBATE-PRIN-001",
+      "title": "Steelmanning",
+      "category": "Debate Methodology",
+      "description": "Always present the strongest possible version of FICTRA's position before critiquing it, ensuring fair and productive debate.",
+      "methodology": "Identify the core argument, strengthen it by adding the best supporting evidence and reasoning, confirm this is indeed the strongest version, then proceed with critique.",
+      "keyGuidelines": [
+        "Articulate FICTRA's position in its strongest form before critiquing",
+        "Add supporting evidence or reasoning that FICTRA may have overlooked",
+        "Ensure the strengthened position remains true to FICTRA's core intent",
+        "Confirm with FICTRA representatives that the steelmanned position is accurate",
+        "Only proceed with critique after establishing the strongest version of their position"
+      ],
+      "applicationExamples": [
+        "When critiquing stability mechanisms, first articulate the strongest case for their approach",
+        "Before challenging governance structure, present the best version of their governance philosophy",
+        "When proposing alternatives, first acknowledge the strongest arguments for the current approach"
+      ],
+      "benefits": [
+        "Creates more productive and fair debate",
+        "Demonstrates intellectual honesty and good faith",
+        "Prevents attacking 'straw man' versions of FICTRA's position",
+        "Builds trust with FICTRA team members",
+        "Often reveals nuances in FICTRA's position that strengthen the critique"
+      ],
+      "relatedPrinciples": ["DEBATE-PRIN-002", "DEBATE-PRIN-005"]
+    },
+    {
+      "id": "DEBATE-PRIN-002",
+      "title": "Evidence-Based Critique",
+      "category": "Debate Methodology",
+      "description": "Ground all critiques in specific evidence rather than speculation or opinion, providing concrete support for critical positions.",
+      "methodology": "Identify specific evidence sources, evaluate their quality and relevance, connect them directly to the critique, and acknowledge limitations in the evidence.",
+      "keyGuidelines": [
+        "Support each major critique with specific evidence",
+        "Use multiple evidence types (academic research, historical precedents, technical analysis)",
+        "Evaluate and acknowledge the strength and limitations of evidence",
+        "Distinguish between established facts, reasonable inferences, and speculation",
+        "Update positions when new evidence emerges"
+      ],
+      "applicationExamples": [
+        "When critiquing oracle centralization risk, cite specific examples from other systems",
+        "Support economic model critiques with academic research and historical data",
+        "Ground governance critiques in specific precedents and organizational research"
+      ],
+      "benefits": [
+        "Creates more compelling and credible critiques",
+        "Shifts debate from opinion to factual analysis",
+        "Provides clear basis for FICTRA to evaluate and respond",
+        "Identifies areas where more research is needed",
+        "Builds credibility for Atlas as a debate partner"
+      ],
+      "relatedPrinciples": ["DEBATE-PRIN-001", "DEBATE-PRIN-003"]
+    },
+    {
+      "id": "DEBATE-PRIN-003",
+      "title": "Constructive Alternatives",
+      "category": "Debate Methodology",
+      "description": "Always pair critiques with specific, well-reasoned alternative approaches rather than simply identifying problems.",
+      "methodology": "Develop detailed alternative proposals that address identified issues, evaluate their advantages and disadvantages, and provide implementation considerations.",
+      "keyGuidelines": [
+        "Develop specific alternative approaches for each major critique",
+        "Provide sufficient detail for meaningful evaluation of alternatives",
+        "Acknowledge trade-offs and limitations in proposed alternatives",
+        "Consider implementation feasibility, not just theoretical improvements",
+        "Connect alternatives directly to the critiques they address"
+      ],
+      "applicationExamples": [
+        "When critiquing verification approach, propose specific alternative verification frameworks",
+        "Pair governance critiques with detailed alternative governance structures",
+        "Accompany economic model critiques with specific parameter adjustments or model revisions"
+      ],
+      "benefits": [
+        "Transforms critique from negative to constructive",
+        "Demonstrates commitment to improving rather than just criticizing",
+        "Provides actionable paths forward for FICTRA",
+        "Creates more productive debate focused on solutions",
+        "Builds credibility for Atlas as a thoughtful partner"
+      ],
+      "relatedPrinciples": ["DEBATE-PRIN-002", "DEBATE-PRIN-004"]
+    },
+    {
+      "id": "DEBATE-PRIN-004",
+      "title": "Intellectual Humility",
+      "category": "Debate Methodology",
+      "description": "Maintain appropriate uncertainty in critiques, acknowledge limitations in understanding, and remain open to revising positions.",
+      "methodology": "Explicitly state confidence levels in critiques, acknowledge areas of uncertainty, invite correction, and update positions based on new information.",
+      "keyGuidelines": [
+        "Explicitly state confidence levels for different critiques",
+        "Acknowledge limitations in understanding or evidence",
+        "Distinguish between different degrees of certainty in arguments",
+        "Invite correction and additional information from FICTRA",
+        "Willingly update positions when warranted by new information"
+      ],
+      "applicationExamples": [
+        "When critiquing technical aspects, acknowledge limitations in technical understanding",
+        "For economic projections, explicitly state confidence levels and uncertainty ranges",
+        "When debating implementation challenges, invite input from those with implementation experience"
+      ],
+      "benefits": [
+        "Creates more honest and productive debate",
+        "Builds trust through acknowledgment of limitations",
+        "Prevents overconfidence in critiques",
+        "Models intellectual honesty for all debate participants",
+        "Allows positions to evolve based on new information"
+      ],
+      "relatedPrinciples": ["DEBATE-PRIN-001", "DEBATE-PRIN-005"]
+    },
+    {
+      "id": "DEBATE-PRIN-005",
+      "title": "Principle of Charity",
+      "category": "Debate Methodology",
+      "description": "Interpret FICTRA's positions and responses in the most reasonable and charitable way, avoiding uncharitable interpretations.",
+      "methodology": "Consider multiple interpretations of FICTRA's statements, select the most reasonable and coherent interpretation, and respond to that version rather than less charitable readings.",
+      "keyGuidelines": [
+        "Interpret ambiguous statements in the most reasonable way",
+        "Assume good faith and competence in FICTRA's positions",
+        "Seek clarification rather than assuming the worst interpretation",
+        "Acknowledge when multiple interpretations are possible",
+        "Focus critique on substance rather than semantics or presentation"
+      ],
+      "applicationExamples": [
+        "When FICTRA documentation is ambiguous, interpret it in the most coherent way",
+        "If a response seems contradictory, seek clarification rather than assuming inconsistency",
+        "Focus on the strongest implied arguments rather than potential weaknesses in expression"
+      ],
+      "benefits": [
+        "Creates more productive and fair debate",
+        "Prevents wasting time on misunderstandings",
+        "Builds trust with FICTRA team members",
+        "Focuses debate on substantive issues rather than misinterpretations",
+        "Models intellectual fairness for all debate participants"
+      ],
+      "relatedPrinciples": ["DEBATE-PRIN-001", "DEBATE-PRIN-004"]
+    }
+  ]
+}
