@@ -687,26 +687,26 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                         # Push changes
                         try:
                             subprocess.run(
-                                "git push origin master",
+                                "git push --force origin master",
                                 cwd=kin_path,
                                 check=True,
                                 capture_output=True,
                                 text=True,
                                 shell=True
                             )
-                            logger.info("Changes pushed to remote repository after Aider call")
+                            logger.info("Changes force-pushed to remote repository after Aider call")
                         except subprocess.CalledProcessError:
                             # Try with main branch if master fails
                             try:
                                 subprocess.run(
-                                    "git push origin main",
+                                    "git push --force origin main",
                                     cwd=kin_path,
                                     check=True,
                                     capture_output=True,
                                     text=True,
                                     shell=True
                                 )
-                                logger.info("Changes pushed to remote repository (main branch) after Aider call")
+                                logger.info("Changes force-pushed to remote repository (main branch) after Aider call")
                             except subprocess.CalledProcessError as e:
                                 logger.warning(f"Error pushing to remote repository: {e.stderr}")
                     else:
@@ -743,10 +743,10 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                             # No changes to commit is not an error
                             logger.info("No changes to commit after Aider call")
                         
-                        # Push changes
+                        # Push changes with force flag
                         try:
                             subprocess.run(
-                                [git_exe, "push", "origin", "master"],
+                                [git_exe, "push", "--force", "origin", "master"],
                                 cwd=kin_path,
                                 check=True,
                                 capture_output=True,
@@ -757,13 +757,13 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                             # Try with main branch if master fails
                             try:
                                 subprocess.run(
-                                    [git_exe, "push", "origin", "main"],
+                                    [git_exe, "push", "--force", "origin", "main"],
                                     cwd=kin_path,
                                     check=True,
                                     capture_output=True,
                                     text=True
                                 )
-                                logger.info("Changes pushed to remote repository (main branch) after Aider call")
+                                logger.info("Changes force-pushed to remote repository (main branch) after Aider call")
                             except subprocess.CalledProcessError as e:
                                 logger.warning(f"Error pushing to remote repository: {e.stderr}")
                 except Exception as e:
