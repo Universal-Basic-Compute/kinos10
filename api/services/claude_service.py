@@ -541,6 +541,22 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
     if not kin_path:
         kin_path = get_kin_path(blueprint, kin_id)
     
+    # Define file extensions to exclude
+    excluded_extensions = [
+        # Images
+        '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp', '.svg', '.ico',
+        # Videos
+        '.mp4', '.avi', '.mov', '.wmv', '.flv', '.mkv', '.webm',
+        # Logs
+        '.log', '.logs',
+        # Other binary files
+        '.pdf', '.zip', '.rar', '.tar', '.gz', '.7z',
+        # Audio files
+        '.mp3', '.wav', '.ogg', '.flac', '.aac',
+        # Executable files
+        '.exe', '.dll', '.so', '.bin'
+    ]
+    
     # Check if persona.txt exists, if so use it instead of kinos.txt and system.txt
     persona_file = os.path.join(kin_path, "persona.txt")
     
@@ -586,6 +602,13 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
             if (rel_path not in core_files and 
                 rel_path not in attachment_files and 
                 not should_ignore_file(rel_path, ignore_patterns)):
+                
+                # Check if the file has an excluded extension
+                _, ext = os.path.splitext(rel_path.lower())
+                if ext in excluded_extensions:
+                    logger.info(f"Excluding file with excluded extension: {rel_path}")
+                    continue
+                
                 available_files.append(rel_path)
     
     # If there are no additional files, just return core files plus attachments

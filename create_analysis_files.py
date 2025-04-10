@@ -8,7 +8,7 @@ import os
 import sys
 
 # List of blueprints to process
-blueprintS = [
+blueprints = [
     "atlas",
     "deskmate",
     "duogaming",
@@ -80,7 +80,7 @@ def main():
         sys.exit(1)
     
     # Process each blueprint
-    for blueprint in blueprintS:
+    for blueprint in blueprints:
         print(f"Processing blueprint: {blueprint}")
         
         # Path to the blueprint template directory
