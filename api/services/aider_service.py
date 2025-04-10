@@ -163,6 +163,19 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             if not git_exe:
                 logger.warning("Git executable not found, cannot pull changes")
             else:
+                # Configure Git pull strategy before pulling
+                try:
+                    subprocess.run(
+                        [git_exe, "config", "pull.rebase", "false"],
+                        cwd=kin_path,
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    logger.info("Configured Git to use merge strategy for pulls")
+                except subprocess.CalledProcessError as e:
+                    logger.warning(f"Error configuring Git pull strategy: {e.stderr}")
+                    
                 # Try to pull changes from the remote repository
                 try:
                     subprocess.run(
@@ -411,6 +424,17 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                             use_shell = (git_exe == "git_with_shell")
                             
                             if use_shell:
+                                # Configure Git pull strategy
+                                subprocess.run(
+                                    "git config pull.rebase false",
+                                    cwd=kin_path,
+                                    check=True,
+                                    capture_output=True,
+                                    text=True,
+                                    shell=True
+                                )
+                                logger.info("Configured Git to use merge strategy for pulls (shell mode)")
+                                
                                 # Use shell=True for all git commands
                                 subprocess.run(
                                     "git add .",
@@ -463,6 +487,16 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                                         logger.warning(f"Error pushing to remote repository: {e.stderr}")
                                         yield "Warning: Failed to push changes to remote repository"
                             else:
+                                # Configure Git pull strategy
+                                subprocess.run(
+                                    [git_exe, "config", "pull.rebase", "false"],
+                                    cwd=kin_path,
+                                    check=True,
+                                    capture_output=True,
+                                    text=True
+                                )
+                                logger.info("Configured Git to use merge strategy for pulls")
+                                
                                 # Use the normal approach with the git executable
                                 subprocess.run(
                                     [git_exe, "add", "."],
@@ -562,6 +596,17 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                     use_shell = (git_exe == "git_with_shell")
                     
                     if use_shell:
+                        # Configure Git pull strategy
+                        subprocess.run(
+                            "git config pull.rebase false",
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True,
+                            shell=True
+                        )
+                        logger.info("Configured Git to use merge strategy for pulls (shell mode)")
+                        
                         # Use shell=True for all git commands
                         subprocess.run(
                             "git add .",
@@ -613,6 +658,16 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                             except subprocess.CalledProcessError as e:
                                 logger.warning(f"Error pushing to remote repository: {e.stderr}")
                     else:
+                        # Configure Git pull strategy
+                        subprocess.run(
+                            [git_exe, "config", "pull.rebase", "false"],
+                            cwd=kin_path,
+                            check=True,
+                            capture_output=True,
+                            text=True
+                        )
+                        logger.info("Configured Git to use merge strategy for pulls")
+                        
                         # Use the normal approach with the git executable
                         subprocess.run(
                             [git_exe, "add", "."],
