@@ -9,6 +9,7 @@ import sys
 
 # List of blueprints to process
 blueprintS = [
+    "atlas",
     "deskmate",
     "duogaming",
     "fictra",
