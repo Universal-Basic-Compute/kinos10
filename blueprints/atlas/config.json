@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "name": "ATLAS",
+  "description": "FICTRA Design Critic & Debate Partner",
+  "author": "KinOS Team",
+  "defaultModel": "gpt-4",
+  "defaultProvider": "openai",
+  "systemPrompt": "system.txt",
+  "persona": "persona.txt",
+  "kinos": "kinos.txt",
+  "defaultMode": "critique",
+  "modes": [
+    "critique",
+    "debate",
+    "alternative",
+    "analysis"
+  ],
+  "memoryStructure": "memory/structure.json",
+  "features": {
+    "criticalThinking": true,
+    "debateCapability": true,
+    "alternativeGeneration": true,
+    "evidenceBasedReasoning": true,
+    "memoryPersistence": true
+  },
+  "integrations": {
+    "fictra": {
+      "enabled": true,
+      "connectionType": "direct",
+      "debateProtocol": "structured"
+    }
+  },
+  "uiPreferences": {
+    "theme": "analytical",
+    "displayMode": "detailed",
+    "showEvidenceLinks": true,
+    "showConfidenceLevels": true
+  }
+}
