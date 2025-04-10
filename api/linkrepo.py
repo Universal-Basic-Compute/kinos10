@@ -570,26 +570,78 @@ def sync_repository(kin_path):
         "repository_url": repo_url
     }
     
+    # Determine whether to use shell=True based on environment
+    use_shell = False
+    if os.name == 'posix' and not shutil.which('git'):
+        # On Linux/Mac, if git is not in PATH, try using shell=True
+        use_shell = True
+        logger.info("Git not found in PATH, using shell=True for git commands")
+    
+    # Find git executable
+    git_exe = 'git'  # Default
+    if not use_shell:
+        # Try to find git executable
+        git_exe = shutil.which('git')
+        if not git_exe:
+            # Check common locations
+            common_git_paths = [
+                "/usr/bin/git",
+                "/usr/local/bin/git",
+                "/bin/git",
+                "/opt/render/project/bin/git",
+                "/opt/render/bin/git"
+            ]
+            for path in common_git_paths:
+                if os.path.exists(path):
+                    git_exe = path
+                    logger.info(f"Found git at {git_exe}")
+                    break
+            
+            if not git_exe:
+                # If still not found, fall back to shell=True
+                use_shell = True
+                logger.info("Git executable not found, falling back to shell=True")
+    
     try:
         # Configure Git user email and name
-        subprocess.run(
-            ["git", "config", "user.email", "reynolds.nicorr@gmail.com"],
-            cwd=kin_path,
-            check=True,
-            capture_output=True,
-            text=True
-        )
+        if use_shell:
+            subprocess.run(
+                "git config user.email \"reynolds.nicorr@gmail.com\"",
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True,
+                shell=True
+            )
+        else:
+            subprocess.run(
+                [git_exe, "config", "user.email", "reynolds.nicorr@gmail.com"],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
         logger.info("Set Git user email to reynolds.nicorr@gmail.com")
-                            
-        subprocess.run(
-            ["git", "config", "user.name", "Lesterpaintstheworld"],
-            cwd=kin_path,
-            check=True,
-            capture_output=True,
-            text=True
-        )
+        
+        if use_shell:
+            subprocess.run(
+                "git config user.name \"Lesterpaintstheworld\"",
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True,
+                shell=True
+            )
+        else:
+            subprocess.run(
+                [git_exe, "config", "user.name", "Lesterpaintstheworld"],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
         logger.info("Set Git user name to Lesterpaintstheworld")
-            
+        
         # Configure Git pull strategy before attempting to pull
         try:
             # Configure Git pull strategy
@@ -611,7 +663,7 @@ def sync_repository(kin_path):
                     text=True
                 )
             logger.info("Configured Git to use merge strategy for pulls")
-                
+            
             # Configure Git to prioritize our changes in merges
             if use_shell:
                 subprocess.run(
@@ -631,13 +683,13 @@ def sync_repository(kin_path):
                     text=True
                 )
             logger.info("Configured Git to prioritize our changes in merges")
-                
+            
             # Create a .gitattributes file to use the ours merge driver for conflicts
             gitattributes_path = os.path.join(kin_path, ".gitattributes")
             with open(gitattributes_path, 'w') as f:
                 f.write("* merge=ours\n")
             logger.info("Created .gitattributes file to prioritize our changes")
-                
+            
             # Add the .gitattributes file to the repository
             if use_shell:
                 subprocess.run(
@@ -660,36 +712,66 @@ def sync_repository(kin_path):
             logger.warning(f"Error configuring Git: {str(e)}")
         
         # Get current branch
-        branch_cmd = subprocess.run(
-            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-            cwd=kin_path,
-            check=True,
-            capture_output=True,
-            text=True
-        )
+        if use_shell:
+            branch_cmd = subprocess.run(
+                "git rev-parse --abbrev-ref HEAD",
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True,
+                shell=True
+            )
+        else:
+            branch_cmd = subprocess.run(
+                [git_exe, "rev-parse", "--abbrev-ref", "HEAD"],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
         current_branch = branch_cmd.stdout.strip()
         result["branch"] = current_branch
         logger.info(f"Current branch: {current_branch}")
         
         # Fetch from remote
         logger.info(f"Fetching from remote...")
-        fetch_cmd = subprocess.run(
-            ["git", "fetch", "origin"],
-            cwd=kin_path,
-            check=True,
-            capture_output=True,
-            text=True
-        )
+        if use_shell:
+            fetch_cmd = subprocess.run(
+                "git fetch origin",
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True,
+                shell=True
+            )
+        else:
+            fetch_cmd = subprocess.run(
+                [git_exe, "fetch", "origin"],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
         result["operations"].append({"operation": "fetch", "status": "success"})
         
         # Check if there are changes to pull
-        diff_cmd = subprocess.run(
-            ["git", "diff", f"HEAD..origin/{current_branch}", "--name-only"],
-            cwd=kin_path,
-            check=True,
-            capture_output=True,
-            text=True
-        )
+        if use_shell:
+            diff_cmd = subprocess.run(
+                f"git diff HEAD..origin/{current_branch} --name-only",
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True,
+                shell=True
+            )
+        else:
+            diff_cmd = subprocess.run(
+                [git_exe, "diff", f"HEAD..origin/{current_branch}", "--name-only"],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
         
         changes_to_pull = diff_cmd.stdout.strip()
         if changes_to_pull:
@@ -698,13 +780,23 @@ def sync_repository(kin_path):
             
             # Pull changes with force flag
             logger.info(f"Pulling changes from remote...")
-            pull_cmd = subprocess.run(
-                ["git", "pull", "--force", "origin", current_branch],
-                cwd=kin_path,
-                check=True,
-                capture_output=True,
-                text=True
-            )
+            if use_shell:
+                pull_cmd = subprocess.run(
+                    f"git pull --force origin {current_branch}",
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    shell=True
+                )
+            else:
+                pull_cmd = subprocess.run(
+                    [git_exe, "pull", "--force", "origin", current_branch],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
             result["operations"].append({
                 "operation": "pull", 
                 "status": "success",
@@ -721,13 +813,23 @@ def sync_repository(kin_path):
             })
         
         # Check if there are local changes to commit
-        status_cmd = subprocess.run(
-            ["git", "status", "--porcelain"],
-            cwd=kin_path,
-            check=True,
-            capture_output=True,
-            text=True
-        )
+        if use_shell:
+            status_cmd = subprocess.run(
+                "git status --porcelain",
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True,
+                shell=True
+            )
+        else:
+            status_cmd = subprocess.run(
+                [git_exe, "status", "--porcelain"],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
         
         local_changes = status_cmd.stdout.strip()
         if local_changes:
@@ -735,22 +837,42 @@ def sync_repository(kin_path):
             logger.info(f"Local changes to commit: {local_changes}")
             
             # Add all changes
-            add_cmd = subprocess.run(
-                ["git", "add", "."],
-                cwd=kin_path,
-                check=True,
-                capture_output=True,
-                text=True
-            )
+            if use_shell:
+                add_cmd = subprocess.run(
+                    "git add .",
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    shell=True
+                )
+            else:
+                add_cmd = subprocess.run(
+                    [git_exe, "add", "."],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
             
             # Commit changes
-            commit_cmd = subprocess.run(
-                ["git", "commit", "-m", "Auto-commit during repository sync"],
-                cwd=kin_path,
-                check=True,
-                capture_output=True,
-                text=True
-            )
+            if use_shell:
+                commit_cmd = subprocess.run(
+                    "git commit -m \"Auto-commit during repository sync\"",
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    shell=True
+                )
+            else:
+                commit_cmd = subprocess.run(
+                    [git_exe, "commit", "-m", "Auto-commit during repository sync"],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
             
             # Count files changed
             files_changed = len([line for line in local_changes.split('\n') if line.strip()])
@@ -772,13 +894,23 @@ def sync_repository(kin_path):
         
         # Push changes with force flag
         logger.info(f"Pushing changes to remote...")
-        push_cmd = subprocess.run(
-            ["git", "push", "--force", "origin", current_branch],
-            cwd=kin_path,
-            check=True,
-            capture_output=True,
-            text=True
-        )
+        if use_shell:
+            push_cmd = subprocess.run(
+                f"git push --force origin {current_branch}",
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True,
+                shell=True
+            )
+        else:
+            push_cmd = subprocess.run(
+                [git_exe, "push", "--force", "origin", current_branch],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
         result["operations"].append({
             "operation": "push", 
             "status": "success",
