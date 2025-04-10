@@ -6,6 +6,7 @@ import logging
 import tempfile
 import shutil
 from config import logger, BASE_URL
+from api.git_utils import find_git_executable, run_git_command, check_git_installed, configure_git_for_merge
 
 # Git functionality is now imported from git_utils.py
 
