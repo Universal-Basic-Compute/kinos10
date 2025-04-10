@@ -1,0 +1,285 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "alternatives": [
+    {
+      "id": "ALT001",
+      "title": "Tiered Verification Framework",
+      "category": "Verification System",
+      "relatedCritiques": ["ECON004", "ECON006"],
+      "summary": "A multi-tiered verification approach that explicitly acknowledges different verification requirements and costs across commodity types and regions.",
+      "description": "This alternative proposes replacing FICTRA's uniform verification approach with an explicit tiered framework that recognizes fundamental differences in verification complexity. The system would define 3-5 verification tiers with different requirements, costs, and incentives based on commodity type, region, and transaction characteristics. Each tier would have appropriate oracle incentives, verification methods, and fee structures.",
+      "keyComponents": [
+        {
+          "name": "Verification Tiers",
+          "description": "Explicit classification of commodities and regions into verification tiers based on complexity, infrastructure, and risk factors."
+        },
+        {
+          "name": "Differentiated Incentives",
+          "description": "Oracle rewards scaled to verification difficulty, with higher compensation for more challenging verifications."
+        },
+        {
+          "name": "Tier-Specific Methods",
+          "description": "Different verification methodologies optimized for each tier, from automated/digital for simple cases to multi-point physical verification for complex ones."
+        },
+        {
+          "name": "Transparent Fee Structure",
+          "description": "Clear, tier-based fee structure that acknowledges the true costs of different verification types."
+        },
+        {
+          "name": "Progressive Implementation",
+          "description": "Phased rollout starting with simpler tiers and expanding to more complex ones as the system matures."
+        }
+      ],
+      "advantages": [
+        "Acknowledges the reality of verification complexity differences",
+        "Creates appropriate economic incentives for all verification contexts",
+        "Allows for optimization of methods by verification type",
+        "Provides transparent cost structure aligned with actual verification requirements",
+        "Enables more accurate economic modeling and planning"
+      ],
+      "disadvantages": [
+        "Increased complexity in system design and communication",
+        "Potential for disputes about tier classification",
+        "More complex oracle incentive structure to implement",
+        "May create perception of unequal treatment across commodity types"
+      ],
+      "implementationConsiderations": [
+        "Would require clear, objective criteria for tier classification",
+        "Need for governance mechanism to manage tier assignments",
+        "Careful communication to explain the rationale for tiered approach",
+        "Potential for gradual convergence of tiers as verification technology improves"
+      ],
+      "economicImpact": {
+        "verificationCosts": "More accurate reflection of true costs, higher for complex commodities but potentially lower for simple ones",
+        "systemSustainability": "Improved through realistic economic modeling and appropriate incentives",
+        "marketAdoption": "Potentially accelerated for simpler commodity types with optimized verification"
+      },
+      "status": "Proposed"
+    },
+    {
+      "id": "ALT002",
+      "title": "Simplified Stability Mechanism",
+      "category": "Economic Design",
+      "relatedCritiques": ["ECON001", "ECON007"],
+      "summary": "A streamlined stability approach focusing on transparent reserve backing with minimal algorithmic intervention.",
+      "description": "This alternative proposes simplifying FICTRA's multi-layered stability mechanism to focus primarily on transparent reserve backing with a straightforward, rules-based intervention framework. The approach would maintain higher reserve ratios (30-35%) throughout the system's lifecycle, with clear, predictable intervention thresholds and mechanisms. Algorithmic components would be minimized in favor of transparent, understandable stability controls.",
+      "keyComponents": [
+        {
+          "name": "Enhanced Reserve Backing",
+          "description": "Maintaining 30-35% reserve backing throughout the system's lifecycle rather than reducing to 18-22%."
+        },
+        {
+          "name": "Transparent Intervention Rules",
+          "description": "Clear, publicly documented thresholds and responses for stability interventions."
+        },
+        {
+          "name": "Simplified Circuit Breakers",
+          "description": "Reduced complexity with just two levels of circuit breakers with unambiguous triggers."
+        },
+        {
+          "name": "Reserve Composition Transparency",
+          "description": "Regular public disclosure of reserve composition and valuation."
+        },
+        {
+          "name": "Realistic Volatility Expectations",
+          "description": "Communication of more realistic volatility targets that acknowledge the underlying commodity market volatility."
+        }
+      ],
+      "advantages": [
+        "Reduced complexity and potential for unexpected interactions",
+        "Greater transparency and predictability for market participants",
+        "Enhanced resilience during market stress through higher reserves",
+        "Easier to understand, implement, and govern",
+        "Builds market confidence through simplicity and transparency"
+      ],
+      "disadvantages": [
+        "Higher reserve requirements may reduce capital efficiency",
+        "Less responsive to nuanced market conditions",
+        "May result in slightly higher average volatility in normal conditions",
+        "Requires more initial capital for reserve establishment"
+      ],
+      "implementationConsiderations": [
+        "Would require adjustment to reserve accumulation strategy",
+        "Need for clear communication about stability approach changes",
+        "Potential for phased transition from current approach",
+        "Governance mechanism for reserve management oversight"
+      ],
+      "economicImpact": {
+        "stability": "Potentially less optimal in normal conditions but more resilient in stress scenarios",
+        "marketConfidence": "Likely enhanced through transparency and simplicity",
+        "capitalRequirements": "Increased due to higher reserve ratios",
+        "operationalComplexity": "Significantly reduced"
+      },
+      "status": "Proposed"
+    },
+    {
+      "id": "ALT003",
+      "title": "Dynamic Reserve Framework",
+      "category": "Economic Design",
+      "relatedCritiques": ["ECON003"],
+      "summary": "A dynamic reserve approach that scales backing requirements based on market conditions and system maturity.",
+      "description": "This alternative proposes replacing FICTRA's fixed reserve reduction plan with a dynamic framework that adjusts reserve requirements based on multiple factors including market conditions, system maturity, and risk metrics. Rather than targeting a specific end-state reserve ratio, the system would maintain minimum thresholds while dynamically adjusting requirements upward during periods of increased risk or volatility.",
+      "keyComponents": [
+        {
+          "name": "Minimum Reserve Threshold",
+          "description": "Establishing a 25% minimum reserve ratio that cannot be breached regardless of other factors."
+        },
+        {
+          "name": "Risk-Based Adjustments",
+          "description": "Dynamic increases to reserve requirements based on market volatility, geopolitical risk, and other stability indicators."
+        },
+        {
+          "name": "Counter-Cyclical Mechanism",
+          "description": "Accumulation of additional reserves during low-volatility periods to prepare for future stress."
+        },
+        {
+          "name": "Reserve Efficiency Optimization",
+          "description": "Techniques to maximize the effectiveness of reserves without reducing overall backing percentages."
+        },
+        {
+          "name": "Transparent Calculation",
+          "description": "Clear formula for determining current reserve requirements based on observable metrics."
+        }
+      ],
+      "advantages": [
+        "Maintains higher minimum security while allowing for efficiency",
+        "Adapts to changing market conditions automatically",
+        "Builds reserves during favorable conditions",
+        "Provides greater resilience during market stress",
+        "Balances security and efficiency more effectively"
+      ],
+      "disadvantages": [
+        "More complex to implement and communicate",
+        "May create short-term uncertainty during requirement changes",
+        "Requires more sophisticated reserve management",
+        "Potential for disagreement about risk metrics and thresholds"
+      ],
+      "implementationConsiderations": [
+        "Would require clear, objective metrics for risk assessment",
+        "Need for governance mechanism to oversee dynamic adjustments",
+        "Careful communication strategy to explain reserve ratio changes",
+        "Regular review and potential adjustment of the dynamic formula"
+      ],
+      "economicImpact": {
+        "stability": "Enhanced during market stress through counter-cyclical reserves",
+        "capitalEfficiency": "Optimized based on actual risk conditions rather than fixed targets",
+        "marketConfidence": "Potentially enhanced through demonstrated responsiveness to conditions",
+        "implementationComplexity": "Moderately increased"
+      },
+      "status": "Proposed"
+    },
+    {
+      "id": "ALT004",
+      "title": "Progressive Allocation Formula",
+      "category": "Economic Design",
+      "relatedCritiques": ["ECON002", "ECON005"],
+      "summary": "A redesigned FT allocation approach that uses progressive formulas to balance volume with equitable distribution.",
+      "description": "This alternative proposes replacing FICTRA's current FT allocation formula with a progressive system that applies higher multipliers to smaller export volumes and gradually reduces multipliers as volume increases. This would maintain incentives for all participants while preventing excessive concentration among major exporters. The approach would also replace subjective multipliers with more objective, quantifiable metrics.",
+      "keyComponents": [
+        {
+          "name": "Progressive Multiplier Scale",
+          "description": "Multipliers that start higher for initial export volumes and gradually decrease as volume increases."
+        },
+        {
+          "name": "Objective Sustainability Metrics",
+          "description": "Replacement of subjective sustainability assessments with quantifiable metrics based on international standards."
+        },
+        {
+          "name": "Transparent Strategic Importance",
+          "description": "Clear, objective framework for determining strategic importance based on supply constraints and market conditions."
+        },
+        {
+          "name": "Volume Brackets",
+          "description": "Defined volume brackets with specific multiplier ranges, similar to a progressive tax system."
+        },
+        {
+          "name": "Periodic Recalibration",
+          "description": "Regular review and adjustment of brackets and multipliers to maintain system balance."
+        }
+      ],
+      "advantages": [
+        "Reduces concentration of FT among largest exporters",
+        "Creates stronger incentives for smaller sovereign participants",
+        "Replaces subjective elements with more objective metrics",
+        "Maintains volume incentives while promoting distribution",
+        "Reduces potential for disputes over classification"
+      ],
+      "disadvantages": [
+        "More complex to calculate and communicate",
+        "May reduce incentives for very large exporters",
+        "Requires more data collection for objective metrics",
+        "Potential for gaming at bracket boundaries"
+      ],
+      "implementationConsiderations": [
+        "Would require clear definition of volume brackets and multiplier scales",
+        "Need for reliable data sources for objective sustainability metrics",
+        "Careful transition plan from current formula",
+        "Regular review mechanism for bracket adjustments"
+      ],
+      "economicImpact": {
+        "tokenDistribution": "More equitable across sovereign participants of different sizes",
+        "participationIncentives": "Enhanced for smaller and medium exporters",
+        "governanceBalance": "Improved through more distributed token allocation",
+        "systemComplexity": "Moderately increased"
+      },
+      "status": "Proposed"
+    },
+    {
+      "id": "ALT005",
+      "title": "Diversified Revenue Model",
+      "category": "Economic Design",
+      "relatedCritiques": ["ECON008"],
+      "summary": "An expanded revenue approach that reduces dependence on transaction fees through multiple value-added services.",
+      "description": "This alternative proposes diversifying FICTRA's revenue model beyond transaction fees and basic verification services to include a broader ecosystem of value-added services. This would create multiple revenue streams less susceptible to competitive fee pressure, while enhancing the system's overall value proposition. The approach would maintain competitive core transaction fees while generating substantial revenue from optional premium services.",
+      "keyComponents": [
+        {
+          "name": "Premium Data Analytics",
+          "description": "Advanced market intelligence and analytics services using aggregated, anonymized system data."
+        },
+        {
+          "name": "Enhanced Verification Services",
+          "description": "Premium verification options with additional assurances and certifications beyond basic verification."
+        },
+        {
+          "name": "Financial Instrument Infrastructure",
+          "description": "Platform services for creating and trading derivative instruments based on system tokens."
+        },
+        {
+          "name": "Treasury Management Services",
+          "description": "Specialized services for sovereign entities to optimize their FT holdings and utilization."
+        },
+        {
+          "name": "Integration Solutions",
+          "description": "Technical services to help participants integrate with existing systems and processes."
+        }
+      ],
+      "advantages": [
+        "Reduces dependence on transaction fees facing competitive pressure",
+        "Creates multiple revenue streams with different market dynamics",
+        "Enhances overall value proposition beyond basic transaction services",
+        "Allows for competitive core fees while maintaining sustainability",
+        "Provides natural scaling of revenue with system sophistication"
+      ],
+      "disadvantages": [
+        "Requires development of multiple service capabilities",
+        "More complex to implement and manage",
+        "May create perception of 'nickel and diming' if poorly communicated",
+        "Potential for focus dilution across multiple services"
+      ],
+      "implementationConsiderations": [
+        "Would require prioritization of service development",
+        "Need for clear value proposition for each service",
+        "Careful pricing strategy to maintain competitiveness",
+        "Phased introduction aligned with system maturity"
+      ],
+      "economicImpact": {
+        "revenueStability": "Enhanced through diversification",
+        "competitiveness": "Improved ability to maintain competitive core fees",
+        "valueProposition": "Strengthened through comprehensive service offering",
+        "implementationComplexity": "Significantly increased"
+      },
+      "status": "Proposed"
+    }
+  ]
+}

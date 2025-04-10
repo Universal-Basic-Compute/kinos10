@@ -1,0 +1,291 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-11-15",
+  "debates": [
+    {
+      "id": "DEB001",
+      "title": "Payment Token Stability Mechanism Debate",
+      "date": "2023-10-20",
+      "participants": [
+        {
+          "role": "FICTRA Economic Team",
+          "position": "Multi-layered stability approach"
+        },
+        {
+          "role": "Atlas",
+          "position": "Simplified stability mechanism"
+        }
+      ],
+      "context": "Evaluation of the proposed stability mechanisms for the Payment Token",
+      "keyPoints": {
+        "fictraPosition": [
+          "Multi-layered approach provides comprehensive protection against various market conditions",
+          "Algorithmic controls allow for nuanced responses to different volatility scenarios",
+          "Reserve backing can be gradually reduced as market confidence and utility value increase",
+          "Circuit breakers provide essential protection against extreme market movements",
+          "Combined approach is more capital-efficient than simple high reserves"
+        ],
+        "atlasPosition": [
+          "Multi-layered approach introduces excessive complexity and potential for mechanism conflicts",
+          "Historical precedent shows complex stability systems often fail during unprecedented stress",
+          "Reduced reserve backing creates vulnerability during confidence crises",
+          "Simpler, more transparent approach would build greater market confidence",
+          "Higher minimum reserves are necessary for true resilience"
+        ]
+      },
+      "arguments": [
+        {
+          "presenter": "FICTRA Economic Team",
+          "argument": "The multi-layered approach allows for capital efficiency by deploying different mechanisms based on market conditions rather than maintaining excessive reserves at all times.",
+          "counterargument": "Capital efficiency comes at the cost of resilience. During market crises, multiple mechanisms often fail simultaneously, and only substantial reserves provide true protection.",
+          "resolution": "Partial agreement that different scenarios should be stress-tested more thoroughly, particularly simultaneous failure modes."
+        },
+        {
+          "presenter": "Atlas",
+          "argument": "The planned reduction in reserve backing from 35-40% to 18-22% creates significant vulnerability to market confidence fluctuations, particularly when utility value typically diminishes during crises.",
+          "counterargument": "The reduction occurs only after the system has established significant utility value and market confidence, which provides natural stability beyond reserves.",
+          "resolution": "Agreement to consider a higher minimum reserve floor of 25% rather than 18% as a compromise position."
+        },
+        {
+          "presenter": "FICTRA Economic Team",
+          "argument": "Algorithmic controls provide the ability to respond to market conditions in real-time without manual intervention, creating more responsive stability.",
+          "counterargument": "Algorithmic controls introduce complexity and potential for unexpected behaviors, particularly in unprecedented market conditions where algorithms lack training data.",
+          "resolution": "Agreement that algorithmic controls should be simpler, more transparent, and extensively tested against historical market scenarios."
+        },
+        {
+          "presenter": "Atlas",
+          "argument": "The volatility targets (30-40% of average cryptocurrency volatility) are unrealistically low given the inherent volatility of underlying commodity markets.",
+          "counterargument": "The stability mechanisms are specifically designed to dampen the transmission of commodity market volatility to the Payment Token.",
+          "resolution": "Agreement to revise volatility expectations to acknowledge different scenarios, including commodity supply shocks."
+        }
+      ],
+      "outcomes": {
+        "agreements": [
+          "More extensive stress testing of simultaneous mechanism failures is needed",
+          "A higher minimum reserve floor should be considered",
+          "Algorithmic controls should be simplified and made more transparent",
+          "Volatility targets should be revised to acknowledge different market scenarios"
+        ],
+        "openQuestions": [
+          "Optimal balance between complexity and effectiveness in stability design",
+          "Appropriate reserve levels at different stages of system maturity",
+          "How to effectively communicate stability expectations to different stakeholders"
+        ],
+        "actionItems": [
+          {
+            "description": "Develop comprehensive stress testing scenarios for stability mechanisms",
+            "assignedTo": "Economic Team",
+            "status": "In Progress"
+          },
+          {
+            "description": "Model impact of maintaining 25% minimum reserve floor",
+            "assignedTo": "Economic Team",
+            "status": "Planned"
+          },
+          {
+            "description": "Create simplified explanation of stability mechanisms for different audiences",
+            "assignedTo": "Communication Team",
+            "status": "Planned"
+          }
+        ]
+      },
+      "impact": {
+        "systemDesign": "Consideration of higher reserve minimums and simplified algorithmic controls",
+        "documentation": "More transparent communication about stability expectations and limitations",
+        "economicModel": "Revised modeling of stability under various stress scenarios"
+      },
+      "relatedCritiques": ["ECON001", "ECON003", "ECON007"],
+      "relatedAlternatives": ["ALT002", "ALT003"]
+    },
+    {
+      "id": "DEB002",
+      "title": "Verification System Economics Debate",
+      "date": "2023-10-25",
+      "participants": [
+        {
+          "role": "FICTRA Technical Team",
+          "position": "Unified verification approach with economies of scale"
+        },
+        {
+          "role": "Atlas",
+          "position": "Tiered verification framework with differentiated incentives"
+        }
+      ],
+      "context": "Evaluation of the economic sustainability and effectiveness of the verification system",
+      "keyPoints": {
+        "fictraPosition": [
+          "Unified verification approach creates system simplicity and consistency",
+          "Economies of scale will naturally reduce verification costs over time",
+          "Technological improvements will continuously enhance verification efficiency",
+          "Oracle network incentives will ensure adequate verification coverage",
+          "Verification costs can realistically decline to 0.1% of transaction value"
+        ],
+        "atlasPosition": [
+          "Physical commodities have inherent verification cost floors that vary significantly",
+          "Different regions and commodity types require fundamentally different approaches",
+          "Oracle incentives must be aligned with actual verification difficulty",
+          "Unified approach will lead to verification gaps in challenging contexts",
+          "Projected verification cost reductions are unrealistically optimistic"
+        ]
+      },
+      "arguments": [
+        {
+          "presenter": "FICTRA Technical Team",
+          "argument": "A unified verification approach creates consistency and simplicity that benefits all system participants.",
+          "counterargument": "Forced uniformity ignores the reality that verifying an oil shipment in a developed port is fundamentally different from verifying agricultural products in regions with limited infrastructure.",
+          "resolution": "Agreement that verification requirements should acknowledge fundamental differences while maintaining consistent principles."
+        },
+        {
+          "presenter": "Atlas",
+          "argument": "Oracle incentives must be explicitly tied to verification difficulty, or there will be systematic verification gaps in challenging contexts.",
+          "counterargument": "Market forces will naturally price verification services appropriately based on difficulty.",
+          "resolution": "Partial agreement that more explicit incentive guidance may be needed, particularly in early system stages."
+        },
+        {
+          "presenter": "FICTRA Technical Team",
+          "argument": "Technological improvements including IoT, satellite verification, and AI will continuously reduce verification costs across all commodity types.",
+          "counterargument": "These technologies have shown limited success in reducing costs for physical verification below certain thresholds, particularly in regions with infrastructure limitations.",
+          "resolution": "Agreement to develop more detailed cost models for different verification contexts and technology impacts."
+        },
+        {
+          "presenter": "Atlas",
+          "argument": "The projected verification cost reduction to 0.1% of transaction value is unrealistic for many commodity types and regions.",
+          "counterargument": "The projection represents an average across all verification types, with some being higher and others lower.",
+          "resolution": "Agreement to develop more granular cost projections by commodity type and region rather than system-wide averages."
+        }
+      ],
+      "outcomes": {
+        "agreements": [
+          "Verification requirements should acknowledge fundamental differences between contexts",
+          "More explicit incentive guidance may be needed in early system stages",
+          "More detailed cost models should be developed for different verification scenarios",
+          "Cost projections should be more granular rather than system-wide averages"
+        ],
+        "openQuestions": [
+          "How to balance consistency with appropriate differentiation in verification",
+          "Optimal incentive structure for ensuring comprehensive verification coverage",
+          "Realistic verification cost floors for different commodity types"
+        ],
+        "actionItems": [
+          {
+            "description": "Develop detailed verification cost models by commodity type and region",
+            "assignedTo": "Technical Team",
+            "status": "Planned"
+          },
+          {
+            "description": "Create more explicit oracle incentive guidelines for different verification contexts",
+            "assignedTo": "Economic Team",
+            "status": "In Progress"
+          },
+          {
+            "description": "Research verification technology effectiveness in different contexts",
+            "assignedTo": "Research Team",
+            "status": "Planned"
+          }
+        ]
+      },
+      "impact": {
+        "systemDesign": "Consideration of more differentiated verification approaches",
+        "documentation": "More detailed explanation of verification requirements by context",
+        "economicModel": "More granular verification cost projections"
+      },
+      "relatedCritiques": ["ECON004", "ECON006"],
+      "relatedAlternatives": ["ALT001"]
+    },
+    {
+      "id": "DEB003",
+      "title": "Foundation Token Distribution Debate",
+      "date": "2023-11-01",
+      "participants": [
+        {
+          "role": "FICTRA Governance Team",
+          "position": "Current allocation formula with volume-based approach"
+        },
+        {
+          "role": "Atlas",
+          "position": "Progressive allocation formula to prevent concentration"
+        }
+      ],
+      "context": "Evaluation of the Foundation Token allocation approach and its implications for system governance",
+      "keyPoints": {
+        "fictraPosition": [
+          "Current allocation formula appropriately rewards export volume",
+          "Multiplier adjustments provide sufficient balance for different commodity types",
+          "28% cap per sovereign entity prevents excessive concentration",
+          "Subjective multipliers allow for important qualitative factors",
+          "System naturally incentivizes broader participation over time"
+        ],
+        "atlasPosition": [
+          "Volume-based approach creates structural advantage for large exporters",
+          "28% cap is insufficient to prevent governance concentration among few entities",
+          "Subjective multipliers create potential for disputes and favoritism",
+          "Progressive formula would better balance incentives and distribution",
+          "Objective metrics should replace subjective assessments"
+        ]
+      },
+      "arguments": [
+        {
+          "presenter": "FICTRA Governance Team",
+          "argument": "The current allocation formula appropriately rewards export volume, which is the fundamental activity the system aims to incentivize.",
+          "counterargument": "Pure volume-based rewards create a structural imbalance that undermines the system's goal of equitable value distribution and broad participation.",
+          "resolution": "Agreement to explore modifications that maintain volume incentives while improving distribution."
+        },
+        {
+          "presenter": "Atlas",
+          "argument": "The 28% cap per sovereign entity is insufficient to prevent governance concentration, as the top 5 exporters could still control over 60% of all FT.",
+          "counterargument": "The cap is designed to prevent single-entity dominance while still recognizing the reality of global commodity export distribution.",
+          "resolution": "Agreement to model alternative cap structures and their implications for governance."
+        },
+        {
+          "presenter": "FICTRA Governance Team",
+          "argument": "Subjective multipliers for sustainability and strategic importance allow the system to incorporate important qualitative factors that cannot be fully quantified.",
+          "counterargument": "Subjective assessments create potential for disputes, favoritism, and manipulation that could undermine trust in the system.",
+          "resolution": "Agreement to develop more objective frameworks for these assessments while maintaining some flexibility."
+        },
+        {
+          "presenter": "Atlas",
+          "argument": "A progressive allocation formula with higher multipliers for initial volumes would better balance incentives and distribution.",
+          "counterargument": "Progressive formulas add complexity and could create perverse incentives like artificial division of exports.",
+          "resolution": "Agreement to model progressive approaches and their potential impacts and implementation challenges."
+        }
+      ],
+      "outcomes": {
+        "agreements": [
+          "Explore modifications to improve distribution while maintaining volume incentives",
+          "Model alternative cap structures and their governance implications",
+          "Develop more objective frameworks for sustainability and strategic importance assessment",
+          "Evaluate progressive allocation approaches and their potential impacts"
+        ],
+        "openQuestions": [
+          "Optimal balance between volume incentives and distribution equity",
+          "How to prevent artificial division of exports under progressive models",
+          "Appropriate governance thresholds to ensure broad participation"
+        ],
+        "actionItems": [
+          {
+            "description": "Model distribution outcomes under current and alternative allocation approaches",
+            "assignedTo": "Economic Team",
+            "status": "In Progress"
+          },
+          {
+            "description": "Develop objective framework for sustainability assessment",
+            "assignedTo": "Governance Team",
+            "status": "Planned"
+          },
+          {
+            "description": "Research potential gaming behaviors under progressive allocation",
+            "assignedTo": "Research Team",
+            "status": "Planned"
+          }
+        ]
+      },
+      "impact": {
+        "systemDesign": "Consideration of modified allocation formulas and governance structures",
+        "documentation": "More transparent explanation of allocation principles and objectives",
+        "economicModel": "Revised modeling of token distribution and governance implications"
+      },
+      "relatedCritiques": ["ECON002", "ECON005"],
+      "relatedAlternatives": ["ALT004"]
+    }
+  ]
+}
