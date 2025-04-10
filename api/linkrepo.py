@@ -589,6 +589,75 @@ def sync_repository(kin_path):
             text=True
         )
         logger.info("Set Git user name to Lesterpaintstheworld")
+            
+        # Configure Git pull strategy before attempting to pull
+        try:
+            # Configure Git pull strategy
+            if use_shell:
+                subprocess.run(
+                    "git config pull.rebase false",
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    shell=True
+                )
+            else:
+                subprocess.run(
+                    [git_exe, "config", "pull.rebase", "false"],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+            logger.info("Configured Git to use merge strategy for pulls")
+                
+            # Configure Git to prioritize our changes in merges
+            if use_shell:
+                subprocess.run(
+                    "git config merge.ours.driver true",
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    shell=True
+                )
+            else:
+                subprocess.run(
+                    [git_exe, "config", "merge.ours.driver", "true"],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+            logger.info("Configured Git to prioritize our changes in merges")
+                
+            # Create a .gitattributes file to use the ours merge driver for conflicts
+            gitattributes_path = os.path.join(kin_path, ".gitattributes")
+            with open(gitattributes_path, 'w') as f:
+                f.write("* merge=ours\n")
+            logger.info("Created .gitattributes file to prioritize our changes")
+                
+            # Add the .gitattributes file to the repository
+            if use_shell:
+                subprocess.run(
+                    "git add .gitattributes",
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    shell=True
+                )
+            else:
+                subprocess.run(
+                    [git_exe, "add", ".gitattributes"],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+        except Exception as e:
+            logger.warning(f"Error configuring Git: {str(e)}")
         
         # Get current branch
         branch_cmd = subprocess.run(
@@ -627,10 +696,10 @@ def sync_repository(kin_path):
             # There are changes to pull
             logger.info(f"Changes to pull: {changes_to_pull}")
             
-            # Pull changes
+            # Pull changes with force flag
             logger.info(f"Pulling changes from remote...")
             pull_cmd = subprocess.run(
-                ["git", "pull", "origin", current_branch],
+                ["git", "pull", "--force", "origin", current_branch],
                 cwd=kin_path,
                 check=True,
                 capture_output=True,
@@ -701,10 +770,10 @@ def sync_repository(kin_path):
                 "message": "No local changes to commit"
             })
         
-        # Push changes
+        # Push changes with force flag
         logger.info(f"Pushing changes to remote...")
         push_cmd = subprocess.run(
-            ["git", "push", "origin", current_branch],
+            ["git", "push", "--force", "origin", current_branch],
             cwd=kin_path,
             check=True,
             capture_output=True,
