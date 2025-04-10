@@ -628,7 +628,7 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
         
         # Call Claude and Aider with the selected context
         try:
-            # Call Claude directly for a response
+            # Call LLM directly for a response
             # Pass is_new_message=True to indicate this message isn't in messages.json yet
             claude_response = call_claude_with_context(
                 selected_files, 
@@ -640,7 +640,8 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
                 is_new_message=True,
                 addSystem=addSystem,
                 mode=selected_mode,  # Pass the selected mode
-                channel_messages=channel_context  # Pass channel-specific messages
+                channel_messages=channel_context,  # Pass channel-specific messages
+                provider=provider  # Pass the provider
             )
             
             # Create assistant message object

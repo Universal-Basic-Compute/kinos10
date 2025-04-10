@@ -194,8 +194,16 @@ def send_message(blueprint, kin_id):
         character = data.get('character', '')
         token = data.get('token', '')  # Can be used for authentication in the future
         model = data.get('model', '')  # Optional model parameter
+        provider = data.get('provider', None)  # Optional provider parameter
         history_length = data.get('history_length', 25)  # Default to 25 messages
         addSystem = data.get('addSystem', None)  # Optional additional system instructions
+        
+        # If model is specified but provider isn't, infer provider from model
+        if model and not provider:
+            if model.startswith("gpt-"):
+                provider = "openai"
+            elif model.startswith("claude-"):
+                provider = "claude"
         
         # Ensure history_length is an integer and has a reasonable value (default: 25)
         try:
@@ -469,7 +477,8 @@ def send_message(blueprint, kin_id):
             addSystem, 
             history_length=2,
             min_files=min_files,
-            max_files=max_files
+            max_files=max_files,
+            provider=provider
         )
         
         # Add saved image files to selected files for context
@@ -520,7 +529,14 @@ def send_message(blueprint, kin_id):
             # Call Aider in parallel for file updates (don't wait for response)
             def run_aider():
                 try:
-                    aider_response = call_aider_with_context(kin_path, selected_files, message_content, addSystem=addSystem)
+                    aider_response = call_aider_with_context(
+                        kin_path, 
+                        selected_files, 
+                        message_content, 
+                        addSystem=addSystem,
+                        provider=provider,
+                        model=model
+                    )
                     logger.info("Aider processing completed")
                     # Log the complete Aider response
                     logger.info(f"Aider response: {aider_response}")
@@ -642,7 +658,7 @@ def analyze_message(blueprint, kin_id):
         logger.info(f"Selected files for analysis context: {selected_files}")
         logger.info(f"Analysis request with message: {message_content[:100]}...")
         
-        # Call Claude with the selected context
+        # Call LLM with the selected context
         try:
             # Pass is_new_message=False to use existing messages from messages.json
             claude_response = call_claude_with_context(
@@ -654,7 +670,8 @@ def analyze_message(blueprint, kin_id):
                 history_length,
                 is_new_message=False,  # Don't treat as a new message
                 addSystem=addSystem,
-                mode="analysis"  # Explicitly set mode to "analysis"
+                mode="analysis",  # Explicitly set mode to "analysis"
+                provider=data.get('provider')  # Pass provider from request data
             )
             
             # Return the Claude response directly in the API response

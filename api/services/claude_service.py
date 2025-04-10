@@ -4,8 +4,20 @@ import logging
 import anthropic
 import datetime
 from config import MODEL, logger
+from services.llm_service import LLMProvider
 
-# Initialize Anthropic client
+def get_llm_client(provider=None, model=None):
+    """Get the appropriate LLM client based on provider and model"""
+    # If model starts with "gpt-", use OpenAI
+    if model and model.startswith("gpt-"):
+        provider = "openai"
+    # If model starts with "claude-", use Claude
+    elif model and model.startswith("claude-"):
+        provider = "claude"
+        
+    return LLMProvider.get_provider(provider)
+
+# Initialize Anthropic client for backward compatibility
 try:
     # Set API key from environment variable
     api_key = os.getenv("ANTHROPIC_API_KEY")
@@ -19,9 +31,9 @@ except Exception as e:
     logger.error(f"Error initializing Anthropic client: {str(e)}")
     raise RuntimeError(f"Could not initialize Anthropic client: {str(e)}")
 
-def call_claude_with_context(selected_files, kin_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None, mode=None, channel_messages=None, channel_id=None):
+def call_claude_with_context(selected_files, kin_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None, mode=None, channel_messages=None, channel_id=None, provider=None):
     """
-    Call Claude API directly with the selected context files, user message, and optional images.
+    Call LLM API with the selected context files, user message, and optional images.
     Also includes conversation history from messages.json as actual messages.
     
     Args:
@@ -36,10 +48,20 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
         mode: Optional mode to use for this interaction
         channel_messages: Optional list of messages from a specific channel
         channel_id: Optional channel ID
+        provider: Optional LLM provider to use ("claude" or "openai")
     
     Returns:
-        Claude response as a string
+        LLM response as a string
     """
+    # Get the provider based on model or default
+    if not provider:
+        if model:
+            if model.startswith("gpt-"):
+                provider = "openai"
+            elif model.startswith("claude-"):
+                provider = "claude"
+    
+    llm_client = get_llm_client(provider, model)
     # Create a list to track temporary files that need to be deleted
     temp_files = []
     
@@ -472,10 +494,10 @@ Your goal is to provide useful and accurate information while maintaining a clea
             except Exception as e:
                 logger.warning(f"Could not delete temporary file {temp_file}: {str(e)}")
 
-def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None, history_length=2, min_files=5, max_files=15):
+def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None, history_length=2, min_files=5, max_files=15, provider=None):
     """
     Build context by determining which files should be included.
-    Uses Claude to select relevant files based on the message, map.json, and recent conversation history.
+    Uses LLM to select relevant files based on the message, map.json, and recent conversation history.
     
     Args:
         blueprint: blueprint name
@@ -483,16 +505,26 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         message: User message content
         attachments: Optional list of attachments to always include in context
         kin_path: Optional kin path (if already known)
-        model: Optional model to use (ignored - always uses claude-3-5-haiku-latest)
+        model: Optional model to use
         mode: Optional mode parameter
         addSystem: Optional additional system instructions
         history_length: Number of recent messages to include for context (default: 2)
         min_files: Minimum number of files to include in context (default: 5)
         max_files: Maximum number of files to include in context (default: 15)
+        provider: Optional LLM provider to use ("claude" or "openai")
         
     Returns:
         Tuple of (selected_files, selected_mode) where selected_mode may be None
     """
+    # Determine provider based on model if not explicitly provided
+    if not provider and model:
+        if model.startswith("gpt-"):
+            provider = "openai"
+        elif model.startswith("claude-"):
+            provider = "claude"
+    
+    # Get the LLM client
+    llm_client = get_llm_client(provider, model)
     # Import modules needed within this function
     import re
     
@@ -671,31 +703,27 @@ Note: Core system files are already included automatically.
 Return your answer as a JSON array of file paths only."""
     
     try:
-        # Always use claude-3-7-sonnet-latest for context building
-        context_builder_model = "claude-3-7-sonnet-latest"
-        logger.info(f"Using {context_builder_model} for context building (ignoring model parameter: {model})")
+        # Choose appropriate model for context building
+        context_builder_model = "claude-3-7-sonnet-latest" if provider != "openai" else "gpt-4o"
+        logger.info(f"Using {context_builder_model} for context building with provider: {provider}")
         
-        # Call Claude to select relevant files with map.json in system prompt
-        logger.info(f"Making Claude API call for context building with:")
+        # Call LLM to select relevant files with map.json in system prompt
+        logger.info(f"Making LLM API call for context building with:")
         logger.info(f"  Model: {context_builder_model}")
+        logger.info(f"  Provider: {provider}")
         logger.info(f"  System prompt: {system_prompt}")
         logger.info(f"  User message: {selection_prompt}")
         
-        response = client.messages.create(
-            model=context_builder_model,
-            max_tokens=1000,
+        # Use the LLM provider abstraction to generate the response
+        response_text = llm_client.generate_response(
+            messages=[{"role": "user", "content": selection_prompt}],
             system=system_prompt,
-            messages=[
-                {"role": "user", "content": selection_prompt}
-            ]
+            max_tokens=1000,
+            model=context_builder_model
         )
         
-        # Log the full response
-        logger.info(f"Claude context builder response: {response}")
-        
-        # Extract the response text
-        response_text = response.content[0].text
-        logger.info(f"Claude context builder response text: {response_text}")
+        # Log the response
+        logger.info(f"LLM context builder response text: {response_text}")
         
         # Debug print before processing selected mode and JSON array
         print("About to process selected mode and JSON array")

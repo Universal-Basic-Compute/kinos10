@@ -30,6 +30,11 @@ else:
 # Define MODEL constant
 MODEL = "claude-3-7-sonnet-latest"  # Use the latest Claude 3.7 Sonnet model
 
+# LLM Provider Configuration
+DEFAULT_LLM_PROVIDER = os.getenv("DEFAULT_LLM_PROVIDER", "claude")
+CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-3-7-sonnet-latest")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
+
 # Get application data directory
 def get_app_data_dir():
     """Get the appropriate application data directory based on the platform."""

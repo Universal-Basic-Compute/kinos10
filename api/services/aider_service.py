@@ -107,7 +107,7 @@ def find_git_executable():
     logger.info("Will try to use 'git' with shell=True in git operations")
     return "git_with_shell"  # Special return value to indicate shell=True should be used
 
-def call_aider_with_context(kin_path, selected_files, message_content, stream=False, addSystem=None):
+def call_aider_with_context(kin_path, selected_files, message_content, stream=False, addSystem=None, provider=None, model=None):
     """
     Call Aider CLI with the selected context files and user message.
     
@@ -117,15 +117,30 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         message_content: User message content
         stream: Whether to stream the response (default: False)
         addSystem: Optional additional system instructions
+        provider: Optional LLM provider to use ("claude" or "openai")
+        model: Optional model to use
     
     Returns:
         If stream=False: Aider response as a string
         If stream=True: Generator yielding response chunks
     """
-    # Get the Anthropic API key from environment
-    api_key = os.getenv("ANTHROPIC_API_KEY")
-    if not api_key:
-        raise ValueError("ANTHROPIC_API_KEY environment variable not set")
+    # Get the appropriate API key based on provider
+    api_key = None
+    aider_model_flag = "--sonnet"  # Default for Claude
+    aider_model_value = None
+    
+    if provider == "openai" or (model and model.startswith("gpt-")):
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ValueError("OPENAI_API_KEY environment variable not set")
+        aider_model_flag = "--openai-model"
+        aider_model_value = model or "gpt-4o"
+    else:
+        # Default to Claude
+        api_key = os.getenv("ANTHROPIC_API_KEY")
+        if not api_key:
+            raise ValueError("ANTHROPIC_API_KEY environment variable not set")
+        aider_model_flag = "--sonnet"  # or use --opus for Claude Opus
     
     # Check if this is a linked repository
     is_repo_linked = False
@@ -175,7 +190,10 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             logger.warning(f"Error pulling changes before Aider call: {str(e)}")
     
     # Build the command
-    cmd = ["aider", "--sonnet", "--yes-always", f"--anthropic-api-key={api_key}", "--message", str(message_content)]
+    if provider == "openai" or (model and model.startswith("gpt-")):
+        cmd = ["aider", aider_model_flag, aider_model_value, "--yes-always", f"--openai-api-key={api_key}", "--message", str(message_content)]
+    else:
+        cmd = ["aider", aider_model_flag, "--yes-always", f"--anthropic-api-key={api_key}", "--message", str(message_content)]
     
     # Always add messages.json as --read
     messages_file = "messages.json"
