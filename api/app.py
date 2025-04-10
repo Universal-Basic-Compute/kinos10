@@ -957,6 +957,15 @@ if os.path.exists(kin_templates_dir):
 else:
     logger.error(f"kin templates directory not found: {kin_templates_dir}")
 
+# Initialize Atlas blueprint specifically
+logger.info("Initializing Atlas blueprint specifically")
+try:
+    from initialize_atlas import initialize_atlas_blueprint
+    initialize_atlas_blueprint()
+    logger.info("Atlas blueprint initialized successfully")
+except Exception as e:
+    logger.error(f"Error initializing Atlas blueprint: {str(e)}")
+
 # Ensure analysis mode exists in all templates
 ensure_analysis_mode_exists()
 
