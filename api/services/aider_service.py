@@ -179,7 +179,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                 # Try to pull changes from the remote repository
                 try:
                     subprocess.run(
-                        [git_exe, "pull", "origin", "master"],
+                        [git_exe, "pull", "--force", "origin", "master"],
                         cwd=kin_path,
                         check=True,
                         capture_output=True,
@@ -190,7 +190,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                     # Try with main branch if master fails
                     try:
                         subprocess.run(
-                            [git_exe, "pull", "origin", "main"],
+                            [git_exe, "pull", "--force", "origin", "main"],
                             cwd=kin_path,
                             check=True,
                             capture_output=True,
