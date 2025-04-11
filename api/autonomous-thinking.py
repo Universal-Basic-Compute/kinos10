@@ -735,14 +735,14 @@ def add_channel_message(blueprint, kin_id, channel_id, data):
     # Get channel path
     from services.file_service import get_channel_path
     channel_path = get_channel_path(kin_path, channel_id)
-    if not os.path.exists(channel_path):
-        # Create channel directory if it doesn't exist
-        try:
-            os.makedirs(channel_path, exist_ok=True)
-            logger.info(f"Channel directory created: {channel_path}")
-        except Exception as e:
-            logger.error(f"Error creating channel directory: {str(e)}")
-            return {"error": f"Error creating channel: {str(e)}"}, 500
+    
+    # Create channel directory if it doesn't exist
+    try:
+        os.makedirs(channel_path, exist_ok=True)
+        logger.info(f"Channel directory created or verified: {channel_path}")
+    except Exception as e:
+        logger.error(f"Error creating channel directory: {str(e)}")
+        return {"error": f"Error creating channel: {str(e)}"}, 500
     
     # Path to channel's messages.json file
     messages_file = os.path.join(channel_path, "messages.json")
