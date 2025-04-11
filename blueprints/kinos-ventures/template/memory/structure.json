@@ -33,6 +33,28 @@
         "memory/roadmap.json"
       ],
       "purpose": "Track strategic plan and development timeline"
+    },
+    "projectTracking": {
+      "description": "Detailed tracking of all KinOS Ventures projects",
+      "organization": "Organized by project maturity level and individual project",
+      "primaryFiles": [
+        "memory/project_tracking/ventures_overview.json"
+      ],
+      "categories": {
+        "partnerSwarms": {
+          "description": "Established partner projects",
+          "projects": ["kin-kong", "digitalkin", "logicatlas"]
+        },
+        "earlySwarms": {
+          "description": "Projects in early development stage",
+          "projects": ["robinhood-agent", "swarm-ventures", "kinos", "therapykin", "duoai", "synthetic-souls", "xforge", "ai-alley", "deskmate"]
+        },
+        "inceptionSwarms": {
+          "description": "Projects in concept or incubation phase",
+          "projects": ["marketingmesh", "propertykin", "grantkin", "stride", "careerkin", "playwise", "talentkin", "studiokin", "carehive", "publishkin", "stumped", "travelaid", "profitbeeai"]
+        }
+      },
+      "purpose": "Track detailed status, progress, and plans for all ventures"
     }
   },
   "crossReferences": {
