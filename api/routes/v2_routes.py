@@ -1399,7 +1399,7 @@ def add_message_v2(blueprint, kin_id):
     V2 API endpoint to add a message to messages.json without any processing.
     Maps to the original add_message function.
     """
-    from autonomous_thinking import add_message
+    from routes.messages import add_message
     return add_message(blueprint, kin_id, request.json)
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/channels/<channel_id>/add-message', methods=['POST'])
@@ -1408,7 +1408,7 @@ def add_channel_message_v2(blueprint, kin_id, channel_id):
     V2 API endpoint to add a message to a specific channel's messages.json file without any processing.
     Maps to the original add_channel_message function.
     """
-    from autonomous_thinking import add_channel_message
+    from routes.messages import add_channel_message
     return add_channel_message(blueprint, kin_id, channel_id, request.json)
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/link-repo', methods=['POST'])
