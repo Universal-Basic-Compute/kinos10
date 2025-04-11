@@ -630,6 +630,77 @@ Send a message to a specific channel within a kin.
 }
 ```
 
+#### Add Message
+
+Add a message to messages.json without any processing or triggering a response.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/add-message`
+
+**Request Body:**
+```json
+{
+  "message": "This is a message to be recorded without processing",
+  "role": "user",  // Optional, default: "user"
+  "metadata": {    // Optional
+    "source": "external_system",
+    "tags": ["historical", "imported"]
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Message successfully added",
+  "message_id": 42,
+  "timestamp": "2023-09-15T14:30:45.123456"
+}
+```
+
+This endpoint is useful for:
+- Recording system messages without triggering AI processing
+- Importing historical conversations
+- Adding metadata-only entries
+- Synchronizing messages between different interfaces
+
+The message is simply appended to the messages.json file without any AI processing, context building, or file modifications.
+
+#### Add Channel Message
+
+Add a message to a specific channel's messages.json file without any processing.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/channels/{channel_id}/add-message`
+
+**Request Body:**
+```json
+{
+  "message": "This is a channel message to be recorded without processing",
+  "role": "user",  // Optional, default: "user"
+  "metadata": {    // Optional
+    "source": "external_system",
+    "tags": ["historical", "imported"]
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Message successfully added",
+  "message_id": 42,
+  "timestamp": "2023-09-15T14:30:45.123456",
+  "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000"
+}
+```
+
+This endpoint works the same way as the regular add-message endpoint but for channel-specific messages. It's particularly useful for:
+- Recording system messages in specific channels
+- Importing channel-specific historical conversations
+- Adding metadata-only entries to channels
+- Synchronizing channel messages between different interfaces
+
 #### Analyze Message
 
 Analyze a message with Claude without saving it or triggering context updates.
