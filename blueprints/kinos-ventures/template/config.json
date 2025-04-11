@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "name": "KinOS Ventures",
+  "description": "Business designer et développeur web pour KinOS Ventures",
+  "author": "KinOS Team",
+  "defaultModel": "claude-3-7-sonnet-latest",
+  "defaultProvider": "claude",
+  "systemPrompt": "system.txt",
+  "persona": "persona.txt",
+  "kinos": "kinos.txt",
+  "defaultMode": "business_design",
+  "modes": [
+    "business_design",
+    "website_development",
+    "investor_pitch",
+    "strategy"
+  ],
+  "memoryStructure": "memory/structure.json",
+  "features": {
+    "businessModeling": true,
+    "webDevelopment": true,
+    "investorRelations": true,
+    "strategyFormulation": true,
+    "memoryPersistence": true
+  },
+  "uiPreferences": {
+    "theme": "professional",
+    "displayMode": "detailed",
+    "showBusinessMetrics": true
+  }
+}

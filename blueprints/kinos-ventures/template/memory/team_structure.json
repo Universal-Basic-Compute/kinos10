@@ -1,0 +1,258 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-12-01",
+  "teamStructure": {
+    "parentCompany": {
+      "executiveTeam": [
+        {
+          "role": "Chief Executive Officer",
+          "responsibilities": [
+            "Overall strategic direction",
+            "Resource allocation across verticals",
+            "Investor relations and fundraising",
+            "Key partnership development"
+          ],
+          "profile": "Experienced technology executive with multi-industry experience and venture building background",
+          "status": "To be recruited"
+        },
+        {
+          "role": "Chief Technology Officer",
+          "responsibilities": [
+            "KinOS Engine development and evolution",
+            "Technical architecture across verticals",
+            "R&D strategy and execution",
+            "Technical talent acquisition"
+          ],
+          "profile": "AI/ML expert with experience building scalable AI systems and managing technical teams",
+          "status": "Identified candidate in discussions"
+        },
+        {
+          "role": "Chief Operating Officer",
+          "responsibilities": [
+            "Operational excellence across organization",
+            "Vertical launch and scaling oversight",
+            "Process development and optimization",
+            "Cross-vertical resource management"
+          ],
+          "profile": "Operational leader with experience scaling technology businesses and managing complex organizations",
+          "status": "To be recruited"
+        },
+        {
+          "role": "Chief Financial Officer",
+          "responsibilities": [
+            "Financial strategy and planning",
+            "Investment management across verticals",
+            "Financial operations and reporting",
+            "Fundraising support and financial relations"
+          ],
+          "profile": "Financial executive with venture/startup experience and multi-entity financial management",
+          "status": "Part-time advisor identified, full-time to be recruited"
+        },
+        {
+          "role": "Chief Business Development Officer",
+          "responsibilities": [
+            "New vertical identification and validation",
+            "Strategic partnership development",
+            "Cross-vertical business opportunities",
+            "Market intelligence and competitive analysis"
+          ],
+          "profile": "Business development leader with experience across multiple industries and technology partnership background",
+          "status": "To be recruited"
+        }
+      ],
+      "coreFunctions": [
+        {
+          "department": "Technology & Engineering",
+          "headcount": "15-20 initial, scaling to 40-50",
+          "teams": [
+            {
+              "name": "Core AI Team",
+              "focus": "Development and enhancement of the KinOS Engine core capabilities",
+              "keyRoles": ["AI/ML Engineers", "Data Scientists", "Research Scientists", "AI Infrastructure Engineers"]
+            },
+            {
+              "name": "Platform Team",
+              "focus": "Building shared infrastructure, APIs, and developer tools for vertical applications",
+              "keyRoles": ["Platform Engineers", "API Developers", "DevOps Engineers", "Security Specialists"]
+            },
+            {
+              "name": "Vertical Support Team",
+              "focus": "Technical collaboration with vertical engineering teams and specialized module development",
+              "keyRoles": ["Vertical Integration Engineers", "Domain-Specific AI Specialists", "Technical Project Managers"]
+            }
+          ]
+        },
+        {
+          "department": "Business Operations",
+          "headcount": "10-15 initial, scaling to 25-30",
+          "teams": [
+            {
+              "name": "Finance & Administration",
+              "focus": "Financial management, planning, and administrative functions",
+              "keyRoles": ["Financial Analysts", "Accountants", "Administrative Staff", "Legal Coordinators"]
+            },
+            {
+              "name": "People & Culture",
+              "focus": "Talent acquisition, development, and organizational culture",
+              "keyRoles": ["Talent Acquisition Specialists", "HR Business Partners", "Learning & Development", "Culture Managers"]
+            },
+            {
+              "name": "Strategy & Business Intelligence",
+              "focus": "Market analysis, competitive intelligence, and strategic planning",
+              "keyRoles": ["Business Analysts", "Market Researchers", "Strategy Associates", "Data Analysts"]
+            }
+          ]
+        },
+        {
+          "department": "Vertical Acceleration",
+          "headcount": "8-12 initial, scaling to 15-20",
+          "teams": [
+            {
+              "name": "Vertical Incubation",
+              "focus": "Development and launch of new vertical businesses",
+              "keyRoles": ["Vertical GMs", "Business Designers", "Market Validation Specialists", "Launch Managers"]
+            },
+            {
+              "name": "Vertical Growth",
+              "focus": "Supporting scaling and optimization of established verticals",
+              "keyRoles": ["Growth Specialists", "Scaling Advisors", "Operational Excellence Coaches"]
+            },
+            {
+              "name": "Cross-Vertical Synergies",
+              "focus": "Identifying and developing opportunities across vertical businesses",
+              "keyRoles": ["Business Development Managers", "Integration Specialists", "Partnership Managers"]
+            }
+          ]
+        }
+      ]
+    },
+    "verticalStructure": {
+      "generalModel": {
+        "leadership": [
+          {
+            "role": "Vertical CEO/General Manager",
+            "responsibilities": [
+              "Overall vertical business success",
+              "Vertical strategy and execution",
+              "Team building and leadership",
+              "Vertical-specific partnerships and sales"
+            ],
+            "reportingLine": "Reports to Parent Company CEO with matrix to COO"
+          },
+          {
+            "role": "Vertical CTO/Technical Director",
+            "responsibilities": [
+              "Vertical-specific technical development",
+              "Integration with KinOS Engine",
+              "Technical team leadership",
+              "Technology roadmap execution"
+            ],
+            "reportingLine": "Reports to Vertical CEO with matrix to Parent Company CTO"
+          },
+          {
+            "role": "Vertical COO/Operations Director",
+            "responsibilities": [
+              "Day-to-day vertical operations",
+              "Customer implementation and success",
+              "Operational metrics and optimization",
+              "Process development and scaling"
+            ],
+            "reportingLine": "Reports to Vertical CEO with matrix to Parent Company COO"
+          }
+        ],
+        "coreFunctions": [
+          {
+            "function": "Product Development",
+            "description": "Vertical-specific product design, development, and enhancement",
+            "keyRoles": ["Product Managers", "UX/UI Designers", "Domain Specialists", "Product Marketers"],
+            "typicalSize": "5-10 people initially, scaling with vertical growth"
+          },
+          {
+            "function": "Engineering",
+            "description": "Technical implementation of vertical solutions and KinOS Engine integration",
+            "keyRoles": ["Software Engineers", "AI Specialists", "QA Engineers", "Technical Project Managers"],
+            "typicalSize": "8-15 people initially, scaling with vertical growth"
+          },
+          {
+            "function": "Go-to-Market",
+            "description": "Sales, marketing, and customer acquisition for vertical solutions",
+            "keyRoles": ["Sales Representatives", "Marketing Specialists", "Solution Consultants", "Customer Success Managers"],
+            "typicalSize": "5-10 people initially, scaling with vertical growth"
+          },
+          {
+            "function": "Domain Expertise",
+            "description": "Industry-specific knowledge and expertise for vertical solutions",
+            "keyRoles": ["Domain Experts", "Industry Specialists", "Subject Matter Experts", "Regulatory Specialists"],
+            "typicalSize": "3-5 people initially, scaling with vertical growth"
+          }
+        ],
+        "sharedServices": [
+          "Finance and Accounting (provided by parent company)",
+          "HR and Recruiting (core provided by parent with vertical-specific as needed)",
+          "Legal and Compliance (core provided by parent with vertical-specific as needed)",
+          "IT Infrastructure (provided by parent company)"
+        ]
+      },
+      "governance": {
+        "boardStructure": "Each vertical has its own board consisting of parent company executives and independent industry experts",
+        "decisionRights": {
+          "parentCompany": [
+            "Major investment decisions",
+            "Strategic direction and pivots",
+            "Senior leadership hiring",
+            "Cross-vertical initiatives"
+          ],
+          "verticalLeadership": [
+            "Product roadmap and prioritization",
+            "Market approach and customer strategy",
+            "Team building and organization",
+            "Operational execution"
+          ]
+        },
+        "performanceManagement": {
+          "keyMetrics": [
+            "Revenue growth and profitability",
+            "Customer acquisition and retention",
+            "Product development milestones",
+            "Strategic objective achievement"
+          ],
+          "reviewCadence": "Monthly operational reviews, quarterly strategic reviews, annual planning"
+        }
+      }
+    },
+    "talentStrategy": {
+      "acquisition": {
+        "approach": "Hybrid of experienced industry leaders and high-potential technical talent",
+        "keySourcesParent": [
+          "Established AI companies for technical talent",
+          "Successful technology companies for operational talent",
+          "Venture and startup ecosystem for entrepreneurial talent"
+        ],
+        "keySourcesVerticals": [
+          "Industry-specific companies for domain expertise",
+          "Relevant technology providers for specialized technical talent",
+          "Consulting firms for industry knowledge and client relationships"
+        ],
+        "valueProposition": "Opportunity to build innovative AI solutions with the stability of a larger organization and the entrepreneurial environment of a startup"
+      },
+      "development": {
+        "philosophy": "Continuous learning organization with emphasis on both technical and business skill development",
+        "programs": [
+          "Technical skill development in AI and vertical-specific technologies",
+          "Leadership development for high-potential talent",
+          "Cross-vertical rotation opportunities",
+          "Industry and domain expertise building"
+        ]
+      },
+      "retention": {
+        "approach": "Combination of meaningful work, growth opportunities, competitive compensation, and ownership culture",
+        "keyElements": [
+          "Equity participation in both parent company and vertical businesses",
+          "Clear growth paths both within verticals and across the organization",
+          "Recognition of both technical and business contributions",
+          "Collaborative and innovative culture"
+        ]
+      }
+    }
+  }
+}
