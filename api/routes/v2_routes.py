@@ -1397,19 +1397,157 @@ def check_website_status_v2(blueprint, kin_id):
 def add_message_v2(blueprint, kin_id):
     """
     V2 API endpoint to add a message to messages.json without any processing.
-    Maps to the original add_message function.
     """
-    from routes.messages import add_message
-    return add_message(blueprint, kin_id, request.json)
+    try:
+        # Parse request data
+        data = request.json or {}
+        message_content = data.get('message', data.get('content', ''))
+        role = data.get('role', 'user')  # Default role is 'user'
+        
+        if not message_content:
+            return jsonify({"error": "Message content is required"}), 400
+            
+        # Get kin path
+        from services.file_service import get_kin_path
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Path to messages.json file
+        messages_file = os.path.join(kin_path, "messages.json")
+        
+        # Load existing messages or create empty list
+        messages = []
+        if os.path.exists(messages_file):
+            try:
+                with open(messages_file, 'r', encoding='utf-8') as f:
+                    messages = json.load(f)
+                    if not isinstance(messages, list):
+                        messages = []
+            except Exception as e:
+                logger.error(f"Error reading messages.json: {str(e)}")
+                messages = []
+        
+        # Create new message
+        timestamp = datetime.datetime.now().isoformat()
+        
+        new_message = {
+            "role": role,
+            "content": message_content,
+            "timestamp": timestamp
+        }
+        
+        # Add additional metadata if provided
+        if 'metadata' in data:
+            new_message['metadata'] = data['metadata']
+        
+        # Add message to list
+        messages.append(new_message)
+        
+        # Write updated file
+        try:
+            os.makedirs(os.path.dirname(messages_file), exist_ok=True)
+            with open(messages_file, 'w', encoding='utf-8') as f:
+                json.dump(messages, f, indent=2)
+            
+            logger.info(f"Message successfully added for {blueprint}/{kin_id}")
+            return jsonify({
+                "status": "success",
+                "message": "Message successfully added",
+                "message_id": len(messages) - 1,  # Index of the new message
+                "timestamp": timestamp
+            })
+        except Exception as e:
+            logger.error(f"Error writing to messages.json: {str(e)}")
+            return jsonify({"error": f"Error saving message: {str(e)}"}), 500
+            
+    except Exception as e:
+        logger.error(f"Error adding message: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/channels/<channel_id>/add-message', methods=['POST'])
 def add_channel_message_v2(blueprint, kin_id, channel_id):
     """
     V2 API endpoint to add a message to a specific channel's messages.json file without any processing.
-    Maps to the original add_channel_message function.
     """
-    from routes.messages import add_channel_message
-    return add_channel_message(blueprint, kin_id, channel_id, request.json)
+    try:
+        # Parse request data
+        data = request.json or {}
+        message_content = data.get('message', data.get('content', ''))
+        role = data.get('role', 'user')  # Default role is 'user'
+        
+        if not message_content:
+            return jsonify({"error": "Message content is required"}), 400
+            
+        # Get kin path
+        from services.file_service import get_kin_path, get_channel_path
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Get channel path
+        channel_path = get_channel_path(kin_path, channel_id)
+        
+        # Create channel directory if it doesn't exist
+        try:
+            os.makedirs(channel_path, exist_ok=True)
+            logger.info(f"Channel directory created or verified: {channel_path}")
+        except Exception as e:
+            logger.error(f"Error creating channel directory: {str(e)}")
+            return jsonify({"error": f"Error creating channel: {str(e)}"}), 500
+        
+        # Path to channel's messages.json file
+        messages_file = os.path.join(channel_path, "messages.json")
+        
+        # Load existing messages or create empty list
+        messages = []
+        if os.path.exists(messages_file):
+            try:
+                with open(messages_file, 'r', encoding='utf-8') as f:
+                    messages = json.load(f)
+                    if not isinstance(messages, list):
+                        messages = []
+            except Exception as e:
+                logger.error(f"Error reading channel messages.json: {str(e)}")
+                messages = []
+        
+        # Create new message
+        timestamp = datetime.datetime.now().isoformat()
+        
+        new_message = {
+            "role": role,
+            "content": message_content,
+            "timestamp": timestamp,
+            "channel_id": channel_id
+        }
+        
+        # Add additional metadata if provided
+        if 'metadata' in data:
+            new_message['metadata'] = data['metadata']
+        
+        # Add message to list
+        messages.append(new_message)
+        
+        # Write updated file
+        try:
+            with open(messages_file, 'w', encoding='utf-8') as f:
+                json.dump(messages, f, indent=2)
+            
+            logger.info(f"Message successfully added for {blueprint}/{kin_id}/channels/{channel_id}")
+            return jsonify({
+                "status": "success",
+                "message": "Message successfully added",
+                "message_id": len(messages) - 1,  # Index of the new message
+                "timestamp": timestamp,
+                "channel_id": channel_id
+            })
+        except Exception as e:
+            logger.error(f"Error writing to channel messages.json: {str(e)}")
+            return jsonify({"error": f"Error saving message: {str(e)}"}), 500
+            
+    except Exception as e:
+        logger.error(f"Error adding channel message: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/link-repo', methods=['POST'])
 def link_repository_v2(blueprint, kin_id):
