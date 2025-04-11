@@ -42,6 +42,73 @@ def get_blueprints_v2():
     from routes.projects import get_blueprints
     return get_blueprints()
 
+@v2_bp.route('/blueprints', methods=['POST'])
+def create_blueprint_v2():
+    """
+    V2 API endpoint to create a new blueprint from scratch.
+    """
+    try:
+        # Parse request data
+        data = request.json or {}
+        blueprint_name = data.get('name')
+        
+        if not blueprint_name:
+            return jsonify({"error": "Blueprint name is required"}), 400
+        
+        # Sanitize blueprint name (remove spaces, special chars)
+        import re
+        blueprint_id = re.sub(r'[^a-zA-Z0-9_-]', '-', blueprint_name.lower())
+        
+        # Check if blueprint already exists
+        blueprint_dir = os.path.join(blueprintS_DIR, blueprint_id)
+        if os.path.exists(blueprint_dir):
+            return jsonify({
+                "error": f"Blueprint '{blueprint_id}' already exists",
+                "blueprint_id": blueprint_id
+            }), 409
+        
+        # Create blueprint directory
+        os.makedirs(blueprint_dir, exist_ok=True)
+        
+        # Create template directory
+        template_dir = os.path.join(blueprint_dir, "template")
+        os.makedirs(template_dir, exist_ok=True)
+        
+        # Create basic template files
+        with open(os.path.join(template_dir, "system.txt"), 'w') as f:
+            f.write(f"# {blueprint_name} System\n\nYou are a helpful assistant for the {blueprint_name} blueprint.")
+        
+        with open(os.path.join(template_dir, "kinos.txt"), 'w') as f:
+            f.write(f"# {blueprint_name} Blueprint\n\nThis is the {blueprint_name} blueprint.")
+        
+        # Create modes directory and analysis mode
+        modes_dir = os.path.join(template_dir, "modes")
+        os.makedirs(modes_dir, exist_ok=True)
+        
+        with open(os.path.join(modes_dir, "analysis.txt"), 'w') as f:
+            f.write("# Analysis Mode: Informative Responses Without Memorization\n\n"
+                    "In this mode, you provide information and analysis without memorizing the content of the exchange.\n\n"
+                    "When operating in this mode:\n"
+                    "- Respond with precision and honesty to questions asked\n"
+                    "- Explain your reasoning and internal processes if requested\n"
+                    "- Provide complete information about your configuration and capabilities\n"
+                    "- Do not initiate the creation or modification of memory files")
+        
+        # Create kins directory
+        kins_dir = os.path.join(blueprint_dir, "kins")
+        os.makedirs(kins_dir, exist_ok=True)
+        
+        return jsonify({
+            "status": "success",
+            "message": f"Blueprint '{blueprint_id}' created successfully",
+            "blueprint_id": blueprint_id,
+            "blueprint_name": blueprint_name
+        })
+        
+    except Exception as e:
+        logger.error(f"Error creating blueprint: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @v2_bp.route('/blueprints/<blueprint>', methods=['GET'])
 def get_blueprint_details_v2(blueprint):
     """
@@ -90,8 +157,23 @@ def initialize_blueprint_v2(blueprint):
     V2 API endpoint to initialize a blueprint.
     Maps to the original initialize_blueprint function.
     """
-    from routes.projects import initialize_blueprint
-    return initialize_blueprint(blueprint)
+    # Get the original data
+    original_data = request.get_json() or {}
+    
+    # Create a new request context with the data
+    with app.test_request_context(
+        method='POST',
+        path=f'/api/proxy/blueprints/{blueprint}/initialize',
+        json=original_data
+    ) as ctx:
+        # Push the context
+        ctx.push()
+        try:
+            # Call initialize_blueprint with the new context
+            from routes.projects import initialize_blueprint
+            return initialize_blueprint(blueprint)
+        finally:
+            ctx.pop()
 
 @v2_bp.route('/blueprints/<blueprint>/kins', methods=['GET'])
 def get_blueprint_kins_v2(blueprint):

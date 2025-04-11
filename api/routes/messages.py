@@ -265,11 +265,22 @@ def send_message(blueprint, kin_id):
 
         if os.path.exists(blueprint_path):
             logger.info(f"Blueprint directory contents: {os.listdir(blueprint_path)}")
-
-        if not os.path.exists(blueprint_path):
+        else:
             logger.error(f"Blueprint '{blueprint}' not found at path: {blueprint_path}")
-            logger.error(f"Available blueprints: {os.listdir(blueprintS_DIR)}")
-            return jsonify({"error": f"blueprint '{blueprint}' not found"}), 404
+            
+            # Check if blueprints directory exists and list available blueprints
+            if os.path.exists(blueprintS_DIR):
+                available_blueprints = os.listdir(blueprintS_DIR)
+                logger.error(f"Available blueprints: {available_blueprints}")
+                
+                # Suggest creating the blueprint
+                return jsonify({
+                    "error": f"Blueprint '{blueprint}' not found. Use POST /v2/blueprints to create it or POST /v2/blueprints/{blueprint}/initialize?create_basic=true to initialize it.",
+                    "available_blueprints": available_blueprints
+                }), 404
+            else:
+                logger.error(f"Blueprints directory not found: {blueprintS_DIR}")
+                return jsonify({"error": f"Blueprints directory not found. System may not be properly initialized."}), 500
             
         kin_path = get_kin_path(blueprint, kin_id)
         

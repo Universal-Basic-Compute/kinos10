@@ -145,7 +145,38 @@ def initialize_blueprint(blueprint):
         
         # Check if blueprint template exists in kin
         if not os.path.exists(blueprint_template_dir) or not os.path.isdir(blueprint_template_dir):
-            return jsonify({"error": f"blueprint template '{blueprint}' not found in kin"}), 404
+            # If the template doesn't exist, check if we should create a basic template
+            data = request.json or {}
+            create_basic = data.get('create_basic', False)
+            
+            if create_basic:
+                logger.info(f"Creating basic template for blueprint '{blueprint}'")
+                # Create the blueprint template directory
+                os.makedirs(blueprint_template_dir, exist_ok=True)
+                
+                # Create basic template files
+                with open(os.path.join(blueprint_template_dir, "system.txt"), 'w') as f:
+                    f.write(f"# {blueprint.capitalize()} System\n\nYou are a helpful assistant for the {blueprint} blueprint.")
+                
+                with open(os.path.join(blueprint_template_dir, "kinos.txt"), 'w') as f:
+                    f.write(f"# {blueprint.capitalize()} Blueprint\n\nThis is the {blueprint} blueprint.")
+                
+                # Create modes directory and analysis mode
+                modes_dir = os.path.join(blueprint_template_dir, "modes")
+                os.makedirs(modes_dir, exist_ok=True)
+                
+                with open(os.path.join(modes_dir, "analysis.txt"), 'w') as f:
+                    f.write("# Analysis Mode: Informative Responses Without Memorization\n\n"
+                            "In this mode, you provide information and analysis without memorizing the content of the exchange.\n\n"
+                            "When operating in this mode:\n"
+                            "- Respond with precision and honesty to questions asked\n"
+                            "- Explain your reasoning and internal processes if requested\n"
+                            "- Provide complete information about your configuration and capabilities\n"
+                            "- Do not initiate the creation or modification of memory files")
+                
+                logger.info(f"Created basic template for blueprint '{blueprint}'")
+            else:
+                return jsonify({"error": f"Blueprint template '{blueprint}' not found in kin. Use create_basic=true to create a basic template."}), 404
         
         # Create blueprint directory if it doesn't exist
         blueprint_dir = os.path.join(blueprintS_DIR, blueprint)
