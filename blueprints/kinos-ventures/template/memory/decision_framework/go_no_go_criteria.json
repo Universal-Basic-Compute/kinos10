@@ -1,0 +1,187 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-12-15",
+  "purpose": "Standardized framework for making advancement or sunsetting decisions for projects",
+  "stageGates": [
+    {
+      "stage": "Concept Validation",
+      "description": "Validating the basic concept and problem-solution fit",
+      "typicalDuration": "1-3 months",
+      "advancementCriteria": [
+        {
+          "criterion": "Problem Validation",
+          "description": "Evidence that the problem exists and is significant",
+          "minimumThreshold": "Documented problem validation from at least 10 potential customers",
+          "targetThreshold": "Strong validation from 20+ potential customers with quantified impact"
+        },
+        {
+          "criterion": "Solution Concept Validation",
+          "description": "Evidence that the proposed solution approach is viable",
+          "minimumThreshold": "Positive feedback on solution concept from 50%+ of interviewed prospects",
+          "targetThreshold": "Enthusiastic response from 70%+ of prospects with willingness to engage further"
+        },
+        {
+          "criterion": "Technical Feasibility",
+          "description": "Assessment of technical ability to deliver the solution",
+          "minimumThreshold": "No major technical blockers identified, clear development path",
+          "targetThreshold": "Proof-of-concept demonstrates core technical capabilities"
+        },
+        {
+          "criterion": "Market Opportunity",
+          "description": "Validation of market size and accessibility",
+          "minimumThreshold": "Identified market segment with sufficient size and accessibility",
+          "targetThreshold": "Detailed market analysis with validated entry strategy"
+        }
+      ],
+      "decision": {
+        "advance": "Proceed to MVP Development with appropriate resources",
+        "pivot": "Refine concept based on feedback and revalidate",
+        "sunset": "Discontinue project and document learnings"
+      }
+    },
+    {
+      "stage": "MVP Development",
+      "description": "Building and validating minimum viable product",
+      "typicalDuration": "3-6 months",
+      "advancementCriteria": [
+        {
+          "criterion": "Product Functionality",
+          "description": "Completion of core MVP features",
+          "minimumThreshold": "MVP with essential features functional and tested",
+          "targetThreshold": "Complete MVP with positive usability testing results"
+        },
+        {
+          "criterion": "Early Adopter Engagement",
+          "description": "Commitment from initial customers to use the product",
+          "minimumThreshold": "At least 3 committed early adopters",
+          "targetThreshold": "5+ committed early adopters with diverse use cases"
+        },
+        {
+          "criterion": "Usage Metrics",
+          "description": "Evidence of actual product usage and engagement",
+          "minimumThreshold": "Regular usage by early adopters with basic engagement metrics",
+          "targetThreshold": "Strong engagement metrics with evidence of value delivery"
+        },
+        {
+          "criterion": "Technical Performance",
+          "description": "System performance and reliability",
+          "minimumThreshold": "System meets basic performance requirements with acceptable reliability",
+          "targetThreshold": "System exceeds performance targets with high reliability"
+        }
+      ],
+      "decision": {
+        "advance": "Proceed to Market Validation with increased resources",
+        "extend": "Continue MVP development with specific improvements",
+        "pivot": "Significant product direction change based on feedback",
+        "sunset": "Discontinue project and document learnings"
+      }
+    },
+    {
+      "stage": "Market Validation",
+      "description": "Validating product-market fit and initial commercialization",
+      "typicalDuration": "3-6 months",
+      "advancementCriteria": [
+        {
+          "criterion": "Customer Acquisition",
+          "description": "Ability to acquire customers beyond early adopters",
+          "minimumThreshold": "Demonstrated ability to acquire customers through repeatable process",
+          "targetThreshold": "Growing customer base with increasing acquisition efficiency"
+        },
+        {
+          "criterion": "Revenue Generation",
+          "description": "Ability to generate revenue from the product",
+          "minimumThreshold": "Initial revenue from paying customers",
+          "targetThreshold": "Growing revenue with positive trajectory"
+        },
+        {
+          "criterion": "Customer Success",
+          "description": "Evidence of value delivery and customer satisfaction",
+          "minimumThreshold": "Positive customer feedback and basic success metrics",
+          "targetThreshold": "Strong success metrics with documented customer outcomes"
+        },
+        {
+          "criterion": "Unit Economics",
+          "description": "Economic viability of the business model",
+          "minimumThreshold": "Path to positive unit economics identified",
+          "targetThreshold": "Demonstrated positive unit economics or clear path with timeline"
+        }
+      ],
+      "decision": {
+        "advance": "Proceed to Scaling with significant resource investment",
+        "optimize": "Continue market validation with focus on improving key metrics",
+        "pivot": "Significant business model adjustment based on market feedback",
+        "sunset": "Discontinue project and document learnings"
+      }
+    },
+    {
+      "stage": "Scaling",
+      "description": "Expanding the business with proven product-market fit",
+      "typicalDuration": "Ongoing",
+      "advancementCriteria": [
+        {
+          "criterion": "Growth Rate",
+          "description": "Pace of business expansion",
+          "minimumThreshold": "Consistent growth meeting minimum targets",
+          "targetThreshold": "Accelerating growth exceeding targets"
+        },
+        {
+          "criterion": "Operational Efficiency",
+          "description": "Ability to scale operations efficiently",
+          "minimumThreshold": "Operations scaling without major disruptions",
+          "targetThreshold": "Improving operational efficiency with scale"
+        },
+        {
+          "criterion": "Financial Performance",
+          "description": "Overall financial health and trajectory",
+          "minimumThreshold": "Clear path to profitability with acceptable metrics",
+          "targetThreshold": "Strong financial performance with improving metrics"
+        },
+        {
+          "criterion": "Market Position",
+          "description": "Competitive standing and market perception",
+          "minimumThreshold": "Established market position with differentiation",
+          "targetThreshold": "Growing market leadership and brand recognition"
+        }
+      ],
+      "decision": {
+        "accelerate": "Increase investment for faster scaling",
+        "sustain": "Maintain current scaling approach with ongoing optimization",
+        "consolidate": "Focus on profitability and operational excellence",
+        "divest": "Consider strategic options including sale or spinoff"
+      }
+    }
+  ],
+  "evaluationProcess": {
+    "frequency": "Formal stage gate reviews at completion of each stage",
+    "additionalTriggers": [
+      "Significant market changes",
+      "Major technical developments",
+      "Resource constraints requiring portfolio reassessment",
+      "New strategic opportunities"
+    ],
+    "participants": [
+      "Core executive team",
+      "Project lead",
+      "Key technical contributors",
+      "Customer/market representative when possible"
+    ],
+    "documentation": [
+      "Comprehensive assessment against all criteria",
+      "Supporting evidence for each assessment",
+      "Recommendation with rationale",
+      "Resource implications of decision",
+      "Timeline and key milestones for next stage if advancing"
+    ]
+  },
+  "evaluationTemplate": {
+    "projectName": "",
+    "currentStage": "",
+    "evaluationDate": "",
+    "criteriaAssessment": {},
+    "supportingEvidence": {},
+    "recommendation": "",
+    "rationale": "",
+    "resourceImplications": "",
+    "nextMilestones": []
+  }
+}

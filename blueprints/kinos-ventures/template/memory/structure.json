@@ -34,6 +34,17 @@
       ],
       "purpose": "Track strategic plan and development timeline"
     },
+    "decisionFramework": {
+      "description": "Structured frameworks for strategic decision-making",
+      "organization": "Organized by decision type and methodology",
+      "primaryFiles": [
+        "memory/decision_framework/vertical_evaluation.json",
+        "memory/decision_framework/resource_allocation.json",
+        "memory/decision_framework/go_no_go_criteria.json",
+        "memory/decision_framework/strategic_decisions.json"
+      ],
+      "purpose": "Support systematic, consistent decision-making across the organization"
+    },
     "projectTracking": {
       "description": "Detailed tracking of all KinOS Ventures projects",
       "organization": "Organized by project maturity level and individual project",

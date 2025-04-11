@@ -1,0 +1,181 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-12-15",
+  "purpose": "Framework for making major strategic decisions",
+  "decisionFramework": {
+    "principles": [
+      "First principles thinking over conventional wisdom",
+      "Long-term value creation over short-term gains",
+      "Evidence-based reasoning over intuition alone",
+      "Optionality preservation when facing uncertainty",
+      "Consideration of second-order consequences"
+    ],
+    "decisionTypes": [
+      {
+        "type": "Technology Direction",
+        "examples": ["Core platform architecture changes", "Major technology stack decisions", "Build vs. buy decisions for key components"],
+        "keyConsiderations": [
+          "Alignment with long-term technology vision",
+          "Impact on development velocity and flexibility",
+          "Resource requirements and technical debt implications",
+          "Competitive differentiation potential",
+          "Team capabilities and learning curve"
+        ]
+      },
+      {
+        "type": "Market Entry",
+        "examples": ["New vertical launch", "Geographic expansion", "New customer segment targeting"],
+        "keyConsiderations": [
+          "Market size and growth trajectory",
+          "Competitive landscape and differentiation potential",
+          "Go-to-market requirements and timeline",
+          "Resource requirements vs. available capacity",
+          "Strategic fit and synergies with existing business"
+        ]
+      },
+      {
+        "type": "Partnership & Ecosystem",
+        "examples": ["Strategic partnership formation", "Ecosystem strategy decisions", "Platform vs. product approach"],
+        "keyConsiderations": [
+          "Alignment of incentives and objectives",
+          "Value creation and capture balance",
+          "Control and dependency implications",
+          "Resource requirements and opportunity costs",
+          "Long-term strategic positioning impact"
+        ]
+      },
+      {
+        "type": "Investment & Resource Allocation",
+        "examples": ["Major funding decisions", "Significant resource reallocation", "Build vs. acquire decisions"],
+        "keyConsiderations": [
+          "Expected return on investment (financial and strategic)",
+          "Risk profile and downside protection",
+          "Opportunity costs and alternative uses of resources",
+          "Timeline and milestone-based evaluation",
+          "Alignment with overall portfolio strategy"
+        ]
+      },
+      {
+        "type": "Organizational Design",
+        "examples": ["Team structure changes", "Governance model evolution", "Culture and operating model decisions"],
+        "keyConsiderations": [
+          "Alignment with strategic objectives",
+          "Impact on execution velocity and quality",
+          "Talent implications (attraction, retention, development)",
+          "Scalability and future adaptability",
+          "Cultural and change management considerations"
+        ]
+      }
+    ]
+  },
+  "decisionProcess": {
+    "steps": [
+      {
+        "step": 1,
+        "name": "Problem Framing",
+        "description": "Clearly articulate the decision to be made and its strategic context",
+        "activities": [
+          "Define the specific decision required",
+          "Articulate the strategic context and importance",
+          "Identify key stakeholders and their perspectives",
+          "Establish decision timeline and constraints",
+          "Determine decision criteria and relative importance"
+        ],
+        "outputs": ["Decision statement", "Strategic context document", "Decision criteria with weights"]
+      },
+      {
+        "step": 2,
+        "name": "Options Generation",
+        "description": "Develop a comprehensive set of potential options",
+        "activities": [
+          "Conduct research on potential approaches",
+          "Engage diverse perspectives for option generation",
+          "Consider non-obvious and contrarian options",
+          "Develop multiple scenarios for uncertain factors",
+          "Ensure options span the feasible solution space"
+        ],
+        "outputs": ["Comprehensive options list", "Initial assessment of each option", "Scenario analysis"]
+      },
+      {
+        "step": 3,
+        "name": "Analysis & Evaluation",
+        "description": "Rigorously analyze each option against decision criteria",
+        "activities": [
+          "Gather relevant data and evidence",
+          "Analyze each option against established criteria",
+          "Consider second-order and long-term implications",
+          "Identify key risks and uncertainties",
+          "Quantify impacts where possible"
+        ],
+        "outputs": ["Detailed analysis of each option", "Comparative evaluation", "Risk assessment"]
+      },
+      {
+        "step": 4,
+        "name": "Decision Making",
+        "description": "Select the optimal option based on analysis and strategic judgment",
+        "activities": [
+          "Review analysis and evaluation results",
+          "Consider strategic alignment and principles",
+          "Apply appropriate decision-making method",
+          "Document rationale for selected option",
+          "Identify key assumptions and validation points"
+        ],
+        "outputs": ["Decision recommendation", "Supporting rationale", "Implementation considerations"]
+      },
+      {
+        "step": 5,
+        "name": "Implementation Planning",
+        "description": "Develop a clear plan for executing the decision",
+        "activities": [
+          "Define key implementation steps and timeline",
+          "Allocate resources and responsibilities",
+          "Establish success metrics and monitoring approach",
+          "Identify potential obstacles and mitigation strategies",
+          "Create communication plan for stakeholders"
+        ],
+        "outputs": ["Implementation plan", "Resource allocation", "Monitoring framework"]
+      }
+    ],
+    "decisionMethods": [
+      {
+        "method": "Weighted Criteria Analysis",
+        "description": "Systematic evaluation of options against weighted criteria",
+        "bestFor": "Complex decisions with multiple quantifiable factors",
+        "process": "Score each option on each criterion, multiply by weights, sum for total score"
+      },
+      {
+        "method": "Expected Value Analysis",
+        "description": "Probability-weighted evaluation of potential outcomes",
+        "bestFor": "Decisions with significant uncertainty and quantifiable outcomes",
+        "process": "Identify possible outcomes, assign probabilities, calculate expected value"
+      },
+      {
+        "method": "Real Options Analysis",
+        "description": "Evaluation incorporating the value of future flexibility",
+        "bestFor": "Decisions with high uncertainty and future decision points",
+        "process": "Identify embedded options, value flexibility, incorporate into decision"
+      },
+      {
+        "method": "Pre-Mortem Analysis",
+        "description": "Imagining potential failure and working backward to identify risks",
+        "bestFor": "High-stakes decisions with significant downside risk",
+        "process": "Imagine failure, identify causes, develop preventive measures"
+      }
+    ]
+  },
+  "decisionTemplate": {
+    "decisionTitle": "",
+    "decisionType": "",
+    "strategicContext": "",
+    "decisionOwner": "",
+    "stakeholders": [],
+    "decisionCriteria": [],
+    "options": [],
+    "analysis": {},
+    "selectedOption": "",
+    "rationale": "",
+    "keyAssumptions": [],
+    "implementationPlan": {},
+    "successMetrics": []
+  }
+}

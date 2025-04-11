@@ -13,7 +13,11 @@
     "business_design",
     "website_development",
     "investor_pitch",
-    "strategy"
+    "strategy",
+    "technical_planning",
+    "fundraising",
+    "team_building",
+    "market_analysis"
   ],
   "memoryStructure": "memory/structure.json",
   "features": {
@@ -21,7 +25,8 @@
     "webDevelopment": true,
     "investorRelations": true,
     "strategyFormulation": true,
-    "memoryPersistence": true
+    "memoryPersistence": true,
+    "decisionFrameworks": true
   },
   "uiPreferences": {
     "theme": "professional",

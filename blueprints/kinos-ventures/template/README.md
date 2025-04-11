@@ -10,6 +10,10 @@ The KinOS Ventures blueprint is designed to assist in developing and presenting 
 - **Website Development**: Create compelling web presence and digital materials for investor and team communication
 - **Strategic Planning**: Formulate long-term strategies, roadmaps, and decision frameworks
 - **Investor Relations**: Develop pitch materials and presentations for potential investors
+- **Decision Support**: Apply structured frameworks for evaluating opportunities, allocating resources, and making strategic decisions
+- **Technical Architecture**: Design and plan technical implementations for the KinOS Engine and vertical applications
+- **Team Development**: Create organizational designs and talent strategies optimized for a lean, AI-augmented team
+- **Market Intelligence**: Analyze market opportunities, competitive landscapes, and customer needs across verticals
 
 ## Memory System
 
@@ -19,6 +23,7 @@ The blueprint maintains a structured memory system organized into:
 2. **Verticals**: Detailed information about each vertical business unit
 3. **Team Structure**: Organizational design and role definitions
 4. **Roadmap**: Development timelines and strategic milestones
+5. **Decision Framework**: Structured frameworks for strategic decision-making
 
 ## Usage Modes
 
@@ -28,6 +33,10 @@ KinOS Ventures can be engaged in several modes:
 - **Website Development Mode**: For creating web content and digital presentations
 - **Investor Pitch Mode**: For developing materials targeted at potential investors
 - **Strategy Mode**: For long-term planning and strategic decision-making
+- **Technical Planning Mode**: For technical architecture and development roadmaps
+- **Fundraising Mode**: For comprehensive fundraising preparation and investor communications
+- **Team Building Mode**: For organizational design and talent strategy
+- **Market Analysis Mode**: For competitive analysis and market opportunity assessment
 
 ## Getting Started
 

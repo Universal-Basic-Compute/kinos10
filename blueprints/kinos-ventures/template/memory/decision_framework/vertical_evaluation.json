@@ -1,0 +1,221 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-12-15",
+  "purpose": "Structured framework for evaluating potential new vertical opportunities",
+  "evaluationCriteria": {
+    "marketOpportunity": {
+      "description": "Assessment of the market size, growth, and accessibility",
+      "factors": [
+        {
+          "name": "Market Size",
+          "description": "Total addressable market in dollars",
+          "scoringGuidelines": [
+            "1: <$1B global market",
+            "2: $1-5B global market",
+            "3: $5-10B global market",
+            "4: $10-20B global market",
+            "5: >$20B global market"
+          ],
+          "weight": 0.15
+        },
+        {
+          "name": "Growth Rate",
+          "description": "Projected CAGR over next 5 years",
+          "scoringGuidelines": [
+            "1: <5% CAGR",
+            "2: 5-10% CAGR",
+            "3: 10-20% CAGR",
+            "4: 20-30% CAGR",
+            "5: >30% CAGR"
+          ],
+          "weight": 0.15
+        },
+        {
+          "name": "Market Accessibility",
+          "description": "Ease of entry and customer acquisition",
+          "scoringGuidelines": [
+            "1: Highly restricted, regulated, or dominated market",
+            "2: Significant barriers to entry",
+            "3: Moderate barriers with clear entry strategy",
+            "4: Low barriers with established channels",
+            "5: Highly accessible with multiple entry points"
+          ],
+          "weight": 0.1
+        },
+        {
+          "name": "Customer Pain Point",
+          "description": "Severity and urgency of problem being solved",
+          "scoringGuidelines": [
+            "1: Nice-to-have solution",
+            "2: Incremental improvement to existing processes",
+            "3: Significant efficiency or quality improvement",
+            "4: Solves a critical business problem",
+            "5: Addresses an urgent, unmet need"
+          ],
+          "weight": 0.15
+        }
+      ]
+    },
+    "aiDisruptionPotential": {
+      "description": "Potential for AI to create significant value in this vertical",
+      "factors": [
+        {
+          "name": "Data Availability",
+          "description": "Accessibility and quality of data needed for AI",
+          "scoringGuidelines": [
+            "1: Limited data, difficult to access",
+            "2: Some data available but fragmented",
+            "3: Moderate data availability with some integration challenges",
+            "4: Good data availability with clear access paths",
+            "5: Rich, accessible data ecosystem"
+          ],
+          "weight": 0.1
+        },
+        {
+          "name": "AI Value Creation",
+          "description": "Potential for AI to create significant value",
+          "scoringGuidelines": [
+            "1: Minimal impact from AI application",
+            "2: Incremental improvements possible",
+            "3: Significant efficiency or quality gains",
+            "4: Potential to transform key processes",
+            "5: Opportunity to fundamentally reinvent the vertical"
+          ],
+          "weight": 0.15
+        },
+        {
+          "name": "Technical Feasibility",
+          "description": "Current technical capability to deliver solution",
+          "scoringGuidelines": [
+            "1: Requires significant R&D breakthroughs",
+            "2: Stretches current capabilities substantially",
+            "3: Achievable with focused development",
+            "4: Well within current technical capabilities",
+            "5: Can leverage existing technology with minimal adaptation"
+          ],
+          "weight": 0.1
+        }
+      ]
+    },
+    "strategicAlignment": {
+      "description": "Fit with KinOS Ventures strategy and capabilities",
+      "factors": [
+        {
+          "name": "Core Technology Leverage",
+          "description": "Ability to leverage KinOS Engine capabilities",
+          "scoringGuidelines": [
+            "1: Limited use of core technology",
+            "2: Uses some aspects of core technology",
+            "3: Good utilization of core capabilities",
+            "4: Strong leverage of multiple core components",
+            "5: Ideal application of core technology strengths"
+          ],
+          "weight": 0.15
+        },
+        {
+          "name": "Cross-Vertical Synergies",
+          "description": "Potential synergies with other verticals",
+          "scoringGuidelines": [
+            "1: No clear synergies with other verticals",
+            "2: Limited potential for cross-vertical benefits",
+            "3: Moderate synergies with 1-2 verticals",
+            "4: Strong synergies with multiple verticals",
+            "5: Central to creating cross-vertical network effects"
+          ],
+          "weight": 0.1
+        },
+        {
+          "name": "Team Capability Fit",
+          "description": "Alignment with current team expertise",
+          "scoringGuidelines": [
+            "1: Requires entirely new expertise",
+            "2: Significant capability gaps",
+            "3: Some expertise exists with identifiable gaps",
+            "4: Good alignment with existing capabilities",
+            "5: Strong team expertise already in place"
+          ],
+          "weight": 0.1
+        }
+      ]
+    },
+    "executionRequirements": {
+      "description": "Resources and timeline needed for successful execution",
+      "factors": [
+        {
+          "name": "Resource Requirements",
+          "description": "Financial and human resources needed",
+          "scoringGuidelines": [
+            "1: Requires significant resources beyond current capacity",
+            "2: Substantial resource commitment required",
+            "3: Moderate resource needs within potential capacity",
+            "4: Efficient resource requirements",
+            "5: Minimal resources needed for initial validation"
+          ],
+          "weight": 0.1
+        },
+        {
+          "name": "Time to Market",
+          "description": "Expected timeline to initial product launch",
+          "scoringGuidelines": [
+            "1: >18 months to market",
+            "2: 12-18 months to market",
+            "3: 9-12 months to market",
+            "4: 6-9 months to market",
+            "5: <6 months to market"
+          ],
+          "weight": 0.1
+        },
+        {
+          "name": "Regulatory Complexity",
+          "description": "Regulatory hurdles and compliance requirements",
+          "scoringGuidelines": [
+            "1: Highly regulated with complex approval processes",
+            "2: Significant regulatory considerations",
+            "3: Moderate regulatory requirements",
+            "4: Limited regulatory concerns",
+            "5: Minimal regulatory requirements"
+          ],
+          "weight": 0.05
+        }
+      ]
+    }
+  },
+  "evaluationProcess": {
+    "steps": [
+      {
+        "step": 1,
+        "name": "Initial Screening",
+        "description": "Quick assessment against basic criteria to determine if full evaluation is warranted",
+        "threshold": "Minimum score of 3 on Market Size, AI Value Creation, and Core Technology Leverage"
+      },
+      {
+        "step": 2,
+        "name": "Comprehensive Evaluation",
+        "description": "Full scoring of all criteria by cross-functional team",
+        "participants": ["CEO", "CTO", "COO", "Domain Expert (if available)"]
+      },
+      {
+        "step": 3,
+        "name": "Opportunity Analysis",
+        "description": "Detailed analysis of top-scoring opportunities",
+        "deliverables": ["Market analysis", "Technical feasibility assessment", "Resource requirements", "Timeline projection"]
+      },
+      {
+        "step": 4,
+        "name": "Final Decision",
+        "description": "Go/No-Go decision with resource allocation if approved",
+        "threshold": "Weighted average score of 3.5+ for serious consideration"
+      }
+    ]
+  },
+  "evaluationTemplate": {
+    "verticalName": "",
+    "evaluationDate": "",
+    "evaluators": [],
+    "scores": {},
+    "weightedTotal": 0,
+    "keyInsights": [],
+    "recommendedAction": "",
+    "nextSteps": []
+  }
+}

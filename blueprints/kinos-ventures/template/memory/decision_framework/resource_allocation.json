@@ -1,0 +1,151 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-12-15",
+  "purpose": "Framework for prioritizing resources across multiple early-stage projects",
+  "allocationModel": {
+    "principles": [
+      "Focus resources on highest-potential opportunities",
+      "Maintain minimum viable progress across portfolio",
+      "Adjust allocation based on validation milestones",
+      "Leverage AI augmentation to maximize team impact",
+      "Maintain strategic optionality while driving key priorities"
+    ],
+    "resourceCategories": [
+      {
+        "category": "Human Resources",
+        "description": "Allocation of team member time and focus",
+        "allocationApproach": "Zero-based allocation reviewed bi-weekly",
+        "minimumThreshold": "At least one team member with 10% time allocation per active project"
+      },
+      {
+        "category": "Financial Resources",
+        "description": "Budget allocation across projects",
+        "allocationApproach": "Core budget plus milestone-based additional funding",
+        "minimumThreshold": "Maintenance budget for all projects, growth budget for prioritized projects"
+      },
+      {
+        "category": "Technical Resources",
+        "description": "Infrastructure, tools, and technical assets",
+        "allocationApproach": "Shared core infrastructure with project-specific additions",
+        "minimumThreshold": "Basic technical needs met for all projects"
+      },
+      {
+        "category": "Partner Resources",
+        "description": "External partnerships and collaborations",
+        "allocationApproach": "Strategic partnerships aligned with priority verticals",
+        "minimumThreshold": "Minimum viable partner ecosystem for each vertical"
+      }
+    ]
+  },
+  "prioritizationMatrix": {
+    "dimensions": [
+      {
+        "dimension": "Strategic Value",
+        "weight": 0.3,
+        "factors": [
+          "Alignment with long-term vision",
+          "Potential for cross-vertical synergies",
+          "Contribution to core technology advancement",
+          "Strategic positioning value"
+        ],
+        "scoringScale": "1-5 scale, where 5 represents highest strategic value"
+      },
+      {
+        "dimension": "Market Validation",
+        "weight": 0.25,
+        "factors": [
+          "Customer interest and engagement",
+          "Market feedback quality",
+          "Problem validation clarity",
+          "Solution fit evidence"
+        ],
+        "scoringScale": "1-5 scale, where 5 represents strongest market validation"
+      },
+      {
+        "dimension": "Execution Momentum",
+        "weight": 0.25,
+        "factors": [
+          "Recent progress velocity",
+          "Team capability and engagement",
+          "Clear path to next milestone",
+          "Technical feasibility confidence"
+        ],
+        "scoringScale": "1-5 scale, where 5 represents strongest execution momentum"
+      },
+      {
+        "dimension": "Resource Efficiency",
+        "weight": 0.2,
+        "factors": [
+          "Capital efficiency of progress",
+          "Team leverage (output per person)",
+          "AI augmentation effectiveness",
+          "External resource multiplication"
+        ],
+        "scoringScale": "1-5 scale, where 5 represents highest resource efficiency"
+      }
+    ]
+  },
+  "allocationFramework": {
+    "tiers": [
+      {
+        "tier": "Accelerate",
+        "description": "Projects receiving significant resources for rapid advancement",
+        "criteria": "Top 20% of projects by weighted score",
+        "typicalAllocation": {
+          "humanResources": "40-50% of available team capacity",
+          "financialResources": "50-60% of discretionary budget",
+          "focus": "Rapid advancement toward market validation and scaling"
+        }
+      },
+      {
+        "tier": "Advance",
+        "description": "Projects receiving moderate resources for steady progress",
+        "criteria": "Next 30% of projects by weighted score",
+        "typicalAllocation": {
+          "humanResources": "30-40% of available team capacity",
+          "financialResources": "30-40% of discretionary budget",
+          "focus": "Consistent progress toward key validation milestones"
+        }
+      },
+      {
+        "tier": "Maintain",
+        "description": "Projects receiving minimal resources to maintain progress",
+        "criteria": "Next 30% of projects by weighted score",
+        "typicalAllocation": {
+          "humanResources": "10-20% of available team capacity",
+          "financialResources": "10-15% of discretionary budget",
+          "focus": "Maintaining momentum and pursuing low-cost validation activities"
+        }
+      },
+      {
+        "tier": "Evaluate",
+        "description": "Projects under evaluation for continuation or pivoting",
+        "criteria": "Bottom 20% of projects by weighted score",
+        "typicalAllocation": {
+          "humanResources": "5-10% of available team capacity",
+          "financialResources": "Minimal maintenance budget",
+          "focus": "Critical evaluation of potential, pivot opportunities, or sunsetting"
+        }
+      }
+    ],
+    "reviewCycle": {
+      "frequency": "Monthly resource allocation review",
+      "process": [
+        "Update project scores across all dimensions",
+        "Recalculate tier assignments",
+        "Adjust resource allocations based on tier and specific needs",
+        "Communicate changes to all stakeholders"
+      ],
+      "exceptions": "Critical developments may trigger immediate review outside normal cycle"
+    }
+  },
+  "allocationTemplate": {
+    "reviewDate": "",
+    "projects": [],
+    "scoringResults": {},
+    "tierAssignments": {},
+    "resourceAllocation": {},
+    "keyChanges": [],
+    "rationale": ""
+  }
+}
