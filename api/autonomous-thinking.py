@@ -667,6 +667,79 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
         logger.error(f"Error in thought generation process: {str(e)}")
         return "I wonder about the nature of consciousness and my role in understanding it."
 
+def fix_vercel_deployment_issues(blueprint, kin_id, deployment_errors):
+    """
+    Generate a fix message based on common Vercel deployment errors.
+    
+    Args:
+        blueprint: Blueprint name
+        kin_id: Kin ID
+        deployment_errors: List of error messages from Vercel
+        
+    Returns:
+        A message with instructions to fix the errors
+    """
+    error_text = "\n".join(deployment_errors)
+    
+    # Check for common error patterns
+    if any("TypeScript" in error for error in deployment_errors) or any("TS" in error for error in deployment_errors):
+        return f"""
+        I need to fix TypeScript errors in the Vercel deployment for {blueprint}/{kin_id}.
+        
+        Here are the TypeScript errors:
+        {error_text}
+        
+        Please analyze these errors and make the necessary changes to fix the TypeScript issues.
+        Focus on:
+        1. Fixing type definitions
+        2. Resolving missing imports
+        3. Correcting interface implementations
+        4. Ensuring proper typing for all variables and functions
+        """
+    
+    elif any("Module not found" in error for error in deployment_errors):
+        return f"""
+        I need to fix module import errors in the Vercel deployment for {blueprint}/{kin_id}.
+        
+        Here are the module errors:
+        {error_text}
+        
+        Please analyze these errors and make the necessary changes to fix the import issues.
+        Focus on:
+        1. Adding missing dependencies to package.json
+        2. Correcting import paths
+        3. Ensuring all required modules are properly installed
+        """
+    
+    elif any("out of memory" in error.lower() for error in deployment_errors):
+        return f"""
+        The Vercel build for {blueprint}/{kin_id} is running out of memory.
+        
+        Here are the memory errors:
+        {error_text}
+        
+        Please optimize the build process by:
+        1. Reducing bundle size
+        2. Optimizing large dependencies
+        3. Adding build optimization flags
+        4. Splitting code into smaller chunks
+        """
+    
+    # Default generic fix message
+    return f"""
+    I need to fix errors in the Vercel deployment for {blueprint}/{kin_id}.
+    
+    Here are the deployment errors:
+    {error_text}
+    
+    Please analyze these errors and make the necessary changes to fix the deployment issues.
+    Focus on:
+    1. Resolving build errors
+    2. Fixing configuration issues
+    3. Addressing any syntax or runtime errors
+    4. Ensuring compatibility with Vercel's deployment environment
+    """
+
 def send_build_to_kin(blueprint, kin_id, message, remote=False, provider=None, model=None, max_attempts=3):
     """
     Send a message to the kin's build endpoint instead of the message endpoint.
@@ -766,15 +839,8 @@ def send_build_to_kin(blueprint, kin_id, message, remote=False, provider=None, m
                 if deployment_status.get("has_errors", False):
                     logger.warning(f"Deployment errors detected for {vercel_app}: {deployment_status.get('errors', [])}")
                     
-                    # Create a new build message to fix the errors
-                    fix_message = f"""
-                    I need to fix errors in the Vercel deployment for {vercel_app}. 
-                    
-                    Here are the deployment errors:
-                    {deployment_status.get('errors', [])}
-                    
-                    Please analyze these errors and make the necessary changes to fix the deployment issues.
-                    """
+                    # Create a targeted fix message based on the error types
+                    fix_message = fix_vercel_deployment_issues(blueprint, kin_id, deployment_status.get('errors', []))
                     
                     # Send another build request to fix the errors
                     logger.info(f"Sending another build request to fix deployment errors (attempts remaining: {max_attempts-1})...")
@@ -792,7 +858,7 @@ def send_build_to_kin(blueprint, kin_id, message, remote=False, provider=None, m
 
 def check_vercel_deployment(app_name):
     """
-    Check the status of a Vercel deployment.
+    Check the status of a Vercel deployment with enhanced error reporting.
     
     Args:
         app_name: Name of the Vercel app
@@ -807,15 +873,15 @@ def check_vercel_deployment(app_name):
             logger.error("VERCEL_API_TOKEN environment variable not set")
             return {"error": "Vercel API token not configured", "has_errors": True}
         
-        # Prepare request
+        # Prepare request headers
         headers = {
             "Authorization": f"Bearer {vercel_token}"
         }
         
-        # Make request to Vercel API
-        api_url = f"https://api.vercel.com/v6/deployments?app={app_name}&limit=1"
-        logger.info(f"Checking Vercel deployment status for {app_name}...")
-        response = requests.get(api_url, headers=headers)
+        # First, get the latest deployment ID
+        deployments_url = f"https://api.vercel.com/v6/deployments?app={app_name}&limit=1"
+        logger.info(f"Fetching latest deployment for {app_name}...")
+        response = requests.get(deployments_url, headers=headers)
         
         # Check for errors
         if response.status_code != 200:
@@ -824,7 +890,6 @@ def check_vercel_deployment(app_name):
         
         # Parse response
         result = response.json()
-        logger.info(f"Vercel API response: {json.dumps(result, indent=2)}")
         
         # Check if there are deployments
         if "deployments" not in result or not result["deployments"]:
@@ -833,6 +898,49 @@ def check_vercel_deployment(app_name):
         
         # Get the latest deployment
         deployment = result["deployments"][0]
+        deployment_id = deployment.get("uid")
+        
+        if not deployment_id:
+            logger.error("Could not find deployment ID in response")
+            return {"error": "Deployment ID not found", "has_errors": True}
+            
+        # Now get detailed deployment events
+        events_url = f"https://api.vercel.com/v3/deployments/{deployment_id}/events"
+        logger.info(f"Fetching deployment events for deployment {deployment_id}...")
+        events_response = requests.get(events_url, headers=headers)
+        
+        if events_response.status_code != 200:
+            logger.error(f"Error fetching deployment events: {events_response.status_code} - {events_response.text}")
+        else:
+            events_data = events_response.json()
+            logger.info(f"Received {len(events_data.get('events', []))} deployment events")
+            
+            # Extract error events
+            error_events = [event for event in events_data.get('events', []) 
+                           if event.get('type') == 'error' or 
+                              (event.get('payload', {}).get('statusCode', 0) >= 400)]
+            
+            if error_events:
+                logger.warning(f"Found {len(error_events)} error events in deployment")
+                
+                # Extract error messages
+                error_messages = []
+                for event in error_events:
+                    if 'payload' in event and 'text' in event['payload']:
+                        error_messages.append(event['payload']['text'])
+                    elif 'message' in event:
+                        error_messages.append(event['message'])
+                
+                if error_messages:
+                    return {
+                        "state": deployment.get("state", ""),
+                        "ready_state": deployment.get("readyState", ""),
+                        "has_errors": True,
+                        "errors": error_messages,
+                        "deployment_url": deployment.get("url", ""),
+                        "inspector_url": deployment.get("inspectorUrl", ""),
+                        "deployment_id": deployment_id
+                    }
         
         # Check deployment state
         state = deployment.get("state", "")
@@ -852,8 +960,15 @@ def check_vercel_deployment(app_name):
             if alias_error:
                 errors.append(f"Alias Error: {alias_error.get('message', 'Unknown alias error')}")
             
-            # If we have an inspectorUrl, we could potentially scrape it for more error details
-            # but that would require additional authentication and parsing
+            # Check for build errors
+            build_errors = deployment.get("buildingAt", {}).get("errors", [])
+            for error in build_errors:
+                errors.append(f"Build Error: {error.get('message', 'Unknown build error')}")
+            
+            # If we have an inspectorUrl, add it for reference
+            inspector_url = deployment.get("inspectorUrl", "")
+            if inspector_url:
+                errors.append(f"See more details at: {inspector_url}")
             
             return {
                 "state": state,
@@ -861,7 +976,8 @@ def check_vercel_deployment(app_name):
                 "has_errors": True,
                 "errors": errors or ["Unknown deployment error. Check the Vercel dashboard for details."],
                 "deployment_url": deployment.get("url", ""),
-                "inspector_url": deployment.get("inspectorUrl", "")
+                "inspector_url": inspector_url,
+                "deployment_id": deployment_id
             }
         else:
             return {
@@ -869,7 +985,8 @@ def check_vercel_deployment(app_name):
                 "ready_state": ready_state,
                 "has_errors": False,
                 "deployment_url": deployment.get("url", ""),
-                "inspector_url": deployment.get("inspectorUrl", "")
+                "inspector_url": deployment.get("inspectorUrl", ""),
+                "deployment_id": deployment_id
             }
             
     except Exception as e:
