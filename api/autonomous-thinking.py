@@ -400,12 +400,12 @@ Start with "In my dream..." or similar first-person opening.""",
         logger.error(f"Error in dream generation: {str(e)}")
         return None
 
-def generate_initiative(kin_path, dream_narrative, random_files, client):
+def generate_daydreaming(kin_path, dream_narrative, random_files, client):
     """
-    Third stage: Generate an initiative from the dream narrative.
+    Third stage: Generate a daydreaming paragraph from the dream narrative.
     Now generates a longer paragraph of free-flowing thoughts instead of a single thought.
     """
-    logger.info("Starting initiative generation stage")
+    logger.info("Starting daydreaming generation stage")
     logger.info(f"Using dream narrative: {dream_narrative}")
 
     # Load persona.txt and messages.json
@@ -494,10 +494,10 @@ This should be a stream-of-consciousness style paragraph that weaves together mu
 Make it feel like a natural flow of thoughts, with one idea leading to another. The paragraph should be 5-8 sentences long and capture the richness and complexity of the entity's inner thought process.""",
             messages=[{"role": "user", "content": "Please generate a paragraph of free-flowing thoughts based on the dream narrative and context."}]
         )
-        initiative = response.content[0].text.strip()
+        daydreaming = response.content[0].text.strip()
         logger.info("Received free-flowing thoughts from Claude")
-        logger.info(f"Generated thoughts: {initiative}")
-        return initiative
+        logger.info(f"Generated thoughts: {daydreaming}")
+        return daydreaming
     except Exception as e:
         logger.error(f"Error in free-flowing thoughts generation: {str(e)}")
         return None
@@ -556,14 +556,14 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
             raise Exception("Failed to generate dream narrative")
         logger.info(f"Generated dream narrative: {dream_narrative}")
 
-        # Stage 3: Generate initiative
-        logger.info("Stage 3: Generating initiative")
-        initiative = generate_initiative(kin_path, dream_narrative, files_to_use, client)
-        if not initiative:
-            raise Exception("Failed to generate initiative")
-        logger.info(f"Generated initiative: {initiative}")
+        # Stage 3: Generate daydreaming
+        logger.info("Stage 3: Generating daydreaming")
+        daydreaming = generate_daydreaming(kin_path, dream_narrative, files_to_use, client)
+        if not daydreaming:
+            raise Exception("Failed to generate daydreaming")
+        logger.info(f"Generated daydreaming: {daydreaming}")
 
-        return initiative
+        return daydreaming
 
     except Exception as e:
         logger.error(f"Error in thought generation process: {str(e)}")
