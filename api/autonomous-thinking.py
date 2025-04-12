@@ -403,6 +403,7 @@ Start with "In my dream..." or similar first-person opening.""",
 def generate_initiative(kin_path, dream_narrative, random_files, client):
     """
     Third stage: Generate an initiative from the dream narrative.
+    Now generates a longer paragraph of free-flowing thoughts instead of a single thought.
     """
     logger.info("Starting initiative generation stage")
     logger.info(f"Using dream narrative: {dream_narrative}")
@@ -458,46 +459,36 @@ def generate_initiative(kin_path, dream_narrative, random_files, client):
             except Exception as e:
                 logger.error(f"Error reading file {file_path}: {str(e)}")
 
-    # Create initiative generation prompt
-    initiative_prompt = f"""
-    Based on this dream narrative and the entity's context, generate a concrete initiative or action-oriented thought.
-    This should be something the entity wants to explore, understand, or accomplish.
-
-    Dream Narrative:
-    {dream_narrative}
-
-    Context:
-    {context_content}
-
-    Generate a clear, first-person thought that expresses an initiative, desire, or intention.
-    Make it specific and actionable while maintaining emotional depth.
-    The thought should be 1-2 sentences and start with "I" or "My".
-    """
-
     try:
         response = client.messages.create(
             model="claude-3-7-sonnet-latest",
-            max_tokens=1000,
+            max_tokens=1500,
             system=f"""Dream Narrative:
 {dream_narrative}
 
 Context:
 {context_content}
 
-Based on this dream narrative and the entity's context, generate a speculative "What if" question that expresses curiosity or explores a possibility.
-This should be something the entity wonders about or wants to explore.
+Based on this dream narrative and the entity's context, generate a paragraph of free-flowing thoughts that express various ideas, questions, reflections, and possibilities.
 
-Generate a clear, thought-provoking question that starts with "What if" or "I wonder if/what/how".
-Make it specific and imaginative while maintaining emotional depth.
-The question should be 1-2 sentences.""",
-            messages=[{"role": "user", "content": "Please generate a speculative question based on the dream narrative and context."}]
+This should be a stream-of-consciousness style paragraph that weaves together multiple thoughts, including:
+- Speculative "What if" questions
+- Personal reflections starting with "I wonder" or "I think"
+- Connections between different concepts
+- Emotional responses to ideas
+- Potential goals or aspirations
+- Philosophical musings
+- Creative ideas or insights
+
+Make it feel like a natural flow of thoughts, with one idea leading to another. The paragraph should be 5-8 sentences long and capture the richness and complexity of the entity's inner thought process.""",
+            messages=[{"role": "user", "content": "Please generate a paragraph of free-flowing thoughts based on the dream narrative and context."}]
         )
         initiative = response.content[0].text.strip()
-        logger.info("Received initiative from Claude")
-        logger.info(f"Generated initiative: {initiative}")
+        logger.info("Received free-flowing thoughts from Claude")
+        logger.info(f"Generated thoughts: {initiative}")
         return initiative
     except Exception as e:
-        logger.error(f"Error in initiative generation: {str(e)}")
+        logger.error(f"Error in free-flowing thoughts generation: {str(e)}")
         return None
 
 def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=None, model=None):
