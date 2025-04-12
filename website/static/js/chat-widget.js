@@ -122,28 +122,36 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to process user message and get AI response
     function processMessage(message) {
-        // Simulate API call delay
-        setTimeout(() => {
+        // Show typing indicator
+        showTypingIndicator();
+        
+        // Make API call to KinOS API v2 via our proxy endpoint
+        fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: message,
+                blueprint: 'kinos',
+                kin_id: 'builder'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hide typing indicator
             hideTypingIndicator();
             
-            // Simple response logic - in a real implementation, this would call your API
-            let response;
+            // Add AI response to chat
+            addMessage('ai', data.response);
+        })
+        .catch(error => {
+            // Hide typing indicator
+            hideTypingIndicator();
             
-            if (message.toLowerCase().includes('hello') || message.toLowerCase().includes('hi')) {
-                response = "Hello! How can I assist you with KinOS today?";
-            } else if (message.toLowerCase().includes('feature') || message.toLowerCase().includes('capabilities')) {
-                response = "KinOS offers persistent context management, adaptive mode switching, file system integration, long-term memory, and multi-modal support. Which feature would you like to know more about?";
-            } else if (message.toLowerCase().includes('pricing') || message.toLowerCase().includes('cost')) {
-                response = "For pricing information, please contact our sales team through the contact form. We offer customized pricing based on your specific needs and scale.";
-            } else if (message.toLowerCase().includes('documentation') || message.toLowerCase().includes('docs')) {
-                response = "You can find our documentation by clicking on the 'Documentation' link in the footer. It includes API references, integration guides, and examples.";
-            } else if (message.toLowerCase().includes('contact') || message.toLowerCase().includes('support')) {
-                response = "You can reach our support team through the contact form on this page. Just scroll down to the 'Contact Us' section.";
-            } else {
-                response = "Thank you for your message. To provide you with the most accurate information, could you please specify what aspect of KinOS you're interested in learning more about?";
-            }
-            
-            addMessage('ai', response);
-        }, 1500); // Simulate typing delay
+            // Show error message
+            addMessage('ai', "I'm sorry, I'm having trouble connecting to my brain right now. Please try again later.");
+            console.error('Error:', error);
+        });
     }
 });

@@ -538,30 +538,66 @@ def check_api_docs():
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
-    """API endpoint for the chat widget"""
+    """API endpoint for the chat widget that uses KinOS API v2"""
     try:
         data = request.json
         user_message = data.get('message', '')
+        blueprint = data.get('blueprint', 'kinos')  # Default to 'kinos'
+        kin_id = data.get('kin_id', 'builder')      # Default to 'builder'
         
-        # Simple response logic - in a real implementation, you might call an LLM API
-        if 'hello' in user_message.lower() or 'hi' in user_message.lower():
-            response = "Hello! How can I assist you with KinOS today?"
-        elif 'feature' in user_message.lower() or 'capabilities' in user_message.lower():
-            response = "KinOS offers persistent context management, adaptive mode switching, file system integration, long-term memory, and multi-modal support. Which feature would you like to know more about?"
-        elif 'pricing' in user_message.lower() or 'cost' in user_message.lower():
-            response = "For pricing information, please contact our sales team through the contact form. We offer customized pricing based on your specific needs and scale."
-        elif 'documentation' in user_message.lower() or 'docs' in user_message.lower():
-            response = "You can find our documentation by clicking on the 'Documentation' link in the footer. It includes API references, integration guides, and examples."
-        elif 'contact' in user_message.lower() or 'support' in user_message.lower():
-            response = "You can reach our support team through the contact form on this page. Just scroll down to the 'Contact Us' section."
-        else:
-            response = "Thank you for your message. To provide you with the most accurate information, could you please specify what aspect of KinOS you're interested in learning more about?"
+        # KinOS API v2 endpoint
+        kinos_api_url = "https://api.kinos-engine.ai/v2"
         
-        return jsonify({"response": response})
-    
+        # Prepare the request to KinOS API v2
+        kinos_request = {
+            "content": user_message,
+            "model": "claude-3-7-sonnet-latest",  # Or your preferred model
+            "mode": "helpful",  # Or another appropriate mode
+            "addSystem": "You are the KinOS website assistant. Provide helpful, concise information about KinOS features, capabilities, and use cases. Be friendly and professional."
+        }
+        
+        # Call the KinOS API
+        try:
+            response = requests.post(
+                f"{kinos_api_url}/blueprints/{blueprint}/kins/{kin_id}/messages",
+                json=kinos_request,
+                headers={
+                    "Authorization": f"Bearer {os.environ.get('KINOS_API_KEY', '')}"
+                }
+            )
+            
+            if response.ok:
+                ai_response = response.json().get("response", "")
+                return jsonify({"response": ai_response})
+            else:
+                # Fallback to simple responses if API call fails
+                print(f"KinOS API error: {response.status_code} - {response.text}")
+                return jsonify({"response": get_fallback_response(user_message)})
+                
+        except requests.RequestException as e:
+            print(f"Error calling KinOS API: {str(e)}")
+            return jsonify({"response": get_fallback_response(user_message)})
+        
     except Exception as e:
         print(f"Error in chat endpoint: {str(e)}")
         return jsonify({"response": "I'm sorry, I encountered an error processing your request."}), 500
+
+def get_fallback_response(message):
+    """Provide fallback responses when the API is unavailable"""
+    message = message.lower()
+    
+    if 'hello' in message or 'hi' in message:
+        return "Hello! How can I assist you with KinOS today?"
+    elif 'feature' in message or 'capabilities' in message:
+        return "KinOS offers persistent context management, adaptive mode switching, file system integration, long-term memory, and multi-modal support. Which feature would you like to know more about?"
+    elif 'pricing' in message or 'cost' in message:
+        return "For pricing information, please contact our sales team through the contact form. We offer customized pricing based on your specific needs and scale."
+    elif 'documentation' in message or 'docs' in message:
+        return "You can find our documentation by clicking on the 'Documentation' link in the footer. It includes API references, integration guides, and examples."
+    elif 'contact' in message or 'support' in message:
+        return "You can reach our support team through the contact form on this page. Just scroll down to the 'Contact Us' section."
+    else:
+        return "Thank you for your message. To provide you with the most accurate information, could you please specify what aspect of KinOS you're interested in learning more about?"
 
 @app.route('/api/kins/all')
 def get_all_kins():
