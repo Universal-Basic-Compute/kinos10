@@ -84,6 +84,77 @@ def get_kin_path(blueprint, kin_id):
     else:
         return os.path.join(blueprints_dir, blueprint, "kins", kin_id)
 
+def get_recently_modified_files(blueprint, kin_id, count=3):
+    """
+    Get a list of recently modified files from the commit history.
+    
+    Args:
+        blueprint: Blueprint name
+        kin_id: Kin ID
+        count: Maximum number of files to return
+        
+    Returns:
+        List of file paths that were recently modified
+    """
+    logger.info(f"Getting recently modified files from commit history for {blueprint}/{kin_id}")
+    
+    try:
+        # Get API key from environment variable
+        api_key = os.getenv("API_SECRET_KEY")
+        if not api_key:
+            logger.error("API_SECRET_KEY environment variable not set")
+            raise ValueError("API key not configured")
+        
+        # Call the commit-history endpoint
+        base_url = "https://api.kinos-engine.ai" if os.environ.get('ENVIRONMENT') == 'production' else BASE_URL
+        api_url = f"{base_url}/v2/blueprints/{blueprint}/kins/{kin_id}/commit-history"
+        
+        headers = {
+            "Content-Type": "application/json",
+            "X-API-Key": api_key
+        }
+        
+        logger.info(f"Calling commit history API: {api_url}")
+        response = requests.get(api_url, headers=headers)
+        
+        if response.status_code != 200:
+            logger.warning(f"Failed to get commit history: {response.status_code} - {response.text}")
+            return None
+        
+        # Parse the response
+        result = response.json()
+        
+        if "commits" not in result or not result["commits"]:
+            logger.warning("No commits found in history")
+            return None
+        
+        # Extract modified files from commits
+        modified_files = []
+        for commit in result["commits"]:
+            if "changes" in commit and "files" in commit["changes"]:
+                for file_info in commit["changes"]["files"]:
+                    file_path = file_info.get("path")
+                    if file_path and file_path not in modified_files:
+                        # Skip system files, messages.json, and non-text files
+                        if (file_path not in ["persona.txt", "kinos.txt", "system.txt", "messages.json"] and
+                            not file_path.endswith(('.jpg', '.jpeg', '.png', '.gif', '.mp3', '.mp4'))):
+                            modified_files.append(file_path)
+                            
+                            # Break once we have enough files
+                            if len(modified_files) >= count:
+                                break
+            
+            # Break once we have enough files
+            if len(modified_files) >= count:
+                break
+        
+        logger.info(f"Found {len(modified_files)} recently modified files: {modified_files}")
+        return modified_files
+        
+    except Exception as e:
+        logger.error(f"Error getting recently modified files: {str(e)}")
+        return None
+
 def get_random_files(kin_path, count=3):
     """Get a list of random files from the kin directory."""
     all_files = []
@@ -459,13 +530,19 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
             # Default to Claude
             client = get_anthropic_client()
         
-        # Get random files from the kin
-        random_files = get_random_files(kin_path, count=3)
-        logger.info(f"Selected random files: {random_files}")
+        # First try to get recently modified files from commit history
+        files_to_use = get_recently_modified_files(blueprint, kin_id, count=3)
+        
+        # If no files from commit history, fall back to random selection
+        if not files_to_use or len(files_to_use) == 0:
+            logger.info("No recently modified files found, falling back to random selection")
+            files_to_use = get_random_files(kin_path, count=3)
+            
+        logger.info(f"Selected files for thought generation: {files_to_use}")
 
         # Stage 1: Extract keywords
         logger.info("Stage 1: Extracting keywords")
-        keywords = extract_keywords(kin_path, random_files, client)
+        keywords = extract_keywords(kin_path, files_to_use, client)
         if not keywords:
             raise Exception("Failed to extract keywords")
         logger.info(f"Extracted keywords: {json.dumps(keywords, indent=2)}")
@@ -479,7 +556,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
 
         # Stage 3: Generate initiative
         logger.info("Stage 3: Generating initiative")
-        initiative = generate_initiative(kin_path, dream_narrative, random_files, client)
+        initiative = generate_initiative(kin_path, dream_narrative, files_to_use, client)
         if not initiative:
             raise Exception("Failed to generate initiative")
         logger.info(f"Generated initiative: {initiative}")
