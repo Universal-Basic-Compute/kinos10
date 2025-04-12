@@ -3,17 +3,22 @@
 Autonomous Thinking Script
 
 This script generates autonomous thoughts for a kin by:
-1. Selecting 3 random files from the kin
-2. Using Claude to generate a random thought based on these files
-3. Sending the thought to the kin's message endpoint with self-reflection mode
-4. Sending a Telegram notification with the thought and response
-5. Repeating this process 3 times with 5-second intervals
+1. Selecting recent or random files from the kin
+2. Extracting keywords from these files
+3. Generating a dream narrative based on these keywords
+4. Creating a daydreaming paragraph from the dream narrative
+5. Generating a practical initiative based on the daydreaming
+6. Sending the combined thought to the kin's build endpoint
+7. Sending a Telegram notification with the thought and response
+8. Repeating this process for the specified number of iterations with configurable wait times
 
 Usage:
     python autonomous-thinking.py <blueprint> <kin_id> [--telegram-token TOKEN] [--telegram-chat-id CHAT_ID]
+                                 [--iterations N] [--wait-time SECONDS] [--remote]
+                                 [--provider PROVIDER] [--model MODEL]
 
 Example:
-    python autonomous-thinking.py therapykindouble mykin --telegram-token 1234567890:ABCDEF --telegram-chat-id 123456789
+    python autonomous-thinking.py therapykindouble mykin --iterations 3 --wait-time 5
 """
 
 import os
