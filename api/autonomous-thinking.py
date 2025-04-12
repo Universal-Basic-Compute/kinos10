@@ -974,8 +974,9 @@ def check_vercel_deployment(app_name):
             "Authorization": f"Bearer {vercel_token}"
         }
         
-        # First, get the latest deployment ID
-        deployments_url = f"https://api.vercel.com/v6/deployments?app={app_name}&limit=1"
+        # First, get the latest deployment for the app
+        # Using the correct v13 endpoint for deployments
+        deployments_url = f"https://api.vercel.com/v13/deployments?app={app_name}&limit=1"
         logger.info(f"Fetching latest deployment for {app_name}...")
         response = requests.get(deployments_url, headers=headers)
         
@@ -994,64 +995,27 @@ def check_vercel_deployment(app_name):
         
         # Get the latest deployment
         deployment = result["deployments"][0]
-        deployment_id = deployment.get("uid")
+        deployment_id = deployment.get("id")
         
         if not deployment_id:
             logger.error("Could not find deployment ID in response")
             return {"error": "Deployment ID not found", "has_errors": True}
             
-        # Now get detailed deployment events
-        events_url = f"https://api.vercel.com/v3/deployments/{deployment_id}/events"
-        logger.info(f"Fetching deployment events for deployment {deployment_id}...")
-        events_response = requests.get(events_url, headers=headers)
+        # Now get detailed deployment information using the correct endpoint
+        deployment_url = f"https://api.vercel.com/v13/deployments/{deployment_id}"
+        logger.info(f"Fetching deployment details for deployment {deployment_id}...")
+        deployment_response = requests.get(deployment_url, headers=headers)
         
-        if events_response.status_code != 200:
-            logger.error(f"Error fetching deployment events: {events_response.status_code} - {events_response.text}")
-        else:
-            events_data = events_response.json()
-            logger.info(f"Received {len(events_data.get('events', []))} deployment events")
-            
-            # Extract error events
-            error_events = [event for event in events_data.get('events', []) 
-                           if event.get('type') == 'error' or 
-                              (event.get('payload', {}).get('statusCode', 0) >= 400)]
-            
-            if error_events:
-                logger.warning(f"Found {len(error_events)} error events in deployment")
-                
-                # Extract error messages
-                error_messages = []
-                for event in error_events:
-                    if 'payload' in event and 'text' in event['payload']:
-                        error_messages.append(event['payload']['text'])
-                    elif 'message' in event:
-                        error_messages.append(event['message'])
-                    elif 'payload' in event:
-                        # Try to extract any useful information from the payload
-                        payload = event.get('payload', {})
-                        if isinstance(payload, dict):
-                            for key, value in payload.items():
-                                if isinstance(value, str) and len(value) > 10:
-                                    error_messages.append(f"{key}: {value}")
-                
-                # If we still have no error messages but have error events, add a generic message
-                if not error_messages and error_events:
-                    error_messages = ["Deployment failed with unspecified errors. Please check the Vercel dashboard for details."]
-                
-                if error_messages:
-                    return {
-                        "state": deployment.get("state", ""),
-                        "ready_state": deployment.get("readyState", ""),
-                        "has_errors": True,
-                        "errors": error_messages,
-                        "deployment_url": deployment.get("url", ""),
-                        "inspector_url": deployment.get("inspectorUrl", ""),
-                        "deployment_id": deployment_id
-                    }
+        if deployment_response.status_code != 200:
+            logger.error(f"Error fetching deployment details: {deployment_response.status_code} - {deployment_response.text}")
+            return {"error": f"Error fetching deployment details: {deployment_response.status_code}", "has_errors": True}
+        
+        # Parse the detailed deployment information
+        deployment_data = deployment_response.json()
         
         # Check deployment state
-        state = deployment.get("state", "")
-        ready_state = deployment.get("readyState", "")
+        state = deployment_data.get("status", "")
+        ready_state = deployment_data.get("readyState", "")
         
         logger.info(f"Deployment state: {state}, readyState: {ready_state}")
         
@@ -1062,18 +1026,28 @@ def check_vercel_deployment(app_name):
             # Try to get more detailed error information
             errors = []
             
+            # Check for errorMessage
+            error_message = deployment_data.get("errorMessage")
+            if error_message:
+                errors.append(f"Error Message: {error_message}")
+            
+            # Check for errorCode
+            error_code = deployment_data.get("errorCode")
+            if error_code:
+                errors.append(f"Error Code: {error_code}")
+            
             # Check for aliasError
-            alias_error = deployment.get("aliasError")
+            alias_error = deployment_data.get("aliasError")
             if alias_error:
                 errors.append(f"Alias Error: {alias_error.get('message', 'Unknown alias error')}")
             
             # Check for build errors
-            build_errors = deployment.get("buildingAt", {}).get("errors", [])
-            for error in build_errors:
-                errors.append(f"Build Error: {error.get('message', 'Unknown build error')}")
+            build = deployment_data.get("build", {})
+            if build and "error" in build:
+                errors.append(f"Build Error: {build.get('error', 'Unknown build error')}")
             
             # If we have an inspectorUrl, add it for reference
-            inspector_url = deployment.get("inspectorUrl", "")
+            inspector_url = deployment_data.get("inspectorUrl", "")
             if inspector_url:
                 errors.append(f"See more details at: {inspector_url}")
             
@@ -1082,7 +1056,7 @@ def check_vercel_deployment(app_name):
                 "ready_state": ready_state,
                 "has_errors": True,
                 "errors": errors or ["Unknown deployment error. Check the Vercel dashboard for details."],
-                "deployment_url": deployment.get("url", ""),
+                "deployment_url": deployment_data.get("url", ""),
                 "inspector_url": inspector_url,
                 "deployment_id": deployment_id
             }
@@ -1091,8 +1065,8 @@ def check_vercel_deployment(app_name):
                 "state": state,
                 "ready_state": ready_state,
                 "has_errors": False,
-                "deployment_url": deployment.get("url", ""),
-                "inspector_url": deployment.get("inspectorUrl", ""),
+                "deployment_url": deployment_data.get("url", ""),
+                "inspector_url": deployment_data.get("inspectorUrl", ""),
                 "deployment_id": deployment_id
             }
             
