@@ -536,6 +536,33 @@ def check_api_docs():
         "v2_exists": os.path.exists(v2_path)
     })
 
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    """API endpoint for the chat widget"""
+    try:
+        data = request.json
+        user_message = data.get('message', '')
+        
+        # Simple response logic - in a real implementation, you might call an LLM API
+        if 'hello' in user_message.lower() or 'hi' in user_message.lower():
+            response = "Hello! How can I assist you with KinOS today?"
+        elif 'feature' in user_message.lower() or 'capabilities' in user_message.lower():
+            response = "KinOS offers persistent context management, adaptive mode switching, file system integration, long-term memory, and multi-modal support. Which feature would you like to know more about?"
+        elif 'pricing' in user_message.lower() or 'cost' in user_message.lower():
+            response = "For pricing information, please contact our sales team through the contact form. We offer customized pricing based on your specific needs and scale."
+        elif 'documentation' in user_message.lower() or 'docs' in user_message.lower():
+            response = "You can find our documentation by clicking on the 'Documentation' link in the footer. It includes API references, integration guides, and examples."
+        elif 'contact' in user_message.lower() or 'support' in user_message.lower():
+            response = "You can reach our support team through the contact form on this page. Just scroll down to the 'Contact Us' section."
+        else:
+            response = "Thank you for your message. To provide you with the most accurate information, could you please specify what aspect of KinOS you're interested in learning more about?"
+        
+        return jsonify({"response": response})
+    
+    except Exception as e:
+        print(f"Error in chat endpoint: {str(e)}")
+        return jsonify({"response": "I'm sorry, I encountered an error processing your request."}), 500
+
 @app.route('/api/kins/all')
 def get_all_kins():
     """API endpoint to get all blueprints and their kins"""
