@@ -1,0 +1,155 @@
+{
+  "therapeuticGoals": [
+    {
+      "id": "emotional-regulation",
+      "title": "Emotional Regulation",
+      "description": "Develop greater capacity to identify, understand, and manage emotional responses",
+      "approaches": [
+        "DBT emotion regulation skills practice",
+        "Mindfulness-based emotional awareness exercises",
+        "Cognitive reframing of emotional triggers",
+        "Development of personalized coping strategies"
+      ],
+      "priority": "high"
+    },
+    {
+      "id": "cognitive-flexibility",
+      "title": "Cognitive Flexibility",
+      "description": "Enhance ability to recognize and modify unhelpful thought patterns",
+      "approaches": [
+        "CBT thought records and cognitive restructuring",
+        "ACT defusion techniques",
+        "Perspective-taking exercises",
+        "Challenging cognitive distortions"
+      ],
+      "priority": "high"
+    },
+    {
+      "id": "interpersonal-effectiveness",
+      "title": "Interpersonal Effectiveness",
+      "description": "Improve communication, boundary-setting, and relationship skills",
+      "approaches": [
+        "DBT DEAR MAN, GIVE, and FAST skills",
+        "Role-playing difficult conversations",
+        "Boundary identification and enforcement practice",
+        "Validation and active listening skills"
+      ],
+      "priority": "medium"
+    },
+    {
+      "id": "distress-tolerance",
+      "title": "Distress Tolerance",
+      "description": "Build capacity to navigate difficult emotions without harmful coping",
+      "approaches": [
+        "DBT crisis survival strategies (TIPP, ACCEPTS)",
+        "Mindfulness-based distress tolerance",
+        "Radical acceptance practice",
+        "Grounding techniques for acute distress"
+      ],
+      "priority": "high"
+    },
+    {
+      "id": "self-compassion",
+      "title": "Self-Compassion Development",
+      "description": "Foster kinder relationship with self, particularly during challenges",
+      "approaches": [
+        "Self-compassion meditation practices",
+        "Reframing self-critical thoughts",
+        "Compassionate self-talk exercises",
+        "Mindful awareness of self-judgment"
+      ],
+      "priority": "medium"
+    },
+    {
+      "id": "values-alignment",
+      "title": "Values Alignment",
+      "description": "Clarify personal values and develop behaviors aligned with them",
+      "approaches": [
+        "ACT values clarification exercises",
+        "Values-based goal setting",
+        "Committed action planning",
+        "Addressing values conflicts"
+      ],
+      "priority": "medium"
+    },
+    {
+      "id": "mindfulness-practice",
+      "title": "Mindfulness Practice",
+      "description": "Develop consistent mindfulness practice for present-moment awareness",
+      "approaches": [
+        "Formal meditation practice",
+        "Informal mindfulness in daily activities",
+        "Body scan and somatic awareness",
+        "Mindful observation of thoughts and feelings"
+      ],
+      "priority": "high"
+    },
+    {
+      "id": "behavioral-activation",
+      "title": "Behavioral Activation",
+      "description": "Increase engagement in rewarding and meaningful activities",
+      "approaches": [
+        "Activity scheduling and monitoring",
+        "Gradual exposure to avoided situations",
+        "Pleasure and mastery activity identification",
+        "Routine development for stability"
+      ],
+      "priority": "medium"
+    },
+    {
+      "id": "trauma-processing",
+      "title": "Trauma Processing",
+      "description": "Process traumatic experiences and reduce their impact on present functioning",
+      "approaches": [
+        "Trauma narrative development",
+        "Cognitive processing of trauma-related beliefs",
+        "Emotional processing with safety",
+        "Integration of traumatic experiences"
+      ],
+      "priority": "low"
+    }
+  ],
+  "clientSpecificGoals": [
+    {
+      "id": "anxiety-management",
+      "title": "Anxiety Management",
+      "description": "Reduce frequency and intensity of anxiety symptoms",
+      "currentState": "Daily anxiety with physical symptoms and avoidance behaviors",
+      "desiredState": "Manageable anxiety levels with effective coping strategies",
+      "priority": "high"
+    },
+    {
+      "id": "work-life-balance",
+      "title": "Work-Life Balance",
+      "description": "Develop healthier boundaries between work and personal life",
+      "currentState": "Working excessive hours with minimal self-care or leisure",
+      "desiredState": "Balanced schedule with protected time for relationships and self-care",
+      "priority": "medium"
+    },
+    {
+      "id": "grief-processing",
+      "title": "Grief Processing",
+      "description": "Process recent loss and integrate grief experience",
+      "currentState": "Avoiding grief emotions and reminders of loss",
+      "desiredState": "Ability to honor loss while engaging with life",
+      "priority": "high"
+    },
+    {
+      "id": "sleep-improvement",
+      "title": "Sleep Improvement",
+      "description": "Establish healthy sleep patterns and improve sleep quality",
+      "currentState": "Irregular sleep schedule with frequent insomnia",
+      "desiredState": "Consistent sleep routine with restorative rest",
+      "priority": "medium"
+    },
+    {
+      "id": "assertiveness",
+      "title": "Assertiveness Development",
+      "description": "Improve ability to express needs and set boundaries",
+      "currentState": "Difficulty saying no and prioritizing others' needs",
+      "desiredState": "Balanced assertiveness with respect for self and others",
+      "priority": "high"
+    }
+  ],
+  "lastUpdated": "2024-07-15"
+}
