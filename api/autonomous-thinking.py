@@ -371,7 +371,15 @@ Format your response as JSON:
         try:
             keywords = json.loads(json_str)
             logger.info("Successfully parsed keywords JSON")
-            logger.info(f"Extracted keywords: {json.dumps(keywords, indent=2)}")
+            
+            # Log keywords in a more readable format
+            logger.info("\n📊 EXTRACTED KEYWORDS:")
+            logger.info(f"  • Relevant: {', '.join(keywords['relevant_keywords'])}")
+            logger.info(f"  • Emotions: {', '.join(keywords['emotions'])}")
+            logger.info(f"  • Problems: {', '.join(keywords['problems'])}")
+            logger.info(f"  • Surprising words: {', '.join(keywords['surprising_words'])}")
+            logger.info(f"  • Adjacent concepts: {', '.join(keywords['adjacent_keywords'])}")
+            logger.info(f"  • Unexpected concepts: {', '.join(keywords['surprising_keywords'])}")
             
             # Validate the JSON structure
             required_keys = ["relevant_keywords", "emotions", "problems", "surprising_words", 
