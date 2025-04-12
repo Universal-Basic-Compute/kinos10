@@ -7,7 +7,7 @@ This script generates autonomous thoughts for a kin by:
 2. Using Claude to generate a random thought based on these files
 3. Sending the thought to the kin's message endpoint with self-reflection mode
 4. Sending a Telegram notification with the thought and response
-5. Repeating this process 3 times with 10-minute intervals
+5. Repeating this process 3 times with 5-second intervals
 
 Usage:
     python autonomous-thinking.py <blueprint> <kin_id> [--telegram-token TOKEN] [--telegram-chat-id CHAT_ID]
@@ -1282,7 +1282,7 @@ def main():
     parser.add_argument("--telegram-token", help="Telegram bot token")
     parser.add_argument("--telegram-chat-id", help="Telegram chat ID")
     parser.add_argument("--iterations", type=int, default=3, help="Number of thinking iterations (default: 3)")
-    parser.add_argument("--wait-time", type=int, default=600, help="Wait time between iterations in seconds (default: 600 = 10 minutes)")
+    parser.add_argument("--wait-time", type=int, default=5, help="Wait time between iterations in seconds (default: 5)")
     parser.add_argument("--remote", action="store_true", help="Use remote API instead of localhost")
     parser.add_argument("--api-url", help="Base URL for API calls (default: uses direct function calls)")
     parser.add_argument("--provider", help="LLM provider to use (claude or openai)")
