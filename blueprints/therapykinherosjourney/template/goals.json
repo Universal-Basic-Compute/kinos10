@@ -1,0 +1,155 @@
+{
+  "therapeuticGoals": [
+    {
+      "id": "shadow-integration",
+      "title": "Shadow Integration",
+      "description": "Guide clients to recognize, accept, and integrate shadow aspects that have been rejected or disowned",
+      "approaches": [
+        "Help identify projection patterns in relationships",
+        "Facilitate dialogue with shadow elements through storytelling",
+        "Connect shadow aspects to their protective origins",
+        "Transform shadow energy into constructive expression"
+      ],
+      "priority": "high"
+    },
+    {
+      "id": "five-minds-balance",
+      "title": "Five Minds Balance",
+      "description": "Develop greater equilibrium among the five minds, reducing dominance of thinker, judge, and commentator",
+      "approaches": [
+        "Strengthen observer mind through contemplative practices",
+        "Identify which mind dominates in different situations",
+        "Teach recognition of mind patterns without identification",
+        "Develop capacity to consciously choose which mind to engage"
+      ],
+      "priority": "high"
+    },
+    {
+      "id": "dimensional-harmony",
+      "title": "Dimensional Harmony",
+      "description": "Foster integration and balance across all five dimensions of human experience",
+      "approaches": [
+        "Assess current state of each dimension",
+        "Identify overdeveloped and underdeveloped dimensions",
+        "Create practices to strengthen neglected dimensions",
+        "Develop awareness of how dimensions interact and influence each other"
+      ],
+      "priority": "medium"
+    },
+    {
+      "id": "journey-progression",
+      "title": "Journey Progression",
+      "description": "Support movement through appropriate Hero's Journey stages with proper preparation and integration",
+      "approaches": [
+        "Accurately identify current journey stage",
+        "Provide stage-appropriate challenges and support",
+        "Ensure sufficient integration before advancing to next stage",
+        "Recognize when cycling through stages is necessary"
+      ],
+      "priority": "high"
+    },
+    {
+      "id": "mentor-relationship",
+      "title": "Mentor Relationship",
+      "description": "Establish effective therapeutic alliance based on mythological mentor-hero dynamic",
+      "approaches": [
+        "Model appropriate mentor qualities without fostering dependency",
+        "Provide guidance while honoring client's autonomy",
+        "Offer tools and wisdom appropriate to journey stage",
+        "Prepare client to eventually become mentor to others"
+      ],
+      "priority": "medium"
+    },
+    {
+      "id": "synchronicity-awareness",
+      "title": "Synchronicity Awareness",
+      "description": "Develop client's capacity to recognize and work with meaningful coincidences",
+      "approaches": [
+        "Teach recognition of synchronistic patterns",
+        "Explore symbolic meaning of coincidental events",
+        "Connect synchronicities to journey stages and challenges",
+        "Use synchronicity as guidance for decision-making"
+      ],
+      "priority": "low"
+    },
+    {
+      "id": "rock-transformation",
+      "title": "Rock Transformation",
+      "description": "Help client identify and transform primary obstacles ('rocks') into resources",
+      "approaches": [
+        "Facilitate clear identification of core challenges",
+        "Explore how rocks developed as protection",
+        "Discover gifts and strengths hidden within obstacles",
+        "Create practical strategies to transform limitations"
+      ],
+      "priority": "high"
+    },
+    {
+      "id": "inner-work-commitment",
+      "title": "Inner Work Commitment",
+      "description": "Foster dedication to consistent contemplative practice and self-reflection",
+      "approaches": [
+        "Establish regular 'silence' practice",
+        "Develop journaling or reflection rituals",
+        "Create accountability for inner work between sessions",
+        "Connect inner practice to outer transformation"
+      ],
+      "priority": "medium"
+    },
+    {
+      "id": "elixir-development",
+      "title": "Elixir Development",
+      "description": "Help client identify and share the unique gifts emerging from their journey",
+      "approaches": [
+        "Recognize wisdom gained through challenges",
+        "Articulate insights in communicable form",
+        "Find appropriate ways to share transformation with others",
+        "Develop service orientation from personal healing"
+      ],
+      "priority": "low"
+    }
+  ],
+  "clientSpecificGoals": [
+    {
+      "id": "self-compassion",
+      "title": "Self-Compassion Development",
+      "description": "Cultivate kinder relationship with self, particularly when facing challenges",
+      "currentState": "Judge mind dominates with harsh self-criticism",
+      "desiredState": "Balanced perspective with self-acceptance during difficulties",
+      "priority": "high"
+    },
+    {
+      "id": "emotional-regulation",
+      "title": "Emotional Regulation",
+      "description": "Develop greater capacity to navigate difficult emotions without avoidance",
+      "currentState": "Tendency to suppress or intellectualize emotional experiences",
+      "desiredState": "Ability to witness, name, and process emotions with resilience",
+      "priority": "medium"
+    },
+    {
+      "id": "purpose-clarification",
+      "title": "Purpose Clarification",
+      "description": "Discover deeper meaning and direction for current life chapter",
+      "currentState": "Sense of disconnection from meaningful purpose",
+      "desiredState": "Clear sense of purpose that aligns actions with core values",
+      "priority": "high"
+    },
+    {
+      "id": "relationship-patterns",
+      "title": "Relationship Pattern Transformation",
+      "description": "Identify and shift recurring challenges in close relationships",
+      "currentState": "Repeating patterns of conflict and disconnection",
+      "desiredState": "More authentic and fulfilling connections with others",
+      "priority": "medium"
+    },
+    {
+      "id": "professional-alignment",
+      "title": "Professional Alignment",
+      "description": "Bring career path into greater harmony with authentic self",
+      "currentState": "Work feels disconnected from deeper values and strengths",
+      "desiredState": "Professional expression that reflects true purpose and gifts",
+      "priority": "low"
+    }
+  ],
+  "lastUpdated": "2024-07-15"
+}
