@@ -735,6 +735,43 @@ def fix_vercel_deployment_issues(blueprint, kin_id, deployment_errors):
     Returns:
         A message with instructions to fix the errors
     """
+    # Handle empty or None deployment_errors
+    if not deployment_errors:
+        return f"""
+        I need to fix errors in the Vercel deployment for {blueprint}/{kin_id}.
+        
+        The deployment is failing but no specific error messages were captured.
+        Please analyze the project and fix common Vercel deployment issues:
+        
+        1. Check for TypeScript errors and type mismatches
+        2. Verify all dependencies are properly installed and imported
+        3. Ensure the build process is configured correctly
+        4. Look for any syntax errors or runtime issues
+        5. Check for environment variable configuration problems
+        """
+    
+    # Convert to list if it's not already
+    if not isinstance(deployment_errors, list):
+        deployment_errors = [str(deployment_errors)]
+    
+    # Filter out empty strings and None values
+    deployment_errors = [err for err in deployment_errors if err and str(err).strip()]
+    
+    # If after filtering we have no errors, use the generic message
+    if not deployment_errors:
+        return f"""
+        I need to fix errors in the Vercel deployment for {blueprint}/{kin_id}.
+        
+        The deployment is failing but no specific error messages were captured.
+        Please analyze the project and fix common Vercel deployment issues:
+        
+        1. Check for TypeScript errors and type mismatches
+        2. Verify all dependencies are properly installed and imported
+        3. Ensure the build process is configured correctly
+        4. Look for any syntax errors or runtime issues
+        5. Check for environment variable configuration problems
+        """
+    
     error_text = "\n".join(deployment_errors)
     
     # Check for common error patterns
@@ -898,6 +935,9 @@ def send_build_to_kin(blueprint, kin_id, message, remote=False, provider=None, m
                     # Create a targeted fix message based on the error types
                     fix_message = fix_vercel_deployment_issues(blueprint, kin_id, deployment_status.get('errors', []))
                     
+                    # Log the fix message for debugging
+                    logger.info(f"Generated fix message: {fix_message}")
+                    
                     # Send another build request to fix the errors
                     logger.info(f"Sending another build request to fix deployment errors (attempts remaining: {max_attempts-1})...")
                     return send_build_to_kin(blueprint, kin_id, fix_message, remote, provider, model, max_attempts-1)
@@ -986,6 +1026,17 @@ def check_vercel_deployment(app_name):
                         error_messages.append(event['payload']['text'])
                     elif 'message' in event:
                         error_messages.append(event['message'])
+                    elif 'payload' in event:
+                        # Try to extract any useful information from the payload
+                        payload = event.get('payload', {})
+                        if isinstance(payload, dict):
+                            for key, value in payload.items():
+                                if isinstance(value, str) and len(value) > 10:
+                                    error_messages.append(f"{key}: {value}")
+                
+                # If we still have no error messages but have error events, add a generic message
+                if not error_messages and error_events:
+                    error_messages = ["Deployment failed with unspecified errors. Please check the Vercel dashboard for details."]
                 
                 if error_messages:
                     return {
