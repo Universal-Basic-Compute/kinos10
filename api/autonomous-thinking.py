@@ -421,6 +421,17 @@ def generate_initiative(kin_path, dream_narrative, random_files, client):
         except Exception as e:
             logger.error(f"Error reading persona.txt: {str(e)}")
 
+    # Check for and load goals.json if it exists
+    goals_path = os.path.join(kin_path, "goals.json")
+    if os.path.exists(goals_path):
+        try:
+            with open(goals_path, 'r', encoding='utf-8') as f:
+                goals_content = f.read()
+                context_content += f"# Goals\n{goals_content}\n\n"
+            logger.info("Loaded goals.json content")
+        except Exception as e:
+            logger.error(f"Error reading goals.json: {str(e)}")
+
     # Check for and load todolist.json if it exists
     todolist_path = os.path.join(kin_path, "todolist.json")
     if os.path.exists(todolist_path):
