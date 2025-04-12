@@ -29,6 +29,19 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         If stream=False: Aider response as a string
         If stream=True: Generator yielding response chunks
     """
+    # Set UTF-8 mode for Windows console
+    env = os.environ.copy()
+    if os.name == 'nt':  # Windows
+        env['PYTHONIOENCODING'] = 'utf-8'
+        # Force terminal to use UTF-8
+        env['PYTHONUTF8'] = '1'
+        # Set console code page to UTF-8
+        try:
+            subprocess.run(['chcp', '65001'], shell=True, check=False)
+            logger.info("Set Windows console to UTF-8 mode (code page 65001)")
+        except Exception as e:
+            logger.warning(f"Could not set Windows console code page: {str(e)}")
+            
     # Get the appropriate API key based on provider
     api_key = None
     aider_model_flag = "--sonnet"  # Default for Claude
@@ -262,7 +275,8 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                 text=True,
                 encoding='utf-8',  # Add explicit UTF-8 encoding
                 errors='replace',  # Replace invalid characters instead of failing
-                bufsize=1  # Line buffered
+                bufsize=1,  # Line buffered
+                env=env  # Add the environment variables
             )
             
             # Send the static prompt to stdin and make sure to flush and close it
@@ -365,7 +379,8 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                 errors='replace',  # Replace invalid characters instead of failing
                 capture_output=True,
                 check=True,
-                timeout=600  # Increase to a 10-minute timeout
+                timeout=600,  # Increase to a 10-minute timeout
+                env=env  # Add the environment variables
             )
             
             # Save Aider logs to a file in the kin directory
