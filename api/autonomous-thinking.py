@@ -229,8 +229,10 @@ def get_anthropic_client():
     api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key:
         logger.error("ANTHROPIC_API_KEY environment variable not set")
+        logger.error("Available environment variables: " + ", ".join([f"{k}={v[:4]}..." if k.lower().endswith("key") and v else k for k, v in os.environ.items()]))
         raise ValueError("Anthropic API key not configured")
     
+    logger.info(f"Initializing Anthropic client with API key (starts with: {api_key[:4]}...)")
     return anthropic.Anthropic(api_key=api_key)
 
 def extract_keywords(kin_path, random_files, client):
@@ -265,14 +267,17 @@ def extract_keywords(kin_path, random_files, client):
             except Exception as e:
                 logger.error(f"Error reading file {file_path}: {str(e)}")
 
+    if not file_contents:
+        logger.error("No file contents loaded for keyword extraction")
+        raise ValueError("No file contents available for keyword extraction")
+
     logger.info("Making API call to Claude for keyword extraction")
-    logger.info("Making API call to Claude for dream generation")
-    logger.info("Making API call to Claude for initiative generation")
     try:
-        response = client.messages.create(
-            model="claude-3-7-sonnet-latest",
-            max_tokens=1000,
-            system=f"""Messages history:
+        # Log the client type and API key status
+        logger.info(f"Client type: {type(client).__name__}")
+        
+        # Create a system prompt with the file contents
+        system_prompt = f"""Messages history:
 {messages_content}
 
 File contents:
@@ -295,34 +300,67 @@ Format your response as JSON:
     "surprising_words": ["word1", "word2", "word3"],
     "adjacent_keywords": ["word1", "word2"],
     "surprising_keywords": ["word1", "word2"]
-}}""",
+}}"""
+
+        # Log the system prompt
+        logger.info(f"System prompt for keyword extraction (first 200 chars): {system_prompt[:200]}...")
+        
+        # Make the API call
+        response = client.messages.create(
+            model="claude-3-7-sonnet-latest",
+            max_tokens=1000,
+            system=system_prompt,
             messages=[{"role": "user", "content": "Please extract the keywords and emotions as specified."}]
         )
         
         logger.info("Received response from Claude")
-        response_text = response.content[0].text.strip()
-        logger.debug(f"Raw response from Claude: {response_text}")
+        logger.info(f"Response type: {type(response).__name__}")
+        logger.info(f"Response attributes: {dir(response)}")
         
+        # Check if response has content
+        if not hasattr(response, 'content') or not response.content:
+            logger.error("Response has no content attribute or content is empty")
+            raise ValueError("Empty response from Claude")
+            
+        # Check if content is a list with at least one item
+        if not isinstance(response.content, list) or len(response.content) == 0:
+            logger.error(f"Response content is not a list or is empty: {response.content}")
+            raise ValueError("Invalid response format from Claude")
+            
+        # Get the text from the first content item
+        response_text = response.content[0].text.strip()
+        logger.info(f"Raw response from Claude (first 200 chars): {response_text[:200]}...")
+        
+        # Extract JSON from the response
         json_start = response_text.find('{')
         json_end = response_text.rfind('}')
         
-        if json_start != -1 and json_end != -1:
-            json_str = response_text[json_start:json_end + 1]
-            try:
-                keywords = json.loads(json_str)
-                logger.info("Successfully parsed keywords JSON")
-                logger.info(f"Extracted keywords: {json.dumps(keywords, indent=2)}")
-                return keywords
-            except json.JSONDecodeError as e:
-                logger.error(f"Error parsing JSON from response: {str(e)}")
-                logger.error(f"Response text: {response_text}")
-                raise
-        else:
+        if json_start == -1 or json_end == -1:
             logger.error(f"Could not find JSON in response: {response_text}")
             raise ValueError("No JSON found in response")
             
+        json_str = response_text[json_start:json_end + 1]
+        try:
+            keywords = json.loads(json_str)
+            logger.info("Successfully parsed keywords JSON")
+            logger.info(f"Extracted keywords: {json.dumps(keywords, indent=2)}")
+            
+            # Validate the JSON structure
+            required_keys = ["relevant_keywords", "emotions", "problems", "surprising_words", 
+                            "adjacent_keywords", "surprising_keywords"]
+            for key in required_keys:
+                if key not in keywords:
+                    logger.error(f"Missing required key in keywords JSON: {key}")
+                    raise ValueError(f"Missing required key in keywords JSON: {key}")
+                    
+            return keywords
+        except json.JSONDecodeError as e:
+            logger.error(f"Error parsing JSON from response: {str(e)}")
+            logger.error(f"JSON string: {json_str}")
+            raise
     except Exception as e:
         logger.error(f"Error in keyword extraction: {str(e)}")
+        logger.exception("Full exception traceback:")
         return None
 
 def generate_dream(kin_path, keywords, client):
@@ -620,15 +658,25 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
     """
     # Get kin path
     kin_path = get_kin_path(blueprint, kin_id)
+    logger.info(f"Using kin path: {kin_path}")
     
     try:
+        # Verify API key
+        if not api_key:
+            logger.error("API key is empty or None")
+            raise ValueError("API key not configured properly")
+        else:
+            logger.info(f"API key is present (starts with: {api_key[:4]}...)")
+        
         # Get appropriate LLM client based on provider
         if provider == "openai":
             from services.llm_service import LLMProvider
             client = LLMProvider.get_provider("openai")
+            logger.info("Using OpenAI provider")
         else:
             # Default to Claude
             client = get_anthropic_client()
+            logger.info("Using Claude provider")
         
         # First try to get recently modified files from commit history
         files_to_use = get_recently_modified_files(blueprint, kin_id, count=3)
@@ -639,11 +687,16 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
             files_to_use = get_random_files(kin_path, count=3)
             
         logger.info(f"Selected files for thought generation: {files_to_use}")
+        
+        if not files_to_use or len(files_to_use) == 0:
+            logger.error("No files selected for thought generation")
+            raise ValueError("No files available for thought generation")
 
         # Stage 1: Extract keywords
         logger.info("Stage 1: Extracting keywords")
         keywords = extract_keywords(kin_path, files_to_use, client)
         if not keywords:
+            logger.error("Failed to extract keywords, response was None")
             raise Exception("Failed to extract keywords")
         logger.info(f"Extracted keywords: {json.dumps(keywords, indent=2)}")
 
@@ -651,6 +704,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
         logger.info("Stage 2: Generating dream narrative")
         dream_narrative = generate_dream(kin_path, keywords, client)
         if not dream_narrative:
+            logger.error("Failed to generate dream narrative, response was None")
             raise Exception("Failed to generate dream narrative")
         logger.info(f"Generated dream narrative: {dream_narrative}")
 
@@ -658,6 +712,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
         logger.info("Stage 3: Generating daydreaming")
         daydreaming = generate_daydreaming(kin_path, dream_narrative, files_to_use, client)
         if not daydreaming:
+            logger.error("Failed to generate daydreaming, response was None")
             raise Exception("Failed to generate daydreaming")
         logger.info(f"Generated daydreaming: {daydreaming}")
 
@@ -665,6 +720,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
 
     except Exception as e:
         logger.error(f"Error in thought generation process: {str(e)}")
+        logger.exception("Full exception traceback:")
         return "I wonder about the nature of consciousness and my role in understanding it."
 
 def fix_vercel_deployment_issues(blueprint, kin_id, deployment_errors):
@@ -1410,16 +1466,34 @@ def main():
     parser.add_argument("--provider", help="LLM provider to use (claude or openai)")
     parser.add_argument("--model", help="Specific model to use")
     parser.add_argument("--vercel-token", help="Vercel API token for checking deployments")
+    parser.add_argument("--debug", action="store_true", help="Enable debug logging")
     
     args = parser.parse_args()
+    
+    # Set debug logging if requested
+    if args.debug:
+        logging.getLogger().setLevel(logging.DEBUG)
+        logger.setLevel(logging.DEBUG)
+        logger.info("Debug logging enabled")
     
     # Load environment variables from .env file
     # Try loading from current directory first
     load_dotenv()
+    logger.info("Loaded .env from current directory")
     
     # Then try loading from the parent directory of the script
     dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
     load_dotenv(dotenv_path)
+    logger.info(f"Loaded .env from parent directory: {dotenv_path}")
+    
+    # Also try loading from the parent's parent directory
+    parent_parent_dotenv = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), '.env')
+    load_dotenv(parent_parent_dotenv)
+    logger.info(f"Loaded .env from parent's parent directory: {parent_parent_dotenv}")
+    
+    # Log available environment variables (without showing full values of sensitive ones)
+    env_vars = {k: (v[:4] + "..." if k.lower().endswith("key") and v else v) for k, v in os.environ.items()}
+    logger.info(f"Available environment variables: {env_vars}")
     
     # Get Telegram credentials from environment variables if not provided as arguments
     telegram_token = args.telegram_token or os.getenv("TELEGRAM_BOT_TOKEN")
@@ -1429,6 +1503,19 @@ def main():
     vercel_token = args.vercel_token or os.getenv("VERCEL_API_TOKEN")
     if vercel_token:
         os.environ["VERCEL_API_TOKEN"] = vercel_token
+    
+    # Check for required API keys
+    anthropic_key = os.getenv("ANTHROPIC_API_KEY")
+    openai_key = os.getenv("OPENAI_API_KEY")
+    api_secret_key = os.getenv("API_SECRET_KEY")
+    
+    if not anthropic_key and not openai_key:
+        logger.error("Neither ANTHROPIC_API_KEY nor OPENAI_API_KEY environment variables are set")
+        return 1
+        
+    if not api_secret_key:
+        logger.error("API_SECRET_KEY environment variable not set")
+        return 1
     
     if telegram_token and telegram_chat_id:
         logger.info(f"Using Telegram credentials from {'arguments' if args.telegram_token else 'environment variables'}")
@@ -1452,6 +1539,7 @@ def main():
         return 0 if success else 1
     except Exception as e:
         logger.error(f"Unhandled exception in autonomous thinking: {str(e)}")
+        logger.exception("Full exception traceback:")
         return 1
 
 if __name__ == "__main__":
