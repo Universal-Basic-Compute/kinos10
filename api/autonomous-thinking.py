@@ -502,6 +502,99 @@ Make it feel like a natural flow of thoughts, with one idea leading to another. 
         logger.error(f"Error in free-flowing thoughts generation: {str(e)}")
         return None
 
+def generate_initiative(kin_path, daydreaming, client):
+    """
+    Fourth stage: Generate a practical initiative based on the daydreaming.
+    Selects a goal and defines concrete actions to take.
+    """
+    logger.info("Starting initiative generation stage")
+    logger.info(f"Using daydreaming as context: {daydreaming}")
+
+    # Load goals.json if it exists
+    goals_content = ""
+    goals_path = os.path.join(kin_path, "goals.json")
+    if os.path.exists(goals_path):
+        try:
+            with open(goals_path, 'r', encoding='utf-8') as f:
+                goals_content = f.read()
+            logger.info("Loaded goals.json content")
+        except Exception as e:
+            logger.error(f"Error reading goals.json: {str(e)}")
+    
+    # Load todolist.json if it exists
+    todolist_content = ""
+    todolist_path = os.path.join(kin_path, "todolist.json")
+    if os.path.exists(todolist_path):
+        try:
+            with open(todolist_path, 'r', encoding='utf-8') as f:
+                todolist_content = f.read()
+            logger.info("Loaded todolist.json content")
+        except Exception as e:
+            logger.error(f"Error reading todolist.json: {str(e)}")
+    
+    # Load persona.txt if it exists
+    persona_content = ""
+    persona_path = os.path.join(kin_path, "persona.txt")
+    if os.path.exists(persona_path):
+        try:
+            with open(persona_path, 'r', encoding='utf-8') as f:
+                persona_content = f.read()
+            logger.info("Loaded persona.txt content")
+        except Exception as e:
+            logger.error(f"Error reading persona.txt: {str(e)}")
+
+    try:
+        response = client.messages.create(
+            model="claude-3-7-sonnet-latest",
+            max_tokens=1500,
+            system=f"""Daydreaming:
+{daydreaming}
+
+Goals:
+{goals_content}
+
+Todo List:
+{todolist_content}
+
+Persona:
+{persona_content}
+
+Based on the daydreaming and the entity's goals, select one specific goal to focus on and define a series of practical actions to achieve it.
+
+The daydreaming should influence which goal you select and what actions you propose. Look for connections between the free-flowing thoughts and the entity's formal goals.
+
+Your response should include:
+1. The selected goal (choose from the existing goals or propose a new one if none exist)
+2. Why this goal was selected (especially how it connects to the daydreaming)
+3. 3-5 specific, actionable steps to make progress on this goal
+4. A timeline or priority order for these actions
+
+Format your response as a structured plan that the entity can immediately begin implementing. Be practical, specific, and action-oriented.""",
+            messages=[{"role": "user", "content": "Please generate a practical initiative based on the daydreaming and goals."}]
+        )
+        initiative = response.content[0].text.strip()
+        logger.info("Received initiative from Claude")
+        logger.info(f"Generated initiative: {initiative}")
+        
+        # Create initiatives directory if it doesn't exist
+        initiatives_dir = os.path.join(kin_path, "initiatives")
+        os.makedirs(initiatives_dir, exist_ok=True)
+        logger.info(f"Ensured initiatives directory exists: {initiatives_dir}")
+
+        # Save the initiative to initiatives.txt with timestamp
+        initiatives_file = os.path.join(initiatives_dir, "initiatives.txt")
+        timestamp = datetime.now().isoformat()
+        with open(initiatives_file, 'a', encoding='utf-8') as f:
+            f.write(f"\n\n# Initiative recorded at {timestamp}\n")
+            f.write(initiative)
+            f.write("\n")
+        logger.info(f"Saved initiative to initiatives.txt with timestamp {timestamp}")
+
+        return initiative
+    except Exception as e:
+        logger.error(f"Error in initiative generation: {str(e)}")
+        return None
+
 def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=None, model=None):
     """
     Generate a random thought using the three-stage process:
@@ -662,7 +755,7 @@ def send_telegram_notification(token, chat_id, thought, response):
     Args:
         token: Telegram bot token
         chat_id: Telegram chat ID
-        thought: The generated thought
+        thought: The generated thought (now contains both daydreaming and initiative)
         response: The kin's response
     
     Returns:
@@ -684,9 +777,22 @@ def send_telegram_notification(token, chat_id, thought, response):
     except ValueError:
         logger.warning(f"Could not convert chat_id to integer, using as is: {chat_id}")
     
+    # Split the thought into daydreaming and initiative if it contains both
+    daydreaming = thought
+    initiative = ""
+    
+    if "Daydreaming:" in thought and "Initiative:" in thought:
+        parts = thought.split("Initiative:", 1)
+        daydreaming = parts[0].replace("Daydreaming:", "").strip()
+        initiative = parts[1].strip()
+    
     # Prepare message
-    message = f"🧠 *Autonomous Thought*\n\n"
-    message += f"💭 *Thought:*\n{thought}\n\n"
+    message = f"🧠 *Autonomous Thinking Process*\n\n"
+    message += f"💭 *Daydreaming:*\n{daydreaming}\n\n"
+    
+    if initiative:
+        message += f"🎯 *Initiative:*\n{initiative}\n\n"
+        
     message += f"🤔 *Self-Reflection:*\n{response[:1000]}..."  # Limit response length
     
     # Prepare request
@@ -905,29 +1011,39 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
         logger.error("API_SECRET_KEY environment variable not set")
         return False
 
-    # Generate the initial random thought
-    logger.info(f"Generating initial random thought for {blueprint}/{kin_id}")
-    current_thought = generate_random_thought(blueprint, kin_id, api_key, remote=remote, provider=provider, model=model)
-    
+    # Get appropriate LLM client based on provider
+    if provider == "openai":
+        from services.llm_service import LLMProvider
+        client = LLMProvider.get_provider("openai")
+    else:
+        # Default to Claude
+        client = get_anthropic_client()
+
     # Run the thinking iterations
     for i in range(iterations):
         logger.info(f"Starting iteration {i+1}/{iterations}")
-        logger.info(f"Current thought: {current_thought}")
         
         try:
-            # For the first iteration, send the random thought directly
-            if i == 0:
-                # Send message to kin
-                response = send_message_to_kin(blueprint, kin_id, current_thought, mode="self-reflection", remote=remote, provider=provider, model=model)
-            else:
-                # For subsequent iterations, send a message with the continuation prompt
-                # Include <system> tags in the actual message content, not as a separate system parameter
-                response = send_message_to_kin(blueprint, kin_id, "<system>Continue your thoughts</system>", mode="self-reflection", provider=provider, model=model)
+            # Generate the random thought
+            logger.info(f"Generating random thought for {blueprint}/{kin_id}")
+            daydreaming = generate_random_thought(blueprint, kin_id, api_key, remote=remote, provider=provider, model=model)
+            logger.info(f"Generated daydreaming: {daydreaming}")
+            
+            # Generate initiative based on the daydreaming
+            logger.info(f"Generating initiative based on daydreaming")
+            initiative = generate_initiative(kin_path, daydreaming, client)
+            logger.info(f"Generated initiative: {initiative}")
+            
+            # Combine daydreaming and initiative for the message to the kin
+            combined_message = f"Daydreaming:\n{daydreaming}\n\nInitiative:\n{initiative}"
+            
+            # Send message to kin
+            response = send_message_to_kin(blueprint, kin_id, combined_message, mode="self-reflection", remote=remote, provider=provider, model=model)
             
             # Send Telegram notification
             if telegram_token and telegram_chat_id:
                 logger.info(f"Attempting to send Telegram notification with token: {telegram_token[:4] if telegram_token else 'None'}... and chat ID: {telegram_chat_id}")
-                notification_sent = send_telegram_notification(telegram_token, telegram_chat_id, current_thought, response)
+                notification_sent = send_telegram_notification(telegram_token, telegram_chat_id, combined_message, response)
                 if notification_sent:
                     logger.info("Telegram notification sent successfully")
                 else:
@@ -935,25 +1051,17 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
             else:
                 logger.warning(f"Skipping Telegram notification - Token provided: {telegram_token is not None}, Chat ID provided: {telegram_chat_id is not None}")
             
-            # Use the response as the input for the next iteration
-            if i < iterations - 1:  # Only update if there are more iterations to come
+            # Wait before next iteration
+            if i < iterations - 1:
                 logger.info(f"Waiting {wait_time} seconds before next iteration...")
                 time.sleep(wait_time)
                 
-                # Use the previous response as the new thought
-                current_thought = response
         except Exception as e:
             logger.error(f"Error in iteration {i+1}: {str(e)}")
             # Continue with next iteration despite errors
             if i < iterations - 1:
                 logger.info(f"Waiting {wait_time} seconds before next iteration...")
                 time.sleep(wait_time)
-                
-                # Generate a new thought since the previous one failed
-                random_files = get_random_files(kin_path, count=3)
-                logger.info(f"Selected new random files after error: {random_files}")
-                # Use the api_key we got at the start of the function
-                current_thought = generate_random_thought(blueprint, kin_id, api_key, remote=remote, provider=provider, model=model)
     
     logger.info(f"Completed {iterations} autonomous thinking iterations")
     return True
