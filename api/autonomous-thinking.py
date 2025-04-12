@@ -47,6 +47,34 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+def setup_clean_logging():
+    """Configure logging to show only important messages"""
+    # Create a filter to only show important messages
+    class ImportantMessagesFilter(logging.Filter):
+        def filter(self, record):
+            # Allow ERROR messages through
+            if record.levelno >= logging.ERROR:
+                return True
+                
+            # Filter out verbose debug messages
+            if any(msg in record.getMessage() for msg in [
+                "Making API", "Request Headers", "Response Headers", 
+                "Client type", "System prompt", "API key is present",
+                "Loaded .env", "Available environment"
+            ]):
+                return False
+                
+            return True
+    
+    # Apply the filter to the root logger
+    root_logger = logging.getLogger()
+    for handler in root_logger.handlers:
+        handler.addFilter(ImportantMessagesFilter())
+    
+    # Also apply to our logger
+    for handler in logger.handlers:
+        handler.addFilter(ImportantMessagesFilter())
+
 def get_app_data_dir():
     """Get the appropriate application data directory based on the platform."""
     if os.name == 'nt':  # Windows
@@ -422,7 +450,7 @@ Start with "In my dream..." or similar first-person opening.""",
         )
         dream_narrative = response.content[0].text.strip()
         logger.info("Received dream narrative from Claude")
-        logger.info(f"Dream narrative: {dream_narrative}")
+        logger.info(f"\n💭 DREAM NARRATIVE:\n{dream_narrative}")
 
         # Create memories directory if it doesn't exist
         memories_dir = os.path.join(kin_path, "memories")
@@ -539,7 +567,7 @@ Make it feel like a natural flow of thoughts, with one idea leading to another. 
         )
         daydreaming = response.content[0].text.strip()
         logger.info("Received free-flowing thoughts from Claude")
-        logger.info(f"Generated thoughts: {daydreaming}")
+        logger.info(f"\n🧠 GENERATED THOUGHTS:\n{daydreaming}")
         return daydreaming
     except Exception as e:
         logger.error(f"Error in free-flowing thoughts generation: {str(e)}")
@@ -617,7 +645,7 @@ Format your response as a structured plan that the entity can immediately begin 
         )
         initiative = response.content[0].text.strip()
         logger.info("Received initiative from Claude")
-        logger.info(f"Generated initiative: {initiative}")
+        logger.info(f"\n🎯 GENERATED INITIATIVE:\n{initiative}")
         
         # Create initiatives directory if it doesn't exist
         initiatives_dir = os.path.join(kin_path, "initiatives")
@@ -1414,7 +1442,7 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
         logger.error(f"Kin path not found: {kin_path}")
         return False
     
-    logger.info(f"Starting autonomous thinking for {blueprint}/{kin_id}")
+    logger.info(f"\n{'='*50}\nStarting autonomous thinking for {blueprint}/{kin_id}\n{'='*50}")
     logger.info(f"Will run {iterations} iterations with {wait_time} seconds between each")
     
     # Get API key from environment
@@ -1433,39 +1461,39 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
 
     # Run the thinking iterations
     for i in range(iterations):
-        logger.info(f"Starting iteration {i+1}/{iterations}")
+        logger.info(f"\n{'='*50}\nITERATION {i+1}/{iterations}\n{'='*50}")
         
         try:
             # Generate the random thought
-            logger.info(f"Generating random thought for {blueprint}/{kin_id}")
+            logger.info(f"\n--- STEP 1: GENERATING DAYDREAMING ---")
             daydreaming = generate_random_thought(blueprint, kin_id, api_key, remote=remote, provider=provider, model=model)
-            logger.info(f"Generated daydreaming: {daydreaming}")
+            logger.info(f"\n🧠 DAYDREAMING:\n{daydreaming}\n")
             
             # Generate initiative based on the daydreaming
-            logger.info(f"Generating initiative based on daydreaming")
+            logger.info(f"\n--- STEP 2: GENERATING INITIATIVE ---")
             initiative = generate_initiative(kin_path, daydreaming, client)
-            logger.info(f"Generated initiative: {initiative}")
+            logger.info(f"\n🎯 INITIATIVE:\n{initiative}\n")
             
             # Combine daydreaming and initiative for the message to the kin
             combined_message = f"Daydreaming:\n{daydreaming}\n\nInitiative:\n{initiative}"
             
             # Send build request to kin instead of message
+            logger.info(f"\n--- STEP 3: SENDING TO KIN AND GETTING RESPONSE ---")
             response = send_build_to_kin(blueprint, kin_id, combined_message, remote=remote, provider=provider, model=model)
+            logger.info(f"\n💬 KIN RESPONSE:\n{response}\n")
             
             # Send Telegram notification
             if telegram_token and telegram_chat_id:
-                logger.info(f"Attempting to send Telegram notification with token: {telegram_token[:4] if telegram_token else 'None'}... and chat ID: {telegram_chat_id}")
+                logger.info(f"\n--- STEP 4: SENDING TELEGRAM NOTIFICATION ---")
                 notification_sent = send_telegram_notification(telegram_token, telegram_chat_id, combined_message, response)
                 if notification_sent:
-                    logger.info("Telegram notification sent successfully")
+                    logger.info("✅ Telegram notification sent successfully")
                 else:
-                    logger.warning("Failed to send Telegram notification")
-            else:
-                logger.warning(f"Skipping Telegram notification - Token provided: {telegram_token is not None}, Chat ID provided: {telegram_chat_id is not None}")
+                    logger.warning("❌ Failed to send Telegram notification")
             
             # Wait before next iteration
             if i < iterations - 1:
-                logger.info(f"Waiting {wait_time} seconds before next iteration...")
+                logger.info(f"\n--- Waiting {wait_time} seconds before next iteration... ---\n")
                 time.sleep(wait_time)
                 
         except Exception as e:
@@ -1475,7 +1503,7 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
                 logger.info(f"Waiting {wait_time} seconds before next iteration...")
                 time.sleep(wait_time)
     
-    logger.info(f"Completed {iterations} autonomous thinking iterations")
+    logger.info(f"\n{'='*50}\nCompleted {iterations} autonomous thinking iterations\n{'='*50}")
     return True
 
 def main():
@@ -1500,6 +1528,9 @@ def main():
         logging.getLogger().setLevel(logging.DEBUG)
         logger.setLevel(logging.DEBUG)
         logger.info("Debug logging enabled")
+    else:
+        # Use clean logging by default
+        setup_clean_logging()
     
     # Load environment variables from .env file
     # Try loading from current directory first
