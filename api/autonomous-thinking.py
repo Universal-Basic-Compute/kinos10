@@ -662,6 +662,215 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
         logger.error(f"Error in thought generation process: {str(e)}")
         return "I wonder about the nature of consciousness and my role in understanding it."
 
+def send_build_to_kin(blueprint, kin_id, message, remote=False, provider=None, model=None, max_attempts=3):
+    """
+    Send a message to the kin's build endpoint instead of the message endpoint.
+    For specific blueprints, also check Vercel deployment status.
+    
+    Args:
+        blueprint: Blueprint name
+        kin_id: Kin ID
+        message: Message content
+        remote: Whether to use remote API instead of localhost (default: False)
+        provider: Optional LLM provider to use ("claude" or "openai")
+        model: Optional model to use
+        max_attempts: Maximum number of build attempts for fixing deployment errors (default: 3)
+    
+    Returns:
+        The response from the kin
+    """
+    try:
+        # Choose API URL based on remote flag
+        base_url = "https://api.kinos-engine.ai" if remote else BASE_URL
+        api_url = f"{base_url}/v2/blueprints/{blueprint}/kins/{kin_id}/build"
+        
+        logger.info(f"=== Sending Build Request to Kin ===")
+        logger.info(f"Using {'remote' if remote else 'local'} API")
+        logger.info(f"API URL: {api_url}")
+        
+        # Get API key from environment variable
+        api_key = os.getenv("API_SECRET_KEY")
+        if not api_key:
+            logger.error("API_SECRET_KEY environment variable not set in .env file")
+            raise ValueError("API key not configured")
+        
+        # Prepare request
+        headers = {
+            "Content-Type": "application/json",
+            "X-API-Key": api_key
+        }
+        
+        # Determine model to use
+        model_to_use = model or "claude-3-7-sonnet-latest"
+        
+        payload = {
+            "message": message,
+            "model": model_to_use
+        }
+        
+        # Add provider if specified
+        if provider:
+            payload["provider"] = provider
+            
+        logger.info(f"Request Headers: {headers}")
+        logger.info(f"Request Payload: {payload}")
+        
+        # Make request
+        logger.info("Making API request to build endpoint...")
+        response = requests.post(api_url, headers=headers, json=payload)
+        
+        # Log response details
+        logger.info(f"Response Status Code: {response.status_code}")
+        logger.info(f"Response Headers: {dict(response.headers)}")
+        
+        # Check for errors
+        if response.status_code != 200:
+            logger.error(f"API error: {response.status_code} - {response.text}")
+            return f"Error: {response.status_code} - {response.text}"
+        
+        # Parse response
+        result = response.json()
+        logger.info(f"Response JSON: {result}")
+        
+        # Extract the response text
+        if "response" in result:
+            response_text = result["response"]
+            logger.info(f"Extracted response: {response_text[:100]}...")
+            
+            # For specific blueprints, check Vercel deployment status
+            if blueprint.lower() in ["fictra", "atlas", "kinos"] and max_attempts > 0:
+                logger.info(f"Special blueprint detected: {blueprint}. Checking Vercel deployment status...")
+                
+                # Wait for 3 minutes to allow deployment to start
+                logger.info("Waiting 3 minutes for deployment to process...")
+                time.sleep(180)  # 3 minutes
+                
+                # Determine which app to check based on blueprint
+                vercel_app = None
+                if blueprint.lower() == "fictra":
+                    vercel_app = "fictra-cosmos"
+                elif blueprint.lower() == "atlas":
+                    vercel_app = "fictra-atlas"
+                elif blueprint.lower() == "kinos":
+                    vercel_app = "kinos-ventures"
+                
+                # Check Vercel deployment status
+                deployment_status = check_vercel_deployment(vercel_app)
+                
+                # If there are errors, try to fix them
+                if deployment_status.get("has_errors", False):
+                    logger.warning(f"Deployment errors detected for {vercel_app}: {deployment_status.get('errors', [])}")
+                    
+                    # Create a new build message to fix the errors
+                    fix_message = f"""
+                    I need to fix errors in the Vercel deployment for {vercel_app}. 
+                    
+                    Here are the deployment errors:
+                    {deployment_status.get('errors', [])}
+                    
+                    Please analyze these errors and make the necessary changes to fix the deployment issues.
+                    """
+                    
+                    # Send another build request to fix the errors
+                    logger.info(f"Sending another build request to fix deployment errors (attempts remaining: {max_attempts-1})...")
+                    return send_build_to_kin(blueprint, kin_id, fix_message, remote, provider, model, max_attempts-1)
+            
+            return response_text
+        else:
+            logger.error(f"No response field in API result: {result}")
+            return f"Error: No response field in API result: {result}"
+            
+    except Exception as e:
+        logger.error(f"Error sending build to kin: {str(e)}")
+        logger.exception("Full exception details:")
+        return f"Error: {str(e)}"
+
+def check_vercel_deployment(app_name):
+    """
+    Check the status of a Vercel deployment.
+    
+    Args:
+        app_name: Name of the Vercel app
+        
+    Returns:
+        Dictionary with deployment status information
+    """
+    try:
+        # Get Vercel API token from environment variable
+        vercel_token = os.getenv("VERCEL_API_TOKEN")
+        if not vercel_token:
+            logger.error("VERCEL_API_TOKEN environment variable not set")
+            return {"error": "Vercel API token not configured", "has_errors": True}
+        
+        # Prepare request
+        headers = {
+            "Authorization": f"Bearer {vercel_token}"
+        }
+        
+        # Make request to Vercel API
+        api_url = f"https://api.vercel.com/v6/deployments?app={app_name}&limit=1"
+        logger.info(f"Checking Vercel deployment status for {app_name}...")
+        response = requests.get(api_url, headers=headers)
+        
+        # Check for errors
+        if response.status_code != 200:
+            logger.error(f"Vercel API error: {response.status_code} - {response.text}")
+            return {"error": f"Vercel API error: {response.status_code}", "has_errors": True}
+        
+        # Parse response
+        result = response.json()
+        logger.info(f"Vercel API response: {json.dumps(result, indent=2)}")
+        
+        # Check if there are deployments
+        if "deployments" not in result or not result["deployments"]:
+            logger.warning(f"No deployments found for {app_name}")
+            return {"error": "No deployments found", "has_errors": False}
+        
+        # Get the latest deployment
+        deployment = result["deployments"][0]
+        
+        # Check deployment state
+        state = deployment.get("state", "")
+        ready_state = deployment.get("readyState", "")
+        
+        logger.info(f"Deployment state: {state}, readyState: {ready_state}")
+        
+        # Check if there are errors
+        has_errors = state == "ERROR" or ready_state == "ERROR"
+        
+        if has_errors:
+            # Try to get more detailed error information
+            errors = []
+            
+            # Check for aliasError
+            alias_error = deployment.get("aliasError")
+            if alias_error:
+                errors.append(f"Alias Error: {alias_error.get('message', 'Unknown alias error')}")
+            
+            # If we have an inspectorUrl, we could potentially scrape it for more error details
+            # but that would require additional authentication and parsing
+            
+            return {
+                "state": state,
+                "ready_state": ready_state,
+                "has_errors": True,
+                "errors": errors or ["Unknown deployment error. Check the Vercel dashboard for details."],
+                "deployment_url": deployment.get("url", ""),
+                "inspector_url": deployment.get("inspectorUrl", "")
+            }
+        else:
+            return {
+                "state": state,
+                "ready_state": ready_state,
+                "has_errors": False,
+                "deployment_url": deployment.get("url", ""),
+                "inspector_url": deployment.get("inspectorUrl", "")
+            }
+            
+    except Exception as e:
+        logger.error(f"Error checking Vercel deployment: {str(e)}")
+        return {"error": str(e), "has_errors": True}
+
 def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False, provider=None, model=None):
     """
     Send a message to the kin by calling the function directly.
@@ -1037,8 +1246,8 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
             # Combine daydreaming and initiative for the message to the kin
             combined_message = f"Daydreaming:\n{daydreaming}\n\nInitiative:\n{initiative}"
             
-            # Send message to kin
-            response = send_message_to_kin(blueprint, kin_id, combined_message, mode="self-reflection", remote=remote, provider=provider, model=model)
+            # Send build request to kin instead of message
+            response = send_build_to_kin(blueprint, kin_id, combined_message, remote=remote, provider=provider, model=model)
             
             # Send Telegram notification
             if telegram_token and telegram_chat_id:
@@ -1078,6 +1287,7 @@ def main():
     parser.add_argument("--api-url", help="Base URL for API calls (default: uses direct function calls)")
     parser.add_argument("--provider", help="LLM provider to use (claude or openai)")
     parser.add_argument("--model", help="Specific model to use")
+    parser.add_argument("--vercel-token", help="Vercel API token for checking deployments")
     
     args = parser.parse_args()
     
@@ -1092,6 +1302,11 @@ def main():
     # Get Telegram credentials from environment variables if not provided as arguments
     telegram_token = args.telegram_token or os.getenv("TELEGRAM_BOT_TOKEN")
     telegram_chat_id = args.telegram_chat_id or os.getenv("TELEGRAM_CHAT_ID")
+    
+    # Get Vercel API token from environment variables if not provided as arguments
+    vercel_token = args.vercel_token or os.getenv("VERCEL_API_TOKEN")
+    if vercel_token:
+        os.environ["VERCEL_API_TOKEN"] = vercel_token
     
     if telegram_token and telegram_chat_id:
         logger.info(f"Using Telegram credentials from {'arguments' if args.telegram_token else 'environment variables'}")
