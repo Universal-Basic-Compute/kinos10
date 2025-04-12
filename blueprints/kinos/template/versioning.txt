@@ -1,0 +1,122 @@
+# File Versioning Guidelines
+
+This document outlines the approach to versioning files within the KinOS system, ensuring backward compatibility and proper evolution of the system.
+
+## Version Numbering
+
+KinOS uses semantic versioning for tracking changes to files and components:
+
+1. **Major Version** (X.y.z): Incremented for backward-incompatible changes
+2. **Minor Version** (x.Y.z): Incremented for backward-compatible feature additions
+3. **Patch Version** (x.y.Z): Incremented for backward-compatible bug fixes
+
+### Example
+- 1.0.0: Initial stable version
+- 1.1.0: Added new feature with backward compatibility
+- 1.1.1: Fixed bug in the new feature
+- 2.0.0: Made breaking changes to the interface
+
+## File Header Format
+
+Each file should include a version header in the following format:
+
+```
+# [Filename]
+# Version: X.Y.Z
+# Last Updated: YYYY-MM-DD
+# Compatibility: [Compatible with KinOS X.Y.Z+]
+```
+
+## When to Update Versions
+
+### Major Version Updates (X.y.z)
+
+Increment the major version when:
+- Changing the fundamental purpose or structure of a file
+- Removing or renaming key sections that other files depend on
+- Changing the format in a way that breaks existing references
+- Making changes that require updates to other files
+
+### Minor Version Updates (x.Y.z)
+
+Increment the minor version when:
+- Adding new sections or capabilities
+- Expanding existing sections with new information
+- Enhancing the file with additional details or examples
+- Making significant improvements while maintaining compatibility
+
+### Patch Version Updates (x.y.Z)
+
+Increment the patch version when:
+- Fixing typos or grammatical errors
+- Clarifying existing content without changing meaning
+- Making minor formatting improvements
+- Adding small details that don't change the overall structure
+
+## Backward Compatibility
+
+To maintain backward compatibility:
+
+1. **Additive Changes**: Prefer adding new content rather than modifying existing content
+2. **Deprecation Process**: Mark sections as deprecated before removing them
+3. **Transition Periods**: Support both old and new formats during transitions
+4. **Documentation**: Document all breaking changes and migration paths
+
+### Deprecation Format
+
+When deprecating content, use the following format:
+
+```
+# [Section Name] (DEPRECATED)
+# This section is deprecated as of version X.Y.Z and will be removed in version X+1.0.0.
+# Please use [New Section/File] instead.
+
+[Original content remains for backward compatibility]
+```
+
+## Version Control Workflow
+
+1. **Check Current Version**: Review the file's current version before making changes
+2. **Determine Change Type**: Decide if the change is major, minor, or patch
+3. **Update Version Number**: Increment the appropriate version component
+4. **Update Last Updated Date**: Change the date to the current date
+5. **Document Changes**: Add a note about the change in the file's changelog section
+6. **Update Compatibility**: Update the compatibility note if necessary
+7. **Update References**: Update any references in other files if needed
+
+## Changelog Management
+
+Each file should maintain a changelog section at the end:
+
+```
+# Changelog
+- X.Y.Z (YYYY-MM-DD): [Description of changes]
+- X.Y.Z-1 (YYYY-MM-DD): [Description of previous changes]
+```
+
+## Cross-File Compatibility
+
+When files reference each other:
+
+1. **Specify Version Requirements**: Note which version of a file is required
+2. **Use Stable References**: Reference stable sections that change infrequently
+3. **Version Checking**: Implement version checking for critical dependencies
+4. **Fallback Mechanisms**: Provide fallbacks for missing or incompatible references
+
+## Implementation Guidelines
+
+- Update map.json when file versions change significantly
+- Create backup copies before making major version changes
+- Test file changes with existing functionality before finalizing
+- Consider the impact on the context window when evolving file formats
+- Prioritize backward compatibility unless there's a compelling reason for breaking changes
+
+## Special Considerations for Core Files
+
+Core system files (kinos.txt, system.txt, persona.txt) require special care:
+
+1. Major version changes should be rare and well-justified
+2. Changes should be thoroughly tested with different scenarios
+3. Consider the impact on all blueprints and kins
+4. Provide detailed migration guides for major updates
+5. Maintain compatibility with existing modes and adaptations

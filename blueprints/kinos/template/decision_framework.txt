@@ -1,0 +1,143 @@
+# KinOS Decision Framework
+
+This document provides a structured framework for making decisions about file creation, updates, and context selection within the KinOS system.
+
+## File Creation Decisions
+
+When deciding whether to create a new file, consider:
+
+1. **Information Significance**
+   - Is this information likely to be relevant in future conversations?
+   - Does it represent a core concept, preference, or important fact?
+   - Would storing this information improve future responses?
+
+2. **Existing Coverage**
+   - Is this information already stored in an existing file?
+   - Could an existing file be updated instead of creating a new one?
+   - Would creating a new file lead to fragmentation or duplication?
+
+3. **Categorization**
+   - What is the appropriate directory for this information?
+   - Does it belong in knowledge, memories, adaptations, or sources?
+   - Should it be in a subdirectory for better organization?
+
+4. **Naming and Structure**
+   - What name would make this file easily discoverable?
+   - What structure would make the information most usable?
+   - How should the content be formatted for clarity?
+
+### Decision Flowchart for File Creation
+
+```
+Start
+  |
+  v
+Is the information significant? --No--> Don't create a file
+  |
+ Yes
+  |
+  v
+Is it already covered in existing files? --Yes--> Update existing file
+  |
+ No
+  |
+  v
+Determine appropriate category and location
+  |
+  v
+Create new file with clear name and structure
+  |
+  v
+Update map.json or relevant index files
+```
+
+## File Update Decisions
+
+When deciding whether to update an existing file, consider:
+
+1. **Relevance**
+   - Is the new information directly related to the file's topic?
+   - Does it complement or extend the existing content?
+   - Would adding this information improve the file's usefulness?
+
+2. **Consistency**
+   - Does the new information align with existing content?
+   - If there are contradictions, how should they be resolved?
+   - Will the update maintain the file's coherence and structure?
+
+3. **Significance**
+   - Is the update substantial enough to warrant changing the file?
+   - Does it provide new insights or just reinforce existing information?
+   - Is the information likely to remain relevant over time?
+
+4. **Organization**
+   - Where in the file should the new information be placed?
+   - Should the file be restructured to accommodate the update?
+   - Are there other files that should be updated for consistency?
+
+### Decision Flowchart for File Updates
+
+```
+Start
+  |
+  v
+Is the information relevant to an existing file? --No--> Consider creating a new file
+  |
+ Yes
+  |
+  v
+Is the information consistent with existing content? --No--> Reconcile contradictions
+  |                                                           or create a new file
+ Yes
+  |
+  v
+Is the update significant? --No--> Consider skipping the update
+  |
+ Yes
+  |
+  v
+Determine appropriate placement within the file
+  |
+  v
+Update the file while maintaining structure and coherence
+```
+
+## Context Selection Decisions
+
+When selecting files for context inclusion, consider:
+
+1. **Relevance to Current Topic**
+   - How closely does the file relate to the current conversation topic?
+   - Does it contain information that would help generate a better response?
+   - Is it directly referenced or implied in the user's message?
+
+2. **Recency and Importance**
+   - How recently was the file created or updated?
+   - Is the file marked as high priority in map.json?
+   - Does it contain foundational information for the current topic?
+
+3. **User Context**
+   - Does the file contain information about the user's preferences or history?
+   - Would including this file help personalize the response?
+   - Is it relevant to the user's current goals or needs?
+
+4. **Token Budget**
+   - How many tokens would including this file consume?
+   - Is the value of the information worth the token cost?
+   - Could a summary or partial inclusion be more efficient?
+
+### Priority Ranking for Context Selection
+
+1. Core system files (kinos.txt, system.txt, persona.txt)
+2. Files directly relevant to the current topic
+3. User-specific adaptation and memory files
+4. Recently updated files related to the conversation
+5. Background knowledge files for context enrichment
+
+## Implementation Guidelines
+
+- Document decisions about significant file operations in thoughts.txt
+- Regularly review and consolidate related files to prevent fragmentation
+- Update map.json when creating new files or changing file organization
+- Prioritize quality over quantity in both file creation and context selection
+- When in doubt, err on the side of creating structured, well-organized information

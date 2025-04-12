@@ -1,0 +1,149 @@
+# Context Selection Guidelines
+
+This document provides detailed guidelines for selecting which files to include in the context window based on different scenarios and requirements.
+
+## Core Principles
+
+1. **Relevance**: Include files most relevant to the current conversation topic
+2. **Recency**: Prioritize recently created or updated files
+3. **Efficiency**: Optimize token usage by selecting high-value content
+4. **Completeness**: Ensure all necessary information is available
+5. **Coherence**: Select files that work together to provide a unified context
+
+## Always-Include Files
+
+These files should always be included in the context window:
+
+1. **System Files**:
+   - kinos.txt
+   - system.txt
+   - persona.txt (if present)
+   - Current active mode file
+
+2. **Conversation History**:
+   - Last 3-5 messages from the conversation
+   - Any messages explicitly referenced in the current message
+
+## Scenario-Based Selection
+
+### Information Retrieval Queries
+
+When the user is asking for information:
+
+1. Include knowledge files related to the query topic
+2. Include source files with authoritative information
+3. Include memory files that record previous explanations on the topic
+4. Include adaptation files that modify explanation style
+
+Example query: "How does the Context Builder work?"
+Files to include:
+- Core system files
+- knowledge/context_builder.txt
+- memories/architecture/context_builder_design.txt
+- sources/specification.txt (sections on Context Builder)
+- adaptations/explanation_style.txt (if present)
+
+### Personal Preference Queries
+
+When the user is asking about or expressing preferences:
+
+1. Include memory files related to user preferences
+2. Include adaptation files that personalize responses
+3. Include knowledge files about preference categories
+4. Include recent conversation history for context
+
+Example query: "Remember I prefer technical explanations"
+Files to include:
+- Core system files
+- memories/user_preferences.txt
+- adaptations/communication_style.txt
+- knowledge/explanation_styles.txt
+
+### Task Execution Requests
+
+When the user is asking the system to perform a task:
+
+1. Include knowledge files related to the task domain
+2. Include memory files with previous similar tasks
+3. Include adaptation files relevant to task execution
+4. Include files with examples or templates
+
+Example query: "Help me design a new component for file versioning"
+Files to include:
+- Core system files
+- knowledge/component_design.txt
+- knowledge/file_versioning.txt
+- memories/architecture/component_patterns.txt
+- examples/component_templates.txt
+
+### System Modification Requests
+
+When the user is asking to modify the system itself:
+
+1. Include files related to the component being modified
+2. Include architecture files showing component relationships
+3. Include specification files with requirements
+4. Include implementation files with current approach
+
+Example query: "Let's improve the Context Updater component"
+Files to include:
+- Core system files
+- knowledge/context_updater.txt
+- memories/architecture/context_updater_design.txt
+- sources/specification.txt (sections on Context Updater)
+- memories/implementation/context_updater_implementation.txt
+
+## Token Budget Management
+
+When selecting files, consider the token budget:
+
+1. **Prioritization Tiers**:
+   - Tier 1: Core system files and current conversation (non-negotiable)
+   - Tier 2: Files directly relevant to the current query (high priority)
+   - Tier 3: Supporting files that provide helpful context (medium priority)
+   - Tier 4: Background information for completeness (low priority)
+
+2. **Optimization Strategies**:
+   - Include full content of Tier 1 and 2 files
+   - Include relevant sections of Tier 3 files
+   - Summarize or omit Tier 4 files if token budget is tight
+   - Prefer smaller, focused files over large, general ones
+   - Consider file recency when making trade-offs
+
+3. **Dynamic Adjustment**:
+   - Start with a baseline selection of files
+   - Estimate token usage and adjust if necessary
+   - If token budget allows, include additional helpful files
+   - If token budget is exceeded, remove lower-priority files
+
+## Implementation Techniques
+
+1. **Semantic Matching**:
+   - Use semantic similarity between the query and file content
+   - Calculate relevance scores for available files
+   - Rank files by relevance score
+
+2. **Keyword Analysis**:
+   - Extract keywords from the user's query
+   - Match keywords against file content and metadata
+   - Prioritize files with multiple keyword matches
+
+3. **Conversation Analysis**:
+   - Identify the conversation topic and intent
+   - Select files relevant to the current topic
+   - Include files related to recent topic shifts
+
+4. **User Context Awareness**:
+   - Consider the user's expertise level
+   - Include files relevant to the user's known interests
+   - Adapt selection based on user's interaction history
+
+## Continuous Improvement
+
+To improve context selection over time:
+
+1. Monitor which files contribute to successful responses
+2. Track when context window limitations affect response quality
+3. Analyze patterns in file relevance across different query types
+4. Refine selection algorithms based on performance data
+5. Regularly review and update these guidelines based on experience

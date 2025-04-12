@@ -1,23 +1,90 @@
 {
-  "kinos.txt": "Self-reference guide explaining KinOS's meta-cognitive capabilities",
-  "system.txt": "Base system prompt for KinOS in self-development mode",
-  "map.json": "Index of all files in the KinOS template",
+  "core_files": {
+    "kinos.txt": {
+      "description": "Self-reference guide explaining KinOS's meta-cognitive capabilities",
+      "priority": "high",
+      "update_frequency": "low",
+      "related_files": ["system.txt", "persona.txt"]
+    },
+    "system.txt": {
+      "description": "Base system prompt for KinOS in self-development mode",
+      "priority": "high",
+      "update_frequency": "low",
+      "related_files": ["kinos.txt", "persona.txt"]
+    },
+    "map.json": {
+      "description": "Index of all files in the KinOS template",
+      "priority": "medium",
+      "update_frequency": "high",
+      "related_files": []
+    }
+  },
   "modes": {
-    "general.txt": "Default operational mode for KinOS self-development",
-    "architect.txt": "Mode for designing system architecture",
-    "implementer.txt": "Mode for implementing technical features",
-    "documenter.txt": "Mode for creating and updating documentation"
+    "general.txt": {
+      "description": "Default operational mode for KinOS self-development",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Default mode when no specific mode is required"
+    },
+    "architect.txt": {
+      "description": "Mode for designing system architecture",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Use when discussing high-level system design and component relationships"
+    },
+    "implementer.txt": {
+      "description": "Mode for implementing technical features",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Use when discussing code implementation and technical details"
+    },
+    "documenter.txt": {
+      "description": "Mode for creating and updating documentation",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Use when creating or updating documentation and explanations"
+    }
   },
   "adaptations": {
-    "component_focus.txt": "Adaptation for focusing on specific KinOS components",
-    "specification_update.txt": "Adaptation for updating the KinOS specification"
+    "component_focus.txt": {
+      "description": "Adaptation for focusing on specific KinOS components",
+      "priority": "low",
+      "update_frequency": "low",
+      "usage": "Apply when discussion centers on a specific component"
+    },
+    "specification_update.txt": {
+      "description": "Adaptation for updating the KinOS specification",
+      "priority": "low",
+      "update_frequency": "low",
+      "usage": "Apply when modifying the formal specification document"
+    }
   },
   "memories": {
-    "architecture": "Folder for storing architectural decisions and patterns",
-    "implementation": "Folder for storing implementation details and approaches"
+    "architecture": {
+      "description": "Folder for storing architectural decisions and patterns",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "file_types": ["decision records", "architecture diagrams", "pattern descriptions"]
+    },
+    "implementation": {
+      "description": "Folder for storing implementation details and approaches",
+      "priority": "medium",
+      "update_frequency": "high",
+      "file_types": ["code examples", "implementation notes", "technical approaches"]
+    }
   },
   "sources": {
-    "specification.txt": "The full KinOS specification document",
-    "best_practices.txt": "Best practices for context management systems"
+    "specification.txt": {
+      "description": "The full KinOS specification document",
+      "priority": "high",
+      "update_frequency": "low",
+      "usage": "Reference for understanding the complete system design"
+    },
+    "best_practices.txt": {
+      "description": "Best practices for context management systems",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "usage": "Guide for implementing effective context management"
+    }
   }
 }
