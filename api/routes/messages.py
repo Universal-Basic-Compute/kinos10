@@ -173,8 +173,15 @@ def send_message(blueprint, kin_id):
     If the kin doesn't exist, it will be created from the template.
     """
     try:
-        # Parse request data
-        data = request.json or {}  # Add 'or {}' to handle None case
+        # Parse request data with better error handling for malformed JSON
+        try:
+            data = request.get_json(silent=False) or {}
+        except json.JSONDecodeError as e:
+            logger.error(f"Malformed JSON in request: {str(e)}")
+            return jsonify({
+                "error": f"Malformed JSON in request: {str(e)}",
+                "details": "Please check your request body for JSON syntax errors like unterminated strings"
+            }), 400
         
         # Log the blueprint being accessed
         logger.info(f"Attempting to access blueprint: {blueprint}")

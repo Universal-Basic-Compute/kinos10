@@ -356,8 +356,15 @@ def send_message_v2(blueprint, kin_id):
     - channel_id: Optional channel ID (if not provided, uses main channel)
     """
     try:
-        # Get the original data
-        original_data = request.get_json() or {}  # Add 'or {}' to handle None case
+        # Get the original data with better error handling for malformed JSON
+        try:
+            original_data = request.get_json(silent=False) or {}
+        except json.JSONDecodeError as e:
+            logger.error(f"Malformed JSON in request: {str(e)}")
+            return jsonify({
+                "error": f"Malformed JSON in request: {str(e)}",
+                "details": "Please check your request body for JSON syntax errors like unterminated strings"
+            }), 400
         
         # Check if channel_id is provided in the request
         channel_id = original_data.get('channel_id')
@@ -379,8 +386,15 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
     V2 API endpoint to send a message to a specific channel.
     """
     try:
-        # Parse request data
-        data = request.json or {}  # Add 'or {}' to handle None case
+        # Parse request data with better error handling
+        try:
+            data = request.get_json(silent=False) or {}
+        except json.JSONDecodeError as e:
+            logger.error(f"Malformed JSON in request: {str(e)}")
+            return jsonify({
+                "error": f"Malformed JSON in request: {str(e)}",
+                "details": "Please check your request body for JSON syntax errors like unterminated strings"
+            }), 400
         
         # If channel_id is not in the URL, try to get it from the request body
         if channel_id is None:
