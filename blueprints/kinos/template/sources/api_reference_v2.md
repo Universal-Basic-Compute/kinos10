@@ -459,6 +459,89 @@ This endpoint:
 
 The response includes details about each operation performed and whether it was successful.
 
+#### Link Repository
+
+Link a kin to a GitHub repository.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/link-repo`
+
+**Request Body:**
+```json
+{
+  "github_url": "https://github.com/username/repo",
+  "token": "optional_github_token",  // Optional
+  "username": "optional_github_username"  // Optional
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Kin 'my-kin-id' linked to GitHub repository: https://github.com/username/repo",
+  "blueprint": "kinos",
+  "kin_id": "my-kin-id",
+  "github_url": "https://github.com/username/repo"
+}
+```
+
+This endpoint:
+1. Removes any existing .git directory in the kin
+2. Clones the GitHub repository
+3. Moves all repository files to the kin root (overwriting conflicts)
+4. Initializes git, commits all files, and pushes to the repository
+
+The optional `token` parameter allows authentication for private repositories. If not provided, the endpoint will attempt to use the `GIT_TOKEN` environment variable.
+
+#### Synchronize Repository
+
+Synchronize a kin's repository with GitHub by performing git pull, merge, and push operations.
+
+**Endpoint:** `POST /v2/blueprints/{blueprint}/kins/{kin_id}/sync-repo`
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Repository synchronized successfully",
+  "blueprint": "kinos",
+  "kin_id": "my-kin-id",
+  "operations": [
+    {
+      "operation": "fetch",
+      "status": "success"
+    },
+    {
+      "operation": "pull",
+      "status": "success",
+      "files_changed": 3,
+      "message": "Changes pulled successfully"
+    },
+    {
+      "operation": "commit",
+      "status": "success",
+      "files_changed": 2,
+      "message": "Local changes committed"
+    },
+    {
+      "operation": "push",
+      "status": "success",
+      "message": "Changes pushed to remote"
+    }
+  ],
+  "repository_url": "https://github.com/username/repo",
+  "branch": "main"
+}
+```
+
+This endpoint:
+1. Fetches the latest changes from the remote repository
+2. Pulls any remote changes into the local repository
+3. Commits any local changes with an automatic commit message
+4. Pushes all changes back to the remote repository
+
+The response includes details about each operation performed and whether it was successful.
+
 ### Message Interaction
 
 These endpoints allow you to interact with kins through messages, analyze content, and receive responses.
