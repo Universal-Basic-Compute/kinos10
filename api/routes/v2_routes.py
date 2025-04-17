@@ -1310,14 +1310,6 @@ def get_channel_v2(blueprint, kin_id, channel_id):
         logger.error(f"Error getting channel: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@v2_bp.route('/blueprints/codeguardian/create', methods=['POST'])
-def create_code_guardian_v2():
-    """
-    V2 API endpoint to create a CodeGuardian kin for a GitHub repository.
-    Maps to the original create_code_guardian_api function.
-    """
-    from routes.projects import create_code_guardian_api
-    return create_code_guardian_api()
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/channels/<channel_id>', methods=['PUT'])
 def update_channel_v2(blueprint, kin_id, channel_id):
