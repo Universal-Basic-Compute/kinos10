@@ -44,7 +44,6 @@ This document provides a comprehensive reference for version 2 of the KinOS API 
     - [Get Kin Modes](#get-kin-modes)
   - [Special Features](#special-features)
     - [Generate Image](#generate-image)
-    - [Create CodeGuardian](#create-codeguardian)
     - [Trigger Autonomous Thinking](#trigger-autonomous-thinking)
   - [Media Processing](#media-processing)
     - [Text-to-Speech](#text-to-speech)
@@ -1207,42 +1206,6 @@ Generate an image based on a message using Ideogram API.
 }
 ```
 
-#### Create CodeGuardian
-
-Create a new CodeGuardian kin for a GitHub repository.
-
-**Endpoint:** `POST /v2/blueprints/codeguardian/create`
-
-**Request Body:**
-```json
-{
-  "github_url": "https://github.com/username/repo",
-  "kin_name": "CustomGuardianName"  // Optional
-}
-```
-
-**Response:**
-```json
-{
-  "status": "success",
-  "message": "CodeGuardian 'RepoGuardian' created successfully for username/repo",
-  "blueprint": "codeguardian",
-  "kin_id": "RepoGuardian",
-  "repository": {
-    "owner": "username",
-    "repo": "repo",
-    "url": "https://github.com/username/repo"
-  }
-}
-```
-
-This endpoint:
-1. Clones the specified GitHub repository
-2. Creates a new kin based on the CodeGuardian template
-3. Copies the repository code into the kin's sources/repo directory
-4. Updates the kin's metadata with repository information
-
-The CodeGuardian can then be used to analyze and explain the codebase.
 
 #### Trigger Autonomous Thinking
 
@@ -1493,7 +1456,6 @@ When rate limits are exceeded, the API returns a 429 Too Many Requests status co
 
 - **Autonomous Thinking**: A process where a kin generates thoughts and reflections without user input, helping it develop its understanding and personality.
 
-- **CodeGuardian**: A specialized blueprint designed to analyze and explain code repositories.
 
 - **Analysis Mode**: A special mode that provides information and explanations without modifying the kin's memory or files.
 
