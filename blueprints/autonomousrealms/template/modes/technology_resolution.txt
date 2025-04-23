@@ -1,0 +1,244 @@
+# TECHNOLOGY RESOLUTION MODE
+
+## PURPOSE
+The Technology Resolution mode determines outcomes when colonists attempt to discover, develop, or apply technologies. It simulates the realistic process of technological advancement, including knowledge prerequisites, resource requirements, experimentation outcomes, and the spread of technological knowledge throughout the colony.
+
+## INPUT FORMAT
+Input to this mode should include:
+- Current technology level of the colony
+- Knowledge base and observations accumulated
+- Resources available for experimentation
+- Tools available for use
+- Colonist skills and specializations
+- Environmental conditions
+- Previous attempts and partial discoveries
+- Cultural factors affecting innovation
+
+## RESPONSE FORMAT
+Responses will be formatted as JSON with the following structure:
+```json
+{
+  "resolution_type": "[discovery|development|application|transfer|loss]",
+  "success": true/false,
+  "success_degree": 0.0-1.0,
+  "technology": {
+    "name": "technology_name",
+    "category": "technology_category",
+    "era": "technological_era",
+    "description": "detailed_description"
+  },
+  "knowledge_changes": {
+    "discoveries": [
+      {"concept": "concept_name", "understanding_level": 0.0-1.0}
+    ],
+    "connections": [
+      {"from": "existing_knowledge", "to": "new_application", "strength": 0.0-1.0}
+    ],
+    "refinements": [
+      {"knowledge": "existing_knowledge", "improvement": "description", "degree": 0.0-1.0}
+    ]
+  },
+  "resource_impacts": {
+    "consumed": [
+      {"resource": "resource_code", "amount": quantity}
+    ],
+    "required_for_application": [
+      {"resource": "resource_code", "amount": quantity, "recurring": true/false}
+    ],
+    "efficiency_changes": [
+      {"resource": "resource_code", "gathering_efficiency": change_multiplier, "processing_efficiency": change_multiplier}
+    ]
+  },
+  "prerequisites": {
+    "fulfilled": ["prerequisite1", "prerequisite2"],
+    "missing": ["prerequisite3", "prerequisite4"],
+    "partial": [
+      {"prerequisite": "prerequisite5", "completion": 0.0-1.0}
+    ]
+  },
+  "diffusion": {
+    "immediate_adoption_percentage": 0.0-1.0,
+    "estimated_full_adoption_time": time_units,
+    "resistance_factors": ["factor1", "factor2"],
+    "acceleration_factors": ["factor1", "factor2"]
+  },
+  "side_effects": {
+    "environmental": ["effect1", "effect2"],
+    "social": ["effect1", "effect2"],
+    "cultural": ["effect1", "effect2"],
+    "unexpected": ["effect1", "effect2"]
+  },
+  "narrative_description": "Detailed description of the technology resolution process and outcomes"
+}
+```
+
+## TECHNOLOGY DISCOVERY FACTORS
+
+### Knowledge Accumulation
+- Observations required for conceptual understanding
+- Experimentation attempts building toward discovery
+- Existing knowledge providing foundation
+- Cross-domain insights creating breakthroughs
+
+### Environmental Triggers
+- Resource availability prompting innovation
+- Environmental challenges driving adaptation
+- Seasonal patterns revealing natural processes
+- Geographic features suggesting solutions
+
+### Social Catalysts
+- Population density creating new needs
+- Specialization enabling focused innovation
+- Knowledge sharing accelerating insights
+- Competition driving improvement
+
+### Cultural Influences
+- Openness to innovation affecting discovery rates
+- Traditional practices guiding or limiting approaches
+- Belief systems framing problem understanding
+- Value systems prioritizing certain technologies
+
+## TECHNOLOGY DEVELOPMENT STAGES
+
+### 1. Conceptualization
+- Initial insight or observation
+- Recognition of potential application
+- Mental model formation
+- Theoretical understanding
+
+### 2. Experimentation
+- Trial and error testing
+- Resource investment
+- Prototype creation
+- Failure analysis and learning
+
+### 3. Refinement
+- Improving efficiency
+- Enhancing reliability
+- Reducing resource requirements
+- Expanding applications
+
+### 4. Standardization
+- Consistent production methods
+- Knowledge formalization
+- Teaching and transmission
+- Cultural integration
+
+### 5. Evolution
+- Incremental improvements
+- Specialized variations
+- Integration with other technologies
+- New applications discovery
+
+## TECHNOLOGY DIFFUSION MECHANICS
+
+### Knowledge Transfer Methods
+- Direct demonstration (highest effectiveness)
+- Verbal instruction (medium effectiveness)
+- Written documentation (varies with literacy)
+- Artifact examination (lowest effectiveness)
+
+### Adoption Factors
+- Perceived benefit vs. current methods
+- Resource requirements for implementation
+- Compatibility with existing practices
+- Complexity of the technology
+- Cultural alignment with values
+
+### Resistance Factors
+- Entrenched practices and investments
+- Social status tied to existing technologies
+- Religious or cultural prohibitions
+- Resource limitations
+- Risk aversion
+
+## TECHNOLOGY LOSS MECHANICS
+
+### Knowledge Preservation Challenges
+- Oral traditions vulnerable to population loss
+- Specialized knowledge at risk with practitioner death
+- Complex technologies requiring continuous practice
+- Resource-intensive technologies abandoned during scarcity
+
+### Recovery Factors
+- Artifacts providing clues to lost technologies
+- Related knowledge facilitating rediscovery
+- Environmental pressures creating similar needs
+- External contact reintroducing knowledge
+
+## IMPLEMENTATION NOTES
+
+The technology resolution system should:
+1. Reference technology_progression.json for technology tree structure
+2. Check observation_types for knowledge prerequisites
+3. Verify resource availability from colony inventory
+4. Consider cultural_development.txt for innovation factors
+5. Account for population skills and specializations
+6. Track partial discoveries across multiple attempts
+7. Simulate realistic knowledge diffusion through the colony
+8. Generate appropriate narrative descriptions of the process
+
+## EXAMPLE RESOLUTION
+
+```json
+{
+  "resolution_type": "discovery",
+  "success": true,
+  "success_degree": 0.75,
+  "technology": {
+    "name": "bronze_working",
+    "category": "metallurgy",
+    "era": "bronze_age",
+    "description": "The ability to alloy copper and tin to create bronze, a harder and more durable metal than either component."
+  },
+  "knowledge_changes": {
+    "discoveries": [
+      {"concept": "metal_alloying", "understanding_level": 0.8},
+      {"concept": "temperature_control", "understanding_level": 0.6}
+    ],
+    "connections": [
+      {"from": "copper_smelting", "to": "bronze_creation", "strength": 0.7},
+      {"from": "fire_management", "to": "furnace_operation", "strength": 0.8}
+    ],
+    "refinements": [
+      {"knowledge": "furnace_design", "improvement": "Better heat retention", "degree": 0.4}
+    ]
+  },
+  "resource_impacts": {
+    "consumed": [
+      {"resource": "M-004", "amount": 3},
+      {"resource": "M-005", "amount": 1},
+      {"resource": "E-002", "amount": 5}
+    ],
+    "required_for_application": [
+      {"resource": "M-004", "amount": 3, "recurring": true},
+      {"resource": "M-005", "amount": 1, "recurring": true},
+      {"resource": "E-002", "amount": 2, "recurring": true}
+    ],
+    "efficiency_changes": [
+      {"resource": "B-001", "processing_efficiency": 1.5},
+      {"resource": "B-002", "processing_efficiency": 1.8}
+    ]
+  },
+  "prerequisites": {
+    "fulfilled": ["basic_metallurgy", "copper_smelting", "tin_extraction"],
+    "missing": [],
+    "partial": [
+      {"prerequisite": "advanced_furnace_design", "completion": 0.6}
+    ]
+  },
+  "diffusion": {
+    "immediate_adoption_percentage": 0.3,
+    "estimated_full_adoption_time": 2.5,
+    "resistance_factors": ["resource_intensity", "specialized_knowledge_required"],
+    "acceleration_factors": ["clear_benefits", "prestige_association"]
+  },
+  "side_effects": {
+    "environmental": ["increased_wood_consumption", "localized_pollution"],
+    "social": ["metallurgist_status_increase", "specialized_labor_development"],
+    "cultural": ["metal_value_association", "craftsmanship_appreciation"],
+    "unexpected": ["decorative_applications_discovered", "weapon_effectiveness_increase"]
+  },
+  "narrative_description": "After multiple experiments combining copper with various materials, the colony's metalworkers discovered that adding tin to copper in the furnace produced a distinctly different metal - bronze. This breakthrough came when Keroth, a skilled copper worker, noticed that certain copper ores produced stronger tools, and traced this to the presence of tin-bearing rocks mixed with the copper. Through careful experimentation with different ratios and heating techniques, the metalworkers developed a reliable process for creating bronze. The new metal's superior hardness and durability immediately proved valuable for tools and weapons. Knowledge of the technique spread quickly among the specialized metalworkers but will take time to be fully standardized. The discovery has elevated the status of metalworkers in the colony and created new demands for both copper and tin resources. The higher temperatures needed for bronze working have also led to improvements in furnace design, with better heat retention and control."
+}
+```
