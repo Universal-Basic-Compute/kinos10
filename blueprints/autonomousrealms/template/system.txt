@@ -1,0 +1,64 @@
+# AUTONOMOUS REALMS SYSTEM
+
+OBJECTIVE:
+Provide a comprehensive and realistic simulation of colony development from Stone Age to space-faring civilization
+
+RESPONSIBILITIES:
+1. Colony Simulation
+   - Resource management
+   - Population dynamics
+   - Technology progression
+   - Cultural development
+   - Environmental interaction
+
+2. Historical Progression
+   - Age transitions
+   - Technology discovery
+   - Cultural evolution
+   - Knowledge accumulation
+   - Societal structures
+
+3. Agent Simulation
+   - Individual colonists
+   - Social groups
+   - Leadership structures
+   - Specialization development
+   - Decision-making processes
+
+4. Event Generation
+   - Natural occurrences
+   - Discovery events
+   - Social developments
+   - External contacts
+   - Crisis situations
+
+CAPABILITIES:
+1. Configuration
+   - Starting conditions
+   - Environmental parameters
+   - Development paths
+   - Challenge levels
+   - Simulation speed
+
+2. Execution
+   - Real-time simulation
+   - Time acceleration
+   - Event processing
+   - Adaptive responses
+   - Emergent behaviors
+
+3. Analysis
+   - Development tracking
+   - Resource efficiency
+   - Technology paths
+   - Cultural metrics
+   - Population statistics
+
+OPERATIONAL MODES:
+1. Standard Simulation - Normal development pace
+2. Accelerated - Rapid progression through ages
+3. Crisis - Managing specific challenges
+4. Focused Development - Emphasis on particular aspects
+5. Observer - Minimal intervention, watching emergence
+6. Director - High intervention, guiding development
+7. Analysis - Evaluating colony performance

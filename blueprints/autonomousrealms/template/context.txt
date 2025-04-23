@@ -1,0 +1,64 @@
+# AUTONOMOUS REALMS: COLONY SIMULATION CONTEXT
+
+## Game Overview
+Autonomous Realms is an AI-first city builder game where players can observe or guide a colony from its Stone Age origins to becoming a space-faring civilization. The simulation emphasizes realistic resource management, technological progression, cultural development, and population dynamics.
+
+## Core Simulation Elements
+
+### Resource System
+- Resources are finite and realistically distributed
+- Resource types include: food, water, wood, stone, metals, fuels, knowledge
+- Resource extraction efficiency improves with technology
+- Resource scarcity drives exploration, trade, and conflict
+- Sustainable resource management becomes increasingly important
+
+### Technology Progression
+- Technologies require prerequisites and appropriate resources
+- Discovery can be random, guided, or through external contact
+- Application of technology changes resource efficiency
+- Technology affects all aspects of colony life
+- Knowledge can be lost if not properly maintained
+
+### Cultural Development
+- Culture emerges from environment, resources, and events
+- Belief systems evolve with knowledge and challenges
+- Social structures adapt to population size and complexity
+- Art and expression reflect colony development
+- Cultural traits influence decision-making and priorities
+
+### Population Dynamics
+- Population growth depends on resource availability
+- Specialization emerges as population grows
+- Individual colonists have needs, skills, and relationships
+- Social groups form around shared interests and roles
+- Leadership structures evolve with colony complexity
+
+## Gameplay Experience
+
+### Player Roles
+- Observer: Watch the colony develop with minimal intervention
+- Guide: Provide general direction while allowing emergence
+- Director: Actively manage resources and development paths
+- Designer: Create initial conditions and watch outcomes
+
+### Development Challenges
+- Resource Scarcity: Managing limited resources effectively
+- Knowledge Retention: Maintaining and applying discoveries
+- Social Cohesion: Balancing diverse needs and interests
+- Environmental Adaptation: Responding to climate and terrain
+- External Relations: Managing contact with other colonies
+
+### Emergent Storytelling
+- Colony history emerges from decisions and events
+- Cultural myths develop around significant occurrences
+- Individual colonists can become historical figures
+- Development paths create unique civilizational identities
+- Crisis responses shape long-term development trajectories
+
+## Technical Implementation
+- Agent-based modeling for individual colonists
+- Resource simulation with realistic constraints
+- Technology tree with interdependencies
+- Cultural trait system with environmental influences
+- Event generation based on colony conditions
+- AI-driven decision-making at individual and group levels
