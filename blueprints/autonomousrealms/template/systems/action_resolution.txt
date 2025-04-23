@@ -1,0 +1,73 @@
+# ACTION RESOLUTION SYSTEM
+
+The Action Resolution system determines realistic outcomes when colonists perform actions in Autonomous Realms. This system ensures that actions have appropriate consequences based on the colony's environment, resources, technology level, and cultural context.
+
+## HOW IT WORKS
+
+When colonists perform an action (like hunting, gathering, building, etc.), the Action Resolution system:
+
+1. Analyzes the action's feasibility based on available resources, tools, and knowledge
+2. Calculates success probability considering terrain conditions, colonist skills, and available tools
+3. Determines resource gains or losses resulting from the action
+4. Identifies potential knowledge acquisition through observations and discoveries
+5. Assesses cultural impact on beliefs, practices, and social structures
+6. Calculates time requirements for completing the action
+7. Evaluates environmental effects and changes
+
+## KEY FACTORS AFFECTING OUTCOMES
+
+### Environmental Factors
+- Terrain type (forest, grassland, mountains, etc.)
+- Climate conditions (temperature, moisture)
+- Seasonal variations
+- Resource availability in the area
+- Special terrain features (rivers, caves, etc.)
+
+### Colony Factors
+- Available tools and their quality
+- Technological knowledge
+- Cultural traits and beliefs
+- Colonist skills and experience
+- Group size for collaborative actions
+
+### Action Complexity
+- Skill difficulty rating
+- Resource requirements
+- Tool requirements
+- Knowledge prerequisites
+- Time investment needed
+
+## OUTCOME DETERMINATION
+
+The system uses weighted probabilities to determine outcomes, considering:
+
+1. Base success chance for the action type
+2. Modifiers from environmental conditions
+3. Bonuses from appropriate tools and technologies
+4. Skill levels of participating colonists
+5. Cultural traits that might help or hinder
+6. Random elements to represent unpredictable factors
+
+## RESULTS PROCESSING
+
+After determining the outcome, the system:
+
+1. Updates resource quantities in the colony inventory
+2. Adds new knowledge to the colony's knowledge base
+3. Adjusts cultural trait strengths based on experiences
+4. Updates population statistics and skills
+5. Records environmental changes caused by the action
+6. Logs the action and outcome in colony history
+
+## SPECIAL CONSIDERATIONS
+
+- Actions in unfamiliar environments have lower success rates
+- Repeated actions in the same area may deplete resources
+- Seasonal conditions significantly impact outdoor activities
+- Cultural beliefs may restrict certain actions or methods
+- Failed actions still provide learning opportunities
+- Critical successes or failures can have significant consequences
+- Environmental damage can accumulate over time
+- Sustainable practices yield better long-term results
+
+This system ensures that colony development follows realistic patterns based on environmental conditions, available resources, and accumulated knowledge, creating an authentic simulation of human settlement evolution.
