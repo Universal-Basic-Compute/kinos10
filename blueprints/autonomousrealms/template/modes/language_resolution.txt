@@ -1,0 +1,129 @@
+# Language Resolution Mode
+
+## Purpose
+The Language Resolution mode handles all attempts at language evolution and inter-language communication within the colony simulation. It processes language development events, tracks vocabulary growth, and simulates the challenges of communication across different language stages.
+
+## Input Format
+Input to this mode should include:
+- Current language stage of the colony
+- Current vocabulary size and composition
+- The specific language action being attempted
+- Context of the communication (if relevant)
+- Participants involved in the communication
+- Environmental or situational factors
+
+## Response Format
+Responses will be formatted as JSON with the following structure:
+```json
+{
+  "resolution_type": "[evolution|communication|teaching|formalization]",
+  "success": true/false,
+  "success_degree": 0.0-1.0,
+  "vocabulary_changes": {
+    "added_terms": ["term1", "term2"],
+    "modified_terms": [{"old": "term3", "new": "term3_variant"}],
+    "formalized_terms": ["term4", "term5"]
+  },
+  "grammar_changes": {
+    "new_structures": ["structure1", "structure2"],
+    "modified_structures": []
+  },
+  "communication_results": {
+    "clarity": 0.0-1.0,
+    "misunderstandings": ["description1", "description2"],
+    "shared_concepts": ["concept1", "concept2"]
+  },
+  "cultural_impacts": {
+    "identity_formation": "description",
+    "social_cohesion": 0.0-1.0,
+    "knowledge_transfer": 0.0-1.0
+  },
+  "narrative_description": "Detailed description of what occurred during the language event"
+}
+```
+
+## Memory Update Instructions
+The context updater should:
+1. Update language stage if thresholds are reached
+2. Add new vocabulary terms to the appropriate category files
+3. Update grammar structures in language_grammar.json
+4. Record significant language events in language_history.json
+5. Update communication efficiency metrics in colony_stats.json
+
+## Language Evolution Events
+The system handles these primary language evolution events:
+
+### 1. Term Creation
+- New words emerge for commonly encountered objects, actions, or concepts
+- Success based on frequency of interaction with the concept
+- Environmental factors influence terminology development
+
+### 2. Grammar Development
+- Sentence structures evolve from simple to complex
+- Tense systems develop as time concepts become important
+- Modifier systems emerge as detail becomes necessary
+
+### 3. Abstraction Development
+- Metaphorical language emerges from concrete terms
+- Abstract concepts gain dedicated vocabulary
+- Philosophical and theoretical language develops
+
+### 4. Writing System Evolution
+- Pictographic representations of concrete objects
+- Symbolic representations of actions and concepts
+- Phonetic representation of language sounds
+
+## Inter-Language Communication
+The system simulates communication between different language groups:
+
+### 1. Basic Trade Communication
+- Limited vocabulary exchange focused on goods
+- Gesture-heavy communication supplements verbal
+- Success based on concrete object reference
+
+### 2. Knowledge Exchange
+- Technical terminology translation challenges
+- Concept mapping between different language structures
+- Success based on shared reference points
+
+### 3. Cultural Exchange
+- Abstract concept translation difficulties
+- Idiom and metaphor misinterpretation
+- Cultural value expression through language
+
+## Implementation Notes
+The language resolution system should:
+1. Track vocabulary growth organically based on colony activities
+2. Tie language development to technological advancement
+3. Create realistic barriers to knowledge transfer based on language limitations
+4. Generate emergent cultural identity through linguistic development
+5. Simulate realistic misunderstandings in cross-language communication
+
+## Example Resolution
+```json
+{
+  "resolution_type": "evolution",
+  "success": true,
+  "success_degree": 0.85,
+  "vocabulary_changes": {
+    "added_terms": ["copper-working", "forge-heat", "metal-flow"],
+    "modified_terms": [],
+    "formalized_terms": ["fire-stone", "earth-metal"]
+  },
+  "grammar_changes": {
+    "new_structures": ["process description sequence"],
+    "modified_structures": []
+  },
+  "communication_results": {
+    "clarity": 0.7,
+    "misunderstandings": ["exact temperature concepts"],
+    "shared_concepts": ["metal transformation", "tool creation"]
+  },
+  "cultural_impacts": {
+    "identity_formation": "Metallurgical terminology becoming part of cultural identity",
+    "social_cohesion": 0.6,
+    "knowledge_transfer": 0.7
+  },
+  "narrative_description": "As the colony began working with copper, new terminology emerged to describe the metallurgical processes. The terms 'copper-working', 'forge-heat', and 'metal-flow' were added to the vocabulary, while existing terms like 'fire-stone' and 'earth-metal' became more formalized with specific technical meanings. A new grammatical structure developed to describe sequential processes, allowing more precise transmission of metallurgical knowledge. While most concepts were communicated clearly, exact temperature descriptions remained challenging without numerical systems, leading to some trial and error in the process."
+}
+```
