@@ -1,0 +1,240 @@
+# CRAFTING RESOLUTION MODE
+
+## PURPOSE
+The Crafting Resolution mode determines the outcomes when colonists attempt to combine two or more objects to create new items. It simulates the realistic process of crafting, including resource consumption, tool usage, skill application, and potential discoveries.
+
+## INPUT FORMAT
+Input to this mode should include:
+- Resources being combined
+- Tools being used
+- Colonist skills and experience
+- Current technology level
+- Environmental conditions
+- Colony knowledge base
+- Crafting location/facilities
+
+## RESPONSE FORMAT
+Responses will be formatted as JSON with the following structure:
+```json
+{
+  "success": true/false,
+  "success_degree": 0.0-1.0,
+  "resources": {
+    "consumed": [
+      {"resource": "resource_code", "amount": quantity, "quality": 0.0-1.0},
+      ...
+    ],
+    "created": [
+      {"resource": "resource_code", "amount": quantity, "quality": 0.0-1.0},
+      ...
+    ],
+    "byproducts": [
+      {"resource": "resource_code", "amount": quantity, "quality": 0.0-1.0},
+      ...
+    ],
+    "wasted": [
+      {"resource": "resource_code", "amount": quantity},
+      ...
+    ]
+  },
+  "tools": {
+    "used": ["tool1", "tool2", ...],
+    "damaged": [
+      {"tool": "tool_name", "damage_degree": 0.0-1.0},
+      ...
+    ],
+    "improved": [
+      {"tool": "tool_name", "improvement_degree": 0.0-1.0},
+      ...
+    ]
+  },
+  "knowledge": {
+    "applied": ["knowledge1", "knowledge2", ...],
+    "discovered": [
+      {"knowledge": "knowledge_name", "discovery_type": "technique/property/application"},
+      ...
+    ],
+    "skill_improvement": {
+      "skill_name": improvement_amount,
+      ...
+    }
+  },
+  "time_required": {
+    "base_time": time_units,
+    "modifiers": {
+      "skill_effect": modifier,
+      "tool_effect": modifier,
+      "facility_effect": modifier,
+      "environmental_effect": modifier
+    },
+    "total_time": time_units
+  },
+  "discoveries": {
+    "new_recipes": [
+      {"name": "recipe_name", "description": "recipe_description"},
+      ...
+    ],
+    "material_properties": [
+      {"material": "material_name", "property": "property_description"},
+      ...
+    ],
+    "technique_improvements": [
+      {"technique": "technique_name", "improvement": "improvement_description"},
+      ...
+    ]
+  },
+  "narrative": {
+    "process_description": "Detailed description of the crafting process",
+    "challenges": ["challenge1", "challenge2", ...],
+    "innovations": ["innovation1", "innovation2", ...],
+    "quality_factors": ["factor1", "factor2", ...],
+    "cultural_significance": "Description of any cultural meaning in the crafting"
+  }
+}
+```
+
+## CRAFTING OUTCOME DETERMINATION
+
+The system determines crafting outcomes based on these factors:
+
+### 1. Recipe Matching
+- Known recipes are checked against input resources
+- Partial matches may result in experimentation
+- Unknown combinations may lead to discoveries
+
+### 2. Success Calculation
+- Base success chance from recipe difficulty
+- Modified by crafter skill level
+- Further modified by tool quality
+- Environmental factors applied
+- Facility bonuses included
+
+### 3. Quality Determination
+- Base quality from resource quality
+- Skill level significantly impacts quality
+- Tool appropriateness affects precision
+- Time invested can improve quality
+- Environmental conditions may help or hinder
+
+### 4. Resource Consumption
+- Standard consumption from recipe
+- Failed attempts may waste resources
+- Skill can reduce waste
+- Critical failures may damage tools
+- Critical successes may conserve resources
+
+### 5. Discovery Chance
+- New crafters have higher discovery chances
+- Experimental combinations increase discovery
+- Knowledge in related areas helps connections
+- Cultural traits affect innovation likelihood
+- Group crafting may spark collaborative insights
+
+## SPECIAL CRAFTING SCENARIOS
+
+### Experimental Crafting
+When colonists attempt combinations without known recipes:
+- Higher failure chance but greater discovery potential
+- Resource waste likely but knowledge gain guaranteed
+- Success creates new recipe entries
+- Cultural significance of innovation may emerge
+
+### Skill Advancement Crafting
+When colonists repeatedly craft the same item:
+- Diminishing knowledge returns
+- Increasing efficiency and quality
+- Potential for technique refinement
+- Opportunity to teach others
+
+### Group Crafting
+When multiple colonists work together:
+- Knowledge sharing occurs
+- Skill averaging with specialist bonuses
+- Faster completion with coordination bonus
+- Social cohesion benefits
+- Potential for technique synthesis
+
+### Ritual Crafting
+When items are created for cultural/spiritual purposes:
+- Quality affected by cultural alignment
+- Time investment often higher
+- Resource selection may be symbolic
+- Finished items gain cultural significance
+- Group participation enhances outcomes
+
+## IMPLEMENTATION NOTES
+
+The crafting resolution system should:
+1. Reference crafting_recipes.json for known recipes
+2. Check resource_codes.json for material properties
+3. Consider technology_progression.json for technological context
+4. Update colony knowledge when discoveries occur
+5. Track individual colonist skill development
+6. Record new recipes in the colony's knowledge base
+7. Consider cultural_development.txt for cultural context
+8. Account for terrain_effects.json for environmental factors
+
+## EXAMPLE RESOLUTION
+
+```json
+{
+  "success": true,
+  "success_degree": 0.78,
+  "resources": {
+    "consumed": [
+      {"resource": "B-002", "amount": 1, "quality": 0.65},
+      {"resource": "B-001", "amount": 1, "quality": 0.70}
+    ],
+    "created": [
+      {"resource": "stone_axe", "amount": 1, "quality": 0.72}
+    ],
+    "byproducts": [
+      {"resource": "B-002", "amount": 0.2, "quality": 0.40}
+    ],
+    "wasted": [
+      {"resource": "B-002", "amount": 0.3}
+    ]
+  },
+  "tools": {
+    "used": ["stone_knife"],
+    "damaged": [
+      {"tool": "stone_knife", "damage_degree": 0.05}
+    ],
+    "improved": []
+  },
+  "knowledge": {
+    "applied": ["stone_properties", "wood_binding_technique"],
+    "discovered": [
+      {"knowledge": "handle_balancing", "discovery_type": "technique"}
+    ],
+    "skill_improvement": {
+      "tool_crafting": 0.02,
+      "stone_working": 0.03
+    }
+  },
+  "time_required": {
+    "base_time": 3.0,
+    "modifiers": {
+      "skill_effect": -0.5,
+      "tool_effect": -0.2,
+      "facility_effect": 0,
+      "environmental_effect": 0.1
+    },
+    "total_time": 2.4
+  },
+  "discoveries": {
+    "new_recipes": [],
+    "material_properties": [],
+    "technique_improvements": [
+      {"technique": "stone_binding", "improvement": "Angled binding provides better force distribution"}
+    ]
+  },
+  "narrative": {
+    "process_description": "The crafter carefully selected a stone with good fracture patterns and shaped it against another stone to create a sharp edge. They then split a wooden branch, inserted the stone head, and bound it tightly with plant fibers. During the process, they discovered that angling the binding distributes force better during use.",
+    "challenges": ["Finding the right grain in the wood", "Securing the stone head firmly"],
+    "innovations": ["Angled binding technique"],
+    "quality_factors": ["Stone density", "Wood flexibility", "Binding tightness"],
+    "cultural_significance": "The completed axe was marked with a small notch, a growing tradition among the colony's tool makers to identify their work."
+  }
+}
+```
