@@ -1,0 +1,371 @@
+{
+  "terrain_effects": {
+    "settlement_suitability": {
+      "factors": {
+        "elevation": {
+          "weight": 0.2,
+          "optimal_range": [1, 3],
+          "penalty_per_level_above": 0.15,
+          "penalty_per_level_below": 0.3
+        },
+        "moisture": {
+          "weight": 0.25,
+          "optimal_range": [3, 6],
+          "penalty_per_level_above": 0.1,
+          "penalty_per_level_below": 0.2
+        },
+        "temperature": {
+          "weight": 0.2,
+          "optimal_range": [3, 6],
+          "penalty_per_level_above": 0.1,
+          "penalty_per_level_below": 0.15
+        },
+        "fertility": {
+          "weight": 0.35,
+          "optimal_range": [5, 9],
+          "penalty_per_level_below": 0.2
+        }
+      },
+      "special_feature_modifiers": {
+        "A": 0.3,  // River/Stream
+        "B": 0.2,  // Lake/Pond
+        "C": 0.25, // Coastal
+        "D": 0.35, // Delta/Estuary
+        "E": 0.2,  // Forest
+        "F": 0.1,  // Dense forest
+        "G": 0.15, // Grassland
+        "H": 0.1,  // Hot springs/Geothermal
+        "I": -0.1, // Island
+        "J": 0.05, // Jungle/Rainforest
+        "K": 0.05, // Karst/Limestone
+        "L": -0.2, // Lava/Volcanic
+        "M": 0.0,  // Marsh/Swamp
+        "N": 0.3,  // Natural harbor
+        "O": 0.2,  // Oasis
+        "P": 0.1,  // Peninsula
+        "Q": 0.2,  // Quarry/Natural resources
+        "R": 0.1,  // Reef/Atoll
+        "S": 0.15, // Savanna
+        "T": 0.1,  // Taiga/Boreal forest
+        "U": 0.05, // Underground caverns
+        "V": 0.2,  // Valley
+        "W": 0.1,  // Waterfall
+        "X": 0.25, // Crossroads/Natural passage
+        "Y": 0.0,  // Canyon/Gorge
+        "Z": -0.1  // Anomalous zone
+      }
+    },
+    "agriculture_potential": {
+      "factors": {
+        "elevation": {
+          "weight": 0.15,
+          "optimal_range": [1, 3],
+          "penalty_per_level_above": 0.2,
+          "penalty_per_level_below": 0.1
+        },
+        "moisture": {
+          "weight": 0.3,
+          "optimal_range": [4, 7],
+          "penalty_per_level_above": 0.1,
+          "penalty_per_level_below": 0.25
+        },
+        "temperature": {
+          "weight": 0.2,
+          "optimal_range": [3, 7],
+          "penalty_per_level_above": 0.15,
+          "penalty_per_level_below": 0.2
+        },
+        "fertility": {
+          "weight": 0.35,
+          "optimal_range": [6, 9],
+          "penalty_per_level_below": 0.25
+        }
+      },
+      "special_feature_modifiers": {
+        "A": 0.4,  // River/Stream
+        "B": 0.2,  // Lake/Pond
+        "C": 0.1,  // Coastal
+        "D": 0.5,  // Delta/Estuary
+        "E": -0.1, // Forest
+        "F": -0.2, // Dense forest
+        "G": 0.3,  // Grassland
+        "H": 0.1,  // Hot springs/Geothermal
+        "I": 0.0,  // Island
+        "J": -0.1, // Jungle/Rainforest
+        "K": -0.1, // Karst/Limestone
+        "L": 0.2,  // Lava/Volcanic (fertile soil)
+        "M": 0.2,  // Marsh/Swamp
+        "N": 0.0,  // Natural harbor
+        "O": 0.3,  // Oasis
+        "P": 0.1,  // Peninsula
+        "Q": -0.2, // Quarry/Natural resources
+        "R": -0.1, // Reef/Atoll
+        "S": 0.2,  // Savanna
+        "T": -0.1, // Taiga/Boreal forest
+        "U": -0.3, // Underground caverns
+        "V": 0.3,  // Valley
+        "W": 0.1,  // Waterfall
+        "X": 0.0,  // Crossroads/Natural passage
+        "Y": -0.1, // Canyon/Gorge
+        "Z": -0.2  // Anomalous zone
+      }
+    },
+    "defense_potential": {
+      "factors": {
+        "elevation": {
+          "weight": 0.4,
+          "optimal_range": [3, 6],
+          "bonus_per_level_above": 0.15
+        },
+        "moisture": {
+          "weight": 0.1,
+          "optimal_range": [3, 5]
+        },
+        "temperature": {
+          "weight": 0.1,
+          "optimal_range": [2, 6]
+        },
+        "fertility": {
+          "weight": 0.1,
+          "optimal_range": [3, 7]
+        }
+      },
+      "special_feature_modifiers": {
+        "A": 0.2,  // River/Stream
+        "B": 0.3,  // Lake/Pond
+        "C": 0.1,  // Coastal
+        "D": 0.1,  // Delta/Estuary
+        "E": 0.2,  // Forest
+        "F": 0.3,  // Dense forest
+        "G": -0.2, // Grassland
+        "H": 0.0,  // Hot springs/Geothermal
+        "I": 0.3,  // Island
+        "J": 0.2,  // Jungle/Rainforest
+        "K": 0.2,  // Karst/Limestone
+        "L": 0.3,  // Lava/Volcanic
+        "M": 0.2,  // Marsh/Swamp
+        "N": -0.1, // Natural harbor
+        "O": 0.0,  // Oasis
+        "P": 0.2,  // Peninsula
+        "Q": 0.1,  // Quarry/Natural resources
+        "R": 0.2,  // Reef/Atoll
+        "S": -0.1, // Savanna
+        "T": 0.1,  // Taiga/Boreal forest
+        "U": 0.4,  // Underground caverns
+        "V": 0.3,  // Valley
+        "W": 0.2,  // Waterfall
+        "X": -0.2, // Crossroads/Natural passage
+        "Y": 0.4,  // Canyon/Gorge
+        "Z": 0.1   // Anomalous zone
+      }
+    },
+    "trade_potential": {
+      "factors": {
+        "elevation": {
+          "weight": 0.25,
+          "optimal_range": [1, 3],
+          "penalty_per_level_above": 0.2
+        },
+        "moisture": {
+          "weight": 0.15,
+          "optimal_range": [3, 6]
+        },
+        "temperature": {
+          "weight": 0.15,
+          "optimal_range": [3, 6]
+        },
+        "fertility": {
+          "weight": 0.15,
+          "optimal_range": [4, 8]
+        }
+      },
+      "special_feature_modifiers": {
+        "A": 0.4,  // River/Stream
+        "B": 0.2,  // Lake/Pond
+        "C": 0.5,  // Coastal
+        "D": 0.4,  // Delta/Estuary
+        "E": -0.1, // Forest
+        "F": -0.2, // Dense forest
+        "G": 0.1,  // Grassland
+        "H": 0.1,  // Hot springs/Geothermal
+        "I": 0.0,  // Island
+        "J": -0.2, // Jungle/Rainforest
+        "K": 0.0,  // Karst/Limestone
+        "L": -0.2, // Lava/Volcanic
+        "M": -0.1, // Marsh/Swamp
+        "N": 0.5,  // Natural harbor
+        "O": 0.2,  // Oasis
+        "P": 0.2,  // Peninsula
+        "Q": 0.3,  // Quarry/Natural resources
+        "R": 0.1,  // Reef/Atoll
+        "S": 0.1,  // Savanna
+        "T": -0.1, // Taiga/Boreal forest
+        "U": -0.3, // Underground caverns
+        "V": 0.2,  // Valley
+        "W": -0.1, // Waterfall
+        "X": 0.5,  // Crossroads/Natural passage
+        "Y": -0.2, // Canyon/Gorge
+        "Z": -0.1  // Anomalous zone
+      }
+    },
+    "health_effects": {
+      "factors": {
+        "elevation": {
+          "weight": 0.2,
+          "optimal_range": [2, 5],
+          "penalty_per_level_below": 0.1
+        },
+        "moisture": {
+          "weight": 0.3,
+          "optimal_range": [3, 6],
+          "penalty_per_level_above": 0.15,
+          "penalty_per_level_below": 0.1
+        },
+        "temperature": {
+          "weight": 0.3,
+          "optimal_range": [3, 6],
+          "penalty_per_level_above": 0.1,
+          "penalty_per_level_below": 0.1
+        },
+        "fertility": {
+          "weight": 0.2,
+          "optimal_range": [4, 8]
+        }
+      },
+      "special_feature_modifiers": {
+        "A": 0.2,  // River/Stream
+        "B": 0.1,  // Lake/Pond
+        "C": 0.2,  // Coastal
+        "D": 0.0,  // Delta/Estuary
+        "E": 0.1,  // Forest
+        "F": 0.0,  // Dense forest
+        "G": 0.1,  // Grassland
+        "H": 0.3,  // Hot springs/Geothermal
+        "I": 0.1,  // Island
+        "J": -0.1, // Jungle/Rainforest
+        "K": 0.0,  // Karst/Limestone
+        "L": -0.2, // Lava/Volcanic
+        "M": -0.2, // Marsh/Swamp
+        "N": 0.1,  // Natural harbor
+        "O": 0.2,  // Oasis
+        "P": 0.1,  // Peninsula
+        "Q": -0.1, // Quarry/Natural resources
+        "R": 0.1,  // Reef/Atoll
+        "S": 0.1,  // Savanna
+        "T": 0.0,  // Taiga/Boreal forest
+        "U": -0.2, // Underground caverns
+        "V": 0.2,  // Valley
+        "W": 0.1,  // Waterfall
+        "X": 0.0,  // Crossroads/Natural passage
+        "Y": 0.0,  // Canyon/Gorge
+        "Z": -0.3  // Anomalous zone
+      }
+    }
+  },
+  "era_specific_modifiers": {
+    "stone_age": {
+      "settlement_suitability": {
+        "special_features": {
+          "E": 0.3,  // Forest (more important)
+          "F": 0.2,  // Dense forest (more important)
+          "C": 0.3,  // Coastal (more important)
+          "A": 0.4   // River/Stream (more important)
+        }
+      },
+      "defense_potential": {
+        "elevation": {
+          "weight": 0.3  // Less important
+        },
+        "special_features": {
+          "F": 0.4,  // Dense forest (more important)
+          "U": 0.5   // Underground caverns (more important)
+        }
+      }
+    },
+    "bronze_age": {
+      "agriculture_potential": {
+        "fertility": {
+          "weight": 0.4  // More important
+        },
+        "special_features": {
+          "A": 0.5,  // River/Stream (more important)
+          "D": 0.6   // Delta/Estuary (more important)
+        }
+      },
+      "trade_potential": {
+        "special_features": {
+          "A": 0.5,  // River/Stream (more important)
+          "C": 0.6   // Coastal (more important)
+        }
+      }
+    },
+    "iron_age": {
+      "defense_potential": {
+        "elevation": {
+          "weight": 0.5  // More important
+        }
+      },
+      "trade_potential": {
+        "special_features": {
+          "X": 0.6  // Crossroads/Natural passage (more important)
+        }
+      }
+    },
+    "medieval": {
+      "defense_potential": {
+        "elevation": {
+          "weight": 0.6  // Even more important
+        }
+      }
+    },
+    "renaissance": {
+      "trade_potential": {
+        "weight": 1.2,  // Overall more important
+        "special_features": {
+          "N": 0.7,  // Natural harbor (more important)
+          "C": 0.7   // Coastal (more important)
+        }
+      }
+    },
+    "industrial": {
+      "settlement_suitability": {
+        "special_features": {
+          "Q": 0.4,  // Quarry/Natural resources (more important)
+          "A": 0.5   // River/Stream (more important for power)
+        }
+      }
+    },
+    "modern": {
+      "settlement_suitability": {
+        "factors": {
+          "elevation": {
+            "weight": 0.1  // Less important
+          },
+          "temperature": {
+            "weight": 0.1  // Less important
+          }
+        }
+      },
+      "agriculture_potential": {
+        "fertility": {
+          "weight": 0.5  // More important
+        }
+      }
+    },
+    "information_age": {
+      "trade_potential": {
+        "factors": {
+          "elevation": {
+            "weight": 0.1  // Much less important
+          }
+        }
+      }
+    },
+    "space_age": {
+      "resource_importance": {
+        "rare_earth_minerals": 2.0,  // Much more important
+        "uranium": 1.5               // More important
+      }
+    }
+  }
+}

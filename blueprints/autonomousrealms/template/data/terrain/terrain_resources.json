@@ -1,0 +1,224 @@
+{
+  "resource_distribution": {
+    "stone": {
+      "primary_terrains": ["3-9", "0-3", "0-9", "0-9", "K,Q,Y"],
+      "abundance_modifier": {
+        "elevation": 0.2,
+        "moisture": -0.1,
+        "temperature": 0,
+        "fertility": -0.1
+      },
+      "accessibility": {
+        "stone_age": 1.0,
+        "bronze_age": 1.0,
+        "iron_age": 1.0,
+        "medieval": 1.0,
+        "renaissance": 1.0,
+        "industrial": 1.0,
+        "modern": 1.0,
+        "information_age": 1.0,
+        "space_age": 1.0
+      }
+    },
+    "wood": {
+      "primary_terrains": ["1-6", "3-7", "2-7", "3-9", "E,F,J,T"],
+      "abundance_modifier": {
+        "elevation": -0.1,
+        "moisture": 0.3,
+        "temperature": 0.1,
+        "fertility": 0.2
+      },
+      "accessibility": {
+        "stone_age": 1.0,
+        "bronze_age": 1.0,
+        "iron_age": 1.0,
+        "medieval": 1.0,
+        "renaissance": 1.0,
+        "industrial": 1.0,
+        "modern": 1.0,
+        "information_age": 1.0,
+        "space_age": 1.0
+      }
+    },
+    "copper": {
+      "primary_terrains": ["3-7", "1-4", "3-7", "0-5", "Q,L"],
+      "abundance_modifier": {
+        "elevation": 0.3,
+        "moisture": -0.2,
+        "temperature": 0.1,
+        "fertility": -0.2
+      },
+      "accessibility": {
+        "stone_age": 0.1,
+        "bronze_age": 0.8,
+        "iron_age": 1.0,
+        "medieval": 1.0,
+        "renaissance": 1.0,
+        "industrial": 1.0,
+        "modern": 1.0,
+        "information_age": 1.0,
+        "space_age": 1.0
+      }
+    },
+    "iron": {
+      "primary_terrains": ["3-8", "1-5", "2-6", "0-5", "Q,L"],
+      "abundance_modifier": {
+        "elevation": 0.3,
+        "moisture": -0.1,
+        "temperature": 0,
+        "fertility": -0.2
+      },
+      "accessibility": {
+        "stone_age": 0,
+        "bronze_age": 0.1,
+        "iron_age": 0.8,
+        "medieval": 1.0,
+        "renaissance": 1.0,
+        "industrial": 1.0,
+        "modern": 1.0,
+        "information_age": 1.0,
+        "space_age": 1.0
+      }
+    },
+    "fertile_soil": {
+      "primary_terrains": ["1-4", "4-7", "3-7", "6-9", "A,D,G,S"],
+      "abundance_modifier": {
+        "elevation": -0.3,
+        "moisture": 0.4,
+        "temperature": 0.2,
+        "fertility": 0.5
+      },
+      "accessibility": {
+        "stone_age": 0.6,
+        "bronze_age": 0.8,
+        "iron_age": 0.9,
+        "medieval": 1.0,
+        "renaissance": 1.0,
+        "industrial": 1.0,
+        "modern": 1.0,
+        "information_age": 1.0,
+        "space_age": 1.0
+      }
+    },
+    "game_animals": {
+      "primary_terrains": ["1-6", "3-7", "2-7", "4-8", "E,F,G,S,T"],
+      "abundance_modifier": {
+        "elevation": -0.1,
+        "moisture": 0.2,
+        "temperature": 0.1,
+        "fertility": 0.3
+      },
+      "accessibility": {
+        "stone_age": 1.0,
+        "bronze_age": 1.0,
+        "iron_age": 1.0,
+        "medieval": 1.0,
+        "renaissance": 1.0,
+        "industrial": 0.9,
+        "modern": 0.8,
+        "information_age": 0.7,
+        "space_age": 0.6
+      }
+    },
+    "fish": {
+      "primary_terrains": ["0-1", "5-9", "2-7", "3-8", "A,B,C,D,R"],
+      "abundance_modifier": {
+        "elevation": -0.5,
+        "moisture": 0.5,
+        "temperature": 0.1,
+        "fertility": 0.2
+      },
+      "accessibility": {
+        "stone_age": 0.7,
+        "bronze_age": 0.8,
+        "iron_age": 0.9,
+        "medieval": 1.0,
+        "renaissance": 1.0,
+        "industrial": 1.0,
+        "modern": 1.0,
+        "information_age": 1.0,
+        "space_age": 1.0
+      }
+    },
+    "coal": {
+      "primary_terrains": ["2-6", "2-5", "2-6", "0-5", "Q,U"],
+      "abundance_modifier": {
+        "elevation": 0.2,
+        "moisture": 0.1,
+        "temperature": -0.1,
+        "fertility": -0.2
+      },
+      "accessibility": {
+        "stone_age": 0,
+        "bronze_age": 0,
+        "iron_age": 0.1,
+        "medieval": 0.3,
+        "renaissance": 0.6,
+        "industrial": 1.0,
+        "modern": 1.0,
+        "information_age": 1.0,
+        "space_age": 1.0
+      }
+    },
+    "oil": {
+      "primary_terrains": ["0-3", "3-6", "4-8", "0-5", "Q,D"],
+      "abundance_modifier": {
+        "elevation": -0.2,
+        "moisture": 0.1,
+        "temperature": 0.2,
+        "fertility": -0.1
+      },
+      "accessibility": {
+        "stone_age": 0,
+        "bronze_age": 0,
+        "iron_age": 0,
+        "medieval": 0,
+        "renaissance": 0,
+        "industrial": 0.5,
+        "modern": 1.0,
+        "information_age": 1.0,
+        "space_age": 1.0
+      }
+    },
+    "uranium": {
+      "primary_terrains": ["3-7", "1-4", "2-6", "0-3", "Q,U,Z"],
+      "abundance_modifier": {
+        "elevation": 0.3,
+        "moisture": -0.2,
+        "temperature": -0.1,
+        "fertility": -0.3
+      },
+      "accessibility": {
+        "stone_age": 0,
+        "bronze_age": 0,
+        "iron_age": 0,
+        "medieval": 0,
+        "renaissance": 0,
+        "industrial": 0,
+        "modern": 0.7,
+        "information_age": 1.0,
+        "space_age": 1.0
+      }
+    },
+    "rare_earth_minerals": {
+      "primary_terrains": ["3-8", "1-4", "3-7", "0-4", "Q,L,Z"],
+      "abundance_modifier": {
+        "elevation": 0.3,
+        "moisture": -0.3,
+        "temperature": 0.1,
+        "fertility": -0.3
+      },
+      "accessibility": {
+        "stone_age": 0,
+        "bronze_age": 0,
+        "iron_age": 0,
+        "medieval": 0,
+        "renaissance": 0,
+        "industrial": 0.1,
+        "modern": 0.5,
+        "information_age": 0.9,
+        "space_age": 1.0
+      }
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "terrain_code_system": {
+    "elevation": {
+      "0": "Ocean/Sea level",
+      "1": "Coastal lowlands",
+      "2": "Plains/Low hills",
+      "3": "Hills/Plateaus",
+      "4": "Low mountains",
+      "5": "Mountains",
+      "6": "High mountains",
+      "7": "Alpine/Extreme elevation",
+      "8": "Snow-capped peaks",
+      "9": "Extreme peaks"
+    },
+    "moisture": {
+      "0": "Hyper-arid/Desert",
+      "1": "Arid/Desert transition",
+      "2": "Semi-arid/Steppe",
+      "3": "Dry sub-humid",
+      "4": "Sub-humid",
+      "5": "Humid",
+      "6": "Very humid",
+      "7": "Extremely humid",
+      "8": "Saturated/Wetland",
+      "9": "Submerged/Aquatic"
+    },
+    "temperature": {
+      "0": "Polar/Ice cap",
+      "1": "Sub-polar/Tundra",
+      "2": "Cold/Boreal",
+      "3": "Cool temperate",
+      "4": "Temperate",
+      "5": "Warm temperate",
+      "6": "Sub-tropical",
+      "7": "Tropical",
+      "8": "Hot/Equatorial",
+      "9": "Extreme heat"
+    },
+    "fertility": {
+      "0": "Barren/Sterile",
+      "1": "Very poor",
+      "2": "Poor",
+      "3": "Below average",
+      "4": "Average",
+      "5": "Above average",
+      "6": "Good",
+      "7": "Very good",
+      "8": "Excellent",
+      "9": "Exceptional"
+    },
+    "special_features": {
+      "A": "River/Stream",
+      "B": "Lake/Pond",
+      "C": "Coastal",
+      "D": "Delta/Estuary",
+      "E": "Forest",
+      "F": "Dense forest",
+      "G": "Grassland",
+      "H": "Hot springs/Geothermal",
+      "I": "Island",
+      "J": "Jungle/Rainforest",
+      "K": "Karst/Limestone",
+      "L": "Lava/Volcanic",
+      "M": "Marsh/Swamp",
+      "N": "Natural harbor",
+      "O": "Oasis",
+      "P": "Peninsula",
+      "Q": "Quarry/Natural resources",
+      "R": "Reef/Atoll",
+      "S": "Savanna",
+      "T": "Taiga/Boreal forest",
+      "U": "Underground caverns",
+      "V": "Valley",
+      "W": "Waterfall",
+      "X": "Crossroads/Natural passage",
+      "Y": "Canyon/Gorge",
+      "Z": "Anomalous zone"
+    }
+  },
+  "terrain_code_format": {
+    "description": "5-digit code: EMTFS where E=Elevation, M=Moisture, T=Temperature, F=Fertility, S=Special feature",
+    "example": "25480E - Hills/Plateaus, Humid, Temperate, Excellent fertility, with Forest"
+  },
+  "biome_mappings": {
+    "desert": ["0-2", "0-1", "5-9", "0-2", ""],
+    "tundra": ["1-3", "2-4", "0-2", "1-4", ""],
+    "grassland": ["2-3", "3-5", "3-6", "4-7", "G"],
+    "savanna": ["2-3", "2-4", "6-8", "3-6", "S"],
+    "deciduous_forest": ["2-4", "4-6", "3-5", "5-8", "E"],
+    "coniferous_forest": ["3-5", "4-6", "1-3", "4-7", "T"],
+    "rainforest": ["2-4", "6-8", "6-9", "6-9", "J"],
+    "mountain": ["4-7", "2-6", "1-5", "2-6", ""],
+    "wetland": ["1-3", "7-9", "3-7", "5-8", "M"]
+  }
+}
