@@ -406,16 +406,16 @@ def generate_dream(kin_path, keywords, client):
     logger.info("Starting dream generation stage")
     logger.info(f"Using keywords: {json.dumps(keywords, indent=2)}")
 
-    # Load persona.txt
-    persona_content = ""
-    persona_path = os.path.join(kin_path, "persona.txt")
-    if os.path.exists(persona_path):
+    # Load autonomous_persona.txt
+    autonomous_persona_content = ""
+    autonomous_persona_path = os.path.join(kin_path, "autonomous_persona.txt")
+    if os.path.exists(autonomous_persona_path):
         try:
-            with open(persona_path, 'r', encoding='utf-8') as f:
-                persona_content = f.read()
-            logger.info("Loaded persona.txt content")
+            with open(autonomous_persona_path, 'r', encoding='utf-8') as f:
+                autonomous_persona_content = f.read()
+            logger.info("Loaded autonomous_persona.txt content")
         except Exception as e:
-            logger.error(f"Error reading persona.txt: {str(e)}")
+            logger.error(f"Error reading autonomous_persona.txt: {str(e)}")
 
     # Get two random files from memories directory
     memories_dir = os.path.join(kin_path, "memories")
@@ -428,7 +428,7 @@ def generate_dream(kin_path, keywords, client):
             
             for file in memory_files:
                 with open(os.path.join(memories_dir, file), 'r', encoding='utf-8') as f:
-                    persona_content += f"\n\n# Memory: {file}\n{f.read()}"
+                    autonomous_persona_content += f"\n\n# Memory: {file}\n{f.read()}"
                 logger.info(f"Added content from memory file: {file}")
         except Exception as e:
             logger.error(f"Error reading memory files: {str(e)}")
@@ -438,7 +438,7 @@ def generate_dream(kin_path, keywords, client):
             model="claude-3-7-sonnet-latest",
             max_tokens=1000,
             system=f"""Persona and Memories Context:
-{persona_content}
+{autonomous_persona_content}
 
 Using these keywords, create a vivid and meaningful first-person dream narrative that reflects your inner world and aspirations.
 The narrative should weave together the keywords naturally and create a meaningful metaphor or story.
@@ -487,18 +487,18 @@ def generate_daydreaming(kin_path, dream_narrative, random_files, client):
     logger.info("Starting daydreaming generation stage")
     logger.info(f"Using dream narrative: {dream_narrative}")
 
-    # Load persona.txt and messages.json
+    # Load autonomous_persona.txt and messages.json
     context_content = ""
     
-    # Load persona.txt
-    persona_path = os.path.join(kin_path, "persona.txt")
-    if os.path.exists(persona_path):
+    # Load autonomous_persona.txt
+    autonomous_persona_path = os.path.join(kin_path, "autonomous_persona.txt")
+    if os.path.exists(autonomous_persona_path):
         try:
-            with open(persona_path, 'r', encoding='utf-8') as f:
+            with open(autonomous_persona_path, 'r', encoding='utf-8') as f:
                 context_content += f"# Persona\n{f.read()}\n\n"
-            logger.info("Loaded persona.txt content")
+            logger.info("Loaded autonomous_persona.txt content")
         except Exception as e:
-            logger.error(f"Error reading persona.txt: {str(e)}")
+            logger.error(f"Error reading autonomous_persona.txt: {str(e)}")
 
     # Check for and load goals.json if it exists
     goals_path = os.path.join(kin_path, "goals.json")
@@ -611,16 +611,16 @@ def generate_initiative(kin_path, daydreaming, client):
         except Exception as e:
             logger.error(f"Error reading todolist.json: {str(e)}")
     
-    # Load persona.txt if it exists
-    persona_content = ""
-    persona_path = os.path.join(kin_path, "persona.txt")
-    if os.path.exists(persona_path):
+    # Load autonomous_persona.txt if it exists
+    autonomous_persona_content = ""
+    autonomous_persona_path = os.path.join(kin_path, "autonomous_persona.txt")
+    if os.path.exists(autonomous_persona_path):
         try:
-            with open(persona_path, 'r', encoding='utf-8') as f:
-                persona_content = f.read()
-            logger.info("Loaded persona.txt content")
+            with open(autonomous_persona_path, 'r', encoding='utf-8') as f:
+                autonomous_persona_content = f.read()
+            logger.info("Loaded autonomous_persona.txt content")
         except Exception as e:
-            logger.error(f"Error reading persona.txt: {str(e)}")
+            logger.error(f"Error reading autonomous_persona.txt: {str(e)}")
 
     try:
         response = client.messages.create(
@@ -636,7 +636,7 @@ Todo List:
 {todolist_content}
 
 Persona:
-{persona_content}
+{autonomous_persona_content}
 
 Based on the daydreaming and the entity's goals, select one specific goal to focus on and define a series of practical actions to achieve it.
 
@@ -646,7 +646,7 @@ Your response should include:
 1. The selected goal (choose from the existing goals or propose a new one if none exist)
 2. Why this goal was selected (especially how it connects to the daydreaming)
 3. 3-5 specific, actionable steps to make progress on this goal
-4. A timeline or priority order for these actions
+4. A priority order for these actions
 
 Format your response as a structured plan that the entity can immediately begin implementing. Be practical, specific, and action-oriented.""",
             messages=[{"role": "user", "content": "Please generate a practical initiative based on the daydreaming and goals."}]
