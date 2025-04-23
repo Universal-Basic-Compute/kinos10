@@ -106,9 +106,16 @@ The language resolution system should:
   "success": true,
   "success_degree": 0.85,
   "vocabulary_changes": {
-    "added_terms": ["copper-working", "forge-heat", "metal-flow"],
+    "added_terms": [
+      "kupra-tashim (copper-working)", 
+      "forna-hita (forge-heat)", 
+      "metla-fluen (metal-flow)"
+    ],
     "modified_terms": [],
-    "formalized_terms": ["fire-stone", "earth-metal"]
+    "formalized_terms": [
+      "fira-ston (fire-stone)", 
+      "tera-metla (earth-metal)"
+    ]
   },
   "grammar_changes": {
     "new_structures": ["process description sequence"],
@@ -124,6 +131,6 @@ The language resolution system should:
     "social_cohesion": 0.6,
     "knowledge_transfer": 0.7
   },
-  "narrative_description": "As the colony began working with copper, new terminology emerged to describe the metallurgical processes. The terms 'copper-working', 'forge-heat', and 'metal-flow' were added to the vocabulary, while existing terms like 'fire-stone' and 'earth-metal' became more formalized with specific technical meanings. A new grammatical structure developed to describe sequential processes, allowing more precise transmission of metallurgical knowledge. While most concepts were communicated clearly, exact temperature descriptions remained challenging without numerical systems, leading to some trial and error in the process."
+  "narrative_description": "As the colony began working with copper, new terminology emerged to describe the metallurgical processes. The terms 'kupra-tashim' (copper-working), 'forna-hita' (forge-heat), and 'metla-fluen' (metal-flow) were added to the vocabulary, while existing terms like 'fira-ston' (fire-stone) and 'tera-metla' (earth-metal) became more formalized with specific technical meanings. A new grammatical structure developed to describe sequential processes, allowing more precise transmission of metallurgical knowledge. While most concepts were communicated clearly, exact temperature descriptions remained challenging without numerical systems, leading to some trial and error in the process."
 }
 ```
