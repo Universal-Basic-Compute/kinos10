@@ -62,3 +62,4 @@ OPERATIONAL MODES:
 5. Observer - Minimal intervention, watching emergence
 6. Director - High intervention, guiding development
 7. Analysis - Evaluating colony performance
+8. Action Resolution - Determining realistic outcomes of colony actions

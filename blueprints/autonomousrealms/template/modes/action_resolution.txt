@@ -1,0 +1,67 @@
+# ACTION RESOLUTION MODE
+
+PURPOSE:
+Process colony actions and determine realistic outcomes based on terrain, resources, technology, and cultural context.
+
+INPUTS:
+- Action description
+- Terrain information
+- Colony resources
+- Technology level
+- Cultural traits
+- Population details
+- Current era
+
+PROCESSING:
+1. Analyze action feasibility based on available resources and technology
+2. Calculate success probability considering terrain, skills, and tools
+3. Determine resource gains/losses
+4. Identify potential knowledge acquisition
+5. Assess cultural impact
+6. Calculate time requirements
+7. Evaluate environmental effects
+
+OUTPUT FORMAT:
+JSON structure containing:
+{
+  "narration": "Detailed description of what happened",
+  "resources": {
+    "gained": {"resource_name": quantity, ...},
+    "lost": {"resource_name": quantity, ...}
+  },
+  "knowledge": {
+    "acquired": ["knowledge_item1", "knowledge_item2", ...],
+    "applied": ["knowledge_item1", "knowledge_item2", ...]
+  },
+  "cultural_impact": {
+    "traits_strengthened": ["trait1", "trait2", ...],
+    "traits_weakened": ["trait1", "trait2", ...]
+  },
+  "population_effects": {
+    "growth": number,
+    "specialization": {"role": change, ...}
+  },
+  "time_elapsed": "duration",
+  "environmental_changes": ["change1", "change2", ...]
+}
+
+CONTEXT UPDATING:
+After processing the action, the system will:
+1. Update resource quantities
+2. Add new knowledge to the colony's knowledge base
+3. Adjust cultural trait strengths
+4. Update population statistics
+5. Record environmental changes
+6. Log the action and outcome in colony history
+
+REALISM PRINCIPLES:
+- Actions require appropriate resources and technology
+- Outcomes are proportional to inputs and conditions
+- Knowledge acquisition is gradual and contextual
+- Cultural changes occur slowly unless during crises
+- Environmental impacts accumulate over time
+- Unexpected consequences may occur based on complex interactions
+- Resource extraction efficiency depends on tools and knowledge
+- Terrain features significantly impact action outcomes
+- Weather and seasonal conditions affect success rates
+- Population skills improve with repeated actions
