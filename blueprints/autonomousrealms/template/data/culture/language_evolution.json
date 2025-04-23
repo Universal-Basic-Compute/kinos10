@@ -1,0 +1,166 @@
+{
+  "language_evolution": {
+    "stone_age": {
+      "vocabulary_focus": ["natural_elements", "basic_tools", "food_sources", "shelter"],
+      "complexity_level": "low",
+      "abstraction_capability": "minimal",
+      "communication_modes": ["verbal", "gestural"],
+      "example_terms": {
+        "ston": "stone",
+        "fira": "fire",
+        "wuda": "wood",
+        "tera": "earth/soil",
+        "akwa": "water",
+        "hunta": "hunt/hunting",
+        "shelta": "shelter"
+      }
+    },
+    "bronze_age": {
+      "vocabulary_focus": ["metallurgy", "agriculture", "construction", "trade"],
+      "complexity_level": "medium-low",
+      "abstraction_capability": "developing",
+      "communication_modes": ["verbal", "primitive_writing", "symbols"],
+      "example_terms": {
+        "kupra-tashim": "copper-working",
+        "forna-hita": "forge-heat",
+        "metla-fluen": "metal-flow",
+        "fira-ston": "fire-stone (ore)",
+        "tera-metla": "earth-metal",
+        "tina-kupra": "tin-copper (bronze)",
+        "metla-shapa": "metal-shaping",
+        "trada-worda": "trade-words",
+        "feld-growa": "field-growing"
+      }
+    },
+    "iron_age": {
+      "vocabulary_focus": ["advanced_metallurgy", "governance", "warfare", "specialized_crafts"],
+      "complexity_level": "medium",
+      "abstraction_capability": "moderate",
+      "communication_modes": ["verbal", "formalized_writing", "record_keeping"],
+      "example_terms": {
+        "fero-tashim": "iron-working",
+        "harda-metla": "hard-metal (iron)",
+        "wara-metla": "war-metal (weapons)",
+        "lida-worda": "leader-words (commands)",
+        "trada-patha": "trade-path (trade route)",
+        "lawa-speaka": "law-speaking",
+        "skila-handa": "skilled-hands (craftsperson)"
+      }
+    },
+    "medieval": {
+      "vocabulary_focus": ["social_hierarchy", "religion", "advanced_agriculture", "literature"],
+      "complexity_level": "medium-high",
+      "abstraction_capability": "substantial",
+      "communication_modes": ["verbal", "written", "artistic"],
+      "example_terms": {
+        "nobla-bluda": "noble-blood",
+        "deva-worda": "divine-words",
+        "skila-farma": "skilled-farming",
+        "stori-tela": "story-teller",
+        "kasta-orda": "caste-order",
+        "trada-gilda": "trade-guild",
+        "knowa-halla": "knowledge-hall (school)"
+      }
+    }
+  },
+  "language_resolution_examples": {
+    "metallurgy_discovery": {
+      "resolution_type": "evolution",
+      "success": true,
+      "success_degree": 0.85,
+      "vocabulary_changes": {
+        "added_terms": [
+          "kupra-tashim (copper-working)", 
+          "forna-hita (forge-heat)", 
+          "metla-fluen (metal-flow)"
+        ],
+        "modified_terms": [],
+        "formalized_terms": [
+          "fira-ston (fire-stone)", 
+          "tera-metla (earth-metal)"
+        ]
+      },
+      "grammar_changes": {
+        "new_structures": ["process description sequence"],
+        "modified_structures": []
+      },
+      "communication_results": {
+        "clarity": 0.7,
+        "misunderstandings": ["exact temperature concepts"],
+        "shared_concepts": ["metal transformation", "tool creation"]
+      },
+      "cultural_impacts": {
+        "identity_formation": "Metallurgical terminology becoming part of cultural identity",
+        "social_cohesion": 0.6,
+        "knowledge_transfer": 0.7
+      },
+      "narrative_description": "As the colony began working with copper, new terminology emerged to describe the metallurgical processes. The terms 'kupra-tashim' (copper-working), 'forna-hita' (forge-heat), and 'metla-fluen' (metal-flow) were added to the vocabulary, while existing terms like 'fira-ston' (fire-stone) and 'tera-metla' (earth-metal) became more formalized with specific technical meanings. A new grammatical structure developed to describe sequential processes, allowing more precise transmission of metallurgical knowledge. While most concepts were communicated clearly, exact temperature descriptions remained challenging without numerical systems, leading to some trial and error in the process."
+    },
+    "agricultural_advancement": {
+      "resolution_type": "evolution",
+      "success": true,
+      "success_degree": 0.9,
+      "vocabulary_changes": {
+        "added_terms": [
+          "feld-plana (field-planning)",
+          "sida-tima (seed-timing)",
+          "wata-flowa (water-flowing/irrigation)"
+        ],
+        "modified_terms": [
+          "growa-tera (growing-earth) → feld-tera (field-soil)"
+        ],
+        "formalized_terms": [
+          "suna-patha (sun-path/seasonal tracking)"
+        ]
+      },
+      "grammar_changes": {
+        "new_structures": ["seasonal time markers"],
+        "modified_structures": ["possession indicators for land"]
+      },
+      "communication_results": {
+        "clarity": 0.85,
+        "misunderstandings": ["complex crop rotation concepts"],
+        "shared_concepts": ["planting techniques", "harvest timing", "field organization"]
+      },
+      "cultural_impacts": {
+        "identity_formation": "Agricultural cycle becoming central to cultural calendar",
+        "social_cohesion": 0.8,
+        "knowledge_transfer": 0.85
+      },
+      "narrative_description": "The transition to organized agriculture led to significant language evolution. New terms emerged for agricultural concepts: 'feld-plana' (field-planning), 'sida-tima' (seed-timing), and 'wata-flowa' (irrigation). The general term 'growa-tera' evolved into the more specific 'feld-tera' to distinguish agricultural soil from wild growing areas. The language developed seasonal time markers based on agricultural needs, and possession indicators evolved to express land ownership concepts. This agricultural vocabulary became central to the colony's cultural identity, with the growing season structuring their calendar and social activities."
+    },
+    "governance_development": {
+      "resolution_type": "evolution",
+      "success": true,
+      "success_degree": 0.75,
+      "vocabulary_changes": {
+        "added_terms": [
+          "lida-krug (leader-circle/council)",
+          "lawa-speka (law-speaking)",
+          "folka-vota (people-voice/assembly)"
+        ],
+        "modified_terms": [
+          "elda-wisa (elder-wisdom) → lida-wisa (leader-wisdom)"
+        ],
+        "formalized_terms": [
+          "orda-worda (order-words/decrees)"
+        ]
+      },
+      "grammar_changes": {
+        "new_structures": ["formal address forms", "authority markers"],
+        "modified_structures": ["command forms"]
+      },
+      "communication_results": {
+        "clarity": 0.7,
+        "misunderstandings": ["abstract governance concepts", "representation ideas"],
+        "shared_concepts": ["leadership roles", "decision processes", "rule enforcement"]
+      },
+      "cultural_impacts": {
+        "identity_formation": "Political terminology reflecting emerging social structure",
+        "social_cohesion": 0.65,
+        "knowledge_transfer": 0.6
+      },
+      "narrative_description": "As governance structures formalized, the colony's language adapted with terms like 'lida-krug' (leader-circle/council), 'lawa-speka' (law-speaking), and 'folka-vota' (people-voice/assembly). The concept of 'elda-wisa' (elder-wisdom) evolved to 'lida-wisa' (leader-wisdom), reflecting the shift from age-based to role-based authority. Formal address forms emerged to acknowledge social hierarchy, and command forms became more structured. Abstract governance concepts remained challenging to articulate, leading to occasional misunderstandings about representation and authority limits, but the evolving political vocabulary helped establish and reinforce the emerging social order."
+    }
+  }
+}
