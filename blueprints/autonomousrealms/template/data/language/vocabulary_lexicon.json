@@ -1,0 +1,191 @@
+{
+  "lexicon": {
+    "proto_language": {
+      "words": {},
+      "phonology": {
+        "consonants": ["m", "p", "t", "k", "s", "h"],
+        "vowels": ["a", "i", "u"],
+        "syllable_structure": "CV"
+      },
+      "word_formation_rules": {
+        "compounding": false,
+        "affixation": false,
+        "sound_symbolism": true,
+        "reduplication": true
+      }
+    },
+    "basic_language": {
+      "words": {},
+      "phonology": {
+        "consonants": ["m", "n", "p", "b", "t", "d", "k", "g", "s", "h", "w", "l"],
+        "vowels": ["a", "e", "i", "o", "u"],
+        "syllable_structure": "CV(C)"
+      },
+      "word_formation_rules": {
+        "compounding": true,
+        "affixation": {
+          "prefixes": ["ka-", "mi-", "su-"],
+          "suffixes": ["-ta", "-li", "-mo"]
+        },
+        "sound_symbolism": true,
+        "reduplication": true
+      }
+    },
+    "complex_language": {
+      "words": {},
+      "phonology": {
+        "consonants": ["m", "n", "p", "b", "t", "d", "k", "g", "f", "v", "s", "z", "h", "r", "l", "w", "y"],
+        "vowels": ["a", "e", "i", "o", "u", "ai", "au", "ei", "ou"],
+        "syllable_structure": "CVC"
+      },
+      "word_formation_rules": {
+        "compounding": true,
+        "affixation": {
+          "prefixes": ["ka-", "mi-", "su-", "tar-", "ben-", "kol-"],
+          "suffixes": ["-ta", "-li", "-mo", "-ek", "-an", "-ik", "-or"],
+          "infixes": ["-ar-", "-en-"]
+        },
+        "sound_symbolism": true,
+        "reduplication": true
+      }
+    },
+    "symbolic_representation": {
+      "words": {},
+      "phonology": {
+        "consonants": ["m", "n", "p", "b", "t", "d", "k", "g", "f", "v", "s", "z", "sh", "th", "h", "r", "l", "w", "y"],
+        "vowels": ["a", "e", "i", "o", "u", "ai", "au", "ei", "ou", "ia", "io"],
+        "syllable_structure": "CCVC"
+      },
+      "word_formation_rules": {
+        "compounding": true,
+        "affixation": {
+          "prefixes": ["ka-", "mi-", "su-", "tar-", "ben-", "kol-", "pra-", "endo-", "meta-"],
+          "suffixes": ["-ta", "-li", "-mo", "-ek", "-an", "-ik", "-or", "-tion", "-ment", "-ity"],
+          "infixes": ["-ar-", "-en-", "-ol-"]
+        },
+        "sound_symbolism": true,
+        "reduplication": true
+      }
+    },
+    "writing_system": {
+      "words": {},
+      "phonology": {
+        "consonants": ["m", "n", "p", "b", "t", "d", "k", "g", "f", "v", "s", "z", "sh", "zh", "th", "dh", "h", "r", "l", "w", "y", "ch", "j"],
+        "vowels": ["a", "e", "i", "o", "u", "ai", "au", "ei", "ou", "ia", "io", "ea", "eo", "oi", "ie"],
+        "syllable_structure": "CCVCC"
+      },
+      "word_formation_rules": {
+        "compounding": true,
+        "affixation": {
+          "prefixes": ["ka-", "mi-", "su-", "tar-", "ben-", "kol-", "pra-", "endo-", "meta-", "anti-", "pro-", "con-", "ex-"],
+          "suffixes": ["-ta", "-li", "-mo", "-ek", "-an", "-ik", "-or", "-tion", "-ment", "-ity", "-ism", "-ology", "-ance"],
+          "infixes": ["-ar-", "-en-", "-ol-", "-if-"]
+        },
+        "sound_symbolism": true,
+        "reduplication": true
+      }
+    },
+    "standardized_language": {
+      "words": {},
+      "phonology": {
+        "consonants": ["m", "n", "p", "b", "t", "d", "k", "g", "f", "v", "s", "z", "sh", "zh", "th", "dh", "h", "r", "l", "w", "y", "ch", "j", "ng", "q", "x"],
+        "vowels": ["a", "e", "i", "o", "u", "ai", "au", "ei", "ou", "ia", "io", "ea", "eo", "oi", "ie", "ue", "oa", "ae"],
+        "syllable_structure": "CCCVCCC"
+      },
+      "word_formation_rules": {
+        "compounding": true,
+        "affixation": {
+          "prefixes": ["ka-", "mi-", "su-", "tar-", "ben-", "kol-", "pra-", "endo-", "meta-", "anti-", "pro-", "con-", "ex-", "inter-", "trans-", "multi-", "poly-", "sub-"],
+          "suffixes": ["-ta", "-li", "-mo", "-ek", "-an", "-ik", "-or", "-tion", "-ment", "-ity", "-ism", "-ology", "-ance", "-ization", "-ability", "-ification"],
+          "infixes": ["-ar-", "-en-", "-ol-", "-if-", "-ific-"]
+        },
+        "sound_symbolism": true,
+        "reduplication": true
+      }
+    }
+  },
+  "semantic_domains": {
+    "survival_basics": {
+      "core_concepts": ["water", "food", "shelter", "fire", "danger", "sleep", "person", "group"]
+    },
+    "natural_environment": {
+      "core_concepts": ["sun", "moon", "sky", "star", "tree", "rock", "river", "mountain", "animal", "plant"]
+    },
+    "social_relations": {
+      "core_concepts": ["mother", "father", "child", "family", "friend", "leader", "elder", "enemy"]
+    },
+    "tool_making": {
+      "core_concepts": ["stone", "wood", "bone", "cut", "hit", "break", "make", "tool", "weapon"]
+    },
+    "food_acquisition": {
+      "core_concepts": ["hunt", "gather", "fish", "grow", "cook", "eat", "store"]
+    },
+    "material_properties": {
+      "core_concepts": ["hard", "soft", "sharp", "heavy", "light", "strong", "weak", "hot", "cold"]
+    },
+    "time_concepts": {
+      "core_concepts": ["day", "night", "sun-cycle", "moon-cycle", "season", "before", "after", "now"]
+    },
+    "quantity_concepts": {
+      "core_concepts": ["one", "two", "many", "few", "more", "less", "all", "none"]
+    }
+  },
+  "word_evolution_patterns": {
+    "sound_changes": {
+      "proto_to_basic": {
+        "vowel_changes": {
+          "a": {"a": 0.8, "e": 0.1, "o": 0.1},
+          "i": {"i": 0.8, "e": 0.1, "ai": 0.1},
+          "u": {"u": 0.8, "o": 0.1, "ou": 0.1}
+        },
+        "consonant_changes": {
+          "p": {"p": 0.8, "b": 0.2},
+          "t": {"t": 0.8, "d": 0.2},
+          "k": {"k": 0.8, "g": 0.2}
+        }
+      },
+      "basic_to_complex": {
+        "vowel_changes": {
+          "a": {"a": 0.7, "ai": 0.1, "au": 0.1, "e": 0.1},
+          "e": {"e": 0.7, "ei": 0.1, "i": 0.1, "a": 0.1},
+          "i": {"i": 0.7, "ia": 0.1, "io": 0.1, "e": 0.1},
+          "o": {"o": 0.7, "ou": 0.1, "u": 0.1, "a": 0.1},
+          "u": {"u": 0.7, "o": 0.1, "ou": 0.1, "a": 0.1}
+        },
+        "consonant_changes": {
+          "s": {"s": 0.7, "z": 0.2, "sh": 0.1},
+          "t": {"t": 0.7, "d": 0.1, "th": 0.1, "s": 0.1},
+          "p": {"p": 0.7, "b": 0.1, "f": 0.1, "v": 0.1}
+        }
+      }
+    },
+    "semantic_shifts": {
+      "generalization": 0.2,
+      "specialization": 0.3,
+      "metaphorical_extension": 0.2,
+      "metonymic_change": 0.1,
+      "amelioration": 0.1,
+      "pejoration": 0.1
+    }
+  },
+  "initial_vocabulary": {
+    "proto_language": {
+      "ma": {"meaning": "water", "category": "survival_basics"},
+      "pa": {"meaning": "food", "category": "survival_basics"},
+      "ta": {"meaning": "shelter", "category": "survival_basics"},
+      "ki": {"meaning": "fire", "category": "survival_basics"},
+      "sa": {"meaning": "danger", "category": "survival_basics"},
+      "hu": {"meaning": "sleep", "category": "survival_basics"},
+      "mi": {"meaning": "person", "category": "survival_basics"},
+      "ku": {"meaning": "group", "category": "survival_basics"},
+      "ti": {"meaning": "sun", "category": "natural_environment"},
+      "pi": {"meaning": "moon", "category": "natural_environment"},
+      "si": {"meaning": "sky", "category": "natural_environment"},
+      "tu": {"meaning": "tree", "category": "natural_environment"},
+      "ka": {"meaning": "rock", "category": "natural_environment"},
+      "mu": {"meaning": "river", "category": "natural_environment"},
+      "hi": {"meaning": "mountain", "category": "natural_environment"},
+      "pu": {"meaning": "animal", "category": "natural_environment"}
+    }
+  }
+}

@@ -20,9 +20,29 @@ Responses will be formatted as JSON with the following structure:
   "success": true/false,
   "success_degree": 0.0-1.0,
   "vocabulary_changes": {
-    "added_terms": ["term1", "term2"],
-    "modified_terms": [{"old": "term3", "new": "term3_variant"}],
-    "formalized_terms": ["term4", "term5"]
+    "added_terms": [
+      {
+        "word": "actual_constructed_word",
+        "meaning": "english_meaning",
+        "category": "semantic_category",
+        "etymology": "word_origin_description"
+      }
+    ],
+    "modified_terms": [
+      {
+        "old_word": "previous_form",
+        "new_word": "evolved_form",
+        "meaning": "english_meaning",
+        "change_reason": "reason_for_change"
+      }
+    ],
+    "formalized_terms": [
+      {
+        "word": "formalized_word",
+        "meaning": "specialized_meaning",
+        "original_meaning": "previous_meaning"
+      }
+    ]
   },
   "grammar_changes": {
     "new_structures": ["structure1", "structure2"],
@@ -42,10 +62,42 @@ Responses will be formatted as JSON with the following structure:
 }
 ```
 
+## Word Generation System
+The system will generate constructed words following these principles:
+
+1. Phonological Consistency: Words follow the phonological rules of the current language stage
+2. Semantic Motivation: Words are created based on meaningful associations
+3. Historical Evolution: Words evolve through regular sound changes
+4. Compounding: Complex concepts combine existing words
+5. Derivation: New words are formed from existing roots with affixes
+
+### Word Formation Methods:
+- Root Creation: Basic vocabulary using the phonological inventory
+- Compounding: Combining existing words (fire+stone = firestone)
+- Derivation: Adding affixes to change meaning or part of speech
+- Borrowing: Adopting words from contacted groups
+- Sound Symbolism: Using sounds that suggest meaning
+
+### Example Word Generation:
+Proto-language: 
+- "ma" (water)
+- "pa" (food)
+- "ki" (fire)
+
+Basic language:
+- "malu" (river, from "ma" + "lu" [flow])
+- "paban" (hunt, from "pa" + "ban" [seek])
+- "kidom" (hearth, from "ki" + "dom" [place])
+
+Complex language:
+- "malutarek" (irrigation, from "malu" + "tarek" [field])
+- "pabankari" (hunting party, from "paban" + "kari" [group])
+- "kidomsalat" (forge, from "kidom" + "salat" [work])
+
 ## Memory Update Instructions
 The context updater should:
 1. Update language stage if thresholds are reached
-2. Add new vocabulary terms to the appropriate category files
+2. Add new vocabulary terms to vocabulary_lexicon.json
 3. Update grammar structures in language_grammar.json
 4. Record significant language events in language_history.json
 5. Update communication efficiency metrics in colony_stats.json
@@ -107,14 +159,37 @@ The language resolution system should:
   "success_degree": 0.85,
   "vocabulary_changes": {
     "added_terms": [
-      "kupra-tashim (copper-working)", 
-      "forna-hita (forge-heat)", 
-      "metla-fluen (metal-flow)"
+      {
+        "word": "kupratash",
+        "meaning": "copper-working",
+        "category": "metallurgy",
+        "etymology": "From 'kupra' (copper) + 'tash' (work)"
+      },
+      {
+        "word": "fornahita",
+        "meaning": "forge-heat",
+        "category": "metallurgy",
+        "etymology": "From 'forna' (fire-place) + 'hita' (hot)"
+      },
+      {
+        "word": "metlafluen",
+        "meaning": "metal-flow",
+        "category": "metallurgy",
+        "etymology": "From 'metla' (metal) + 'fluen' (to flow)"
+      }
     ],
     "modified_terms": [],
     "formalized_terms": [
-      "fira-ston (fire-stone)", 
-      "tera-metla (earth-metal)"
+      {
+        "word": "firaton",
+        "meaning": "ore",
+        "original_meaning": "fire-stone"
+      },
+      {
+        "word": "terametla",
+        "meaning": "metal ore",
+        "original_meaning": "earth-metal"
+      }
     ]
   },
   "grammar_changes": {
@@ -131,6 +206,6 @@ The language resolution system should:
     "social_cohesion": 0.6,
     "knowledge_transfer": 0.7
   },
-  "narrative_description": "As the colony began working with copper, new terminology emerged to describe the metallurgical processes. The terms 'kupra-tashim' (copper-working), 'forna-hita' (forge-heat), and 'metla-fluen' (metal-flow) were added to the vocabulary, while existing terms like 'fira-ston' (fire-stone) and 'tera-metla' (earth-metal) became more formalized with specific technical meanings. A new grammatical structure developed to describe sequential processes, allowing more precise transmission of metallurgical knowledge. While most concepts were communicated clearly, exact temperature descriptions remained challenging without numerical systems, leading to some trial and error in the process."
+  "narrative_description": "As the colony began working with copper, new terminology emerged to describe the metallurgical processes. The terms 'kupratash' (copper-working), 'fornahita' (forge-heat), and 'metlafluen' (metal-flow) were added to the vocabulary, while existing terms like 'firaton' (fire-stone) and 'terametla' (earth-metal) became more formalized with specific technical meanings. A new grammatical structure developed to describe sequential processes, allowing more precise transmission of metallurgical knowledge. While most concepts were communicated clearly, exact temperature descriptions remained challenging without numerical systems, leading to some trial and error in the process."
 }
 ```

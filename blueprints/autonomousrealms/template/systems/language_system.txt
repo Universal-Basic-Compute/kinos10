@@ -55,6 +55,40 @@ The Language System tracks and evolves the colony's communication capabilities t
 - Trade necessitates standardized communication
 - Record keeping needs drive writing development
 
+## Constructed Vocabulary System
+
+### Word Generation
+The system generates actual constructed words following these principles:
+1. Phonological Consistency: Words follow the phonological rules of the current language stage
+2. Semantic Motivation: Words are created based on meaningful associations
+3. Historical Evolution: Words evolve through regular sound changes
+4. Compounding: Complex concepts combine existing words
+5. Derivation: New words are formed from existing roots with affixes
+
+### Word Formation Methods
+- Root Creation: Basic vocabulary using the phonological inventory
+- Compounding: Combining existing words (fire+stone = firestone)
+- Derivation: Adding affixes to change meaning or part of speech
+- Borrowing: Adopting words from contacted groups
+- Sound Symbolism: Using sounds that suggest meaning
+
+### Vocabulary Evolution
+Words evolve through these mechanisms:
+1. Regular Sound Changes: Predictable phonological shifts between language stages
+2. Semantic Shifts: Changes in meaning (generalization, specialization, metaphor)
+3. Morphological Changes: Alterations in word structure and formation patterns
+4. Borrowing: Incorporation of terms from other groups
+5. Standardization: Formalization of terminology in advanced stages
+
+### Lexicon Management
+The system maintains a comprehensive lexicon in vocabulary_lexicon.json that includes:
+1. Current vocabulary organized by language stage
+2. Phonological inventory for each stage
+3. Word formation rules
+4. Etymology tracking
+5. Semantic domains
+6. Historical evolution patterns
+
 ## Gameplay Effects
 
 ### Knowledge Transfer
@@ -83,12 +117,14 @@ The Language System tracks and evolves the colony's communication capabilities t
 
 ## Implementation Notes
 
-The Language System does not directly generate actual languages but simulates their capabilities and effects on colony development. It tracks:
+The Language System now generates actual constructed languages that evolve with colony development. It tracks:
 
 1. Current language stage
-2. Vocabulary size and composition
-3. Communication efficiency metrics
-4. Knowledge preservation capacity
-5. Cultural expression capabilities
+2. Actual vocabulary with constructed words
+3. Phonological systems for each stage
+4. Word formation patterns
+5. Communication efficiency metrics
+6. Knowledge preservation capacity
+7. Cultural expression capabilities
 
 These factors influence all other aspects of colony simulation, creating realistic barriers and opportunities throughout development from Stone Age to space-faring civilization.
