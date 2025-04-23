@@ -1,0 +1,170 @@
+{
+  "language_stages": {
+    "proto_language": {
+      "name": "Proto-Language",
+      "description": "Basic communication through gestures, simple vocalizations, and environmental sounds",
+      "requirements": {
+        "social_actions": 5,
+        "group_size": 3,
+        "observations": 10
+      },
+      "effects": {
+        "cooperation_bonus": 0.1,
+        "knowledge_sharing": 0.1,
+        "cultural_development": 0.05
+      },
+      "vocabulary_size": "20-50 concepts",
+      "communication_range": "Immediate group only",
+      "knowledge_preservation": "None"
+    },
+    "basic_language": {
+      "name": "Basic Language",
+      "description": "Consistent vocabulary with simple grammar, allowing basic needs and observations to be communicated",
+      "requirements": {
+        "social_actions": 15,
+        "group_size": 5,
+        "technologies": ["basic_agriculture"],
+        "proto_language_mastery": 0.7
+      },
+      "effects": {
+        "cooperation_bonus": 0.2,
+        "knowledge_sharing": 0.3,
+        "cultural_development": 0.15,
+        "teaching_efficiency": 0.1
+      },
+      "vocabulary_size": "100-300 words",
+      "communication_range": "Extended family/small tribe",
+      "knowledge_preservation": "Oral traditions begin"
+    },
+    "complex_language": {
+      "name": "Complex Language",
+      "description": "Expanded vocabulary with more complex grammar, allowing abstract concepts and detailed instructions",
+      "requirements": {
+        "social_actions": 30,
+        "group_size": 15,
+        "technologies": ["basic_construction", "basic_medicine"],
+        "basic_language_mastery": 0.8
+      },
+      "effects": {
+        "cooperation_bonus": 0.3,
+        "knowledge_sharing": 0.5,
+        "cultural_development": 0.3,
+        "teaching_efficiency": 0.3,
+        "planning_capability": 0.2
+      },
+      "vocabulary_size": "500-1000 words",
+      "communication_range": "Village/tribe",
+      "knowledge_preservation": "Specialized storytellers"
+    },
+    "symbolic_representation": {
+      "name": "Symbolic Representation",
+      "description": "Development of pictographs and symbols to represent language visually",
+      "requirements": {
+        "social_actions": 50,
+        "group_size": 30,
+        "technologies": ["bronze_working"],
+        "complex_language_mastery": 0.8,
+        "artistic_development": 0.5
+      },
+      "effects": {
+        "cooperation_bonus": 0.4,
+        "knowledge_sharing": 0.6,
+        "cultural_development": 0.5,
+        "teaching_efficiency": 0.5,
+        "planning_capability": 0.4,
+        "knowledge_preservation": 0.3
+      },
+      "vocabulary_size": "1000-3000 symbols",
+      "communication_range": "Multiple settlements",
+      "knowledge_preservation": "Basic record keeping"
+    },
+    "writing_system": {
+      "name": "Writing System",
+      "description": "Formalized writing system with consistent rules for recording language",
+      "requirements": {
+        "social_actions": 80,
+        "group_size": 50,
+        "technologies": ["iron_working", "masonry"],
+        "symbolic_representation_mastery": 0.8,
+        "specialized_roles": ["scribe", "administrator"]
+      },
+      "effects": {
+        "cooperation_bonus": 0.5,
+        "knowledge_sharing": 0.8,
+        "cultural_development": 0.7,
+        "teaching_efficiency": 0.7,
+        "planning_capability": 0.6,
+        "knowledge_preservation": 0.7,
+        "governance_efficiency": 0.4
+      },
+      "vocabulary_size": "5000+ words/symbols",
+      "communication_range": "Regional",
+      "knowledge_preservation": "Libraries and archives"
+    },
+    "standardized_language": {
+      "name": "Standardized Language",
+      "description": "Formalized grammar, spelling, and vocabulary with educational systems for transmission",
+      "requirements": {
+        "social_actions": 120,
+        "group_size": 100,
+        "technologies": ["advanced_engineering", "mathematics"],
+        "writing_system_mastery": 0.9,
+        "specialized_roles": ["teacher", "scholar"],
+        "institutions": ["schools", "universities"]
+      },
+      "effects": {
+        "cooperation_bonus": 0.6,
+        "knowledge_sharing": 1.0,
+        "cultural_development": 0.9,
+        "teaching_efficiency": 1.0,
+        "planning_capability": 0.9,
+        "knowledge_preservation": 1.0,
+        "governance_efficiency": 0.8,
+        "scientific_advancement": 0.5
+      },
+      "vocabulary_size": "10,000+ words",
+      "communication_range": "Civilization-wide",
+      "knowledge_preservation": "Comprehensive archives and educational system"
+    }
+  },
+  "language_evolution_factors": {
+    "environmental": {
+      "terrain_diversity": "Increases specialized vocabulary for terrain features",
+      "resource_diversity": "Increases specialized vocabulary for resources",
+      "climate_variability": "Develops vocabulary for weather patterns and seasonal changes",
+      "isolation": "Promotes unique language development but limits external influences"
+    },
+    "social": {
+      "population_size": "Larger populations develop more complex language systems",
+      "social_complexity": "More social roles lead to specialized terminology",
+      "external_contact": "Trade and diplomacy introduce loan words and new concepts",
+      "conflict": "Warfare develops strategic communication and coded language"
+    },
+    "technological": {
+      "tool_complexity": "Requires precise terminology for creation and use",
+      "knowledge_accumulation": "Requires more abstract terms and specialized vocabulary",
+      "information_storage": "Writing systems evolve to meet record-keeping needs",
+      "communication_technology": "Changes how language is transmitted and preserved"
+    },
+    "cultural": {
+      "ritual_development": "Creates specialized religious/ceremonial vocabulary",
+      "artistic_expression": "Develops aesthetic and emotional vocabulary",
+      "identity_formation": "Creates in-group terminology and cultural markers",
+      "value_systems": "Develops moral and ethical vocabulary"
+    }
+  },
+  "dialect_formation": {
+    "triggers": {
+      "geographic_separation": "Physical distance between groups",
+      "social_stratification": "Class or caste divisions",
+      "occupational_specialization": "Different work requires different terminology",
+      "cultural_divergence": "Different values and practices"
+    },
+    "effects": {
+      "identity_reinforcement": "Strengthens group cohesion",
+      "communication_barriers": "Can reduce cooperation between groups",
+      "innovation_source": "New words and expressions enter main language",
+      "status_marking": "Dialect can indicate social position"
+    }
+  }
+}

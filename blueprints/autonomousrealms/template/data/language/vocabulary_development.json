@@ -1,0 +1,219 @@
+{
+  "vocabulary_categories": {
+    "survival_basics": {
+      "description": "Essential terms for immediate survival needs",
+      "development_stage": "proto_language",
+      "examples": ["food", "water", "danger", "shelter", "sleep"],
+      "triggers": {
+        "actions": ["G-001", "H-001", "F-001", "C-001"],
+        "observations": ["hunger", "thirst", "predator_sighting", "weather_change"]
+      }
+    },
+    "natural_environment": {
+      "description": "Terms describing the surrounding environment",
+      "development_stage": "proto_language",
+      "examples": ["tree", "rock", "river", "mountain", "sky", "sun", "moon"],
+      "triggers": {
+        "terrain_features": ["E", "F", "A", "B", "C"],
+        "observations": ["day_night_cycle", "seasonal_patterns", "terrain_navigation"]
+      }
+    },
+    "social_relations": {
+      "description": "Terms for family and group relationships",
+      "development_stage": "basic_language",
+      "examples": ["mother", "father", "child", "friend", "elder", "leader"],
+      "triggers": {
+        "actions": ["S-001"],
+        "social_developments": ["family_formation", "leadership_emergence", "group_bonding"]
+      }
+    },
+    "tool_making": {
+      "description": "Terminology for tools and their creation",
+      "development_stage": "basic_language",
+      "examples": ["axe", "spear", "knife", "hammer", "sharp", "cut", "break"],
+      "triggers": {
+        "actions": ["T-001", "T-002", "W-001", "W-002"],
+        "tools_created": ["stone_knife", "stone_axe", "stone_hammer", "spear"]
+      }
+    },
+    "food_acquisition": {
+      "description": "Detailed vocabulary for hunting, gathering, and later agriculture",
+      "development_stage": "basic_language",
+      "examples": ["hunt", "gather", "dig", "fish", "trap", "grow", "harvest"],
+      "triggers": {
+        "actions": ["G-001", "G-002", "H-001", "H-002", "F-001", "F-002", "A-001"],
+        "technologies": ["basic_agriculture"]
+      }
+    },
+    "material_properties": {
+      "description": "Terms describing qualities of materials",
+      "development_stage": "complex_language",
+      "examples": ["hard", "soft", "heavy", "light", "strong", "weak", "flexible"],
+      "triggers": {
+        "actions": ["M-001", "W-001", "T-001"],
+        "observations": ["material_testing", "tool_failure", "construction_challenges"]
+      }
+    },
+    "time_concepts": {
+      "description": "Vocabulary for expressing time",
+      "development_stage": "complex_language",
+      "examples": ["day", "night", "season", "year", "before", "after", "wait"],
+      "triggers": {
+        "observations": ["seasonal_patterns", "day_night_cycle", "plant_growth"],
+        "technologies": ["basic_agriculture"]
+      }
+    },
+    "quantity_concepts": {
+      "description": "Basic numerical and quantitative terms",
+      "development_stage": "complex_language",
+      "examples": ["one", "two", "many", "few", "more", "less", "enough"],
+      "triggers": {
+        "actions": ["A-001", "C-002"],
+        "resource_management": ["food_storage", "material_allocation"]
+      }
+    },
+    "construction_terminology": {
+      "description": "Vocabulary for building and structures",
+      "development_stage": "complex_language",
+      "examples": ["wall", "roof", "door", "floor", "build", "support", "join"],
+      "triggers": {
+        "actions": ["C-001", "C-002"],
+        "technologies": ["basic_construction"]
+      }
+    },
+    "health_and_medicine": {
+      "description": "Terms for illness, injury, and healing",
+      "development_stage": "complex_language",
+      "examples": ["pain", "wound", "sick", "heal", "medicine", "cure", "bone"],
+      "triggers": {
+        "actions": ["G-003"],
+        "observations": ["disease_patterns", "injury_treatment"],
+        "technologies": ["basic_medicine"]
+      }
+    },
+    "metallurgy": {
+      "description": "Specialized vocabulary for metal working",
+      "development_stage": "symbolic_representation",
+      "examples": ["copper", "tin", "bronze", "melt", "pour", "forge", "hammer"],
+      "triggers": {
+        "actions": ["M-101", "P-101", "P-102"],
+        "technologies": ["basic_metallurgy", "bronze_working"]
+      }
+    },
+    "agriculture_advanced": {
+      "description": "Detailed farming terminology",
+      "development_stage": "symbolic_representation",
+      "examples": ["plow", "field", "crop", "seed", "soil", "irrigation", "yield"],
+      "triggers": {
+        "actions": ["A-101"],
+        "technologies": ["advanced_agriculture"]
+      }
+    },
+    "governance": {
+      "description": "Terms for rules, leadership, and organization",
+      "development_stage": "writing_system",
+      "examples": ["law", "leader", "council", "tribute", "punishment", "territory", "citizen"],
+      "triggers": {
+        "social_developments": ["centralized_leadership", "territorial_control", "law_creation"],
+        "group_size_threshold": 50
+      }
+    },
+    "trade_and_economy": {
+      "description": "Vocabulary for exchange and value",
+      "development_stage": "writing_system",
+      "examples": ["trade", "value", "exchange", "merchant", "goods", "wealth", "debt"],
+      "triggers": {
+        "social_developments": ["resource_specialization", "external_contact"],
+        "group_size_threshold": 30
+      }
+    },
+    "abstract_concepts": {
+      "description": "Terms for non-physical ideas",
+      "development_stage": "writing_system",
+      "examples": ["truth", "beauty", "justice", "spirit", "mind", "dream", "future"],
+      "triggers": {
+        "social_developments": ["religious_practice", "artistic_expression"],
+        "technologies": ["writing_system"]
+      }
+    },
+    "advanced_mathematics": {
+      "description": "Mathematical terminology",
+      "development_stage": "standardized_language",
+      "examples": ["number", "measure", "calculate", "geometry", "proportion", "formula", "proof"],
+      "triggers": {
+        "technologies": ["mathematics", "advanced_engineering"],
+        "specialized_roles": ["mathematician", "engineer"]
+      }
+    },
+    "scientific_inquiry": {
+      "description": "Vocabulary for systematic knowledge acquisition",
+      "development_stage": "standardized_language",
+      "examples": ["observe", "experiment", "theory", "evidence", "classify", "analyze", "principle"],
+      "triggers": {
+        "technologies": ["scientific_method"],
+        "specialized_roles": ["scholar", "natural_philosopher"]
+      }
+    }
+  },
+  "vocabulary_growth_factors": {
+    "environmental_diversity": {
+      "low": 1.0,
+      "medium": 1.2,
+      "high": 1.5
+    },
+    "external_contact": {
+      "none": 1.0,
+      "limited": 1.3,
+      "extensive": 1.7
+    },
+    "technological_complexity": {
+      "stone_age": 1.0,
+      "bronze_age": 1.5,
+      "iron_age": 2.0,
+      "medieval": 2.5,
+      "renaissance": 3.0,
+      "industrial": 4.0,
+      "modern": 5.0,
+      "information_age": 6.0,
+      "space_age": 7.0
+    },
+    "social_complexity": {
+      "band": 1.0,
+      "tribe": 1.5,
+      "chiefdom": 2.0,
+      "early_state": 3.0,
+      "complex_state": 4.0,
+      "industrial_nation": 5.0,
+      "information_society": 6.0
+    },
+    "specialized_activities": {
+      "per_specialized_role": 0.1
+    }
+  },
+  "vocabulary_size_estimates": {
+    "proto_language": {
+      "base_size": 50,
+      "growth_rate": 0.1
+    },
+    "basic_language": {
+      "base_size": 300,
+      "growth_rate": 0.2
+    },
+    "complex_language": {
+      "base_size": 1000,
+      "growth_rate": 0.3
+    },
+    "symbolic_representation": {
+      "base_size": 3000,
+      "growth_rate": 0.4
+    },
+    "writing_system": {
+      "base_size": 5000,
+      "growth_rate": 0.5
+    },
+    "standardized_language": {
+      "base_size": 10000,
+      "growth_rate": 0.6
+    }
+  }
+}

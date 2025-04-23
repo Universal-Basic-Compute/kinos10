@@ -1,0 +1,259 @@
+{
+  "communication_efficiency": {
+    "proto_language": {
+      "group_coordination": 0.2,
+      "knowledge_transfer": 0.1,
+      "planning_complexity": 0.1,
+      "error_rate": 0.5,
+      "group_size_limit": 10
+    },
+    "basic_language": {
+      "group_coordination": 0.4,
+      "knowledge_transfer": 0.3,
+      "planning_complexity": 0.3,
+      "error_rate": 0.3,
+      "group_size_limit": 30
+    },
+    "complex_language": {
+      "group_coordination": 0.6,
+      "knowledge_transfer": 0.5,
+      "planning_complexity": 0.5,
+      "error_rate": 0.2,
+      "group_size_limit": 100
+    },
+    "symbolic_representation": {
+      "group_coordination": 0.7,
+      "knowledge_transfer": 0.6,
+      "planning_complexity": 0.7,
+      "error_rate": 0.15,
+      "group_size_limit": 500
+    },
+    "writing_system": {
+      "group_coordination": 0.8,
+      "knowledge_transfer": 0.8,
+      "planning_complexity": 0.8,
+      "error_rate": 0.1,
+      "group_size_limit": 5000
+    },
+    "standardized_language": {
+      "group_coordination": 0.9,
+      "knowledge_transfer": 0.9,
+      "planning_complexity": 0.9,
+      "error_rate": 0.05,
+      "group_size_limit": 1000000
+    }
+  },
+  "action_bonuses": {
+    "proto_language": {
+      "S-001": 0.2,
+      "D-001": 0.1,
+      "H-002": 0.1
+    },
+    "basic_language": {
+      "S-001": 0.3,
+      "D-001": 0.2,
+      "H-002": 0.2,
+      "C-002": 0.2,
+      "T-001": 0.1,
+      "T-002": 0.1
+    },
+    "complex_language": {
+      "S-001": 0.4,
+      "D-001": 0.3,
+      "H-002": 0.3,
+      "C-002": 0.3,
+      "T-001": 0.2,
+      "T-002": 0.2,
+      "A-001": 0.2,
+      "R-001": 0.3
+    },
+    "symbolic_representation": {
+      "S-001": 0.5,
+      "D-001": 0.4,
+      "H-002": 0.3,
+      "C-002": 0.4,
+      "T-001": 0.3,
+      "T-002": 0.3,
+      "A-001": 0.3,
+      "R-001": 0.4,
+      "P-101": 0.2,
+      "P-102": 0.2
+    },
+    "writing_system": {
+      "S-001": 0.6,
+      "D-001": 0.5,
+      "H-002": 0.4,
+      "C-002": 0.5,
+      "T-001": 0.4,
+      "T-002": 0.4,
+      "A-001": 0.4,
+      "R-001": 0.5,
+      "P-101": 0.3,
+      "P-102": 0.3,
+      "A-101": 0.3,
+      "C-201": 0.3
+    },
+    "standardized_language": {
+      "S-001": 0.7,
+      "D-001": 0.6,
+      "H-002": 0.5,
+      "C-002": 0.6,
+      "T-001": 0.5,
+      "T-002": 0.5,
+      "A-001": 0.5,
+      "R-001": 0.6,
+      "P-101": 0.4,
+      "P-102": 0.4,
+      "A-101": 0.4,
+      "C-201": 0.4,
+      "M-201": 0.4,
+      "P-201": 0.4
+    }
+  },
+  "technology_development_effects": {
+    "proto_language": {
+      "discovery_rate": 0.5,
+      "implementation_efficiency": 0.3,
+      "knowledge_retention": 0.2
+    },
+    "basic_language": {
+      "discovery_rate": 0.7,
+      "implementation_efficiency": 0.5,
+      "knowledge_retention": 0.4
+    },
+    "complex_language": {
+      "discovery_rate": 0.9,
+      "implementation_efficiency": 0.7,
+      "knowledge_retention": 0.6
+    },
+    "symbolic_representation": {
+      "discovery_rate": 1.0,
+      "implementation_efficiency": 0.8,
+      "knowledge_retention": 0.7
+    },
+    "writing_system": {
+      "discovery_rate": 1.2,
+      "implementation_efficiency": 0.9,
+      "knowledge_retention": 0.9
+    },
+    "standardized_language": {
+      "discovery_rate": 1.5,
+      "implementation_efficiency": 1.0,
+      "knowledge_retention": 1.0
+    }
+  },
+  "social_organization_effects": {
+    "proto_language": {
+      "max_group_size": 25,
+      "leadership_effectiveness": 0.3,
+      "conflict_resolution": 0.2,
+      "social_cohesion": 0.4
+    },
+    "basic_language": {
+      "max_group_size": 100,
+      "leadership_effectiveness": 0.5,
+      "conflict_resolution": 0.4,
+      "social_cohesion": 0.6
+    },
+    "complex_language": {
+      "max_group_size": 500,
+      "leadership_effectiveness": 0.7,
+      "conflict_resolution": 0.6,
+      "social_cohesion": 0.7
+    },
+    "symbolic_representation": {
+      "max_group_size": 2000,
+      "leadership_effectiveness": 0.8,
+      "conflict_resolution": 0.7,
+      "social_cohesion": 0.8
+    },
+    "writing_system": {
+      "max_group_size": 10000,
+      "leadership_effectiveness": 0.9,
+      "conflict_resolution": 0.8,
+      "social_cohesion": 0.8
+    },
+    "standardized_language": {
+      "max_group_size": 1000000,
+      "leadership_effectiveness": 1.0,
+      "conflict_resolution": 0.9,
+      "social_cohesion": 0.9
+    }
+  },
+  "cultural_development_effects": {
+    "proto_language": {
+      "artistic_expression": 0.2,
+      "ritual_complexity": 0.2,
+      "identity_formation": 0.3,
+      "value_transmission": 0.2
+    },
+    "basic_language": {
+      "artistic_expression": 0.4,
+      "ritual_complexity": 0.4,
+      "identity_formation": 0.5,
+      "value_transmission": 0.4
+    },
+    "complex_language": {
+      "artistic_expression": 0.6,
+      "ritual_complexity": 0.6,
+      "identity_formation": 0.7,
+      "value_transmission": 0.6
+    },
+    "symbolic_representation": {
+      "artistic_expression": 0.8,
+      "ritual_complexity": 0.7,
+      "identity_formation": 0.8,
+      "value_transmission": 0.7
+    },
+    "writing_system": {
+      "artistic_expression": 0.9,
+      "ritual_complexity": 0.8,
+      "identity_formation": 0.9,
+      "value_transmission": 0.9
+    },
+    "standardized_language": {
+      "artistic_expression": 1.0,
+      "ritual_complexity": 0.9,
+      "identity_formation": 1.0,
+      "value_transmission": 1.0
+    }
+  },
+  "trade_and_diplomacy_effects": {
+    "proto_language": {
+      "trade_range": 5,
+      "trade_efficiency": 0.2,
+      "diplomatic_options": ["basic_alliance", "basic_hostility"],
+      "misunderstanding_rate": 0.5
+    },
+    "basic_language": {
+      "trade_range": 20,
+      "trade_efficiency": 0.4,
+      "diplomatic_options": ["alliance", "hostility", "neutrality"],
+      "misunderstanding_rate": 0.3
+    },
+    "complex_language": {
+      "trade_range": 50,
+      "trade_efficiency": 0.6,
+      "diplomatic_options": ["alliance", "hostility", "neutrality", "tribute", "protection"],
+      "misunderstanding_rate": 0.2
+    },
+    "symbolic_representation": {
+      "trade_range": 200,
+      "trade_efficiency": 0.7,
+      "diplomatic_options": ["alliance", "hostility", "neutrality", "tribute", "protection", "trade_agreement"],
+      "misunderstanding_rate": 0.15
+    },
+    "writing_system": {
+      "trade_range": 500,
+      "trade_efficiency": 0.8,
+      "diplomatic_options": ["alliance", "hostility", "neutrality", "tribute", "protection", "trade_agreement", "non_aggression", "cultural_exchange"],
+      "misunderstanding_rate": 0.1
+    },
+    "standardized_language": {
+      "trade_range": 2000,
+      "trade_efficiency": 0.9,
+      "diplomatic_options": ["alliance", "hostility", "neutrality", "tribute", "protection", "trade_agreement", "non_aggression", "cultural_exchange", "federation", "vassalage"],
+      "misunderstanding_rate": 0.05
+    }
+  }
+}
