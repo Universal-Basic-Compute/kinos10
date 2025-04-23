@@ -1,0 +1,574 @@
+{
+  "technology_tree": {
+    "stone_age": {
+      "basic_fire": {
+        "description": "The ability to create and control fire",
+        "prerequisites": [],
+        "required_observations": ["fire_making"],
+        "required_resources": ["B-001"],
+        "discovery_difficulty": "medium",
+        "unlocks": ["fire_pit", "cooking", "pottery"],
+        "knowledge_type": "technical"
+      },
+      "basic_tools": {
+        "description": "Creation of simple stone and bone tools",
+        "prerequisites": [],
+        "required_observations": ["stone_properties"],
+        "required_resources": ["B-002", "B-006"],
+        "discovery_difficulty": "low",
+        "unlocks": ["stone_knife", "stone_axe", "stone_hammer"],
+        "knowledge_type": "technical"
+      },
+      "hunting_techniques": {
+        "description": "Methods for hunting animals efficiently",
+        "prerequisites": ["basic_tools"],
+        "required_observations": ["animal_behavior"],
+        "required_resources": ["B-001", "B-002"],
+        "discovery_difficulty": "medium",
+        "unlocks": ["spear", "bow", "trap"],
+        "knowledge_type": "natural"
+      },
+      "fishing_techniques": {
+        "description": "Methods for catching fish",
+        "prerequisites": ["basic_tools"],
+        "required_observations": ["water_patterns"],
+        "required_resources": ["B-001", "B-004"],
+        "discovery_difficulty": "medium",
+        "unlocks": ["fishing_spear", "fishing_line", "fishing_net"],
+        "knowledge_type": "natural"
+      },
+      "basic_agriculture": {
+        "description": "Understanding of plant growth and simple farming",
+        "prerequisites": [],
+        "required_observations": ["plant_growth", "seasonal_patterns"],
+        "required_resources": ["F-001", "F-002", "F-003"],
+        "discovery_difficulty": "high",
+        "unlocks": ["seed_planting", "crop_rotation"],
+        "knowledge_type": "natural"
+      },
+      "pottery": {
+        "description": "Creation of clay containers through firing",
+        "prerequisites": ["basic_fire"],
+        "required_observations": ["clay_properties"],
+        "required_resources": ["B-003"],
+        "discovery_difficulty": "high",
+        "unlocks": ["pottery", "storage_vessels"],
+        "knowledge_type": "technical"
+      },
+      "weaving": {
+        "description": "Creation of textiles and baskets from plant fibers",
+        "prerequisites": [],
+        "required_observations": ["fiber_properties"],
+        "required_resources": ["B-004"],
+        "discovery_difficulty": "medium",
+        "unlocks": ["basket", "simple_textiles"],
+        "knowledge_type": "technical"
+      },
+      "hide_processing": {
+        "description": "Methods for turning animal hides into usable leather",
+        "prerequisites": ["basic_tools"],
+        "required_observations": ["hide_properties"],
+        "required_resources": ["B-005", "S-003"],
+        "discovery_difficulty": "medium",
+        "unlocks": ["leather", "clothing_basic"],
+        "knowledge_type": "technical"
+      },
+      "basic_medicine": {
+        "description": "Knowledge of plants with healing properties",
+        "prerequisites": [],
+        "required_observations": ["plant_properties", "disease_patterns"],
+        "required_resources": ["S-001"],
+        "discovery_difficulty": "high",
+        "unlocks": ["medicine_basic", "wound_treatment"],
+        "knowledge_type": "natural"
+      },
+      "food_preservation": {
+        "description": "Methods for preserving food for longer storage",
+        "prerequisites": ["basic_fire"],
+        "required_observations": ["food_spoilage"],
+        "required_resources": ["S-003", "F-004"],
+        "discovery_difficulty": "medium",
+        "unlocks": ["preserved_food", "dried_fruits"],
+        "knowledge_type": "technical"
+      },
+      "basic_construction": {
+        "description": "Techniques for building simple shelters",
+        "prerequisites": ["basic_tools"],
+        "required_observations": ["weather_patterns"],
+        "required_resources": ["B-001", "B-002", "B-004"],
+        "discovery_difficulty": "medium",
+        "unlocks": ["temporary_shelter", "permanent_shelter"],
+        "knowledge_type": "technical"
+      },
+      "charcoal_making": {
+        "description": "Process of creating higher-energy fuel from wood",
+        "prerequisites": ["basic_fire"],
+        "required_observations": ["burning_properties"],
+        "required_resources": ["B-001"],
+        "discovery_difficulty": "high",
+        "unlocks": ["charcoal", "higher_temperature_fires"],
+        "knowledge_type": "technical"
+      }
+    },
+    "bronze_age": {
+      "basic_metallurgy": {
+        "description": "Understanding of metal extraction from ore",
+        "prerequisites": ["charcoal_making"],
+        "required_observations": ["ore_properties", "fire_effects"],
+        "required_resources": ["M-001", "E-002"],
+        "discovery_difficulty": "very_high",
+        "unlocks": ["copper", "tin", "furnace"],
+        "knowledge_type": "technical"
+      },
+      "bronze_working": {
+        "description": "Techniques for creating and working with bronze",
+        "prerequisites": ["basic_metallurgy"],
+        "required_observations": ["metal_properties"],
+        "required_resources": ["M-004", "M-005"],
+        "discovery_difficulty": "very_high",
+        "unlocks": ["bronze", "bronze_tools", "bronze_weapons"],
+        "knowledge_type": "technical"
+      },
+      "advanced_agriculture": {
+        "description": "Improved farming techniques and tools",
+        "prerequisites": ["basic_agriculture", "bronze_working"],
+        "required_observations": ["soil_properties", "crop_patterns"],
+        "required_resources": ["F-006", "M-006"],
+        "discovery_difficulty": "high",
+        "unlocks": ["plow", "irrigation", "crop_rotation"],
+        "knowledge_type": "natural"
+      },
+      "weapon_smithing": {
+        "description": "Specialized knowledge of creating effective weapons",
+        "prerequisites": ["bronze_working"],
+        "required_observations": ["combat_techniques"],
+        "required_resources": ["M-006"],
+        "discovery_difficulty": "high",
+        "unlocks": ["bronze_weapons", "armor_basic"],
+        "knowledge_type": "technical"
+      },
+      "advanced_construction": {
+        "description": "Techniques for building larger, more durable structures",
+        "prerequisites": ["basic_construction", "bronze_working"],
+        "required_observations": ["structural_principles"],
+        "required_resources": ["B-002", "B-001", "M-006"],
+        "discovery_difficulty": "high",
+        "unlocks": ["stone_buildings", "wooden_frameworks"],
+        "knowledge_type": "technical"
+      },
+      "writing": {
+        "description": "System for recording information permanently",
+        "prerequisites": ["pottery"],
+        "required_observations": ["symbol_recognition"],
+        "required_resources": ["B-003", "S-002"],
+        "discovery_difficulty": "very_high",
+        "unlocks": ["record_keeping", "knowledge_preservation"],
+        "knowledge_type": "cultural"
+      },
+      "mathematics": {
+        "description": "Basic numerical and geometric concepts",
+        "prerequisites": ["writing"],
+        "required_observations": ["pattern_recognition", "quantity_estimation"],
+        "required_resources": [],
+        "discovery_difficulty": "very_high",
+        "unlocks": ["measurement", "calculation"],
+        "knowledge_type": "abstract"
+      },
+      "wheel": {
+        "description": "Circular device that enables efficient transportation",
+        "prerequisites": ["bronze_working"],
+        "required_observations": ["rotational_movement"],
+        "required_resources": ["B-001", "M-006"],
+        "discovery_difficulty": "high",
+        "unlocks": ["cart", "potter's_wheel", "water_wheel"],
+        "knowledge_type": "technical"
+      }
+    },
+    "iron_age": {
+      "iron_working": {
+        "description": "Techniques for extracting and working iron",
+        "prerequisites": ["bronze_working"],
+        "required_observations": ["iron_ore_properties", "high_temperature_effects"],
+        "required_resources": ["M-003", "E-002", "E-003"],
+        "discovery_difficulty": "very_high",
+        "unlocks": ["iron", "iron_tools", "iron_weapons"],
+        "knowledge_type": "technical"
+      },
+      "advanced_metallurgy": {
+        "description": "Improved understanding of metal properties and alloys",
+        "prerequisites": ["iron_working"],
+        "required_observations": ["metal_alloying"],
+        "required_resources": ["M-007", "M-006"],
+        "discovery_difficulty": "very_high",
+        "unlocks": ["steel", "metal_hardening"],
+        "knowledge_type": "technical"
+      },
+      "masonry": {
+        "description": "Advanced stone construction techniques",
+        "prerequisites": ["advanced_construction", "iron_working"],
+        "required_observations": ["stone_cutting_techniques"],
+        "required_resources": ["B-002", "C-009"],
+        "discovery_difficulty": "high",
+        "unlocks": ["stone_fortification", "arches", "columns"],
+        "knowledge_type": "technical"
+      },
+      "engineering": {
+        "description": "Applied mathematics for construction and machinery",
+        "prerequisites": ["mathematics", "iron_working"],
+        "required_observations": ["mechanical_principles", "structural_analysis"],
+        "required_resources": [],
+        "discovery_difficulty": "very_high",
+        "unlocks": ["bridges", "aqueducts", "siege_engines"],
+        "knowledge_type": "technical"
+      },
+      "advanced_agriculture_iron": {
+        "description": "Iron-based agricultural tools and techniques",
+        "prerequisites": ["advanced_agriculture", "iron_working"],
+        "required_observations": ["advanced_crop_management"],
+        "required_resources": ["M-007", "F-006"],
+        "discovery_difficulty": "high",
+        "unlocks": ["iron_plow", "advanced_irrigation"],
+        "knowledge_type": "natural"
+      },
+      "medicine_advanced": {
+        "description": "Improved understanding of disease and treatment",
+        "prerequisites": ["basic_medicine", "writing"],
+        "required_observations": ["anatomy", "disease_transmission"],
+        "required_resources": ["S-001"],
+        "discovery_difficulty": "very_high",
+        "unlocks": ["surgery_basic", "pharmacology_basic"],
+        "knowledge_type": "natural"
+      },
+      "astronomy_basic": {
+        "description": "Systematic observation of celestial bodies",
+        "prerequisites": ["mathematics"],
+        "required_observations": ["star_patterns", "seasonal_celestial_changes"],
+        "required_resources": [],
+        "discovery_difficulty": "high",
+        "unlocks": ["calendar", "navigation_celestial"],
+        "knowledge_type": "natural"
+      },
+      "sailing": {
+        "description": "Techniques for water travel using wind power",
+        "prerequisites": ["wheel"],
+        "required_observations": ["wind_patterns", "buoyancy"],
+        "required_resources": ["B-001", "B-004"],
+        "discovery_difficulty": "high",
+        "unlocks": ["sailing_vessels", "maritime_trade"],
+        "knowledge_type": "technical"
+      }
+    }
+  },
+  "observation_types": {
+    "fire_making": {
+      "description": "Understanding how to create and control fire",
+      "discovery_actions": ["R-001", "C-001"],
+      "minimum_observations": 5,
+      "terrain_factors": ["temperature", "moisture"]
+    },
+    "stone_properties": {
+      "description": "Knowledge of different stone types and their uses",
+      "discovery_actions": ["R-001", "M-001"],
+      "minimum_observations": 6,
+      "terrain_factors": ["elevation", "special_features"]
+    },
+    "animal_behavior": {
+      "description": "Understanding animal patterns and habits",
+      "discovery_actions": ["R-001", "H-001", "H-002"],
+      "minimum_observations": 8,
+      "terrain_factors": ["special_features"]
+    },
+    "water_patterns": {
+      "description": "Knowledge of water movement and aquatic life",
+      "discovery_actions": ["R-001", "F-001", "F-002"],
+      "minimum_observations": 7,
+      "terrain_factors": ["moisture", "special_features"]
+    },
+    "plant_growth": {
+      "description": "Understanding how plants grow and reproduce",
+      "discovery_actions": ["R-001", "G-001", "G-002"],
+      "minimum_observations": 10,
+      "terrain_factors": ["fertility", "moisture"]
+    },
+    "seasonal_patterns": {
+      "description": "Recognition of recurring weather and environmental changes",
+      "discovery_actions": ["R-001"],
+      "minimum_observations": 12,
+      "terrain_factors": ["temperature", "moisture"]
+    },
+    "clay_properties": {
+      "description": "Understanding how clay can be shaped and hardened",
+      "discovery_actions": ["R-001", "M-002"],
+      "minimum_observations": 8,
+      "terrain_factors": ["moisture", "special_features"]
+    },
+    "fiber_properties": {
+      "description": "Knowledge of plant fibers and their uses",
+      "discovery_actions": ["R-001", "G-001"],
+      "minimum_observations": 7,
+      "terrain_factors": ["special_features"]
+    },
+    "hide_properties": {
+      "description": "Understanding how animal hides can be processed",
+      "discovery_actions": ["R-001", "H-001", "H-002"],
+      "minimum_observations": 8,
+      "terrain_factors": []
+    },
+    "plant_properties": {
+      "description": "Knowledge of medicinal and useful plants",
+      "discovery_actions": ["R-001", "G-001", "G-003"],
+      "minimum_observations": 12,
+      "terrain_factors": ["special_features"]
+    },
+    "disease_patterns": {
+      "description": "Recognition of illness causes and patterns",
+      "discovery_actions": ["R-001", "S-001"],
+      "minimum_observations": 15,
+      "terrain_factors": ["moisture", "temperature"]
+    },
+    "food_spoilage": {
+      "description": "Understanding how food deteriorates over time",
+      "discovery_actions": ["R-001"],
+      "minimum_observations": 10,
+      "terrain_factors": ["temperature", "moisture"]
+    },
+    "weather_patterns": {
+      "description": "Recognition of weather phenomena and prediction",
+      "discovery_actions": ["R-001", "E-001"],
+      "minimum_observations": 15,
+      "terrain_factors": ["elevation", "temperature", "moisture"]
+    },
+    "burning_properties": {
+      "description": "Understanding how different materials burn",
+      "discovery_actions": ["R-001", "C-001"],
+      "minimum_observations": 10,
+      "terrain_factors": ["special_features"]
+    },
+    "ore_properties": {
+      "description": "Recognition of metal-bearing rocks",
+      "discovery_actions": ["R-001", "M-001", "M-101"],
+      "minimum_observations": 15,
+      "terrain_factors": ["special_features"]
+    },
+    "fire_effects": {
+      "description": "Understanding how fire transforms materials",
+      "discovery_actions": ["R-001", "C-001"],
+      "minimum_observations": 12,
+      "terrain_factors": []
+    },
+    "metal_properties": {
+      "description": "Knowledge of metal characteristics and uses",
+      "discovery_actions": ["R-001", "P-101"],
+      "minimum_observations": 15,
+      "terrain_factors": []
+    },
+    "soil_properties": {
+      "description": "Understanding soil composition and fertility",
+      "discovery_actions": ["R-001", "A-001"],
+      "minimum_observations": 12,
+      "terrain_factors": ["fertility", "moisture"]
+    },
+    "crop_patterns": {
+      "description": "Knowledge of crop growth cycles and needs",
+      "discovery_actions": ["R-001", "A-001", "A-101"],
+      "minimum_observations": 15,
+      "terrain_factors": ["fertility", "temperature", "moisture"]
+    },
+    "combat_techniques": {
+      "description": "Understanding effective fighting methods",
+      "discovery_actions": ["R-001", "D-001"],
+      "minimum_observations": 15,
+      "terrain_factors": []
+    },
+    "structural_principles": {
+      "description": "Knowledge of building stability and strength",
+      "discovery_actions": ["R-001", "C-001", "C-002"],
+      "minimum_observations": 15,
+      "terrain_factors": []
+    },
+    "symbol_recognition": {
+      "description": "Understanding how symbols can represent concepts",
+      "discovery_actions": ["R-001", "S-001"],
+      "minimum_observations": 20,
+      "terrain_factors": []
+    },
+    "pattern_recognition": {
+      "description": "Ability to identify recurring patterns",
+      "discovery_actions": ["R-001"],
+      "minimum_observations": 20,
+      "terrain_factors": []
+    },
+    "quantity_estimation": {
+      "description": "Ability to estimate and compare amounts",
+      "discovery_actions": ["R-001"],
+      "minimum_observations": 15,
+      "terrain_factors": []
+    },
+    "rotational_movement": {
+      "description": "Understanding circular motion principles",
+      "discovery_actions": ["R-001"],
+      "minimum_observations": 15,
+      "terrain_factors": []
+    },
+    "iron_ore_properties": {
+      "description": "Recognition and understanding of iron ore",
+      "discovery_actions": ["R-001", "M-101", "M-201"],
+      "minimum_observations": 15,
+      "terrain_factors": ["special_features"]
+    },
+    "high_temperature_effects": {
+      "description": "Understanding material changes at high heat",
+      "discovery_actions": ["R-001", "P-101", "P-102"],
+      "minimum_observations": 15,
+      "terrain_factors": []
+    },
+    "metal_alloying": {
+      "description": "Knowledge of combining metals for new properties",
+      "discovery_actions": ["R-001", "P-102", "P-201"],
+      "minimum_observations": 20,
+      "terrain_factors": []
+    },
+    "stone_cutting_techniques": {
+      "description": "Methods for precisely shaping stone",
+      "discovery_actions": ["R-001", "M-001", "C-201"],
+      "minimum_observations": 15,
+      "terrain_factors": []
+    },
+    "mechanical_principles": {
+      "description": "Understanding of force, motion, and simple machines",
+      "discovery_actions": ["R-001"],
+      "minimum_observations": 20,
+      "terrain_factors": []
+    },
+    "structural_analysis": {
+      "description": "Ability to analyze building stability and strength",
+      "discovery_actions": ["R-001", "C-002", "C-201"],
+      "minimum_observations": 20,
+      "terrain_factors": []
+    },
+    "advanced_crop_management": {
+      "description": "Sophisticated understanding of agriculture",
+      "discovery_actions": ["R-001", "A-001", "A-101"],
+      "minimum_observations": 20,
+      "terrain_factors": ["fertility"]
+    },
+    "anatomy": {
+      "description": "Knowledge of body structures and functions",
+      "discovery_actions": ["R-001", "H-001", "H-002"],
+      "minimum_observations": 25,
+      "terrain_factors": []
+    },
+    "disease_transmission": {
+      "description": "Understanding how illnesses spread",
+      "discovery_actions": ["R-001", "S-001"],
+      "minimum_observations": 25,
+      "terrain_factors": ["temperature", "moisture"]
+    },
+    "star_patterns": {
+      "description": "Recognition of celestial body positions and movements",
+      "discovery_actions": ["R-001", "E-001"],
+      "minimum_observations": 25,
+      "terrain_factors": []
+    },
+    "seasonal_celestial_changes": {
+      "description": "Understanding how star positions change with seasons",
+      "discovery_actions": ["R-001"],
+      "minimum_observations": 30,
+      "terrain_factors": []
+    },
+    "wind_patterns": {
+      "description": "Knowledge of air movement patterns",
+      "discovery_actions": ["R-001", "E-001"],
+      "minimum_observations": 20,
+      "terrain_factors": ["elevation", "temperature"]
+    },
+    "buoyancy": {
+      "description": "Understanding how objects float in water",
+      "discovery_actions": ["R-001", "F-001", "F-002"],
+      "minimum_observations": 15,
+      "terrain_factors": []
+    }
+  },
+  "discovery_difficulty_levels": {
+    "low": {
+      "base_discovery_chance": 0.2,
+      "observation_multiplier": 0.05,
+      "knowledge_bonus": 0.1,
+      "terrain_factor": 0.05,
+      "group_bonus": 0.02
+    },
+    "medium": {
+      "base_discovery_chance": 0.15,
+      "observation_multiplier": 0.04,
+      "knowledge_bonus": 0.08,
+      "terrain_factor": 0.04,
+      "group_bonus": 0.015
+    },
+    "high": {
+      "base_discovery_chance": 0.1,
+      "observation_multiplier": 0.03,
+      "knowledge_bonus": 0.06,
+      "terrain_factor": 0.03,
+      "group_bonus": 0.01
+    },
+    "very_high": {
+      "base_discovery_chance": 0.05,
+      "observation_multiplier": 0.02,
+      "knowledge_bonus": 0.04,
+      "terrain_factor": 0.02,
+      "group_bonus": 0.005
+    }
+  },
+  "knowledge_types": {
+    "technical": {
+      "description": "Practical knowledge about making and using things",
+      "transfer_difficulty": "medium",
+      "preservation_method": "demonstration",
+      "application_areas": ["crafting", "construction", "tool_making"]
+    },
+    "natural": {
+      "description": "Knowledge about the natural world and its patterns",
+      "transfer_difficulty": "medium",
+      "preservation_method": "oral_tradition",
+      "application_areas": ["agriculture", "medicine", "navigation"]
+    },
+    "cultural": {
+      "description": "Knowledge about social practices and beliefs",
+      "transfer_difficulty": "low",
+      "preservation_method": "ritual",
+      "application_areas": ["social_organization", "art", "religion"]
+    },
+    "abstract": {
+      "description": "Theoretical knowledge not tied to immediate practical use",
+      "transfer_difficulty": "high",
+      "preservation_method": "writing",
+      "application_areas": ["mathematics", "philosophy", "astronomy"]
+    }
+  },
+  "knowledge_transfer": {
+    "demonstration": {
+      "effectiveness": 0.8,
+      "group_size_optimal": 3,
+      "time_required": "medium",
+      "decay_rate": "medium"
+    },
+    "oral_tradition": {
+      "effectiveness": 0.7,
+      "group_size_optimal": 5,
+      "time_required": "high",
+      "decay_rate": "high"
+    },
+    "writing": {
+      "effectiveness": 0.9,
+      "group_size_optimal": 1,
+      "time_required": "high",
+      "decay_rate": "very_low"
+    },
+    "ritual": {
+      "effectiveness": 0.6,
+      "group_size_optimal": 10,
+      "time_required": "medium",
+      "decay_rate": "medium"
+    }
+  }
+}

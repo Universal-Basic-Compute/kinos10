@@ -1,0 +1,481 @@
+{
+  "resource_categories": {
+    "B": "Basic Materials",
+    "F": "Food Resources",
+    "M": "Metals and Minerals",
+    "C": "Crafted Items",
+    "A": "Advanced Materials",
+    "E": "Energy Resources",
+    "S": "Special Resources",
+    "K": "Knowledge Resources"
+  },
+  "resource_codes": {
+    "B-001": {
+      "name": "Wood",
+      "description": "Basic building material harvested from trees",
+      "category": "Basic Materials",
+      "units": "logs",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "stone_age",
+      "renewable": true
+    },
+    "B-002": {
+      "name": "Stone",
+      "description": "Hard mineral material used for tools and construction",
+      "category": "Basic Materials",
+      "units": "pieces",
+      "storage_requirements": "none",
+      "decay_rate": "none",
+      "first_available": "stone_age",
+      "renewable": false
+    },
+    "B-003": {
+      "name": "Clay",
+      "description": "Malleable earth material used for pottery and construction",
+      "category": "Basic Materials",
+      "units": "chunks",
+      "storage_requirements": "covered area",
+      "decay_rate": "none",
+      "first_available": "stone_age",
+      "renewable": true
+    },
+    "B-004": {
+      "name": "Fiber",
+      "description": "Plant fibers used for cordage and textiles",
+      "category": "Basic Materials",
+      "units": "bundles",
+      "storage_requirements": "dry area",
+      "decay_rate": "medium",
+      "first_available": "stone_age",
+      "renewable": true
+    },
+    "B-005": {
+      "name": "Hide",
+      "description": "Animal skin used for clothing and containers",
+      "category": "Basic Materials",
+      "units": "pieces",
+      "storage_requirements": "dry area",
+      "decay_rate": "high",
+      "first_available": "stone_age",
+      "renewable": true
+    },
+    "B-006": {
+      "name": "Bone",
+      "description": "Animal bones used for tools and crafts",
+      "category": "Basic Materials",
+      "units": "pieces",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "stone_age",
+      "renewable": true
+    },
+    "F-001": {
+      "name": "Berries",
+      "description": "Wild berries gathered from plants",
+      "category": "Food Resources",
+      "units": "handfuls",
+      "storage_requirements": "cool area",
+      "decay_rate": "very high",
+      "first_available": "stone_age",
+      "renewable": true,
+      "nutritional_value": "low"
+    },
+    "F-002": {
+      "name": "Nuts",
+      "description": "Protein-rich nuts gathered from trees",
+      "category": "Food Resources",
+      "units": "handfuls",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "stone_age",
+      "renewable": true,
+      "nutritional_value": "high"
+    },
+    "F-003": {
+      "name": "Roots",
+      "description": "Edible roots and tubers dug from the ground",
+      "category": "Food Resources",
+      "units": "pieces",
+      "storage_requirements": "cool, dry area",
+      "decay_rate": "medium",
+      "first_available": "stone_age",
+      "renewable": true,
+      "nutritional_value": "medium"
+    },
+    "F-004": {
+      "name": "Game Meat",
+      "description": "Meat from hunted animals",
+      "category": "Food Resources",
+      "units": "portions",
+      "storage_requirements": "cool area",
+      "decay_rate": "very high",
+      "first_available": "stone_age",
+      "renewable": true,
+      "nutritional_value": "high"
+    },
+    "F-005": {
+      "name": "Fish",
+      "description": "Fish caught from bodies of water",
+      "category": "Food Resources",
+      "units": "pieces",
+      "storage_requirements": "cool area",
+      "decay_rate": "very high",
+      "first_available": "stone_age",
+      "renewable": true,
+      "nutritional_value": "high"
+    },
+    "F-006": {
+      "name": "Grain",
+      "description": "Cultivated cereal crops",
+      "category": "Food Resources",
+      "units": "baskets",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "stone_age",
+      "renewable": true,
+      "nutritional_value": "medium",
+      "requires_agriculture": true
+    },
+    "M-001": {
+      "name": "Copper Ore",
+      "description": "Raw copper-bearing rock",
+      "category": "Metals and Minerals",
+      "units": "chunks",
+      "storage_requirements": "none",
+      "decay_rate": "none",
+      "first_available": "bronze_age",
+      "renewable": false
+    },
+    "M-002": {
+      "name": "Tin Ore",
+      "description": "Raw tin-bearing rock",
+      "category": "Metals and Minerals",
+      "units": "chunks",
+      "storage_requirements": "none",
+      "decay_rate": "none",
+      "first_available": "bronze_age",
+      "renewable": false
+    },
+    "M-003": {
+      "name": "Iron Ore",
+      "description": "Raw iron-bearing rock",
+      "category": "Metals and Minerals",
+      "units": "chunks",
+      "storage_requirements": "none",
+      "decay_rate": "none",
+      "first_available": "iron_age",
+      "renewable": false
+    },
+    "M-004": {
+      "name": "Copper",
+      "description": "Refined copper metal",
+      "category": "Metals and Minerals",
+      "units": "ingots",
+      "storage_requirements": "dry area",
+      "decay_rate": "very low",
+      "first_available": "bronze_age",
+      "renewable": false,
+      "refined": true
+    },
+    "M-005": {
+      "name": "Tin",
+      "description": "Refined tin metal",
+      "category": "Metals and Minerals",
+      "units": "ingots",
+      "storage_requirements": "dry area",
+      "decay_rate": "very low",
+      "first_available": "bronze_age",
+      "renewable": false,
+      "refined": true
+    },
+    "M-006": {
+      "name": "Bronze",
+      "description": "Copper-tin alloy",
+      "category": "Metals and Minerals",
+      "units": "ingots",
+      "storage_requirements": "dry area",
+      "decay_rate": "very low",
+      "first_available": "bronze_age",
+      "renewable": false,
+      "refined": true,
+      "alloy": true
+    },
+    "M-007": {
+      "name": "Iron",
+      "description": "Refined iron metal",
+      "category": "Metals and Minerals",
+      "units": "ingots",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "iron_age",
+      "renewable": false,
+      "refined": true
+    },
+    "C-001": {
+      "name": "Stone Tools",
+      "description": "Basic tools made from stone",
+      "category": "Crafted Items",
+      "units": "sets",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "stone_age",
+      "renewable": true,
+      "crafted": true
+    },
+    "C-002": {
+      "name": "Bone Tools",
+      "description": "Tools crafted from animal bones",
+      "category": "Crafted Items",
+      "units": "sets",
+      "storage_requirements": "dry area",
+      "decay_rate": "medium",
+      "first_available": "stone_age",
+      "renewable": true,
+      "crafted": true
+    },
+    "C-003": {
+      "name": "Pottery",
+      "description": "Containers made from fired clay",
+      "category": "Crafted Items",
+      "units": "pieces",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "stone_age",
+      "renewable": true,
+      "crafted": true
+    },
+    "C-004": {
+      "name": "Baskets",
+      "description": "Containers woven from plant fibers",
+      "category": "Crafted Items",
+      "units": "pieces",
+      "storage_requirements": "dry area",
+      "decay_rate": "medium",
+      "first_available": "stone_age",
+      "renewable": true,
+      "crafted": true
+    },
+    "C-005": {
+      "name": "Leather",
+      "description": "Processed animal hide",
+      "category": "Crafted Items",
+      "units": "pieces",
+      "storage_requirements": "dry area",
+      "decay_rate": "medium",
+      "first_available": "stone_age",
+      "renewable": true,
+      "crafted": true
+    },
+    "C-006": {
+      "name": "Clothing",
+      "description": "Garments made from leather or fiber",
+      "category": "Crafted Items",
+      "units": "sets",
+      "storage_requirements": "dry area",
+      "decay_rate": "medium",
+      "first_available": "stone_age",
+      "renewable": true,
+      "crafted": true
+    },
+    "C-007": {
+      "name": "Bronze Tools",
+      "description": "Tools made from bronze",
+      "category": "Crafted Items",
+      "units": "sets",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "bronze_age",
+      "renewable": false,
+      "crafted": true
+    },
+    "C-008": {
+      "name": "Bronze Weapons",
+      "description": "Weapons made from bronze",
+      "category": "Crafted Items",
+      "units": "sets",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "bronze_age",
+      "renewable": false,
+      "crafted": true
+    },
+    "C-009": {
+      "name": "Iron Tools",
+      "description": "Tools made from iron",
+      "category": "Crafted Items",
+      "units": "sets",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "iron_age",
+      "renewable": false,
+      "crafted": true
+    },
+    "C-010": {
+      "name": "Iron Weapons",
+      "description": "Weapons made from iron",
+      "category": "Crafted Items",
+      "units": "sets",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "iron_age",
+      "renewable": false,
+      "crafted": true
+    },
+    "E-001": {
+      "name": "Firewood",
+      "description": "Processed wood for fuel",
+      "category": "Energy Resources",
+      "units": "bundles",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "stone_age",
+      "renewable": true
+    },
+    "E-002": {
+      "name": "Charcoal",
+      "description": "Processed wood with higher energy content",
+      "category": "Energy Resources",
+      "units": "sacks",
+      "storage_requirements": "dry area",
+      "decay_rate": "very low",
+      "first_available": "bronze_age",
+      "renewable": true,
+      "crafted": true
+    },
+    "E-003": {
+      "name": "Coal",
+      "description": "Fossil fuel with high energy content",
+      "category": "Energy Resources",
+      "units": "chunks",
+      "storage_requirements": "dry area",
+      "decay_rate": "none",
+      "first_available": "iron_age",
+      "renewable": false
+    },
+    "S-001": {
+      "name": "Medicinal Herbs",
+      "description": "Plants with healing properties",
+      "category": "Special Resources",
+      "units": "bundles",
+      "storage_requirements": "dry, cool area",
+      "decay_rate": "high",
+      "first_available": "stone_age",
+      "renewable": true,
+      "special_use": "healing"
+    },
+    "S-002": {
+      "name": "Pigments",
+      "description": "Natural materials for coloring",
+      "category": "Special Resources",
+      "units": "pouches",
+      "storage_requirements": "dry area",
+      "decay_rate": "low",
+      "first_available": "stone_age",
+      "renewable": true,
+      "special_use": "art"
+    },
+    "S-003": {
+      "name": "Salt",
+      "description": "Mineral used for food preservation and flavor",
+      "category": "Special Resources",
+      "units": "pouches",
+      "storage_requirements": "dry area",
+      "decay_rate": "none",
+      "first_available": "stone_age",
+      "renewable": false,
+      "special_use": "preservation"
+    },
+    "K-001": {
+      "name": "Oral Tradition",
+      "description": "Knowledge passed through storytelling",
+      "category": "Knowledge Resources",
+      "units": "stories",
+      "storage_requirements": "community memory",
+      "decay_rate": "medium",
+      "first_available": "stone_age",
+      "renewable": true,
+      "knowledge_type": "cultural"
+    },
+    "K-002": {
+      "name": "Practical Skills",
+      "description": "Knowledge of crafting and survival techniques",
+      "category": "Knowledge Resources",
+      "units": "techniques",
+      "storage_requirements": "demonstration",
+      "decay_rate": "low",
+      "first_available": "stone_age",
+      "renewable": true,
+      "knowledge_type": "technical"
+    },
+    "K-003": {
+      "name": "Environmental Knowledge",
+      "description": "Understanding of local terrain and resources",
+      "category": "Knowledge Resources",
+      "units": "observations",
+      "storage_requirements": "community memory",
+      "decay_rate": "low",
+      "first_available": "stone_age",
+      "renewable": true,
+      "knowledge_type": "natural"
+    }
+  },
+  "resource_properties": {
+    "decay_rates": {
+      "none": 0.0,
+      "very_low": 0.001,
+      "low": 0.01,
+      "medium": 0.05,
+      "high": 0.1,
+      "very_high": 0.2
+    },
+    "nutritional_values": {
+      "very_low": 1,
+      "low": 2,
+      "medium": 3,
+      "high": 5,
+      "very_high": 8
+    },
+    "storage_modifiers": {
+      "proper_storage": 0.2,
+      "improper_storage": 1.5,
+      "no_storage": 2.0
+    }
+  },
+  "resource_dependencies": {
+    "tool_requirements": {
+      "B-001": [],
+      "B-002": [],
+      "B-003": ["digging_stick"],
+      "B-004": [],
+      "B-005": ["stone_knife"],
+      "B-006": ["stone_knife"],
+      "F-001": [],
+      "F-002": [],
+      "F-003": ["digging_stick"],
+      "F-004": ["spear", "bow", "trap"],
+      "F-005": ["fishing_spear", "fishing_line", "fishing_net"],
+      "F-006": ["digging_stick", "plow"],
+      "M-001": ["stone_pickaxe", "bronze_pickaxe"],
+      "M-002": ["stone_pickaxe", "bronze_pickaxe"],
+      "M-003": ["bronze_pickaxe", "iron_pickaxe"],
+      "E-001": ["stone_axe", "bronze_axe", "iron_axe"],
+      "S-001": [],
+      "S-002": [],
+      "S-003": []
+    },
+    "knowledge_requirements": {
+      "M-004": ["basic_metallurgy"],
+      "M-005": ["basic_metallurgy"],
+      "M-006": ["bronze_working"],
+      "M-007": ["iron_working"],
+      "C-003": ["pottery"],
+      "C-007": ["bronze_working"],
+      "C-008": ["bronze_working", "weapon_smithing"],
+      "C-009": ["iron_working"],
+      "C-010": ["iron_working", "weapon_smithing"],
+      "E-002": ["charcoal_making"],
+      "S-001": ["basic_medicine"]
+    }
+  }
+}

@@ -1,0 +1,610 @@
+{
+  "crafting_categories": {
+    "tools": "Tool Creation",
+    "weapons": "Weapon Crafting",
+    "containers": "Container Making",
+    "clothing": "Clothing Production",
+    "construction": "Building Materials",
+    "food_processing": "Food Processing",
+    "metallurgy": "Metal Working",
+    "medicine": "Medical Preparations",
+    "special": "Special Items"
+  },
+  "recipes": {
+    "digging_stick": {
+      "category": "tools",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-001", "amount": 1}
+      ],
+      "tools_required": ["stone_knife", "stone_axe"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 1,
+      "skill_difficulty": "very_low",
+      "output": {"resource": "digging_stick", "amount": 1},
+      "byproducts": []
+    },
+    "stone_knife": {
+      "category": "tools",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-002", "amount": 1},
+        {"resource": "B-001", "amount": 1, "optional": true}
+      ],
+      "tools_required": [],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 2,
+      "skill_difficulty": "low",
+      "output": {"resource": "stone_knife", "amount": 1},
+      "byproducts": [{"resource": "B-002", "amount": 0.5, "chance": 0.5}]
+    },
+    "stone_axe": {
+      "category": "tools",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-002", "amount": 1},
+        {"resource": "B-001", "amount": 1}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 3,
+      "skill_difficulty": "low",
+      "output": {"resource": "stone_axe", "amount": 1},
+      "byproducts": []
+    },
+    "stone_hammer": {
+      "category": "tools",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-002", "amount": 1},
+        {"resource": "B-001", "amount": 1}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 2,
+      "skill_difficulty": "low",
+      "output": {"resource": "stone_hammer", "amount": 1},
+      "byproducts": []
+    },
+    "stone_pickaxe": {
+      "category": "tools",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-002", "amount": 2},
+        {"resource": "B-001", "amount": 1},
+        {"resource": "B-004", "amount": 1}
+      ],
+      "tools_required": ["stone_knife", "stone_hammer"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 4,
+      "skill_difficulty": "medium",
+      "output": {"resource": "stone_pickaxe", "amount": 1},
+      "byproducts": []
+    },
+    "spear": {
+      "category": "weapons",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-001", "amount": 1},
+        {"resource": "B-002", "amount": 1}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 3,
+      "skill_difficulty": "low",
+      "output": {"resource": "spear", "amount": 1},
+      "byproducts": []
+    },
+    "bow": {
+      "category": "weapons",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-001", "amount": 1},
+        {"resource": "B-004", "amount": 1}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 5,
+      "skill_difficulty": "medium",
+      "output": {"resource": "bow", "amount": 1},
+      "byproducts": []
+    },
+    "arrows": {
+      "category": "weapons",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-001", "amount": 1},
+        {"resource": "B-002", "amount": 1},
+        {"resource": "B-004", "amount": 0.5}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 3,
+      "skill_difficulty": "medium",
+      "output": {"resource": "arrows", "amount": 10},
+      "byproducts": []
+    },
+    "trap": {
+      "category": "tools",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-001", "amount": 2},
+        {"resource": "B-004", "amount": 1}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 4,
+      "skill_difficulty": "medium",
+      "output": {"resource": "trap", "amount": 1},
+      "byproducts": []
+    },
+    "fishing_spear": {
+      "category": "tools",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-001", "amount": 1},
+        {"resource": "B-002", "amount": 1}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 3,
+      "skill_difficulty": "low",
+      "output": {"resource": "fishing_spear", "amount": 1},
+      "byproducts": []
+    },
+    "fishing_line": {
+      "category": "tools",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-004", "amount": 2},
+        {"resource": "B-002", "amount": 0.5}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 2,
+      "skill_difficulty": "low",
+      "output": {"resource": "fishing_line", "amount": 1},
+      "byproducts": []
+    },
+    "fishing_net": {
+      "category": "tools",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-004", "amount": 4},
+        {"resource": "B-001", "amount": 1}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 6,
+      "skill_difficulty": "medium",
+      "output": {"resource": "fishing_net", "amount": 1},
+      "byproducts": []
+    },
+    "leather": {
+      "category": "clothing",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-005", "amount": 1},
+        {"resource": "S-003", "amount": 0.5, "optional": true}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 5,
+      "skill_difficulty": "medium",
+      "output": {"resource": "C-005", "amount": 1},
+      "byproducts": []
+    },
+    "clothing_basic": {
+      "category": "clothing",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "C-005", "amount": 2},
+        {"resource": "B-004", "amount": 1}
+      ],
+      "tools_required": ["stone_knife", "bone_needle"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 8,
+      "skill_difficulty": "medium",
+      "output": {"resource": "C-006", "amount": 1},
+      "byproducts": [{"resource": "C-005", "amount": 0.5, "chance": 0.3}]
+    },
+    "bone_needle": {
+      "category": "tools",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-006", "amount": 0.5}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 2,
+      "skill_difficulty": "medium",
+      "output": {"resource": "bone_needle", "amount": 1},
+      "byproducts": []
+    },
+    "pottery": {
+      "category": "containers",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-003", "amount": 2},
+        {"resource": "S-002", "amount": 0.5, "optional": true}
+      ],
+      "tools_required": [],
+      "knowledge_required": ["pottery"],
+      "facility_required": "fire_pit",
+      "labor_time": 6,
+      "skill_difficulty": "medium",
+      "output": {"resource": "C-003", "amount": 1},
+      "byproducts": []
+    },
+    "basket": {
+      "category": "containers",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-004", "amount": 3}
+      ],
+      "tools_required": [],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 4,
+      "skill_difficulty": "medium",
+      "output": {"resource": "C-004", "amount": 1},
+      "byproducts": []
+    },
+    "fire_pit": {
+      "category": "construction",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-002", "amount": 10}
+      ],
+      "tools_required": [],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 5,
+      "skill_difficulty": "low",
+      "output": {"resource": "fire_pit", "amount": 1},
+      "byproducts": []
+    },
+    "charcoal": {
+      "category": "metallurgy",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "B-001", "amount": 5}
+      ],
+      "tools_required": ["stone_axe"],
+      "knowledge_required": ["charcoal_making"],
+      "facility_required": "fire_pit",
+      "labor_time": 10,
+      "skill_difficulty": "medium",
+      "output": {"resource": "E-002", "amount": 2},
+      "byproducts": [{"resource": "S-002", "amount": 0.5, "chance": 0.2}]
+    },
+    "furnace": {
+      "category": "metallurgy",
+      "era": "bronze_age",
+      "inputs": [
+        {"resource": "B-002", "amount": 15},
+        {"resource": "B-003", "amount": 5}
+      ],
+      "tools_required": ["stone_hammer"],
+      "knowledge_required": ["basic_metallurgy"],
+      "facility_required": "fire_pit",
+      "labor_time": 15,
+      "skill_difficulty": "high",
+      "output": {"resource": "furnace", "amount": 1},
+      "byproducts": []
+    },
+    "copper": {
+      "category": "metallurgy",
+      "era": "bronze_age",
+      "inputs": [
+        {"resource": "M-001", "amount": 3},
+        {"resource": "E-002", "amount": 2}
+      ],
+      "tools_required": [],
+      "knowledge_required": ["basic_metallurgy"],
+      "facility_required": "furnace",
+      "labor_time": 8,
+      "skill_difficulty": "high",
+      "output": {"resource": "M-004", "amount": 1},
+      "byproducts": [{"resource": "B-002", "amount": 1, "chance": 0.8}]
+    },
+    "tin": {
+      "category": "metallurgy",
+      "era": "bronze_age",
+      "inputs": [
+        {"resource": "M-002", "amount": 3},
+        {"resource": "E-002", "amount": 2}
+      ],
+      "tools_required": [],
+      "knowledge_required": ["basic_metallurgy"],
+      "facility_required": "furnace",
+      "labor_time": 8,
+      "skill_difficulty": "high",
+      "output": {"resource": "M-005", "amount": 1},
+      "byproducts": [{"resource": "B-002", "amount": 1, "chance": 0.8}]
+    },
+    "bronze": {
+      "category": "metallurgy",
+      "era": "bronze_age",
+      "inputs": [
+        {"resource": "M-004", "amount": 3},
+        {"resource": "M-005", "amount": 1},
+        {"resource": "E-002", "amount": 1}
+      ],
+      "tools_required": [],
+      "knowledge_required": ["bronze_working"],
+      "facility_required": "furnace",
+      "labor_time": 6,
+      "skill_difficulty": "high",
+      "output": {"resource": "M-006", "amount": 3},
+      "byproducts": []
+    },
+    "bronze_tools": {
+      "category": "tools",
+      "era": "bronze_age",
+      "inputs": [
+        {"resource": "M-006", "amount": 2},
+        {"resource": "B-001", "amount": 1}
+      ],
+      "tools_required": ["stone_hammer"],
+      "knowledge_required": ["bronze_working"],
+      "facility_required": "furnace",
+      "labor_time": 10,
+      "skill_difficulty": "high",
+      "output": {"resource": "C-007", "amount": 1},
+      "byproducts": []
+    },
+    "bronze_weapons": {
+      "category": "weapons",
+      "era": "bronze_age",
+      "inputs": [
+        {"resource": "M-006", "amount": 3},
+        {"resource": "B-001", "amount": 1},
+        {"resource": "B-004", "amount": 1}
+      ],
+      "tools_required": ["stone_hammer"],
+      "knowledge_required": ["bronze_working", "weapon_smithing"],
+      "facility_required": "furnace",
+      "labor_time": 12,
+      "skill_difficulty": "very_high",
+      "output": {"resource": "C-008", "amount": 1},
+      "byproducts": []
+    },
+    "bronze_pickaxe": {
+      "category": "tools",
+      "era": "bronze_age",
+      "inputs": [
+        {"resource": "M-006", "amount": 2},
+        {"resource": "B-001", "amount": 1}
+      ],
+      "tools_required": ["stone_hammer"],
+      "knowledge_required": ["bronze_working"],
+      "facility_required": "furnace",
+      "labor_time": 10,
+      "skill_difficulty": "high",
+      "output": {"resource": "bronze_pickaxe", "amount": 1},
+      "byproducts": []
+    },
+    "advanced_furnace": {
+      "category": "metallurgy",
+      "era": "iron_age",
+      "inputs": [
+        {"resource": "B-002", "amount": 20},
+        {"resource": "B-003", "amount": 10},
+        {"resource": "M-006", "amount": 2}
+      ],
+      "tools_required": ["bronze_tools"],
+      "knowledge_required": ["iron_working"],
+      "facility_required": "furnace",
+      "labor_time": 20,
+      "skill_difficulty": "very_high",
+      "output": {"resource": "advanced_furnace", "amount": 1},
+      "byproducts": []
+    },
+    "iron": {
+      "category": "metallurgy",
+      "era": "iron_age",
+      "inputs": [
+        {"resource": "M-003", "amount": 3},
+        {"resource": "E-002", "amount": 3},
+        {"resource": "E-003", "amount": 1}
+      ],
+      "tools_required": ["bronze_tools"],
+      "knowledge_required": ["iron_working"],
+      "facility_required": "advanced_furnace",
+      "labor_time": 12,
+      "skill_difficulty": "very_high",
+      "output": {"resource": "M-007", "amount": 1},
+      "byproducts": [{"resource": "B-002", "amount": 1, "chance": 0.9}]
+    },
+    "iron_tools": {
+      "category": "tools",
+      "era": "iron_age",
+      "inputs": [
+        {"resource": "M-007", "amount": 2},
+        {"resource": "B-001", "amount": 1}
+      ],
+      "tools_required": ["bronze_tools"],
+      "knowledge_required": ["iron_working"],
+      "facility_required": "advanced_furnace",
+      "labor_time": 12,
+      "skill_difficulty": "very_high",
+      "output": {"resource": "C-009", "amount": 1},
+      "byproducts": []
+    },
+    "iron_weapons": {
+      "category": "weapons",
+      "era": "iron_age",
+      "inputs": [
+        {"resource": "M-007", "amount": 3},
+        {"resource": "B-001", "amount": 1},
+        {"resource": "B-004", "amount": 1}
+      ],
+      "tools_required": ["bronze_tools"],
+      "knowledge_required": ["iron_working", "weapon_smithing"],
+      "facility_required": "advanced_furnace",
+      "labor_time": 15,
+      "skill_difficulty": "very_high",
+      "output": {"resource": "C-010", "amount": 1},
+      "byproducts": []
+    },
+    "iron_pickaxe": {
+      "category": "tools",
+      "era": "iron_age",
+      "inputs": [
+        {"resource": "M-007", "amount": 2},
+        {"resource": "B-001", "amount": 1}
+      ],
+      "tools_required": ["bronze_tools"],
+      "knowledge_required": ["iron_working"],
+      "facility_required": "advanced_furnace",
+      "labor_time": 12,
+      "skill_difficulty": "very_high",
+      "output": {"resource": "iron_pickaxe", "amount": 1},
+      "byproducts": []
+    },
+    "plow": {
+      "category": "tools",
+      "era": "bronze_age",
+      "inputs": [
+        {"resource": "B-001", "amount": 3},
+        {"resource": "M-006", "amount": 2}
+      ],
+      "tools_required": ["bronze_tools"],
+      "knowledge_required": ["advanced_agriculture"],
+      "facility_required": "",
+      "labor_time": 15,
+      "skill_difficulty": "high",
+      "output": {"resource": "plow", "amount": 1},
+      "byproducts": []
+    },
+    "medicine_basic": {
+      "category": "medicine",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "S-001", "amount": 2},
+        {"resource": "S-003", "amount": 0.5, "optional": true},
+        {"resource": "F-001", "amount": 1, "optional": true}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": ["basic_medicine"],
+      "facility_required": "fire_pit",
+      "labor_time": 5,
+      "skill_difficulty": "medium",
+      "output": {"resource": "medicine_basic", "amount": 3},
+      "byproducts": []
+    },
+    "preserved_food": {
+      "category": "food_processing",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "F-004", "amount": 3, "alternatives": ["F-005"]},
+        {"resource": "S-003", "amount": 1}
+      ],
+      "tools_required": ["stone_knife"],
+      "knowledge_required": [],
+      "facility_required": "fire_pit",
+      "labor_time": 8,
+      "skill_difficulty": "medium",
+      "output": {"resource": "preserved_food", "amount": 6},
+      "byproducts": []
+    },
+    "dried_fruits": {
+      "category": "food_processing",
+      "era": "stone_age",
+      "inputs": [
+        {"resource": "F-001", "amount": 5}
+      ],
+      "tools_required": [],
+      "knowledge_required": [],
+      "facility_required": "",
+      "labor_time": 6,
+      "skill_difficulty": "low",
+      "output": {"resource": "dried_fruits", "amount": 3},
+      "byproducts": []
+    }
+  },
+  "skill_difficulty_levels": {
+    "very_low": {
+      "base_success_rate": 0.95,
+      "skill_impact": 0.05,
+      "failure_resource_loss": 0.1,
+      "critical_success_chance": 0.05,
+      "critical_failure_chance": 0.01
+    },
+    "low": {
+      "base_success_rate": 0.9,
+      "skill_impact": 0.1,
+      "failure_resource_loss": 0.2,
+      "critical_success_chance": 0.1,
+      "critical_failure_chance": 0.02
+    },
+    "medium": {
+      "base_success_rate": 0.8,
+      "skill_impact": 0.15,
+      "failure_resource_loss": 0.3,
+      "critical_success_chance": 0.15,
+      "critical_failure_chance": 0.05
+    },
+    "high": {
+      "base_success_rate": 0.7,
+      "skill_impact": 0.2,
+      "failure_resource_loss": 0.4,
+      "critical_success_chance": 0.2,
+      "critical_failure_chance": 0.1
+    },
+    "very_high": {
+      "base_success_rate": 0.6,
+      "skill_impact": 0.3,
+      "failure_resource_loss": 0.5,
+      "critical_success_chance": 0.25,
+      "critical_failure_chance": 0.15
+    }
+  },
+  "critical_outcomes": {
+    "success": {
+      "extra_output": {
+        "min": 0.5,
+        "max": 1.0
+      },
+      "quality_bonus": {
+        "min": 0.1,
+        "max": 0.3
+      },
+      "time_saved": {
+        "min": 0.2,
+        "max": 0.5
+      }
+    },
+    "failure": {
+      "resource_loss": {
+        "min": 0.5,
+        "max": 1.0
+      },
+      "tool_damage": {
+        "min": 0.1,
+        "max": 0.5,
+        "chance": 0.5
+      },
+      "injury_chance": {
+        "min": 0.1,
+        "max": 0.3
+      }
+    }
+  }
+}
