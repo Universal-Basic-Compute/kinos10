@@ -1,0 +1,501 @@
+{
+  "action_categories": {
+    "G": "Gathering",
+    "H": "Hunting",
+    "F": "Fishing",
+    "M": "Mining",
+    "W": "Woodworking",
+    "A": "Agriculture",
+    "C": "Construction",
+    "T": "Tool-making",
+    "S": "Social",
+    "R": "Research",
+    "E": "Exploration",
+    "D": "Defense",
+    "P": "Production",
+    "V": "Advanced"
+  },
+  "action_codes": {
+    "G-001": {
+      "name": "Basic Foraging",
+      "description": "Gather berries, fruits, nuts, and edible plants from the surrounding area",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["E", "F", "G", "J", "S", "T"],
+        "resources": [],
+        "tools": []
+      },
+      "outcomes": {
+        "food": "low",
+        "knowledge": "very_low"
+      },
+      "risks": {
+        "injury": "very_low",
+        "disease": "low"
+      }
+    },
+    "G-002": {
+      "name": "Root Gathering",
+      "description": "Dig for edible roots and tubers",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["E", "G", "M", "S"],
+        "resources": [],
+        "tools": ["digging_stick"]
+      },
+      "outcomes": {
+        "food": "low",
+        "knowledge": "very_low"
+      },
+      "risks": {
+        "injury": "low",
+        "disease": "very_low"
+      }
+    },
+    "G-003": {
+      "name": "Medicinal Plant Collection",
+      "description": "Gather plants with medicinal properties",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["E", "F", "J", "M", "T"],
+        "resources": [],
+        "tools": [],
+        "knowledge": ["basic_medicine"]
+      },
+      "outcomes": {
+        "medicine": "low",
+        "knowledge": "low"
+      },
+      "risks": {
+        "injury": "very_low",
+        "disease": "low",
+        "poisoning": "medium"
+      }
+    },
+    "H-001": {
+      "name": "Small Game Hunting",
+      "description": "Hunt small animals like rabbits and squirrels",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["E", "F", "G", "S", "T"],
+        "resources": [],
+        "tools": ["spear", "bow", "trap"]
+      },
+      "outcomes": {
+        "food": "medium",
+        "hide": "very_low",
+        "knowledge": "low"
+      },
+      "risks": {
+        "injury": "low"
+      }
+    },
+    "H-002": {
+      "name": "Large Game Hunting",
+      "description": "Hunt larger animals like deer, elk, or boar",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["E", "F", "G", "S", "T"],
+        "resources": [],
+        "tools": ["spear", "bow"],
+        "group_size": 3
+      },
+      "outcomes": {
+        "food": "high",
+        "hide": "medium",
+        "bone": "medium",
+        "knowledge": "medium"
+      },
+      "risks": {
+        "injury": "medium",
+        "death": "low"
+      }
+    },
+    "F-001": {
+      "name": "Shoreline Fishing",
+      "description": "Catch fish from the shoreline using simple tools",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["A", "B", "C", "D"],
+        "resources": [],
+        "tools": ["fishing_spear", "fishing_line"]
+      },
+      "outcomes": {
+        "food": "medium",
+        "knowledge": "low"
+      },
+      "risks": {
+        "injury": "very_low",
+        "drowning": "low"
+      }
+    },
+    "F-002": {
+      "name": "Net Fishing",
+      "description": "Use nets to catch multiple fish",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["A", "B", "C", "D"],
+        "resources": [],
+        "tools": ["fishing_net"],
+        "group_size": 2
+      },
+      "outcomes": {
+        "food": "high",
+        "knowledge": "low"
+      },
+      "risks": {
+        "injury": "low",
+        "drowning": "medium"
+      }
+    },
+    "M-001": {
+      "name": "Surface Stone Collection",
+      "description": "Gather stones from the surface for tools and construction",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["K", "Q", "Y"],
+        "resources": ["stone"],
+        "tools": []
+      },
+      "outcomes": {
+        "stone": "medium",
+        "knowledge": "very_low"
+      },
+      "risks": {
+        "injury": "low"
+      }
+    },
+    "M-002": {
+      "name": "Clay Collection",
+      "description": "Gather clay for pottery and construction",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["A", "B", "D", "M"],
+        "resources": [],
+        "tools": ["digging_stick"]
+      },
+      "outcomes": {
+        "clay": "medium",
+        "knowledge": "very_low"
+      },
+      "risks": {
+        "injury": "very_low"
+      }
+    },
+    "W-001": {
+      "name": "Branch Collection",
+      "description": "Gather branches for tools and shelter",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["E", "F", "J", "T"],
+        "resources": ["wood"],
+        "tools": []
+      },
+      "outcomes": {
+        "wood": "low",
+        "knowledge": "very_low"
+      },
+      "risks": {
+        "injury": "very_low"
+      }
+    },
+    "W-002": {
+      "name": "Tree Felling",
+      "description": "Cut down trees for lumber",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["E", "F", "J", "T"],
+        "resources": ["wood"],
+        "tools": ["stone_axe"],
+        "group_size": 2
+      },
+      "outcomes": {
+        "wood": "high",
+        "knowledge": "low"
+      },
+      "risks": {
+        "injury": "medium",
+        "death": "very_low"
+      }
+    },
+    "A-001": {
+      "name": "Seed Planting",
+      "description": "Plant gathered seeds in suitable soil",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["A", "D", "G", "S"],
+        "resources": ["fertile_soil"],
+        "tools": ["digging_stick"],
+        "knowledge": ["basic_agriculture"]
+      },
+      "outcomes": {
+        "future_food": "medium",
+        "knowledge": "medium"
+      },
+      "risks": {
+        "crop_failure": "high"
+      }
+    },
+    "C-001": {
+      "name": "Temporary Shelter",
+      "description": "Build a simple shelter from branches and leaves",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["E", "F", "G", "J", "S", "T"],
+        "resources": ["wood"],
+        "tools": []
+      },
+      "outcomes": {
+        "shelter": "low",
+        "knowledge": "low"
+      },
+      "risks": {
+        "injury": "low",
+        "shelter_failure": "medium"
+      }
+    },
+    "C-002": {
+      "name": "Permanent Shelter",
+      "description": "Build a more durable shelter using wood, stone, and clay",
+      "requirements": {
+        "era": "stone_age",
+        "terrain_features": ["E", "G", "S"],
+        "resources": ["wood", "stone", "clay"],
+        "tools": ["stone_axe", "stone_hammer"],
+        "group_size": 4,
+        "knowledge": ["basic_construction"]
+      },
+      "outcomes": {
+        "shelter": "medium",
+        "knowledge": "medium"
+      },
+      "risks": {
+        "injury": "medium",
+        "shelter_failure": "low"
+      }
+    },
+    "T-001": {
+      "name": "Stone Tool Making",
+      "description": "Create basic tools from stone",
+      "requirements": {
+        "era": "stone_age",
+        "resources": ["stone"],
+        "tools": []
+      },
+      "outcomes": {
+        "stone_tools": "medium",
+        "knowledge": "medium"
+      },
+      "risks": {
+        "injury": "medium"
+      }
+    },
+    "T-002": {
+      "name": "Bone Tool Making",
+      "description": "Create tools from animal bones",
+      "requirements": {
+        "era": "stone_age",
+        "resources": ["bone"],
+        "tools": ["stone_knife"]
+      },
+      "outcomes": {
+        "bone_tools": "medium",
+        "knowledge": "medium"
+      },
+      "risks": {
+        "injury": "low"
+      }
+    },
+    "S-001": {
+      "name": "Storytelling",
+      "description": "Share stories and knowledge with the group",
+      "requirements": {
+        "era": "stone_age",
+        "group_size": 3
+      },
+      "outcomes": {
+        "morale": "medium",
+        "knowledge_sharing": "medium",
+        "culture": "low"
+      },
+      "risks": {}
+    },
+    "R-001": {
+      "name": "Environment Observation",
+      "description": "Carefully observe the surrounding environment",
+      "requirements": {
+        "era": "stone_age"
+      },
+      "outcomes": {
+        "knowledge": "medium",
+        "discovery_chance": "low"
+      },
+      "risks": {}
+    },
+    "E-001": {
+      "name": "Local Exploration",
+      "description": "Explore the immediate surroundings",
+      "requirements": {
+        "era": "stone_age"
+      },
+      "outcomes": {
+        "map_knowledge": "low",
+        "resource_discovery": "medium"
+      },
+      "risks": {
+        "injury": "low",
+        "getting_lost": "low"
+      }
+    },
+    "D-001": {
+      "name": "Perimeter Watch",
+      "description": "Keep watch for dangers around the settlement",
+      "requirements": {
+        "era": "stone_age",
+        "tools": ["spear"]
+      },
+      "outcomes": {
+        "security": "medium",
+        "knowledge": "low"
+      },
+      "risks": {
+        "injury": "low"
+      }
+    }
+  },
+  "bronze_age_actions": {
+    "M-101": {
+      "name": "Copper Mining",
+      "description": "Extract copper ore from deposits",
+      "requirements": {
+        "era": "bronze_age",
+        "terrain_features": ["Q", "L"],
+        "resources": ["copper"],
+        "tools": ["pickaxe"],
+        "group_size": 3
+      },
+      "outcomes": {
+        "copper_ore": "medium",
+        "knowledge": "medium"
+      },
+      "risks": {
+        "injury": "high",
+        "death": "low"
+      }
+    },
+    "P-101": {
+      "name": "Copper Smelting",
+      "description": "Smelt copper ore into usable metal",
+      "requirements": {
+        "era": "bronze_age",
+        "resources": ["copper_ore", "wood"],
+        "tools": ["furnace"],
+        "knowledge": ["basic_metallurgy"]
+      },
+      "outcomes": {
+        "copper": "medium",
+        "knowledge": "medium"
+      },
+      "risks": {
+        "injury": "medium",
+        "fire": "medium"
+      }
+    },
+    "P-102": {
+      "name": "Bronze Alloying",
+      "description": "Create bronze by alloying copper with tin",
+      "requirements": {
+        "era": "bronze_age",
+        "resources": ["copper", "tin"],
+        "tools": ["furnace"],
+        "knowledge": ["bronze_working"]
+      },
+      "outcomes": {
+        "bronze": "medium",
+        "knowledge": "medium"
+      },
+      "risks": {
+        "injury": "medium",
+        "fire": "medium"
+      }
+    },
+    "A-101": {
+      "name": "Field Cultivation",
+      "description": "Cultivate larger fields for crop production",
+      "requirements": {
+        "era": "bronze_age",
+        "terrain_features": ["A", "D", "G", "S"],
+        "resources": ["fertile_soil"],
+        "tools": ["plow"],
+        "knowledge": ["advanced_agriculture"],
+        "group_size": 5
+      },
+      "outcomes": {
+        "future_food": "high",
+        "knowledge": "medium"
+      },
+      "risks": {
+        "injury": "low",
+        "crop_failure": "medium"
+      }
+    }
+  },
+  "iron_age_actions": {
+    "M-201": {
+      "name": "Iron Mining",
+      "description": "Extract iron ore from deposits",
+      "requirements": {
+        "era": "iron_age",
+        "terrain_features": ["Q", "L"],
+        "resources": ["iron"],
+        "tools": ["bronze_pickaxe"],
+        "group_size": 4
+      },
+      "outcomes": {
+        "iron_ore": "medium",
+        "knowledge": "medium"
+      },
+      "risks": {
+        "injury": "high",
+        "death": "medium"
+      }
+    },
+    "P-201": {
+      "name": "Iron Smelting",
+      "description": "Smelt iron ore into usable metal",
+      "requirements": {
+        "era": "iron_age",
+        "resources": ["iron_ore", "coal"],
+        "tools": ["advanced_furnace"],
+        "knowledge": ["iron_working"]
+      },
+      "outcomes": {
+        "iron": "medium",
+        "knowledge": "medium"
+      },
+      "risks": {
+        "injury": "medium",
+        "fire": "medium"
+      }
+    },
+    "C-201": {
+      "name": "Stone Fortification",
+      "description": "Build defensive walls and structures from stone",
+      "requirements": {
+        "era": "iron_age",
+        "resources": ["stone"],
+        "tools": ["iron_tools"],
+        "group_size": 10,
+        "knowledge": ["masonry"]
+      },
+      "outcomes": {
+        "defense": "high",
+        "shelter": "high",
+        "knowledge": "medium"
+      },
+      "risks": {
+        "injury": "medium"
+      }
+    }
+  }
+}

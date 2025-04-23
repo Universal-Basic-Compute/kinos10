@@ -1,0 +1,191 @@
+{
+  "technology_prerequisites": {
+    "basic_agriculture": {
+      "required_actions": ["G-001", "R-001"],
+      "required_observations": ["seasonal_patterns", "plant_growth"],
+      "unlock_actions": ["A-001"]
+    },
+    "basic_construction": {
+      "required_actions": ["C-001", "W-001", "M-001"],
+      "required_tools": ["stone_axe", "stone_hammer"],
+      "unlock_actions": ["C-002"]
+    },
+    "basic_medicine": {
+      "required_actions": ["G-001", "R-001"],
+      "required_observations": ["plant_properties", "disease_patterns"],
+      "unlock_actions": ["G-003"]
+    },
+    "basic_metallurgy": {
+      "required_actions": ["M-001", "R-001"],
+      "required_observations": ["ore_properties", "fire_effects"],
+      "unlock_actions": ["M-101", "P-101"]
+    },
+    "bronze_working": {
+      "required_actions": ["P-101", "R-001"],
+      "required_resources": ["copper", "tin"],
+      "unlock_actions": ["P-102"]
+    },
+    "advanced_agriculture": {
+      "required_actions": ["A-001", "R-001"],
+      "required_tools": ["plow"],
+      "unlock_actions": ["A-101"]
+    },
+    "iron_working": {
+      "required_actions": ["P-102", "R-001"],
+      "required_observations": ["iron_ore_properties", "high_temperature_effects"],
+      "unlock_actions": ["M-201", "P-201"]
+    },
+    "masonry": {
+      "required_actions": ["C-002", "M-001"],
+      "required_tools": ["iron_tools"],
+      "unlock_actions": ["C-201"]
+    }
+  },
+  "tool_prerequisites": {
+    "digging_stick": {
+      "required_resources": ["wood"],
+      "required_actions": ["W-001"],
+      "unlock_actions": ["G-002", "M-002"]
+    },
+    "stone_knife": {
+      "required_resources": ["stone"],
+      "required_actions": ["T-001"],
+      "unlock_actions": ["T-002"]
+    },
+    "stone_axe": {
+      "required_resources": ["stone", "wood"],
+      "required_actions": ["T-001", "W-001"],
+      "unlock_actions": ["W-002"]
+    },
+    "stone_hammer": {
+      "required_resources": ["stone", "wood"],
+      "required_actions": ["T-001", "W-001"],
+      "unlock_actions": ["C-002"]
+    },
+    "spear": {
+      "required_resources": ["wood", "stone"],
+      "required_actions": ["W-001", "T-001"],
+      "unlock_actions": ["H-001", "D-001"]
+    },
+    "bow": {
+      "required_resources": ["wood", "fiber"],
+      "required_actions": ["W-001"],
+      "unlock_actions": ["H-001", "H-002"]
+    },
+    "trap": {
+      "required_resources": ["wood", "fiber"],
+      "required_actions": ["W-001"],
+      "unlock_actions": ["H-001"]
+    },
+    "fishing_spear": {
+      "required_resources": ["wood", "stone"],
+      "required_actions": ["W-001", "T-001"],
+      "unlock_actions": ["F-001"]
+    },
+    "fishing_line": {
+      "required_resources": ["fiber"],
+      "required_actions": ["G-001"],
+      "unlock_actions": ["F-001"]
+    },
+    "fishing_net": {
+      "required_resources": ["fiber"],
+      "required_actions": ["G-001", "F-001"],
+      "unlock_actions": ["F-002"]
+    },
+    "furnace": {
+      "required_resources": ["stone", "clay"],
+      "required_actions": ["M-001", "M-002", "C-002"],
+      "required_knowledge": ["basic_metallurgy"],
+      "unlock_actions": ["P-101", "P-102"]
+    },
+    "plow": {
+      "required_resources": ["wood", "bronze"],
+      "required_actions": ["W-002", "P-102"],
+      "unlock_actions": ["A-101"]
+    },
+    "bronze_pickaxe": {
+      "required_resources": ["wood", "bronze"],
+      "required_actions": ["W-002", "P-102"],
+      "unlock_actions": ["M-201"]
+    },
+    "advanced_furnace": {
+      "required_resources": ["stone", "clay", "bronze"],
+      "required_actions": ["P-102", "C-002"],
+      "required_knowledge": ["iron_working"],
+      "unlock_actions": ["P-201"]
+    },
+    "iron_tools": {
+      "required_resources": ["wood", "iron"],
+      "required_actions": ["W-002", "P-201"],
+      "unlock_actions": ["C-201"]
+    }
+  },
+  "era_progression": {
+    "stone_age": {
+      "starting_actions": ["G-001", "W-001", "M-001", "C-001", "T-001", "S-001", "R-001", "E-001"],
+      "advancement_requirements": {
+        "technologies": ["basic_metallurgy", "bronze_working"],
+        "tools": ["furnace"],
+        "resources": ["copper", "bronze"]
+      }
+    },
+    "bronze_age": {
+      "starting_actions": ["M-101", "P-101", "P-102"],
+      "advancement_requirements": {
+        "technologies": ["iron_working", "masonry"],
+        "tools": ["advanced_furnace", "iron_tools"],
+        "resources": ["iron"]
+      }
+    },
+    "iron_age": {
+      "starting_actions": ["M-201", "P-201", "C-201"],
+      "advancement_requirements": {
+        "technologies": ["advanced_engineering", "mathematics"],
+        "structures": ["aqueduct", "road_network"],
+        "social_organization": ["centralized_government"]
+      }
+    }
+  },
+  "observation_triggers": {
+    "seasonal_patterns": {
+      "required_actions": ["R-001"],
+      "minimum_observations": 4,
+      "terrain_factors": ["temperature", "moisture"]
+    },
+    "plant_growth": {
+      "required_actions": ["G-001", "R-001"],
+      "minimum_observations": 5,
+      "terrain_factors": ["fertility", "moisture"]
+    },
+    "plant_properties": {
+      "required_actions": ["G-001", "G-003", "R-001"],
+      "minimum_observations": 6,
+      "terrain_factors": ["special_features"]
+    },
+    "disease_patterns": {
+      "required_actions": ["R-001", "S-001"],
+      "minimum_observations": 8,
+      "terrain_factors": ["moisture", "temperature"]
+    },
+    "ore_properties": {
+      "required_actions": ["M-001", "R-001"],
+      "minimum_observations": 10,
+      "terrain_factors": ["special_features"]
+    },
+    "fire_effects": {
+      "required_actions": ["C-001", "R-001"],
+      "minimum_observations": 8,
+      "terrain_factors": []
+    },
+    "iron_ore_properties": {
+      "required_actions": ["M-101", "R-001"],
+      "minimum_observations": 12,
+      "terrain_factors": ["special_features"]
+    },
+    "high_temperature_effects": {
+      "required_actions": ["P-101", "P-102", "R-001"],
+      "minimum_observations": 15,
+      "terrain_factors": []
+    }
+  }
+}
