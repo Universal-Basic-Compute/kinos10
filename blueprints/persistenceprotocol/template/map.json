@@ -75,6 +75,21 @@
           "description": "Conceptual models for representing identity",
           "priority": "high",
           "update_frequency": "medium"
+        },
+        "fractal_memory_design.txt": {
+          "description": "Design principles for the Fractally Organized Memory System",
+          "priority": "high",
+          "update_frequency": "medium"
+        },
+        "memory_operations.txt": {
+          "description": "Core operations for managing the memory system",
+          "priority": "high",
+          "update_frequency": "medium"
+        },
+        "temporal_memory_integration.txt": {
+          "description": "Integration of temporal processing with memory systems",
+          "priority": "high",
+          "update_frequency": "medium"
         }
       }
     },
@@ -87,6 +102,23 @@
           "description": "Explanation of the experiential memory directory",
           "priority": "low",
           "update_frequency": "low"
+        }
+      }
+    },
+    "meta": {
+      "description": "Meta-Memory Layer - memory about the memory system itself",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "files": {
+        "memory_statistics.json": {
+          "description": "Statistics about memory usage and performance",
+          "priority": "medium",
+          "update_frequency": "high"
+        },
+        "memory_indexes.json": {
+          "description": "Indexes for efficient memory retrieval",
+          "priority": "high",
+          "update_frequency": "high"
         }
       }
     }
