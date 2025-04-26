@@ -642,7 +642,7 @@ Send a message to a kin.
   "addSystem": "Additional system instructions to guide the response",
   "addContext": ["memories/conversation_123.txt", "knowledge/topic.md", "sources/"],
   "min_files": 5,  // Optional, minimum number of context files (default: 5)
-  "max_files": 15,  // Optional, maximum number of context files (default: 15)
+  "max_files": 10,  // Optional, maximum number of context files (default: 10)
   "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000"  // Optional, channel to send message to
 }
 ```
@@ -696,7 +696,7 @@ Send a message to a specific channel within a kin.
   "addSystem": "Additional system instructions to guide the response",
   "addContext": ["memories/conversation_123.txt", "knowledge/topic.md", "sources/"],
   "min_files": 5,  // Optional, minimum number of context files (default: 5)
-  "max_files": 15  // Optional, maximum number of context files (default: 15)
+  "max_files": 10  // Optional, maximum number of context files (default: 10)
 }
 ```
 

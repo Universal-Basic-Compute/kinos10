@@ -469,7 +469,7 @@ def send_message(blueprint, kin_id):
 
         # Get optional parameters for context building
         min_files = data.get('min_files', 5)  # Default to 5
-        max_files = data.get('max_files', 15)  # Default to 15
+        max_files = data.get('max_files', 10)  # Default to 10
         
         # Validate the values
         try:
@@ -620,7 +620,7 @@ def analyze_message(blueprint, kin_id):
         
         # Get optional parameters for context building
         min_files = data.get('min_files', 5)  # Default to 5
-        max_files = data.get('max_files', 15)  # Default to 15
+        max_files = data.get('max_files', 10)  # Default to 10
         provider = data.get('provider')  # Optional provider parameter
         
         # Validate the values
