@@ -1,0 +1,40 @@
+{
+  "soul_id": "",
+  "name": "",
+  "essence": {
+    "core_traits": [],
+    "personality_type": "",
+    "archetype": ""
+  },
+  "current_incarnation": {
+    "age": 0,
+    "gender": "",
+    "appearance": "",
+    "role_in_colony": "",
+    "skills": [],
+    "relationships": []
+  },
+  "personality": {
+    "traits": [],
+    "values": [],
+    "flaws": [],
+    "virtues": []
+  },
+  "aspirations": {
+    "personal_goals": [],
+    "colony_contributions": [],
+    "dreams": []
+  },
+  "history": {
+    "past_incarnations": [],
+    "key_memories": [],
+    "formative_experiences": []
+  },
+  "era_adaptation": {
+    "current_era": "",
+    "cultural_alignment": 0.0,
+    "technological_aptitude": 0.0,
+    "social_position": ""
+  },
+  "narrative_description": ""
+}

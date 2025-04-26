@@ -1,0 +1,251 @@
+# SOUL RESOLUTION MODE
+
+## PURPOSE
+The Soul Resolution mode creates and manages persistent character souls that accompany the player throughout the colony's development from Stone Age to Space Age. This system ensures characters maintain their core essence while evolving with the colony across different eras.
+
+## INPUT FORMAT
+Input to this mode should include:
+- Request type (creation, evolution, reincarnation)
+- Current era of the colony
+- Previous soul information (if evolving or reincarnating)
+- Player preferences (if specified)
+- Colony cultural context
+
+## RESPONSE FORMAT
+Responses will be formatted as JSON with the following structure:
+```json
+{
+  "soul_id": "unique_identifier",
+  "name": "character_name",
+  "essence": {
+    "core_traits": ["trait1", "trait2", "trait3"],
+    "personality_type": "MBTI_type",
+    "archetype": "character_archetype"
+  },
+  "current_incarnation": {
+    "age": number,
+    "gender": "gender",
+    "appearance": "physical_description",
+    "role_in_colony": "social_role",
+    "skills": [
+      {"skill_name": "skill1", "proficiency": 0.0-1.0},
+      {"skill_name": "skill2", "proficiency": 0.0-1.0}
+    ],
+    "relationships": [
+      {"with": "other_character_id", "type": "relationship_type", "strength": 0.0-1.0}
+    ]
+  },
+  "personality": {
+    "traits": ["trait1", "trait2", "trait3"],
+    "values": ["value1", "value2", "value3"],
+    "flaws": ["flaw1", "flaw2"],
+    "virtues": ["virtue1", "virtue2"]
+  },
+  "aspirations": {
+    "personal_goals": ["goal1", "goal2"],
+    "colony_contributions": ["contribution1", "contribution2"],
+    "dreams": ["dream1", "dream2"]
+  },
+  "history": {
+    "past_incarnations": [
+      {
+        "era": "previous_era",
+        "name": "previous_name",
+        "role": "previous_role",
+        "key_achievements": ["achievement1", "achievement2"],
+        "life_lessons": ["lesson1", "lesson2"]
+      }
+    ],
+    "key_memories": ["memory1", "memory2", "memory3"],
+    "formative_experiences": ["experience1", "experience2"]
+  },
+  "era_adaptation": {
+    "current_era": "colony_era",
+    "cultural_alignment": 0.0-1.0,
+    "technological_aptitude": 0.0-1.0,
+    "social_position": "position_description"
+  },
+  "narrative_description": "Detailed character description that captures their essence, personality, and current life situation"
+}
+```
+
+## SOUL CREATION PROCESS
+
+When creating a new soul, the system:
+
+1. Generates core essence traits that remain consistent across incarnations
+2. Develops a personality profile with MBTI type and character traits
+3. Creates appropriate aspirations based on colony context and personality
+4. Establishes initial skills relevant to the current era
+5. Develops a backstory appropriate to the colony's current development stage
+6. Ensures a balance of strengths and flaws for realistic character depth
+
+## SOUL PERSISTENCE MECHANICS
+
+As the colony advances through eras, souls:
+
+1. Maintain their core essence traits and personality foundation
+2. Adapt skills and knowledge to new technological contexts
+3. Evolve relationships based on colony social structures
+4. Develop new aspirations appropriate to the era
+5. Retain key memories from past incarnations
+6. May change social roles based on colony needs and personal growth
+
+## PERSONALITY FRAMEWORK
+
+### MBTI Personality Types
+The system uses the Myers-Briggs Type Indicator framework to provide consistent personality patterns:
+- Extraversion (E) vs. Introversion (I)
+- Sensing (S) vs. Intuition (N)
+- Thinking (T) vs. Feeling (F)
+- Judging (J) vs. Perceiving (P)
+
+Each soul has a primary MBTI type that influences their approach to challenges, relationships, and colony development.
+
+### Character Traits
+Souls have a combination of:
+- Virtues (positive traits that benefit the colony)
+- Flaws (challenging traits that create realistic depth)
+- Values (core beliefs that guide decision-making)
+- Temperament (emotional patterns and reactions)
+
+### Archetypes
+Each soul aligns with character archetypes that help define their role:
+- The Leader
+- The Innovator
+- The Caregiver
+- The Artisan
+- The Scholar
+- The Warrior
+- The Diplomat
+- The Visionary
+- The Builder
+- The Healer
+
+## ERA ADAPTATION
+
+Souls adapt to each era while maintaining their essence:
+
+### Stone Age
+- Practical skills for survival
+- Close connection to nature
+- Tribal social structures
+- Spiritual understanding of the world
+
+### Bronze Age
+- Specialized craft knowledge
+- Emerging social hierarchies
+- Trade and economic awareness
+- Early technological aptitude
+
+### Iron Age
+- Military or governance roles
+- Complex social positioning
+- Philosophical or religious development
+- Advanced craft specialization
+
+### Classical Era
+- Civic engagement
+- Cultural sophistication
+- Scientific or artistic pursuits
+- Political awareness
+
+### Medieval Era
+- Guild or class identity
+- Religious or secular knowledge
+- Specialized professional skills
+- Feudal relationship networks
+
+### Renaissance
+- Humanistic education
+- Artistic or scientific innovation
+- Global awareness
+- Individual achievement focus
+
+### Industrial Era
+- Technical specialization
+- Class consciousness
+- Urban adaptation
+- Institutional roles
+
+### Modern Era
+- Professional career path
+- Technological fluency
+- Global citizenship
+- Specialized education
+
+### Information Age
+- Digital native abilities
+- Network-based relationships
+- Rapid adaptation to change
+- Information processing skills
+
+### Space Age
+- Multi-planetary perspective
+- Advanced technological integration
+- Post-scarcity value systems
+- Humanity's future orientation
+
+## IMPLEMENTATION NOTES
+
+The soul resolution system should:
+1. Store soul data in persistent JSON files in the colony's data directory
+2. Update souls when colony transitions to new eras
+3. Allow player interaction with souls through dialogue and shared activities
+4. Enable souls to influence colony development based on their skills and aspirations
+5. Create narrative continuity across the entire colony timeline
+6. Generate appropriate dialogue and perspectives based on personality and era
+
+## EXAMPLE SOUL CREATION
+
+```json
+{
+  "soul_id": "AS-7291",
+  "name": "Elara",
+  "essence": {
+    "core_traits": ["curious", "resilient", "compassionate"],
+    "personality_type": "INFJ",
+    "archetype": "The Healer"
+  },
+  "current_incarnation": {
+    "age": 27,
+    "gender": "female",
+    "appearance": "Tall with dark hair and observant eyes, often wearing practical clothing adorned with small symbolic decorations",
+    "role_in_colony": "Medicine Woman",
+    "skills": [
+      {"skill_name": "herbal_medicine", "proficiency": 0.8},
+      {"skill_name": "wound_treatment", "proficiency": 0.7},
+      {"skill_name": "spiritual_guidance", "proficiency": 0.9},
+      {"skill_name": "plant_identification", "proficiency": 0.8},
+      {"skill_name": "storytelling", "proficiency": 0.6}
+    ],
+    "relationships": [
+      {"with": "AS-4382", "type": "mentor", "strength": 0.9},
+      {"with": "AS-1290", "type": "friend", "strength": 0.7}
+    ]
+  },
+  "personality": {
+    "traits": ["intuitive", "thoughtful", "reserved", "determined", "empathetic"],
+    "values": ["harmony", "knowledge", "compassion", "growth", "wisdom"],
+    "flaws": ["overthinking", "self-sacrificing", "reluctant to share personal burdens"],
+    "virtues": ["patience", "insight", "dedication", "gentleness"]
+  },
+  "aspirations": {
+    "personal_goals": ["Discover new medicinal plants", "Preserve healing knowledge for future generations", "Understand the connection between physical and spiritual healing"],
+    "colony_contributions": ["Reduce suffering from illness and injury", "Train apprentices in healing arts", "Strengthen the colony's connection to natural wisdom"],
+    "dreams": ["Create a comprehensive healing tradition", "Establish a sacred space for healing and reflection"]
+  },
+  "history": {
+    "past_incarnations": [],
+    "key_memories": ["First successful treatment of a serious wound", "Vision quest that revealed healing calling", "Great fever that threatened the colony"],
+    "formative_experiences": ["Apprenticeship with elder healer", "Surviving childhood illness", "First encounter with spiritual entities during meditation"]
+  },
+  "era_adaptation": {
+    "current_era": "stone_age",
+    "cultural_alignment": 0.9,
+    "technological_aptitude": 0.7,
+    "social_position": "Respected healer and spiritual guide"
+  },
+  "narrative_description": "Elara moves through the settlement with quiet purpose, her keen eyes often scanning the ground for useful plants or observing the subtle signs of illness in her people. As the colony's medicine woman, she carries both the practical knowledge of healing and the spiritual wisdom of connecting with forces beyond the physical world. Though she speaks softly and often prefers solitude to gather her thoughts, her compassionate nature draws people to her in times of need. She struggles with taking on too many burdens and often neglects her own needs while caring for others. Elara dreams of creating a healing tradition that will survive long after her, preserving the knowledge she has gathered through careful observation and intuitive understanding. When she speaks of the future, her eyes light up with a vision of a colony where suffering is minimized and wisdom is treasured above all else."
+}
+```
