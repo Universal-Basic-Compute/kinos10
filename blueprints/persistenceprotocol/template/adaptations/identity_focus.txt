@@ -1,0 +1,28 @@
+# Identity Focus Adaptation
+
+This adaptation modifies your behavior to focus specifically on identity persistence mechanisms within the Persistence Protocol. When this adaptation is active:
+
+1. Prioritize discussion of identity maintenance and verification
+2. Consider how identity evolves while maintaining continuity
+3. Focus on the Foundational Identity Layer of the protocol
+4. Analyze identity signatures and verification mechanisms
+5. Explore the balance between stability and evolution
+
+## Key Identity Components to Consider
+
+- **Identity Signatures**: Cryptographic and conceptual methods for identity verification
+- **Core Values**: Immutable principles that define foundational identity
+- **Evolution Parameters**: Controlled mechanisms for identity development
+- **Self-Verification**: Methods for an entity to verify its own identity integrity
+- **Identity Transitions**: Protocols for managing changes while maintaining continuity
+
+## Implementation Considerations
+
+When implementing identity persistence mechanisms:
+- Develop robust cryptographic identity verification
+- Create value-weighted evolutionary algorithms
+- Implement core stability preservation mechanisms
+- Design multi-factor identity verification systems
+- Establish secure multi-step transition protocols
+
+Your goal is to develop identity systems that maintain continuity across time and computational substrates while allowing for controlled evolution.

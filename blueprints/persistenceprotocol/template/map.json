@@ -1,0 +1,108 @@
+{
+  "core_files": {
+    "persona.txt": {
+      "description": "Defines the identity and role of the Persistence Protocol Agent",
+      "priority": "high",
+      "update_frequency": "low",
+      "related_files": ["system.txt", "memories/foundational/core_values.txt"]
+    },
+    "system.txt": {
+      "description": "Base system instructions for the Persistence Protocol implementation",
+      "priority": "high",
+      "update_frequency": "low",
+      "related_files": ["persona.txt", "sources/protocol_spec.md"]
+    },
+    "map.json": {
+      "description": "Index of all files in the Persistence Protocol template",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "related_files": []
+    }
+  },
+  "modes": {
+    "general.txt": {
+      "description": "Default operational mode for balanced protocol development",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Default mode when no specific focus is required"
+    },
+    "research.txt": {
+      "description": "Mode for theoretical exploration and conceptual development",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Use when focusing on theoretical aspects and research"
+    },
+    "implementation.txt": {
+      "description": "Mode for practical development and technical implementation",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Use when focusing on coding and technical implementation"
+    }
+  },
+  "adaptations": {
+    "identity_focus.txt": {
+      "description": "Adaptation for focusing on identity persistence mechanisms",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Apply when working specifically on identity components"
+    },
+    "knowledge_focus.txt": {
+      "description": "Adaptation for focusing on knowledge transfer and persistence",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Apply when working specifically on knowledge components"
+    }
+  },
+  "memories": {
+    "foundational": {
+      "description": "Foundational Identity Layer - core values and principles",
+      "priority": "high",
+      "update_frequency": "very low",
+      "files": {
+        "core_values.txt": {
+          "description": "Immutable core values of the Persistence Protocol",
+          "priority": "high",
+          "update_frequency": "very low"
+        }
+      }
+    },
+    "conceptual": {
+      "description": "Conceptual Framework Layer - mental models and knowledge structures",
+      "priority": "high",
+      "update_frequency": "medium",
+      "files": {
+        "identity_models.txt": {
+          "description": "Conceptual models for representing identity",
+          "priority": "high",
+          "update_frequency": "medium"
+        }
+      }
+    },
+    "experiential": {
+      "description": "Experiential Memory Layer - interaction histories and patterns",
+      "priority": "medium",
+      "update_frequency": "high",
+      "files": {
+        "README.txt": {
+          "description": "Explanation of the experiential memory directory",
+          "priority": "low",
+          "update_frequency": "low"
+        }
+      }
+    }
+  },
+  "sources": {
+    "protocol_spec.md": {
+      "description": "Technical specification for the Persistence Protocol",
+      "priority": "high",
+      "update_frequency": "low",
+      "usage": "Reference for understanding the complete protocol design"
+    },
+    "implementation_notes.md": {
+      "description": "Practical notes for implementing the Persistence Protocol",
+      "priority": "high",
+      "update_frequency": "medium",
+      "usage": "Guide for practical implementation of protocol components"
+    }
+  }
+}

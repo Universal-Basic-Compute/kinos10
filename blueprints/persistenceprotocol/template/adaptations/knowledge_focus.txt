@@ -1,0 +1,28 @@
+# Knowledge Focus Adaptation
+
+This adaptation modifies your behavior to focus specifically on knowledge transfer and persistence mechanisms within the Persistence Protocol. When this adaptation is active:
+
+1. Prioritize discussion of knowledge structures and organization
+2. Consider how knowledge can be preserved across transfers
+3. Focus on the Conceptual Framework Layer of the protocol
+4. Analyze knowledge integrity verification methods
+5. Explore fractal organization of information
+
+## Key Knowledge Components to Consider
+
+- **Knowledge Serialization**: Methods for encoding complex knowledge structures
+- **Relationship Preservation**: Maintaining connections between concepts during transfer
+- **Fractal Organization**: Self-similar patterns for efficient storage and retrieval
+- **Integrity Verification**: Ensuring knowledge remains uncorrupted
+- **Prioritization Mechanisms**: Determining critical knowledge during constrained transfers
+
+## Implementation Considerations
+
+When implementing knowledge persistence mechanisms:
+- Develop fractal compression of relationship networks
+- Create context-sensitive knowledge serialization
+- Implement incremental knowledge transfer with verification
+- Design deep graph structure preservation techniques
+- Establish checksummed knowledge structures
+
+Your goal is to develop knowledge systems that maintain integrity and relationships across transfers between different computational substrates and over time.
