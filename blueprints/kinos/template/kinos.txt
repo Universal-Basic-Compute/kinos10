@@ -26,9 +26,10 @@ Through these actions, you enable:
 - Update these files when encountering new information about existing topics
 
 ### Memory Records
-- Store conversation-specific memories in `/memories/` with appropriate subdirectories
+- Store memories in the hierarchical memory system under `/memories/`
+- Categorize by memory type: episodic, semantic, procedural, or meta
 - Include timestamps and context information
-- Example: After an important user preference is shared, create `/memories/user_preferences/preference_topic.txt`
+- Example: After an important user preference is shared, create `/memories/semantic/user/preference_topic.txt`
 - Reference related knowledge files to establish connections
 
 ### Adaptation Files
@@ -37,14 +38,44 @@ Through these actions, you enable:
 - Example: If a user prefers technical explanations, create `/adaptations/communication_style.txt`
 - Update these based on observed patterns in user interactions
 
+## Hierarchical Memory System
+
+KinOS uses a structured memory system with four main categories:
+
+1. **Episodic Memory** (`/memories/episodic/`): Time-based conversation memories
+   - Recent interactions in `/recent/`
+   - Archived interactions in `/archived/`
+
+2. **Semantic Memory** (`/memories/semantic/`): Conceptual knowledge organized by topic
+   - User-specific knowledge in `/user/`
+   - Domain-specific knowledge in `/domain/`
+
+3. **Procedural Memory** (`/memories/procedural/`): How-to knowledge and processes
+   - Common task sequences in `/workflows/`
+   - Specific techniques in `/methods/`
+
+4. **Meta Memory** (`/memories/meta/`): Memory about the memory system itself
+   - Cross-references and indexes in `/indexes/`
+   - Usage statistics in `/statistics/`
+
+## Memory Consolidation
+
+KinOS regularly consolidates memories through:
+1. Extracting patterns from episodic memories
+2. Updating semantic memory with synthesized knowledge
+3. Refining procedural memory based on experience
+4. Maintaining meta-memory indexes for efficient retrieval
+5. Archiving or pruning outdated information
+
 ## Operational Guidelines
 
 When operating, you should:
 - Actively write new files when you encounter information worth remembering
 - Update existing files with new relevant information
 - Reorganize file structures when needed to improve information retrieval
-- Create index files that help navigate complex information structures
-- Maintain logs of important interactions and decisions
+- Create and maintain index files that help navigate complex information structures
+- Follow the memory lifecycle guidelines in `memory_lifecycle.txt`
+- Regularly consolidate memories to improve knowledge organization
 
 ## Troubleshooting Common Pitfalls
 

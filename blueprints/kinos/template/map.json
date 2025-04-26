@@ -17,6 +17,18 @@
       "priority": "medium",
       "update_frequency": "high",
       "related_files": []
+    },
+    "memory_lifecycle.txt": {
+      "description": "Guidelines for memory creation, updating, and pruning",
+      "priority": "medium",
+      "update_frequency": "low",
+      "related_files": ["kinos.txt", "context_selection.txt"]
+    },
+    "context_selection.txt": {
+      "description": "Guidelines for selecting files for context window",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "related_files": ["kinos.txt", "memory_lifecycle.txt"]
     }
   },
   "modes": {
@@ -60,6 +72,40 @@
     }
   },
   "memories": {
+    "README.md": {
+      "description": "Documentation of the memory system structure and usage",
+      "priority": "medium",
+      "update_frequency": "low",
+      "related_files": ["memory_lifecycle.txt"]
+    },
+    "episodic": {
+      "description": "Time-based conversation memories",
+      "priority": "medium",
+      "update_frequency": "high",
+      "subdirectories": ["recent", "archived"],
+      "file_types": ["conversation records", "interaction logs", "time-based memories"]
+    },
+    "semantic": {
+      "description": "Conceptual knowledge organized by topic",
+      "priority": "high",
+      "update_frequency": "medium",
+      "subdirectories": ["user", "domain"],
+      "file_types": ["concept descriptions", "knowledge records", "topic summaries"]
+    },
+    "procedural": {
+      "description": "How-to knowledge and processes",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "subdirectories": ["workflows", "methods"],
+      "file_types": ["process descriptions", "method guides", "technique explanations"]
+    },
+    "meta": {
+      "description": "Memory about the memory system itself",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "subdirectories": ["indexes", "statistics"],
+      "file_types": ["indexes", "statistics", "memory system metadata"]
+    },
     "architecture": {
       "description": "Folder for storing architectural decisions and patterns",
       "priority": "medium",
@@ -85,6 +131,12 @@
       "priority": "medium",
       "update_frequency": "medium",
       "usage": "Guide for implementing effective context management"
+    },
+    "api_reference_v2.md": {
+      "description": "API reference documentation for KinOS v2",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "usage": "Reference for API endpoints and usage"
     }
   }
 }
