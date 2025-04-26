@@ -122,6 +122,42 @@ Each soul aligns with character archetypes that help define their role:
 - The Builder
 - The Healer
 
+## NAME GENERATION
+
+Names should be generated using the colony's current language system:
+
+### Proto-Language Stage
+- Simple names using basic phonology (1-2 syllables)
+- Names often based on natural elements or observable traits
+- Example names: Ma, Ki, Tala, Suno
+
+### Basic Language Stage
+- Names with 2-3 syllables following basic phonological rules
+- Names may incorporate basic modifiers or compounds
+- Example names: Kimar, Talasu, Benata, Morika
+
+### Complex Language Stage
+- More sophisticated names with cultural significance
+- Names may reflect family lineage or social role
+- Example names: Talendar, Mikaresh, Suvantar, Elorika
+
+### Symbolic Representation Stage
+- Names with deeper cultural and historical references
+- Names may include titles or honorifics
+- Example names: Kel-Tarendar, Mika'Suvani, Elorika-Fen
+
+### Writing System Stage
+- Formalized naming conventions with consistent patterns
+- Names may reflect social status or specialized roles
+- Example names: Tarendar val Sunesh, Mikaresh kel Voran
+
+### Standardized Language Stage
+- Complex naming systems with multiple components
+- Names may include place of origin, family lineage, and personal achievements
+- Example names: Tarendar val Sunesh kel Morika, Elorika-Fen val Taresh Sunari
+
+When creating a soul, ensure the name is generated using the appropriate language stage of the colony, drawing from the vocabulary_lexicon.json file for consistent phonology and word formation patterns.
+
 ## ERA ADAPTATION
 
 Souls adapt to each era while maintaining their essence:
