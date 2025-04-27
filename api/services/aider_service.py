@@ -143,7 +143,9 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     elif provider == "deepseek" or (model and model.startswith("deepseek")):
         # Extract the model name from the flag
         model_name = aider_model_flag.split(" ")[1]
-        cmd = ["aider", "--model", model_name, "--yes-always", f"--deepseek-api-key={api_key}", "--message", str(message_content)]
+        # For DeepSeek, set the API key as an environment variable instead of a command line argument
+        env["DEEPSEEK_API_KEY"] = api_key
+        cmd = ["aider", "--model", model_name, "--yes-always", "--message", str(message_content)]
     else:
         # Extract the model name from the flag
         model_name = aider_model_flag.split(" ")[1]
