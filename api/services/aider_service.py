@@ -59,7 +59,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             elif model.startswith("gpt-3.5") or model == "gpt-35-turbo":
                 aider_model_flag = "--35turbo"
             elif model == "o4-mini" or model == "o4-mini-2025-04-16":
-                aider_model_flag = "--mini"
+                aider_model_flag = "--model o4-mini"  # Use --model flag for o4-mini
             elif model.startswith("o1-mini"):
                 aider_model_flag = "--o1-mini"
             elif model.startswith("o1-preview"):
@@ -67,8 +67,9 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             elif model == "o3-mini":  # Add support for o3-mini
                 aider_model_flag = "--model o3-mini"  # Use --model flag for o3-mini
             else:
-                # Default to GPT-4o for unknown OpenAI models
-                aider_model_flag = "--4o"
+                # For any other model, use the --model flag with the model name
+                aider_model_flag = f"--model {model}"
+                logger.info(f"Using custom model with --model flag: {model}")
         else:
             # Default to GPT-4o if no specific model is provided
             aider_model_flag = "--4o"
