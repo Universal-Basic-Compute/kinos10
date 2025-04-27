@@ -86,6 +86,11 @@ class OpenAIProvider(LLMProvider):
         """
         Don't validate or change model names, just return as-is
         """
+        # Special case for gpt-4-1 which should be gpt-4.1
+        if model_name == "gpt-4-1":
+            logger.info(f"Mapping 'gpt-4-1' to 'gpt-4.1'")
+            return "gpt-4.1"
+            
         # Log the model name for debugging
         logger.info(f"Using model name as-is: {model_name}")
         return model_name
