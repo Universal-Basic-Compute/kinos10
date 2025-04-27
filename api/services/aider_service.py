@@ -71,12 +71,17 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         
         # Always use --model flag with the model name
         if model:
-            aider_model_flag = f"--model {model}"
-            logger.info(f"Using DeepSeek model with --model flag: {model}")
+            # For DeepSeek models, add the "deepseek/" prefix if not already present
+            if "/" not in model:
+                model_name = f"deepseek/{model}"
+            else:
+                model_name = model
+            aider_model_flag = f"--model {model_name}"
+            logger.info(f"Using DeepSeek model with --model flag: {model_name}")
         else:
-            # Default DeepSeek model
-            aider_model_flag = "--model deepseek-chat"
-            logger.info("Using default DeepSeek model: deepseek-chat")
+            # Default DeepSeek model with proper format
+            aider_model_flag = "--model deepseek/deepseek-chat"
+            logger.info("Using default DeepSeek model: deepseek/deepseek-chat")
     else:
         # Default to Claude
         api_key = os.getenv("ANTHROPIC_API_KEY")
