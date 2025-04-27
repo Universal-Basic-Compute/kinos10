@@ -483,47 +483,98 @@ def link_repository(kin_path, github_url, token=None, username=None):
         )
         logger.info("Added all files to git")
         
-        # Commit changes
-        commit_message = f"Initial commit for Kin {os.path.basename(kin_path)}"
-        subprocess.run(
-            ["git", "commit", "-m", commit_message],
+        # Check if there are any changes to commit
+        status_result = subprocess.run(
+            ["git", "status", "--porcelain"],
             cwd=kin_path,
             check=True,
             capture_output=True,
             text=True
         )
-        logger.info(f"Created initial commit with message: {commit_message}")
+        
+        # If there are changes to commit
+        if status_result.stdout.strip():
+            # Configure git user if not already configured
+            try:
+                subprocess.run(
+                    ["git", "config", "user.name", "KinOS"],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                subprocess.run(
+                    ["git", "config", "user.email", "kinos@example.com"],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info("Configured git user settings")
+            except Exception as e:
+                logger.warning(f"Error configuring git user: {str(e)}")
+            
+            # Now try to commit
+            commit_message = f"Initial commit for Kin {os.path.basename(kin_path)}"
+            commit_result = subprocess.run(
+                ["git", "commit", "-m", commit_message],
+                cwd=kin_path,
+                capture_output=True,
+                text=True
+            )
+            
+            # Check if commit was successful
+            if commit_result.returncode != 0:
+                logger.error(f"Git commit failed: {commit_result.stderr}")
+                # Continue anyway to try the branch creation and push
+            else:
+                logger.info(f"Created initial commit with message: {commit_message}")
+        else:
+            logger.info("No changes to commit")
         
         # Create main branch (modern approach)
-        subprocess.run(
-            ["git", "branch", "-M", "main"],
-            cwd=kin_path,
-            check=True,
-            capture_output=True,
-            text=True
-        )
-        logger.info("Created main branch")
+        try:
+            subprocess.run(
+                ["git", "branch", "-M", "main"],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            logger.info("Created main branch")
+        except Exception as e:
+            logger.error(f"Error creating main branch: {str(e)}")
+            # Continue anyway to try the push
         
         # Push to remote with force flag
         logger.info("Force-pushing changes to GitHub repository")
         try:
-            subprocess.run(
+            push_result = subprocess.run(
                 ["git", "push", "--force", "-u", "origin", "master"],
                 cwd=kin_path,
-                check=True,
                 capture_output=True,
                 text=True
             )
-        except subprocess.CalledProcessError:
-            # Try with 'main' branch if 'master' fails
-            logger.info("Push to 'master' failed, trying 'main' branch")
-            subprocess.run(
-                ["git", "push", "--force", "-u", "origin", "main"],
-                cwd=kin_path,
-                check=True,
-                capture_output=True,
-                text=True
-            )
+            if push_result.returncode != 0:
+                logger.error(f"Push to 'master' failed: {push_result.stderr}")
+                # Try with 'main' branch if 'master' fails
+                logger.info("Push to 'master' failed, trying 'main' branch")
+                main_push_result = subprocess.run(
+                    ["git", "push", "--force", "-u", "origin", "main"],
+                    cwd=kin_path,
+                    capture_output=True,
+                    text=True
+                )
+                if main_push_result.returncode != 0:
+                    logger.error(f"Push to 'main' also failed: {main_push_result.stderr}")
+                    raise RuntimeError(f"Failed to push to both 'master' and 'main' branches: {main_push_result.stderr}")
+                else:
+                    logger.info("Successfully pushed to 'main' branch")
+            else:
+                logger.info("Successfully pushed to 'master' branch")
+        except Exception as e:
+            logger.error(f"Error during push operation: {str(e)}")
+            raise RuntimeError(f"Failed to push to repository: {str(e)}")
         
         logger.info("Successfully linked kin to GitHub repository")
         return True
