@@ -435,15 +435,54 @@ def link_repository(kin_path, github_url, token=None, username=None):
             text=True
         )
         
-        # Commit changes
-        commit_message = f"Linked Kin {os.path.basename(kin_path)} to the GitHub repository"
-        subprocess.run(
-            ["git", "commit", "-m", commit_message],
+        # Check if there are any changes to commit
+        status_result = subprocess.run(
+            ["git", "status", "--porcelain"],
             cwd=kin_path,
             check=True,
             capture_output=True,
             text=True
         )
+        
+        # If there are changes to commit
+        if status_result.stdout.strip():
+            # Configure git user if not already configured
+            try:
+                subprocess.run(
+                    ["git", "config", "user.name", "KinOS"],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                subprocess.run(
+                    ["git", "config", "user.email", "kinos@example.com"],
+                    cwd=kin_path,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info("Configured git user settings")
+            except Exception as e:
+                logger.warning(f"Error configuring git user: {str(e)}")
+            
+            # Now try to commit
+            commit_message = f"Initial commit for Kin {os.path.basename(kin_path)}"
+            commit_result = subprocess.run(
+                ["git", "commit", "-m", commit_message],
+                cwd=kin_path,
+                capture_output=True,
+                text=True
+            )
+            
+            # Check if commit was successful
+            if commit_result.returncode != 0:
+                logger.error(f"Git commit failed: {commit_result.stderr}")
+                # Continue anyway to try the branch creation and push
+            else:
+                logger.info(f"Created initial commit with message: {commit_message}")
+        else:
+            logger.info("No changes to commit")
         
         # If token is provided, modify the remote URL to include it
         if token and "github.com" in github_url:
