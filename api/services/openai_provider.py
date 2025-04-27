@@ -47,6 +47,18 @@ class OpenAIProvider(LLMProvider):
                 logger.error("Empty response from OpenAI")
                 return "I apologize, but I couldn't generate a response."
                 
+        except openai.NotFoundError as e:
+            # Handle model not found errors specifically
+            logger.error(f"Model not found error: {str(e)}")
+            return f"I apologize, but the specified model '{model_to_use}' was not found. Please try with a valid model like 'gpt-4o' or 'gpt-4'."
+        except openai.APIError as e:
+            # Handle API errors
+            logger.error(f"OpenAI API error: {str(e)}")
+            return f"I apologize, but there was an API error: {str(e)}. Please try again with a different model or later."
+        except openai.RateLimitError as e:
+            # Handle rate limit errors
+            logger.error(f"OpenAI rate limit error: {str(e)}")
+            return "I apologize, but we've hit the rate limit for the OpenAI API. Please try again in a moment."
         except Exception as e:
             logger.error(f"Error calling OpenAI API: {str(e)}")
             return f"I apologize, but I encountered an error: {str(e)}. Please try again."
