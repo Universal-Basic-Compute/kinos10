@@ -11,7 +11,7 @@ def get_llm_client(provider=None, model=None):
     Get the appropriate LLM client based on provider and model.
     
     Args:
-        provider: The provider to use (claude or openai)
+        provider: The provider to use (claude, openai, or deepseek)
         model: The model to use
         
     Returns:
@@ -23,6 +23,8 @@ def get_llm_client(provider=None, model=None):
             provider = "openai"
         elif model.startswith("claude-"):
             provider = "claude"
+        elif model.startswith("deepseek"):
+            provider = "deepseek"
     
     # Get the provider from the LLMProvider factory
     from services.llm_service import LLMProvider

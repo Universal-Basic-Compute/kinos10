@@ -64,6 +64,19 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                 # Default to Claude Sonnet if no specific model is provided
                 aider_model_flag = "--model claude-3-sonnet-20240229"
                 logger.info("Using default Claude model: claude-3-sonnet-20240229")
+    elif provider == "deepseek" or (model and model.startswith("deepseek")):
+        api_key = os.getenv("DEEPSEEK_API_KEY")
+        if not api_key:
+            raise ValueError("DEEPSEEK_API_KEY environment variable not set")
+        
+        # Always use --model flag with the model name
+        if model:
+            aider_model_flag = f"--model {model}"
+            logger.info(f"Using DeepSeek model with --model flag: {model}")
+        else:
+            # Default DeepSeek model
+            aider_model_flag = "--model deepseek-chat"
+            logger.info("Using default DeepSeek model: deepseek-chat")
     else:
         # Default to Claude
         api_key = os.getenv("ANTHROPIC_API_KEY")
@@ -127,6 +140,10 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         # Extract the model name from the flag
         model_name = aider_model_flag.split(" ")[1]
         cmd = ["aider", "--model", model_name, "--yes-always", f"--openai-api-key={api_key}", "--message", str(message_content)]
+    elif provider == "deepseek" or (model and model.startswith("deepseek")):
+        # Extract the model name from the flag
+        model_name = aider_model_flag.split(" ")[1]
+        cmd = ["aider", "--model", model_name, "--yes-always", f"--deepseek-api-key={api_key}", "--message", str(message_content)]
     else:
         # Extract the model name from the flag
         model_name = aider_model_flag.split(" ")[1]

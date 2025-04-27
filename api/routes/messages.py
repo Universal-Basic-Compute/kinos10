@@ -211,6 +211,10 @@ def send_message(blueprint, kin_id):
                 provider = "openai"
             elif model.startswith("claude-"):
                 provider = "claude"
+            elif model.startswith("deepseek"):
+                provider = "deepseek"
+            elif model.startswith("deepseek"):
+                provider = "deepseek"
         
         # Ensure history_length is an integer and has a reasonable value (default: 25)
         try:

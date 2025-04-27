@@ -26,6 +26,9 @@ class LLMProvider:
             elif provider_name == "openai" or provider_name == "chatgpt":
                 from services.openai_provider import OpenAIProvider
                 return OpenAIProvider()
+            elif provider_name == "deepseek":
+                from services.deepseek_provider import DeepSeekProvider
+                return DeepSeekProvider()
         
         # If model is specified but provider isn't, infer provider from model name
         if model:
@@ -35,6 +38,9 @@ class LLMProvider:
             elif model.startswith("claude-"):
                 from services.claude_provider import ClaudeProvider
                 return ClaudeProvider()
+            elif model.startswith("deepseek"):
+                from services.deepseek_provider import DeepSeekProvider
+                return DeepSeekProvider()
         
         # Default to Claude if no provider or model specified
         logger.warning(f"No provider specified and couldn't determine from model, falling back to Claude")
