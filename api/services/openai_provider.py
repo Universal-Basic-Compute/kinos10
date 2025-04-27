@@ -89,6 +89,9 @@ class OpenAIProvider(LLMProvider):
             "gpt-4-turbo": "gpt-4-turbo",
             "gpt-4-vision": "gpt-4-vision-preview",
             "gpt-4-vision-preview": "gpt-4-vision-preview",
+            # Add specific date-based models that are known to exist
+            "gpt-4.1-2025-04-14": "gpt-4.1-2025-04-14",
+            "o4-mini-2025-04-16": "gpt-4o-mini"  # Map to the standard model name
         }
         
         # Check for exact match in corrections
@@ -99,6 +102,10 @@ class OpenAIProvider(LLMProvider):
         # Check for date-based versions that don't exist
         date_pattern = r'(gpt-|o)4(-[a-z]+)?-\d{4}-\d{2}-\d{2}'
         if re.match(date_pattern, model_name):
+            # First check if this is a known date-based model
+            if model_name in corrections:
+                return corrections[model_name]
+                
             logger.warning(f"Detected date-based model name that may not exist: {model_name}")
             # Fall back to a safe default
             logger.info(f"Falling back to default model 'gpt-4o'")
