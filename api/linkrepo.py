@@ -473,14 +473,36 @@ def link_repository(kin_path, github_url, token=None, username=None):
             f.write("* merge=ours\n")
         logger.info("Created .gitattributes file to prioritize our changes")
         
-        # Add the .gitattributes file to the repository
+        # Add all files to git staging
         subprocess.run(
-            ["git", "add", ".gitattributes"],
+            ["git", "add", "."],
             cwd=kin_path,
             check=True,
             capture_output=True,
             text=True
         )
+        logger.info("Added all files to git")
+        
+        # Commit changes
+        commit_message = f"Initial commit for Kin {os.path.basename(kin_path)}"
+        subprocess.run(
+            ["git", "commit", "-m", commit_message],
+            cwd=kin_path,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        logger.info(f"Created initial commit with message: {commit_message}")
+        
+        # Create main branch (modern approach)
+        subprocess.run(
+            ["git", "branch", "-M", "main"],
+            cwd=kin_path,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        logger.info("Created main branch")
         
         # Push to remote with force flag
         logger.info("Force-pushing changes to GitHub repository")
