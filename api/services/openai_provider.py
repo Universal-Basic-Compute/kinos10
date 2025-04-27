@@ -38,11 +38,27 @@ class OpenAIProvider(LLMProvider):
             else:
                 formatted_messages = messages
             
-            response = self.client.chat.completions.create(
-                model=model_to_use,
-                messages=formatted_messages,
-                max_tokens=max_tokens
-            )
+            # Create parameters dict - some models use max_tokens, others use max_completion_tokens
+            params = {
+                "model": model_to_use,
+                "messages": formatted_messages,
+            }
+            
+            # Determine which token parameter to use based on model
+            try:
+                # Try with max_completion_tokens first (newer parameter)
+                params["max_completion_tokens"] = max_tokens
+                response = self.client.chat.completions.create(**params)
+            except openai.BadRequestError as e:
+                # If we get an error about unsupported parameter, try with max_tokens instead
+                if "max_completion_tokens" in str(e) and "not supported" in str(e):
+                    logger.info(f"Switching to max_tokens parameter for model {model_to_use}")
+                    del params["max_completion_tokens"]
+                    params["max_tokens"] = max_tokens
+                    response = self.client.chat.completions.create(**params)
+                else:
+                    # Re-raise if it's a different error
+                    raise
             
             # Extract the response text
             if response.choices and len(response.choices) > 0:
