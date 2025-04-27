@@ -14,21 +14,29 @@ class LLMProvider:
         raise NotImplementedError("Subclasses must implement this method")
         
     @classmethod
-    def get_provider(cls, provider_name=None):
-        """Factory method to get the appropriate provider"""
-        if not provider_name:
-            # Get default provider from environment or config
-            provider_name = os.getenv("DEFAULT_LLM_PROVIDER", "claude")
+    def get_provider(cls, provider_name=None, model=None):
+        """Factory method to get the appropriate provider based on provider name or model prefix"""
+        # If provider is explicitly specified, use that
+        if provider_name:
+            provider_name = provider_name.lower()
             
-        provider_name = provider_name.lower()
+            if provider_name == "claude" or provider_name.startswith("claude-") or provider_name == "anthropic":
+                from services.claude_provider import ClaudeProvider
+                return ClaudeProvider()
+            elif provider_name == "openai" or provider_name == "chatgpt":
+                from services.openai_provider import OpenAIProvider
+                return OpenAIProvider()
         
-        if provider_name == "claude" or provider_name.startswith("claude-"):
-            from services.claude_provider import ClaudeProvider
-            return ClaudeProvider()
-        elif provider_name == "openai" or provider_name == "chatgpt" or provider_name.startswith("gpt-") or provider_name.startswith("o4-"):
-            from services.openai_provider import OpenAIProvider
-            return OpenAIProvider()
-        else:
-            logger.warning(f"Unknown provider: {provider_name}, falling back to Claude")
-            from services.claude_provider import ClaudeProvider
-            return ClaudeProvider()
+        # If model is specified but provider isn't, infer provider from model name
+        if model:
+            if model.startswith("gpt-") or model.startswith("o"):
+                from services.openai_provider import OpenAIProvider
+                return OpenAIProvider()
+            elif model.startswith("claude-"):
+                from services.claude_provider import ClaudeProvider
+                return ClaudeProvider()
+        
+        # Default to Claude if no provider or model specified
+        logger.warning(f"No provider specified and couldn't determine from model, falling back to Claude")
+        from services.claude_provider import ClaudeProvider
+        return ClaudeProvider()

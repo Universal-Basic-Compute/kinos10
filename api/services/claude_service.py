@@ -7,14 +7,25 @@ from config import MODEL, logger
 from services.llm_service import LLMProvider
 
 def get_llm_client(provider=None, model=None):
-    """Get the appropriate LLM client based on provider and model"""
-    # If model starts with "gpt-", use OpenAI
-    if model and model.startswith("gpt-"):
-        provider = "openai"
-    # If model starts with "claude-", use Claude
-    elif model and model.startswith("claude-"):
-        provider = "claude"
+    """
+    Get the appropriate LLM client based on provider and model.
+    
+    Args:
+        provider: The provider to use (claude or openai)
+        model: The model to use
         
+    Returns:
+        An instance of the appropriate LLM provider
+    """
+    # If model is specified but provider isn't, infer provider from model name
+    if not provider and model:
+        if model.startswith("gpt-") or model.startswith("o"):
+            provider = "openai"
+        elif model.startswith("claude-"):
+            provider = "claude"
+    
+    # Get the provider from the LLMProvider factory
+    from services.llm_service import LLMProvider
     return LLMProvider.get_provider(provider)
 
 # Initialize Anthropic client for backward compatibility
