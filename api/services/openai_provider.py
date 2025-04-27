@@ -73,11 +73,16 @@ class OpenAIProvider(LLMProvider):
         # List of valid OpenAI model prefixes
         valid_prefixes = ["gpt-4", "gpt-3.5"]
         
+        # Special case for o4-mini-2025-04-16 which seems to have issues
+        if model_name == "o4-mini-2025-04-16":
+            logger.info(f"Mapping model 'o4-mini-2025-04-16' to 'o4-mini'")
+            return "gpt-4o-mini"
+        
         # Add specific date-based models that are known to exist
         # These should be kept as-is, not remapped
         known_date_models = [
-            "gpt-4.1-2025-04-14",
-            "o4-mini-2025-04-16"
+            "gpt-4.1-2025-04-14"
+            # Removed o4-mini-2025-04-16 since it's being handled separately
         ]
         
         # Check if this is a known date-based model that should be kept as-is
