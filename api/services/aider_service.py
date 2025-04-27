@@ -44,21 +44,52 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             
     # Get the appropriate API key based on provider
     api_key = None
-    aider_model_flag = "--sonnet"  # Default for Claude
-    aider_model_value = None
     
-    if provider == "openai" or (model and model.startswith("gpt-")):
+    if provider == "openai" or (model and (model.startswith("gpt-") or model.startswith("o"))):
         api_key = os.getenv("OPENAI_API_KEY")
         if not api_key:
             raise ValueError("OPENAI_API_KEY environment variable not set")
-        aider_model_flag = "--openai-model"
-        aider_model_value = model or "gpt-4o"
+        
+        # Select the appropriate model flag based on the model name
+        if model:
+            if model.startswith("gpt-4o") or model == "o4":
+                aider_model_flag = "--4o"
+            elif model.startswith("gpt-4-turbo") or model == "gpt-4-0125-preview":
+                aider_model_flag = "--4-turbo"
+            elif model.startswith("gpt-3.5") or model == "gpt-35-turbo":
+                aider_model_flag = "--35turbo"
+            elif model == "o4-mini" or model == "o4-mini-2025-04-16":
+                aider_model_flag = "--mini"
+            elif model.startswith("o1-mini"):
+                aider_model_flag = "--o1-mini"
+            elif model.startswith("o1-preview"):
+                aider_model_flag = "--o1-preview"
+            else:
+                # Default to GPT-4o for unknown OpenAI models
+                aider_model_flag = "--4o"
+        else:
+            # Default to GPT-4o if no specific model is provided
+            aider_model_flag = "--4o"
     else:
         # Default to Claude
         api_key = os.getenv("ANTHROPIC_API_KEY")
         if not api_key:
             raise ValueError("ANTHROPIC_API_KEY environment variable not set")
-        aider_model_flag = "--sonnet"  # or use --opus for Claude Opus
+        
+        # Select the appropriate Claude model flag
+        if model:
+            if model.startswith("claude-3-sonnet") or model == "claude-3-5-sonnet-20240620":
+                aider_model_flag = "--sonnet"
+            elif model.startswith("claude-3-haiku"):
+                aider_model_flag = "--haiku"
+            elif model.startswith("claude-3-opus"):
+                aider_model_flag = "--opus"
+            else:
+                # Default to Sonnet for unknown Claude models
+                aider_model_flag = "--sonnet"
+        else:
+            # Default to Sonnet if no specific model is provided
+            aider_model_flag = "--sonnet"
     
     # Check if this is a linked repository
     is_repo_linked = False
@@ -104,8 +135,8 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             logger.warning(f"Error pulling changes before Aider call: {str(e)}")
     
     # Build the command
-    if provider == "openai" or (model and model.startswith("gpt-")):
-        cmd = ["aider", aider_model_flag, aider_model_value, "--yes-always", f"--openai-api-key={api_key}", "--message", str(message_content)]
+    if provider == "openai" or (model and (model.startswith("gpt-") or model.startswith("o"))):
+        cmd = ["aider", aider_model_flag, "--yes-always", f"--openai-api-key={api_key}", "--message", str(message_content)]
     else:
         cmd = ["aider", aider_model_flag, "--yes-always", f"--anthropic-api-key={api_key}", "--message", str(message_content)]
     
