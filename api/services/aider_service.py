@@ -50,49 +50,34 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         if not api_key:
             raise ValueError("OPENAI_API_KEY environment variable not set")
         
-        # Select the appropriate model flag based on the model name
+        # Always use --model flag with the model name
         if model:
-            if model.startswith("gpt-4o") or model == "o4":
-                aider_model_flag = "--4o"
-            elif model.startswith("gpt-4-turbo") or model == "gpt-4-0125-preview":
-                aider_model_flag = "--4-turbo"
-            elif model.startswith("gpt-3.5") or model == "gpt-35-turbo":
-                aider_model_flag = "--35turbo"
-            elif model == "o4-mini" or model == "o4-mini-2025-04-16":
-                aider_model_flag = "--model o4-mini"  # Use --model flag for o4-mini
-            elif model.startswith("o1-mini"):
-                aider_model_flag = "--o1-mini"
-            elif model.startswith("o1-preview"):
-                aider_model_flag = "--o1-preview"
-            elif model == "o3-mini":  # Add support for o3-mini
-                aider_model_flag = "--model o3-mini"  # Use --model flag for o3-mini
-            else:
-                # For any other model, use the --model flag with the model name
-                aider_model_flag = f"--model {model}"
-                logger.info(f"Using custom model with --model flag: {model}")
+            # Always use --model flag with the model name
+            aider_model_flag = f"--model {model}"
+            logger.info(f"Using model with --model flag: {model}")
         else:
-            # Default to GPT-4o if no specific model is provided
-            aider_model_flag = "--4o"
+            # Default model if none specified
+            if provider == "openai" or provider == "chatgpt":
+                aider_model_flag = "--model gpt-4o"
+                logger.info("Using default OpenAI model: gpt-4o")
+            else:
+                # Default to Claude Sonnet if no specific model is provided
+                aider_model_flag = "--model claude-3-sonnet-20240229"
+                logger.info("Using default Claude model: claude-3-sonnet-20240229")
     else:
         # Default to Claude
         api_key = os.getenv("ANTHROPIC_API_KEY")
         if not api_key:
             raise ValueError("ANTHROPIC_API_KEY environment variable not set")
         
-        # Select the appropriate Claude model flag
+        # Always use --model flag with the model name
         if model:
-            if model.startswith("claude-3-sonnet") or model == "claude-3-5-sonnet-20240620":
-                aider_model_flag = "--sonnet"
-            elif model.startswith("claude-3-haiku"):
-                aider_model_flag = "--haiku"
-            elif model.startswith("claude-3-opus"):
-                aider_model_flag = "--opus"
-            else:
-                # Default to Sonnet for unknown Claude models
-                aider_model_flag = "--sonnet"
+            aider_model_flag = f"--model {model}"
+            logger.info(f"Using model with --model flag: {model}")
         else:
             # Default to Sonnet if no specific model is provided
-            aider_model_flag = "--sonnet"
+            aider_model_flag = "--model claude-3-sonnet-20240229"
+            logger.info("Using default Claude model: claude-3-sonnet-20240229")
     
     # Check if this is a linked repository
     is_repo_linked = False
@@ -139,15 +124,13 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     
     # Build the command
     if provider == "openai" or (model and (model.startswith("gpt-") or model.startswith("o"))):
-        if aider_model_flag.startswith("--model"):
-            # Handle the case where we need to use --model flag
-            model_name = aider_model_flag.split(" ")[1]  # Extract the model name
-            cmd = ["aider", "--model", model_name, "--yes-always", f"--openai-api-key={api_key}", "--message", str(message_content)]
-        else:
-            # Use the standard flag approach
-            cmd = ["aider", aider_model_flag, "--yes-always", f"--openai-api-key={api_key}", "--message", str(message_content)]
+        # Extract the model name from the flag
+        model_name = aider_model_flag.split(" ")[1]
+        cmd = ["aider", "--model", model_name, "--yes-always", f"--openai-api-key={api_key}", "--message", str(message_content)]
     else:
-        cmd = ["aider", aider_model_flag, "--yes-always", f"--anthropic-api-key={api_key}", "--message", str(message_content)]
+        # Extract the model name from the flag
+        model_name = aider_model_flag.split(" ")[1]
+        cmd = ["aider", "--model", model_name, "--yes-always", f"--anthropic-api-key={api_key}", "--message", str(message_content)]
     
     # Always add messages.json as --read
     messages_file = "messages.json"
