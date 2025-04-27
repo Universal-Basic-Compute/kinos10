@@ -67,10 +67,13 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
     # Get the provider based on model or default
     if not provider:
         if model:
-            if model.startswith("gpt-"):
+            if model.startswith("gpt-") or model.startswith("o"):
                 provider = "openai"
             elif model.startswith("claude-"):
                 provider = "claude"
+    
+    # Get the appropriate LLM client
+    llm_client = get_llm_client(provider, model)
     
     llm_client = get_llm_client(provider, model)
     # Create a list to track temporary files that need to be deleted
@@ -287,16 +290,15 @@ Your goal is to provide useful and accurate information while maintaining a clea
         # Add this debug log to see what's being sent to Claude
         logger.info(f"All messages being sent to Claude: {json.dumps([{'role': m.get('role'), 'content': m.get('content')[:100] + '...' if isinstance(m.get('content'), str) and len(m.get('content')) > 100 else m.get('content')} for m in messages], indent=2)}")
         
-        # Call Claude API with system message as a separate parameter
         # Use provided model if specified, otherwise use default from config
         model_to_use = model if model else MODEL
-        logger.info(f"Calling Claude API with {len(messages)} messages" + (" and images in previous message" if images else "") + f", using model: {model_to_use}")
+        logger.info(f"Calling LLM API with {len(messages)} messages" + (" and images in previous message" if images else "") + f", using model: {model_to_use}")
         logger.info(f"System context length: {len(context)} characters")
         logger.info(f"First few messages: {messages[:2] if len(messages) > 0 else 'No messages'}")
         
         # Add detailed logging of all messages being sent
         try:
-            logger.info(f"Messages being sent to Claude: {json.dumps([{'role': m.get('role'), 'content_type': type(m.get('content')).__name__, 'content_length': len(str(m.get('content')))} for m in messages], indent=2)}")
+            logger.info(f"Messages being sent to LLM: {json.dumps([{'role': m.get('role'), 'content_type': type(m.get('content')).__name__, 'content_length': len(str(m.get('content')))} for m in messages], indent=2)}")
         except:
             logger.info("Could not serialize messages for logging")
         
@@ -310,16 +312,17 @@ Your goal is to provide useful and accurate information while maintaining a clea
         
         try:
             # Log the full request details
-            logger.info(f"Claude API request details:")
+            logger.info(f"LLM API request details:")
             logger.info(f"  Model: {model_to_use}")
+            logger.info(f"  Provider: {provider}")
             logger.info(f"  System context length: {len(context)} characters")
             logger.info(f"  Number of messages: {len(messages)}")
             logger.info(f"  First message: {messages[0] if messages else 'No messages'}")
             logger.info(f"  Last message: {messages[-1] if messages else 'No messages'}")
             
-            # Log all messages being sent to Claude for better debugging
+            # Log all messages being sent to LLM for better debugging
             try:
-                logger.info(f"All messages being sent to Claude: {json.dumps([{'role': m.get('role'), 'content': m.get('content')[:100] + '...' if isinstance(m.get('content'), str) and len(m.get('content')) > 100 else m.get('content')} for m in messages], indent=2)}")
+                logger.info(f"All messages being sent to LLM: {json.dumps([{'role': m.get('role'), 'content': m.get('content')[:100] + '...' if isinstance(m.get('content'), str) and len(m.get('content')) > 100 else m.get('content')} for m in messages], indent=2)}")
             except:
                 logger.info("Could not serialize all messages for detailed logging")
             
@@ -363,139 +366,25 @@ Your goal is to provide useful and accurate information while maintaining a clea
                 logger.warning("All messages were filtered out due to empty content, adding default message")
                 messages = [{"role": "user", "content": "Hello, please help me."}]
             
-            response = client.messages.create(
-                model=model_to_use,
+            # Use the LLM client to generate a response
+            response_text = llm_client.generate_response(
+                messages=messages,
+                system=context,
                 max_tokens=4000,
-                system=context,  # Pass context as system parameter
-                messages=messages
+                model=model_to_use
             )
             
-            # Log the complete raw response
-            logger.info(f"Claude API raw response: {response}")
+            # Log the response
+            logger.info(f"LLM response: {response_text[:500]}...")
             
-            # Log specific parts of the response
-            logger.info(f"Response ID: {response.id}")
-            logger.info(f"Response model: {response.model}")
-            logger.info(f"Response role: {response.role}")
-            logger.info(f"Response stop_reason: {response.stop_reason}")
-            logger.info(f"Response content length: {len(response.content) if response.content else 0}")
-            
-            # Log usage information if available
-            if hasattr(response, 'usage'):
-                logger.info(f"Response usage: {response.usage}")
-                if hasattr(response.usage, 'input_tokens'):
-                    logger.info(f"Input tokens: {response.usage.input_tokens}")
-                if hasattr(response.usage, 'output_tokens'):
-                    logger.info(f"Output tokens: {response.usage.output_tokens}")
-            
-            # Check for empty content with end_turn stop reason
-            if response.stop_reason == 'end_turn' and (not response.content or len(response.content) == 0):
-                logger.warning("Claude returned empty content with stop_reason='end_turn'")
-                logger.warning("This usually indicates Claude had nothing to respond to or the message was unclear")
-                # Try to recover by sending a simpler message
-                if is_new_message:
-                    logger.info("Attempting recovery by sending a simplified message")
-                    recovery_response = client.messages.create(
-                        model=model_to_use,
-                        max_tokens=4000,
-                        system="You are a helpful AI assistant.",
-                        messages=[{"role": "user", "content": "Please respond to this: " + message_content}]
-                    )
-                    if recovery_response.content and len(recovery_response.content) > 0:
-                        logger.info("Recovery successful, using simplified response")
-                        response = recovery_response
-            
-            # Log the content structure
-            if response.content:
-                for i, content_item in enumerate(response.content):
-                    logger.info(f"Content item {i} type: {type(content_item)}")
-                    logger.info(f"Content item {i} dir: {dir(content_item)}")
-                    logger.info(f"Content item {i} repr: {repr(content_item)}")
-                    
-                    # Try to access as dictionary
-                    try:
-                        if hasattr(content_item, '__dict__'):
-                            logger.info(f"Content item {i} __dict__: {content_item.__dict__}")
-                    except:
-                        pass
-            
-            # Extract the response text with better error handling
-            if response.content and len(response.content) > 0:
-                # Check if the content has a 'text' attribute or if it's a dictionary with a 'text' key
-                if hasattr(response.content[0], 'text'):
-                    claude_response = response.content[0].text
-                    logger.info(f"Received response from Claude: {claude_response[:100]}...")
-                    return claude_response
-                elif isinstance(response.content[0], dict) and 'text' in response.content[0]:
-                    claude_response = response.content[0]['text']
-                    logger.info(f"Extracted text from content dict: {claude_response[:100]}...")
-                    return claude_response
-                # Try to access text attribute through different methods
-                elif hasattr(response.content[0], 'get') and callable(response.content[0].get):
-                    text = response.content[0].get('text')
-                    if text:
-                        logger.info(f"Extracted text using get() method: {text[:100]}...")
-                        return text
-                else:
-                    # Try to extract text from the content in a different way
-                    logger.warning(f"Content object doesn't have 'text' attribute: {response.content[0]}")
-                    # Try to convert to dictionary and extract text
-                    try:
-                        content_dict = vars(response.content[0])
-                        logger.info(f"Content object attributes: {content_dict.keys()}")
-                        if 'text' in content_dict:
-                            claude_response = content_dict['text']
-                            logger.info(f"Extracted text from content dict: {claude_response[:100]}...")
-                            return claude_response
-                        elif hasattr(content_dict, 'type') and content_dict.get('type') == 'text':
-                            claude_response = content_dict.get('text', '')
-                            logger.info(f"Extracted text from content type=text: {claude_response[:100]}...")
-                            return claude_response
-                        
-                        # Try to access any attribute that might contain the text
-                        for key, value in content_dict.items():
-                            if isinstance(value, str) and len(value) > 10:
-                                logger.info(f"Found potential text in attribute '{key}': {value[:100]}...")
-                                return value
-                    except Exception as extract_error:
-                        logger.error(f"Error extracting text from content: {str(extract_error)}")
-                    
-                    # Try to stringify the content object itself
-                    try:
-                        content_str = str(response.content[0])
-                        if len(content_str) > 10 and content_str != str(type(response.content[0])):
-                            logger.info(f"Using string representation of content: {content_str[:100]}...")
-                            return content_str
-                    except Exception as str_error:
-                        logger.error(f"Error converting content to string: {str(str_error)}")
-                    
-                    # If we can't extract text, return a generic response
-                    logger.error(f"Could not extract text from Claude response: {response.content}")
-                    return "I apologize, but I couldn't generate a proper response. Please try again."
-            else:
-                logger.error(f"Claude returned an empty response: {response}")
-                
-                # Check if there were output tokens despite empty content
-                if hasattr(response, 'usage') and response.usage and hasattr(response.usage, 'output_tokens') and response.usage.output_tokens > 0:
-                    logger.warning(f"Claude returned {response.usage.output_tokens} output tokens but empty content array")
-                    
-                    # For image generation, use a default artistic prompt
-                    return "A beautiful, detailed illustration in a professional style with vibrant colors and balanced composition."
-                else:
-                    # Check if this is an end_turn with empty content
-                    if hasattr(response, 'stop_reason') and response.stop_reason == 'end_turn':
-                        logger.warning("Claude returned stop_reason='end_turn' with empty content")
-                        return "I understand your message, but I'm not sure what specific information you're looking for. Could you please provide more details or clarify your question?"
-                    else:
-                        # Return a more specific error message
-                        return "I apologize, but I couldn't generate a response due to an empty content array. Please try again."
+            return response_text
         except Exception as e:
-            logger.error(f"Error calling Claude API: {str(e)}")
+            logger.error(f"Error calling LLM API: {str(e)}")
             # Include the exception details in the returned message for debugging
             return f"I apologize, but I encountered an error: {str(e)}. Please try again."
     except Exception as e:
-        logger.error(f"Error calling Claude API: {str(e)}")
-        raise RuntimeError(f"Claude API call failed: {str(e)}")
+        logger.error(f"Error calling LLM API: {str(e)}")
+        raise RuntimeError(f"LLM API call failed: {str(e)}")
     finally:
         # Clean up any temporary files
         for temp_file in temp_files:
