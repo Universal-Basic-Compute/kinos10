@@ -87,7 +87,8 @@ class OpenAIProvider(LLMProvider):
         
         # Known valid models that should be kept as-is
         known_valid_models = [
-            "o4-mini"  # Add o4-mini as a known valid model
+            "o4-mini",  # Add o4-mini as a known valid model
+            "o3-mini"   # Add o3-mini as a known valid model
         ]
         
         # Check if this is a known valid model that should be kept as-is
@@ -123,7 +124,7 @@ class OpenAIProvider(LLMProvider):
             return corrections[model_name]
         
         # Check for date-based versions that don't exist
-        date_pattern = r'(gpt-|o)4(-[a-z]+)?-\d{4}-\d{2}-\d{2}'
+        date_pattern = r'(gpt-|o[34])(-[a-z]+)?-\d{4}-\d{2}-\d{2}'
         if re.match(date_pattern, model_name) and model_name not in known_date_models:
             logger.warning(f"Detected date-based model name that may not exist: {model_name}")
             # Fall back to a safe default
@@ -135,12 +136,12 @@ class OpenAIProvider(LLMProvider):
             if model_name.startswith(prefix):
                 return model_name
         
-        # If it starts with o4-, assume it's valid
-        if model_name.startswith("o4-"):
+        # If it starts with o3- or o4-, assume it's valid
+        if model_name.startswith("o4-") or model_name.startswith("o3-"):
             return model_name
             
         # If it's not recognized at all, use the default
-        if not model_name.startswith("gpt-") and not model_name.startswith("o4-"):
+        if not model_name.startswith("gpt-") and not model_name.startswith("o4-") and not model_name.startswith("o3-"):
             logger.warning(f"Unrecognized model name: {model_name}, falling back to default")
             return os.getenv("OPENAI_MODEL", "gpt-4o")
         
