@@ -64,6 +64,8 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                 aider_model_flag = "--o1-mini"
             elif model.startswith("o1-preview"):
                 aider_model_flag = "--o1-preview"
+            elif model == "o3-mini":  # Add support for o3-mini
+                aider_model_flag = "--model o3-mini"  # Use --model flag for o3-mini
             else:
                 # Default to GPT-4o for unknown OpenAI models
                 aider_model_flag = "--4o"
@@ -136,7 +138,13 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     
     # Build the command
     if provider == "openai" or (model and (model.startswith("gpt-") or model.startswith("o"))):
-        cmd = ["aider", aider_model_flag, "--yes-always", f"--openai-api-key={api_key}", "--message", str(message_content)]
+        if aider_model_flag.startswith("--model"):
+            # Handle the case where we need to use --model flag
+            model_name = aider_model_flag.split(" ")[1]  # Extract the model name
+            cmd = ["aider", "--model", model_name, "--yes-always", f"--openai-api-key={api_key}", "--message", str(message_content)]
+        else:
+            # Use the standard flag approach
+            cmd = ["aider", aider_model_flag, "--yes-always", f"--openai-api-key={api_key}", "--message", str(message_content)]
     else:
         cmd = ["aider", aider_model_flag, "--yes-always", f"--anthropic-api-key={api_key}", "--message", str(message_content)]
     
