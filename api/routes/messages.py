@@ -207,12 +207,10 @@ def send_message(blueprint, kin_id):
         
         # If model is specified but provider isn't, infer provider from model
         if model and not provider:
-            if model.startswith("gpt-") or model.startswith("o4-"):
+            if model.startswith("gpt-") or model.startswith("o"):
                 provider = "openai"
             elif model.startswith("claude-"):
                 provider = "claude"
-            elif model.startswith("deepseek"):
-                provider = "deepseek"
             elif model.startswith("deepseek"):
                 provider = "deepseek"
         
@@ -650,10 +648,12 @@ def analyze_message(blueprint, kin_id):
         
         # If model is specified but provider isn't, infer provider from model name
         if model and not provider:
-            if model.startswith("gpt-") or model.startswith("o4-"):
+            if model.startswith("gpt-") or model.startswith("o"):
                 provider = "openai"
             elif model.startswith("claude-"):
                 provider = "claude"
+            elif model.startswith("deepseek"):
+                provider = "deepseek"
                 
         history_length = data.get('history_length', 25)  # Default to 25 messages
         addSystem = data.get('addSystem', None)  # Optional additional system instructions
