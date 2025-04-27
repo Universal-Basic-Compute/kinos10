@@ -73,6 +73,18 @@ class OpenAIProvider(LLMProvider):
         # List of valid OpenAI model prefixes
         valid_prefixes = ["gpt-4", "gpt-3.5"]
         
+        # Add specific date-based models that are known to exist
+        # These should be kept as-is, not remapped
+        known_date_models = [
+            "gpt-4.1-2025-04-14",
+            "o4-mini-2025-04-16"
+        ]
+        
+        # Check if this is a known date-based model that should be kept as-is
+        if model_name in known_date_models:
+            logger.info(f"Using known date-based model: {model_name}")
+            return model_name
+        
         # Common model name corrections
         corrections = {
             # Correct common typos and variations
@@ -88,10 +100,7 @@ class OpenAIProvider(LLMProvider):
             "gpt35": "gpt-3.5-turbo",
             "gpt-4-turbo": "gpt-4-turbo",
             "gpt-4-vision": "gpt-4-vision-preview",
-            "gpt-4-vision-preview": "gpt-4-vision-preview",
-            # Add specific date-based models that are known to exist
-            "gpt-4.1-2025-04-14": "gpt-4.1-2025-04-14",
-            "o4-mini-2025-04-16": "gpt-4o-mini"  # Map to the standard model name
+            "gpt-4-vision-preview": "gpt-4-vision-preview"
         }
         
         # Check for exact match in corrections
@@ -101,11 +110,7 @@ class OpenAIProvider(LLMProvider):
         
         # Check for date-based versions that don't exist
         date_pattern = r'(gpt-|o)4(-[a-z]+)?-\d{4}-\d{2}-\d{2}'
-        if re.match(date_pattern, model_name):
-            # First check if this is a known date-based model
-            if model_name in corrections:
-                return corrections[model_name]
-                
+        if re.match(date_pattern, model_name) and model_name not in known_date_models:
             logger.warning(f"Detected date-based model name that may not exist: {model_name}")
             # Fall back to a safe default
             logger.info(f"Falling back to default model 'gpt-4o'")
@@ -117,7 +122,7 @@ class OpenAIProvider(LLMProvider):
                 return model_name
         
         # If it's not recognized at all, use the default
-        if not model_name.startswith("gpt-"):
+        if not model_name.startswith("gpt-") and not model_name.startswith("o4-"):
             logger.warning(f"Unrecognized model name: {model_name}, falling back to default")
             return os.getenv("OPENAI_MODEL", "gpt-4o")
         
