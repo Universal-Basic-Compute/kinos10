@@ -76,7 +76,7 @@ class OpenAIProvider(LLMProvider):
         # Special case for o4-mini-2025-04-16 which seems to have issues
         if model_name == "o4-mini-2025-04-16":
             logger.info(f"Mapping model 'o4-mini-2025-04-16' to 'o4-mini'")
-            return "gpt-4o-mini"
+            return "o4-mini"
         
         # Add specific date-based models that are known to exist
         # These should be kept as-is, not remapped
@@ -84,6 +84,16 @@ class OpenAIProvider(LLMProvider):
             "gpt-4.1-2025-04-14"
             # Removed o4-mini-2025-04-16 since it's being handled separately
         ]
+        
+        # Known valid models that should be kept as-is
+        known_valid_models = [
+            "o4-mini"  # Add o4-mini as a known valid model
+        ]
+        
+        # Check if this is a known valid model that should be kept as-is
+        if model_name in known_valid_models:
+            logger.info(f"Using known valid model: {model_name}")
+            return model_name
         
         # Check if this is a known date-based model that should be kept as-is
         if model_name in known_date_models:
@@ -99,7 +109,6 @@ class OpenAIProvider(LLMProvider):
             "gpt-4-o": "gpt-4o",
             "gpt4-o": "gpt-4o",
             "o4": "gpt-4o",
-            "o4-mini": "gpt-4o-mini",
             "gpt-35": "gpt-3.5-turbo",
             "gpt-3.5": "gpt-3.5-turbo",
             "gpt35": "gpt-3.5-turbo",
@@ -126,6 +135,10 @@ class OpenAIProvider(LLMProvider):
             if model_name.startswith(prefix):
                 return model_name
         
+        # If it starts with o4-, assume it's valid
+        if model_name.startswith("o4-"):
+            return model_name
+            
         # If it's not recognized at all, use the default
         if not model_name.startswith("gpt-") and not model_name.startswith("o4-"):
             logger.warning(f"Unrecognized model name: {model_name}, falling back to default")
