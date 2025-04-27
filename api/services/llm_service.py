@@ -25,7 +25,7 @@ class LLMProvider:
         if provider_name == "claude" or provider_name.startswith("claude-"):
             from services.claude_provider import ClaudeProvider
             return ClaudeProvider()
-        elif provider_name == "openai" or provider_name == "chatgpt" or provider_name.startswith("gpt-"):
+        elif provider_name == "openai" or provider_name == "chatgpt" or provider_name.startswith("gpt-") or provider_name.startswith("o4-"):
             from services.openai_provider import OpenAIProvider
             return OpenAIProvider()
         else:
