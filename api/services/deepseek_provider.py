@@ -14,14 +14,26 @@ class DeepSeekProvider(LLMProvider):
             logger.warning("DEEPSEEK_API_KEY environment variable not set")
         
         # Set API endpoint
-        self.api_endpoint = "https://api.deepseek.com/chat/completions"
+        self.api_endpoint = "https://api.deepseek.com/v1/chat/completions"  # Update to v1 endpoint
         logger.info("DeepSeek provider initialized")
     
     def generate_response(self, messages, system=None, max_tokens=4000, model=None):
         """Generate a response using DeepSeek API"""
         try:
-            # Use provided model or default
+            # Use provided model or default with proper mapping
             model_to_use = model or "deepseek-chat"
+            
+            # Map model names to DeepSeek's expected format
+            model_mapping = {
+                "deepseek-chat": "deepseek-chat",
+                "deepseek-coder": "deepseek-coder",
+                "deepseek-llm": "deepseek-llm"
+            }
+            
+            # Use the mapped model name if available, otherwise use as-is
+            actual_model = model_mapping.get(model_to_use, model_to_use)
+            
+            logger.info(f"Using DeepSeek model: {actual_model} (mapped from {model_to_use})")
             
             # If system message is provided, add it to the messages array
             formatted_messages = []
@@ -33,7 +45,7 @@ class DeepSeekProvider(LLMProvider):
             
             # Prepare the request payload
             payload = {
-                "model": model_to_use,
+                "model": actual_model,
                 "messages": formatted_messages,
                 "max_tokens": max_tokens,
                 "stream": False
@@ -46,7 +58,7 @@ class DeepSeekProvider(LLMProvider):
             }
             
             # Log the request (without sensitive data)
-            logger.info(f"Sending request to DeepSeek API with model: {model_to_use}")
+            logger.info(f"Sending request to DeepSeek API with model: {actual_model}")
             logger.info(f"Number of messages: {len(formatted_messages)}")
             
             # Make the API call
