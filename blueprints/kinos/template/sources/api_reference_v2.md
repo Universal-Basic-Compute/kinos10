@@ -1301,7 +1301,8 @@ Trigger autonomous thinking for a kin, which generates random thoughts and self-
 {
   "iterations": 3,  // Optional, default: 3
   "wait_time": 600,  // Optional, default: 600 seconds (10 minutes)
-  "sync": false  // Optional, default: false
+  "sync": false,  // Optional, default: false
+  "webhook_url": "https://your-webhook-endpoint.com/hook"  // Optional, URL to receive real-time updates
 }
 ```
 
@@ -1364,6 +1365,7 @@ This endpoint has two modes of operation:
      - Sends the thoughts to the kin for self-reflection
      - Repeats this process for the specified number of iterations
    - The process runs asynchronously, so the endpoint returns immediately while the thinking continues in the background
+   - If a webhook URL is provided, each step of the thinking process will send data to this URL in real-time
 
 2. **Synchronous Mode (sync=true):**
    - Executes a single iteration of the autonomous thinking process immediately
@@ -1374,6 +1376,19 @@ This endpoint has two modes of operation:
      - Initiative created based on the daydreaming
      - The kin's response to these thoughts
    - This mode is useful for applications that need to display the thinking process or capture the results for immediate use
+   - If a webhook URL is provided, each step will also send data to this URL as it completes
+
+The webhook receives JSON data for each step with this structure:
+```json
+{
+  "type": "keywords|dream|daydreaming|initiative|kin_response|error",
+  "blueprint": "blueprint_name",
+  "kin_id": "kin_id",
+  "iteration": 1,  // Only in asynchronous mode
+  "content": { ... },  // The content generated in this step
+  "timestamp": "2023-09-15T14:30:45.123456"
+}
+```
 
 ### Media Processing
 

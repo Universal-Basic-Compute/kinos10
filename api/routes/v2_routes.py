@@ -999,6 +999,7 @@ def trigger_autonomous_thinking_v2(blueprint, kin_id):
         iterations = data.get('iterations', 3)
         wait_time = data.get('wait_time', 600)
         sync = data.get('sync', False)  # New parameter to control synchronous execution
+        webhook_url = data.get('webhook_url')  # New parameter for webhook URL
         
         # Validate blueprint and kin
         if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
@@ -1018,7 +1019,8 @@ def trigger_autonomous_thinking_v2(blueprint, kin_id):
                 generate_dream, 
                 generate_daydreaming, 
                 generate_initiative,
-                send_build_to_kin
+                send_build_to_kin,
+                send_to_webhook  # Import the new webhook function
             )
             
             # Get API key from environment
@@ -1047,12 +1049,34 @@ def trigger_autonomous_thinking_v2(blueprint, kin_id):
                 "content": keywords
             })
             
+            # Send keywords to webhook if provided
+            if webhook_url:
+                webhook_data = {
+                    "type": "keywords",
+                    "blueprint": blueprint,
+                    "kin_id": kin_id,
+                    "content": keywords,
+                    "timestamp": datetime.datetime.now().isoformat()
+                }
+                send_to_webhook(webhook_url, webhook_data)
+            
             # Step 2: Generate dream narrative
             dream_narrative = generate_dream(kin_path, keywords, client)
             results["steps"].append({
                 "step": "dream",
                 "content": dream_narrative
             })
+            
+            # Send dream to webhook if provided
+            if webhook_url:
+                webhook_data = {
+                    "type": "dream",
+                    "blueprint": blueprint,
+                    "kin_id": kin_id,
+                    "content": dream_narrative,
+                    "timestamp": datetime.datetime.now().isoformat()
+                }
+                send_to_webhook(webhook_url, webhook_data)
             
             # Step 3: Generate daydreaming
             daydreaming = generate_daydreaming(kin_path, dream_narrative, files_to_use, client)
@@ -1061,12 +1085,34 @@ def trigger_autonomous_thinking_v2(blueprint, kin_id):
                 "content": daydreaming
             })
             
+            # Send daydreaming to webhook if provided
+            if webhook_url:
+                webhook_data = {
+                    "type": "daydreaming",
+                    "blueprint": blueprint,
+                    "kin_id": kin_id,
+                    "content": daydreaming,
+                    "timestamp": datetime.datetime.now().isoformat()
+                }
+                send_to_webhook(webhook_url, webhook_data)
+            
             # Step 4: Generate initiative
             initiative = generate_initiative(kin_path, daydreaming, client)
             results["steps"].append({
                 "step": "initiative",
                 "content": initiative
             })
+            
+            # Send initiative to webhook if provided
+            if webhook_url:
+                webhook_data = {
+                    "type": "initiative",
+                    "blueprint": blueprint,
+                    "kin_id": kin_id,
+                    "content": initiative,
+                    "timestamp": datetime.datetime.now().isoformat()
+                }
+                send_to_webhook(webhook_url, webhook_data)
             
             # Step 5: Send to kin and get response
             combined_message = f"Daydreaming:\n{daydreaming}\n\nInitiative:\n{initiative}"
@@ -1076,11 +1122,45 @@ def trigger_autonomous_thinking_v2(blueprint, kin_id):
                 "content": response
             })
             
+            # Send kin response to webhook if provided
+            if webhook_url:
+                webhook_data = {
+                    "type": "kin_response",
+                    "blueprint": blueprint,
+                    "kin_id": kin_id,
+                    "content": response,
+                    "timestamp": datetime.datetime.now().isoformat()
+                }
+                send_to_webhook(webhook_url, webhook_data)
+            
             return jsonify(results)
         else:
-            # Run asynchronously as before
-            from routes.projects import trigger_autonomous_thinking
-            return trigger_autonomous_thinking(blueprint, kin_id)
+            # Run asynchronously with webhook support
+            # Start a background thread to run the autonomous thinking process
+            def run_autonomous_thinking():
+                from api.autonomous_thinking import autonomous_thinking
+                autonomous_thinking(
+                    blueprint, 
+                    kin_id, 
+                    iterations=iterations, 
+                    wait_time=wait_time,
+                    webhook_url=webhook_url
+                )
+            
+            # Start the thread
+            thread = threading.Thread(target=run_autonomous_thinking)
+            thread.daemon = True
+            thread.start()
+            
+            return jsonify({
+                "status": "started",
+                "message": f"Autonomous thinking started for {blueprint}/{kin_id}",
+                "blueprint": blueprint,
+                "kin_id": kin_id,
+                "iterations": iterations,
+                "wait_time": wait_time,
+                "webhook_enabled": true
+            })
             
     except Exception as e:
         logger.error(f"Error in trigger_autonomous_thinking_v2: {str(e)}")

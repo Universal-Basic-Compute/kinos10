@@ -1426,7 +1426,38 @@ def add_channel_message(blueprint, kin_id, channel_id, data):
         logger.error(f"Error writing to channel messages.json: {str(e)}")
         return {"error": f"Error saving message: {str(e)}"}, 500
 
-def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id=None, iterations=3, wait_time=600, remote=False, provider=None, model=None):
+def send_to_webhook(webhook_url, data):
+    """
+    Send data to a webhook URL.
+    
+    Args:
+        webhook_url: The URL to send the data to
+        data: The data to send (will be converted to JSON)
+        
+    Returns:
+        Boolean indicating success
+    """
+    if not webhook_url:
+        return False
+        
+    try:
+        response = requests.post(
+            webhook_url,
+            json=data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code >= 200 and response.status_code < 300:
+            logger.info(f"Successfully sent data to webhook: {webhook_url}")
+            return True
+        else:
+            logger.warning(f"Failed to send data to webhook: {response.status_code} - {response.text}")
+            return False
+    except Exception as e:
+        logger.error(f"Error sending data to webhook: {str(e)}")
+        return False
+
+def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id=None, iterations=3, wait_time=600, remote=False, provider=None, model=None, webhook_url=None):
     """
     Run the autonomous thinking process for a kin.
     
@@ -1440,6 +1471,7 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
         remote: Whether to use remote API instead of localhost (default: False)
         provider: Optional LLM provider to use ("claude" or "openai")
         model: Optional model to use
+        webhook_url: Optional webhook URL to send thoughts to
     
     Returns:
         Boolean indicating success
@@ -1477,10 +1509,34 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
             daydreaming = generate_random_thought(blueprint, kin_id, api_key, remote=remote, provider=provider, model=model)
             logger.info(f"\n🧠 DAYDREAMING:\n{daydreaming}\n")
             
+            # Send daydreaming to webhook if provided
+            if webhook_url:
+                webhook_data = {
+                    "type": "daydreaming",
+                    "iteration": i+1,
+                    "blueprint": blueprint,
+                    "kin_id": kin_id,
+                    "content": daydreaming,
+                    "timestamp": datetime.now().isoformat()
+                }
+                send_to_webhook(webhook_url, webhook_data)
+            
             # Generate initiative based on the daydreaming
             logger.info(f"\n--- STEP 2: GENERATING INITIATIVE ---")
             initiative = generate_initiative(kin_path, daydreaming, client)
             logger.info(f"\n🎯 INITIATIVE:\n{initiative}\n")
+            
+            # Send initiative to webhook if provided
+            if webhook_url:
+                webhook_data = {
+                    "type": "initiative",
+                    "iteration": i+1,
+                    "blueprint": blueprint,
+                    "kin_id": kin_id,
+                    "content": initiative,
+                    "timestamp": datetime.now().isoformat()
+                }
+                send_to_webhook(webhook_url, webhook_data)
             
             # Combine daydreaming and initiative for the message to the kin
             combined_message = f"Daydreaming:\n{daydreaming}\n\nInitiative:\n{initiative}"
@@ -1489,6 +1545,18 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
             logger.info(f"\n--- STEP 3: SENDING TO KIN AND GETTING RESPONSE ---")
             response = send_build_to_kin(blueprint, kin_id, combined_message, remote=remote, provider=provider, model=model)
             logger.info(f"\n💬 KIN RESPONSE:\n{response}\n")
+            
+            # Send kin response to webhook if provided
+            if webhook_url:
+                webhook_data = {
+                    "type": "kin_response",
+                    "iteration": i+1,
+                    "blueprint": blueprint,
+                    "kin_id": kin_id,
+                    "content": response,
+                    "timestamp": datetime.now().isoformat()
+                }
+                send_to_webhook(webhook_url, webhook_data)
             
             # Send Telegram notification
             if telegram_token and telegram_chat_id:
@@ -1506,6 +1574,19 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
                 
         except Exception as e:
             logger.error(f"Error in iteration {i+1}: {str(e)}")
+            
+            # Send error to webhook if provided
+            if webhook_url:
+                webhook_data = {
+                    "type": "error",
+                    "iteration": i+1,
+                    "blueprint": blueprint,
+                    "kin_id": kin_id,
+                    "error": str(e),
+                    "timestamp": datetime.now().isoformat()
+                }
+                send_to_webhook(webhook_url, webhook_data)
+                
             # Continue with next iteration despite errors
             if i < iterations - 1:
                 logger.info(f"Waiting {wait_time} seconds before next iteration...")
@@ -1527,6 +1608,7 @@ def main():
     parser.add_argument("--provider", help="LLM provider to use (claude or openai)")
     parser.add_argument("--model", help="Specific model to use")
     parser.add_argument("--vercel-token", help="Vercel API token for checking deployments")
+    parser.add_argument("--webhook-url", help="Webhook URL to send thoughts to")
     parser.add_argument("--debug", action="store_true", help="Enable debug logging")
     
     args = parser.parse_args()
@@ -1567,6 +1649,9 @@ def main():
     vercel_token = args.vercel_token or os.getenv("VERCEL_API_TOKEN")
     if vercel_token:
         os.environ["VERCEL_API_TOKEN"] = vercel_token
+        
+    # Get webhook URL from environment variable if not provided as argument
+    webhook_url = args.webhook_url or os.getenv("WEBHOOK_URL")
     
     # Check for required API keys
     anthropic_key = os.getenv("ANTHROPIC_API_KEY")
@@ -1597,7 +1682,8 @@ def main():
             args.wait_time,
             remote=args.remote,
             provider=args.provider,
-            model=args.model
+            model=args.model,
+            webhook_url=webhook_url
         )
         
         return 0 if success else 1
