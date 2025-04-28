@@ -990,11 +990,101 @@ def listen_to_kin_v2(blueprint, kin_id):
 def trigger_autonomous_thinking_v2(blueprint, kin_id):
     """
     V2 API endpoint to trigger autonomous thinking for a kin.
-    Maps to the original trigger_autonomous_thinking function.
-    Supports both GET and POST methods.
+    If 'sync' parameter is true, returns the first iteration results immediately
+    instead of running asynchronously.
     """
-    from routes.projects import trigger_autonomous_thinking
-    return trigger_autonomous_thinking(blueprint, kin_id)
+    try:
+        # Parse request data
+        data = request.json or {}
+        iterations = data.get('iterations', 3)
+        wait_time = data.get('wait_time', 600)
+        sync = data.get('sync', False)  # New parameter to control synchronous execution
+        
+        # Validate blueprint and kin
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        kin_path = get_kin_path(blueprint, kin_id)
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # If sync is True, run the first iteration synchronously and return results
+        if sync:
+            # Import necessary functions from autonomous-thinking.py
+            from api.autonomous_thinking import (
+                get_anthropic_client, 
+                get_random_files, 
+                extract_keywords, 
+                generate_dream, 
+                generate_daydreaming, 
+                generate_initiative,
+                send_build_to_kin
+            )
+            
+            # Get API key from environment
+            api_key = os.getenv("API_SECRET_KEY")
+            if not api_key:
+                return jsonify({"error": "API_SECRET_KEY environment variable not set"}), 500
+            
+            # Get Claude client
+            client = get_anthropic_client()
+            
+            # Get random files
+            files_to_use = get_random_files(kin_path, count=3)
+            
+            # Execute the autonomous thinking steps and collect results
+            results = {
+                "status": "completed",
+                "blueprint": blueprint,
+                "kin_id": kin_id,
+                "steps": []
+            }
+            
+            # Step 1: Extract keywords
+            keywords = extract_keywords(kin_path, files_to_use, client)
+            results["steps"].append({
+                "step": "keywords",
+                "content": keywords
+            })
+            
+            # Step 2: Generate dream narrative
+            dream_narrative = generate_dream(kin_path, keywords, client)
+            results["steps"].append({
+                "step": "dream",
+                "content": dream_narrative
+            })
+            
+            # Step 3: Generate daydreaming
+            daydreaming = generate_daydreaming(kin_path, dream_narrative, files_to_use, client)
+            results["steps"].append({
+                "step": "daydreaming",
+                "content": daydreaming
+            })
+            
+            # Step 4: Generate initiative
+            initiative = generate_initiative(kin_path, daydreaming, client)
+            results["steps"].append({
+                "step": "initiative",
+                "content": initiative
+            })
+            
+            # Step 5: Send to kin and get response
+            combined_message = f"Daydreaming:\n{daydreaming}\n\nInitiative:\n{initiative}"
+            response = send_build_to_kin(blueprint, kin_id, combined_message)
+            results["steps"].append({
+                "step": "kin_response",
+                "content": response
+            })
+            
+            return jsonify(results)
+        else:
+            # Run asynchronously as before
+            from routes.projects import trigger_autonomous_thinking
+            return trigger_autonomous_thinking(blueprint, kin_id)
+            
+    except Exception as e:
+        logger.error(f"Error in trigger_autonomous_thinking_v2: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/commit-history', methods=['GET'])
 def get_commit_history_v2(blueprint, kin_id):

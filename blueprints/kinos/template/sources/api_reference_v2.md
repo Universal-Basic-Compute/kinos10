@@ -1300,11 +1300,12 @@ Trigger autonomous thinking for a kin, which generates random thoughts and self-
 ```json
 {
   "iterations": 3,  // Optional, default: 3
-  "wait_time": 600  // Optional, default: 600 seconds (10 minutes)
+  "wait_time": 600,  // Optional, default: 600 seconds (10 minutes)
+  "sync": false  // Optional, default: false
 }
 ```
 
-**Response:**
+**Response (Asynchronous Mode, sync=false):**
 ```json
 {
   "status": "started",
@@ -1316,13 +1317,63 @@ Trigger autonomous thinking for a kin, which generates random thoughts and self-
 }
 ```
 
-This endpoint starts a background process that:
-1. Selects random files from the kin
-2. Generates thoughts based on these files
-3. Sends the thoughts to the kin for self-reflection
-4. Repeats this process for the specified number of iterations
+**Response (Synchronous Mode, sync=true):**
+```json
+{
+  "status": "completed",
+  "blueprint": "kinos",
+  "kin_id": "my-kin-id",
+  "steps": [
+    {
+      "step": "keywords",
+      "content": {
+        "relevant_keywords": ["technology", "innovation", "future"],
+        "emotions": ["excitement", "curiosity"],
+        "problems": ["complexity", "adoption"],
+        "surprising_words": ["quantum", "symbiotic", "emergent"],
+        "adjacent_keywords": ["sustainability", "ethics"],
+        "surprising_keywords": ["biomimicry", "transcendence"]
+      }
+    },
+    {
+      "step": "dream",
+      "content": "In my dream, I found myself navigating a quantum network where ideas took physical form, connecting innovation to human experience in unexpected ways. The symbiotic relationship between technology and nature revealed itself as both beautiful and challenging."
+    },
+    {
+      "step": "daydreaming",
+      "content": "I wonder if the future of technology lies not in domination but in partnership with natural systems. What if our innovations could mirror the elegant solutions that nature has refined over billions of years? Perhaps the complexity we face isn't a problem to solve but a reality to embrace, finding ways to make emergent properties work for human flourishing rather than against it."
+    },
+    {
+      "step": "initiative",
+      "content": "Goal: Explore biomimicry in technological design\n\nSteps:\n1. Research examples of successful biomimetic technologies\n2. Identify three natural processes that could inspire new computing paradigms\n3. Draft a proposal for an ethical framework that balances innovation with sustainability\n4. Create a visualization of how these principles might reshape our digital infrastructure"
+    },
+    {
+      "step": "kin_response",
+      "content": "Your thoughts have sparked some fascinating connections in my mind. The concept of biomimicry as a bridge between technology and nature is particularly compelling..."
+    }
+  ]
+}
+```
 
-The process runs asynchronously, so the endpoint returns immediately while the thinking continues in the background.
+This endpoint has two modes of operation:
+
+1. **Asynchronous Mode (default, sync=false):**
+   - Starts a background process that:
+     - Selects random files from the kin
+     - Generates thoughts based on these files
+     - Sends the thoughts to the kin for self-reflection
+     - Repeats this process for the specified number of iterations
+   - The process runs asynchronously, so the endpoint returns immediately while the thinking continues in the background
+
+2. **Synchronous Mode (sync=true):**
+   - Executes a single iteration of the autonomous thinking process immediately
+   - Returns the complete results of each step in the process:
+     - Keywords extracted from the kin's files
+     - Dream narrative generated from the keywords
+     - Daydreaming paragraph developed from the dream
+     - Initiative created based on the daydreaming
+     - The kin's response to these thoughts
+   - This mode is useful for applications that need to display the thinking process or capture the results for immediate use
 
 ### Media Processing
 
