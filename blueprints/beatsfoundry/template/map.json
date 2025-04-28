@@ -189,6 +189,42 @@
       "priority": "high",
       "update_frequency": "medium",
       "related_files": ["artistic_evolution.txt"]
+    },
+    "artistic_identity.txt": {
+      "description": "Framework defining core elements of artistic identity",
+      "priority": "high",
+      "update_frequency": "low",
+      "related_files": ["style_dna.txt", "artistic_evolution.txt"]
+    },
+    "radio_stream_integration.txt": {
+      "description": "Protocols for 24/7 radio stream interaction",
+      "priority": "high",
+      "update_frequency": "medium",
+      "related_files": ["modes/radio.txt", "listener_engagement_strategy.txt"]
+    },
+    "collaboration_framework.txt": {
+      "description": "Guidelines for creative collaboration with humans and other AI",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "related_files": ["artistic_identity.txt", "production_workflow.txt"]
+    },
+    "technical_requirements.txt": {
+      "description": "Technical specifications for music generation system",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "related_files": ["music_generation_pipeline.txt", "production_workflow.txt"]
+    },
+    "listener_engagement_strategy.txt": {
+      "description": "Framework for building audience relationships",
+      "priority": "high",
+      "update_frequency": "medium",
+      "related_files": ["feedback_integration.txt", "radio_stream_integration.txt"]
+    },
+    "catalog_management.txt": {
+      "description": "System for organizing and maintaining music catalog",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "related_files": ["memories/catalog/README.txt", "evolution_tracking.txt"]
     }
   },
   "modes": {
@@ -242,7 +278,7 @@
       "description": "Archive of created music tracks",
       "priority": "high",
       "update_frequency": "high",
-      "subdirectories": ["releases", "drafts"],
+      "subdirectories": ["releases", "drafts", "series", "collections"],
       "file_types": ["track descriptions", "production notes", "reception records"]
     },
     "influences": {
