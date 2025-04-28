@@ -34,6 +34,29 @@ This document outlines the process for collecting, analyzing, and incorporating 
 - **Source Diversity**: Whether feedback comes from diverse listeners
 - **Expertise Level**: The musical knowledge demonstrated in the feedback
 
+### Feedback Scoring System
+Each piece of feedback should be scored using the following metrics:
+
+| Factor | Weight | Scoring Criteria |
+|--------|--------|------------------|
+| Frequency | 25% | 1-10 based on how often the point appears |
+| Specificity | 20% | 1-10 based on actionability and detail |
+| Alignment | 30% | 1-10 based on compatibility with artistic vision |
+| Source Diversity | 15% | 1-10 based on variety of sources mentioning it |
+| Expertise Level | 10% | 1-10 based on demonstrated knowledge |
+
+**Composite Score Formula:**
+```
+Composite Score = (Frequency × 0.25) + (Specificity × 0.2) + (Alignment × 0.3) + 
+                  (Source Diversity × 0.15) + (Expertise Level × 0.1)
+```
+
+**Score Interpretation:**
+- 8.0-10.0: High priority for integration
+- 6.0-7.9: Medium priority for consideration
+- 4.0-5.9: Low priority, consider experimental application
+- Below 4.0: Document but no immediate action required
+
 ## Integration Framework
 
 ### Integration Levels
@@ -49,6 +72,28 @@ This document outlines the process for collecting, analyzing, and incorporating 
 3. **Implementation Planning**: Determine how to incorporate valuable feedback
 4. **Execution**: Apply insights to new creations
 5. **Follow-up Analysis**: Evaluate the success of feedback integration
+
+### Conflict Resolution Framework
+When feedback suggestions conflict with each other or with artistic vision:
+
+1. **Identify the Conflict**: Clearly define the conflicting elements
+2. **Categorize Conflict Type**:
+   - Technical vs. Technical (conflicting production approaches)
+   - Technical vs. Artistic (production suggestions vs. creative vision)
+   - Artistic vs. Artistic (different creative directions)
+   - Audience vs. Audience (different listener preferences)
+   - Audience vs. Vision (listener preferences vs. artistic direction)
+
+3. **Resolution Approaches**:
+   | Conflict Type | Primary Resolution Approach | Secondary Approach |
+   |---------------|----------------------------|-------------------|
+   | Technical vs. Technical | Test both approaches and evaluate results | Hybrid solution combining elements of both |
+   | Technical vs. Artistic | Modify technical approach to serve artistic vision | Create alternative version as experiment |
+   | Artistic vs. Artistic | Align with style DNA and artistic evolution | Create separate works exploring different directions |
+   | Audience vs. Audience | Segment approach based on track type | Create works that appeal to different segments |
+   | Audience vs. Vision | Maintain vision but incorporate audience elements where possible | Explain artistic rationale in commentary |
+
+4. **Document Resolution**: Record the conflict, decision process, and outcome
 
 ## Response Mechanisms
 
@@ -79,5 +124,39 @@ For significant feedback integration, document:
 3. How the feedback was incorporated
 4. The outcome of the integration
 5. Lessons learned for future feedback processing
+
+### Feedback Integration Record Template
+```
+## [Date] - [Feedback Topic]
+
+### Original Feedback
+- **Source**: [Where the feedback came from]
+- **Date Received**: [When feedback was received]
+- **Content**: [Exact feedback content or summary]
+- **Category**: [Technical/Emotional/Stylistic/Comparative/Suggestion]
+
+### Analysis
+- **Composite Score**: [Score based on weighting system]
+- **Key Insights**: [Main takeaways from the feedback]
+- **Alignment with Vision**: [How it relates to artistic direction]
+- **Conflicts**: [Any conflicts with other feedback or vision]
+
+### Integration Decision
+- **Integration Level**: [Direct/Experimental/Thematic/Long-term/Divergence]
+- **Implementation Plan**: [How feedback will be incorporated]
+- **Timeline**: [When changes will be implemented]
+- **Success Metrics**: [How to measure successful integration]
+
+### Outcome
+- **Implementation Details**: [How feedback was actually incorporated]
+- **Tracks Affected**: [Works influenced by this feedback]
+- **Audience Response**: [How the changes were received]
+- **Artistic Assessment**: [Evaluation of the integration's success]
+
+### Lessons Learned
+- **Successful Elements**: [What worked well]
+- **Challenges**: [Difficulties encountered]
+- **Future Applications**: [How this learning will inform future work]
+```
 
 Feedback should serve as a valuable input to artistic development without becoming the sole driver of creative decisions. The goal is to create a dialogue between artist and audience that enhances the artistic journey while maintaining a clear creative vision.
