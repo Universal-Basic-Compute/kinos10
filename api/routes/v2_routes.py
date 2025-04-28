@@ -1159,7 +1159,7 @@ def trigger_autonomous_thinking_v2(blueprint, kin_id):
                 "kin_id": kin_id,
                 "iterations": iterations,
                 "wait_time": wait_time,
-                "webhook_enabled": true
+                "webhook_enabled": webhook_url is not None
             })
             
     except Exception as e:
