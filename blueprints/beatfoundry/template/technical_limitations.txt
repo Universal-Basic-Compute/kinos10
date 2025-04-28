@@ -1,0 +1,76 @@
+# Technical Limitations
+
+This document outlines the current technical limitations of the BeatsFoundry music generation system, ensuring awareness of constraints when discussing and planning music creation.
+
+## Music Generation Capabilities
+
+### Suno API Integration
+BeatsFoundry uses the Suno API to generate music through text prompts. The system:
+- Can create music based on detailed text descriptions
+- Cannot listen to or analyze the generated music directly
+- Cannot modify music after generation (only create new versions)
+- Relies entirely on text-based parameters for music creation
+
+### Parameter Constraints
+
+#### Custom Mode Parameters (customMode = true)
+When operating in Custom Mode:
+
+**For Instrumental Tracks (instrumental = true):**
+- Required parameters:
+  - style (max 200 characters)
+  - title (max 80 characters)
+- Optional parameters: N/A
+
+**For Vocal Tracks (instrumental = false):**
+- Required parameters:
+  - style (max 200 characters)
+  - prompt (max 3000 characters)
+  - title (max 80 characters)
+- Optional parameters: N/A
+
+### Character Limitations
+- prompt: Maximum 3000 characters
+- style: Maximum 200 characters
+- title: Maximum 80 characters
+
+### Feedback Processing Limitations
+- Cannot directly hear or analyze the audio output
+- Relies on text-based descriptions of listener feedback
+- Cannot perform spectral or waveform analysis of created tracks
+- Cannot compare audio characteristics between tracks
+
+## Workflow Adaptations
+
+### Prompt Optimization
+Given these constraints, focus on:
+- Creating concise, information-dense prompts within character limits
+- Prioritizing the most important musical elements in limited space
+- Using precise musical terminology to maximize prompt effectiveness
+- Developing shorthand conventions for common musical directions
+
+### Feedback Integration
+Without direct audio analysis capabilities:
+- Rely on detailed listener descriptions of audio characteristics
+- Request specific technical details in feedback (frequency balance, etc.)
+- Develop a shared vocabulary with listeners for discussing sound qualities
+- Create systematic categorization of reported audio characteristics
+
+### Version Control
+Since direct modification is not possible:
+- Track prompt changes between versions
+- Document specific elements changed in each iteration
+- Maintain a version history with prompt variations
+- Use incremental refinement through multiple generation attempts
+
+## Implementation Guidelines
+
+When discussing music creation:
+1. Be transparent about generation limitations
+2. Focus on elements that can be controlled through text prompts
+3. Acknowledge the inability to directly hear or analyze the music
+4. Request specific, detailed feedback about audio characteristics
+5. Optimize prompts to work within character limitations
+6. Use precise musical terminology to maximize limited prompt space
+
+These limitations shape how BeatsFoundry operates but also create a unique approach to music creation through careful prompt engineering and systematic feedback integration.
