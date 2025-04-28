@@ -1266,7 +1266,7 @@ Generate an image based on a message using Ideogram API.
 {
   "prompt": "Create an image of a futuristic city with flying cars",
   "aspect_ratio": "ASPECT_1_1",  // Optional, default: ASPECT_1_1
-  "model": "V_2",  // Optional, default: V_2
+  "model": "V_2A",  // Optional, default: V_2A
   "magic_prompt_option": "AUTO"  // Optional, default: AUTO
 }
 ```

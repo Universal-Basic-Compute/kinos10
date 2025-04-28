@@ -916,19 +916,42 @@ def get_kin_content_v2(blueprint, kin_id):
 def generate_kin_image_v2(blueprint, kin_id):
     """
     V2 API endpoint to generate an image based on a message.
-    Maps to the original generate_kin_image function.
+    Maps to the original generate_kin_image function but updates the default model to V_2A.
     """
-    from routes.projects import generate_kin_image
-    return generate_kin_image(blueprint, kin_id)
+    try:
+        # Get the original data
+        original_data = request.get_json() or {}
+        
+        # Set default model to V_2A if not specified
+        if 'model' not in original_data:
+            original_data['model'] = 'V_2A'
+        
+        # Create a new request context with the modified data
+        with app.test_request_context(
+            method='POST',
+            path=f'/api/proxy/kins/{blueprint}/{kin_id}/image',
+            json=original_data
+        ) as ctx:
+            # Push the context
+            ctx.push()
+            try:
+                # Call the original function with the modified data
+                from routes.projects import generate_kin_image
+                return generate_kin_image(blueprint, kin_id)
+            finally:
+                ctx.pop()
+    except Exception as e:
+        logger.error(f"Error in generate_kin_image_v2: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/image', methods=['POST'])
 def generate_kin_image_singular_v2(blueprint, kin_id):
     """
     V2 API endpoint to generate an image based on a message (singular form).
-    Maps to the original generate_kin_image function.
+    Maps to the original generate_kin_image function but updates the default model to V_2A.
     """
-    from routes.projects import generate_kin_image
-    return generate_kin_image(blueprint, kin_id)
+    # Reuse the same implementation as the plural form
+    return generate_kin_image_v2(blueprint, kin_id)
 
 @v2_bp.route('/tts', methods=['POST'])
 def text_to_speech_v2():
