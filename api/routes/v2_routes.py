@@ -1138,7 +1138,7 @@ def trigger_autonomous_thinking_v2(blueprint, kin_id):
             # Run asynchronously with webhook support
             # Start a background thread to run the autonomous thinking process
             def run_autonomous_thinking():
-                from api.autonomous_thinking import autonomous_thinking
+                from autonomous_thinking import autonomous_thinking
                 autonomous_thinking(
                     blueprint, 
                     kin_id, 
