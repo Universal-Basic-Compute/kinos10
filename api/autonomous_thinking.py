@@ -1426,36 +1426,70 @@ def add_channel_message(blueprint, kin_id, channel_id, data):
         logger.error(f"Error writing to channel messages.json: {str(e)}")
         return {"error": f"Error saving message: {str(e)}"}, 500
 
-def send_to_webhook(webhook_url, data):
+def send_to_webhook(webhook_url, data, timeout=10, max_retries=2):
     """
-    Send data to a webhook URL.
+    Send data to a webhook URL with timeout and retry logic.
     
     Args:
         webhook_url: The URL to send the data to
         data: The data to send (will be converted to JSON)
+        timeout: Request timeout in seconds (default: 10)
+        max_retries: Maximum number of retry attempts (default: 2)
         
     Returns:
         Boolean indicating success
     """
     if not webhook_url:
         return False
-        
-    try:
-        response = requests.post(
-            webhook_url,
-            json=data,
-            headers={"Content-Type": "application/json"}
-        )
-        
-        if response.status_code >= 200 and response.status_code < 300:
-            logger.info(f"Successfully sent data to webhook: {webhook_url}")
-            return True
-        else:
-            logger.warning(f"Failed to send data to webhook: {response.status_code} - {response.text}")
+    
+    retry_count = 0
+    while retry_count <= max_retries:
+        try:
+            response = requests.post(
+                webhook_url,
+                json=data,
+                headers={"Content-Type": "application/json"},
+                timeout=timeout
+            )
+            
+            if response.status_code >= 200 and response.status_code < 300:
+                logger.info(f"Successfully sent data to webhook: {webhook_url}")
+                return True
+            elif response.status_code >= 500 and retry_count < max_retries:
+                # Server errors might be temporary, retry
+                retry_count += 1
+                wait_time = 2 ** retry_count  # Exponential backoff
+                logger.warning(f"Webhook server error ({response.status_code}), retrying in {wait_time}s... (Attempt {retry_count}/{max_retries})")
+                time.sleep(wait_time)
+            else:
+                # Client errors or final attempt
+                error_category = "client" if response.status_code < 500 else "server"
+                logger.warning(f"Failed to send data to webhook ({error_category} error {response.status_code}): {response.text}")
+                return False
+                
+        except requests.exceptions.Timeout:
+            if retry_count < max_retries:
+                retry_count += 1
+                wait_time = 2 ** retry_count
+                logger.warning(f"Webhook request timed out, retrying in {wait_time}s... (Attempt {retry_count}/{max_retries})")
+                time.sleep(wait_time)
+            else:
+                logger.error(f"Webhook request timed out after {max_retries} retries")
+                return False
+                
+        except requests.exceptions.ConnectionError:
+            if retry_count < max_retries:
+                retry_count += 1
+                wait_time = 2 ** retry_count
+                logger.warning(f"Webhook connection error, retrying in {wait_time}s... (Attempt {retry_count}/{max_retries})")
+                time.sleep(wait_time)
+            else:
+                logger.error(f"Webhook connection error after {max_retries} retries")
+                return False
+                
+        except Exception as e:
+            logger.error(f"Error sending data to webhook: {str(e)}")
             return False
-    except Exception as e:
-        logger.error(f"Error sending data to webhook: {str(e)}")
-        return False
 
 def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id=None, iterations=3, wait_time=600, remote=False, provider=None, model=None, webhook_url=None):
     """

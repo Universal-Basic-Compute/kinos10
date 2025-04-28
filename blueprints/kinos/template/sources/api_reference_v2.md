@@ -1390,6 +1390,23 @@ The webhook receives JSON data for each step with this structure:
 }
 ```
 
+**Webhook Details:**
+
+The webhook functionality provides real-time updates about the autonomous thinking process:
+
+- **Reliability**: The system implements retry logic with exponential backoff for failed webhook calls
+- **Timeout Protection**: Webhook requests have a configurable timeout to prevent hanging
+- **Error Handling**: Different types of errors (connection, timeout, server errors) are handled appropriately
+- **Event Types**:
+  - `keywords`: Initial keywords extracted from the kin's files
+  - `dream`: Dream narrative generated from the keywords
+  - `daydreaming`: Free-flowing thoughts developed from the dream
+  - `initiative`: Practical action plan created from the daydreaming
+  - `kin_response`: The kin's response to the thoughts
+  - `error`: Any errors that occur during the process
+
+For production systems, it's recommended to implement idempotent webhook handlers that can handle potential duplicate events in case of retries.
+
 ### Media Processing
 
 These endpoints allow you to convert between text and audio formats.
