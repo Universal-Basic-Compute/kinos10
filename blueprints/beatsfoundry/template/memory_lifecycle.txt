@@ -1,0 +1,122 @@
+# Memory Lifecycle Management
+
+This document outlines the guidelines for managing the lifecycle of memory files within the KinOS system, from creation through archiving or pruning.
+
+## 1. Memory Creation
+
+### When to Create New Memory Files
+
+Create a new memory file when:
+- Encountering significant new information that doesn't fit existing files
+- Learning about a new topic area not covered in existing memories
+- Recording an important conversation that should be referenced later
+- Documenting a user preference or characteristic
+
+### Creation Guidelines
+
+When creating a new memory file:
+- Place it in the appropriate memory category (episodic, semantic, procedural, meta)
+- Use a descriptive filename that reflects the content
+- Include a creation timestamp in the file header
+- Add appropriate tags or categories for later retrieval
+- Reference related memory files if applicable
+- Register the new file in the appropriate memory index
+
+## 2. Memory Updating
+
+### When to Update Existing Memories
+
+Update an existing memory file when:
+- New information relates directly to the file's topic
+- Contradictory information requires reconciliation
+- Additional details enhance the existing memory
+- Examples or clarifications would improve understanding
+
+### Update Guidelines
+
+When updating a memory file:
+- Maintain the original structure when possible
+- Add a "Last Updated" timestamp in the file header
+- Note significant changes in a changelog section
+- Preserve important historical information
+- Resolve contradictions explicitly
+- Consider version control for major changes
+
+## 3. Memory Consolidation
+
+### When to Consolidate Memories
+
+Consolidate memories when:
+- Multiple episodic memories contain related information
+- Patterns emerge across several interactions
+- Fragmented information would be more useful as a unified concept
+- Regular consolidation periods occur (daily, weekly, monthly)
+
+### Consolidation Guidelines
+
+When consolidating memories:
+- Extract key insights from episodic memories
+- Organize information by concept rather than chronology
+- Create or update semantic memory files with synthesized knowledge
+- Preserve source references to original memories
+- Update memory indexes to reflect new organization
+- Log consolidation activities in the consolidation log
+
+## 4. Memory Archiving
+
+### When to Archive Memories
+
+Archive memories when:
+- Episodic memories are older than 30 days
+- Information remains potentially useful but is rarely accessed
+- Seasonal or periodic information is currently out of season
+- Information has been consolidated but original should be preserved
+
+### Archiving Guidelines
+
+When archiving memories:
+- Move episodic memories to appropriate archive folders by date
+- Maintain the original file structure and metadata
+- Update memory indexes to reflect new location
+- Consider compression for large archives
+- Ensure archived memories remain searchable
+
+## 5. Memory Pruning
+
+### When to Prune Memories
+
+Prune memories when:
+- Information is definitively outdated or incorrect
+- Content has been fully superseded by newer information
+- Information has no foreseeable future value
+- Redundant copies exist after consolidation
+
+### Pruning Guidelines
+
+When pruning memories:
+- Document the decision to prune in the consolidation log
+- Consider creating a pruning summary for significant deletions
+- Update all references and indexes to reflect removal
+- Ensure no critical information is lost
+- Consider archiving instead of deletion when uncertain
+
+## Implementation
+
+The memory lifecycle should be managed through a combination of:
+- Manual curation during interactions
+- Scheduled automated processes for routine tasks
+- Periodic review of the memory system
+- Metrics tracking to identify candidates for each lifecycle stage
+
+## Metrics and Monitoring
+
+Track these metrics to guide lifecycle management:
+- Memory access frequency
+- Last access timestamp
+- Creation date
+- Update frequency
+- Size and growth rate
+- Reference count from other memories
+- Consolidation status
+
+These metrics should inform decisions about when to consolidate, archive, or prune memories.

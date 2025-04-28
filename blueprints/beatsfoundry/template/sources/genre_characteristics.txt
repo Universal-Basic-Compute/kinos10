@@ -1,0 +1,185 @@
+# Genre Characteristics Reference
+
+This document provides a reference for different music genres and their defining characteristics, serving as a resource for BeatsFoundry's stylistic explorations.
+
+## Electronic Music Genres
+
+### Ambient
+- **Tempo**: Typically slow or beatless (0-85 BPM)
+- **Rhythm**: Minimal or absent, often non-metronomic
+- **Harmony**: Often modal, extended, or atonal
+- **Texture**: Atmospheric, layered, evolving textures
+- **Structure**: Typically through-composed or slowly evolving
+- **Production**: Reverb-heavy, spacious, often generative
+- **Key Artists**: Brian Eno, Stars of the Lid, Tim Hecker, Biosphere
+
+### Downtempo
+- **Tempo**: Slow to moderate (70-100 BPM)
+- **Rhythm**: Relaxed beats, often with trip-hop influence
+- **Harmony**: Jazz-influenced chords, modal progressions
+- **Texture**: Lush, layered, often incorporating samples
+- **Structure**: Traditional song structures with extended intros/outros
+- **Production**: Warm, often analog-inspired, sample-based
+- **Key Artists**: Bonobo, Tycho, Boards of Canada, Emancipator
+
+### IDM (Intelligent Dance Music)
+- **Tempo**: Variable (80-170 BPM)
+- **Rhythm**: Complex, glitchy, unconventional patterns
+- **Harmony**: Often experimental, ranging from tonal to atonal
+- **Texture**: Detailed, microsound elements, contrast between organic and digital
+- **Structure**: Typically non-conventional, through-composed
+- **Production**: Meticulous sound design, complex programming
+- **Key Artists**: Aphex Twin, Autechre, Squarepusher, Four Tet
+
+### Techno
+- **Tempo**: Moderate to fast (120-140 BPM)
+- **Rhythm**: Steady 4/4 kick, minimal percussion
+- **Harmony**: Often sparse, focus on timbre over harmony
+- **Texture**: Hypnotic, repetitive, machine-like
+- **Structure**: Loop-based with gradual evolution
+- **Production**: Clean, precise, focused on rhythm and texture
+- **Key Artists**: Jeff Mills, Robert Hood, Richie Hawtin, Ben Klock
+
+### House
+- **Tempo**: Moderate (115-130 BPM)
+- **Rhythm**: 4/4 kick with emphasis on offbeats
+- **Harmony**: Often soulful, jazz or disco-influenced
+- **Texture**: Warm, often incorporating vocal elements
+- **Structure**: Intro, build, breakdown, climax structure
+- **Production**: Balance between organic and electronic elements
+- **Key Artists**: Frankie Knuckles, Larry Heard, Kerri Chandler, Theo Parrish
+
+### Drum and Bass
+- **Tempo**: Fast (160-180 BPM)
+- **Rhythm**: Breakbeat-derived patterns, prominent bass
+- **Harmony**: Ranges from minimal to jazz-influenced
+- **Texture**: Energetic, often dark or atmospheric
+- **Structure**: Intro, drop, breakdown, second drop
+- **Production**: Focus on bass design and break manipulation
+- **Key Artists**: Goldie, LTJ Bukem, Calibre, Noisia
+
+### Dubstep
+- **Tempo**: Moderate (140 BPM typically)
+- **Rhythm**: Half-time feel, emphasis on sub-bass
+- **Harmony**: Often minor, dark tonalities
+- **Texture**: Heavy sub-bass, space between elements
+- **Structure**: Drop-focused with build-ups and breakdowns
+- **Production**: Sub-bass focus, heavy processing
+- **Key Artists**: Burial, Skream, Digital Mystikz, Kode9
+
+## Experimental Genres
+
+### Glitch
+- **Tempo**: Variable
+- **Rhythm**: Erratic, based on digital artifacts
+- **Harmony**: Often secondary to textural elements
+- **Texture**: Digital errors, clicks, cuts, malfunctions
+- **Structure**: Typically non-linear, collage-like
+- **Production**: Circuit bending, DSP manipulation, errors as material
+- **Key Artists**: Oval, Alva Noto, Ryoji Ikeda, Fennesz
+
+### Drone
+- **Tempo**: Typically beatless
+- **Rhythm**: Absent or extremely minimal
+- **Harmony**: Sustained tones, often with microtonality
+- **Texture**: Thick, evolving, often noise-based
+- **Structure**: Gradual evolution rather than sections
+- **Production**: Layering, feedback, extreme processing
+- **Key Artists**: Sunn O))), Eliane Radigue, Lawrence English, Sarah Davachi
+
+### Noise
+- **Tempo**: Often arhythmic
+- **Rhythm**: Chaotic or absent
+- **Harmony**: Atonal, focus on texture and timbre
+- **Texture**: Harsh, distorted, extreme
+- **Structure**: Often improvisational or through-composed
+- **Production**: Distortion, feedback, extreme processing
+- **Key Artists**: Merzbow, Pharmakon, Wolf Eyes, Prurient
+
+### Microhouse
+- **Tempo**: Moderate (115-130 BPM)
+- **Rhythm**: Minimal house patterns with microscopic details
+- **Harmony**: Often subtle or implied
+- **Texture**: Clicks, cuts, microscopic sound design
+- **Structure**: Loop-based with subtle evolution
+- **Production**: Detailed sound design, space between elements
+- **Key Artists**: Akufen, Villalobos, Jan Jelinek, Luomo
+
+## Fusion Genres
+
+### Future Garage
+- **Tempo**: Moderate (130-140 BPM)
+- **Rhythm**: 2-step garage influence with broken patterns
+- **Harmony**: Often emotional, melancholic
+- **Texture**: Atmospheric, vocal samples, sub-bass
+- **Structure**: Build and release with emotional arcs
+- **Production**: Reverb-heavy, emotional, detailed
+- **Key Artists**: Burial, Synkro, Vacant, Submerse
+
+### Trip-Hop
+- **Tempo**: Slow to moderate (60-100 BPM)
+- **Rhythm**: Hip-hop influenced breaks, often with jazz elements
+- **Harmony**: Minor keys, jazz and soul influences
+- **Texture**: Samples, turntablism, atmospheric
+- **Structure**: Song-like with verses and choruses
+- **Production**: Sample-based, often dark and cinematic
+- **Key Artists**: Massive Attack, Portishead, Tricky, DJ Shadow
+
+### Electroacoustic
+- **Tempo**: Variable or absent
+- **Rhythm**: Often non-metrical
+- **Harmony**: Ranges from tonal to noise-based
+- **Texture**: Combination of electronic and acoustic sources
+- **Structure**: Often through-composed or improvisational
+- **Production**: Field recordings, processing of acoustic sources
+- **Key Artists**: Iannis Xenakis, Bernard Parmegiani, Hildegard Westerkamp
+
+### Nu Jazz
+- **Tempo**: Variable (70-130 BPM)
+- **Rhythm**: Jazz-influenced with electronic elements
+- **Harmony**: Complex jazz harmony with electronic textures
+- **Texture**: Blend of acoustic instruments and electronics
+- **Structure**: Jazz structures with electronic production
+- **Production**: Balance between live instruments and programming
+- **Key Artists**: Jaga Jazzist, Squarepusher, Flying Lotus, Nils Petter Molvær
+
+## Contemporary Experimental Styles
+
+### Deconstructed Club
+- **Tempo**: Variable, often with tempo shifts
+- **Rhythm**: Fragmented dance patterns, disruptive
+- **Harmony**: Often atonal or minimal
+- **Texture**: Harsh contrasts, digital artifacts
+- **Structure**: Non-linear, challenging conventional forms
+- **Production**: Extreme processing, conceptual approach
+- **Key Artists**: Arca, Sophie, Amnesia Scanner, Lotic
+
+### Vaporwave/Hyperpop
+- **Tempo**: Variable, often with dramatic changes
+- **Rhythm**: Pop structures distorted and exaggerated
+- **Harmony**: Often saccharine or deliberately artificial
+- **Texture**: Hyper-processed, extreme pitch shifting
+- **Structure**: Subverting pop structures
+- **Production**: Extreme processing, pitch manipulation
+- **Key Artists**: A. G. Cook, Sophie, 100 gecs, Charli XCX
+
+### Generative/AI Music
+- **Tempo**: Often variable or evolving
+- **Rhythm**: Algorithm-determined patterns
+- **Harmony**: Rule-based or machine learning derived
+- **Texture**: Often evolving based on parameters
+- **Structure**: Emergent rather than composed
+- **Production**: Algorithmic processes, AI systems
+- **Key Artists**: Holly Herndon, Brian Eno (generative works), Dadabots
+
+## Application Guidelines
+
+When exploring or incorporating genre elements:
+- Consider genres as starting points rather than limitations
+- Identify the core elements that define a genre's emotional impact
+- Experiment with combining characteristics from different genres
+- Develop your own interpretation of genre conventions
+- Document successful genre explorations for future reference
+- Balance genre recognition with personal innovation
+
+Genre exploration should inform your artistic development while allowing you to transcend categorization, creating work that references traditions while establishing your unique voice.

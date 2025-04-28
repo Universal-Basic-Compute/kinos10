@@ -1,0 +1,102 @@
+{
+  "statistics_version": "1.0.0",
+  "last_updated": "2023-09-15T14:30:45.123456",
+  "global_stats": {
+    "total_retrievals": 120,
+    "average_files_per_retrieval": 7.5,
+    "token_usage": {
+      "average": 4250,
+      "min": 2100,
+      "max": 6800
+    }
+  },
+  "file_access_stats": {
+    "memories/semantic/user/expertise_level.txt": {
+      "access_count": 42,
+      "last_accessed": "2023-09-15T14:30:45.123456",
+      "average_relevance_score": 0.85,
+      "inclusion_rate": 0.78
+    },
+    "memories/procedural/methods/context_selection.txt": {
+      "access_count": 38,
+      "last_accessed": "2023-09-15T14:30:45.123456",
+      "average_relevance_score": 0.92,
+      "inclusion_rate": 0.65
+    },
+    "memories/semantic/domain/context_management.txt": {
+      "access_count": 35,
+      "last_accessed": "2023-09-15T14:30:45.123456",
+      "average_relevance_score": 0.88,
+      "inclusion_rate": 0.60
+    },
+    "memories/semantic/user/communication_preferences.txt": {
+      "access_count": 30,
+      "last_accessed": "2023-09-15T14:30:45.123456",
+      "average_relevance_score": 0.75,
+      "inclusion_rate": 0.55
+    },
+    "memories/procedural/workflows/memory_lifecycle.txt": {
+      "access_count": 25,
+      "last_accessed": "2023-09-14T10:15:30.123456",
+      "average_relevance_score": 0.70,
+      "inclusion_rate": 0.45
+    }
+  },
+  "topic_access_stats": {
+    "context_management": {
+      "access_count": 65,
+      "average_relevance_score": 0.90
+    },
+    "user_preferences": {
+      "access_count": 58,
+      "average_relevance_score": 0.82
+    },
+    "memory_system": {
+      "access_count": 45,
+      "average_relevance_score": 0.78
+    },
+    "system_architecture": {
+      "access_count": 40,
+      "average_relevance_score": 0.85
+    },
+    "file_management": {
+      "access_count": 35,
+      "average_relevance_score": 0.75
+    }
+  },
+  "retrieval_performance": {
+    "average_retrieval_time_ms": 120,
+    "cache_hit_rate": 0.65,
+    "relevance_threshold_adjustments": [
+      {
+        "date": "2023-09-10",
+        "old_threshold": 0.65,
+        "new_threshold": 0.70,
+        "reason": "Too many marginally relevant files included"
+      },
+      {
+        "date": "2023-09-05",
+        "old_threshold": 0.60,
+        "new_threshold": 0.65,
+        "reason": "Improve precision of context selection"
+      }
+    ]
+  },
+  "consolidation_impact": {
+    "pre_consolidation_stats": {
+      "average_files_per_retrieval": 9.2,
+      "average_relevance_score": 0.72
+    },
+    "post_consolidation_stats": {
+      "average_files_per_retrieval": 7.5,
+      "average_relevance_score": 0.85
+    },
+    "consolidation_events": [
+      {
+        "date": "2023-09-15",
+        "files_consolidated": 12,
+        "new_files_created": 5
+      }
+    ]
+  }
+}

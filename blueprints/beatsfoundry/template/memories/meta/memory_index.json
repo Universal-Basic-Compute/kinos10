@@ -1,0 +1,86 @@
+{
+  "index_version": "1.0.0",
+  "last_updated": "2023-09-15T14:30:45.123456",
+  "topic_map": {
+    "context_management": {
+      "files": [
+        "memories/semantic/domain/context_management.txt",
+        "memories/procedural/methods/context_selection.txt",
+        "memories/procedural/workflows/context_optimization.txt"
+      ],
+      "related_topics": ["token_management", "relevance_scoring", "file_selection"]
+    },
+    "user_preferences": {
+      "files": [
+        "memories/semantic/user/communication_preferences.txt",
+        "memories/semantic/user/expertise_level.txt",
+        "memories/semantic/user/interaction_history.txt"
+      ],
+      "related_topics": ["personalization", "adaptation", "user_model"]
+    },
+    "system_architecture": {
+      "files": [
+        "memories/semantic/domain/system_components.txt",
+        "memories/semantic/domain/architecture_patterns.txt",
+        "memories/procedural/methods/component_design.txt"
+      ],
+      "related_topics": ["component_relationships", "api_design", "data_flow"]
+    },
+    "memory_system": {
+      "files": [
+        "memories/meta/memory_structure.txt",
+        "memories/procedural/methods/memory_consolidation.txt",
+        "memories/procedural/workflows/memory_lifecycle.txt"
+      ],
+      "related_topics": ["episodic_memory", "semantic_memory", "memory_retrieval"]
+    },
+    "file_management": {
+      "files": [
+        "memories/semantic/domain/file_organization.txt",
+        "memories/procedural/methods/file_creation.txt",
+        "memories/procedural/methods/file_updating.txt"
+      ],
+      "related_topics": ["versioning", "file_structure", "naming_conventions"]
+    }
+  },
+  "recency_index": {
+    "recently_created": [
+      {
+        "file": "memories/semantic/domain/memory_consolidation.txt",
+        "created": "2023-09-15T14:30:45.123456",
+        "topics": ["memory_system", "consolidation"]
+      },
+      {
+        "file": "memories/procedural/methods/context_selection.txt",
+        "created": "2023-09-14T10:15:30.123456",
+        "topics": ["context_management", "relevance_scoring"]
+      }
+    ],
+    "recently_updated": [
+      {
+        "file": "memories/semantic/user/communication_preferences.txt",
+        "updated": "2023-09-15T14:30:45.123456",
+        "topics": ["user_preferences", "communication_style"]
+      },
+      {
+        "file": "memories/procedural/workflows/memory_lifecycle.txt",
+        "updated": "2023-09-14T10:15:30.123456",
+        "topics": ["memory_system", "lifecycle_management"]
+      }
+    ]
+  },
+  "access_frequency": {
+    "high_access": [
+      {
+        "file": "memories/semantic/user/expertise_level.txt",
+        "access_count": 42,
+        "last_accessed": "2023-09-15T14:30:45.123456"
+      },
+      {
+        "file": "memories/procedural/methods/context_selection.txt",
+        "access_count": 38,
+        "last_accessed": "2023-09-15T14:30:45.123456"
+      }
+    ]
+  }
+}

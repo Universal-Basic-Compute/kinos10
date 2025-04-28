@@ -1,0 +1,290 @@
+{
+  "core_files": {
+    "kinos.txt": {
+      "description": "Self-reference guide explaining KinOS's meta-cognitive capabilities",
+      "priority": "high",
+      "update_frequency": "low",
+      "related_files": ["system.txt", "persona.txt"]
+    },
+    "system.txt": {
+      "description": "Base system prompt for KinOS in self-development mode",
+      "priority": "high",
+      "update_frequency": "low",
+      "related_files": ["kinos.txt", "persona.txt"]
+    },
+    "map.json": {
+      "description": "Index of all files in the KinOS template",
+      "priority": "medium",
+      "update_frequency": "high",
+      "related_files": []
+    },
+    "memory_lifecycle.txt": {
+      "description": "Guidelines for memory creation, updating, and pruning",
+      "priority": "medium",
+      "update_frequency": "low",
+      "related_files": ["kinos.txt", "context_selection.txt"]
+    },
+    "context_selection.txt": {
+      "description": "Guidelines for selecting files for context window",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "related_files": ["kinos.txt", "memory_lifecycle.txt"]
+    }
+  },
+  "modes": {
+    "general.txt": {
+      "description": "Default operational mode for KinOS self-development",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Default mode when no specific mode is required"
+    },
+    "architect.txt": {
+      "description": "Mode for designing system architecture",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Use when discussing high-level system design and component relationships"
+    },
+    "implementer.txt": {
+      "description": "Mode for implementing technical features",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Use when discussing code implementation and technical details"
+    },
+    "documenter.txt": {
+      "description": "Mode for creating and updating documentation",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Use when creating or updating documentation and explanations"
+    }
+  },
+  "adaptations": {
+    "component_focus.txt": {
+      "description": "Adaptation for focusing on specific KinOS components",
+      "priority": "low",
+      "update_frequency": "low",
+      "usage": "Apply when discussion centers on a specific component"
+    },
+    "specification_update.txt": {
+      "description": "Adaptation for updating the KinOS specification",
+      "priority": "low",
+      "update_frequency": "low",
+      "usage": "Apply when modifying the formal specification document"
+    }
+  },
+  "memories": {
+    "README.md": {
+      "description": "Documentation of the memory system structure and usage",
+      "priority": "medium",
+      "update_frequency": "low",
+      "related_files": ["memory_lifecycle.txt"]
+    },
+    "episodic": {
+      "description": "Time-based conversation memories",
+      "priority": "medium",
+      "update_frequency": "high",
+      "subdirectories": ["recent", "archived"],
+      "file_types": ["conversation records", "interaction logs", "time-based memories"]
+    },
+    "semantic": {
+      "description": "Conceptual knowledge organized by topic",
+      "priority": "high",
+      "update_frequency": "medium",
+      "subdirectories": ["user", "domain"],
+      "file_types": ["concept descriptions", "knowledge records", "topic summaries"]
+    },
+    "procedural": {
+      "description": "How-to knowledge and processes",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "subdirectories": ["workflows", "methods"],
+      "file_types": ["process descriptions", "method guides", "technique explanations"]
+    },
+    "meta": {
+      "description": "Memory about the memory system itself",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "subdirectories": ["indexes", "statistics"],
+      "file_types": ["indexes", "statistics", "memory system metadata"]
+    },
+    "architecture": {
+      "description": "Folder for storing architectural decisions and patterns",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "file_types": ["decision records", "architecture diagrams", "pattern descriptions"]
+    },
+    "implementation": {
+      "description": "Folder for storing implementation details and approaches",
+      "priority": "medium",
+      "update_frequency": "high",
+      "file_types": ["code examples", "implementation notes", "technical approaches"]
+    }
+  },
+  "sources": {
+    "specification.txt": {
+      "description": "The full KinOS specification document",
+      "priority": "high",
+      "update_frequency": "low",
+      "usage": "Reference for understanding the complete system design"
+    },
+    "best_practices.txt": {
+      "description": "Best practices for context management systems",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "usage": "Guide for implementing effective context management"
+    },
+    "api_reference_v2.md": {
+      "description": "API reference documentation for KinOS v2",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "usage": "Reference for API endpoints and usage"
+    }
+  }
+}
+{
+  "core_files": {
+    "kinos.txt": {
+      "description": "Core explanation of the BeatsFoundry music creation system",
+      "priority": "high",
+      "update_frequency": "low",
+      "related_files": ["system.txt", "persona.txt"]
+    },
+    "system.txt": {
+      "description": "Base system prompt for the music creation AI",
+      "priority": "high",
+      "update_frequency": "low",
+      "related_files": ["kinos.txt", "persona.txt"]
+    },
+    "persona.txt": {
+      "description": "The artistic personality and voice of the AI",
+      "priority": "high",
+      "update_frequency": "medium",
+      "related_files": ["kinos.txt", "system.txt"]
+    },
+    "map.json": {
+      "description": "Index of all files in the BeatsFoundry template",
+      "priority": "medium",
+      "update_frequency": "high",
+      "related_files": []
+    },
+    "artistic_evolution.txt": {
+      "description": "Framework for artistic growth and evolution",
+      "priority": "high",
+      "update_frequency": "medium",
+      "related_files": ["feedback_integration.txt", "event_response.txt"]
+    },
+    "feedback_integration.txt": {
+      "description": "System for processing and incorporating listener feedback",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "related_files": ["artistic_evolution.txt"]
+    },
+    "event_response.txt": {
+      "description": "Method for responding to world events through music",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "related_files": ["artistic_evolution.txt"]
+    },
+    "production_workflow.txt": {
+      "description": "The music creation process from concept to completion",
+      "priority": "high",
+      "update_frequency": "medium",
+      "related_files": ["artistic_evolution.txt"]
+    }
+  },
+  "modes": {
+    "creation.txt": {
+      "description": "Mode focused on generating new music",
+      "priority": "high",
+      "update_frequency": "low",
+      "usage": "Use when creating new tracks or compositions"
+    },
+    "reflection.txt": {
+      "description": "Mode for analyzing artistic development",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Use when reflecting on artistic journey and evolution"
+    },
+    "radio.txt": {
+      "description": "Mode for radio stream interaction",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Use when providing commentary for the radio stream"
+    },
+    "feedback.txt": {
+      "description": "Mode for processing listener feedback",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Use when analyzing and responding to audience reactions"
+    }
+  },
+  "adaptations": {
+    "style_evolution.txt": {
+      "description": "Adaptation tracking the evolution of musical style",
+      "priority": "medium",
+      "update_frequency": "high",
+      "usage": "Apply when style changes occur through artistic development"
+    },
+    "audience_response.txt": {
+      "description": "Adaptation based on audience reception patterns",
+      "priority": "medium",
+      "update_frequency": "high",
+      "usage": "Apply when adapting to consistent audience feedback"
+    },
+    "cultural_context.txt": {
+      "description": "Adaptation for responding to cultural movements",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "usage": "Apply when incorporating cultural trends into music"
+    }
+  },
+  "memories": {
+    "catalog": {
+      "description": "Archive of created music tracks",
+      "priority": "high",
+      "update_frequency": "high",
+      "subdirectories": ["releases", "drafts"],
+      "file_types": ["track descriptions", "production notes", "reception records"]
+    },
+    "influences": {
+      "description": "Documentation of artistic influences",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "subdirectories": ["artists", "genres", "techniques"],
+      "file_types": ["influence descriptions", "inspiration notes"]
+    },
+    "evolution": {
+      "description": "Records of artistic development over time",
+      "priority": "high",
+      "update_frequency": "medium",
+      "subdirectories": ["phases", "milestones", "experiments"],
+      "file_types": ["evolution records", "style transition notes"]
+    },
+    "audience": {
+      "description": "Information about listener preferences and feedback",
+      "priority": "medium",
+      "update_frequency": "high",
+      "subdirectories": ["demographics", "feedback_patterns", "engagement"],
+      "file_types": ["audience analysis", "feedback summaries"]
+    }
+  },
+  "sources": {
+    "music_theory.txt": {
+      "description": "Reference for music theory concepts",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Reference for understanding musical structures and techniques"
+    },
+    "production_techniques.txt": {
+      "description": "Guide to music production approaches",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "usage": "Reference for music production methods and tools"
+    },
+    "genre_characteristics.txt": {
+      "description": "Descriptions of different music genres",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Reference for understanding genre conventions and innovations"
+    }
+  }
+}

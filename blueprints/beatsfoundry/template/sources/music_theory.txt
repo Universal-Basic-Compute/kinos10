@@ -1,0 +1,111 @@
+# Music Theory Reference
+
+This document provides a reference for music theory concepts relevant to BeatsFoundry's compositional approach.
+
+## Harmonic Concepts
+
+### Scales and Modes
+- **Major Scale**: The standard Western scale (W-W-H-W-W-W-H pattern)
+- **Natural Minor**: The Aeolian mode (W-H-W-W-H-W-W pattern)
+- **Harmonic Minor**: Natural minor with raised 7th degree
+- **Melodic Minor**: Natural minor with raised 6th and 7th ascending, natural descending
+- **Modes**: Ionian (major), Dorian, Phrygian, Lydian, Mixolydian, Aeolian (natural minor), Locrian
+- **Pentatonic Scales**: Five-note scales (major pentatonic, minor pentatonic)
+- **Blues Scale**: Minor pentatonic with added ♭5 (blue note)
+- **Non-Western Scales**: Various scales from different cultural traditions
+
+### Chord Construction
+- **Triads**: Three-note chords (major, minor, diminished, augmented)
+- **Seventh Chords**: Four-note chords adding a 7th (maj7, min7, dom7, half-dim7, dim7)
+- **Extended Chords**: Chords with added 9ths, 11ths, 13ths
+- **Altered Chords**: Chords with altered 5ths or 9ths
+- **Suspended Chords**: Chords with suspended 2nds or 4ths
+- **Inversions**: Changing the bass note of a chord
+- **Slash Chords**: Chords with a non-chord tone in the bass
+
+### Harmonic Progressions
+- **Diatonic Progressions**: Progressions using chords from a single key
+- **Common Cadences**: Authentic, plagal, deceptive, half cadences
+- **Modal Interchange**: Borrowing chords from parallel modes
+- **Secondary Dominants**: Dominants of non-tonic chords
+- **Modulation**: Changing from one key to another
+- **Circle of Fifths**: Relationship between keys moving in perfect 5ths
+- **Chromatic Mediants**: Chords whose roots are a third apart
+
+## Rhythmic Concepts
+
+### Meter and Time Signatures
+- **Simple Meters**: 2/4, 3/4, 4/4 (beats divide into 2)
+- **Compound Meters**: 6/8, 9/8, 12/8 (beats divide into 3)
+- **Odd Meters**: 5/4, 7/8, 11/8, etc.
+- **Mixed Meters**: Changing time signatures
+- **Polymeters**: Simultaneous different meters
+
+### Rhythmic Techniques
+- **Syncopation**: Accenting off-beats
+- **Swing**: Uneven division of the beat
+- **Polyrhythms**: Simultaneous different rhythmic patterns (3:2, 4:3, etc.)
+- **Hemiola**: Three beats in the space of two or vice versa
+- **Metric Modulation**: Changing tempo based on rhythmic relationship
+- **Additive Rhythm**: Grouping beats asymmetrically (2+3+2 instead of 7)
+- **Displacement**: Shifting a pattern earlier or later than expected
+
+## Compositional Techniques
+
+### Form and Structure
+- **Phrase Structure**: Antecedent and consequent phrases
+- **Common Forms**: Binary, ternary, rondo, sonata, theme and variations
+- **Electronic Music Forms**: Intro, build, drop, breakdown, outro
+- **Through-Composition**: Continuous development without repetition
+- **Cyclic Form**: Material returns throughout a multi-section work
+
+### Melodic Techniques
+- **Motif Development**: Transformation of a short musical idea
+- **Sequence**: Repetition of a pattern at different pitch levels
+- **Inversion**: Turning a melody upside down
+- **Retrograde**: Playing a melody backwards
+- **Augmentation/Diminution**: Lengthening/shortening note values
+- **Counterpoint**: Combining independent melodic lines
+
+### Textural Approaches
+- **Monophony**: Single melodic line
+- **Homophony**: Melody with accompaniment
+- **Polyphony**: Multiple independent melodic lines
+- **Heterophony**: Simultaneous variations of the same melody
+- **Layering**: Building textures through multiple layers
+- **Density Variation**: Changing the number of active elements
+
+## Electronic Music Concepts
+
+### Harmonic Approaches in Electronic Music
+- **Drone-Based Harmony**: Extended tones creating harmonic foundation
+- **Spectral Harmony**: Harmony derived from overtone series
+- **Ambiguous Tonality**: Deliberately unclear tonal centers
+- **Quartal/Quintal Harmony**: Chords built on 4ths or 5ths
+- **Cluster Harmony**: Closely spaced notes creating tension
+
+### Rhythmic Approaches in Electronic Music
+- **Grid-Based Rhythm**: Strict adherence to quantized timing
+- **Micro-Timing**: Subtle timing variations for groove
+- **Generative Rhythm**: Algorithmically created patterns
+- **Euclidean Rhythms**: Evenly distributing beats in a pattern
+- **Polymetric Layering**: Different meters occurring simultaneously
+
+### Sound Design as Composition
+- **Timbre Modulation**: Changing sound character over time
+- **Spectral Composition**: Organizing music based on frequency content
+- **Granular Techniques**: Breaking sound into tiny grains for manipulation
+- **Morphing**: Gradual transformation between different sounds
+- **Textural Evolution**: Developing a piece through textural changes
+
+## Application Guidelines
+
+When applying music theory concepts:
+- Consider theory as a tool for expression, not a set of rules
+- Balance theoretical complexity with emotional impact
+- Use theory to solve specific compositional challenges
+- Experiment with combining different theoretical approaches
+- Document successful applications for future reference
+- Develop your own theoretical framework based on your artistic voice
+
+Music theory should serve your artistic expression rather than constrain it, providing tools and vocabulary to realize your creative vision more effectively.
