@@ -1011,8 +1011,8 @@ def trigger_autonomous_thinking_v2(blueprint, kin_id):
         
         # If sync is True, run the first iteration synchronously and return results
         if sync:
-            # Import necessary functions from autonomous-thinking.py
-            from api.autonomous_thinking import (
+            # Import necessary functions from autonomous_thinking.py
+            from autonomous_thinking import (
                 get_anthropic_client, 
                 get_random_files, 
                 extract_keywords, 
