@@ -44,7 +44,7 @@ except Exception as e:
     logger.error(f"Error initializing Anthropic client: {str(e)}")
     raise RuntimeError(f"Could not initialize Anthropic client: {str(e)}")
 
-def call_claude_with_context(selected_files, kin_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None, mode=None, channel_messages=None, channel_id=None, provider=None):
+def call_claude_with_context(selected_files, kin_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None, mode=None, channel_messages=None, channel_id=None, provider=None, stream=False):
     """
     Call LLM API with the selected context files, user message, and optional images.
     Also includes conversation history from messages.json as actual messages.
@@ -62,9 +62,10 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
         channel_messages: Optional list of messages from a specific channel
         channel_id: Optional channel ID
         provider: Optional LLM provider to use ("claude" or "openai")
+        stream: Whether to stream the response (default: False)
     
     Returns:
-        LLM response as a string
+        LLM response as a string or a generator if stream=True
     """
     # Get the provider based on model or default
     if not provider:
@@ -321,6 +322,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
             logger.info(f"  Number of messages: {len(messages)}")
             logger.info(f"  First message: {messages[0] if messages else 'No messages'}")
             logger.info(f"  Last message: {messages[-1] if messages else 'No messages'}")
+            logger.info(f"  Streaming: {stream}")
             
             # Log all messages being sent to LLM for better debugging
             try:
@@ -369,17 +371,28 @@ Your goal is to provide useful and accurate information while maintaining a clea
                 messages = [{"role": "user", "content": "Hello, please help me."}]
             
             # Use the LLM client to generate a response
-            response_text = llm_client.generate_response(
-                messages=messages,
-                system=context,
-                max_tokens=4000,
-                model=model_to_use
-            )
-            
-            # Log the response
-            logger.info(f"LLM response: {response_text[:500]}...")
-            
-            return response_text
+            if stream:
+                # Return a generator for streaming responses
+                return llm_client.generate_response(
+                    messages=messages,
+                    system=context,
+                    max_tokens=4000,
+                    model=model_to_use,
+                    stream=True
+                )
+            else:
+                # Return a regular response
+                response_text = llm_client.generate_response(
+                    messages=messages,
+                    system=context,
+                    max_tokens=4000,
+                    model=model_to_use
+                )
+                
+                # Log the response
+                logger.info(f"LLM response: {response_text[:500]}...")
+                
+                return response_text
         except Exception as e:
             logger.error(f"Error calling LLM API: {str(e)}")
             # Include the exception details in the returned message for debugging

@@ -9,8 +9,8 @@ class LLMProvider:
     def __init__(self, api_key=None):
         self.api_key = api_key
         
-    def generate_response(self, messages, system=None, max_tokens=None):
-        """Generate a response from the LLM"""
+    def generate_response(self, messages, system=None, max_tokens=None, model=None, stream=False):
+        """Generate a response from the LLM with optional streaming support"""
         raise NotImplementedError("Subclasses must implement this method")
         
     @classmethod

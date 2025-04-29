@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, url_for, current_app as app
+from flask import Blueprint, request, jsonify, redirect, url_for, current_app as app, Response
 import json
 import os
 import json
@@ -351,9 +351,11 @@ def send_message_v2(blueprint, kin_id):
     """
     V2 API endpoint to send a message to a kin.
     Maps to the original send_message function.
+    Supports streaming responses with stream=true parameter.
     
     Request body can include:
     - channel_id: Optional channel ID (if not provided, uses main channel)
+    - stream: Boolean flag to enable streaming responses
     """
     try:
         # Get the original data with better error handling for malformed JSON
@@ -384,6 +386,7 @@ def send_message_v2(blueprint, kin_id):
 def send_channel_message_v2(blueprint, kin_id, channel_id=None):
     """
     V2 API endpoint to send a message to a specific channel.
+    Supports streaming responses with stream=true parameter.
     """
     try:
         # Parse request data with better error handling
@@ -423,6 +426,7 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
         provider = data.get('provider')  # Optional provider parameter
         history_length = data.get('history_length', 25)  # Default to 25 messages
         addSystem = data.get('addSystem', None)  # Optional additional system instructions
+        stream = data.get('stream', False)  # New parameter for streaming responses
         
         # Ensure history_length is an integer and has a reasonable value (default: 25)
         try:
@@ -738,67 +742,141 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
                 addSystem=addSystem,
                 mode=selected_mode,  # Pass the selected mode
                 channel_messages=channel_context,  # Pass channel-specific messages
-                provider=data.get('provider')  # Pass the provider
+                provider=data.get('provider'),  # Pass the provider
+                stream=stream  # Pass the stream parameter
             )
             
-            # Create assistant message object
-            assistant_message = {
-                "role": "assistant",
-                "content": claude_response,
-                "timestamp": datetime.datetime.now().isoformat(),
-                "channel_id": channel_id  # Add channel_id to the message
-            }
-            
-            # Add character if it was provided
-            if character:
-                assistant_message["character"] = character
-            
-            # NOW add both messages to the messages array and save to messages.json
-            messages.append(user_message)
-            messages.append(assistant_message)
-            
-            # Save updated messages with both user and assistant messages
-            with open(messages_file, 'w') as f:
-                json.dump(messages, f, indent=2)
-            
-            # Call Aider in parallel for file updates (don't wait for response)
-            def run_aider():
-                try:
-                    aider_response = call_aider_with_context(
-                        kin_path, 
-                        selected_files, 
-                        message_content, 
-                        addSystem=addSystem,
-                        provider=data.get('provider'),
-                        model=model
-                    )
-                    logger.info("Aider processing completed")
-                    # Log the complete Aider response
-                    logger.info(f"Aider response: {aider_response}")
-                except Exception as e:
-                    logger.error(f"Error in Aider thread: {str(e)}")
-            
-            # Start Aider in a separate thread
-            aider_thread = threading.Thread(target=run_aider)
-            aider_thread.start()
-            
-            # Return the Claude response directly in the API response
-            response_data = {
-                "status": "completed",
-                "message_id": str(len(messages) - 1),
-                "content": claude_response,  # Only include content field
-                "channel_id": channel_id
-            }
-            
-            # Add kin_created flag if a new kin was created
-            if kin_created:
-                response_data["kin_created"] = True
-            
-            # Add selected_mode if one was determined
-            if selected_mode:
-                response_data["mode"] = selected_mode
+            # Handle streaming response
+            if stream:
+                # Create a generator function for streaming
+                def generate_sse():
+                    # Send message_start event
+                    yield f"event: message_start\ndata: {json.dumps({'type': 'message_start', 'message': {'role': 'assistant', 'content': []}})}\n\n"
+                    
+                    # Send content_block_start event
+                    yield f"event: content_block_start\ndata: {json.dumps({'type': 'content_block_start', 'index': 0, 'content_block': {'type': 'text', 'text': ''}})}\n\n"
+                    
+                    # Accumulate the full response for saving later
+                    full_response = ""
+                    
+                    # Stream the content
+                    for chunk in claude_response:
+                        full_response += chunk
+                        # Send content_block_delta event
+                        yield f"event: content_block_delta\ndata: {json.dumps({'type': 'content_block_delta', 'index': 0, 'delta': {'type': 'text_delta', 'text': chunk}})}\n\n"
+                    
+                    # Send content_block_stop event
+                    yield f"event: content_block_stop\ndata: {json.dumps({'type': 'content_block_stop', 'index': 0})}\n\n"
+                    
+                    # Send message_delta event
+                    yield f"event: message_delta\ndata: {json.dumps({'type': 'message_delta', 'delta': {'stop_reason': 'end_turn', 'stop_sequence': None}})}\n\n"
+                    
+                    # Send message_stop event
+                    yield f"event: message_stop\ndata: {json.dumps({'type': 'message_stop'})}\n\n"
+                    
+                    # Save the messages to messages.json
+                    # Create assistant message object with the full response
+                    assistant_message = {
+                        "role": "assistant",
+                        "content": full_response,
+                        "timestamp": datetime.datetime.now().isoformat(),
+                        "channel_id": channel_id
+                    }
+                    
+                    # Add character if it was provided
+                    if character:
+                        assistant_message["character"] = character
+                    
+                    # Add both messages to the messages array and save to messages.json
+                    messages.append(user_message)
+                    messages.append(assistant_message)
+                    
+                    # Save updated messages with both user and assistant messages
+                    with open(messages_file, 'w') as f:
+                        json.dump(messages, f, indent=2)
+                    
+                    # Call Aider in parallel for file updates (don't wait for response)
+                    def run_aider():
+                        try:
+                            aider_response = call_aider_with_context(
+                                kin_path, 
+                                selected_files, 
+                                message_content, 
+                                addSystem=addSystem,
+                                provider=provider,
+                                model=model
+                            )
+                            logger.info("Aider processing completed")
+                            # Log the complete Aider response
+                            logger.info(f"Aider response: {aider_response}")
+                        except Exception as e:
+                            logger.error(f"Error in Aider thread: {str(e)}")
+                    
+                    # Start Aider in a separate thread
+                    aider_thread = threading.Thread(target=run_aider)
+                    aider_thread.start()
                 
-            return jsonify(response_data)
+                # Return the streaming response
+                return Response(generate_sse(), mimetype="text/event-stream")
+            else:
+                # Create assistant message object
+                assistant_message = {
+                    "role": "assistant",
+                    "content": claude_response,
+                    "timestamp": datetime.datetime.now().isoformat(),
+                    "channel_id": channel_id  # Add channel_id to the message
+                }
+                
+                # Add character if it was provided
+                if character:
+                    assistant_message["character"] = character
+                
+                # NOW add both messages to the messages array and save to messages.json
+                messages.append(user_message)
+                messages.append(assistant_message)
+                
+                # Save updated messages with both user and assistant messages
+                with open(messages_file, 'w') as f:
+                    json.dump(messages, f, indent=2)
+                
+                # Call Aider in parallel for file updates (don't wait for response)
+                def run_aider():
+                    try:
+                        aider_response = call_aider_with_context(
+                            kin_path, 
+                            selected_files, 
+                            message_content, 
+                            addSystem=addSystem,
+                            provider=data.get('provider'),
+                            model=model
+                        )
+                        logger.info("Aider processing completed")
+                        # Log the complete Aider response
+                        logger.info(f"Aider response: {aider_response}")
+                    except Exception as e:
+                        logger.error(f"Error in Aider thread: {str(e)}")
+                
+                # Start Aider in a separate thread
+                aider_thread = threading.Thread(target=run_aider)
+                aider_thread.start()
+                
+                # Return the Claude response directly in the API response
+                response_data = {
+                    "status": "completed",
+                    "message_id": str(len(messages) - 1),
+                    "content": claude_response,  # Only include content field
+                    "channel_id": channel_id
+                }
+                
+                # Add kin_created flag if a new kin was created
+                if kin_created:
+                    response_data["kin_created"] = True
+                
+                # Add selected_mode if one was determined
+                if selected_mode:
+                    response_data["mode"] = selected_mode
+                    
+                return jsonify(response_data)
             
         except Exception as e:
             logger.error(f"Error processing message: {str(e)}")
