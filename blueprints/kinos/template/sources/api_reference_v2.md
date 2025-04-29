@@ -1543,6 +1543,145 @@ Error responses include a JSON object with error details:
 }
 ```
 
+## Streaming Responses
+
+KinOS API supports streaming responses for message endpoints, allowing you to receive Claude's responses incrementally as they're generated. This is particularly useful for long responses or when you want to display content to users as it becomes available.
+
+### How to Enable Streaming
+
+To enable streaming, add the `stream: true` parameter to your message request:
+
+```json
+{
+  "content": "Tell me about quantum computing",
+  "stream": true
+}
+```
+
+### Streaming Response Format
+
+When streaming is enabled, the response is sent as a series of Server-Sent Events (SSE) following the Anthropic Claude API format. Each event has a type and associated JSON data:
+
+1. `message_start`: Contains a Message object with empty content
+2. A series of content blocks, each with:
+   - `content_block_start`: Marks the beginning of a content block
+   - One or more `content_block_delta` events: Contains incremental text chunks
+   - `content_block_stop`: Marks the end of a content block
+3. `message_delta`: Indicates top-level changes to the Message object
+4. `message_stop`: Marks the end of the response
+
+### Example Streaming Response
+
+```
+event: message_start
+data: {"type": "message_start", "message": {"role": "assistant", "content": []}}
+
+event: content_block_start
+data: {"type": "content_block_start", "index": 0, "content_block": {"type": "text", "text": ""}}
+
+event: content_block_delta
+data: {"type": "content_block_delta", "index": 0, "delta": {"type": "text_delta", "text": "Quantum"}}
+
+event: content_block_delta
+data: {"type": "content_block_delta", "index": 0, "delta": {"type": "text_delta", "text": " computing"}}
+
+event: content_block_delta
+data: {"type": "content_block_delta", "index": 0, "delta": {"type": "text_delta", "text": " is"}}
+
+event: content_block_stop
+data: {"type": "content_block_stop", "index": 0}
+
+event: message_delta
+data: {"type": "message_delta", "delta": {"stop_reason": "end_turn", "stop_sequence": null}}
+
+event: message_stop
+data: {"type": "message_stop"}
+```
+
+### Client Implementation
+
+Here's how to consume streaming responses in JavaScript:
+
+```javascript
+async function streamMessage() {
+  const response = await fetch('/v2/blueprints/kinos/kins/my-kin/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      content: "Tell me about quantum computing",
+      stream: true
+    })
+  });
+
+  // Create a new EventSource from the response
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    
+    // Decode the chunk and add it to our buffer
+    buffer += decoder.decode(value, { stream: true });
+    
+    // Process complete events in the buffer
+    let eventEnd = buffer.indexOf("\n\n");
+    while (eventEnd > -1) {
+      const eventText = buffer.substring(0, eventEnd);
+      buffer = buffer.substring(eventEnd + 2);
+      
+      // Parse the event
+      const eventLines = eventText.split('\n');
+      const eventType = eventLines[0].substring(7); // Remove "event: "
+      const eventData = JSON.parse(eventLines[1].substring(6)); // Remove "data: "
+      
+      // Handle different event types
+      if (eventType === 'content_block_delta' && eventData.delta.type === 'text_delta') {
+        // Append the text chunk to your UI
+        appendToUI(eventData.delta.text);
+      }
+      
+      eventEnd = buffer.indexOf("\n\n");
+    }
+  }
+}
+
+function appendToUI(text) {
+  // Add the text to your UI element
+  document.getElementById('response').textContent += text;
+}
+```
+
+For Python clients, you can use the Anthropic Python SDK which has built-in streaming support:
+
+```python
+import anthropic
+
+client = anthropic.Anthropic()
+
+with client.messages.stream(
+    max_tokens=1024,
+    messages=[{"role": "user", "content": "Tell me about quantum computing"}],
+    model="claude-3-7-sonnet-20250219",
+) as stream:
+  for text in stream.text_stream:
+      print(text, end="", flush=True)
+```
+
+### Streaming with the KinOS API
+
+When using streaming with the KinOS API, the message is still saved to the kin's message history once the complete response is received. This means you don't need to handle saving the message yourself - the API takes care of that automatically.
+
+The streaming feature is available on these endpoints:
+
+- `POST /v2/blueprints/{blueprint}/kins/{kin_id}/messages`
+- `POST /v2/blueprints/{blueprint}/kins/{kin_id}/channels/{channel_id}/messages`
+
+Note that the `build` and `analysis` endpoints do not currently support streaming.
+
 ## Working with Images
 
 When sending messages with images, encode the images as base64 strings and include them in the `images` array of the request body. The API will pass these images to Claude for analysis.
