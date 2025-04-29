@@ -891,6 +891,7 @@ def analyze_message_v2(blueprint, kin_id):
     """
     V2 API endpoint to analyze a message with Claude without saving it.
     Supports both GET (with query params) and POST (with JSON body).
+    Now supports streaming responses with stream=true parameter.
     """
     try:
         # Get message content from either query params (GET) or JSON body (POST)
@@ -904,6 +905,7 @@ def analyze_message_v2(blueprint, kin_id):
             addSystem = request.args.get('addSystem', None)
             min_files = request.args.get('min_files', 5)
             max_files = request.args.get('max_files', 15)
+            stream = request.args.get('stream', 'false').lower() == 'true'
             
             # Create a data dict to match POST format
             data = {
@@ -912,7 +914,8 @@ def analyze_message_v2(blueprint, kin_id):
                 'addSystem': addSystem,
                 'min_files': min_files,
                 'max_files': max_files,
-                'content': message_content  # Add this for backward compatibility
+                'content': message_content,  # Add this for backward compatibility
+                'stream': stream
             }
         else:  # POST
             data = request.get_json() or {}  # Use empty dict if None
@@ -920,6 +923,7 @@ def analyze_message_v2(blueprint, kin_id):
             # Ensure both message and content are set for backward compatibility
             data['message'] = message_content
             data['content'] = message_content
+            stream = data.get('stream', False)
 
         # Validate required parameters
         if not message_content:
@@ -928,8 +932,93 @@ def analyze_message_v2(blueprint, kin_id):
         # Log the message content to verify it's being passed correctly
         logger.info(f"Analysis request with message: {message_content[:100]}...")
 
-        # Call analyze_message directly with the parameters extracted from the request
-        return analyze_message_with_params(blueprint, kin_id, message_content, data)
+        # If streaming is requested, handle it directly
+        if stream:
+            # Validate blueprint and kin
+            if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+                return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+                
+            kin_path = get_kin_path(blueprint, kin_id)
+            if not os.path.exists(kin_path):
+                return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+            
+            # Get optional parameters
+            model = data.get('model', 'claude-3-7-sonnet-latest')
+            addSystem = data.get('addSystem', None)
+            provider = data.get('provider', None)
+            min_files = data.get('min_files', 5)
+            max_files = data.get('max_files', 15)
+            
+            # Validate min_files and max_files
+            try:
+                min_files = int(min_files)
+                max_files = int(max_files)
+                if min_files < 1:
+                    min_files = 1
+                if max_files < min_files:
+                    max_files = min_files
+            except (ValueError, TypeError):
+                min_files = 5
+                max_files = 15
+            
+            # Build context (select relevant files)
+            selected_files, selected_mode = build_context(
+                blueprint, 
+                kin_id, 
+                message_content, 
+                [], 
+                kin_path, 
+                model, 
+                "analysis",  # Explicitly set mode to "analysis"
+                addSystem, 
+                history_length=2,
+                min_files=min_files,
+                max_files=max_files,
+                provider=provider
+            )
+            
+            # Call Claude with streaming support
+            claude_stream = call_claude_with_context(
+                selected_files, 
+                kin_path, 
+                message_content, 
+                None,  # No images
+                model,
+                2,  # history_length
+                is_new_message=False,  # Don't treat as a new message
+                addSystem=addSystem,
+                mode="analysis",  # Explicitly set mode to "analysis"
+                provider=provider,
+                stream=True  # Enable streaming
+            )
+            
+            # Create a generator function for streaming
+            def generate_sse():
+                # Send message_start event
+                yield f"event: message_start\ndata: {json.dumps({'type': 'message_start', 'message': {'role': 'assistant', 'content': []}})}\n\n"
+                
+                # Send content_block_start event
+                yield f"event: content_block_start\ndata: {json.dumps({'type': 'content_block_start', 'index': 0, 'content_block': {'type': 'text', 'text': ''}})}\n\n"
+                
+                # Stream the content
+                for chunk in claude_stream:
+                    # Send content_block_delta event
+                    yield f"event: content_block_delta\ndata: {json.dumps({'type': 'content_block_delta', 'index': 0, 'delta': {'type': 'text_delta', 'text': chunk}})}\n\n"
+                
+                # Send content_block_stop event
+                yield f"event: content_block_stop\ndata: {json.dumps({'type': 'content_block_stop', 'index': 0})}\n\n"
+                
+                # Send message_delta event
+                yield f"event: message_delta\ndata: {json.dumps({'type': 'message_delta', 'delta': {'stop_reason': 'end_turn', 'stop_sequence': None}})}\n\n"
+                
+                # Send message_stop event
+                yield f"event: message_stop\ndata: {json.dumps({'type': 'message_stop'})}\n\n"
+            
+            # Return the streaming response
+            return Response(generate_sse(), mimetype="text/event-stream")
+        else:
+            # Call analyze_message directly with the parameters extracted from the request
+            return analyze_message_with_params(blueprint, kin_id, message_content, data)
 
     except Exception as e:
         logger.error(f"Error in analyze_message_v2: {str(e)}")

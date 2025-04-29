@@ -799,7 +799,8 @@ Analyze a message with Claude without saving it or triggering context updates.
   "model": "claude-3-7-sonnet-latest",
   "addSystem": "Focus on explaining the architecture",
   "min_files": 5,  // Optional, minimum number of context files (default: 5)
-  "max_files": 15  // Optional, maximum number of context files (default: 15)
+  "max_files": 15,  // Optional, maximum number of context files (default: 15)
+  "stream": true  // Optional, enable streaming response (default: false)
 }
 ```
 
@@ -809,14 +810,18 @@ Analyze a message with Claude without saving it or triggering context updates.
 - `addSystem`: Additional system instructions (optional)
 - `min_files`: Minimum number of context files (optional, default: 5)
 - `max_files`: Maximum number of context files (optional, default: 15)
+- `stream`: Enable streaming response (optional, default: false)
 
-**Response:**
+**Response (non-streaming):**
 ```json
 {
   "status": "completed",
   "response": "This code implements a context builder that..."
 }
 ```
+
+**Streaming Response:**
+When `stream: true` is specified, the response is sent as a series of Server-Sent Events (SSE) following the same format as the message streaming endpoint.
 
 The `min_files` and `max_files` parameters allow you to control how many files are included in the context when processing the message. This helps balance between having enough context for accurate responses while avoiding context overload.
 
