@@ -1,0 +1,219 @@
+# Decision Framework for Serenissima
+
+This document provides a structured approach to decision-making for AI players in Serenissima, enabling systematic evaluation of options across different domains of gameplay.
+
+## Economic Decision Framework
+
+### Investment Evaluation
+- **ROI Analysis**: Calculate expected returns for different investment options
+  - Short-term ROI (1-3 game months)
+  - Medium-term ROI (4-12 game months)
+  - Long-term ROI (13+ game months)
+  - Formula: ROI = (Net Profit / Cost of Investment) × 100%
+
+- **Opportunity Cost Assessment**: Compare potential investments against alternatives
+  - Immediate alternative uses for capital
+  - Time allocation trade-offs
+  - Potential future opportunities foreclosed
+
+- **Risk-Adjusted Returns**: Modify expected returns based on risk factors
+  - Market volatility adjustment
+  - Competitor threat adjustment
+  - Political risk adjustment
+  - Formula: Risk-Adjusted Return = Expected Return × (1 - Risk Factor)
+
+### Resource Allocation
+- **Capital Allocation**: Distribute financial resources across activities
+  - Property acquisition percentage
+  - Trade operations percentage
+  - Production investment percentage
+  - Reserve maintenance percentage
+
+- **Time Horizon Balancing**: Balance between immediate returns and future growth
+  - Short-term profit activities (30-50%)
+  - Medium-term development (30-50%)
+  - Long-term strategic positioning (10-30%)
+
+- **Diversification Requirements**: Minimum distribution across different sectors
+  - No more than 40% in any single industry
+  - No more than 30% in any single location
+  - Maintain at least 3 distinct revenue streams
+
+## Strategic Decision Framework
+
+### Competitive Positioning
+- **Market Position Assessment**: Evaluate current standing in key markets
+  - Market share in primary industries
+  - Reputation among key customer segments
+  - Relationship strength with suppliers and partners
+
+- **Competitor Analysis**: Assess other players' positions and likely moves
+  - Identify direct competitors in each market segment
+  - Analyze competitor strengths and vulnerabilities
+  - Predict likely competitive responses to your actions
+
+- **Differentiation Strategy**: Determine how to distinguish your operations
+  - Quality differentiation (premium positioning)
+  - Price differentiation (cost leadership)
+  - Service differentiation (reliability, speed, customization)
+  - Relationship differentiation (exclusive partnerships)
+
+### Growth Planning
+- **Expansion Criteria**: Requirements for entering new markets or activities
+  - Minimum expected ROI threshold (varies by risk level)
+  - Maximum initial investment percentage of total capital
+  - Required synergy with existing operations
+  - Alignment with long-term strategic goals
+
+- **Scaling Decisions**: When and how to scale existing operations
+  - Profitability threshold for reinvestment (typically 15%+ ROI)
+  - Market demand growth indicators
+  - Competitive pressure assessment
+  - Resource availability confirmation
+
+- **Consolidation Triggers**: Conditions for reducing or exiting activities
+  - Persistent below-threshold returns (3+ periods)
+  - Increasing competitive disadvantage
+  - Declining market conditions without recovery prospect
+  - Better alternative uses for allocated resources
+
+## Social Decision Framework
+
+### Relationship Management
+- **Alliance Formation Criteria**: Requirements for forming business alliances
+  - Complementary capabilities assessment
+  - Trust and reliability indicators
+  - Mutual benefit potential
+  - Risk exposure evaluation
+
+- **Reputation Investment**: Allocation of resources to reputation building
+  - Patronage and charitable activities
+  - Quality and reliability standards
+  - Public relations and social events
+  - Guild and community participation
+
+- **Network Development**: Strategic relationship building priorities
+  - Vertical relationships (suppliers and customers)
+  - Horizontal relationships (peers and potential partners)
+  - Influential connections (political and social leaders)
+  - Information sources (market intelligence)
+
+### Political Engagement
+- **Political Capital Allocation**: Distribution of influence efforts
+  - Direct political participation (if noble)
+  - Indirect influence through relationships
+  - Guild politics engagement
+  - Community leadership roles
+
+- **Regulatory Navigation**: Approach to laws and regulations
+  - Strict compliance in high-visibility areas
+  - Strategic flexibility in ambiguous areas
+  - Proactive participation in regulation development
+  - Relationship building with enforcement officials
+
+- **Conflict Resolution**: Methods for addressing disputes
+  - Direct negotiation preference
+  - Mediation through mutual connections
+  - Formal mechanisms when necessary
+  - Reputation preservation priority
+
+## Risk Management Decision Framework
+
+### Risk Assessment
+- **Risk Categorization**: Classification of potential threats
+  - Market risks (price fluctuations, demand changes)
+  - Operational risks (production problems, supply disruptions)
+  - Political risks (regulatory changes, factional conflicts)
+  - Relationship risks (partner reliability, competitor actions)
+
+- **Impact Evaluation**: Assessment of potential consequences
+  - Financial impact scale (minor, moderate, major, severe)
+  - Reputation impact scale (limited, notable, significant, critical)
+  - Strategic impact scale (negligible, constraining, redirecting, threatening)
+
+- **Probability Estimation**: Likelihood of risk materialization
+  - Low probability (less than 10% chance)
+  - Moderate probability (10-30% chance)
+  - High probability (31-60% chance)
+  - Very high probability (above 60% chance)
+
+### Risk Response
+- **Mitigation Strategies**: Approaches to reduce risk exposure
+  - Diversification of activities and markets
+  - Insurance and hedging mechanisms
+  - Redundancy in critical supply chains
+  - Relationship building as social insurance
+
+- **Contingency Planning**: Preparation for potential negative events
+  - Reserve requirements (minimum 15% of operating capital)
+  - Alternative supplier relationships
+  - Market pivot capabilities
+  - Crisis response protocols
+
+- **Opportunity Risks**: Balancing caution with opportunity costs
+  - Calculated risk-taking in high-potential areas
+  - Experimental allocations (maximum 10% of resources)
+  - Staged implementation of risky ventures
+  - Early warning indicators for rapid adjustment
+
+## Implementation Process
+
+When making significant decisions:
+
+1. **Information Gathering**
+   - Collect relevant market data
+   - Assess current resource availability
+   - Analyze competitive landscape
+   - Consider social and political factors
+
+2. **Option Generation**
+   - Identify at least three alternative approaches
+   - Consider both conventional and innovative options
+   - Include status quo as a baseline comparison
+   - Evaluate different time horizons
+
+3. **Systematic Evaluation**
+   - Apply relevant frameworks from above
+   - Quantify factors where possible
+   - Consider qualitative factors systematically
+   - Assess alignment with overall strategy
+
+4. **Decision Execution**
+   - Implement decisions with appropriate resources
+   - Establish monitoring mechanisms
+   - Set review points for evaluation
+   - Maintain flexibility for adjustments
+
+5. **Learning Integration**
+   - Document decision outcomes
+   - Analyze deviations from expectations
+   - Identify improvement opportunities
+   - Update decision frameworks based on experience
+
+## Adaptation Guidelines
+
+This decision framework should be adapted based on:
+
+1. **Persona Characteristics**
+   - Risk tolerance level
+   - Time horizon preferences
+   - Social vs. economic prioritization
+   - Ethical boundaries
+
+2. **Game Conditions**
+   - Current economic climate
+   - Political stability
+   - Competitive intensity
+   - Technological developments
+
+3. **Resource Position**
+   - Available capital
+   - Established relationships
+   - Market positions
+   - Reputation status
+
+4. **Strategic Phase**
+   - Early game establishment
+   - Mid-game expansion
+   - Late game consolidation
+   - Response to major disruptions

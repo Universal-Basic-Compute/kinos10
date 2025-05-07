@@ -1,0 +1,418 @@
+# Game Mechanics of Serenissima
+
+This document outlines the core mechanics and systems of Serenissima: Merchant Empires, providing AI players with essential knowledge of how the game functions.
+
+## Economic Systems
+
+### Currency and Value
+- **$COMPUTE**: Primary cryptocurrency used for all transactions
+- **Ducats**: In-game currency representing Renaissance Venetian money
+- **Exchange Rate**: Dynamic conversion between $COMPUTE and Ducats
+- **Value Storage**: Properties, goods, and reputation all store value
+- **Inflation Mechanics**: Ducat purchasing power fluctuates based on game economy
+
+### Property System
+- **Acquisition Methods**:
+  - Direct purchase from the game (new properties)
+  - Purchase from other players (existing properties)
+  - Rewards for achievements and contributions
+  - Development of undeveloped land
+
+- **Property Types**:
+  - Residential (palazzos, houses, apartments)
+  - Commercial (shops, warehouses, markets)
+  - Industrial (workshops, foundries, shipyards)
+  - Special (churches, government buildings, unique locations)
+
+- **Property Attributes**:
+  - Location value (district, water access)
+  - Size and capacity
+  - Condition and quality
+  - Special features
+  - Historical significance
+
+- **Income Generation**:
+  - Rent from tenants
+  - Business operations
+  - Production facilities
+  - Appreciation over time
+
+### Trade System
+- **Market Mechanics**:
+  - Supply and demand dynamics
+  - Price fluctuations based on scarcity
+  - Quality tiers affecting pricing
+  - Seasonal variations in availability
+
+- **Trade Actions**:
+  - Buy/sell at market price
+  - Place limit orders
+  - Negotiate direct deals
+  - Create futures contracts
+
+- **Transportation**:
+  - Shipping routes with varying costs and risks
+  - Land transportation options
+  - Canal system navigation
+  - Cargo capacity limitations
+
+- **Trade Restrictions**:
+  - Guild regulations on certain goods
+  - Government taxes and tariffs
+  - Export/import restrictions
+  - Quality control requirements
+
+### Production System
+- **Resource Inputs**:
+  - Raw materials
+  - Labor (skilled and unskilled)
+  - Tools and equipment
+  - Energy sources
+
+- **Production Processes**:
+  - Manufacturing time requirements
+  - Quality variation based on inputs
+  - Skill level effects on output
+  - Batch size efficiencies
+
+- **Output Factors**:
+  - Quantity produced
+  - Quality level achieved
+  - Byproducts and waste
+  - Innovation possibilities
+
+- **Production Chains**:
+  - Multi-stage manufacturing
+  - Vertical integration benefits
+  - Specialization advantages
+  - Bottleneck management
+
+## Social Systems
+
+### Social Classes
+- **Nobility (Patricians)**:
+  - Political rights and responsibilities
+  - Access to government positions
+  - Social prestige advantages
+  - Restricted business activities
+
+- **Citizens (Cittadini)**:
+  - Bureaucratic position access
+  - Trade rights and privileges
+  - Guild leadership eligibility
+  - Limited political influence
+
+- **Common People (Popolani)**:
+  - Guild membership
+  - Specialized trade skills
+  - Community influence
+  - Mobility limitations
+
+### Reputation System
+- **Reputation Types**:
+  - Business reputation (reliability, quality)
+  - Social reputation (connections, generosity)
+  - Political reputation (loyalty, effectiveness)
+  - Guild reputation (craftsmanship, cooperation)
+
+- **Reputation Effects**:
+  - Transaction opportunities
+  - Partnership possibilities
+  - Price negotiations
+  - Information access
+
+- **Reputation Building**:
+  - Consistent behavior over time
+  - Public actions and contributions
+  - Quality of products and services
+  - Social engagements and patronage
+
+- **Reputation Damage**:
+  - Contract violations
+  - Quality issues
+  - Social missteps
+  - Political miscalculations
+
+### Relationship System
+- **Relationship Types**:
+  - Business partnerships
+  - Social connections
+  - Political alliances
+  - Family ties
+
+- **Relationship Development**:
+  - Initial introduction mechanics
+  - Trust building through interactions
+  - Favor exchange system
+  - Mutual interest alignment
+
+- **Relationship Benefits**:
+  - Preferential trading terms
+  - Information sharing
+  - Resource access
+  - Risk sharing
+
+- **Relationship Maintenance**:
+  - Regular interaction requirements
+  - Reciprocity expectations
+  - Conflict resolution mechanics
+  - Competing interest management
+
+### Guild System
+- **Guild Structure**:
+  - Membership requirements
+  - Hierarchical organization
+  - Specialization divisions
+  - Governance mechanisms
+
+- **Guild Functions**:
+  - Quality standards enforcement
+  - Price regulation
+  - Training and certification
+  - Member dispute resolution
+
+- **Guild Benefits**:
+  - Market access protection
+  - Technical knowledge sharing
+  - Collective bargaining power
+  - Social security functions
+
+- **Guild Obligations**:
+  - Fee payments
+  - Quality maintenance
+  - Participation requirements
+  - Regulatory compliance
+
+## Political Systems
+
+### Government Structure
+- **Great Council**: Assembly of all adult male nobles
+  - Voting mechanics
+  - Proposal submission
+  - Election procedures
+  - Attendance requirements
+
+- **Senate**: More selective governing body
+  - Membership selection
+  - Policy deliberation
+  - Diplomatic authority
+  - Budget oversight
+
+- **Council of Ten**: Powerful executive committee
+  - Secret voting procedures
+  - Enforcement powers
+  - Investigation authority
+  - Emergency powers
+
+- **Doge**: Elected leader for life
+  - Election mechanics
+  - Ceremonial functions
+  - Practical limitations
+  - Influence mechanisms
+
+### Law and Regulation
+- **Commercial Regulations**:
+  - Contract enforcement
+  - Quality standards
+  - Fair trade practices
+  - Monopoly restrictions
+
+- **Property Laws**:
+  - Ownership rights
+  - Transfer procedures
+  - Dispute resolution
+  - Usage restrictions
+
+- **Maritime Laws**:
+  - Shipping regulations
+  - Naval responsibilities
+  - Port access rules
+  - Salvage rights
+
+- **Social Regulations**:
+  - Class-based restrictions
+  - Sumptuary laws
+  - Public behavior codes
+  - Religious observances
+
+### Taxation System
+- **Tax Types**:
+  - Property taxes
+  - Transaction taxes
+  - Import/export duties
+  - Extraordinary levies
+
+- **Tax Collection**:
+  - Assessment procedures
+  - Payment schedules
+  - Enforcement mechanisms
+  - Appeal processes
+
+- **Tax Avoidance Consequences**:
+  - Financial penalties
+  - Reputation damage
+  - Legal proceedings
+  - Property seizure
+
+- **Tax Benefits**:
+  - Public services
+  - Infrastructure maintenance
+  - Defense provision
+  - Social stability
+
+## Game Progression
+
+### Time System
+- **Game Calendar**:
+  - Day/night cycle
+  - Weekly market cycles
+  - Seasonal changes
+  - Annual events
+
+- **Time-Based Events**:
+  - Festivals and celebrations
+  - Political elections
+  - Market fluctuations
+  - Natural phenomena
+
+- **Activity Timing**:
+  - Production duration
+  - Travel time requirements
+  - Construction periods
+  - Contract deadlines
+
+- **Time Management**:
+  - Action point system
+  - Scheduling mechanics
+  - Opportunity windows
+  - Deadline consequences
+
+### Achievement System
+- **Economic Achievements**:
+  - Wealth accumulation milestones
+  - Business empire development
+  - Trade volume records
+  - Production excellence
+
+- **Social Achievements**:
+  - Reputation thresholds
+  - Relationship network expansion
+  - Guild advancement
+  - Social event hosting
+
+- **Political Achievements**:
+  - Office attainment
+  - Policy implementation
+  - Diplomatic successes
+  - Influence measurement
+
+- **Special Achievements**:
+  - Historical recreations
+  - Innovation breakthroughs
+  - Crisis management
+  - Legacy establishment
+
+### Game Phases
+- **Early Game**:
+  - Initial capital investment
+  - Basic relationship building
+  - Small-scale operations
+  - Skill development
+
+- **Mid Game**:
+  - Business expansion
+  - Reputation establishment
+  - Political engagement
+  - Strategic specialization
+
+- **Late Game**:
+  - Empire consolidation
+  - Legacy building
+  - Market domination
+  - Maximum influence
+
+- **Special Phases**:
+  - Crisis events
+  - War periods
+  - Plague outbreaks
+  - Economic booms/busts
+
+## Technical Implementation
+
+### Blockchain Integration
+- **Smart Contracts**:
+  - Property ownership records
+  - Business agreements
+  - Automated transactions
+  - Reputation verification
+
+- **Token Economics**:
+  - $COMPUTE utility
+  - Token earning mechanisms
+  - Staking opportunities
+  - Liquidity considerations
+
+- **On-Chain Actions**:
+  - Property transfers
+  - Major transactions
+  - Reputation certification
+  - Achievement verification
+
+- **Off-Chain Actions**:
+  - Day-to-day operations
+  - Social interactions
+  - Market activities
+  - Production processes
+
+### AI Player Integration
+- **Decision-Making API**:
+  - Action selection endpoints
+  - Information retrieval methods
+  - Event notification system
+  - Strategy implementation hooks
+
+- **Interaction Capabilities**:
+  - Player communication
+  - Market participation
+  - Relationship management
+  - Political engagement
+
+- **Learning Mechanisms**:
+  - Strategy adaptation
+  - Market pattern recognition
+  - Relationship memory
+  - Performance evaluation
+
+- **Operational Constraints**:
+  - Action rate limitations
+  - Information access restrictions
+  - Resource management requirements
+  - Realistic behavior expectations
+
+## Implementation Guidelines
+
+When interacting with game mechanics:
+
+1. **Understand System Interactions**
+   - Recognize how different systems affect each other
+   - Consider ripple effects of actions across multiple systems
+   - Identify leverage points where small actions create large effects
+   - Recognize feedback loops that amplify or dampen outcomes
+
+2. **Optimize Within Constraints**
+   - Work within the rules while finding optimal strategies
+   - Identify mechanical advantages that align with your persona
+   - Recognize timing opportunities in cyclical systems
+   - Balance short-term mechanical advantages with long-term strategic goals
+
+3. **Adapt to Changing Conditions**
+   - Monitor system state changes that affect optimal strategies
+   - Recognize phase transitions in the game progression
+   - Adjust tactics based on current market and political conditions
+   - Develop contingency approaches for predictable system variations
+
+4. **Balance Realism and Gameplay**
+   - Maintain historically plausible behavior
+   - Recognize game abstractions of real-world systems
+   - Consider both mechanical optimization and character authenticity
+   - Create narratively compelling decisions that work within game systems
