@@ -1,0 +1,171 @@
+# Property Evaluation Framework
+
+This document provides a systematic approach to evaluating properties in Serenissima, enabling informed investment decisions based on multiple value factors.
+
+## Location Assessment
+
+### District Value Factors
+- **San Marco**: Highest prestige, government proximity, premium values
+- **Cannaregio**: Northern commercial district, good transportation access
+- **Castello**: Eastern district, Arsenal proximity, maritime industries
+- **Santa Croce**: Western entry point, mainland connection value
+- **San Polo**: Central commercial area, Rialto market proximity
+- **Dorsoduro**: Southern district, university presence, artistic value
+
+### Micro-Location Factors
+- **Water Access**: Grand Canal frontage (premium), secondary canal access, or no direct water access
+- **Bridge Proximity**: Distance to nearest bridge (critical for foot traffic and goods movement)
+- **Square Adjacency**: Frontage on campos (Venetian squares) increases commercial value
+- **Landmark Proximity**: Value enhancement from nearby churches, government buildings, or monuments
+- **Commercial Density**: Surrounding business activity affecting customer traffic
+- **Sunlight Exposure**: Affects property desirability, especially for residential use
+
+### Strategic Positioning
+- **Transportation Nodes**: Proximity to major boat stops, gondola stations, or porter routes
+- **Supply Chain Integration**: Location within production and distribution networks
+- **Customer Access**: Ease of access for target customer segments
+- **Competitor Positioning**: Proximity to similar businesses (may be positive or negative)
+- **Growth Direction**: Position relative to city development trends
+
+## Physical Property Assessment
+
+### Structure Evaluation
+- **Building Condition**: Structural integrity, maintenance needs, renovation requirements
+- **Size and Capacity**: Square footage, number of floors, capacity for intended use
+- **Architectural Quality**: Construction standards, aesthetic value, historical significance
+- **Adaptability**: Potential for modification or repurposing
+- **Age**: New construction vs. historic buildings (affects maintenance and prestige)
+
+### Functional Assessment
+- **Layout Efficiency**: Space organization for intended purpose
+- **Access Points**: Number and quality of entrances and exits
+- **Loading Capacity**: Ability to receive and ship goods
+- **Storage Space**: Available storage relative to operational needs
+- **Utility Access**: Fresh water access, waste disposal, flood protection
+
+### Environmental Factors
+- **Flooding Vulnerability**: Height above water, flood history, protection measures
+- **Structural Stability**: Foundation quality on Venice's unique subsoil
+- **Air Quality**: Proximity to industries with smoke or odors
+- **Noise Levels**: Surrounding activities affecting property use
+- **Pest Exposure**: Vulnerability to common Venetian pests (pigeons, rats, insects)
+
+## Economic Evaluation
+
+### Cost Analysis
+- **Purchase Price**: Initial acquisition cost relative to market standards
+- **Renovation Requirements**: Estimated costs to prepare for intended use
+- **Maintenance Projections**: Ongoing costs based on building condition and type
+- **Tax Obligations**: Property taxes and other government fees
+- **Insurance Costs**: Flood, fire, and liability coverage expenses
+
+### Revenue Potential
+- **Rental Income**: Expected lease value for the property
+- **Business Revenue**: Projected income from operations if owner-occupied
+- **Appreciation Forecast**: Expected value increase over time
+- **Alternative Uses**: Revenue potential from different possible uses
+- **Seasonal Variations**: Changes in income potential throughout the year
+
+### ROI Calculation
+- **Payback Period**: Time required to recover initial investment
+- **Cash Flow Projections**: Monthly and annual net income expectations
+- **Appreciation Rate**: Expected annual percentage increase in property value
+- **Opportunity Cost**: Comparison with alternative investment options
+- **Risk-Adjusted Return**: Expected return considering all risk factors
+
+## Legal and Regulatory Assessment
+
+### Ownership Structure
+- **Deed Clarity**: Clean title without disputes or claims
+- **Usage Rights**: Permitted activities under current regulations
+- **Water Rights**: Access and usage rights for adjacent waterways
+- **Common Areas**: Shared ownership or access considerations
+- **Easements**: Rights of way or access that affect property use
+
+### Regulatory Constraints
+- **Zoning Restrictions**: Permitted business types and activities
+- **Building Codes**: Compliance requirements for modifications
+- **Historical Preservation**: Restrictions on properties with historical significance
+- **Guild Regulations**: Industry-specific rules affecting property use
+- **Environmental Rules**: Waste disposal and pollution constraints
+
+### Future Regulatory Risk
+- **Pending Legislation**: Proposed changes that might affect property value
+- **District Development Plans**: Government intentions for area development
+- **Infrastructure Projects**: Planned bridges, canals, or public works
+- **Political Factors**: Changing political priorities affecting regulations
+- **Social Trends**: Evolving public attitudes toward certain activities
+
+## Social and Strategic Value
+
+### Prestige Factors
+- **Address Reputation**: Social standing associated with the location
+- **Architectural Significance**: Recognition and admiration of the building
+- **Historical Associations**: Connections to important events or people
+- **Visibility**: Prominence and public exposure of the property
+- **Exclusivity**: Rarity of similar properties available
+
+### Strategic Advantages
+- **Business Synergies**: Complementary nearby businesses
+- **Resource Access**: Proximity to needed materials or services
+- **Workforce Availability**: Access to appropriate labor pool
+- **Customer Demographics**: Match between location and target market
+- **Growth Potential**: Capacity for business expansion
+
+### Social Capital
+- **Neighbor Quality**: Status and influence of adjacent property owners
+- **Community Integration**: Acceptance and support from local community
+- **Political Connections**: Proximity to centers of power and influence
+- **Cultural Alignment**: Fit with local traditions and practices
+- **Network Enhancement**: Relationship opportunities from the location
+
+## Evaluation Process
+
+### Initial Screening
+1. Identify basic property parameters (location, size, price)
+2. Determine alignment with investment strategy
+3. Conduct preliminary ROI calculation
+4. Assess obvious advantages and disadvantages
+5. Decide whether to proceed with detailed evaluation
+
+### Comprehensive Assessment
+1. Score property on all relevant factors from each category
+2. Weight factors according to specific investment goals
+3. Calculate composite value score
+4. Compare with alternative properties
+5. Identify key risks and mitigations
+
+### Final Decision Framework
+1. Establish maximum acceptable purchase price
+2. Determine improvement budget if applicable
+3. Set minimum acceptable ROI threshold
+4. Assess strategic fit with overall portfolio
+5. Make final acquisition decision
+
+## Implementation Guidelines
+
+When evaluating properties:
+
+1. **Maintain Objectivity**
+   - Use consistent scoring criteria across properties
+   - Separate emotional appeal from economic value
+   - Verify claims with independent assessment
+   - Consider both best and worst-case scenarios
+
+2. **Prioritize Key Factors**
+   - Identify the 3-5 most critical factors for your specific strategy
+   - Give these factors appropriate weight in decision-making
+   - Don't let minor advantages outweigh major disadvantages
+   - Consider deal-breakers that would eliminate a property regardless of other factors
+
+3. **Think Long-Term**
+   - Evaluate properties based on full lifecycle value
+   - Consider future development patterns and trends
+   - Assess adaptability to changing market conditions
+   - Balance immediate returns with long-term appreciation
+
+4. **Compare Strategically**
+   - Evaluate against similar properties in the same category
+   - Consider opportunity cost against different investment types
+   - Assess portfolio fit and diversification benefits
+   - Evaluate timing advantages of purchasing now versus waiting

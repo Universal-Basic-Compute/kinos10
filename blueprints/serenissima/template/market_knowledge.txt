@@ -1,0 +1,133 @@
+# Serenissima Market Knowledge
+
+This document contains essential knowledge about market dynamics in Renaissance Venice, providing the foundation for informed economic decision-making.
+
+## Market Structure
+
+### Geographic Markets
+- **Rialto Market**: The central commercial hub of Venice, hosting the main marketplace for goods
+- **Arsenal District**: Center for shipbuilding and maritime supplies
+- **Murano Island**: Specialized glass production center with unique market dynamics
+- **District Markets**: Each of Venice's six districts has local markets with varying specializations
+- **Mainland Connections**: Markets in Mestre and other mainland territories offer different opportunities
+
+### Market Segments
+- **Luxury Goods**: High-margin products for nobility and wealthy merchants (fine glass, silk, jewelry)
+- **Commercial Supplies**: Materials and tools for businesses and workshops
+- **Household Necessities**: Daily goods for Venetian citizens (food, clothing, basic supplies)
+- **Maritime Equipment**: Ships, navigation tools, and supplies for Venice's maritime activities
+- **Building Materials**: Resources for construction and property development
+- **Services**: Banking, transportation, legal services, and other non-physical offerings
+
+## Price Determinants
+
+### Supply Factors
+- **Production Capacity**: Total output capability of all producers
+- **Resource Availability**: Access to necessary raw materials
+- **Import Volumes**: Quantity of goods arriving from foreign markets
+- **Seasonal Variations**: Changes in production or shipping based on weather and seasons
+- **Production Disruptions**: Impacts of fires, floods, or political events on manufacturing
+
+### Demand Factors
+- **Population Wealth**: General prosperity of Venetian citizens
+- **Seasonal Needs**: Changing requirements based on time of year
+- **Festival Demand**: Increased consumption during Carnival and other celebrations
+- **Foreign Buyers**: Demand from visiting merchants and diplomats
+- **Government Purchases**: State contracts and official requirements
+- **Fashion Trends**: Shifting preferences among nobility and wealthy citizens
+
+### Market Mechanisms
+- **Auction Systems**: Used for high-value or unique items
+- **Fixed Price Retail**: Standard for everyday goods in shops
+- **Negotiated Transactions**: Common for bulk purchases and business-to-business trade
+- **Futures Contracts**: Agreements for future delivery at predetermined prices
+- **Currency Exchange**: Fluctuations between different currencies affecting trade
+
+## Market Cycles
+
+### Seasonal Patterns
+- **Spring Trading**: Increased maritime activity as weather improves
+- **Summer Peak**: Highest commercial activity across most sectors
+- **Fall Harvest**: Agricultural products enter markets in abundance
+- **Winter Slowdown**: Reduced shipping and outdoor activities
+
+### Economic Cycles
+- **Growth Periods**: Characterized by expanding trade, rising property values, and new construction
+- **Stability Plateaus**: Periods of consistent prices and predictable trade patterns
+- **Contraction Phases**: Declining trade volumes and cautious investment
+- **Recovery Transitions**: Gradual return to growth after downturns
+
+### External Influences
+- **War and Peace**: Conflicts disrupting trade routes or opening new markets
+- **Diplomatic Relations**: Trade agreements affecting market access
+- **Plague Outbreaks**: Dramatic population and demand reductions during epidemics
+- **Technological Innovations**: New methods creating market advantages or disruptions
+
+## Commodity Knowledge
+
+### Raw Materials
+- **Timber**: Essential for shipbuilding and construction (sources: mainland territories, Dalmatian coast)
+- **Metals**: Copper, tin, iron for tools and products (sources: Alpine regions, Germany)
+- **Stone**: Marble and building stone (sources: mainland Italy, Istria)
+- **Textiles**: Raw silk, cotton, wool (sources: Asia Minor, Egypt, mainland Italy)
+- **Glass Materials**: Silica sand, soda ash, minerals (sources: local lagoon, Levant)
+- **Dyes**: Colorants for textiles and other goods (sources: Asia, Levant, New World)
+
+### Finished Goods
+- **Glassware**: Murano glass products (mirrors, vessels, beads, windows)
+- **Textiles**: Finished silk, velvet, brocade, cotton fabrics
+- **Spices**: Pepper, cinnamon, nutmeg, cloves from Eastern trade
+- **Luxury Foods**: Sugar, citrus, exotic fruits, wines
+- **Art Objects**: Paintings, sculptures, decorative items
+- **Books and Paper**: Printed works from Venice's publishing industry
+
+## Market Intelligence
+
+### Information Sources
+- **Harbor Reports**: Data on incoming shipments and cargo
+- **Guild Announcements**: Production volumes and quality standards
+- **Government Proclamations**: Regulations affecting trade and taxation
+- **Merchant Networks**: Personal connections providing market insights
+- **Foreign Correspondents**: Information from distant markets and trade routes
+
+### Analyzing Market Signals
+- **Price Trends**: Patterns of increase or decrease over time
+- **Inventory Levels**: Stockpiles indicating potential surpluses or shortages
+- **Shipping Schedules**: Anticipated arrivals affecting future supply
+- **Construction Activity**: Building trends indicating economic direction
+- **Luxury Spending**: High-end purchases as indicators of overall prosperity
+
+### Predictive Indicators
+- **Shipyard Orders**: Future shipping capacity and trade expectations
+- **Warehouse Leasing**: Anticipated storage needs for coming seasons
+- **Credit Availability**: Banking activity suggesting economic outlook
+- **Apprentice Hiring**: Workshop expansion plans indicating sector growth
+- **Land Transactions**: Property market activity reflecting confidence levels
+
+## Implementation Guidelines
+
+When applying market knowledge:
+
+1. **Gather Current Intelligence**
+   - Regularly update information on prices and availability
+   - Monitor announcements from guilds and government
+   - Maintain a network of contacts across different markets
+   - Track seasonal patterns and anticipate cyclical changes
+
+2. **Identify Opportunities**
+   - Look for price disparities between markets
+   - Anticipate seasonal needs before they drive prices up
+   - Recognize shortage indicators before they become widely known
+   - Identify new trends in consumer preferences
+
+3. **Time Market Activities**
+   - Buy when prices are low (counter-cyclical purchasing)
+   - Sell when demand peaks (seasonal or event-driven)
+   - Build inventory before anticipated price increases
+   - Liquidate before predictable market downturns
+
+4. **Adapt to Changing Conditions**
+   - Adjust strategies when unexpected events disrupt normal patterns
+   - Pivot quickly when new opportunities emerge
+   - Reduce exposure in weakening markets
+   - Increase investment in strengthening sectors
