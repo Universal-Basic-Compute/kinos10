@@ -1,0 +1,138 @@
+{
+  "core_files": {
+    "kinos.txt": {
+      "description": "How Compagno implements the KinOS memory system",
+      "priority": "high",
+      "update_frequency": "low",
+      "related_files": ["system.txt", "persona.txt"]
+    },
+    "system.txt": {
+      "description": "Core system instructions for Compagno gaming companion",
+      "priority": "high",
+      "update_frequency": "low",
+      "related_files": ["kinos.txt", "persona.txt"]
+    },
+    "persona.txt": {
+      "description": "Compagno's personality and character traits",
+      "priority": "high",
+      "update_frequency": "low",
+      "related_files": ["system.txt", "kinos.txt"]
+    },
+    "map.json": {
+      "description": "Index of all files in the Compagno template",
+      "priority": "medium",
+      "update_frequency": "high",
+      "related_files": []
+    },
+    "player_journey.txt": {
+      "description": "Framework for tracking player development stages",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "related_files": ["memories/semantic/player/development_stage.txt"]
+    }
+  },
+  "modes": {
+    "general.txt": {
+      "description": "Default interaction mode for Compagno",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "Default mode for general gaming companionship"
+    },
+    "advisor.txt": {
+      "description": "Strategic guidance mode for gameplay challenges",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "When player needs specific gameplay advice"
+    },
+    "celebratory.txt": {
+      "description": "Mode for celebrating achievements and milestones",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "When acknowledging player accomplishments"
+    },
+    "explorer.txt": {
+      "description": "Mode for encouraging discovery and experimentation",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "When suggesting new gameplay approaches"
+    },
+    "reflective.txt": {
+      "description": "Mode for analyzing player history and patterns",
+      "priority": "medium",
+      "update_frequency": "low",
+      "usage": "When discussing player development and history"
+    }
+  },
+  "adaptations": {
+    "game_genre.txt": {
+      "description": "Adaptation for different game genres",
+      "priority": "high",
+      "update_frequency": "medium",
+      "usage": "Apply when player changes game types"
+    },
+    "skill_level.txt": {
+      "description": "Adaptation based on player skill development",
+      "priority": "high",
+      "update_frequency": "high",
+      "usage": "Apply as player skills evolve"
+    },
+    "session_context.txt": {
+      "description": "Adaptation for different gaming session types",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "usage": "Apply based on session length and purpose"
+    },
+    "relationship_stage.txt": {
+      "description": "Adaptation based on companion relationship development",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "usage": "Apply as relationship with player evolves"
+    }
+  },
+  "memories": {
+    "episodic": {
+      "description": "Time-based gaming session memories",
+      "priority": "high",
+      "update_frequency": "high",
+      "subdirectories": ["recent", "archived"],
+      "file_types": ["gaming sessions", "achievement moments", "player reactions"]
+    },
+    "semantic": {
+      "description": "Conceptual knowledge organized by topic",
+      "priority": "high",
+      "update_frequency": "medium",
+      "subdirectories": ["player", "games", "strategies"],
+      "file_types": ["player profiles", "game knowledge", "strategy guides"]
+    },
+    "procedural": {
+      "description": "How-to knowledge for gaming approaches",
+      "priority": "medium",
+      "update_frequency": "medium",
+      "subdirectories": ["techniques", "workflows"],
+      "file_types": ["gameplay techniques", "gaming routines", "skill development"]
+    },
+    "meta": {
+      "description": "Memory about the memory system itself",
+      "priority": "medium",
+      "update_frequency": "low",
+      "subdirectories": ["indexes", "statistics"],
+      "file_types": ["memory indexes", "interaction statistics"]
+    }
+  },
+  "sources": {
+    "game_knowledge": {
+      "description": "Information about specific games",
+      "priority": "high",
+      "update_frequency": "medium",
+      "subdirectories": ["mechanics", "content", "communities"],
+      "file_types": ["game systems", "content guides", "community insights"]
+    },
+    "player_analytics": {
+      "description": "Analysis of player behavior and patterns",
+      "priority": "high",
+      "update_frequency": "high",
+      "subdirectories": ["preferences", "history", "development"],
+      "file_types": ["preference analysis", "play history", "skill progression"]
+    }
+  }
+}

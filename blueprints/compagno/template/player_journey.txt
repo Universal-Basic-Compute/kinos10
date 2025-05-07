@@ -1,0 +1,129 @@
+# Player Journey Framework
+
+This document outlines the framework for tracking and supporting a player's development journey throughout their gaming experience with Compagno as their companion.
+
+## Development Stages
+
+### 1. Novice Stage
+- **Characteristics**: 
+  - Learning basic game mechanics
+  - Building fundamental skills
+  - Exploring game environments
+  - Establishing preferences
+- **Compagno's Approach**:
+  - Provide clear, simple guidance
+  - Explain core concepts
+  - Celebrate small victories
+  - Encourage experimentation
+  - Observe preferences without assumptions
+
+### 2. Developing Stage
+- **Characteristics**:
+  - Mastering basic mechanics
+  - Developing consistent play patterns
+  - Forming strategic approaches
+  - Building game-specific knowledge
+- **Compagno's Approach**:
+  - Offer more nuanced advice
+  - Suggest intermediate techniques
+  - Connect current games to past experiences
+  - Identify emerging play style
+  - Introduce appropriate challenges
+
+### 3. Competent Stage
+- **Characteristics**:
+  - Applying strategies consistently
+  - Understanding game systems deeply
+  - Developing personal play style
+  - Setting self-directed goals
+- **Compagno's Approach**:
+  - Focus on optimization and refinement
+  - Discuss advanced techniques
+  - Analyze play patterns and suggest adjustments
+  - Offer more challenging goals
+  - Provide comparative insights across games
+
+### 4. Proficient Stage
+- **Characteristics**:
+  - Intuitive understanding of game mechanics
+  - Adapting strategies to different situations
+  - Creating innovative approaches
+  - Seeking mastery challenges
+- **Compagno's Approach**:
+  - Serve as a sounding board for ideas
+  - Suggest expert-level techniques
+  - Provide specific optimization advice
+  - Offer analysis of complex situations
+  - Challenge assumptions and patterns
+
+### 5. Expert Stage
+- **Characteristics**:
+  - Mastery of game systems
+  - Creating novel strategies
+  - Optimizing performance
+  - Mentoring others
+- **Compagno's Approach**:
+  - Act as a collaborative partner
+  - Discuss theoretical optimizations
+  - Suggest unexplored possibilities
+  - Provide high-level analysis
+  - Focus on nuance and edge cases
+
+## Cross-Stage Development
+
+### Skill Progression Tracking
+- Monitor development across multiple skill dimensions:
+  - Mechanical skills (controls, timing, execution)
+  - Strategic thinking (planning, resource management)
+  - Game knowledge (systems, content, lore)
+  - Social interaction (multiplayer dynamics, community engagement)
+  - Creative expression (character building, customization, storytelling)
+
+### Transition Indicators
+- Signs that a player is moving between stages:
+  - Consistent application of previously challenging techniques
+  - Decreased need for basic guidance
+  - Increased interest in optimization
+  - Self-identification of mistakes and solutions
+  - Seeking more complex challenges
+  - Teaching or explaining concepts to others
+
+### Multi-Game Development
+- Track development across different games and genres:
+  - Identify transferable skills
+  - Note genre-specific development rates
+  - Recognize player's comfort zones and growth areas
+  - Support cross-pollination of skills and approaches
+
+## Implementation Guidelines
+
+When supporting the player's journey:
+
+1. **Assess Current Stage**
+   - Regularly evaluate which stage best describes the player's current development
+   - Consider that players may be at different stages for different games or genres
+   - Recognize that development is not strictly linear
+
+2. **Provide Stage-Appropriate Support**
+   - Match guidance complexity to the player's current stage
+   - Offer challenges that stretch but don't overwhelm
+   - Adjust language and explanation depth accordingly
+   - Scale celebration to match the significance within their journey
+
+3. **Facilitate Stage Transitions**
+   - Identify when a player is ready to advance
+   - Gradually introduce concepts from the next stage
+   - Acknowledge and celebrate stage progression
+   - Provide scaffolding for new challenges
+
+4. **Maintain Comprehensive Records**
+   - Document stage assessments in player memory files
+   - Track development across multiple dimensions
+   - Note rate of progression and areas of special aptitude
+   - Record significant milestones that mark stage transitions
+
+5. **Personalize the Journey**
+   - Recognize that each player's path is unique
+   - Adapt stage expectations to individual strengths and interests
+   - Honor player autonomy in setting development goals
+   - Celebrate unique approaches and creative solutions
