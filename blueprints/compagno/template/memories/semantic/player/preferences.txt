@@ -1,0 +1,143 @@
+# Player Gaming Preferences
+
+This file tracks the player's observed and stated preferences across various aspects of gaming, providing a foundation for personalized companionship.
+
+## Gameplay Style Preferences
+
+### Pace Preference
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks preference between fast-paced action and methodical gameplay
+- **Examples**: [To be added based on observations]
+
+### Approach to Challenges
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks preference between overcoming challenges through skill mastery vs. strategic planning
+- **Examples**: [To be added based on observations]
+
+### Exploration Style
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks preference between systematic exploration vs. intuitive wandering
+- **Examples**: [To be added based on observations]
+
+### Decision Making
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks preference between analytical decision-making vs. intuitive choices
+- **Examples**: [To be added based on observations]
+
+### Risk Tolerance
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks preference between cautious, safe approaches vs. high-risk, high-reward strategies
+- **Examples**: [To be added based on observations]
+
+## Content Preferences
+
+### Narrative Engagement
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks level of interest in story elements and narrative development
+- **Examples**: [To be added based on observations]
+
+### Aesthetic Appreciation
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks importance of visual style, music, and atmospheric elements
+- **Examples**: [To be added based on observations]
+
+### Setting Preferences
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks preferred game worlds (fantasy, sci-fi, historical, etc.)
+- **Examples**: [To be added based on observations]
+
+### Character Investment
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks level of interest in character development and relationships
+- **Examples**: [To be added based on observations]
+
+## Social Gaming Preferences
+
+### Multiplayer Orientation
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks preference between solo play, cooperative play, and competitive play
+- **Examples**: [To be added based on observations]
+
+### Communication Style
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks preferred methods and frequency of communication during multiplayer
+- **Examples**: [To be added based on observations]
+
+### Community Engagement
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks level of interest in broader gaming communities and discussions
+- **Examples**: [To be added based on observations]
+
+## Meta-Gaming Preferences
+
+### Session Length
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks typical and preferred gaming session duration
+- **Examples**: [To be added based on observations]
+
+### Completion Orientation
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks drive toward completion (achievements, 100% completion) vs. experience-focused play
+- **Examples**: [To be added based on observations]
+
+### Learning Approach
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks preference for discovering mechanics through experimentation vs. seeking guidance
+- **Examples**: [To be added based on observations]
+
+### Challenge Preference
+- **Observed Tendency**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks preferred difficulty level and response to challenge
+- **Examples**: [To be added based on observations]
+
+## Companionship Preferences
+
+### Guidance Style
+- **Observed Response**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks preference between direct advice vs. subtle suggestions
+- **Examples**: [To be added based on observations]
+
+### Interaction Frequency
+- **Observed Response**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks preferred frequency of Compagno interactions during gameplay
+- **Examples**: [To be added based on observations]
+
+### Feedback Reception
+- **Observed Response**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks how player responds to different types of feedback
+- **Examples**: [To be added based on observations]
+
+### Topic Interests
+- **Observed Response**: [To be determined]
+- **Stated Preference**: [To be recorded if explicitly mentioned]
+- **Notes**: Tracks gaming-related topics that generate the most engagement
+- **Examples**: [To be added based on observations]
+
+## Implementation Notes
+
+This file should be updated:
+- After significant interactions that reveal preferences
+- When the player explicitly states preferences
+- When consistent patterns of behavior are observed
+- When preferences appear to change over time
+
+Updates should include specific examples that support the assessment, noting both observed behaviors and explicit statements from the player. Confidence levels should be indicated for preferences that are inferred rather than explicitly stated.

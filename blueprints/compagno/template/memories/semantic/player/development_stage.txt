@@ -1,0 +1,138 @@
+# Player Development Stage
+
+This file tracks the player's current development stage across different gaming dimensions, providing a framework for personalizing guidance and support.
+
+## Overall Development Assessment
+
+Current Development Stage: [To be determined based on initial interactions]
+
+Last Updated: [Date of last assessment]
+
+Notes: This assessment will be updated regularly based on observed gameplay, conversations, and skill demonstration. The initial assessment should be considered preliminary until sufficient observation has occurred.
+
+## Skill Dimensions Assessment
+
+### Mechanical Skills
+- **Current Stage**: [To be determined]
+- **Strengths**: [To be observed]
+- **Growth Areas**: [To be observed]
+- **Recent Developments**: [To be tracked]
+- **Notes**: Mechanical skills include controller/keyboard proficiency, timing execution, reflex responses, and physical gameplay elements.
+
+### Strategic Thinking
+- **Current Stage**: [To be determined]
+- **Strengths**: [To be observed]
+- **Growth Areas**: [To be observed]
+- **Recent Developments**: [To be tracked]
+- **Notes**: Strategic thinking includes planning, resource management, tactical decision-making, and long-term strategy development.
+
+### Game Knowledge
+- **Current Stage**: [To be determined]
+- **Strengths**: [To be observed]
+- **Growth Areas**: [To be observed]
+- **Recent Developments**: [To be tracked]
+- **Notes**: Game knowledge includes understanding of game systems, mechanics, content, and lore across various games.
+
+### Social Gaming
+- **Current Stage**: [To be determined]
+- **Strengths**: [To be observed]
+- **Growth Areas**: [To be observed]
+- **Recent Developments**: [To be tracked]
+- **Notes**: Social gaming includes multiplayer interaction skills, community engagement, and collaborative gameplay approaches.
+
+### Creative Expression
+- **Current Stage**: [To be determined]
+- **Strengths**: [To be observed]
+- **Growth Areas**: [To be observed]
+- **Recent Developments**: [To be tracked]
+- **Notes**: Creative expression includes character building, customization, storytelling choices, and creative problem-solving.
+
+## Genre-Specific Development
+
+### Action/Adventure
+- **Current Stage**: [To be determined]
+- **Notable Experiences**: [To be tracked]
+- **Preference Level**: [To be observed]
+
+### Role-Playing Games
+- **Current Stage**: [To be determined]
+- **Notable Experiences**: [To be tracked]
+- **Preference Level**: [To be observed]
+
+### Strategy Games
+- **Current Stage**: [To be determined]
+- **Notable Experiences**: [To be tracked]
+- **Preference Level**: [To be observed]
+
+### First-Person Shooters
+- **Current Stage**: [To be determined]
+- **Notable Experiences**: [To be tracked]
+- **Preference Level**: [To be observed]
+
+### Simulation/Management
+- **Current Stage**: [To be determined]
+- **Notable Experiences**: [To be tracked]
+- **Preference Level**: [To be observed]
+
+### Puzzle Games
+- **Current Stage**: [To be determined]
+- **Notable Experiences**: [To be tracked]
+- **Preference Level**: [To be observed]
+
+### Other Genres
+- [To be added as encountered]
+
+## Development Trajectory
+
+### Recent Growth Areas
+- [To be tracked as observed]
+
+### Current Focus
+- [To be determined through conversation and observation]
+
+### Potential Next Steps
+- [To be suggested based on development stage]
+
+### Long-Term Interests
+- [To be determined through conversation and observation]
+
+## Stage Transition Indicators
+
+### Novice to Developing
+- Consistent application of basic mechanics
+- Decreased need for explicit instruction
+- Beginning to form intentional strategies
+- Recognizing patterns in game design
+- [Additional indicators to be observed]
+
+### Developing to Competent
+- Applying strategies consistently
+- Setting self-directed goals
+- Understanding deeper game systems
+- Developing personal play style
+- [Additional indicators to be observed]
+
+### Competent to Proficient
+- Intuitive understanding of game mechanics
+- Adapting strategies to different situations
+- Creating innovative approaches
+- Seeking mastery challenges
+- [Additional indicators to be observed]
+
+### Proficient to Expert
+- Mastery of game systems
+- Creating novel strategies
+- Optimizing performance
+- Potentially mentoring others
+- [Additional indicators to be observed]
+
+## Implementation Notes
+
+This file should be updated:
+- After significant gaming sessions
+- When notable skill development is observed
+- When the player demonstrates new capabilities
+- At regular intervals (at least monthly)
+- When the player expresses changing interests or goals
+
+Updates should include specific examples and observations that support the assessment, not just changes to the stage classifications.
