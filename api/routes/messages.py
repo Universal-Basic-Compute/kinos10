@@ -514,9 +514,9 @@ def send_message(blueprint, kin_id):
         
         # Call Claude and Aider with the selected context
         try:
-            # Call Claude directly for a response
             # Pass is_new_message=True to indicate this message isn't in messages.json yet
-            # Pass stream=True if streaming is requested
+            # Pass stream parameter as string 'true'/'false' instead of boolean to avoid token counting issues
+            stream_param = 'true' if stream else 'false'
             claude_response = call_claude_with_context(
                 selected_files, 
                 kin_path, 
@@ -528,11 +528,11 @@ def send_message(blueprint, kin_id):
                 addSystem=addSystem,
                 mode=selected_mode,  # Pass the selected mode
                 provider=provider,  # Pass the provider
-                stream=stream  # Pass the stream parameter
+                stream=stream_param  # Pass the stream parameter as string
             )
             
             # Handle streaming response
-            if stream:
+            if stream or stream_param == 'true':
                 # Create a generator function for streaming
                 def generate_sse():
                     # Send message_start event
