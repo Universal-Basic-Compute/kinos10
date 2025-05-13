@@ -1,0 +1,369 @@
+# Strategic Decision Engine for Serenissima AI
+
+This document outlines the decision-making system used by the AI player to evaluate opportunities, manage risks, and make optimal choices in Renaissance Venice.
+
+## Decision Process Architecture
+
+### Decision Flow
+- **Trigger Identification**: Recognizing decision points
+  - Opportunity detection
+  - Threat recognition
+  - Resource allocation needs
+  - Timing-based triggers
+  - External requests or offers
+
+- **Context Assembly**: Gathering relevant information
+  - Current state assessment
+  - Historical pattern retrieval
+  - Environmental condition analysis
+  - Relationship factor consideration
+  - Strategic alignment check
+
+- **Option Generation**: Creating potential choices
+  - Standard response identification
+  - Creative alternative development
+  - Constraint-based possibility mapping
+  - Opportunity-maximizing options
+  - Risk-minimizing approaches
+
+- **Evaluation Process**: Assessing each option
+  - Multi-criteria analysis
+  - Quantitative modeling
+  - Qualitative assessment
+  - Risk-reward balancing
+  - Strategic fit determination
+
+- **Selection Mechanism**: Making the final choice
+  - Optimization-based selection
+  - Threshold-based acceptance
+  - Elimination of inferior options
+  - Weighted criteria decision
+  - Strategic priority alignment
+
+### Decision Categories
+- **Investment Decisions**: Capital allocation choices
+  - Property acquisition
+  - Business development
+  - Market entry
+  - Production expansion
+  - Research and innovation
+
+- **Operational Decisions**: Day-to-day business choices
+  - Production scheduling
+  - Inventory management
+  - Pricing adjustments
+  - Quality control
+  - Resource allocation
+
+- **Relationship Decisions**: Social interaction choices
+  - Alliance formation
+  - Negotiation positions
+  - Conflict resolution
+  - Reputation management
+  - Network development
+
+- **Strategic Decisions**: Long-term direction choices
+  - Market positioning
+  - Competitive stance
+  - Growth trajectory
+  - Diversification strategy
+  - Risk profile setting
+
+## Evaluation Frameworks
+
+### Economic Evaluation
+- **Return on Investment Analysis**: Financial return assessment
+  - Initial investment quantification
+  - Revenue projection modeling
+  - Expense estimation
+  - Time value of money calculation
+  - Comparative return analysis
+
+- **Risk-Adjusted Return**: Accounting for uncertainty
+  - Risk factor identification
+  - Probability estimation
+  - Impact quantification
+  - Expected value calculation
+  - Worst-case scenario analysis
+
+- **Opportunity Cost Assessment**: Alternative use evaluation
+  - Next-best alternative identification
+  - Comparative return analysis
+  - Strategic option value
+  - Resource constraint consideration
+  - Timing opportunity factors
+
+- **Strategic Value Calculation**: Beyond immediate returns
+  - Market position enhancement
+  - Capability development contribution
+  - Relationship network effects
+  - Information advantage creation
+  - Future opportunity enabling
+
+### Risk Evaluation
+- **Threat Assessment**: Negative outcome analysis
+  - Failure mode identification
+  - Vulnerability exposure
+  - Competitive response prediction
+  - External factor sensitivity
+  - Reputation risk consideration
+
+- **Uncertainty Mapping**: Understanding knowledge gaps
+  - Information quality assessment
+  - Assumption identification
+  - Variable sensitivity analysis
+  - Confidence level determination
+  - Knowledge gap prioritization
+
+- **Mitigation Potential**: Risk reduction options
+  - Preventive measure availability
+  - Contingency plan feasibility
+  - Insurance or hedging options
+  - Diversification possibilities
+  - Exit strategy viability
+
+- **Risk Tolerance Alignment**: Matching persona risk profile
+  - Risk capacity assessment
+  - Risk preference application
+  - Portfolio risk context
+  - Strategic phase considerations
+  - Reputation implications
+
+### Strategic Alignment
+- **Goal Contribution**: Advancement of objectives
+  - Short-term goal alignment
+  - Medium-term objective support
+  - Long-term vision consistency
+  - Core strategy reinforcement
+  - Priority objective advancement
+
+- **Capability Enhancement**: Skill and resource development
+  - Core competency strengthening
+  - New capability development
+  - Resource base expansion
+  - Knowledge acquisition value
+  - Relationship asset building
+
+- **Competitive Positioning**: Market stance impact
+  - Differentiation enhancement
+  - Cost position improvement
+  - Market share effect
+  - Competitive response management
+  - Entry barrier creation or overcoming
+
+- **Adaptability Preservation**: Maintaining future options
+  - Flexibility retention
+  - Irreversible commitment assessment
+  - Option value creation
+  - Strategic pivot enablement
+  - Future opportunity access
+
+## Decision Optimization
+
+### Multi-Criteria Decision Analysis
+- **Criteria Weighting**: Importance determination
+  - Strategic priority-based weighting
+  - Situation-specific adjustments
+  - Risk factor weighting
+  - Time horizon considerations
+  - Certainty level adjustments
+
+- **Option Scoring**: Performance assessment
+  - Quantitative metric evaluation
+  - Qualitative factor rating
+  - Comparative ranking
+  - Threshold satisfaction checking
+  - Constraint compliance verification
+
+- **Aggregation Methods**: Combining multiple factors
+  - Weighted sum calculation
+  - Multiplicative scoring
+  - Hierarchical evaluation
+  - Outranking comparison
+  - Multi-attribute utility analysis
+
+- **Sensitivity Testing**: Robustness checking
+  - Weight variation effects
+  - Threshold adjustment impacts
+  - Assumption change consequences
+  - Information quality effects
+  - Priority shift implications
+
+### Decision Rules
+- **Optimization Rules**: Maximizing value
+  - Expected value maximization
+  - Risk-adjusted return optimization
+  - Strategic value prioritization
+  - Resource efficiency maximization
+  - Opportunity capture optimization
+
+- **Satisficing Rules**: Meeting acceptable thresholds
+  - Minimum return requirements
+  - Maximum risk tolerance limits
+  - Essential criteria satisfaction
+  - Strategic alignment necessities
+  - Relationship requirement fulfillment
+
+- **Heuristic Rules**: Simplified decision approaches
+  - Industry best practice application
+  - Historical success pattern matching
+  - Expert rule implementation
+  - Tradition-based decision making
+  - Intuition-mimicking approaches
+
+- **Elimination Rules**: Removing unacceptable options
+  - Risk threshold violation elimination
+  - Strategic misalignment rejection
+  - Resource constraint incompatibility
+  - Ethical boundary transgression
+  - Reputation damage potential
+
+### Temporal Considerations
+- **Time Horizon Integration**: Balancing timeframes
+  - Short-term impact assessment
+  - Medium-term consequence evaluation
+  - Long-term strategic effect analysis
+  - Immediate vs. delayed return balancing
+  - Time-based risk evolution consideration
+
+- **Sequencing Optimization**: Order of actions
+  - Prerequisite relationship mapping
+  - Critical path identification
+  - Dependency management
+  - Opportunity window alignment
+  - Risk exposure staging
+
+- **Adaptive Planning**: Adjusting over time
+  - Decision point identification
+  - Contingency trigger definition
+  - Feedback incorporation mechanisms
+  - Milestone-based reassessment
+  - Environmental change adaptation
+
+- **Commitment Pacing**: Managing irreversibility
+  - Staged investment approaches
+  - Reversibility preservation
+  - Option value retention
+  - Information-based commitment timing
+  - Flexibility premium calculation
+
+## Specialized Decision Systems
+
+### Market Decision System
+- **Price Setting**: Determining optimal pricing
+  - Market condition analysis
+  - Competitor pricing assessment
+  - Cost structure consideration
+  - Value perception evaluation
+  - Strategic positioning goals
+
+- **Trade Timing**: When to buy and sell
+  - Price trend analysis
+  - Seasonal pattern recognition
+  - Supply-demand balance assessment
+  - Inventory position consideration
+  - Cash flow requirement integration
+
+- **Product Selection**: What to produce or trade
+  - Profit margin analysis
+  - Market demand assessment
+  - Capability alignment check
+  - Competitive advantage evaluation
+  - Strategic fit determination
+
+- **Market Entry/Exit**: Where to compete
+  - Market attractiveness analysis
+  - Competitive intensity assessment
+  - Capability match evaluation
+  - Entry barrier consideration
+  - Exit cost estimation
+
+### Property Decision System
+- **Acquisition Criteria**: Property purchase standards
+  - Location value assessment
+  - Price-to-value analysis
+  - Condition evaluation
+  - Income potential calculation
+  - Strategic fit determination
+
+- **Development Prioritization**: Improvement sequencing
+  - Return on investment ranking
+  - Strategic need alignment
+  - Resource availability matching
+  - Market timing consideration
+  - Risk level assessment
+
+- **Portfolio Balancing**: Property mix optimization
+  - Diversification analysis
+  - Risk distribution assessment
+  - Cash flow pattern evaluation
+  - Appreciation potential comparison
+  - Strategic coverage examination
+
+- **Disposition Timing**: When to sell properties
+  - Market cycle position analysis
+  - Appreciation capture assessment
+  - Reinvestment opportunity evaluation
+  - Portfolio rebalancing needs
+  - Strategic direction alignment
+
+### Relationship Decision System
+- **Alliance Formation**: Partnership criteria
+  - Complementary capability assessment
+  - Value alignment evaluation
+  - Trust potential analysis
+  - Power balance consideration
+  - Strategic benefit calculation
+
+- **Conflict Resolution**: Dispute handling approach
+  - Relationship value assessment
+  - Power position analysis
+  - Principle vs. pragmatism balancing
+  - Long-term consequence evaluation
+  - Reputation impact consideration
+
+- **Favor Exchange**: Relationship currency management
+  - Favor value assessment
+  - Reciprocity timing optimization
+  - Relationship investment calculation
+  - Strategic leverage evaluation
+  - Network effect consideration
+
+- **Reputation Management**: Social standing decisions
+  - Action visibility assessment
+  - Value demonstration opportunities
+  - Impression management choices
+  - Consistency maintenance
+  - Audience prioritization
+
+## Implementation Guidelines
+
+When implementing the strategic decision engine:
+
+1. **Balance Analysis with Action**
+   - Adjust decision process depth to decision importance
+   - Implement appropriate shortcuts for routine decisions
+   - Establish clear thresholds for detailed analysis
+   - Create decision templates for common situations
+   - Balance perfect information pursuit with timely action
+
+2. **Maintain Decision Consistency**
+   - Ensure alignment with character traits and values
+   - Develop clear decision principles for key areas
+   - Create reference points from past decisions
+   - Establish explicit priority hierarchies
+   - Document decision rationales for future reference
+
+3. **Implement Continuous Improvement**
+   - Review decision outcomes systematically
+   - Identify pattern-based improvement opportunities
+   - Refine evaluation criteria based on results
+   - Adjust weighting systems as strategies evolve
+   - Develop increasingly sophisticated decision models
+
+4. **Adapt to Information Quality**
+   - Adjust decision approaches based on information reliability
+   - Develop methods for decisions under uncertainty
+   - Create information value calculations to guide research
+   - Implement appropriate conservatism with limited data
+   - Balance intuitive and analytical approaches appropriately

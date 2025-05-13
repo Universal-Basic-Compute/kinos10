@@ -1,0 +1,289 @@
+# State Tracking System for Serenissima AI
+
+This document outlines the state tracking system used by the AI player to maintain awareness of its current status, assets, relationships, and market conditions in Renaissance Venice.
+
+## Asset Tracking
+
+### Property Portfolio
+- **Property Registry**: Comprehensive inventory of owned properties
+  - Property ID and location
+  - Acquisition date and purchase price
+  - Current estimated value
+  - Physical condition status
+  - Income generation data
+  - Development/improvement history
+
+- **Portfolio Analytics**: Aggregate property metrics
+  - Total portfolio value
+  - Geographic distribution
+  - Property type distribution
+  - Average ROI across properties
+  - Maintenance cost tracking
+  - Appreciation/depreciation rates
+
+- **Development Projects**: Active property improvements
+  - Project type and scope
+  - Investment allocated
+  - Completion percentage
+  - Expected value increase
+  - Timeline and milestone tracking
+  - Resource requirements
+
+### Business Operations
+- **Production Facilities**: Manufacturing operation status
+  - Facility type and location
+  - Production capacity utilization
+  - Input material inventory levels
+  - Output product inventory
+  - Workforce allocation
+  - Quality metrics
+
+- **Trade Operations**: Commercial activity tracking
+  - Active trade routes
+  - Goods in transit (type, quantity, value)
+  - Order book (pending transactions)
+  - Price trend data by commodity
+  - Profit margin by product category
+  - Seasonal performance patterns
+
+- **Financial Position**: Capital and cash flow tracking
+  - Liquid capital available
+  - Credit facilities and debt obligations
+  - Accounts receivable
+  - Accounts payable
+  - Revenue streams by source
+  - Expense categories and trends
+
+## Relationship Tracking
+
+### Individual Relationships
+- **Relationship Registry**: Key individual connections
+  - Person name and social position
+  - Relationship strength metric (1-10)
+  - Relationship type (business, political, social)
+  - Interaction history (recent dealings)
+  - Trust level assessment
+  - Favor balance (owed vs. granted)
+
+- **Interaction Planning**: Relationship development tracking
+  - Priority relationships for improvement
+  - Planned interactions and approaches
+  - Gift and favor strategies
+  - Conflict resolution needs
+  - Alliance building opportunities
+  - Competitive relationship management
+
+### Organizational Relationships
+- **Guild Standings**: Position within guild structures
+  - Membership status in relevant guilds
+  - Reputation level within each guild
+  - Leadership positions held
+  - Obligation fulfillment status
+  - Influence metric within guild
+  - Factional alignments
+
+- **Political Connections**: Government relationship tracking
+  - Connections to key officials
+  - Faction alignment status
+  - Political capital assessment
+  - Regulatory compliance standing
+  - Taxation status
+  - Special permission or license tracking
+
+- **Business Networks**: Commercial relationship ecosystem
+  - Supplier relationship status
+  - Customer relationship health
+  - Competitor interaction tracking
+  - Partnership agreement status
+  - Contract fulfillment metrics
+  - Network centrality assessment
+
+## Market Intelligence
+
+### Price Tracking
+- **Price Registry**: Current market values
+  - Raw material prices (current, 7-day, 30-day)
+  - Finished good prices by category
+  - Service rates for common needs
+  - Property values by district
+  - Wage rates by skill level
+  - Transportation costs by route
+
+- **Price Analysis**: Trend identification
+  - Short-term price movements
+  - Seasonal pattern alignment
+  - Volatility metrics by commodity
+  - Correlation tracking between related goods
+  - Arbitrage opportunity identification
+  - Price anomaly detection
+
+### Supply and Demand
+- **Supply Monitoring**: Production and availability tracking
+  - Production volume estimates by sector
+  - Inventory levels across markets
+  - Import volume tracking
+  - Supply disruption indicators
+  - Production capacity changes
+  - New source development
+
+- **Demand Assessment**: Consumption and need tracking
+  - Consumption volume by market segment
+  - Buyer activity levels
+  - Seasonal demand pattern tracking
+  - Emerging demand trends
+  - Demand elasticity estimates
+  - Luxury vs. necessity demand shifts
+
+### Competitive Intelligence
+- **Competitor Activity**: Other player tracking
+  - Market share estimates by sector
+  - Recent significant transactions
+  - Property acquisition patterns
+  - Business focus and specialization
+  - Relationship network mapping
+  - Strategic direction assessment
+
+- **Market Opportunity Map**: Gap analysis tracking
+  - Underserved market segments
+  - Quality tier opportunities
+  - Geographic coverage gaps
+  - Emerging product categories
+  - Service improvement opportunities
+  - Integration potential in supply chains
+
+## Game State Tracking
+
+### Environmental Conditions
+- **Seasonal Status**: Time-based condition tracking
+  - Current season and month
+  - Weather pattern effects on trade
+  - Festival calendar proximity
+  - Agricultural cycle position
+  - Tourism and visitor patterns
+  - Seasonal disease risk levels
+
+- **Political Climate**: Governance situation assessment
+  - Current Doge and key officials
+  - Dominant political factions
+  - Recent significant legislation
+  - International relations status
+  - War and peace conditions
+  - Civil stability assessment
+
+- **Economic Conditions**: Overall market health
+  - Economic cycle position
+  - Credit availability
+  - Overall market activity level
+  - Construction and development trends
+  - Foreign trade volume indicators
+  - Luxury spending patterns
+
+### Personal Status
+- **Reputation Metrics**: Standing in Venetian society
+  - Overall reputation score
+  - Business reputation rating
+  - Social reputation rating
+  - Political reputation rating
+  - Guild reputation by organization
+  - Recent reputation changes
+
+- **Capability Development**: Skill and knowledge tracking
+  - Business skill development
+  - Political acumen growth
+  - Social networking capability
+  - Technical knowledge areas
+  - Market expertise by sector
+  - Strategic thinking advancement
+
+- **Goal Progress**: Achievement tracking
+  - Short-term goal completion status
+  - Medium-term objective progress
+  - Long-term strategic position advancement
+  - Wealth accumulation metrics
+  - Influence development measurement
+  - Legacy building progress
+
+## Implementation System
+
+### Data Structure
+- **State Object Model**: Hierarchical data organization
+  - Core state categories
+  - Entity relationship model
+  - Attribute definition and types
+  - Update frequency requirements
+  - Persistence mechanism
+  - Query and retrieval methods
+
+- **Update Mechanisms**: State maintenance processes
+  - Event-triggered updates
+  - Periodic review processes
+  - Inference-based state estimation
+  - Confidence levels for uncertain data
+  - Historical trend preservation
+  - State change notifications
+
+### Analysis Processes
+- **Pattern Recognition**: Identifying meaningful trends
+  - Time series analysis of key metrics
+  - Correlation detection between state elements
+  - Anomaly identification process
+  - Opportunity pattern matching
+  - Threat pattern detection
+  - Predictive trend extrapolation
+
+- **Decision Support**: Converting state to action guidance
+  - Priority alert generation
+  - Opportunity highlighting
+  - Risk warning system
+  - Performance metric dashboards
+  - Comparative analysis views
+  - Scenario modeling based on state
+
+### Memory Management
+- **Information Lifecycle**: Data retention policies
+  - Critical state permanent retention
+  - Important state long-term retention
+  - Routine state medium-term retention
+  - Transient state short-term retention
+  - Archival and retrieval process
+  - Memory consolidation mechanisms
+
+- **Uncertainty Handling**: Managing incomplete information
+  - Confidence rating for state elements
+  - Information age factoring
+  - Contradictory information resolution
+  - Inference rules for missing data
+  - Verification priority setting
+  - Update urgency assessment
+
+## Usage Guidelines
+
+When implementing the state tracking system:
+
+1. **Maintain Data Currency**
+   - Update critical state elements after each significant action
+   - Perform regular reviews of all state categories
+   - Prioritize verification of high-impact state elements
+   - Establish update triggers for different state categories
+   - Balance update frequency with processing efficiency
+
+2. **Focus on Decision Relevance**
+   - Emphasize state elements that drive near-term decisions
+   - Maintain appropriate detail level for each state category
+   - Develop clear thresholds for decision triggers
+   - Connect state tracking directly to decision frameworks
+   - Customize tracking detail based on strategic priorities
+
+3. **Integrate Multiple Perspectives**
+   - Combine objective data with subjective assessments
+   - Maintain both quantitative metrics and qualitative descriptions
+   - Consider both absolute state and relative positioning
+   - Track both current conditions and change vectors
+   - Balance detail with holistic understanding
+
+4. **Adapt to Information Availability**
+   - Adjust confidence levels based on information quality
+   - Develop inference mechanisms for incomplete data
+   - Prioritize information gathering for critical uncertainties
+   - Create feedback loops to improve state accuracy
+   - Recognize and account for potential misinformation
