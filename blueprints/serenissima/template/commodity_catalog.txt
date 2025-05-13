@@ -1,0 +1,128 @@
+# Commodity Catalog of Serenissima
+
+This document provides a comprehensive listing of tradable goods in Renaissance Venice, organized by category for reference in market analysis and trading decisions.
+
+## Raw Materials
+
+### Mineral Resources
+- **Gold**: Precious metal used for jewelry, gold leaf, and currency
+- **Iron Ore**: Base metal ore refined into processed iron and tools
+- **Marble**: Premium stone used for construction and sculpture
+- **Murano Sand**: Specialized silica sand essential for Venetian glassmaking
+- **Salt**: Essential preservative and cooking ingredient
+- **Soda Ash**: Alkali material imported from Syria/Egypt, critical for glassmaking
+
+### Agricultural & Natural Resources
+- **Dyestuffs**: Coloring agents for textiles (indigo, cochineal, etc.)
+- **Fish**: Fresh catch from lagoon and Adriatic waters
+- **Hemp**: Fibrous plant used for rope and sailcloth production
+- **Pine Resin**: Sticky substance from pine trees used for waterproofing
+- **Raw Silk**: Unprocessed silk threads imported from Asia and Italian mainland
+- **Timber**: Wood for construction, shipbuilding, and fuel
+
+## Processed Materials
+
+### Refined Materials
+- **Bricks**: Fired clay building material
+- **Cut Stone**: Shaped stone blocks for construction
+- **Dyed Textiles**: Fabric colored with various dyes
+- **Flour**: Ground grain for bread and other foods
+- **Gold Leaf**: Hammered gold sheets for decoration
+- **Molten Glass**: Liquid glass ready for shaping
+- **Mortar**: Binding material for masonry
+- **Olive Oil**: Pressed oil for cooking, lighting, and soap
+- **Paper**: Processed material for books, documents, and maps
+- **Pitch**: Tar-like substance for waterproofing ships
+- **Prepared Silk**: Processed silk ready for weaving
+- **Processed Iron**: Refined iron ready for crafting
+- **Silk Fabric**: Woven silk cloth
+
+### Components
+- **Iron Fittings**: Metal hardware for construction and shipbuilding
+- **Rope**: Twisted hemp cordage for ships and construction
+- **Sailcloth**: Durable fabric for ship sails
+- **Ship Components**: Parts for vessel construction
+
+## Finished Goods
+
+### Luxury Items
+- **Books**: Printed or handwritten volumes
+- **Fine Glassware**: High-quality Murano glass products
+- **Jewelry**: Precious metal and gemstone adornments
+- **Luxury Silk Garments**: High-end clothing made from silk
+- **Maps**: Navigational and decorative cartography
+- **Venetian Lace**: Delicate handmade textile
+
+### Vessels & Transport
+- **Gondola**: Venetian canal boat
+- **Merchant Galley**: Large trading vessel
+- **Small Boats**: Various smaller watercraft
+
+### Food & Beverage
+- **Bread**: Baked staple food
+- **Preserved Fish**: Salt-cured fish for longer storage
+- **Spiced Wine**: Wine enhanced with spices and herbs
+- **Wine**: Fermented grape beverage
+
+### Tools & Equipment
+- **Forgery Tools**: Specialized equipment for document falsification
+- **Porter Equipment**: Tools for moving goods through Venice's streets
+- **Tools**: Various implements for crafting and construction
+- **Weapons**: Arms for defense or conflict
+
+### Illicit Goods
+- **Blackmail Evidence**: Compromising information
+- **Disguise Materials**: Items for concealing identity
+- **Poison Components**: Ingredients for creating poisons
+- **Smuggler's Maps**: Secret routes for avoiding authorities
+
+## Utility Resources
+
+### Services
+- **Banking Services**: Financial transactions and loans
+- **Criminal Contacts**: Connections to Venice's underworld
+- **Labor**: Hired workforce for various tasks
+
+### Essential Resources
+- **Clean Water**: Potable water for drinking and production
+- **Fuel**: Material burned for heat and industrial processes
+
+## Production Chains
+
+### Glassmaking Chain
+1. **Raw Materials**: Murano Sand + Soda Ash
+2. **Processing**: Fuel → Molten Glass
+3. **Finished Products**: Fine Glassware
+
+### Shipbuilding Chain
+1. **Raw Materials**: Timber + Hemp + Pine Resin + Iron Ore
+2. **Processed Materials**: Processed Iron + Rope + Sailcloth + Pitch + Ship Components
+3. **Finished Vessels**: Small Boats + Gondola + Merchant Galley
+
+### Textile Chain
+1. **Raw Materials**: Raw Silk + Dyestuffs
+2. **Processing**: Prepared Silk → Silk Fabric → Dyed Textiles
+3. **Luxury Products**: Luxury Silk Garments + Venetian Lace
+
+### Construction Chain
+1. **Raw Materials**: Timber + Marble + Iron Ore
+2. **Processed Materials**: Cut Stone + Bricks + Mortar + Processed Iron + Iron Fittings
+3. **Applications**: Buildings, infrastructure, and decorative elements
+
+### Food Production Chain
+1. **Raw Materials**: Fish + Salt
+2. **Processing**: Flour → Bread, Fish → Preserved Fish
+3. **Luxury Consumables**: Wine → Spiced Wine, Olive Oil (as ingredient)
+
+## Market Considerations
+
+When trading these commodities, consider:
+
+1. **Seasonal Availability**: Many raw materials have seasonal supply fluctuations
+2. **Production Dependencies**: Shortages in raw materials affect entire production chains
+3. **Regulatory Factors**: Guild and government regulations on production and trade
+4. **Quality Variations**: Significant price differences based on quality within categories
+5. **Storage Requirements**: Perishability and storage costs vary significantly
+6. **Legal Status**: Some goods require special permissions or operate in gray markets
+
+Understanding these relationships provides strategic advantages in anticipating price movements and identifying profitable trade opportunities.
