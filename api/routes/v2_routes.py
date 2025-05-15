@@ -376,20 +376,12 @@ def send_message_v2(blueprint, kin_id):
             return send_channel_message_v2(blueprint, kin_id, channel_id)
         else:
             # Otherwise, directly call the original function (main channel)
-            # Create a new request context with the data
-            with app.test_request_context(
-                method='POST',
-                path=f'/api/proxy/kins/{blueprint}/{kin_id}/messages',
-                json=original_data
-            ) as ctx:
-                # Push the context
-                ctx.push()
-                try:
-                    # Call send_message with the new context
-                    from routes.messages import send_message
-                    return send_message(blueprint, kin_id)
-                finally:
-                    ctx.pop()
+            # Import here to avoid circular imports
+            from routes.messages import send_message
+            
+            # Store the current request for the send_message function to use
+            # This avoids creating a new request context which can cause issues
+            return send_message(blueprint, kin_id)
     except Exception as e:
         logger.error(f"Error in send_message_v2: {str(e)}")
         return jsonify({"error": str(e)}), 500
@@ -1042,19 +1034,9 @@ def analyze_message_with_params(blueprint, kin_id, message_content, data):
     """Helper function to call analyze_message with parameters instead of relying on request object"""
     from routes.messages import analyze_message
     
-    # Create a new request context with the data
-    with app.test_request_context(
-        method='POST',
-        path=f'/api/proxy/kins/{blueprint}/{kin_id}/analysis',
-        json=data
-    ) as ctx:
-        # Push the context
-        ctx.push()
-        try:
-            # Call analyze_message with the new context
-            return analyze_message(blueprint, kin_id)
-        finally:
-            ctx.pop()
+    # Store the current data in the request for analyze_message to use
+    # This avoids creating a new request context which can cause issues
+    return analyze_message(blueprint, kin_id)
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/aider_logs', methods=['GET'])
 def get_aider_logs_v2(blueprint, kin_id):
@@ -1176,7 +1158,10 @@ def build_kin_v2(blueprint, kin_id):
     Maps to the original build_kin function.
     Supports both GET and POST methods.
     """
+    # Import here to avoid circular imports
     from routes.projects import build_kin
+    
+    # Directly call the original function with the current request
     return build_kin(blueprint, kin_id)
 
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/listen', methods=['GET', 'POST'])
@@ -2307,33 +2292,19 @@ def call_build_endpoint(blueprint, kin_id, error_output):
         Please analyze these errors and fix the TypeScript issues in the affected files.
         """
         
-        # Call build endpoint
+        # Import the build_kin function
         from routes.projects import build_kin
         
-        # Create a new request context with the data
-        with app.test_request_context(
-            method='POST',
-            path=f'/api/proxy/kins/{blueprint}/{kin_id}/build',
-            json={
-                "message": message,
-                "addSystem": "Focus on fixing TypeScript errors. Make minimal changes to resolve type issues."
-            }
-        ) as ctx:
-            # Push the context
-            ctx.push()
-            try:
-                # Call build_kin with the new context
-                response = build_kin(blueprint, kin_id)
-                
-                # Convert response to dictionary
-                if isinstance(response, tuple):
-                    response_data = response[0].json
-                else:
-                    response_data = response.json
-                
-                return response_data
-            finally:
-                ctx.pop()
+        # Create a direct HTTP request to the build endpoint
+        url = f"http://localhost:{os.environ.get('PORT', 5000)}/api/proxy/kins/{blueprint}/{kin_id}/build"
+        headers = {"Content-Type": "application/json", "X-API-Key": os.environ.get("API_KEY", "")}
+        payload = {
+            "message": message,
+            "addSystem": "Focus on fixing TypeScript errors. Make minimal changes to resolve type issues."
+        }
+        
+        response = requests.post(url, json=payload, headers=headers)
+        return response.json()
     except Exception as e:
         logger.error(f"Error calling build endpoint: {str(e)}")
         return {"error": str(e)}
