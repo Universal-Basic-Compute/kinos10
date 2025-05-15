@@ -48,7 +48,7 @@ class DeepSeekProvider(LLMProvider):
                 "model": actual_model,
                 "messages": formatted_messages,
                 "max_tokens": max_tokens,
-                "stream": False
+                "stream": stream
             }
             
             # Set up headers with authentication
@@ -96,18 +96,26 @@ class DeepSeekProvider(LLMProvider):
                     logger.error(f"Failed to fix JSON response: {str(fix_error)}")
                     return f"I apologize, but I received an invalid response from the DeepSeek API. Error details: {str(e)}. Please try again."
             
-            # Extract the response text
-            if response_data.get("choices") and len(response_data["choices"]) > 0:
-                try:
-                    return response_data["choices"][0]["message"]["content"]
-                except KeyError as key_error:
-                    logger.error(f"Unexpected response structure: {str(key_error)}")
-                    logger.error(f"Response data: {json.dumps(response_data)[:1000]}")
-                    return "I apologize, but I received an unexpected response structure from the DeepSeek API. Please try again."
+            # Handle streaming response
+            if stream:
+                # For streaming, we need to handle the response differently
+                # This is a simplified implementation - in a real-world scenario,
+                # you would need to handle the SSE stream properly
+                logger.warning("Streaming not fully implemented for DeepSeek provider")
+                return "Streaming is not fully supported for DeepSeek provider yet."
             else:
-                logger.error("Empty response from DeepSeek")
-                logger.error(f"Full response: {json.dumps(response_data)[:1000]}")
-                return "I apologize, but I couldn't generate a response."
+                # Extract the response text for non-streaming response
+                if response_data.get("choices") and len(response_data["choices"]) > 0:
+                    try:
+                        return response_data["choices"][0]["message"]["content"]
+                    except KeyError as key_error:
+                        logger.error(f"Unexpected response structure: {str(key_error)}")
+                        logger.error(f"Response data: {json.dumps(response_data)[:1000]}")
+                        return "I apologize, but I received an unexpected response structure from the DeepSeek API. Please try again."
+                else:
+                    logger.error("Empty response from DeepSeek")
+                    logger.error(f"Full response: {json.dumps(response_data)[:1000]}")
+                    return "I apologize, but I couldn't generate a response."
                 
         except requests.exceptions.HTTPError as e:
             # Handle HTTP errors

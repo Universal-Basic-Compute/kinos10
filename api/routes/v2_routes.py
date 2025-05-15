@@ -978,6 +978,7 @@ def analyze_message_v2(blueprint, kin_id):
             )
             
             # Call Claude with streaming support
+            logger.info("Calling Claude with streaming enabled for analysis")
             claude_stream = call_claude_with_context(
                 selected_files, 
                 kin_path, 
@@ -989,7 +990,7 @@ def analyze_message_v2(blueprint, kin_id):
                 addSystem=addSystem,
                 mode="analysis",  # Explicitly set mode to "analysis"
                 provider=provider,
-                stream=True  # Enable streaming
+                stream=True  # Enable streaming as boolean
             )
             
             # Create a generator function for streaming

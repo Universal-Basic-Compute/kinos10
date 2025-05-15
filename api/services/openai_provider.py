@@ -21,7 +21,7 @@ class OpenAIProvider(LLMProvider):
             logger.error(f"Error initializing OpenAI client: {str(e)}")
             raise RuntimeError(f"Could not initialize OpenAI client: {str(e)}")
     
-    def generate_response(self, messages, system=None, max_tokens=4000, model=None):
+    def generate_response(self, messages, system=None, max_tokens=4000, model=None, stream=False):
         """Generate a response using OpenAI"""
         try:
             # Use provided model or default
@@ -42,6 +42,7 @@ class OpenAIProvider(LLMProvider):
             params = {
                 "model": model_to_use,
                 "messages": formatted_messages,
+                "stream": stream
             }
             
             # Determine which token parameter to use based on model
@@ -60,12 +61,24 @@ class OpenAIProvider(LLMProvider):
                     # Re-raise if it's a different error
                     raise
             
-            # Extract the response text
-            if response.choices and len(response.choices) > 0:
-                return response.choices[0].message.content
+            # Handle streaming response
+            if stream:
+                # Return a generator for streaming responses
+                def generate_stream():
+                    for chunk in response:
+                        if chunk.choices and len(chunk.choices) > 0:
+                            content = chunk.choices[0].delta.content
+                            if content:
+                                yield content
+                
+                return generate_stream()
             else:
-                logger.error("Empty response from OpenAI")
-                return "I apologize, but I couldn't generate a response."
+                # Extract the response text for non-streaming response
+                if response.choices and len(response.choices) > 0:
+                    return response.choices[0].message.content
+                else:
+                    logger.error("Empty response from OpenAI")
+                    return "I apologize, but I couldn't generate a response."
                 
         except openai.NotFoundError as e:
             # Handle model not found errors specifically

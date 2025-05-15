@@ -324,6 +324,10 @@ Your goal is to provide useful and accurate information while maintaining a clea
             logger.info(f"  Last message: {messages[-1] if messages else 'No messages'}")
             logger.info(f"  Streaming: {stream}")
             
+            # Convert stream parameter to boolean if it's a string
+            if isinstance(stream, str):
+                stream = stream.lower() == 'true'
+            
             # Log all messages being sent to LLM for better debugging
             try:
                 logger.info(f"All messages being sent to LLM: {json.dumps([{'role': m.get('role'), 'content': m.get('content')[:100] + '...' if isinstance(m.get('content'), str) and len(m.get('content')) > 100 else m.get('content')} for m in messages], indent=2)}")
@@ -373,6 +377,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
             # Use the LLM client to generate a response
             if stream:
                 # Return a generator for streaming responses
+                logger.info("Using streaming response mode")
                 return llm_client.generate_response(
                     messages=messages,
                     system=context,
@@ -382,11 +387,13 @@ Your goal is to provide useful and accurate information while maintaining a clea
                 )
             else:
                 # Return a regular response
+                logger.info("Using standard response mode")
                 response_text = llm_client.generate_response(
                     messages=messages,
                     system=context,
                     max_tokens=4000,
-                    model=model_to_use
+                    model=model_to_use,
+                    stream=False
                 )
                 
                 # Log the response
