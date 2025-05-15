@@ -1861,21 +1861,115 @@ def delete_kin_v2(blueprint, kin_id):
         if kin_id == "template":
             return jsonify({"error": "Cannot delete the template kin"}), 403
         
-        # Delete the kin directory
-        try:
-            import shutil
-            shutil.rmtree(kin_path)
-            logger.info(f"Successfully deleted kin '{kin_id}' for blueprint '{blueprint}'")
-            
-            return jsonify({
-                "status": "success",
-                "message": f"Kin '{kin_id}' deleted successfully",
-                "blueprint": blueprint,
-                "kin_id": kin_id
-            })
-        except Exception as delete_error:
-            logger.error(f"Error deleting kin directory: {str(delete_error)}")
-            return jsonify({"error": f"Failed to delete kin: {str(delete_error)}"}), 500
+        # Try to unlock Git files before deletion
+        git_dir = os.path.join(kin_path, ".git")
+        if os.path.exists(git_dir):
+            try:
+                # Try to reset any pending changes and clean up
+                from services.aider_service import find_git_executable
+                git_exe = find_git_executable()
+                
+                if git_exe:
+                    # Run git reset --hard to discard any changes
+                    try:
+                        subprocess.run(
+                            [git_exe, "reset", "--hard"],
+                            cwd=kin_path,
+                            check=False,
+                            capture_output=True,
+                            text=True
+                        )
+                        logger.info(f"Git reset completed for {kin_path}")
+                    except Exception as e:
+                        logger.warning(f"Git reset failed: {str(e)}")
+                    
+                    # Run git clean -fd to remove untracked files
+                    try:
+                        subprocess.run(
+                            [git_exe, "clean", "-fd"],
+                            cwd=kin_path,
+                            check=False,
+                            capture_output=True,
+                            text=True
+                        )
+                        logger.info(f"Git clean completed for {kin_path}")
+                    except Exception as e:
+                        logger.warning(f"Git clean failed: {str(e)}")
+                    
+                    # Run git gc to clean up Git objects
+                    try:
+                        subprocess.run(
+                            [git_exe, "gc"],
+                            cwd=kin_path,
+                            check=False,
+                            capture_output=True,
+                            text=True
+                        )
+                        logger.info(f"Git garbage collection completed for {kin_path}")
+                    except Exception as e:
+                        logger.warning(f"Git garbage collection failed: {str(e)}")
+            except Exception as git_error:
+                logger.warning(f"Error cleaning up Git repository: {str(git_error)}")
+        
+        # Delete the kin directory with retry mechanism
+        import time
+        import shutil
+        max_retries = 3
+        retry_delay = 1  # seconds
+        
+        for attempt in range(max_retries):
+            try:
+                # On Windows, use a more robust deletion approach
+                if os.name == 'nt':  # Windows
+                    # First try with shutil.rmtree
+                    try:
+                        shutil.rmtree(kin_path, ignore_errors=True)
+                    except Exception as e:
+                        logger.warning(f"Standard deletion failed, trying with system commands: {str(e)}")
+                        
+                        # If that fails, try with system commands
+                        try:
+                            # Use rd /s /q which is more forceful on Windows
+                            subprocess.run(
+                                ["rd", "/s", "/q", kin_path],
+                                shell=True,
+                                check=False,
+                                capture_output=True,
+                                text=True
+                            )
+                        except Exception as cmd_error:
+                            logger.warning(f"Command line deletion failed: {str(cmd_error)}")
+                            raise  # Re-raise to trigger retry
+                else:
+                    # On Unix systems, use standard rmtree
+                    shutil.rmtree(kin_path)
+                
+                # If we get here, deletion was successful
+                logger.info(f"Successfully deleted kin '{kin_id}' for blueprint '{blueprint}'")
+                
+                return jsonify({
+                    "status": "success",
+                    "message": f"Kin '{kin_id}' deleted successfully",
+                    "blueprint": blueprint,
+                    "kin_id": kin_id
+                })
+                
+            except Exception as delete_error:
+                logger.warning(f"Deletion attempt {attempt+1}/{max_retries} failed: {str(delete_error)}")
+                
+                if attempt < max_retries - 1:
+                    # Wait before retrying
+                    time.sleep(retry_delay)
+                    # Increase delay for next attempt
+                    retry_delay *= 2
+                else:
+                    # Last attempt failed
+                    logger.error(f"Failed to delete kin after {max_retries} attempts: {str(delete_error)}")
+                    return jsonify({
+                        "error": f"Failed to delete kin after {max_retries} attempts",
+                        "details": str(delete_error),
+                        "suggestion": "The kin directory may be in use by another process. Try closing any applications that might be accessing it and try again."
+                    }), 500
             
     except Exception as e:
         logger.error(f"Error in delete_kin_v2: {str(e)}")
