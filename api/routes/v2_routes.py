@@ -375,9 +375,21 @@ def send_message_v2(blueprint, kin_id):
             # If channel_id is provided, use the channel-specific endpoint
             return send_channel_message_v2(blueprint, kin_id, channel_id)
         else:
-            # Otherwise, use the original function (main channel)
-            from routes.messages import send_message
-            return send_message(blueprint, kin_id)
+            # Otherwise, directly call the original function (main channel)
+            # Create a new request context with the data
+            with app.test_request_context(
+                method='POST',
+                path=f'/api/proxy/kins/{blueprint}/{kin_id}/messages',
+                json=original_data
+            ) as ctx:
+                # Push the context
+                ctx.push()
+                try:
+                    # Call send_message with the new context
+                    from routes.messages import send_message
+                    return send_message(blueprint, kin_id)
+                finally:
+                    ctx.pop()
     except Exception as e:
         logger.error(f"Error in send_message_v2: {str(e)}")
         return jsonify({"error": str(e)}), 500
