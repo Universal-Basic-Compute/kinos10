@@ -17,7 +17,7 @@ class DeepSeekProvider(LLMProvider):
         self.api_endpoint = "https://api.deepseek.com/v1/chat/completions"  # Update to v1 endpoint
         logger.info("DeepSeek provider initialized")
     
-    def generate_response(self, messages, system=None, max_tokens=4000, model=None):
+    def generate_response(self, messages, system=None, max_tokens=4000, model=None, stream=False):
         """Generate a response using DeepSeek API"""
         try:
             # Use provided model or default with proper mapping
@@ -73,7 +73,12 @@ class DeepSeekProvider(LLMProvider):
             response.raise_for_status()
             
             # Parse the response
-            response_data = response.json()
+            try:
+                response_data = response.json()
+            except json.JSONDecodeError as e:
+                logger.error(f"Failed to parse JSON response: {str(e)}")
+                logger.error(f"Response content: {response.text[:1000]}")  # Log first 1000 chars
+                return f"I apologize, but I received an invalid response from the DeepSeek API. Please try again."
             
             # Extract the response text
             if response_data.get("choices") and len(response_data["choices"]) > 0:
