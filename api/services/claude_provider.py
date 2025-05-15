@@ -1,4 +1,5 @@
 import os
+import json
 import anthropic
 from services.llm_service import LLMProvider
 from config import logger
@@ -26,24 +27,39 @@ class ClaudeProvider(LLMProvider):
             # Use provided model or default
             model_to_use = model or os.getenv("CLAUDE_MODEL", "claude-3-7-sonnet-latest")
             
+            # Log the request details
+            logger.info(f"Calling Claude API with model: {model_to_use}")
+            logger.info(f"Stream mode: {stream}")
+            logger.info(f"Number of messages: {len(messages)}")
+            
+            # Ensure stream parameter is boolean, not string
+            if isinstance(stream, str):
+                stream = stream.lower() == 'true'
+            
             if stream:
                 # Return a generator for streaming responses
                 return self._generate_streaming_response(model_to_use, max_tokens, system, messages)
             else:
                 # Regular non-streaming response
-                response = self.client.messages.create(
-                    model=model_to_use,
-                    max_tokens=max_tokens,
-                    system=system,
-                    messages=messages
-                )
-                
-                # Extract the response text
-                if response.content and len(response.content) > 0:
-                    return response.content[0].text
-                else:
-                    logger.error("Empty response from Claude")
-                    return "I apologize, but I couldn't generate a response."
+                try:
+                    response = self.client.messages.create(
+                        model=model_to_use,
+                        max_tokens=max_tokens,
+                        system=system,
+                        messages=messages
+                    )
+                    
+                    # Extract the response text
+                    if response.content and len(response.content) > 0:
+                        return response.content[0].text
+                    else:
+                        logger.error("Empty response from Claude")
+                        return "I apologize, but I couldn't generate a response."
+                except json.JSONDecodeError as json_err:
+                    # Handle JSON parsing errors specifically
+                    logger.error(f"JSON parsing error in Claude response: {str(json_err)}")
+                    logger.error(f"Error position: line {json_err.lineno}, column {json_err.colno}, char {json_err.pos}")
+                    return f"I apologize, but there was an error processing the response. Please try again."
                 
         except Exception as e:
             logger.error(f"Error calling Claude API: {str(e)}")
