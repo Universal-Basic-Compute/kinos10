@@ -700,6 +700,27 @@ Return your answer as a JSON array of file paths only."""
                 logger.info(f"Claude selected files: {selected_files}")
             except json.JSONDecodeError as e:
                 logger.warning(f"Could not parse JSON from Claude's response: {e}")
+                # Try to clean up the JSON string
+                try:
+                    # Remove any control characters
+                    import re
+                    cleaned_json = re.sub(r'[\x00-\x1F\x7F]', '', json_match)
+                    # Try to parse again
+                    selected_files = json.loads(cleaned_json)
+                    logger.info(f"Successfully parsed JSON after cleaning: {selected_files}")
+                except json.JSONDecodeError as e2:
+                    logger.error(f"Still could not parse JSON after cleaning: {e2}")
+                    # Fall back to a simple regex-based extraction
+                    try:
+                        # Look for patterns like "file.txt", "path/to/file.md", etc.
+                        file_matches = re.findall(r'"([^"]+\.[^"]+)"', response_text)
+                        if file_matches:
+                            selected_files = file_matches
+                            logger.info(f"Extracted files using regex: {selected_files}")
+                        else:
+                            logger.warning("Could not extract files using regex, using empty list")
+                    except Exception as e3:
+                        logger.error(f"Error in regex extraction: {e3}")
         else:
             logger.warning("Could not extract JSON from Claude's response, using empty list")
             
