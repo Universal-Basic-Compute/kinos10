@@ -1839,6 +1839,48 @@ def check_website_status_v2(blueprint, kin_id):
         logger.error(f"Error checking website status: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>', methods=['DELETE'])
+def delete_kin_v2(blueprint, kin_id):
+    """
+    V2 API endpoint to delete a kin.
+    Permanently removes the kin directory and all its contents.
+    """
+    try:
+        # Validate blueprint
+        if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
+            return jsonify({"error": f"Blueprint '{blueprint}' not found"}), 404
+            
+        # Get kin path
+        kin_path = get_kin_path(blueprint, kin_id)
+        
+        # Check if kin exists
+        if not os.path.exists(kin_path):
+            return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+        
+        # Prevent deletion of template
+        if kin_id == "template":
+            return jsonify({"error": "Cannot delete the template kin"}), 403
+        
+        # Delete the kin directory
+        try:
+            import shutil
+            shutil.rmtree(kin_path)
+            logger.info(f"Successfully deleted kin '{kin_id}' for blueprint '{blueprint}'")
+            
+            return jsonify({
+                "status": "success",
+                "message": f"Kin '{kin_id}' deleted successfully",
+                "blueprint": blueprint,
+                "kin_id": kin_id
+            })
+        except Exception as delete_error:
+            logger.error(f"Error deleting kin directory: {str(delete_error)}")
+            return jsonify({"error": f"Failed to delete kin: {str(delete_error)}"}), 500
+            
+    except Exception as e:
+        logger.error(f"Error in delete_kin_v2: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @v2_bp.route('/blueprints/<blueprint>/kins/<kin_id>/add-message', methods=['POST'])
 def add_message_v2(blueprint, kin_id):
     """
