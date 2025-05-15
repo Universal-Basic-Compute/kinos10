@@ -72,19 +72,41 @@ class DeepSeekProvider(LLMProvider):
             # Check if the request was successful
             response.raise_for_status()
             
-            # Parse the response
+            # Parse the response with more robust error handling
             try:
+                # First, try to decode the response as JSON
                 response_data = response.json()
             except json.JSONDecodeError as e:
+                # If JSON parsing fails, log detailed information
                 logger.error(f"Failed to parse JSON response: {str(e)}")
+                logger.error(f"Response status code: {response.status_code}")
                 logger.error(f"Response content: {response.text[:1000]}")  # Log first 1000 chars
-                return f"I apologize, but I received an invalid response from the DeepSeek API. Please try again."
+                
+                # Try to fix common JSON issues
+                try:
+                    # Sometimes the response might have invalid escape characters or other issues
+                    # Try a more lenient JSON parsing approach
+                    import re
+                    # Remove control characters
+                    cleaned_text = re.sub(r'[\x00-\x1F\x7F]', '', response.text)
+                    # Try to parse with a more lenient approach
+                    response_data = json.loads(cleaned_text)
+                    logger.info("Successfully parsed JSON after cleaning response text")
+                except Exception as fix_error:
+                    logger.error(f"Failed to fix JSON response: {str(fix_error)}")
+                    return f"I apologize, but I received an invalid response from the DeepSeek API. Error details: {str(e)}. Please try again."
             
             # Extract the response text
             if response_data.get("choices") and len(response_data["choices"]) > 0:
-                return response_data["choices"][0]["message"]["content"]
+                try:
+                    return response_data["choices"][0]["message"]["content"]
+                except KeyError as key_error:
+                    logger.error(f"Unexpected response structure: {str(key_error)}")
+                    logger.error(f"Response data: {json.dumps(response_data)[:1000]}")
+                    return "I apologize, but I received an unexpected response structure from the DeepSeek API. Please try again."
             else:
                 logger.error("Empty response from DeepSeek")
+                logger.error(f"Full response: {json.dumps(response_data)[:1000]}")
                 return "I apologize, but I couldn't generate a response."
                 
         except requests.exceptions.HTTPError as e:
