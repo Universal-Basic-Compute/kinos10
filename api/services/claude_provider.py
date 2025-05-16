@@ -61,6 +61,9 @@ class ClaudeProvider(LLMProvider):
                         # Extract the response text
                         if response.content and len(response.content) > 0:
                             result = response.content[0].text
+                            # Sanitize the response to remove control characters
+                            import re
+                            result = re.sub(r'[\x00-\x1F\x7F]', '', result)
                             logger.info(f"Claude API extracted text (first 100 chars): {result[:100]}")
                             return result
                         else:
@@ -108,6 +111,9 @@ class ClaudeProvider(LLMProvider):
                         # Extract the response text
                         if response.content and len(response.content) > 0:
                             result = response.content[0].text
+                            # Sanitize the response to remove control characters
+                            import re
+                            result = re.sub(r'[\x00-\x1F\x7F]', '', result)
                             logger.info(f"Fallback approach succeeded, got response (first 100 chars): {result[:100]}")
                             return result
                         else:
@@ -142,7 +148,10 @@ class ClaudeProvider(LLMProvider):
             ) as stream:
                 # Yield each text chunk as it arrives
                 for text in stream.text_stream:
-                    yield text
+                    # Sanitize the text chunk to remove control characters
+                    import re
+                    sanitized_text = re.sub(r'[\x00-\x1F\x7F]', '', text)
+                    yield sanitized_text
         except Exception as e:
             logger.error(f"Error in Claude streaming API: {str(e)}")
             yield f"I apologize, but I encountered an error: {str(e)}. Please try again."

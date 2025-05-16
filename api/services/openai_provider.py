@@ -103,6 +103,11 @@ class OpenAIProvider(LLMProvider):
         if model_name == "gpt-4-1":
             logger.info(f"Mapping 'gpt-4-1' to 'gpt-4.1'")
             return "gpt-4.1"
+        
+        # Special case for gpt-4o-mini which should be gpt-4o-mini
+        if model_name == "gpt-4o-mini":
+            logger.info(f"Using model name as-is: {model_name}")
+            return "gpt-4o-mini"
             
         # Log the model name for debugging
         logger.info(f"Using model name as-is: {model_name}")

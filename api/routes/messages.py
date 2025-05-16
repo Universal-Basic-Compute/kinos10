@@ -657,8 +657,39 @@ def send_message(blueprint, kin_id):
                 # Add selected_mode if one was determined
                 if selected_mode:
                     response_data["mode"] = selected_mode
+                
+                try:
+                    # More thorough sanitization to remove any control characters
+                    import re
                     
-                return jsonify(response_data)
+                    # Function to recursively sanitize all strings in a JSON structure
+                    def sanitize_json_strings(obj):
+                        if isinstance(obj, str):
+                            # Remove all control characters (0-31 and 127)
+                            return re.sub(r'[\x00-\x1F\x7F]', '', obj)
+                        elif isinstance(obj, list):
+                            return [sanitize_json_strings(item) for item in obj]
+                        elif isinstance(obj, dict):
+                            return {k: sanitize_json_strings(v) for k, v in obj.items()}
+                        else:
+                            return obj
+                    
+                    # Sanitize the entire response data structure
+                    response_data = sanitize_json_strings(response_data)
+                    
+                    # Test that the response can be serialized to JSON
+                    json.dumps(response_data)
+                    
+                    return jsonify(response_data)
+                except Exception as json_error:
+                    logger.error(f"Error serializing response to JSON: {str(json_error)}")
+                    logger.error(f"Error position: {str(json_error)}")
+                    # Return a simplified response that should be safe
+                    return jsonify({
+                        "status": "completed with errors",
+                        "message": "Response contained invalid characters and was sanitized",
+                        "response": "I apologize, but there was an issue with my response. Please try again."
+                    })
             
         except Exception as e:
             logger.error(f"Error processing message: {str(e)}")
@@ -791,8 +822,39 @@ def analyze_message(blueprint, kin_id):
             # Add selected_mode if one was determined
             if selected_mode:
                 response_data["mode"] = selected_mode
+            
+            try:
+                # More thorough sanitization to remove any control characters
+                import re
                 
-            return jsonify(response_data)
+                # Function to recursively sanitize all strings in a JSON structure
+                def sanitize_json_strings(obj):
+                    if isinstance(obj, str):
+                        # Remove all control characters (0-31 and 127)
+                        return re.sub(r'[\x00-\x1F\x7F]', '', obj)
+                    elif isinstance(obj, list):
+                        return [sanitize_json_strings(item) for item in obj]
+                    elif isinstance(obj, dict):
+                        return {k: sanitize_json_strings(v) for k, v in obj.items()}
+                    else:
+                        return obj
+                
+                # Sanitize the entire response data structure
+                response_data = sanitize_json_strings(response_data)
+                
+                # Test that the response can be serialized to JSON
+                json.dumps(response_data)
+                
+                return jsonify(response_data)
+            except Exception as json_error:
+                logger.error(f"Error serializing response to JSON: {str(json_error)}")
+                logger.error(f"Error position: {str(json_error)}")
+                # Return a simplified response that should be safe
+                return jsonify({
+                    "status": "completed with errors",
+                    "message": "Response contained invalid characters and was sanitized",
+                    "response": "I apologize, but there was an issue with my response. Please try again."
+                })
             
         except Exception as e:
             logger.error(f"Error processing analysis: {str(e)}")
