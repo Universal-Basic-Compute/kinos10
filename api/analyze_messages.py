@@ -90,7 +90,7 @@ def analyze_messages(messages, client):
     try:
         # Call Claude API
         response = client.messages.create(
-            model="claude-3-7-sonnet-latest",
+            model="claude-sonnet-4-20250514",
             max_tokens=4000,
             messages=[
                 {"role": "user", "content": prompt}
@@ -215,7 +215,7 @@ def process_kin(blueprint, kin_id, min_messages, client):
                 "kin_id": kin_id,
                 "message_count": len(messages),
                 "generated_at": datetime.now().isoformat(),
-                "model": "claude-3-7-sonnet-latest"
+                "model": "claude-sonnet-4-20250514"
             }
             
             # Save insights

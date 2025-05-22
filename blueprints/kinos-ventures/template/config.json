@@ -3,7 +3,7 @@
   "name": "KinOS Ventures",
   "description": "Business designer et développeur web pour KinOS Ventures",
   "author": "KinOS Team",
-  "defaultModel": "claude-3-7-sonnet-latest",
+  "defaultModel": "claude-sonnet-4-20250514",
   "defaultProvider": "claude",
   "systemPrompt": "system.txt",
   "persona": "persona.txt",

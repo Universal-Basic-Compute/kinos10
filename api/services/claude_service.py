@@ -649,7 +649,7 @@ Return your answer as a JSON array of file paths only."""
     
     try:
         # Choose appropriate model for context building
-        context_builder_model = "claude-3-7-sonnet-latest" if provider != "openai" else "gpt-4o"
+        context_builder_model = "claude-sonnet-4-20250514" if provider != "openai" else "gpt-4o"
         logger.info(f"Using {context_builder_model} for context building with provider: {provider}")
         
         # Call LLM to select relevant files with map.json in system prompt

@@ -551,7 +551,7 @@ def chat():
         # Prepare the request to KinOS API v2
         kinos_request = {
             "content": user_message,
-            "model": "claude-3-7-sonnet-latest",  # Or your preferred model
+            "model": "claude-sonnet-4-20250514",  # Or your preferred model
             "mode": "helpful",  # Or another appropriate mode
             "addSystem": "You are the KinOS website assistant. Provide helpful, concise information about KinOS features, capabilities, and use cases. Be friendly and professional."
         }

@@ -28,11 +28,11 @@ else:
     logger.info(f"API_SECRET_KEY environment variable found and loaded: '{API_KEY[:3]}...{API_KEY[-3:]}'")
 
 # Define MODEL constant
-MODEL = "claude-3-7-sonnet-latest"  # Use the latest Claude 3.7 Sonnet model
+MODEL = "claude-sonnet-4-20250514"  # Use the latest Claude 3.7 Sonnet model
 
 # LLM Provider Configuration
 DEFAULT_LLM_PROVIDER = os.getenv("DEFAULT_LLM_PROVIDER", "claude")
-CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-3-7-sonnet-latest")
+CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-sonnet-4-20250514")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 
 # Get application data directory

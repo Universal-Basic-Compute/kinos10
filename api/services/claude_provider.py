@@ -25,7 +25,7 @@ class ClaudeProvider(LLMProvider):
         """Generate a response using Claude with optional streaming support"""
         try:
             # Use provided model or default
-            model_to_use = model or os.getenv("CLAUDE_MODEL", "claude-3-7-sonnet-latest")
+            model_to_use = model or os.getenv("CLAUDE_MODEL", "claude-sonnet-4-20250514")
             
             # Log the request details
             logger.info(f"Calling Claude API with model: {model_to_use}")

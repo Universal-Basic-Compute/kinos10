@@ -30,7 +30,7 @@ def send_message(blueprint, kin_id, message, api_key):
     
     payload = {
         "content": message,
-        "model": "claude-3-7-sonnet-latest"  # Use Sonnet for better responses
+        "model": "claude-sonnet-4-20250514"  # Use Sonnet for better responses
     }
     
     print(f"Sending message to {blueprint}/{kin_id}: {message}")

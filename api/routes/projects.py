@@ -931,7 +931,7 @@ def analyze_kin(blueprint, kin_id):
         # Parse request data
         data = request.json
         message_content = data.get('message', '')
-        model = data.get('model', 'claude-3-7-sonnet-latest')
+        model = data.get('model', 'claude-sonnet-4-20250514')
         
         # Validate required parameters
         if not message_content:
@@ -1108,7 +1108,7 @@ def generate_kin_image(blueprint, kin_id):
             
             # Prepare the payload
             payload = {
-                "model": llm_model or "claude-3-7-sonnet-latest",
+                "model": llm_model or "claude-sonnet-4-20250514",
                 "max_tokens": 1024,
                 "system": context + "\n\n" + prompt_system_instructions,
                 "messages": [

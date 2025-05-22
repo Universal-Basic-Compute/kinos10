@@ -335,7 +335,7 @@ Format your response as JSON:
         
         # Make the API call
         response = client.messages.create(
-            model="claude-3-7-sonnet-latest",
+            model="claude-sonnet-4-20250514",
             max_tokens=1000,
             system=system_prompt,
             messages=[{"role": "user", "content": "Please extract the keywords and emotions as specified."}]
@@ -435,7 +435,7 @@ def generate_dream(kin_path, keywords, client):
 
     try:
         response = client.messages.create(
-            model="claude-3-7-sonnet-latest",
+            model="claude-sonnet-4-20250514",
             max_tokens=1000,
             system=f"""Persona and Memories Context:
 {autonomous_persona_content}
@@ -551,7 +551,7 @@ def generate_daydreaming(kin_path, dream_narrative, random_files, client):
 
     try:
         response = client.messages.create(
-            model="claude-3-7-sonnet-latest",
+            model="claude-sonnet-4-20250514",
             max_tokens=1500,
             system=f"""Dream Narrative:
 {dream_narrative}
@@ -624,7 +624,7 @@ def generate_initiative(kin_path, daydreaming, client):
 
     try:
         response = client.messages.create(
-            model="claude-3-7-sonnet-latest",
+            model="claude-sonnet-4-20250514",
             max_tokens=1500,
             system=f"""Daydreaming:
 {daydreaming}
@@ -908,7 +908,7 @@ def send_build_to_kin(blueprint, kin_id, message, remote=False, provider=None, m
         }
         
         # Determine model to use
-        model_to_use = model or "claude-3-7-sonnet-latest"
+        model_to_use = model or "claude-sonnet-4-20250514"
         
         payload = {
             "message": message,
@@ -1148,7 +1148,7 @@ def send_message_to_kin(blueprint, kin_id, message, mode=None, remote=False, pro
         }
         
         # Determine model to use
-        model_to_use = model or "claude-3-7-sonnet-latest"
+        model_to_use = model or "claude-sonnet-4-20250514"
         
         payload = {
             "content": message,
