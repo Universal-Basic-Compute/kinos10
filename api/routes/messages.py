@@ -660,7 +660,6 @@ def send_message(blueprint, kin_id):
                 
                 try:
                     # More thorough sanitization to remove any control characters
-                    import re
                     
                     # Function to recursively sanitize all strings in a JSON structure
                     def sanitize_json_strings(obj):
@@ -825,7 +824,6 @@ def analyze_message(blueprint, kin_id):
             
             try:
                 # More thorough sanitization to remove any control characters
-                import re
                 
                 # Function to recursively sanitize all strings in a JSON structure
                 def sanitize_json_strings(obj):

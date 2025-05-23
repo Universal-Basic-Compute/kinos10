@@ -882,7 +882,6 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
                 
                 try:
                     # More thorough sanitization to remove any control characters
-                    import re
                     
                     # Function to recursively sanitize all strings in a JSON structure
                     def sanitize_json_strings(obj):
