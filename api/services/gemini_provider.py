@@ -1,5 +1,5 @@
 import os
-import google.genai as genai # Updated import to use google.genai directly
+import google.generativeai as genai # Use the official package name
 from services.llm_service import LLMProvider
 from config import logger
 import json
