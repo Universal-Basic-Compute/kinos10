@@ -190,7 +190,7 @@ class GeminiProvider(LLMProvider):
                              return "I apologize, but I received an empty response from Gemini."
                 else: 
                     logger.error(f"No content or parts found in Gemini response candidate. Finish reason: {candidate.finish_reason.name}")
-                    if candidate.finish_reason == genai.types.Candidate.FinishReason.MAX_TOKENS:
+                    if candidate.finish_reason == genai.types.FinishReason.MAX_TOKENS:
                         return "I apologize, but the response from Gemini was cut off due to length limits, and no content was provided."
                     # For other finish reasons like STOP or UNSPECIFIED with no content/parts
                     return "I apologize, but I received an empty or malformed response from Gemini."
