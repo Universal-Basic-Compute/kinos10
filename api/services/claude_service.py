@@ -654,7 +654,7 @@ Return your answer as a JSON array of file paths only."""
     try:
         # Choose appropriate model for context building
         if provider == "gemini":
-            context_builder_model = "gemini-1.0-pro" # Use a cost-effective Gemini model for context building
+            context_builder_model = "gemini-2.5-pro-preview-03-25" # Use the specified default Gemini model
         elif provider == "openai":
             context_builder_model = "gpt-4o"
         else: # Default to Claude
