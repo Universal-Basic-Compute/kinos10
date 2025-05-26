@@ -10,7 +10,7 @@ COPY api/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Aider
-RUN pip install aider-chat
+RUN pip install --upgrade aider-chat
 
 # Copy the rest of the application
 COPY . .
