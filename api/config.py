@@ -28,12 +28,12 @@ else:
     logger.info(f"API_SECRET_KEY environment variable found and loaded: '{API_KEY[:3]}...{API_KEY[-3:]}'")
 
 # Define MODEL constant
-MODEL = "claude-sonnet-4-20250514"  # Use the latest Claude 3.7 Sonnet model
+MODEL = "gemini/gemini-2.5-pro-preview-03-25"  # Default model when none is specified
 
 # LLM Provider Configuration
-DEFAULT_LLM_PROVIDER = os.getenv("DEFAULT_LLM_PROVIDER", "claude")
-CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-sonnet-4-20250514")
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
+DEFAULT_LLM_PROVIDER = os.getenv("DEFAULT_LLM_PROVIDER", "gemini") # Default provider
+CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-3-opus-20240229") # Default Claude model if Claude is chosen
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o") # Default OpenAI model if OpenAI is chosen
 
 # Get application data directory
 def get_app_data_dir():
