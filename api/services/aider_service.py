@@ -83,20 +83,37 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             # Default DeepSeek model with proper format
             aider_model_flag = "--model deepseek/deepseek-chat"
             logger.info("Using default DeepSeek model: deepseek/deepseek-chat")
-    else:
-        # Default to Claude
-        api_key = os.getenv("ANTHROPIC_API_KEY")
+    elif provider == "gemini" or (model and model.startswith("gemini")):
+        api_key = os.getenv("GOOGLE_API_KEY") # Aider uses GOOGLE_API_KEY env var
         if not api_key:
-            raise ValueError("ANTHROPIC_API_KEY environment variable not set")
+            raise ValueError("GOOGLE_API_KEY environment variable not set for Gemini")
         
-        # Always use --model flag with the model name
         if model:
-            aider_model_flag = f"--model {model}"
-            logger.info(f"Using model with --model flag: {model}")
+            # Aider expects model name like "gemini/gemini-1.5-pro-latest"
+            # If the "gemini/" prefix is not there, add it.
+            model_name = model if model.startswith("gemini/") else f"gemini/{model}"
+            aider_model_flag = f"--model {model_name}"
+            logger.info(f"Using Gemini model with --model flag: {model_name}")
         else:
-            # Default to Sonnet if no specific model is provided
-            aider_model_flag = "--model claude-3-sonnet-20240229"
-            logger.info("Using default Claude model: claude-3-sonnet-20240229")
+            aider_model_flag = "--model gemini/gemini-2.5-pro-preview-03-25" # Default Gemini model for Aider
+            logger.info("Using default Gemini model for Aider: gemini/gemini-2.5-pro-preview-03-25")
+    else:
+        # Default to Gemini if no other provider is matched
+        api_key = os.getenv("GOOGLE_API_KEY")
+        if not api_key:
+            raise ValueError("GOOGLE_API_KEY environment variable not set for Gemini (default)")
+        
+        if model and model.startswith("gemini"): # Should be caught by elif above, but as a safeguard
+            model_name = model if model.startswith("gemini/") else f"gemini/{model}"
+            aider_model_flag = f"--model {model_name}"
+            logger.info(f"Using Gemini model with --model flag: {model_name}")
+        elif model: # Some other model specified, but provider not explicitly Gemini
+             aider_model_flag = f"--model {model}" # Use the model as is, Aider might support it via other env keys
+             logger.warning(f"Defaulting to Gemini provider but using specified model: {model}. Ensure Aider supports this combination.")
+        else:
+            # Default to Gemini model if no specific model is provided
+            aider_model_flag = "--model gemini/gemini-2.5-pro-preview-03-25"
+            logger.info("Using default Gemini model for Aider: gemini/gemini-2.5-pro-preview-03-25")
     
     # Check if this is a linked repository
     is_repo_linked = False

@@ -48,7 +48,7 @@ class LLMProvider:
                 from services.gemini_provider import GeminiProvider
                 return GeminiProvider()
         
-        # Default to Claude if no provider or model specified
-        logger.warning(f"No provider specified and couldn't determine from model, falling back to Claude")
-        from services.claude_provider import ClaudeProvider
-        return ClaudeProvider()
+        # Default to Gemini if no provider or model specified
+        logger.warning(f"No provider specified and couldn't determine from model, falling back to Gemini")
+        from services.gemini_provider import GeminiProvider
+        return GeminiProvider()

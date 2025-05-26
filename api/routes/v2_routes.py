@@ -935,7 +935,7 @@ def analyze_message_v2(blueprint, kin_id):
             message_content = message_content.strip('"\'')
             
             # Get other parameters from query string
-            model = request.args.get('model', 'claude-sonnet-4-20250514')
+            model = request.args.get('model', 'gemini/gemini-2.5-pro-preview-03-25')
             addSystem = request.args.get('addSystem', None)
             min_files = request.args.get('min_files', 5)
             max_files = request.args.get('max_files', 15)
@@ -977,7 +977,7 @@ def analyze_message_v2(blueprint, kin_id):
                 return jsonify({"error": f"Kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
             
             # Get optional parameters
-            model = data.get('model', 'claude-sonnet-4-20250514')
+            model = data.get('model', 'gemini/gemini-2.5-pro-preview-03-25')
             addSystem = data.get('addSystem', None)
             provider = data.get('provider', None)
             min_files = data.get('min_files', 5)

@@ -653,14 +653,14 @@ Return your answer as a JSON array of file paths only."""
     
     try:
         # Choose appropriate model for context building
-        if provider == "gemini":
-            context_builder_model = "gemini-2.5-pro-preview-03-25" # Use the specified default Gemini model
-        elif provider == "openai":
+        if provider == "openai":
             context_builder_model = "gpt-4o"
-        else: # Default to Claude
+        elif provider == "claude": # Explicitly check for Claude if it's the intended provider
             context_builder_model = "claude-sonnet-4-20250514"
+        else: # Default to Gemini (covers provider == "gemini" or provider is None/unrecognized)
+            context_builder_model = "gemini-2.5-pro-preview-03-25"
             
-        logger.info(f"Using {context_builder_model} for context building with provider: {provider}")
+        logger.info(f"Using {context_builder_model} for context building with provider: {provider or 'gemini (default)'}")
         
         # Call LLM to select relevant files with map.json in system prompt
         logger.info(f"Making LLM API call for context building with:")
