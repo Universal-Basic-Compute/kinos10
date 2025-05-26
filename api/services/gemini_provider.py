@@ -1,9 +1,9 @@
 import os
 import base64
 import json # Keep for logging if necessary
-from google import generativeai as genai
-from google.generativeai import types as genai_types
-from google.generativeai.types import HarmCategory, HarmBlockThreshold # For safety settings
+from google import genai # Updated import for google-genai SDK
+from google.genai import types as genai_types # Updated import for types
+from google.genai.types import HarmCategory, HarmBlockThreshold # Updated import for safety settings
 from services.llm_service import LLMProvider
 from config import logger
 

@@ -5,8 +5,11 @@ WORKDIR /app
 # Copy requirements first to leverage Docker cache
 COPY api/requirements.txt .
 
+# Uninstall old Gemini SDK if present, to avoid conflicts
+RUN pip uninstall -y google-generativeai || true
+
 # Install requirements from the file
-# This will install anthropic==0.40.0 and other dependencies
+# This will install google-genai and other dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Aider
