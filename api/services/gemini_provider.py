@@ -1,28 +1,36 @@
 import os
-import google.generativeai as genai # Use the official package name
-# Import types directly from google.ai.generativelanguage
-from google.ai.generativelanguage import GenerationConfig
-from google.ai.generativelanguage.types import Candidate
-from google.ai.generativelanguage.types import SafetyRating
+import requests # Use requests for HTTP calls
 from services.llm_service import LLMProvider
 from config import logger
 import json
+import re # Import re for sanitization
+
+# Define constants for finish reasons and harm probabilities
+# These are based on typical string values returned by the Gemini REST API
+FINISH_REASON_SAFETY = "SAFETY"
+FINISH_REASON_RECITATION = "RECITATION"
+FINISH_REASON_OTHER = "OTHER"
+FINISH_REASON_MAX_TOKENS = "MAX_TOKENS"
+FINISH_REASON_STOP = "STOP" # Added for completeness
+
+HARM_PROBABILITY_NEGLIGIBLE = "NEGLIGIBLE"
+
 
 class GeminiProvider(LLMProvider):
-    """Google Gemini LLM provider implementation"""
+    """Google Gemini LLM provider implementation using direct HTTPS calls"""
+
+    BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models"
 
     def __init__(self, api_key=None):
         super().__init__(api_key)
         self.api_key = api_key or os.getenv("GOOGLE_API_KEY")
         if not self.api_key:
             logger.warning("GOOGLE_API_KEY environment variable not set")
+            # raise ValueError("GOOGLE_API_KEY must be set for GeminiProvider") # Or handle gracefully
         
-        try:
-            genai.configure(api_key=self.api_key)
-            logger.info("Google Gemini client configured successfully")
-        except Exception as e:
-            logger.error(f"Error configuring Gemini client: {str(e)}")
-            raise RuntimeError(f"Could not configure Gemini client: {str(e)}")
+        self.session = requests.Session()
+        self.session.headers.update({"Content-Type": "application/json"})
+        logger.info("GeminiProvider (HTTPS) initialized successfully")
 
     def _convert_messages_to_gemini_format(self, messages):
         gemini_messages = []
@@ -30,27 +38,30 @@ class GeminiProvider(LLMProvider):
             role = message.get("role")
             content = message.get("content")
 
+            # Gemini API expects "user" or "model"
             if role == "assistant":
                 role = "model"
+            elif role not in ["user", "model"]: # Ensure role is valid
+                role = "user" # Default to user if role is something else
             
-            if isinstance(content, list): # Handle multimodal content
+            if isinstance(content, list): # Handle multimodal content (Anthropic format)
                 parts = []
                 for item in content:
                     if item.get("type") == "text":
                         parts.append({"text": item.get("text", "")})
                     elif item.get("type") == "image" and item.get("source", {}).get("type") == "base64":
-                        # Gemini expects image data directly, not a complex structure
-                        # This part might need adjustment based on how image data is actually passed
-                        # For now, assuming we handle base64 images if passed in a specific way
-                        # This is a placeholder and might need actual image bytes.
-                        # For simplicity, we'll assume text parts for now.
-                        # Actual image handling would require converting base64 to image bytes
-                        # and using appropriate Part types.
-                        # parts.append({"inline_data": {"mime_type": item["source"]["media_type"], "data": item["source"]["data"]}})
-                        logger.warning("Image part in Gemini message detected, but full handling is complex. Treating as text for now.")
-                        parts.append({"text": "[Image content not directly translatable to simple text]"})
-                    else:
-                        parts.append({"text": str(item)}) # Fallback for unknown content parts
+                        # For Gemini REST API, image parts need to be structured correctly
+                        # This example assumes base64 encoded images.
+                        # The API expects 'inlineData' with 'mimeType' and 'data'.
+                        parts.append({
+                            "inlineData": {
+                                "mimeType": item["source"].get("media_type", "image/jpeg"), # Default to jpeg
+                                "data": item["source"].get("data", "")
+                            }
+                        })
+                        logger.info(f"Added image part for Gemini: {item['source'].get('media_type')}")
+                    else: # Fallback for unknown content parts
+                        parts.append({"text": str(item)}) 
                 gemini_messages.append({"role": role, "parts": parts})
             elif isinstance(content, str):
                  gemini_messages.append({"role": role, "parts": [{"text": content}]})
@@ -58,155 +69,173 @@ class GeminiProvider(LLMProvider):
                 logger.warning(f"Unsupported content type in message for Gemini: {type(content)}")
         return gemini_messages
 
+    def _handle_error_response(self, response_data):
+        """Helper to parse and log error responses from Gemini API"""
+        error_details = response_data.get("error", {})
+        message = error_details.get("message", "Unknown error from Gemini API.")
+        status = error_details.get("status", "UNKNOWN_STATUS")
+        logger.error(f"Gemini API Error: Status {status}, Message: {message}")
+        return f"I apologize, but I encountered an error with Gemini: {message}. Please try again."
+
     def generate_response(self, messages, system=None, max_tokens=None, model=None, stream=False):
-        """Generate a response using Gemini API"""
+        """Generate a response using Gemini API via HTTPS"""
+        if not self.api_key:
+            return "I apologize, but the Gemini API key is not configured."
+
+        model_name = model.replace("gemini/", "") if model else "gemini-1.5-flash" # Default to a common model
+        
+        logger.info(f"Calling Gemini API (HTTPS) with model: {model_name}")
+        logger.info(f"Stream mode: {stream}")
+        logger.info(f"Number of messages: {len(messages)}")
+
+        payload = {
+            "contents": self._convert_messages_to_gemini_format(messages)
+        }
+
+        if system:
+            payload["systemInstruction"] = {"parts": [{"text": system}]}
+        
+        generation_config = {}
+        if max_tokens:
+            generation_config["maxOutputTokens"] = max_tokens
+        # Add other generation_config settings as needed, e.g., temperature, topP
+        # generation_config["temperature"] = 0.7 
+        if generation_config:
+            payload["generationConfig"] = generation_config
+
+        # Safety settings (optional, example to block most harmful content)
+        # payload["safetySettings"] = [
+        #     {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+        #     {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+        #     {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+        #     {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+        # ]
+
+        api_method = "streamGenerateContent?alt=sse" if stream else "generateContent"
+        url = f"{self.BASE_URL}/{model_name}:{api_method}&key={self.api_key}"
+
         try:
-            # Remove "gemini/" prefix if present for the API call
-            model_name = model.replace("gemini/", "") if model else "gemini-2.5-pro-preview-03-25"
-            
-            logger.info(f"Calling Gemini API with model: {model_name}")
-            logger.info(f"Stream mode: {stream}")
-            logger.info(f"Number of messages: {len(messages)}")
-
-            gemini_model_args = {'model_name': model_name}
-            if system:
-                gemini_model_args['system_instruction'] = system
-            
-            gemini_model = genai.GenerativeModel(**gemini_model_args)
-
-            generation_config = GenerationConfig() # Use direct import
-            if max_tokens:
-                generation_config.max_output_tokens = max_tokens
-            # Add other generation_config settings as needed, e.g., temperature, top_p
-
-            gemini_formatted_messages = self._convert_messages_to_gemini_format(messages)
-            
-            # Log the formatted messages for debugging
-            # logger.debug(f"Gemini formatted messages: {json.dumps(gemini_formatted_messages, indent=2)}")
-
-
             if stream:
                 def generate_stream():
-                    try:
-                        response_stream = gemini_model.generate_content(
-                            gemini_formatted_messages,
-                            stream=True,
-                            generation_config=generation_config
-                        )
-                        for chunk in response_stream:
-                            if chunk.prompt_feedback and chunk.prompt_feedback.block_reason:
-                                error_message = f"I apologize, but your request was blocked by Gemini. Reason: {chunk.prompt_feedback.block_reason_message or chunk.prompt_feedback.block_reason}"
-                                logger.error(f"Gemini stream error: {error_message}")
-                                yield error_message
-                                return
+                    response = self.session.post(url, json=payload, stream=True, timeout=120) # Added timeout
+                    if response.status_code != 200:
+                        error_data = response.json() if response.content else {"error": {"message": f"HTTP Error {response.status_code}"}}
+                        yield self._handle_error_response(error_data)
+                        return
 
-                            if not chunk.candidates:
-                                if hasattr(chunk, 'text') and chunk.text:
-                                     yield chunk.text
-                                continue
+                    for line in response.iter_lines():
+                        if line:
+                            decoded_line = line.decode('utf-8')
+                            if decoded_line.startswith('data: '):
+                                try:
+                                    chunk_data = json.loads(decoded_line[6:])
+                                    if chunk_data.get("promptFeedback", {}).get("blockReason"):
+                                        reason = chunk_data["promptFeedback"]["blockReason"]
+                                        reason_msg = chunk_data["promptFeedback"].get("blockReasonMessage", reason)
+                                        error_message = f"I apologize, but your request was blocked by Gemini. Reason: {reason_msg}"
+                                        logger.error(f"Gemini stream error (prompt feedback): {error_message}")
+                                        yield error_message
+                                        return
 
-                            candidate = chunk.candidates[0]
-                            if candidate.finish_reason == Candidate.FinishReason.SAFETY: # Use direct import
-                                safety_messages = []
-                                if candidate.safety_ratings:
-                                    for rating in candidate.safety_ratings:
-                                        if rating.probability != SafetyRating.HarmProbability.NEGLIGIBLE: # Use direct import
-                                            safety_messages.append(f"{rating.category.name.split('_')[-1]} (Prob: {rating.probability.name})")
-                                error_message = f"I apologize, but content was blocked by Gemini due to safety concerns: {', '.join(safety_messages)}." if safety_messages else "I apologize, but content was blocked by Gemini due to safety concerns."
-                                logger.error(f"Gemini stream error: {error_message}")
-                                yield error_message
-                                return
-                            elif candidate.finish_reason == Candidate.FinishReason.RECITATION: # Use direct import
-                                error_message = "I apologize, but content was blocked by Gemini due to recitation policy."
-                                logger.error(f"Gemini stream error: {error_message}")
-                                yield error_message
-                                return
-                            
-                            text_yielded_from_chunk = False
-                            if candidate.content and candidate.content.parts:
-                                for part in candidate.content.parts:
-                                    if hasattr(part, 'text') and part.text:
-                                        yield part.text
-                                        text_yielded_from_chunk = True
-                            
-                            # Fallback for simpler chunk structures if no text from parts
-                            if not text_yielded_from_chunk and hasattr(chunk, 'text') and chunk.text:
-                                yield chunk.text
-                                
-                    except Exception as e:
-                        logger.error(f"Error during Gemini stream generation: {str(e)}")
-                        import traceback
-                        logger.error(f"Full traceback: {traceback.format_exc()}")
-                        yield f"I apologize, but I encountered an error with Gemini streaming: {str(e)}. Please try again."
+                                    candidates = chunk_data.get("candidates")
+                                    if candidates:
+                                        candidate = candidates[0]
+                                        finish_reason = candidate.get("finishReason")
+                                        if finish_reason == FINISH_REASON_SAFETY:
+                                            safety_messages = []
+                                            for rating in candidate.get("safetyRatings", []):
+                                                if rating.get("probability") != HARM_PROBABILITY_NEGLIGIBLE:
+                                                    safety_messages.append(f"{rating.get('category', 'UnknownCategory').split('_')[-1]} (Prob: {rating.get('probability')})")
+                                            error_message = f"I apologize, but content was blocked by Gemini due to safety concerns: {', '.join(safety_messages)}." if safety_messages else "I apologize, but content was blocked by Gemini due to safety concerns."
+                                            logger.error(f"Gemini stream error (safety): {error_message}")
+                                            yield error_message
+                                            return
+                                        elif finish_reason == FINISH_REASON_RECITATION:
+                                            error_message = "I apologize, but content was blocked by Gemini due to recitation policy."
+                                            logger.error(f"Gemini stream error (recitation): {error_message}")
+                                            yield error_message
+                                            return
+                                        
+                                        content = candidate.get("content", {})
+                                        parts = content.get("parts", [])
+                                        for part in parts:
+                                            if "text" in part:
+                                                yield part["text"]
+                                except json.JSONDecodeError:
+                                    logger.warning(f"Could not decode JSON line from stream: {decoded_line}")
+                                except Exception as e_stream_inner:
+                                    logger.error(f"Error processing stream chunk: {str(e_stream_inner)}")
+                                    yield f"Error processing stream: {str(e_stream_inner)}" # yield error to client
+                                    return # Stop streaming on error
                 return generate_stream()
-            else:
-                response = gemini_model.generate_content(
-                    gemini_formatted_messages,
-                    generation_config=generation_config
-                )
-                # Log the raw response for debugging
-                # logger.debug(f"Gemini API raw response: {response}")
+            else: # Non-streaming
+                response = self.session.post(url, json=payload, timeout=120) # Added timeout
+                if response.status_code != 200:
+                    error_data = response.json() if response.content else {"error": {"message": f"HTTP Error {response.status_code}"}}
+                    return self._handle_error_response(error_data)
 
-                # Check for prompt-level blocking first
-                if response.prompt_feedback and response.prompt_feedback.block_reason:
-                    logger.error(f"Gemini prompt feedback: {response.prompt_feedback}")
-                    return f"I apologize, but your request was blocked by Gemini. Reason: {response.prompt_feedback.block_reason_message or response.prompt_feedback.block_reason}"
+                response_data = response.json()
+                
+                # logger.debug(f"Gemini API raw response: {json.dumps(response_data, indent=2)}")
 
-                # Check candidates
-                if not response.candidates:
+                prompt_feedback = response_data.get("promptFeedback")
+                if prompt_feedback and prompt_feedback.get("blockReason"):
+                    reason = prompt_feedback["blockReason"]
+                    reason_msg = prompt_feedback.get("blockReasonMessage", reason) # Use blockReasonMessage if available
+                    logger.error(f"Gemini prompt feedback: {prompt_feedback}")
+                    return f"I apologize, but your request was blocked by Gemini. Reason: {reason_msg}"
+
+                candidates = response_data.get("candidates")
+                if not candidates:
                     logger.error("No candidates found in Gemini response.")
                     return "I apologize, but I received an empty response from Gemini."
 
-                candidate = response.candidates[0]
+                candidate = candidates[0]
+                finish_reason = candidate.get("finishReason")
 
-                # Handle terminal finish reasons
-                if candidate.finish_reason == Candidate.FinishReason.SAFETY: # Use direct import
+                if finish_reason == FINISH_REASON_SAFETY:
                     safety_messages = []
-                    if candidate.safety_ratings:
-                        for rating in candidate.safety_ratings:
-                            # NEGLIGIBLE = 0, LOW = 1, MEDIUM = 2, HIGH = 3
-                            if rating.probability != SafetyRating.HarmProbability.NEGLIGIBLE: # Use direct import
-                                safety_messages.append(f"{rating.category.name.split('_')[-1]} (Prob: {rating.probability.name})")
+                    for rating in candidate.get("safetyRatings", []):
+                        if rating.get("probability") != HARM_PROBABILITY_NEGLIGIBLE:
+                            safety_messages.append(f"{rating.get('category', 'UnknownCategory').split('_')[-1]} (Prob: {rating.get('probability')})")
                     if safety_messages:
                         logger.error(f"Content blocked by Gemini due to safety reasons: {', '.join(safety_messages)}")
                         return f"I apologize, but your request was blocked by Gemini due to safety concerns: {', '.join(safety_messages)}."
                     else:
                         logger.error("Content blocked by Gemini due to unspecified safety reasons (FinishReason.SAFETY).")
                         return "I apologize, but your request was blocked by Gemini due to safety concerns."
-                elif candidate.finish_reason == Candidate.FinishReason.RECITATION: # Use direct import
+                elif finish_reason == FINISH_REASON_RECITATION:
                     logger.error("Content blocked by Gemini due to recitation.")
                     return "I apologize, but your request was blocked by Gemini due to recitation policy."
-                elif candidate.finish_reason == Candidate.FinishReason.OTHER: # Use direct import
+                elif finish_reason == FINISH_REASON_OTHER:
                     logger.error("Gemini response finished due to an 'OTHER' reason.")
                     return "I apologize, but the Gemini response finished due to an unspecified error."
 
-                # If finish_reason is STOP, MAX_TOKENS, or UNSPECIFIED, attempt to get content.
-                if candidate.content and candidate.content.parts:
-                    # Concatenate text from all parts that have text
-                    result_parts = [part.text for part in candidate.content.parts if hasattr(part, 'text') and part.text is not None]
-                    result = "".join(result_parts)
-                    
-                    if not result:
-                        logger.warning(f"No text found in Gemini response parts, though parts exist. Finish reason: {candidate.finish_reason.name}")
-                        if any(part for part in candidate.content.parts): # Check if there were any parts at all (e.g. image)
-                             return "I apologize, but the response from Gemini did not contain any text content."
-                        else: # No parts at all
-                             return "I apologize, but I received an empty response from Gemini."
-                else: 
-                    logger.error(f"No content or parts found in Gemini response candidate. Finish reason: {candidate.finish_reason.name}")
-                    if candidate.finish_reason == Candidate.FinishReason.MAX_TOKENS: # Use direct import
-                        return "I apologize, but the response from Gemini was cut off due to length limits, and no content was provided."
-                    # For other finish reasons like STOP or UNSPECIFIED with no content/parts
-                    return "I apologize, but I received an empty or malformed response from Gemini."
-
-                import re
+                content = candidate.get("content", {})
+                parts = content.get("parts", [])
+                result_parts = [part.get("text", "") for part in parts if "text" in part]
+                result = "".join(result_parts)
+                
+                if not result:
+                    if finish_reason == FINISH_REASON_MAX_TOKENS:
+                         return "I apologize, but the response from Gemini was cut off due to length limits, and no content was provided."
+                    logger.warning(f"No text found in Gemini response parts. Finish reason: {finish_reason}")
+                    if any(part for part in parts):
+                         return "I apologize, but the response from Gemini did not contain any text content."
+                    return "I apologize, but I received an empty response from Gemini."
+                
                 result = re.sub(r'[\x00-\x1F\x7F]', '', result) # Sanitize
-                logger.info(f"Gemini API extracted text (first 100 chars): {result[:100]}")
+                logger.info(f"Gemini API (HTTPS) extracted text (first 100 chars): {result[:100]}")
                 return result
 
+        except requests.exceptions.RequestException as e_req:
+            logger.error(f"Error calling Gemini API (HTTPS) - RequestException: {str(e_req)}")
+            return f"I apologize, but I encountered a network error with Gemini: {str(e_req)}. Please try again."
+        except json.JSONDecodeError as e_json:
+            logger.error(f"Error calling Gemini API (HTTPS) - JSONDecodeError: {str(e_json)}")
+            return f"I apologize, but I received an invalid response from Gemini. Please try again."
         except Exception as e:
-            logger.error(f"Error calling Gemini API: {str(e)}")
-            # Log traceback for more details
+            logger.error(f"Error calling Gemini API (HTTPS): {str(e)}")
             import traceback
             logger.error(f"Full traceback: {traceback.format_exc()}")
             return f"I apologize, but I encountered an error with Gemini: {str(e)}. Please try again."

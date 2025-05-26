@@ -5,10 +5,8 @@ WORKDIR /app
 # Copy requirements first to leverage Docker cache
 COPY api/requirements.txt .
 
-# Install dependencies with specific versions
-RUN pip install --no-cache-dir anthropic==0.40.0
-
-# Then install other requirements
+# Install requirements from the file
+# This will install anthropic==0.40.0 and other dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Aider
