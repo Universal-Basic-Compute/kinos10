@@ -29,6 +29,9 @@ class LLMProvider:
             elif provider_name == "deepseek":
                 from services.deepseek_provider import DeepSeekProvider
                 return DeepSeekProvider()
+            elif provider_name == "gemini":
+                from services.gemini_provider import GeminiProvider
+                return GeminiProvider()
         
         # If model is specified but provider isn't, infer provider from model name
         if model:
@@ -41,6 +44,9 @@ class LLMProvider:
             elif model.startswith("deepseek"):
                 from services.deepseek_provider import DeepSeekProvider
                 return DeepSeekProvider()
+            elif model.startswith("gemini"):
+                from services.gemini_provider import GeminiProvider
+                return GeminiProvider()
         
         # Default to Claude if no provider or model specified
         logger.warning(f"No provider specified and couldn't determine from model, falling back to Claude")

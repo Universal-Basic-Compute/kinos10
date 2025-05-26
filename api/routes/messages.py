@@ -214,6 +214,8 @@ def send_message(blueprint, kin_id):
                 provider = "claude"
             elif model.startswith("deepseek"):
                 provider = "deepseek"
+            elif model.startswith("gemini"):
+                provider = "gemini"
         
         # Ensure history_length is an integer and has a reasonable value (default: 25)
         try:
@@ -759,6 +761,8 @@ def analyze_message(blueprint, kin_id):
                 provider = "claude"
             elif model.startswith("deepseek"):
                 provider = "deepseek"
+            elif model.startswith("gemini"):
+                provider = "gemini"
                 
         history_length = data.get('history_length', 25)  # Default to 25 messages
         addSystem = data.get('addSystem', None)  # Optional additional system instructions

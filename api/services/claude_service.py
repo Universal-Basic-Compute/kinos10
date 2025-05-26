@@ -25,6 +25,8 @@ def get_llm_client(provider=None, model=None):
             provider = "claude"
         elif model.startswith("deepseek"):
             provider = "deepseek"
+        elif model.startswith("gemini"):
+            provider = "gemini"
     
     # Get the provider from the LLMProvider factory
     from services.llm_service import LLMProvider
@@ -74,10 +76,10 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
                 provider = "openai"
             elif model.startswith("claude-"):
                 provider = "claude"
+            elif model.startswith("gemini"):
+                provider = "gemini"
     
     # Get the appropriate LLM client
-    llm_client = get_llm_client(provider, model)
-    
     llm_client = get_llm_client(provider, model)
     # Create a list to track temporary files that need to be deleted
     temp_files = []
@@ -444,6 +446,8 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
             provider = "openai"
         elif model.startswith("claude-"):
             provider = "claude"
+        elif model.startswith("gemini"):
+            provider = "gemini"
     
     # Get the LLM client
     llm_client = get_llm_client(provider, model)
@@ -649,7 +653,13 @@ Return your answer as a JSON array of file paths only."""
     
     try:
         # Choose appropriate model for context building
-        context_builder_model = "claude-sonnet-4-20250514" if provider != "openai" else "gpt-4o"
+        if provider == "gemini":
+            context_builder_model = "gemini-1.0-pro" # Use a cost-effective Gemini model for context building
+        elif provider == "openai":
+            context_builder_model = "gpt-4o"
+        else: # Default to Claude
+            context_builder_model = "claude-sonnet-4-20250514"
+            
         logger.info(f"Using {context_builder_model} for context building with provider: {provider}")
         
         # Call LLM to select relevant files with map.json in system prompt

@@ -44,6 +44,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             
     # Get the appropriate API key based on provider
     api_key = None
+    env["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY", "") # Ensure GOOGLE_API_KEY is in env for Aider
     
     if provider == "openai" or (model and (model.startswith("gpt-") or model.startswith("o"))):
         api_key = os.getenv("OPENAI_API_KEY")
@@ -150,6 +151,10 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         model_name = aider_model_flag.split(" ")[1]
         # For DeepSeek, set the API key as an environment variable instead of a command line argument
         env["DEEPSEEK_API_KEY"] = api_key
+        cmd = ["aider", "--model", model_name, "--yes-always", "--message", str(message_content)]
+    elif provider == "gemini" or (model and model.startswith("gemini")):
+        model_name = aider_model_flag.split(" ")[1]
+        # Aider uses GOOGLE_API_KEY environment variable, which should be set in `env`
         cmd = ["aider", "--model", model_name, "--yes-always", "--message", str(message_content)]
     else:
         # Extract the model name from the flag
