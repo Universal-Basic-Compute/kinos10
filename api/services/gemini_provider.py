@@ -1,6 +1,6 @@
 import os
-import google.generativeai as genai
-from google.generativeai.types import FinishReason, HarmProbability
+from google import genai
+from google.genai import types # Updated import
 from services.llm_service import LLMProvider
 from config import logger
 import json
@@ -71,7 +71,7 @@ class GeminiProvider(LLMProvider):
             
             gemini_model = genai.GenerativeModel(**gemini_model_args)
 
-            generation_config = genai.types.GenerationConfig()
+            generation_config = types.GenerationConfig() # Updated to use types module
             if max_tokens:
                 generation_config.max_output_tokens = max_tokens
             # Add other generation_config settings as needed, e.g., temperature, top_p
@@ -103,17 +103,17 @@ class GeminiProvider(LLMProvider):
                                 continue
 
                             candidate = chunk.candidates[0]
-                            if candidate.finish_reason == FinishReason.SAFETY:
+                            if candidate.finish_reason == types.FinishReason.SAFETY: # Updated to use types.FinishReason
                                 safety_messages = []
                                 if candidate.safety_ratings:
                                     for rating in candidate.safety_ratings:
-                                        if rating.probability != HarmProbability.NEGLIGIBLE:
+                                        if rating.probability != types.HarmProbability.NEGLIGIBLE: # Updated to use types.HarmProbability
                                             safety_messages.append(f"{rating.category.name.split('_')[-1]} (Prob: {rating.probability.name})")
                                 error_message = f"I apologize, but content was blocked by Gemini due to safety concerns: {', '.join(safety_messages)}." if safety_messages else "I apologize, but content was blocked by Gemini due to safety concerns."
                                 logger.error(f"Gemini stream error: {error_message}")
                                 yield error_message
                                 return
-                            elif candidate.finish_reason == FinishReason.RECITATION:
+                            elif candidate.finish_reason == types.FinishReason.RECITATION: # Updated to use types.FinishReason
                                 error_message = "I apologize, but content was blocked by Gemini due to recitation policy."
                                 logger.error(f"Gemini stream error: {error_message}")
                                 yield error_message
@@ -157,12 +157,12 @@ class GeminiProvider(LLMProvider):
                 candidate = response.candidates[0]
 
                 # Handle terminal finish reasons
-                if candidate.finish_reason == FinishReason.SAFETY:
+                if candidate.finish_reason == types.FinishReason.SAFETY: # Updated to use types.FinishReason
                     safety_messages = []
                     if candidate.safety_ratings:
                         for rating in candidate.safety_ratings:
                             # NEGLIGIBLE = 0, LOW = 1, MEDIUM = 2, HIGH = 3
-                            if rating.probability != HarmProbability.NEGLIGIBLE:
+                            if rating.probability != types.HarmProbability.NEGLIGIBLE: # Updated to use types.HarmProbability
                                 safety_messages.append(f"{rating.category.name.split('_')[-1]} (Prob: {rating.probability.name})")
                     if safety_messages:
                         logger.error(f"Content blocked by Gemini due to safety reasons: {', '.join(safety_messages)}")
@@ -170,10 +170,10 @@ class GeminiProvider(LLMProvider):
                     else:
                         logger.error("Content blocked by Gemini due to unspecified safety reasons (FinishReason.SAFETY).")
                         return "I apologize, but your request was blocked by Gemini due to safety concerns."
-                elif candidate.finish_reason == FinishReason.RECITATION:
+                elif candidate.finish_reason == types.FinishReason.RECITATION: # Updated to use types.FinishReason
                     logger.error("Content blocked by Gemini due to recitation.")
                     return "I apologize, but your request was blocked by Gemini due to recitation policy."
-                elif candidate.finish_reason == FinishReason.OTHER:
+                elif candidate.finish_reason == types.FinishReason.OTHER: # Updated to use types.FinishReason
                     logger.error("Gemini response finished due to an 'OTHER' reason.")
                     return "I apologize, but the Gemini response finished due to an unspecified error."
 
@@ -191,7 +191,7 @@ class GeminiProvider(LLMProvider):
                              return "I apologize, but I received an empty response from Gemini."
                 else: 
                     logger.error(f"No content or parts found in Gemini response candidate. Finish reason: {candidate.finish_reason.name}")
-                    if candidate.finish_reason == FinishReason.MAX_TOKENS:
+                    if candidate.finish_reason == types.FinishReason.MAX_TOKENS: # Updated to use types.FinishReason
                         return "I apologize, but the response from Gemini was cut off due to length limits, and no content was provided."
                     # For other finish reasons like STOP or UNSPECIFIED with no content/parts
                     return "I apologize, but I received an empty or malformed response from Gemini."
