@@ -58,7 +58,7 @@ class GeminiProvider(LLMProvider):
         """Generate a response using Gemini API"""
         try:
             # Remove "gemini/" prefix if present for the API call
-            model_name = model.replace("gemini/", "") if model else "gemini-1.5-pro-latest"
+            model_name = model.replace("gemini/", "") if model else "gemini-2.5-pro-preview-03-25"
             
             logger.info(f"Calling Gemini API with model: {model_name}")
             logger.info(f"Stream mode: {stream}")
