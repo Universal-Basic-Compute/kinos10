@@ -7,10 +7,8 @@ COPY api/requirements.txt .
 
 # Uninstall potentially conflicting packages
 RUN pip uninstall -y google-generativeai || true  # Old package name
-RUN pip uninstall -y google-genai || true        # New package name, in case an old version is stuck
 
 # Install requirements from the file
-# This will install google-genai>=0.7.0 from our reqs
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Aider
