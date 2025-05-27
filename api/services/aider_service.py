@@ -231,11 +231,11 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     temp_system_file = None
     if addSystem:
         import tempfile
-        temp_system_file = os.path.join(kin_path, "temp_system_instructions.txt")
+        temp_system_file = os.path.join(kin_path, "addSystem.txt")
         try:
             with open(temp_system_file, 'w', encoding='utf-8') as f:
                 f.write(f"# Additional System Instructions\n\n{addSystem}")
-            cmd.extend(["--read", "temp_system_instructions.txt"])
+            cmd.extend(["--read", "addSystem.txt"])
             logger.info(f"Created temporary file for additional system instructions")
         except Exception as e:
             logger.error(f"Error creating temporary system file: {str(e)}")
