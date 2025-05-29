@@ -843,10 +843,37 @@ def sync_repository(kin_path):
                     logger.info(f"Found git at {git_exe}")
                     break
             
-            if not git_exe:
+            if not git_exe and not use_shell: # Added 'and not use_shell' to avoid double logging if already true
                 # If still not found, fall back to shell=True
                 use_shell = True
                 logger.info("Git executable not found, falling back to shell=True")
+
+    if not current_branch:
+        logger.info("Branch name not found in repo_config.json, determining current branch from git.")
+        if use_shell:
+            branch_cmd = subprocess.run(
+                "git rev-parse --abbrev-ref HEAD",
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True,
+                shell=True
+            )
+        else:
+            branch_cmd = subprocess.run(
+                [git_exe, "rev-parse", "--abbrev-ref", "HEAD"],
+                cwd=kin_path,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+        current_branch = branch_cmd.stdout.strip()
+        logger.info(f"Determined current branch from git: {current_branch}")
+    else:
+        logger.info(f"Using branch from repo_config.json: {current_branch}")
+
+    result["branch"] = current_branch
+    logger.info(f"Target branch for sync: {current_branch}")
     
     try:
         # Configure Git user email and name
