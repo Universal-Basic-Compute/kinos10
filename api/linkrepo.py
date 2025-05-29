@@ -456,7 +456,44 @@ def link_repository(kin_path, github_url, token=None, username=None, branch_name
             capture_output=True,
             text=True
         )
-            
+        
+        # Determine target branch and set up local branch
+        if branch_name:
+            target_branch = branch_name
+            try:
+                # Try to create and switch to the new branch
+                subprocess.run(
+                    ["git", "checkout", "-b", target_branch],
+                    cwd=kin_path,
+                    check=True, capture_output=True, text=True
+                )
+                logger.info(f"Created and switched to new branch: {target_branch}")
+            except subprocess.CalledProcessError as e:
+                # If branch already exists, or we are already on it, just check it out
+                if "already exists" in e.stderr.lower() or "already on" in e.stderr.lower():
+                    subprocess.run(
+                        ["git", "checkout", target_branch], # This ensures we are on the branch
+                        cwd=kin_path,
+                        check=True, capture_output=True, text=True
+                    )
+                    logger.info(f"Switched to existing branch: {target_branch}")
+                else: # Some other error occurred
+                    logger.error(f"Error creating/switching to branch {target_branch}: {e.stderr}")
+                    raise
+        else:
+            target_branch = "master"  # Default branch is master
+            # Default behavior: ensure local branch is 'master'
+            try:
+                subprocess.run(
+                    ["git", "branch", "-M", target_branch],  # Rename current branch to master
+                    cwd=kin_path,
+                    check=True, capture_output=True, text=True
+                )
+                logger.info(f"Ensured local branch is: {target_branch}")
+            except subprocess.CalledProcessError as e:
+                logger.error(f"Error renaming branch to {target_branch}: {e.stderr}")
+                # Not raising here, push might still work on current branch if it's already master
+        
         # Create repo_config.json to indicate this is a linked repository
         repo_config = {
             "IS_REPO_LINKED": "true",
@@ -677,57 +714,6 @@ def link_repository(kin_path, github_url, token=None, username=None, branch_name
         else:
             logger.info("No changes to commit")
         
-        # Create main branch (modern approach)
-        try:
-            subprocess.run(
-                ["git", "branch", "-M", "main"],
-                cwd=kin_path,
-                check=True,
-                capture_output=True,
-                text=True
-            )
-            logger.info("Created main branch")
-        except Exception as e:
-            logger.error(f"Error creating main branch: {str(e)}")
-            # Continue anyway to try the push
-        
-        # Determine target branch and set up local branch
-        if branch_name:
-            target_branch = branch_name
-            try:
-                # Try to create and switch to the new branch
-                subprocess.run(
-                    ["git", "checkout", "-b", target_branch],
-                    cwd=kin_path,
-                    check=True, capture_output=True, text=True
-                )
-                logger.info(f"Created and switched to new branch: {target_branch}")
-            except subprocess.CalledProcessError as e:
-                # If branch already exists, or we are already on it, just check it out
-                if "already exists" in e.stderr.lower() or "already on" in e.stderr.lower():
-                    subprocess.run(
-                        ["git", "checkout", target_branch], # This ensures we are on the branch
-                        cwd=kin_path,
-                        check=True, capture_output=True, text=True
-                    )
-                    logger.info(f"Switched to existing branch: {target_branch}")
-                else: # Some other error occurred
-                    logger.error(f"Error creating/switching to branch {target_branch}: {e.stderr}")
-                    raise
-        else:
-            target_branch = "master"  # Default branch is master
-            # Default behavior: ensure local branch is 'master'
-            try:
-                subprocess.run(
-                    ["git", "branch", "-M", target_branch],  # Rename current branch to master
-                    cwd=kin_path,
-                    check=True, capture_output=True, text=True
-                )
-                logger.info(f"Ensured local branch is: {target_branch}")
-            except subprocess.CalledProcessError as e:
-                logger.error(f"Error renaming branch to {target_branch}: {e.stderr}")
-                # Not raising here, push might still work on current branch if it's already master
-
         # Push to remote
         logger.info(f"Pushing changes to GitHub repository on branch '{target_branch}'")
         try:
