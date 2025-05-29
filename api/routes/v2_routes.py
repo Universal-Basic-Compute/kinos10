@@ -2209,7 +2209,7 @@ def link_repository_v2(blueprint, kin_id):
                 "blueprint": blueprint,
                 "kin_id": kin_id,
                 "github_url": github_url,
-                "branch_name": branch_name if branch_name else "main" # Default to main if not specified
+                "branch_name": branch_name if branch_name else "master" # Default to master if not specified
             })
         else:
             return jsonify({"error": "Failed to link repository"}), 500
