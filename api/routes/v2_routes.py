@@ -2178,7 +2178,8 @@ def link_repository_v2(blueprint, kin_id):
         data = request.json
         github_url = data.get('github_url')
         token = data.get('token')
-        username = data.get('username')  # Add username parameter
+        username = data.get('username')
+        branch_name = data.get('branchName') # New optional parameter
         
         # Validate required parameters
         if not github_url:
@@ -2195,16 +2196,20 @@ def link_repository_v2(blueprint, kin_id):
         # Import the link_repository function from linkrepo.py
         from linkrepo import link_repository
         
-        # Link the repository with username parameter
-        success = link_repository(kin_path, github_url, token, username)
+        # Link the repository with username and branch_name parameters
+        success = link_repository(kin_path, github_url, token, username, branch_name)
         
         if success:
+            message = f"Kin '{kin_id}' linked to GitHub repository: {github_url}"
+            if branch_name:
+                message += f" on branch '{branch_name}'"
             return jsonify({
                 "status": "success",
-                "message": f"Kin '{kin_id}' linked to GitHub repository: {github_url}",
+                "message": message,
                 "blueprint": blueprint,
                 "kin_id": kin_id,
-                "github_url": github_url
+                "github_url": github_url,
+                "branch_name": branch_name if branch_name else "main" # Default to main if not specified
             })
         else:
             return jsonify({"error": "Failed to link repository"}), 500

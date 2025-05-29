@@ -386,8 +386,9 @@ Link a kin to a GitHub repository.
 ```json
 {
   "github_url": "https://github.com/username/repo",
-  "token": "optional_github_token",  // Optional
-  "username": "optional_github_username"  // Optional
+  "token": "optional_github_token",         // Optional: GitHub personal access token
+  "username": "optional_github_username",   // Optional: GitHub username
+  "branchName": "optional_branch_name"    // Optional: Name of the branch to create and push to. Defaults to 'main'.
 }
 ```
 
@@ -395,10 +396,11 @@ Link a kin to a GitHub repository.
 ```json
 {
   "status": "success",
-  "message": "Kin 'my-kin-id' linked to GitHub repository: https://github.com/username/repo",
+  "message": "Kin 'my-kin-id' linked to GitHub repository: https://github.com/username/repo on branch 'feature-branch'",
   "blueprint": "kinos",
   "kin_id": "my-kin-id",
-  "github_url": "https://github.com/username/repo"
+  "github_url": "https://github.com/username/repo",
+  "branch_name": "feature-branch" // or "main" if not specified
 }
 ```
 
@@ -406,9 +408,10 @@ This endpoint:
 1. Removes any existing .git directory in the kin
 2. Clones the GitHub repository
 3. Moves all repository files to the kin root (overwriting conflicts)
-4. Initializes git, commits all files, and pushes to the repository
+4. Initializes git, commits all files, and pushes to the specified branch (or `main` if not specified) on the repository.
 
 The optional `token` parameter allows authentication for private repositories. If not provided, the endpoint will attempt to use the `GIT_TOKEN` environment variable.
+The optional `branchName` parameter allows specifying a branch to push to. If the branch doesn't exist on the remote, it will be created.
 
 #### Synchronize Repository
 

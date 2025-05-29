@@ -226,7 +226,7 @@ def check_git_user_config(kin_path):
         logger.error(f"Error checking/setting Git user configuration: {str(e)}")
         return False
 
-def link_repository(kin_path, github_url, token=None, username=None):
+def link_repository(kin_path, github_url, token=None, username=None, branch_name=None):
     """
     Link a kin to a GitHub repository.
     
@@ -235,6 +235,7 @@ def link_repository(kin_path, github_url, token=None, username=None):
         github_url: URL of the GitHub repository
         token: Optional GitHub personal access token
         username: Optional GitHub username
+        branch_name: Optional name for the initial branch
         
     Returns:
         Boolean indicating success
