@@ -138,25 +138,61 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                 # Configure Git for merge strategy
                 configure_git_for_merge(kin_path)
                 
-                # Try to pull changes from the remote repository
-                try:
-                    run_git_command(
-                        ["git", "pull", "--force", "origin", "master"],
-                        cwd=kin_path
-                    )
-                    logger.info("Changes pulled from remote repository before Aider call")
-                except subprocess.CalledProcessError:
-                    # Try with main branch if master fails
+                # Determine the branch to pull
+                determined_branch_for_pull = None
+                repo_config_file = os.path.join(kin_path, "repo_config.json")
+                if os.path.exists(repo_config_file):
                     try:
+                        with open(repo_config_file, 'r', encoding='utf-8') as f_config:
+                            config_data = json.load(f_config)
+                            determined_branch_for_pull = config_data.get('branch_name')
+                            if determined_branch_for_pull:
+                                logger.info(f"Using branch '{determined_branch_for_pull}' from repo_config.json for pull.")
+                    except Exception as e_config:
+                        logger.warning(f"Error reading branch_name from repo_config.json: {str(e_config)}. Will try to use current git branch.")
+                
+                if not determined_branch_for_pull:
+                    logger.info("Branch not found in repo_config.json or error reading it. Determining current branch from git for pull.")
+                    try:
+                        # Use run_git_command to get current branch
+                        branch_cmd_result = run_git_command(
+                            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+                            cwd=kin_path,
+                            check=True 
+                        )
+                        determined_branch_for_pull = branch_cmd_result.stdout.strip()
+                        if not determined_branch_for_pull: # Should not happen if check=True worked
+                             # This case should ideally not be reached if check=True is effective
+                            logger.warning("git rev-parse returned empty branch name, defaulting to 'master'.")
+                            determined_branch_for_pull = "master"
+                        else:
+                            logger.info(f"Determined current branch for pull: {determined_branch_for_pull}")
+                    except Exception as e_branch_cmd:
+                        logger.warning(f"Could not determine current git branch: {str(e_branch_cmd)}. Aider will proceed without pull if this was the only way to determine branch.")
+                        # Keep determined_branch_for_pull as None or a sensible default if essential
+                        # For safety, if we can't determine, maybe don't pull. Or default to 'master'.
+                        # Given the original code had master/main fallbacks, defaulting to master here if all else fails.
+                        if not determined_branch_for_pull: # If it's still None
+                            logger.warning("Defaulting to 'master' for pull as branch could not be determined.")
+                            determined_branch_for_pull = "master"
+
+
+                if determined_branch_for_pull:
+                    try:
+                        logger.info(f"Attempting to pull from origin/{determined_branch_for_pull}...")
                         run_git_command(
-                            ["git", "pull", "--force", "origin", "main"],
+                            ["git", "pull", "--force", "origin", determined_branch_for_pull],
                             cwd=kin_path
                         )
-                        logger.info("Changes pulled from remote repository (main branch) before Aider call")
-                    except subprocess.CalledProcessError as e:
-                        logger.warning(f"Error pulling from remote repository: {str(e)}")
+                        logger.info(f"Changes pulled from remote repository (branch '{determined_branch_for_pull}') before Aider call.")
+                    except subprocess.CalledProcessError as e_pull:
+                        # Log the error from stderr for more details
+                        detailed_error = e_pull.stderr if hasattr(e_pull, 'stderr') and e_pull.stderr else str(e_pull)
+                        logger.warning(f"Error pulling from remote repository branch '{determined_branch_for_pull}': {detailed_error}. Aider will proceed with local files.")
+                else:
+                    logger.info("No specific branch determined for pull. Aider will proceed with local files.")
         except Exception as e:
-            logger.warning(f"Error pulling changes before Aider call: {str(e)}")
+            logger.warning(f"Error during pre-Aider git pull process: {str(e)}")
     
     # Build the command
     if provider == "openai" or (model and (model.startswith("gpt-") or model.startswith("o"))):
