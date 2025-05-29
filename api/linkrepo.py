@@ -690,37 +690,78 @@ def link_repository(kin_path, github_url, token=None, username=None, branch_name
             logger.error(f"Error creating main branch: {str(e)}")
             # Continue anyway to try the push
         
-        # Push to remote with force flag
-        logger.info("Force-pushing changes to GitHub repository")
+        # Determine target branch and set up local branch
+        target_branch = "main"  # Default branch
+        if branch_name:
+            target_branch = branch_name
+            try:
+                # Create and switch to the new branch
+                subprocess.run(
+                    ["git", "checkout", "-b", target_branch],
+                    cwd=kin_path,
+                    check=True, capture_output=True, text=True
+                )
+                logger.info(f"Created and switched to new branch: {target_branch}")
+            except subprocess.CalledProcessError as e:
+                # If branch already exists, just check it out
+                if "already exists" in e.stderr.lower() or "already on" in e.stderr.lower():
+                    subprocess.run(
+                        ["git", "checkout", target_branch],
+                        cwd=kin_path,
+                        check=True, capture_output=True, text=True
+                    )
+                    logger.info(f"Switched to existing branch: {target_branch}")
+                else:
+                    logger.error(f"Error creating/switching to branch {target_branch}: {e.stderr}")
+                    raise
+        else:
+            # Default behavior: ensure local branch is 'main'
+            try:
+                subprocess.run(
+                    ["git", "branch", "-M", "main"],  # Rename current branch to main
+                    cwd=kin_path,
+                    check=True, capture_output=True, text=True
+                )
+                logger.info(f"Ensured local branch is: main")
+            except subprocess.CalledProcessError as e:
+                logger.error(f"Error renaming branch to main: {e.stderr}")
+                # Not raising here, push might still work on current branch if it's already main
+
+        # Push to remote
+        logger.info(f"Pushing changes to GitHub repository on branch '{target_branch}'")
         try:
             push_result = subprocess.run(
-                ["git", "push", "--force", "-u", "origin", "master"],
+                ["git", "push", "--force", "-u", "origin", target_branch],
                 cwd=kin_path,
                 capture_output=True,
                 text=True
             )
             if push_result.returncode != 0:
-                logger.error(f"Push to 'master' failed: {push_result.stderr}")
-                # Try with 'main' branch if 'master' fails
-                logger.info("Push to 'master' failed, trying 'main' branch")
-                main_push_result = subprocess.run(
-                    ["git", "push", "--force", "-u", "origin", "main"],
-                    cwd=kin_path,
-                    capture_output=True,
-                    text=True
-                )
-                if main_push_result.returncode != 0:
-                    logger.error(f"Push to 'main' also failed: {main_push_result.stderr}")
-                    raise RuntimeError(f"Failed to push to both 'master' and 'main' branches: {main_push_result.stderr}")
-                else:
-                    logger.info("Successfully pushed to 'main' branch")
+                logger.error(f"Push to '{target_branch}' failed: {push_result.stderr}")
+                # If the target_branch was 'main' (default) and it failed, try 'master' as a fallback
+                if target_branch == "main" and not branch_name:
+                    logger.info("Push to 'main' failed, trying 'master' branch as a fallback")
+                    fallback_target_branch = "master"
+                    master_push_result = subprocess.run(
+                        ["git", "push", "--force", "-u", "origin", f"main:{fallback_target_branch}"], # Push local main to remote master
+                        cwd=kin_path,
+                        capture_output=True,
+                        text=True
+                    )
+                    if master_push_result.returncode != 0:
+                        logger.error(f"Push to '{fallback_target_branch}' also failed: {master_push_result.stderr}")
+                        raise RuntimeError(f"Failed to push to both '{target_branch}' and '{fallback_target_branch}' branches. Main error: {push_result.stderr}. Master error: {master_push_result.stderr}")
+                    else:
+                        logger.info(f"Successfully pushed to '{fallback_target_branch}' branch")
+                else:  # Failed on a custom branch or a non-'main' default that had no fallback
+                    raise RuntimeError(f"Failed to push to '{target_branch}' branch: {push_result.stderr}")
             else:
-                logger.info("Successfully pushed to 'master' branch")
+                logger.info(f"Successfully pushed to '{target_branch}' branch")
         except Exception as e:
             logger.error(f"Error during push operation: {str(e)}")
             raise RuntimeError(f"Failed to push to repository: {str(e)}")
         
-        logger.info("Successfully linked kin to GitHub repository")
+        logger.info(f"Successfully linked kin to GitHub repository on branch '{target_branch}'")
         return True
     except subprocess.CalledProcessError as e:
         logger.error(f"Git command failed: {e.stderr}")
