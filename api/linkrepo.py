@@ -461,6 +461,7 @@ def link_repository(kin_path, github_url, token=None, username=None, branch_name
         repo_config = {
             "IS_REPO_LINKED": "true",
             "repository_url": github_url,
+            "branch_name": target_branch,  # Save the target branch
             "linked_at": datetime.now().isoformat()
         }
         repo_config_path = os.path.join(kin_path, "repo_config.json")
@@ -811,6 +812,9 @@ def sync_repository(kin_path):
         "operations": [],
         "repository_url": repo_url
     }
+
+    # Get target branch from repo_config.json or determine current branch
+    current_branch = repo_config.get('branch_name')
     
     # Determine whether to use shell=True based on environment
     use_shell = False
@@ -952,28 +956,6 @@ def sync_repository(kin_path):
                 )
         except Exception as e:
             logger.warning(f"Error configuring Git: {str(e)}")
-        
-        # Get current branch
-        if use_shell:
-            branch_cmd = subprocess.run(
-                "git rev-parse --abbrev-ref HEAD",
-                cwd=kin_path,
-                check=True,
-                capture_output=True,
-                text=True,
-                shell=True
-            )
-        else:
-            branch_cmd = subprocess.run(
-                [git_exe, "rev-parse", "--abbrev-ref", "HEAD"],
-                cwd=kin_path,
-                check=True,
-                capture_output=True,
-                text=True
-            )
-        current_branch = branch_cmd.stdout.strip()
-        result["branch"] = current_branch
-        logger.info(f"Current branch: {current_branch}")
         
         # Fetch from remote
         logger.info(f"Fetching from remote...")
