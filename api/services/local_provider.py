@@ -19,14 +19,14 @@ class LocalProvider(LLMProvider):
         logger.info(f"LocalProvider initialized, targeting: {self.LOCAL_MODEL_BASE_URL}")
 
     def generate_response(self, messages, system=None, max_tokens=None, model=None, stream=False):
-        """Generate a response by calling the local LLM endpoint."""
+        """Generate a response by calling the local LLM endpoint (Ollama-compatible)."""
         
-        endpoint_url = f"{self.LOCAL_MODEL_BASE_URL}/v1/chat/completions" # Standard OpenAI path
+        endpoint_url = f"{self.LOCAL_MODEL_BASE_URL}/api/chat" # Ollama /api/chat endpoint
 
         headers = {
             "Content-Type": "application/json",
         }
-        # If your local endpoint needs an API key:
+        # If your local endpoint needs an API key (though Ollama typically doesn't for /api/chat)
         # if self.local_api_key:
         #     headers["Authorization"] = f"Bearer {self.local_api_key}"
 
@@ -37,19 +37,22 @@ class LocalProvider(LLMProvider):
         # Ensure messages are in the correct format (list of dicts)
         for msg in messages:
             if isinstance(msg, dict) and "role" in msg and "content" in msg:
+                # Convert "assistant" role to "model" if needed by the endpoint,
+                # but Ollama uses "assistant" for responses and expects "user" or "system" for inputs.
+                # For requests, "assistant" messages are valid to show conversation history.
                 payload_messages.append(msg)
             else:
                 logger.warning(f"Skipping malformed message: {msg}")
 
-
         # Determine the model name to send in the payload
-        payload_model = "local-default" # Default model name for the local endpoint
+        # For Ollama, this is the model tag, e.g., "llama2" or "gemma3:12b"
+        payload_model = "gemma3:12b" # Default model if not specified or only "local" is given
         if model:
             if model.startswith("local/"):
-                # Extract actual model name, e.g., "local/my-model" -> "my-model"
+                # Extract actual model name, e.g., "local/gemma3:12b" -> "gemma3:12b"
                 payload_model = model.split("/", 1)[1]
             elif model.lower() != "local": 
-                # If model is something other than just "local", use it
+                # If model is something other than just "local", use it (e.g. "gemma3:12b")
                 payload_model = model
         
         payload = {
@@ -57,16 +60,21 @@ class LocalProvider(LLMProvider):
             "messages": payload_messages,
             "stream": stream,
         }
+        
+        # Ollama uses "options" for parameters like max_tokens (num_predict), temperature etc.
+        options = {}
         if max_tokens:
-            payload["max_tokens"] = max_tokens
-        # You can add other OpenAI-compatible parameters like temperature, top_p here
-        # payload["temperature"] = 0.7
+            options["num_predict"] = max_tokens # Ollama's equivalent for max_tokens
+        # if temperature: options["temperature"] = temperature
+        if options:
+            payload["options"] = options
 
-        logger.info(f"Sending request to Local LLM: {endpoint_url} with model: {payload['model']}")
+
+        logger.info(f"Sending request to Local LLM (Ollama-like): {endpoint_url} with model: {payload['model']}")
         logger.debug(f"Local LLM Payload: {json.dumps(payload, indent=2)}")
 
         try:
-            response = requests.post(endpoint_url, headers=headers, json=payload, stream=stream, timeout=180) # Increased timeout
+            response = requests.post(endpoint_url, headers=headers, json=payload, stream=stream, timeout=180) 
             response.raise_for_status()
 
             if stream:
@@ -74,33 +82,44 @@ class LocalProvider(LLMProvider):
                     try:
                         for line in response.iter_lines():
                             if line:
-                                decoded_line = line.decode('utf-8')
-                                if decoded_line.startswith("data: "):
-                                    json_data_str = decoded_line[len("data: "):].strip()
-                                    if json_data_str == "[DONE]":
-                                        logger.info("Stream [DONE] received.")
+                                decoded_line = line.decode('utf-8').strip()
+                                if not decoded_line:
+                                    continue
+                                try:
+                                    data = json.loads(decoded_line)
+                                    if data.get("error"):
+                                        logger.error(f"Error from local LLM stream: {data['error']}")
+                                        yield f"Error: {data['error']}"
                                         return
-                                    try:
-                                        data = json.loads(json_data_str)
-                                        if data.get("choices") and data["choices"][0].get("delta"):
-                                            content_delta = data["choices"][0]["delta"].get("content")
-                                            if content_delta:
-                                                yield content_delta
-                                    except json.JSONDecodeError:
-                                        logger.warning(f"Could not decode JSON from stream: {json_data_str}")
-                                    except Exception as e_stream_proc:
-                                        logger.error(f"Error processing stream data item: {e_stream_proc}")
-                                        # Potentially yield an error message or break
-                        logger.info("Local LLM stream finished.")
+                                    
+                                    content_chunk = data.get("message", {}).get("content")
+                                    if content_chunk:
+                                        yield content_chunk
+                                    
+                                    if data.get("done"):
+                                        logger.info("Local LLM stream finished (done: true).")
+                                        return
+                                except json.JSONDecodeError:
+                                    logger.warning(f"Could not decode JSON from stream line: {decoded_line}")
+                                except Exception as e_stream_proc:
+                                    logger.error(f"Error processing stream data item: {e_stream_proc}")
+                                    yield f"Error processing stream: {str(e_stream_proc)}"
+                                    return
+                        logger.info("Local LLM stream iteration complete.")
                     except Exception as e_outer_stream:
                         logger.error(f"Error during local LLM streaming: {e_outer_stream}")
                         yield f"Error during streaming: {str(e_outer_stream)}"
                 return generate_stream()
-            else:
+            else: # Non-streaming
                 response_data = response.json()
                 logger.debug(f"Local LLM Non-stream Response Data: {json.dumps(response_data, indent=2)}")
-                if response_data.get("choices") and response_data["choices"][0].get("message"):
-                    full_content = response_data["choices"][0]["message"]["content"]
+                
+                if response_data.get("error"):
+                    logger.error(f"Error from local LLM: {response_data['error']}")
+                    return f"Error: {response_data['error']}"
+
+                if response_data.get("message") and "content" in response_data["message"]:
+                    full_content = response_data["message"]["content"]
                     # Sanitize the response to remove control characters
                     sanitized_content = re.sub(r'[\x00-\x1F\x7F]', '', full_content)
                     return sanitized_content
@@ -118,7 +137,10 @@ class LocalProvider(LLMProvider):
             logger.error(f"Error calling local LLM endpoint: {str(e)}")
             error_response_text = ""
             if e.response is not None:
-                error_response_text = e.response.text
+                try:
+                    error_response_text = e.response.json().get("error", e.response.text)
+                except json.JSONDecodeError:
+                    error_response_text = e.response.text
             return f"Error connecting to local LLM: {str(e)}. Response: {error_response_text}"
         except Exception as e:
             logger.error(f"An unexpected error occurred with local LLM: {str(e)}")
