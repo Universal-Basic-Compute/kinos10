@@ -76,8 +76,12 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
                 provider = "openai"
             elif model.startswith("claude-"):
                 provider = "claude"
+            elif model.startswith("deepseek"):
+                provider = "deepseek"
             elif model.startswith("gemini"):
                 provider = "gemini"
+            elif model.startswith("local"):
+                provider = "local"
     
     # Get the appropriate LLM client
     llm_client = get_llm_client(provider, model)
