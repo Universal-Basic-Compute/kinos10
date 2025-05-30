@@ -46,74 +46,68 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     api_key = None
     env["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY", "") # Ensure GOOGLE_API_KEY is in env for Aider
     
-    if provider == "openai" or (model and (model.startswith("gpt-") or model.startswith("o"))):
+    # Determine Aider's actual LLM configuration
+    aider_llm_provider_for_aider_internal_use = provider
+    aider_llm_model_for_aider_internal_use = model
+
+    if provider == "local":
+        logger.info("Application provider is 'local'. Determining LLM for Aider's internal use.")
+        aider_llm_provider_for_aider_internal_use = "gemini" # Default for Aider
+        aider_llm_model_for_aider_internal_use = "gemini-1.5-flash" # Default model for Aider
+
+        if model and "/" in model:
+            local_prefix, actual_model_for_aider = model.split("/", 1)
+            if local_prefix == "local":
+                aider_llm_model_for_aider_internal_use = actual_model_for_aider
+                if actual_model_for_aider.startswith("gpt-") or actual_model_for_aider.startswith("o"):
+                    aider_llm_provider_for_aider_internal_use = "openai"
+                elif actual_model_for_aider.startswith("claude-"):
+                    aider_llm_provider_for_aider_internal_use = "claude"
+                elif actual_model_for_aider.startswith("deepseek"):
+                    aider_llm_provider_for_aider_internal_use = "deepseek"
+                # If gemini, it's already the default
+        logger.info(f"Aider will internally use provider: '{aider_llm_provider_for_aider_internal_use}' and model: '{aider_llm_model_for_aider_internal_use}'")
+
+    cmd_aider_auth_parts = []
+
+    if aider_llm_provider_for_aider_internal_use == "openai" or \
+       (aider_llm_model_for_aider_internal_use and (aider_llm_model_for_aider_internal_use.startswith("gpt-") or aider_llm_model_for_aider_internal_use.startswith("o"))):
         api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key:
-            raise ValueError("OPENAI_API_KEY environment variable not set")
-        
-        # Always use --model flag with the model name
-        if model:
-            # Always use --model flag with the model name
-            aider_model_flag = f"--model {model}"
-            logger.info(f"Using model with --model flag: {model}")
-        else:
-            # Default model if none specified
-            if provider == "openai" or provider == "chatgpt":
-                aider_model_flag = "--model gpt-4o"
-                logger.info("Using default OpenAI model: gpt-4o")
-            else:
-                # Default to Claude Sonnet if no specific model is provided
-                aider_model_flag = "--model claude-3-sonnet-20240229"
-                logger.info("Using default Claude model: claude-3-sonnet-20240229")
-    elif provider == "deepseek" or (model and model.startswith("deepseek")):
+        if not api_key: raise ValueError("OPENAI_API_KEY environment variable not set for Aider's OpenAI use.")
+        current_aider_model_name = aider_llm_model_for_aider_internal_use or "gpt-4o"
+        aider_model_flag = f"--model {current_aider_model_name}"
+        cmd_aider_auth_parts = [f"--openai-api-key={api_key}"]
+        logger.info(f"Aider configured for OpenAI with model: {current_aider_model_name}")
+
+    elif aider_llm_provider_for_aider_internal_use == "deepseek" or \
+         (aider_llm_model_for_aider_internal_use and aider_llm_model_for_aider_internal_use.startswith("deepseek")):
         api_key = os.getenv("DEEPSEEK_API_KEY")
-        if not api_key:
-            raise ValueError("DEEPSEEK_API_KEY environment variable not set")
-        
-        # Always use --model flag with the model name
-        if model:
-            # For DeepSeek models, add the "deepseek/" prefix if not already present
-            if "/" not in model:
-                model_name = f"deepseek/{model}"
-            else:
-                model_name = model
-            aider_model_flag = f"--model {model_name}"
-            logger.info(f"Using DeepSeek model with --model flag: {model_name}")
-        else:
-            # Default DeepSeek model with proper format
-            aider_model_flag = "--model deepseek/deepseek-chat"
-            logger.info("Using default DeepSeek model: deepseek/deepseek-chat")
-    elif provider == "gemini" or (model and model.startswith("gemini")):
-        api_key = os.getenv("GOOGLE_API_KEY") # Aider uses GOOGLE_API_KEY env var
-        if not api_key:
-            raise ValueError("GOOGLE_API_KEY environment variable not set for Gemini")
-        
-        if model:
-            # Aider expects model name like "gemini/gemini-1.5-pro-latest"
-            # If the "gemini/" prefix is not there, add it.
-            model_name = model if model.startswith("gemini/") else f"gemini/{model}"
-            aider_model_flag = f"--model {model_name}"
-            logger.info(f"Using Gemini model with --model flag: {model_name}")
-        else:
-            aider_model_flag = "--model gemini/gemini-2.5-pro-preview-03-25" # Default Gemini model for Aider
-            logger.info("Using default Gemini model for Aider: gemini/gemini-2.5-pro-preview-03-25")
-    else:
-        # Default to Gemini if no other provider is matched
+        if not api_key: raise ValueError("DEEPSEEK_API_KEY environment variable not set for Aider's DeepSeek use.")
+        env["DEEPSEEK_API_KEY"] = api_key
+        current_aider_model_name = aider_llm_model_for_aider_internal_use or "deepseek-chat"
+        if "/" not in current_aider_model_name and aider_llm_provider_for_aider_internal_use == "deepseek": # ensure prefix for deepseek
+             current_aider_model_name = f"deepseek/{current_aider_model_name}"
+        aider_model_flag = f"--model {current_aider_model_name}"
+        logger.info(f"Aider configured for DeepSeek with model: {current_aider_model_name}")
+
+    elif aider_llm_provider_for_aider_internal_use == "gemini" or \
+         (aider_llm_model_for_aider_internal_use and aider_llm_model_for_aider_internal_use.startswith("gemini")):
         api_key = os.getenv("GOOGLE_API_KEY")
-        if not api_key:
-            raise ValueError("GOOGLE_API_KEY environment variable not set for Gemini (default)")
+        if not api_key: raise ValueError("GOOGLE_API_KEY environment variable not set for Aider's Gemini use.")
+        # GOOGLE_API_KEY is already added to env
+        current_aider_model_name = aider_llm_model_for_aider_internal_use or "gemini-1.5-flash"
+        if not current_aider_model_name.startswith("gemini/"):
+            current_aider_model_name = f"gemini/{current_aider_model_name}"
+        aider_model_flag = f"--model {current_aider_model_name}"
+        logger.info(f"Aider configured for Gemini with model: {current_aider_model_name}")
         
-        if model and model.startswith("gemini"): # Should be caught by elif above, but as a safeguard
-            model_name = model if model.startswith("gemini/") else f"gemini/{model}"
-            aider_model_flag = f"--model {model_name}"
-            logger.info(f"Using Gemini model with --model flag: {model_name}")
-        elif model: # Some other model specified, but provider not explicitly Gemini
-             aider_model_flag = f"--model {model}" # Use the model as is, Aider might support it via other env keys
-             logger.warning(f"Defaulting to Gemini provider but using specified model: {model}. Ensure Aider supports this combination.")
-        else:
-            # Default to Gemini model if no specific model is provided
-            aider_model_flag = "--model gemini/gemini-2.5-pro-preview-03-25"
-            logger.info("Using default Gemini model for Aider: gemini/gemini-2.5-pro-preview-03-25")
+    else: # Default to Anthropic/Claude for Aider
+        api_key = os.getenv("ANTHROPIC_API_KEY")
+        if not api_key: raise ValueError("ANTHROPIC_API_KEY environment variable not set for Aider's Claude use.")
+        current_aider_model_name = aider_llm_model_for_aider_internal_use or "claude-3-sonnet-20240229"
+        aider_model_flag = f"--model {current_aider_model_name}"
+        cmd_aider_auth_parts = [f"--anthropic-api-key={api_key}"]
+        logger.info(f"Aider configured for Anthropic/Claude with model: {current_aider_model_name}")
     
     # Check if this is a linked repository
     is_repo_linked = False
@@ -194,25 +188,8 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         except Exception as e:
             logger.warning(f"Error during pre-Aider git pull process: {str(e)}")
     
-    # Build the command
-    if provider == "openai" or (model and (model.startswith("gpt-") or model.startswith("o"))):
-        # Extract the model name from the flag
-        model_name = aider_model_flag.split(" ")[1]
-        cmd = ["aider", "--model", model_name, "--yes-always", f"--openai-api-key={api_key}", "--message", str(message_content)]
-    elif provider == "deepseek" or (model and model.startswith("deepseek")):
-        # Extract the model name from the flag
-        model_name = aider_model_flag.split(" ")[1]
-        # For DeepSeek, set the API key as an environment variable instead of a command line argument
-        env["DEEPSEEK_API_KEY"] = api_key
-        cmd = ["aider", "--model", model_name, "--yes-always", "--message", str(message_content)]
-    elif provider == "gemini" or (model and model.startswith("gemini")):
-        model_name = aider_model_flag.split(" ")[1]
-        # Aider uses GOOGLE_API_KEY environment variable, which should be set in `env`
-        cmd = ["aider", "--model", model_name, "--yes-always", "--message", str(message_content)]
-    else:
-        # Extract the model name from the flag
-        model_name = aider_model_flag.split(" ")[1]
-        cmd = ["aider", "--model", model_name, "--yes-always", f"--anthropic-api-key={api_key}", "--message", str(message_content)]
+    # Build the command for Aider
+    cmd = ["aider", aider_model_flag, "--yes-always"] + cmd_aider_auth_parts + ["--message", str(message_content)]
     
     # Always add messages.json as --read
     messages_file = "messages.json"

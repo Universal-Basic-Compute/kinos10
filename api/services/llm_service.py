@@ -32,6 +32,9 @@ class LLMProvider:
             elif provider_name == "gemini":
                 from services.gemini_provider import GeminiProvider
                 return GeminiProvider()
+            elif provider_name == "local":
+                from services.local_provider import LocalProvider
+                return LocalProvider()
         
         # If model is specified but provider isn't, infer provider from model name
         if model:
@@ -47,6 +50,9 @@ class LLMProvider:
             elif model.startswith("gemini"):
                 from services.gemini_provider import GeminiProvider
                 return GeminiProvider()
+            elif model.startswith("local"): # Check for "local" prefix in model name
+                from services.local_provider import LocalProvider
+                return LocalProvider()
         
         # Default to Gemini if no provider or model specified
         logger.warning(f"No provider specified and couldn't determine from model, falling back to Gemini")
