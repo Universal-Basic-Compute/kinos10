@@ -1218,6 +1218,8 @@ def trigger_autonomous_thinking_v2(blueprint, kin_id):
         wait_time = data.get('wait_time', 600)
         sync = data.get('sync', False)  # New parameter to control synchronous execution
         webhook_url = data.get('webhook_url')  # New parameter for webhook URL
+        addMessage = data.get('addMessage') # New parameter for initiative prompt
+        addSystem = data.get('addSystem')   # New parameter for initiative system prompt
         
         # Validate blueprint and kin
         if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):
@@ -1362,7 +1364,9 @@ def trigger_autonomous_thinking_v2(blueprint, kin_id):
                     kin_id, 
                     iterations=iterations, 
                     wait_time=wait_time,
-                    webhook_url=webhook_url
+                    webhook_url=webhook_url,
+                    addMessage=addMessage,
+                    addSystem=addSystem
                 )
             
             # Start the thread

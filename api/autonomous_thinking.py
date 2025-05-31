@@ -563,10 +563,11 @@ Make it feel like a natural flow of thoughts, with one idea leading to another. 
         logger.error(f"Error in free-flowing thoughts generation: {str(e)}")
         return None
 
-def generate_initiative(kin_path, daydreaming, llm_client, model_to_use=None):
+def generate_initiative(kin_path, daydreaming, llm_client, model_to_use=None, addMessage=None, addSystem=None):
     """
     Fourth stage: Generate a practical initiative based on the daydreaming.
     Selects a goal and defines concrete actions to take.
+    Accepts optional addMessage for the user prompt and addSystem for the system prompt.
     """
     logger.info("Starting initiative generation stage")
     logger.info(f"Using daydreaming as context: {daydreaming}")
@@ -605,10 +606,7 @@ def generate_initiative(kin_path, daydreaming, llm_client, model_to_use=None):
             logger.error(f"Error reading autonomous_persona.txt: {str(e)}")
 
     try:
-        initiative = llm_client.generate_response(
-            model=model_to_use,
-            max_tokens=1500,
-            system=f"""Daydreaming:
+        system_prompt_for_initiative = addSystem if addSystem else f"""Daydreaming:
 {daydreaming}
 
 Goals:
@@ -630,8 +628,17 @@ Your response should include:
 3. 3-5 specific, actionable steps to make progress on this goal
 4. A priority order for these actions
 
-Format your response as a structured plan that the entity can immediately begin implementing. Be practical, specific, and action-oriented.""",
-            messages=[{"role": "user", "content": "Please generate a practical initiative based on the daydreaming and goals."}]
+Format your response as a structured plan that the entity can immediately begin implementing. Be practical, specific, and action-oriented."""
+
+        user_content_for_initiative = "Please generate a practical initiative based on the daydreaming and goals."
+        if addMessage:
+            user_content_for_initiative += f"\n\nAdditional context for initiative generation:\n{addMessage}"
+
+        initiative = llm_client.generate_response(
+            model=model_to_use,
+            max_tokens=1500,
+            system=system_prompt_for_initiative,
+            messages=[{"role": "user", "content": user_content_for_initiative}]
         )
         logger.info("Received initiative from LLM.")
         logger.info(f"\n🎯 GENERATED INITIATIVE:\n{initiative}")
@@ -692,6 +699,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
 
         model_for_keywords = model
         model_for_creative_tasks = model
+        # model_for_initiative will also be model_for_creative_tasks or the specific model passed.
 
         # If using the LocalProvider, override the model for keyword extraction to a smaller one
         if llm_client.__class__.__name__ == "LocalProvider":
@@ -743,6 +751,13 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
             logger.error("Failed to generate daydreaming, response was None")
             raise Exception("Failed to generate daydreaming")
         logger.info(f"Generated daydreaming: {daydreaming}")
+
+        # Stage 4: Generate initiative (this was missing from generate_random_thought's direct calls)
+        # This function will now be called from the main autonomous_thinking loop.
+        # The `daydreaming` variable here is the output of the third stage.
+        # The main `autonomous_thinking` function will call `generate_initiative` separately.
+        # So, `generate_random_thought` should return the `daydreaming` text.
+        # The `generate_initiative` call will happen in the `autonomous_thinking` loop.
 
         return daydreaming
 
@@ -1564,7 +1579,7 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
 
             llm_client_for_initiative = LLMProvider.get_provider(provider, model) # Get client again or pass from above
             logger.info(f"\n--- STEP 2: GENERATING INITIATIVE ---")
-            initiative = generate_initiative(kin_path, daydreaming, llm_client_for_initiative, model_to_use=model)
+            initiative = generate_initiative(kin_path, daydreaming, llm_client_for_initiative, model_to_use=model, addMessage=addMessage, addSystem=addSystem)
             if not initiative:
                  logger.error("Failed to generate initiative.")
                  initiative = "Could not generate a specific initiative. Reflecting on the daydream."
@@ -1656,6 +1671,8 @@ def main():
     parser.add_argument("--vercel-token", help="Vercel API token for checking deployments")
     parser.add_argument("--webhook-url", help="Webhook URL to send thoughts to")
     parser.add_argument("--debug", action="store_true", help="Enable debug logging")
+    parser.add_argument("--addMessage", help="Additional message for initiative generation prompt")
+    parser.add_argument("--addSystem", help="System prompt for initiative generation")
     
     args = parser.parse_args()
     
@@ -1729,7 +1746,9 @@ def main():
             remote=args.remote,
             provider=args.provider,
             model=args.model,
-            webhook_url=webhook_url
+            webhook_url=webhook_url,
+            addMessage=args.addMessage,
+            addSystem=args.addSystem
         )
         
         return 0 if success else 1

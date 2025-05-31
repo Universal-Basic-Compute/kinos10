@@ -1310,7 +1310,9 @@ Trigger autonomous thinking for a kin, which generates random thoughts and self-
   "iterations": 3,  // Optional, default: 3
   "wait_time": 600,  // Optional, default: 600 seconds (10 minutes)
   "sync": false,  // Optional, default: false
-  "webhook_url": "https://your-webhook-endpoint.com/hook"  // Optional, URL to receive real-time updates
+  "webhook_url": "https://your-webhook-endpoint.com/hook",  // Optional, URL to receive real-time updates
+  "addMessage": "Consider the impact on user engagement.", // Optional, additional message for initiative prompt
+  "addSystem": "The initiative should be achievable within one week." // Optional, system prompt for initiative generation
 }
 ```
 
