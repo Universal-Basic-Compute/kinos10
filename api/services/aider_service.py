@@ -437,27 +437,43 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                                 # No changes to commit is not an error
                                 logger.info("No changes to commit after Aider call")
                             
-                            # Push changes with force flag
-                            try:
-                                run_git_command(
-                                    ["git", "push", "--force", "origin", "master"],
-                                    cwd=kin_path
-                                )
-                                logger.info("Changes force-pushed to remote repository after Aider call")
-                            except subprocess.CalledProcessError:
-                                # Try with main branch if master fails
+                            # Determine the target branch for push from repo_config.json
+                            target_branch_for_push = None
+                            repo_config_file_path = os.path.join(kin_path, "repo_config.json")
+                            if os.path.exists(repo_config_file_path):
+                                try:
+                                    with open(repo_config_file_path, 'r', encoding='utf-8') as f_config:
+                                        config_data = json.load(f_config)
+                                        target_branch_for_push = config_data.get('branch_name')
+                                        if target_branch_for_push:
+                                            logger.info(f"Using branch '{target_branch_for_push}' from repo_config.json for push.")
+                                        else:
+                                            logger.warning("branch_name not found in repo_config.json. Push will be skipped.")
+                                except Exception as e_config_push:
+                                    logger.warning(f"Error reading repo_config.json for push: {str(e_config_push)}. Push will be skipped.")
+                            else:
+                                logger.warning("repo_config.json not found. Push will be skipped.")
+
+                            if target_branch_for_push:
                                 try:
                                     run_git_command(
-                                        ["git", "push", "--force", "origin", "main"],
+                                        ["git", "push", "--force", "origin", target_branch_for_push],
                                         cwd=kin_path
                                     )
-                                    logger.info("Changes force-pushed to remote repository (main branch) after Aider call")
-                                except subprocess.CalledProcessError as e:
-                                    logger.warning(f"Error pushing to remote repository: {str(e)}")
-                                    yield "Warning: Failed to push changes to remote repository"
+                                    logger.info(f"Changes force-pushed to remote repository (branch '{target_branch_for_push}') after Aider call")
+                                except subprocess.CalledProcessError as e_push_final:
+                                    detailed_error_push = e_push_final.stderr if hasattr(e_push_final, 'stderr') and e_push_final.stderr else str(e_push_final)
+                                    logger.warning(f"Error pushing to remote repository branch '{target_branch_for_push}': {detailed_error_push}")
+                                    yield f"Warning: Failed to push changes to remote repository branch '{target_branch_for_push}'"
+                                except Exception as e_push_general:
+                                    logger.warning(f"General error pushing changes after Aider call to branch '{target_branch_for_push}': {str(e_push_general)}")
+                                    yield f"Warning: Error pushing changes to branch '{target_branch_for_push}': {str(e_push_general)}"
+                            else:
+                                logger.warning("Target branch for push could not be determined from repo_config.json. Skipping push.")
+                                yield "Warning: Could not determine branch to push to from repo_config.json. Changes were not pushed."
                     except Exception as e:
-                        logger.warning(f"Error pushing changes after Aider call: {str(e)}")
-                        yield f"Warning: Error pushing changes: {str(e)}"
+                        logger.warning(f"Error in post-Aider git push process: {str(e)}")
+                        yield f"Warning: Error in git push process: {str(e)}"
                 
                 # If there was an error, yield it as well
                 if stderr_output:
@@ -523,25 +539,39 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                         # No changes to commit is not an error
                         logger.info("No changes to commit after Aider call")
                     
-                    # Push changes with force flag
-                    try:
-                        run_git_command(
-                            ["git", "push", "--force", "origin", "master"],
-                            cwd=kin_path
-                        )
-                        logger.info("Changes pushed to remote repository after Aider call")
-                    except subprocess.CalledProcessError:
-                        # Try with main branch if master fails
+                    # Determine the target branch for push from repo_config.json
+                    target_branch_for_push = None
+                    repo_config_file_path = os.path.join(kin_path, "repo_config.json")
+                    if os.path.exists(repo_config_file_path):
+                        try:
+                            with open(repo_config_file_path, 'r', encoding='utf-8') as f_config:
+                                config_data = json.load(f_config)
+                                target_branch_for_push = config_data.get('branch_name')
+                                if target_branch_for_push:
+                                    logger.info(f"Using branch '{target_branch_for_push}' from repo_config.json for push.")
+                                else:
+                                    logger.warning("branch_name not found in repo_config.json for push. Push will be skipped.")
+                        except Exception as e_config_push:
+                            logger.warning(f"Error reading repo_config.json for push: {str(e_config_push)}. Push will be skipped.")
+                    else:
+                        logger.warning("repo_config.json not found for push. Push will be skipped.")
+
+                    if target_branch_for_push:
                         try:
                             run_git_command(
-                                ["git", "push", "--force", "origin", "main"],
+                                ["git", "push", "--force", "origin", target_branch_for_push],
                                 cwd=kin_path
                             )
-                            logger.info("Changes force-pushed to remote repository (main branch) after Aider call")
-                        except subprocess.CalledProcessError as e:
-                            logger.warning(f"Error pushing to remote repository: {str(e)}")
+                            logger.info(f"Changes force-pushed to remote repository (branch '{target_branch_for_push}') after Aider call")
+                        except subprocess.CalledProcessError as e_push_final:
+                            detailed_error_push = e_push_final.stderr if hasattr(e_push_final, 'stderr') and e_push_final.stderr else str(e_push_final)
+                            logger.warning(f"Error pushing to remote repository branch '{target_branch_for_push}': {detailed_error_push}")
+                        except Exception as e_push_general:
+                            logger.warning(f"General error pushing changes after Aider call to branch '{target_branch_for_push}': {str(e_push_general)}")
+                    else:
+                        logger.warning("Target branch for push could not be determined from repo_config.json. Skipping push.")
                 except Exception as e:
-                    logger.warning(f"Error pushing changes after Aider call: {str(e)}")
+                    logger.warning(f"Error in post-Aider git push process: {str(e)}")
             
             # Return the stdout from Aider
             return result.stdout
