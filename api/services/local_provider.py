@@ -74,7 +74,7 @@ class LocalProvider(LLMProvider):
         logger.debug(f"Local LLM Payload: {json.dumps(payload, indent=2)}")
 
         try:
-            response = requests.post(endpoint_url, headers=headers, json=payload, stream=stream, timeout=180) 
+            response = requests.post(endpoint_url, headers=headers, json=payload, stream=stream, timeout=600) # Increased timeout to 10 minutes
             response.raise_for_status()
 
             if stream:
