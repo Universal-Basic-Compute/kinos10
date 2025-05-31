@@ -263,44 +263,87 @@ def extract_keywords(kin_path, random_files, llm_client, model_to_use=None):
 
     # Load messages.json
     messages_file = os.path.join(kin_path, "messages.json")
-    messages_content = ""
+    raw_messages_text = ""
     if os.path.exists(messages_file):
         try:
             with open(messages_file, 'r', encoding='utf-8') as f:
-                messages = json.load(f)
-                messages_content = "\n".join([f"{m.get('role')}: {m.get('content')}" for m in messages[-10:]])  # Last 10 messages
-            logger.info(f"Loaded {len(messages)} messages from messages.json")
+                messages_data = json.load(f)
+                raw_messages_text = "\n".join([f"{m.get('role')}: {m.get('content')}" for m in messages_data[-10:]])  # Last 10 messages
+            logger.info(f"Loaded {len(messages_data)} messages from messages.json, using last 10 for raw_messages_text ({len(raw_messages_text)} chars).")
         except Exception as e:
             logger.error(f"Error reading messages.json: {str(e)}")
 
-    # Load content of random files
-    file_contents = []
-    for file in random_files:
-        file_path = os.path.join(kin_path, file)
-        if os.path.exists(file_path) and os.path.isfile(file_path):
-            try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                file_contents.append(f"# File: {file}\n{content}")
-                logger.info(f"Loaded content from file: {file}")
-            except Exception as e:
-                logger.error(f"Error reading file {file_path}: {str(e)}")
+    # Load content of random files into a map
+    original_file_contents_map = {}
+    if random_files: # Ensure random_files is not None or empty
+        for file_rel_path in random_files:
+            file_abs_path = os.path.join(kin_path, file_rel_path)
+            if os.path.exists(file_abs_path) and os.path.isfile(file_abs_path):
+                try:
+                    with open(file_abs_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    original_file_contents_map[file_rel_path] = content
+                    logger.info(f"Loaded content from file: {file_rel_path} ({len(content)} chars)")
+                except Exception as e:
+                    logger.error(f"Error reading file {file_abs_path}: {str(e)}")
+    
+    MAX_TOTAL_CONTENT_CHARS = 350000  # Target: < 100k tokens (approx 3.5 chars/token)
 
-    if not file_contents:
-        logger.error("No file contents loaded for keyword extraction")
-        raise ValueError("No file contents available for keyword extraction")
+    current_messages_chars = len(raw_messages_text)
+    current_files_total_chars = sum(len(content) for content in original_file_contents_map.values())
+    total_dynamic_chars = current_messages_chars + current_files_total_chars
 
-    logger.info("Making API call to Claude for keyword extraction")
+    final_messages_content_for_prompt = raw_messages_text
+    final_file_strings_for_prompt = []
+
+    if total_dynamic_chars > MAX_TOTAL_CONTENT_CHARS:
+        logger.warning(f"Combined content ({total_dynamic_chars} chars) for keyword extraction exceeds limit ({MAX_TOTAL_CONTENT_CHARS} chars). Truncating.")
+        
+        if current_messages_chars >= MAX_TOTAL_CONTENT_CHARS:
+            final_messages_content_for_prompt = raw_messages_text[:MAX_TOTAL_CONTENT_CHARS]
+            logger.info(f"Truncated messages_content from {current_messages_chars} to {len(final_messages_content_for_prompt)} chars. No space for file content.")
+            # final_file_strings_for_prompt remains empty
+        else:
+            allowed_files_chars = MAX_TOTAL_CONTENT_CHARS - current_messages_chars
+            
+            if current_files_total_chars > allowed_files_chars:
+                logger.info(f"Truncating total file content from {current_files_total_chars} to {allowed_files_chars} chars.")
+                if current_files_total_chars > 0: 
+                    truncation_ratio = allowed_files_chars / current_files_total_chars
+                    for file_path, content in original_file_contents_map.items():
+                        header = f"# File: {file_path}\n"
+                        truncated_len = int(len(content) * truncation_ratio)
+                        truncated_content = content[:truncated_len]
+                        final_file_strings_for_prompt.append(header + truncated_content)
+                        logger.debug(f"Truncated file {file_path} to {len(truncated_content)} chars (plus header).")
+            else:
+                # Files fit, format them
+                for file_path, content in original_file_contents_map.items():
+                    final_file_strings_for_prompt.append(f"# File: {file_path}\n{content}")
+    else:
+        logger.info(f"Combined content ({total_dynamic_chars} chars) is within limit ({MAX_TOTAL_CONTENT_CHARS} chars).")
+        for file_path, content in original_file_contents_map.items():
+            final_file_strings_for_prompt.append(f"# File: {file_path}\n{content}")
+
+    if not final_messages_content_for_prompt and not final_file_strings_for_prompt:
+        logger.error("No messages or file contents available after processing for keyword extraction.")
+        raise ValueError("No content available for keyword extraction.")
+    elif not original_file_contents_map and random_files: # random_files was not empty but map is (e.g. all files failed to load)
+        logger.warning("No file contents were loaded despite files being selected. Proceeding with messages only if available.")
+    elif not final_file_strings_for_prompt and total_dynamic_chars > MAX_TOTAL_CONTENT_CHARS and current_messages_chars < MAX_TOTAL_CONTENT_CHARS:
+         logger.warning("File contents were truncated to empty due to character limits.")
+
+    logger.info("Making API call for keyword extraction")
     try:
         # Log the client type and API key status
         logger.info(f"Client type: {type(llm_client).__name__}")
         
         # Create a system prompt with the file contents
         system_prompt = f"""Messages history:
-{messages_content}
+{final_messages_content_for_prompt}
 
 File contents:
-{chr(10).join(file_contents)}
+{chr(10).join(final_file_strings_for_prompt)}
 
 Based on the provided messages and files, extract the following elements:
 
