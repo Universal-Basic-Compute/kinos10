@@ -11,6 +11,8 @@ class LocalProvider(LLMProvider):
     Assumes the target endpoint is OpenAI-compatible.
     """
     LOCAL_MODEL_BASE_URL = "https://trusted-magpie-social.ngrok-free.app" 
+    # Max characters aiming for < 64k tokens, using ~3.5 chars/token as a rough guide
+    MAX_CHARS_FOR_PROVIDER = int(64000 * 3.5) 
 
     def __init__(self, api_key=None): # api_key might be for the target endpoint
         super().__init__(api_key)
@@ -51,13 +53,16 @@ class LocalProvider(LLMProvider):
             elif model.lower() != "local": 
                 # If model is something other than just "local", use it
                 payload_model = model
+
+        # Truncate messages if total characters exceed the provider's limit
+        truncated_payload_messages = self._truncate_payload_for_token_limit(payload_messages)
         
-        # Ensure roles in payload_messages alternate correctly
-        cleaned_payload_messages = self._ensure_alternating_roles(payload_messages)
+        # Ensure roles in the (potentially truncated) payload_messages alternate correctly
+        cleaned_payload_messages = self._ensure_alternating_roles(truncated_payload_messages)
 
         payload = {
             "model": payload_model,
-            "messages": cleaned_payload_messages, # Use cleaned messages
+            "messages": cleaned_payload_messages, # Use cleaned and role-alternated messages
             "stream": stream,
         }
         if max_tokens:
@@ -129,6 +134,100 @@ class LocalProvider(LLMProvider):
         except Exception as e:
             logger.error(f"An unexpected error occurred with local LLM: {str(e)}")
             return f"An unexpected error occurred: {str(e)}"
+
+    def _estimate_char_count(self, messages_list):
+        """Estimates the total character count of the content in a list of messages."""
+        return sum(len(str(msg.get("content", ""))) for msg in messages_list)
+
+    def _truncate_payload_for_token_limit(self, payload_messages):
+        """
+        Truncates the payload, primarily the system message content (where files are often placed),
+        to stay within MAX_CHARS_FOR_PROVIDER.
+        It attempts to remove file blocks one by one from the system message.
+        """
+        current_chars = self._estimate_char_count(payload_messages)
+
+        if current_chars <= self.MAX_CHARS_FOR_PROVIDER:
+            return payload_messages
+
+        logger.warning(f"Payload character count ({current_chars}) exceeds limit ({self.MAX_CHARS_FOR_PROVIDER}). Attempting truncation.")
+        
+        # Separate system message from others
+        system_msg_index = -1
+        original_system_content = ""
+        other_messages = []
+
+        for i, msg in enumerate(payload_messages):
+            if msg.get("role") == "system":
+                if system_msg_index == -1: # Take the first system message
+                    system_msg_index = i
+                    original_system_content = str(msg.get("content", ""))
+                else: # If multiple system messages, append to others (will be handled by role alternation)
+                    other_messages.append(msg)
+            else:
+                other_messages.append(msg)
+        
+        chars_from_other_messages = self._estimate_char_count(other_messages)
+
+        if system_msg_index == -1 or not original_system_content:
+            logger.warning("Token limit exceeded, but no system message found or system message is empty. Cannot drop files from system prompt. Conversational history might be too long.")
+            # Future: Could implement truncation of `other_messages` here if necessary.
+            # For now, returning as is, hoping role alternation might simplify it, or the API handles it.
+            return payload_messages 
+
+        # Attempt to parse file blocks from system content.
+        # Assumes files are appended like: PREAMBLE_TEXT\n# File: file1.txt\nCONTENT1\n# File: file2.txt\nCONTENT2...
+        # The split delimiter includes the newline before "# File: " to better isolate blocks.
+        parts = original_system_content.split("\n# File: ")
+        preamble = parts[0]
+        file_blocks_text = []
+        if len(parts) > 1:
+            for part_content in parts[1:]:
+                # Each part_content is "filename.txt\nCONTENT". We need to re-add "# File: "
+                file_blocks_text.append("# File: " + part_content)
+        
+        logger.info(f"Found {len(file_blocks_text)} potential file blocks in system prompt. Preamble length: {len(preamble)} chars.")
+
+        # Iteratively remove file blocks (from the end, assuming less critical or last added)
+        # until the total character count is within limits.
+        modified_system_content = original_system_content
+        
+        for i in range(len(file_blocks_text)): # Iterate enough times to potentially remove all
+            current_system_parts = [preamble] + file_blocks_text
+            current_system_content_str = "\n".join(filter(None, current_system_parts)).strip()
+            
+            current_total_chars = chars_from_other_messages + len(current_system_content_str)
+
+            if current_total_chars <= self.MAX_CHARS_FOR_PROVIDER:
+                logger.info(f"System prompt content reduced by removing {i} file blocks. New total chars: {current_total_chars}")
+                payload_messages[system_msg_index]["content"] = current_system_content_str
+                return payload_messages
+            
+            if not file_blocks_text: # No more file blocks to remove
+                break
+            
+            removed_block = file_blocks_text.pop() # Remove the last file block
+            logger.debug(f"Removed file block (approx. {len(removed_block)} chars) from system prompt for truncation.")
+
+        # If removing all file blocks is still not enough, truncate the preamble.
+        # At this point, file_blocks_text is empty. System content is just the preamble.
+        final_system_content = preamble
+        current_total_chars = chars_from_other_messages + len(final_system_content)
+
+        if current_total_chars > self.MAX_CHARS_FOR_PROVIDER:
+            allowed_preamble_chars = self.MAX_CHARS_FOR_PROVIDER - chars_from_other_messages
+            if allowed_preamble_chars < 0: 
+                allowed_preamble_chars = 0 # Should not happen if other_messages alone fit
+            
+            final_system_content = preamble[:allowed_preamble_chars]
+            payload_messages[system_msg_index]["content"] = final_system_content
+            new_total_chars = chars_from_other_messages + len(final_system_content)
+            logger.warning(f"System prompt preamble truncated to {len(final_system_content)} chars. New total chars: {new_total_chars}")
+        else:
+            payload_messages[system_msg_index]["content"] = final_system_content
+            logger.info(f"Removed all file blocks from system prompt. New total chars: {current_total_chars}")
+            
+        return payload_messages
 
     def _ensure_alternating_roles(self, original_payload_messages):
         """
