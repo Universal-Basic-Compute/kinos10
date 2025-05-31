@@ -252,18 +252,9 @@ def get_random_files(kin_path, count=3):
     # Otherwise, return a random selection
     return random.sample(all_files, count)
 
-def get_anthropic_client():
-    """Initialize and return the Anthropic client."""
-    api_key = os.getenv("ANTHROPIC_API_KEY")
-    if not api_key:
-        logger.error("ANTHROPIC_API_KEY environment variable not set")
-        logger.error("Available environment variables: " + ", ".join([f"{k}={v[:4]}..." if k.lower().endswith("key") and v else k for k, v in os.environ.items()]))
-        raise ValueError("Anthropic API key not configured")
-    
-    logger.info(f"Initializing Anthropic client with API key (starts with: {api_key[:4]}...)")
-    return anthropic.Anthropic(api_key=api_key)
+from services.llm_service import LLMProvider
 
-def extract_keywords(kin_path, random_files, client):
+def extract_keywords(kin_path, random_files, llm_client, model_to_use=None):
     """
     First stage: Extract keywords from messages and files.
     """
@@ -333,31 +324,16 @@ Format your response as JSON:
         # Log the system prompt
         logger.info(f"System prompt for keyword extraction (first 200 chars): {system_prompt[:200]}...")
         
-        # Make the API call
-        response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+        # Make the API call using the llm_client
+        response_text = llm_client.generate_response(
+            model=model_to_use,
             max_tokens=1000,
             system=system_prompt,
             messages=[{"role": "user", "content": "Please extract the keywords and emotions as specified."}]
         )
         
-        logger.info("Received response from Claude")
-        logger.info(f"Response type: {type(response).__name__}")
-        logger.info(f"Response attributes: {dir(response)}")
-        
-        # Check if response has content
-        if not hasattr(response, 'content') or not response.content:
-            logger.error("Response has no content attribute or content is empty")
-            raise ValueError("Empty response from Claude")
-            
-        # Check if content is a list with at least one item
-        if not isinstance(response.content, list) or len(response.content) == 0:
-            logger.error(f"Response content is not a list or is empty: {response.content}")
-            raise ValueError("Invalid response format from Claude")
-            
-        # Get the text from the first content item
-        response_text = response.content[0].text.strip()
-        logger.info(f"Raw response from Claude (first 200 chars): {response_text[:200]}...")
+        logger.info("Received response from LLM for keyword extraction.")
+        logger.info(f"Raw response from LLM (first 200 chars): {response_text[:200]}...")
         
         # Extract JSON from the response
         json_start = response_text.find('{')
@@ -399,7 +375,7 @@ Format your response as JSON:
         logger.exception("Full exception traceback:")
         return None
 
-def generate_dream(kin_path, keywords, client):
+def generate_dream(kin_path, keywords, llm_client, model_to_use=None):
     """
     Second stage: Generate a dream narrative from the keywords.
     """
@@ -434,8 +410,8 @@ def generate_dream(kin_path, keywords, client):
             logger.error(f"Error reading memory files: {str(e)}")
 
     try:
-        response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+        dream_narrative = llm_client.generate_response(
+            model=model_to_use,
             max_tokens=1000,
             system=f"""Persona and Memories Context:
 {autonomous_persona_content}
@@ -456,8 +432,7 @@ Focus on imagery and emotional resonance rather than literal meanings.
 Start with "In my dream..." or similar first-person opening.""",
             messages=[{"role": "user", "content": "Please share your dream narrative based on these elements."}]
         )
-        dream_narrative = response.content[0].text.strip()
-        logger.info("Received dream narrative from Claude")
+        logger.info("Received dream narrative from LLM.")
         logger.info(f"\n💭 DREAM NARRATIVE:\n{dream_narrative}")
 
         # Create memories directory if it doesn't exist
@@ -479,7 +454,7 @@ Start with "In my dream..." or similar first-person opening.""",
         logger.error(f"Error in dream generation: {str(e)}")
         return None
 
-def generate_daydreaming(kin_path, dream_narrative, random_files, client):
+def generate_daydreaming(kin_path, dream_narrative, random_files, llm_client, model_to_use=None):
     """
     Third stage: Generate a daydreaming paragraph from the dream narrative.
     Now generates a longer paragraph of free-flowing thoughts instead of a single thought.
@@ -550,8 +525,8 @@ def generate_daydreaming(kin_path, dream_narrative, random_files, client):
                 logger.error(f"Error reading file {file_path}: {str(e)}")
 
     try:
-        response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+        daydreaming = llm_client.generate_response(
+            model=model_to_use,
             max_tokens=1500,
             system=f"""Dream Narrative:
 {dream_narrative}
@@ -573,15 +548,14 @@ This should be a stream-of-consciousness style paragraph that weaves together mu
 Make it feel like a natural flow of thoughts, with one idea leading to another. The paragraph should be 5-8 sentences long and capture the richness and complexity of the entity's inner thought process.""",
             messages=[{"role": "user", "content": "Please generate a paragraph of free-flowing thoughts based on the dream narrative and context."}]
         )
-        daydreaming = response.content[0].text.strip()
-        logger.info("Received free-flowing thoughts from Claude")
+        logger.info("Received free-flowing thoughts from LLM.")
         logger.info(f"\n🧠 GENERATED THOUGHTS:\n{daydreaming}")
         return daydreaming
     except Exception as e:
         logger.error(f"Error in free-flowing thoughts generation: {str(e)}")
         return None
 
-def generate_initiative(kin_path, daydreaming, client):
+def generate_initiative(kin_path, daydreaming, llm_client, model_to_use=None):
     """
     Fourth stage: Generate a practical initiative based on the daydreaming.
     Selects a goal and defines concrete actions to take.
@@ -623,8 +597,8 @@ def generate_initiative(kin_path, daydreaming, client):
             logger.error(f"Error reading autonomous_persona.txt: {str(e)}")
 
     try:
-        response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+        initiative = llm_client.generate_response(
+            model=model_to_use,
             max_tokens=1500,
             system=f"""Daydreaming:
 {daydreaming}
@@ -651,8 +625,7 @@ Your response should include:
 Format your response as a structured plan that the entity can immediately begin implementing. Be practical, specific, and action-oriented.""",
             messages=[{"role": "user", "content": "Please generate a practical initiative based on the daydreaming and goals."}]
         )
-        initiative = response.content[0].text.strip()
-        logger.info("Received initiative from Claude")
+        logger.info("Received initiative from LLM.")
         logger.info(f"\n🎯 GENERATED INITIATIVE:\n{initiative}")
         
         # Create initiatives directory if it doesn't exist
@@ -704,15 +677,10 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
         else:
             logger.info(f"API key is present (starts with: {api_key[:4]}...)")
         
-        # Get appropriate LLM client based on provider
-        if provider == "openai":
-            from services.llm_service import LLMProvider
-            client = LLMProvider.get_provider("openai")
-            logger.info("Using OpenAI provider")
-        else:
-            # Default to Claude
-            client = get_anthropic_client()
-            logger.info("Using Claude provider")
+        # Get appropriate LLM client using the LLMProvider factory
+        # This will default to Gemini if provider and model are None
+        llm_client = LLMProvider.get_provider(provider, model)
+        logger.info(f"Using LLM provider: {llm_client.__class__.__name__}")
         
         # First try to get recently modified files from commit history
         files_to_use = get_recently_modified_files(blueprint, kin_id, count=3)
@@ -730,7 +698,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
 
         # Stage 1: Extract keywords
         logger.info("Stage 1: Extracting keywords")
-        keywords = extract_keywords(kin_path, files_to_use, client)
+        keywords = extract_keywords(kin_path, files_to_use, llm_client, model_to_use=model)
         if not keywords:
             logger.error("Failed to extract keywords, response was None")
             raise Exception("Failed to extract keywords")
@@ -738,7 +706,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
 
         # Stage 2: Generate dream narrative
         logger.info("Stage 2: Generating dream narrative")
-        dream_narrative = generate_dream(kin_path, keywords, client)
+        dream_narrative = generate_dream(kin_path, keywords, llm_client, model_to_use=model)
         if not dream_narrative:
             logger.error("Failed to generate dream narrative, response was None")
             raise Exception("Failed to generate dream narrative")
@@ -746,7 +714,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
 
         # Stage 3: Generate daydreaming
         logger.info("Stage 3: Generating daydreaming")
-        daydreaming = generate_daydreaming(kin_path, dream_narrative, files_to_use, client)
+        daydreaming = generate_daydreaming(kin_path, dream_narrative, files_to_use, llm_client, model_to_use=model)
         if not daydreaming:
             logger.error("Failed to generate daydreaming, response was None")
             raise Exception("Failed to generate daydreaming")
@@ -1521,17 +1489,12 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
     
     # Get API key from environment
     api_key = os.getenv("API_SECRET_KEY")
-    if not api_key:
+    if not api_key: # This check is also in generate_random_thought, but good to have early
         logger.error("API_SECRET_KEY environment variable not set")
         return False
 
-    # Get appropriate LLM client based on provider
-    if provider == "openai":
-        from services.llm_service import LLMProvider
-        client = LLMProvider.get_provider("openai")
-    else:
-        # Default to Claude
-        client = get_anthropic_client()
+    # The llm_client for direct calls will be instantiated within generate_random_thought
+    # and its sub-functions, respecting the provider and model parameters.
 
     # Run the thinking iterations
     for i in range(iterations):
@@ -1556,8 +1519,33 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
                 send_to_webhook(webhook_url, webhook_data)
             
             # Generate initiative based on the daydreaming
+            # Note: generate_initiative needs the llm_client and model to be passed if we refactor it
+            # For now, assuming generate_random_thought handles the LLM calls for initiative internally
+            # or that initiative generation is part of the daydreaming step if not explicitly separated here.
+            # Based on the current structure, generate_initiative is called by generate_random_thought.
+            # Let's assume `daydreaming` from `generate_random_thought` now contains the full thought process
+            # including what might have been a separate initiative step.
+            # If initiative needs to be a separate LLM call here, we'd need to pass llm_client and model.
+            # For simplicity, let's assume `daydreaming` is the complete thought to be sent.
+            # If a separate initiative step is desired here, it would need its own LLM call.
+            # The current refactor focuses on the LLM calls within generate_random_thought and its sub-functions.
+            # Let's assume `daydreaming` is the final thought output from `generate_random_thought`.
+            # If `initiative` was a distinct step *after* `generate_random_thought`, it would need:
+            # initiative = generate_initiative(kin_path, daydreaming, llm_client, model_to_use=model)
+            # For now, we'll use `daydreaming` as the primary thought content.
+            # The prompt for `send_build_to_kin` uses `combined_message` which was `Daydreaming:\n{daydreaming}\n\nInitiative:\n{initiative}`
+            # So, we need both. Let's make sure `generate_initiative` is called correctly.
+            # `generate_random_thought` calls `extract_keywords`, `generate_dream`, `generate_daydreaming`.
+            # It does NOT call `generate_initiative`. So, `generate_initiative` needs to be called here.
+
+            llm_client_for_initiative = LLMProvider.get_provider(provider, model) # Get client again or pass from above
             logger.info(f"\n--- STEP 2: GENERATING INITIATIVE ---")
-            initiative = generate_initiative(kin_path, daydreaming, client)
+            initiative = generate_initiative(kin_path, daydreaming, llm_client_for_initiative, model_to_use=model)
+            if not initiative:
+                 logger.error("Failed to generate initiative.")
+                 initiative = "Could not generate a specific initiative. Reflecting on the daydream."
+
+
             logger.info(f"\n🎯 INITIATIVE:\n{initiative}\n")
             
             # Send initiative to webhook if provided
