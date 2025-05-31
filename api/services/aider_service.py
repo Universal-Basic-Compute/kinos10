@@ -53,7 +53,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     if provider == "local":
         logger.info("Application provider is 'local'. Determining LLM for Aider's internal use.")
         aider_llm_provider_for_aider_internal_use = "gemini" # Default for Aider
-        aider_llm_model_for_aider_internal_use = "gemini-1.5-flash" # Default model for Aider
+        aider_llm_model_for_aider_internal_use = "gemini-2.5-flash-preview-05-20" # Default model for Aider
 
         if model and "/" in model:
             local_prefix, actual_model_for_aider = model.split("/", 1)
@@ -111,9 +111,9 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         # Determine the model name for Gemini
         if aider_llm_provider_for_aider_internal_use == "gemini" or \
            (aider_llm_model_for_aider_internal_use and aider_llm_model_for_aider_internal_use.startswith("gemini")):
-            current_aider_model_name = aider_llm_model_for_aider_internal_use or "gemini-1.5-flash" # Default if only "gemini" provider specified
+            current_aider_model_name = aider_llm_model_for_aider_internal_use or "gemini-2.5-flash-preview-05-20" # Default if only "gemini" provider specified
         else: # Fallback default if provider was something else not caught above (e.g. "local" without specific model type)
-            current_aider_model_name = "gemini-1.5-flash" # General default Gemini model for Aider
+            current_aider_model_name = "gemini-2.5-flash-preview-05-20" # General default Gemini model for Aider
 
         # Ensure Gemini model names are prefixed with "gemini/" for Aider
         if not current_aider_model_name.startswith("gemini/"):
