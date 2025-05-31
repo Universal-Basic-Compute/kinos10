@@ -90,24 +90,38 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         aider_model_flag = f"--model {current_aider_model_name}"
         logger.info(f"Aider configured for DeepSeek with model: {current_aider_model_name}")
 
-    elif aider_llm_provider_for_aider_internal_use == "gemini" or \
-         (aider_llm_model_for_aider_internal_use and aider_llm_model_for_aider_internal_use.startswith("gemini")):
-        api_key = os.getenv("GOOGLE_API_KEY")
-        if not api_key: raise ValueError("GOOGLE_API_KEY environment variable not set for Aider's Gemini use.")
-        # GOOGLE_API_KEY is already added to env
-        current_aider_model_name = aider_llm_model_for_aider_internal_use or "gemini-1.5-flash"
-        if not current_aider_model_name.startswith("gemini/"):
-            current_aider_model_name = f"gemini/{current_aider_model_name}"
-        aider_model_flag = f"--model {current_aider_model_name}"
-        logger.info(f"Aider configured for Gemini with model: {current_aider_model_name}")
-        
-    else: # Default to Anthropic/Claude for Aider
+    elif aider_llm_provider_for_aider_internal_use == "claude" or \
+         (aider_llm_model_for_aider_internal_use and aider_llm_model_for_aider_internal_use.startswith("claude-")):
         api_key = os.getenv("ANTHROPIC_API_KEY")
         if not api_key: raise ValueError("ANTHROPIC_API_KEY environment variable not set for Aider's Claude use.")
         current_aider_model_name = aider_llm_model_for_aider_internal_use or "claude-3-sonnet-20240229"
+        # Aider generally expects model names like "claude-3-opus-20240229" directly.
+        # No specific "anthropic/" prefix is usually needed unless Aider's internal mapping changes.
         aider_model_flag = f"--model {current_aider_model_name}"
         cmd_aider_auth_parts = [f"--anthropic-api-key={api_key}"]
         logger.info(f"Aider configured for Anthropic/Claude with model: {current_aider_model_name}")
+
+    else: # Default to Gemini for Aider
+        # This block handles explicit "gemini" provider or models starting with "gemini",
+        # and also serves as the final fallback default.
+        api_key = os.getenv("GOOGLE_API_KEY")
+        if not api_key: raise ValueError("GOOGLE_API_KEY environment variable not set for Aider's Gemini use (default).")
+        # GOOGLE_API_KEY is already added to env
+        
+        # Determine the model name for Gemini
+        if aider_llm_provider_for_aider_internal_use == "gemini" or \
+           (aider_llm_model_for_aider_internal_use and aider_llm_model_for_aider_internal_use.startswith("gemini")):
+            current_aider_model_name = aider_llm_model_for_aider_internal_use or "gemini-1.5-flash" # Default if only "gemini" provider specified
+        else: # Fallback default if provider was something else not caught above (e.g. "local" without specific model type)
+            current_aider_model_name = "gemini-1.5-flash" # General default Gemini model for Aider
+
+        # Ensure Gemini model names are prefixed with "gemini/" for Aider
+        if not current_aider_model_name.startswith("gemini/"):
+            current_aider_model_name = f"gemini/{current_aider_model_name}"
+            
+        aider_model_flag = f"--model {current_aider_model_name}"
+        # cmd_aider_auth_parts remains empty as GOOGLE_API_KEY is passed via env
+        logger.info(f"Aider configured for Gemini (default or explicit) with model: {current_aider_model_name}")
     
     # Check if this is a linked repository
     is_repo_linked = False
