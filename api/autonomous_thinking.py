@@ -681,7 +681,23 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
         # This will default to Gemini if provider and model are None
         llm_client = LLMProvider.get_provider(provider, model)
         logger.info(f"Using LLM provider: {llm_client.__class__.__name__}")
-        
+
+        model_for_keywords = model
+        model_for_creative_tasks = model
+
+        # If using the LocalProvider, override the model for keyword extraction to a smaller one
+        if llm_client.__class__.__name__ == "LocalProvider":
+            # Define the smaller model for keyword extraction
+            # This assumes "local/gemma:2b" is a valid smaller model for your local endpoint
+            smaller_local_model = "local/gemma:2b"
+            logger.info(f"LocalProvider detected. Using '{smaller_local_model}' for keyword extraction.")
+            model_for_keywords = smaller_local_model
+            # For creative tasks, if the original model was just "local" or None,
+            # LocalProvider's default (e.g., "gemma3:12b") will be used.
+            # If a specific local model was passed (e.g., "local/my-large-model"),
+            # model_for_creative_tasks will retain that.
+            logger.info(f"Using '{model_for_creative_tasks if model_for_creative_tasks else 'LocalProvider default'}' for other autonomous thinking steps.")
+
         # First try to get recently modified files from commit history
         files_to_use = get_recently_modified_files(blueprint, kin_id, count=3)
         
@@ -698,7 +714,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
 
         # Stage 1: Extract keywords
         logger.info("Stage 1: Extracting keywords")
-        keywords = extract_keywords(kin_path, files_to_use, llm_client, model_to_use=model)
+        keywords = extract_keywords(kin_path, files_to_use, llm_client, model_to_use=model_for_keywords)
         if not keywords:
             logger.error("Failed to extract keywords, response was None")
             raise Exception("Failed to extract keywords")
@@ -706,7 +722,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
 
         # Stage 2: Generate dream narrative
         logger.info("Stage 2: Generating dream narrative")
-        dream_narrative = generate_dream(kin_path, keywords, llm_client, model_to_use=model)
+        dream_narrative = generate_dream(kin_path, keywords, llm_client, model_to_use=model_for_creative_tasks)
         if not dream_narrative:
             logger.error("Failed to generate dream narrative, response was None")
             raise Exception("Failed to generate dream narrative")
@@ -714,7 +730,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
 
         # Stage 3: Generate daydreaming
         logger.info("Stage 3: Generating daydreaming")
-        daydreaming = generate_daydreaming(kin_path, dream_narrative, files_to_use, llm_client, model_to_use=model)
+        daydreaming = generate_daydreaming(kin_path, dream_narrative, files_to_use, llm_client, model_to_use=model_for_creative_tasks)
         if not daydreaming:
             logger.error("Failed to generate daydreaming, response was None")
             raise Exception("Failed to generate daydreaming")
