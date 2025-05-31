@@ -900,7 +900,7 @@ def send_build_to_kin(blueprint, kin_id, message, remote=False, provider=None, m
         }
         
         # Determine model to use
-        model_to_use = model or "claude-sonnet-4-20250514"
+        model_to_use = model or "gemini-2.5-flash-preview-05-20" # Default to Gemini for the build/Aider call
         
         payload = {
             "message": message,
