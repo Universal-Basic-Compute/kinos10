@@ -293,7 +293,7 @@ def extract_keywords(kin_path, random_files, llm_client, model_to_use=None):
     logger.info("Making API call to Claude for keyword extraction")
     try:
         # Log the client type and API key status
-        logger.info(f"Client type: {type(client).__name__}")
+        logger.info(f"Client type: {type(llm_client).__name__}")
         
         # Create a system prompt with the file contents
         system_prompt = f"""Messages history:
