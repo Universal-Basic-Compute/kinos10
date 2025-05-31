@@ -382,6 +382,10 @@ def generate_dream(kin_path, keywords, llm_client, model_to_use=None):
     logger.info("Starting dream generation stage")
     logger.info(f"Using keywords: {json.dumps(keywords, indent=2)}")
 
+    # Determine the model to use for dream generation
+    actual_model_for_dream = model_to_use if model_to_use else "gemini-2.5-flash-preview-05-20"
+    logger.info(f"Using model for dream generation: {actual_model_for_dream}")
+
     # Load autonomous_persona.txt
     autonomous_persona_content = ""
     autonomous_persona_path = os.path.join(kin_path, "autonomous_persona.txt")
@@ -411,7 +415,7 @@ def generate_dream(kin_path, keywords, llm_client, model_to_use=None):
 
     try:
         dream_narrative = llm_client.generate_response(
-            model=model_to_use,
+            model=actual_model_for_dream,
             max_tokens=1000,
             system=f"""Persona and Memories Context:
 {autonomous_persona_content}
@@ -461,6 +465,10 @@ def generate_daydreaming(kin_path, dream_narrative, random_files, llm_client, mo
     """
     logger.info("Starting daydreaming generation stage")
     logger.info(f"Using dream narrative: {dream_narrative}")
+
+    # Determine the model to use for daydreaming generation
+    actual_model_for_daydreaming = model_to_use if model_to_use else "gemini-2.5-flash-preview-05-20"
+    logger.info(f"Using model for daydreaming generation: {actual_model_for_daydreaming}")
 
     # Load autonomous_persona.txt and messages.json
     context_content = ""
@@ -526,7 +534,7 @@ def generate_daydreaming(kin_path, dream_narrative, random_files, llm_client, mo
 
     try:
         daydreaming = llm_client.generate_response(
-            model=model_to_use,
+            model=actual_model_for_daydreaming,
             max_tokens=1500,
             system=f"""Dream Narrative:
 {dream_narrative}
