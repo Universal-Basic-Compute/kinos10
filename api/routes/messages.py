@@ -730,8 +730,8 @@ def analyze_message(blueprint, kin_id):
             return jsonify({"error": "Message is required"}), 400
         
         # Get optional parameters for context building
-        min_files = data.get('min_files', 5)  # Default to 5
-        max_files = data.get('max_files', 10)  # Default to 10
+        min_files = data.get('min_files', 4)  # Default to 4
+        max_files = data.get('max_files', 8)  # Default to 8
         provider = data.get('provider')  # Optional provider parameter
         
         # Validate the values
@@ -743,8 +743,8 @@ def analyze_message(blueprint, kin_id):
             if max_files < min_files:
                 max_files = min_files
         except (ValueError, TypeError):
-            min_files = 5
-            max_files = 15
+            min_files = 4 # Fallback to new defaults
+            max_files = 8 # Fallback to new defaults
 
         # Support both formats: new format with 'screenshot' and original format with 'images'
         images = data.get('images', [])
