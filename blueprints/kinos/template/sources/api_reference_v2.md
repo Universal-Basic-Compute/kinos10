@@ -644,8 +644,8 @@ Send a message to a kin.
   "mode": "creative",
   "addSystem": "Additional system instructions to guide the response",
   "addContext": ["memories/conversation_123.txt", "knowledge/topic.md", "sources/"],
-  "min_files": 5,  // Optional, minimum number of context files (default: 5)
-  "max_files": 10,  // Optional, maximum number of context files (default: 10)
+  "min_files": 4,  // Optional, minimum number of context files (default: 4)
+  "max_files": 8,  // Optional, maximum number of context files (default: 8)
   "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000"  // Optional, channel to send message to
 }
 ```
@@ -698,8 +698,8 @@ Send a message to a specific channel within a kin.
   "mode": "creative",
   "addSystem": "Additional system instructions to guide the response",
   "addContext": ["memories/conversation_123.txt", "knowledge/topic.md", "sources/"],
-  "min_files": 5,  // Optional, minimum number of context files (default: 5)
-  "max_files": 10  // Optional, maximum number of context files (default: 10)
+  "min_files": 4,  // Optional, minimum number of context files (default: 4)
+  "max_files": 8  // Optional, maximum number of context files (default: 8)
 }
 ```
 
@@ -801,8 +801,8 @@ Analyze a message with Claude without saving it or triggering context updates.
   "images": ["data:image/jpeg;base64,..."],
   "model": "gemini/gemini-2.5-pro-preview-03-25", // Examples: "gpt-4o", "deepseek-chat", "claude-sonnet-4-20250514", "local", "local/my-custom-model"
   "addSystem": "Focus on explaining the architecture",
-  "min_files": 5,  // Optional, minimum number of context files (default: 5)
-  "max_files": 15,  // Optional, maximum number of context files (default: 15)
+  "min_files": 4,  // Optional, minimum number of context files (default: 4)
+  "max_files": 8,  // Optional, maximum number of context files (default: 8)
   "stream": true  // Optional, enable streaming response (default: false)
 }
 ```
@@ -811,8 +811,8 @@ Analyze a message with Claude without saving it or triggering context updates.
 - `message`: The message to analyze (required)
 - `model`: Model to use (optional, default: gemini/gemini-2.5-pro-preview-03-25). Examples: "gpt-4o", "deepseek-chat", "claude-sonnet-4-20250514", "local", "local/my-custom-model"
 - `addSystem`: Additional system instructions (optional)
-- `min_files`: Minimum number of context files (optional, default: 5)
-- `max_files`: Maximum number of context files (optional, default: 15)
+- `min_files`: Minimum number of context files (optional, default: 4)
+- `max_files`: Maximum number of context files (optional, default: 8)
 - `stream`: Enable streaming response (optional, default: false)
 
 **Response (non-streaming):**
@@ -1188,8 +1188,8 @@ Send a message to Aider for file creation/modification without Claude response.
 {
   "message": "Create a new file called example.txt with some sample content",
   "addSystem": "Focus on creating well-structured files",  // Optional
-  "min_files": 5,  // Optional, minimum number of context files (default: 5)
-  "max_files": 15  // Optional, maximum number of context files (default: 15)
+  "min_files": 4,  // Optional, minimum number of context files (default: 4)
+  "max_files": 8  // Optional, maximum number of context files (default: 8)
 }
 ```
 

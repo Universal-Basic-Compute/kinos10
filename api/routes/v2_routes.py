@@ -937,8 +937,8 @@ def analyze_message_v2(blueprint, kin_id):
             # Get other parameters from query string
             model = request.args.get('model', 'gemini/gemini-2.5-pro-preview-03-25')
             addSystem = request.args.get('addSystem', None)
-            min_files = request.args.get('min_files', 5)
-            max_files = request.args.get('max_files', 15)
+            min_files = request.args.get('min_files', 4)
+            max_files = request.args.get('max_files', 8)
             stream = request.args.get('stream', 'false').lower() == 'true'
             
             # Create a data dict to match POST format
@@ -980,8 +980,8 @@ def analyze_message_v2(blueprint, kin_id):
             model = data.get('model', 'gemini/gemini-2.5-pro-preview-03-25')
             addSystem = data.get('addSystem', None)
             provider = data.get('provider', None)
-            min_files = data.get('min_files', 5)
-            max_files = data.get('max_files', 15)
+            min_files = data.get('min_files', 4)
+            max_files = data.get('max_files', 8)
             
             # Validate min_files and max_files
             try:
@@ -992,8 +992,8 @@ def analyze_message_v2(blueprint, kin_id):
                 if max_files < min_files:
                     max_files = min_files
             except (ValueError, TypeError):
-                min_files = 5
-                max_files = 15
+                min_files = 4 # Fallback to new defaults
+                max_files = 8 # Fallback to new defaults
             
             # Build context (select relevant files)
             selected_files, selected_mode = build_context(

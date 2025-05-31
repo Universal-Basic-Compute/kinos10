@@ -298,8 +298,8 @@ def build_kin(blueprint, kin_id):
             model = data.get('model')  # Optional model parameter
             
             # Get optional parameters for context building
-            min_files = data.get('min_files', 5)  # Default to 5
-            max_files = data.get('max_files', 15)  # Default to 15
+            min_files = data.get('min_files', 4)  # Default to 4
+            max_files = data.get('max_files', 8)  # Default to 8
         
         # Validate the values
         try:
@@ -310,8 +310,8 @@ def build_kin(blueprint, kin_id):
             if max_files < min_files:
                 max_files = min_files
         except (ValueError, TypeError):
-            min_files = 5
-            max_files = 15
+            min_files = 4 # Fallback to new defaults
+            max_files = 8 # Fallback to new defaults
 
         # Validate blueprint
         if not os.path.exists(os.path.join(blueprintS_DIR, blueprint)):

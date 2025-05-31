@@ -475,8 +475,8 @@ def send_message(blueprint, kin_id):
                     attachments.append(source_files)
 
         # Get optional parameters for context building
-        min_files = data.get('min_files', 5)  # Default to 5
-        max_files = data.get('max_files', 10)  # Default to 10
+        min_files = data.get('min_files', 4)  # Default to 4
+        max_files = data.get('max_files', 8)  # Default to 8
         
         # Validate the values
         try:
@@ -487,8 +487,8 @@ def send_message(blueprint, kin_id):
             if max_files < min_files:
                 max_files = min_files
         except (ValueError, TypeError):
-            min_files = 5
-            max_files = 15
+            min_files = 4 # Fallback to new defaults
+            max_files = 8 # Fallback to new defaults
 
         # Build context (select relevant files)
         selected_files, selected_mode = build_context(

@@ -70,8 +70,8 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
         LLM response as a string or a generator if stream=True
     """
     # Get the provider based on model or default
-    if not provider:
-        if model:
+    if not provider: # provider is None
+        if model: # model is not None
             if model.startswith("gpt-") or model.startswith("o"):
                 provider = "openai"
             elif model.startswith("claude-"):
@@ -437,8 +437,8 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         mode: Optional mode parameter
         addSystem: Optional additional system instructions
         history_length: Number of recent messages to include for context (default: 2)
-        min_files: Minimum number of files to include in context (default: 5)
-        max_files: Maximum number of files to include in context (default: 15)
+        min_files: Minimum number of files to include in context (default: 4)
+        max_files: Maximum number of files to include in context (default: 8)
         provider: Optional LLM provider to use ("claude" or "openai")
         
     Returns:
