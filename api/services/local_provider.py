@@ -52,9 +52,12 @@ class LocalProvider(LLMProvider):
                 # If model is something other than just "local", use it
                 payload_model = model
         
+        # Ensure roles in payload_messages alternate correctly
+        cleaned_payload_messages = self._ensure_alternating_roles(payload_messages)
+
         payload = {
             "model": payload_model,
-            "messages": payload_messages,
+            "messages": cleaned_payload_messages, # Use cleaned messages
             "stream": stream,
         }
         if max_tokens:
@@ -126,3 +129,70 @@ class LocalProvider(LLMProvider):
         except Exception as e:
             logger.error(f"An unexpected error occurred with local LLM: {str(e)}")
             return f"An unexpected error occurred: {str(e)}"
+
+    def _ensure_alternating_roles(self, original_payload_messages):
+        """
+        Ensures that messages alternate between 'user' and 'assistant' roles,
+        after an optional initial 'system' message. Merges consecutive messages
+        of the same role.
+        """
+        if not original_payload_messages:
+            return []
+
+        cleaned_messages = []
+        
+        # 1. Handle initial system message(s)
+        #    Multiple system messages will be merged into one.
+        system_content_parts = []
+        messages_after_system = []
+        system_message_processed = False
+
+        for i, msg_dict in enumerate(original_payload_messages):
+            if msg_dict.get("role") == "system":
+                system_content_parts.append(str(msg_dict.get("content", "")))
+                system_message_processed = True
+            else:
+                # Once a non-system message is found, the rest are conversational
+                messages_after_system = original_payload_messages[i:]
+                break
+        
+        if not system_message_processed: # No system messages at the start
+            messages_after_system = original_payload_messages
+
+        if system_content_parts:
+            cleaned_messages.append({"role": "system", "content": "\n".join(filter(None, system_content_parts))})
+
+        if not messages_after_system:
+            return cleaned_messages # Only system message(s), or empty input
+
+        # 2. Process conversational messages (user/assistant)
+        #    Ensures the first is 'user' and then alternates, merging same-role messages.
+        
+        # Temporary list to hold user/assistant messages before adding to cleaned_messages
+        temp_conversational_messages = []
+
+        for msg_idx, current_msg_dict in enumerate(messages_after_system):
+            current_role = current_msg_dict.get("role")
+            current_content = str(current_msg_dict.get("content", ""))
+
+            if current_role not in ["user", "assistant"]:
+                logger.warning(f"Skipping message with invalid role '{current_role}': {current_msg_dict}")
+                continue
+
+            if not temp_conversational_messages: # This is the first message in the user/assistant sequence
+                if current_role == "assistant":
+                    logger.warning("First conversational message is 'assistant'. Prepending a generic user message.")
+                    temp_conversational_messages.append({"role": "user", "content": "(System note: Ensuring conversation starts with user role)"})
+                # Add the current message (it's either 'user', or 'assistant' now following the generic 'user')
+                temp_conversational_messages.append({"role": current_role, "content": current_content})
+            else: # Not the first conversational message
+                last_added_role_in_temp = temp_conversational_messages[-1].get("role")
+                if current_role == last_added_role_in_temp:
+                    logger.warning(f"Consecutive '{current_role}' roles. Merging content.")
+                    temp_conversational_messages[-1]["content"] += "\n" + current_content
+                else: # Roles alternate, good to add
+                    temp_conversational_messages.append({"role": current_role, "content": current_content})
+        
+        cleaned_messages.extend(temp_conversational_messages)
+                
+        return cleaned_messages
