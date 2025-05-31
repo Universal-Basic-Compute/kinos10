@@ -749,7 +749,7 @@ def generate_random_thought(blueprint, kin_id, api_key, remote=False, provider=N
     except Exception as e:
         logger.error(f"Error in thought generation process: {str(e)}")
         logger.exception("Full exception traceback:")
-        return "I wonder about the nature of consciousness and my role in understanding it."
+        return "I want to continue pursuing my goals."
 
 def fix_vercel_deployment_issues(blueprint, kin_id, deployment_errors):
     """
