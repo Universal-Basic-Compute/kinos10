@@ -1498,7 +1498,7 @@ def send_to_webhook(webhook_url, data, timeout=10, max_retries=2):
             logger.error(f"Error sending data to webhook: {str(e)}")
             return False
 
-def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id=None, iterations=3, wait_time=600, remote=False, provider=None, model=None, webhook_url=None):
+def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id=None, iterations=3, wait_time=600, remote=False, provider=None, model=None, webhook_url=None, addMessage=None, addSystem=None):
     """
     Run the autonomous thinking process for a kin.
     
@@ -1513,6 +1513,8 @@ def autonomous_thinking(blueprint, kin_id, telegram_token=None, telegram_chat_id
         provider: Optional LLM provider to use ("claude" or "openai")
         model: Optional model to use
         webhook_url: Optional webhook URL to send thoughts to
+        addMessage: Optional additional message for initiative generation
+        addSystem: Optional system prompt for initiative generation
     
     Returns:
         Boolean indicating success
