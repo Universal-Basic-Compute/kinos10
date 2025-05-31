@@ -11,8 +11,8 @@ class LocalProvider(LLMProvider):
     Assumes the target endpoint is OpenAI-compatible.
     """
     LOCAL_MODEL_BASE_URL = "https://trusted-magpie-social.ngrok-free.app" 
-    # Max characters aiming for < 64k tokens, using ~3.5 chars/token as a rough guide
-    MAX_CHARS_FOR_PROVIDER = int(64000 * 3.5) 
+    # Max characters aiming for < 36k tokens, using ~3.5 chars/token as a rough guide
+    MAX_CHARS_FOR_PROVIDER = int(36000 * 3.5) # Approx 126,000 characters
 
     def __init__(self, api_key=None): # api_key might be for the target endpoint
         super().__init__(api_key)
