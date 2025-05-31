@@ -46,7 +46,7 @@ class LocalProvider(LLMProvider):
 
         # Determine the model name to send in the payload
         # For Ollama, this is the model tag, e.g., "llama2" or "gemma3:12b"
-        payload_model = "gemma3:12b" # Default model if not specified or only "local" is given
+        payload_model = "gemma3:27b" # Default model if not specified or only "local" is given
         if model:
             if model.startswith("local/"):
                 # Extract actual model name, e.g., "local/gemma3:12b" -> "gemma3:12b"
