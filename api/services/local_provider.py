@@ -45,7 +45,7 @@ class LocalProvider(LLMProvider):
 
 
         # Determine the model name to send in the payload
-        payload_model = "google/gemma-3-27b" # Default model name for the local endpoint
+        payload_model = "deepseek/deepseek-r1-0528-qwen3-8b" # Default model name for the local endpoint
         if model:
             if model.startswith("local/"):
                 # Extract actual model name, e.g., "local/my-model" -> "my-model"
