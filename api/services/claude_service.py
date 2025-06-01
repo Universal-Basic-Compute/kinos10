@@ -187,29 +187,46 @@ Your goal is to provide useful and accurate information while maintaining a clea
         if system_instructions:
             context += f"\n\n# System Instructions from Message\n{system_instructions}"
             logger.info("Added system instructions extracted from message tags")
+
+        # If interacting with a specific channel (not main), add main channel's history to system context
+        if channel_id and channel_id != "main":
+            main_messages_file = os.path.join(kin_path, "messages.json")
+            if os.path.exists(main_messages_file):
+                try:
+                    with open(main_messages_file, 'r', encoding='utf-8') as f_main:
+                        main_channel_all_messages = json.load(f_main)
+                        # Get last 'history_length' messages from main channel
+                        main_recent_messages = main_channel_all_messages[-history_length:] if len(main_channel_all_messages) > history_length else main_channel_all_messages
+                        if main_recent_messages:
+                            main_history_text = "\n".join([f"{m.get('role')}: {m.get('content')}" for m in main_recent_messages])
+                            context += f"\n\n# Main Channel Conversation History (for broader context):\n{main_history_text}"
+                            logger.info(f"Added last {len(main_recent_messages)} messages from main channel to system context.")
+                except Exception as e_main_msg:
+                    logger.error(f"Error reading main messages.json for channel context: {str(e_main_msg)}")
     
-        # Initialize messages array
+        # Initialize messages array for the current channel's conversation
         messages = []
         
-        # Use channel-specific messages if provided, otherwise load from messages.json
+        # Use channel-specific messages if provided (for current channel history)
         if channel_messages:
             # Use the provided channel messages
             recent_messages = channel_messages
-            logger.info(f"Using {len(recent_messages)} provided channel messages")
+            logger.info(f"Using {len(recent_messages)} provided channel messages for current conversation history.")
         else:
-            # Determine which messages file to use based on channel_id
-            if channel_id:
+            # Determine which messages file to use based on channel_id for current conversation history
+            current_channel_messages_file_path = ""
+            if channel_id and channel_id != "main":
                 # Get channel path
                 from services.file_service import get_channel_path
                 channel_path = get_channel_path(kin_path, channel_id)
-                messages_file = os.path.join(channel_path, "messages.json")
-                logger.info(f"Using channel-specific messages file: {messages_file}")
-            else:
-                # Use main messages file
-                messages_file = os.path.join(kin_path, "messages.json")
-                logger.info(f"Using main messages file: {messages_file}")
+                current_channel_messages_file_path = os.path.join(channel_path, "messages.json")
+                logger.info(f"Using specific channel messages file for conversation history: {current_channel_messages_file_path}")
+            else: # main channel or channel_id is None
+                current_channel_messages_file_path = os.path.join(kin_path, "messages.json")
+                logger.info(f"Using main messages file for conversation history: {current_channel_messages_file_path}")
             
-            # Load conversation history from messages file
+            # Load conversation history from the determined messages file
+            recent_messages = []
             if os.path.exists(messages_file):
                 try:
                     with open(messages_file, 'r', encoding='utf-8') as f:
