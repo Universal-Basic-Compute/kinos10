@@ -226,21 +226,19 @@ Your goal is to provide useful and accurate information while maintaining a clea
                 logger.info(f"Using main messages file for conversation history: {current_channel_messages_file_path}")
             
             # Load conversation history from the determined messages file
-            recent_messages = []
-            if os.path.exists(messages_file):
+            recent_messages = [] # Initialize recent_messages
+            if os.path.exists(current_channel_messages_file_path):
                 try:
-                    with open(messages_file, 'r', encoding='utf-8') as f:
+                    with open(current_channel_messages_file_path, 'r', encoding='utf-8') as f:
                         message_data = json.load(f)
-                        
-                        # Limit to specified number of recent messages
+                        # Limit to specified number of recent messages for the current channel
                         recent_messages = message_data[-history_length:] if len(message_data) > history_length else message_data
                 except Exception as e:
-                    logger.error(f"Error reading messages file: {str(e)}")
-                    recent_messages = []
-            else:
-                recent_messages = []
+                    logger.error(f"Error reading messages file {current_channel_messages_file_path}: {str(e)}")
+                    # recent_messages remains empty as initialized
+            # else: recent_messages remains empty as initialized
         
-        # Add each message as a proper message object
+        # Add each message from the current channel's history as a proper message object
         for msg in recent_messages:
             role = msg.get('role', '')
             content = msg.get('content', '')
