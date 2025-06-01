@@ -28,7 +28,7 @@ else:
     logger.info(f"API_SECRET_KEY environment variable found and loaded: '{API_KEY[:3]}...{API_KEY[-3:]}'")
 
 # Define MODEL constant
-MODEL = "gemini/gemini-2.5-pro-preview-03-25"  # Default model when none is specified
+MODEL = "gemini/gemini-2.5-flash-preview-05-20"  # Default model when none is specified
 
 # LLM Provider Configuration
 DEFAULT_LLM_PROVIDER = os.getenv("DEFAULT_LLM_PROVIDER", "gemini") # Default provider

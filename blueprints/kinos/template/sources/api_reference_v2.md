@@ -639,7 +639,7 @@ Send a message to a kin.
   "content": "Hello, can you help me with this?",
   "images": ["data:image/jpeg;base64,..."],
   "attachments": ["file1.txt", "file2.md"],
-  "model": "gemini/gemini-2.5-pro-preview-03-25",  // Examples: "gpt-4o", "deepseek-chat", "claude-sonnet-4-20250514", "local", "local/my-custom-model"
+  "model": "gemini/gemini-2.5-flash-preview-05-20",  // Examples: "gpt-4o", "deepseek-chat", "claude-sonnet-4-20250514", "local", "local/my-custom-model"
   "history_length": 25,
   "mode": "creative",
   "addSystem": "Additional system instructions to guide the response",
@@ -693,7 +693,7 @@ Send a message to a specific channel within a kin.
   "content": "Hello, can you help me with this issue?",
   "images": ["data:image/jpeg;base64,..."],
   "attachments": ["file1.txt", "file2.md"],
-  "model": "gemini/gemini-2.5-pro-preview-03-25", // Examples: "gpt-4o", "deepseek-chat", "claude-sonnet-4-20250514", "local", "local/my-custom-model"
+  "model": "gemini/gemini-2.5-flash-preview-05-20", // Examples: "gpt-4o", "deepseek-chat", "claude-sonnet-4-20250514", "local", "local/my-custom-model"
   "history_length": 25,
   "mode": "creative",
   "addSystem": "Additional system instructions to guide the response",
@@ -799,7 +799,7 @@ Analyze a message with Claude without saving it or triggering context updates.
 {
   "message": "What is the purpose of this code?",
   "images": ["data:image/jpeg;base64,..."],
-  "model": "gemini/gemini-2.5-pro-preview-03-25", // Examples: "gpt-4o", "deepseek-chat", "claude-sonnet-4-20250514", "local", "local/my-custom-model"
+  "model": "gemini/gemini-2.5-flash-preview-05-20", // Examples: "gpt-4o", "deepseek-chat", "claude-sonnet-4-20250514", "local", "local/my-custom-model"
   "addSystem": "Focus on explaining the architecture",
   "min_files": 4,  // Optional, minimum number of context files (default: 4)
   "max_files": 8,  // Optional, maximum number of context files (default: 8)
@@ -809,7 +809,7 @@ Analyze a message with Claude without saving it or triggering context updates.
 
 **GET Query Parameters:**
 - `message`: The message to analyze (required)
-- `model`: Model to use (optional, default: gemini/gemini-2.5-pro-preview-03-25). Examples: "gpt-4o", "deepseek-chat", "claude-sonnet-4-20250514", "local", "local/my-custom-model"
+- `model`: Model to use (optional, default: gemini/gemini-2.5-flash-preview-05-20). Examples: "gpt-4o", "deepseek-chat", "claude-sonnet-4-20250514", "local", "local/my-custom-model"
 - `addSystem`: Additional system instructions (optional)
 - `min_files`: Minimum number of context files (optional, default: 4)
 - `max_files`: Maximum number of context files (optional, default: 8)
