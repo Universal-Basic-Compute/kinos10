@@ -66,7 +66,16 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
                 elif actual_model_for_aider.startswith("deepseek"):
                     aider_llm_provider_for_aider_internal_use = "deepseek"
                 # If gemini, it's already the default
-        logger.info(f"Aider will internally use provider: '{aider_llm_provider_for_aider_internal_use}' and model: '{aider_llm_model_for_aider_internal_use}'")
+        logger.info(f"Aider will internally use provider: '{aider_llm_provider_for_aider_internal_use}' and model: '{aider_llm_model_for_aider_internal_use}' based on 'local' app provider.")
+
+    # Override to Gemini if Claude was selected, to avoid Anthropic billing issues
+    if aider_llm_provider_for_aider_internal_use == "claude":
+        logger.warning("Anthropic provider was indicated for Aider; overriding to Gemini due to billing/configuration.")
+        aider_llm_provider_for_aider_internal_use = "gemini"
+        # If the original model was Claude-specific, ensure we use a Gemini model name.
+        # Setting to a default Gemini model; the Gemini block will handle prefixing if needed.
+        if aider_llm_model_for_aider_internal_use and aider_llm_model_for_aider_internal_use.startswith("claude-"):
+            aider_llm_model_for_aider_internal_use = "gemini-2.5-flash-preview-05-20"
 
     cmd_aider_auth_parts = []
 
