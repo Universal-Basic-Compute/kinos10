@@ -65,8 +65,16 @@ class LocalProvider(LLMProvider):
             "messages": cleaned_payload_messages, # Use cleaned and role-alternated messages
             "stream": stream,
         }
-        if max_tokens:
+        if max_tokens is not None and max_tokens > 0: # Check for valid positive integer
             payload["max_tokens"] = max_tokens
+            logger.info(f"Using provided max_tokens for Local LLM: {max_tokens}")
+        else:
+            default_llm_max_tokens = 65536
+            payload["max_tokens"] = default_llm_max_tokens
+            if max_tokens is not None:
+                 logger.info(f"max_tokens was '{max_tokens}', using default max_tokens for Local LLM: {default_llm_max_tokens}")
+            else:
+                 logger.info(f"max_tokens not provided, using default max_tokens for Local LLM: {default_llm_max_tokens}")
         # You can add other OpenAI-compatible parameters like temperature, top_p here
         # payload["temperature"] = 0.7
 

@@ -101,9 +101,8 @@ class GeminiProvider(LLMProvider):
             generation_config["maxOutputTokens"] = max_tokens
             logger.info(f"Using provided max_tokens for Gemini: {max_tokens}")
         else:
-            # Default to 8192 if max_tokens is not provided, None, or invalid (e.g., 0)
-            # This aligns with Gemini 1.5 models' typical output capacity.
-            default_max_output_tokens = 8192
+            # Default to 65536 if max_tokens is not provided, None, or invalid (e.g., 0)
+            default_max_output_tokens = 65536
             generation_config["maxOutputTokens"] = default_max_output_tokens
             if max_tokens is not None: # Log if an invalid value was passed but we're using default
                  logger.info(f"max_tokens was '{max_tokens}', using default maxOutputTokens for Gemini: {default_max_output_tokens}")

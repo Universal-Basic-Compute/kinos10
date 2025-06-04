@@ -503,7 +503,8 @@ def send_message(blueprint, kin_id):
             history_length=2,
             min_files=min_files,
             max_files=max_files,
-            provider=provider
+            provider=provider,
+            max_output_tokens=65536 
         )
         
         # Add saved image files to selected files for context
@@ -531,7 +532,8 @@ def send_message(blueprint, kin_id):
                 addSystem=addSystem,
                 mode=selected_mode,  # Pass the selected mode
                 provider=provider,  # Pass the provider
-                stream=stream  # Pass the stream parameter as boolean
+                stream=stream,  # Pass the stream parameter as boolean
+                max_output_tokens=65536
             )
             
             # Handle streaming response
@@ -797,7 +799,8 @@ def analyze_message(blueprint, kin_id):
             history_length=2,
             min_files=min_files,
             max_files=max_files,
-            provider=provider
+            provider=provider,
+            max_output_tokens=65536
         )
         
         # Log the selected files and mode
@@ -817,7 +820,8 @@ def analyze_message(blueprint, kin_id):
                 is_new_message=False,  # Don't treat as a new message
                 addSystem=addSystem,
                 mode="analysis",  # Explicitly set mode to "analysis"
-                provider=provider  # Pass provider from request data
+                provider=provider,  # Pass provider from request data
+                max_output_tokens=65536
             )
             
             # Return the Claude response directly in the API response

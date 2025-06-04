@@ -46,7 +46,7 @@ except Exception as e:
     logger.error(f"Error initializing Anthropic client: {str(e)}")
     raise RuntimeError(f"Could not initialize Anthropic client: {str(e)}")
 
-def call_claude_with_context(selected_files, kin_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None, mode=None, channel_messages=None, channel_id=None, provider=None, stream=False):
+def call_claude_with_context(selected_files, kin_path, message_content, images=None, model=None, history_length=25, is_new_message=True, addSystem=None, mode=None, channel_messages=None, channel_id=None, provider=None, stream=False, max_output_tokens=4000):
     """
     Call LLM API with the selected context files, user message, and optional images.
     Also includes conversation history from messages.json as actual messages.
@@ -65,6 +65,7 @@ def call_claude_with_context(selected_files, kin_path, message_content, images=N
         channel_id: Optional channel ID
         provider: Optional LLM provider to use ("claude" or "openai")
         stream: Whether to stream the response (default: False)
+        max_output_tokens: Maximum number of tokens to generate in the response (default: 4000)
     
     Returns:
         LLM response as a string or a generator if stream=True
@@ -402,7 +403,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
                 return llm_client.generate_response(
                     messages=messages,
                     system=context,
-                    max_tokens=4000,
+                    max_tokens=max_output_tokens,
                     model=model_to_use,
                     stream=True
                 )
@@ -412,7 +413,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
                 response_text = llm_client.generate_response(
                     messages=messages,
                     system=context,
-                    max_tokens=4000,
+                    max_tokens=max_output_tokens,
                     model=model_to_use,
                     stream=False
                 )
@@ -437,7 +438,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
             except Exception as e:
                 logger.warning(f"Could not delete temporary file {temp_file}: {str(e)}")
 
-def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None, history_length=2, min_files=5, max_files=15, provider=None):
+def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None, history_length=2, min_files=5, max_files=15, provider=None, max_output_tokens=1000):
     """
     Build context by determining which files should be included.
     Uses LLM to select relevant files based on the message, map.json, and recent conversation history.
@@ -455,6 +456,7 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         min_files: Minimum number of files to include in context (default: 4)
         max_files: Maximum number of files to include in context (default: 8)
         provider: Optional LLM provider to use ("claude" or "openai")
+        max_output_tokens: Maximum number of tokens to generate in the context building response (default: 1000)
         
     Returns:
         Tuple of (selected_files, selected_mode) where selected_mode may be None
@@ -692,7 +694,7 @@ Return your answer as a JSON array of file paths only."""
         response_text = llm_client.generate_response(
             messages=[{"role": "user", "content": selection_prompt}],
             system=system_prompt,
-            max_tokens=1000,
+            max_tokens=max_output_tokens,
             model=context_builder_model
         )
         
