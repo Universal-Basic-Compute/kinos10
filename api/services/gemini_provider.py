@@ -97,12 +97,22 @@ class GeminiProvider(LLMProvider):
             payload["system_instruction"] = {"parts": [{"text": system}]}
         
         generation_config = {}
-        if max_tokens:
+        if max_tokens is not None and max_tokens > 0:
             generation_config["maxOutputTokens"] = max_tokens
+            logger.info(f"Using provided max_tokens for Gemini: {max_tokens}")
+        else:
+            # Default to 8192 if max_tokens is not provided, None, or invalid (e.g., 0)
+            # This aligns with Gemini 1.5 models' typical output capacity.
+            default_max_output_tokens = 8192
+            generation_config["maxOutputTokens"] = default_max_output_tokens
+            if max_tokens is not None: # Log if an invalid value was passed but we're using default
+                 logger.info(f"max_tokens was '{max_tokens}', using default maxOutputTokens for Gemini: {default_max_output_tokens}")
+            else:
+                 logger.info(f"max_tokens not provided, using default maxOutputTokens for Gemini: {default_max_output_tokens}")
+        
         # Add other generation_config settings as needed, e.g., temperature, topP
         # generation_config["temperature"] = 0.7 
-        if generation_config:
-            payload["generationConfig"] = generation_config
+        payload["generationConfig"] = generation_config # generationConfig will always be set now
 
         # Safety settings (optional, example to block most harmful content)
         # payload["safetySettings"] = [
