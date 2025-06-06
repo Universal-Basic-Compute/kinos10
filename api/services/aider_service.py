@@ -212,7 +212,10 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             logger.warning(f"Error during pre-Aider git pull process: {str(e)}")
     
     # Build the command for Aider
-    cmd = ["aider", aider_model_flag, "--yes-always"] + cmd_aider_auth_parts + ["--message", str(message_content)]
+    # Define the weak model to be used by Aider
+    aider_weak_model_name = "gemini/gemini-2.5-flash-preview-05-20"
+    logger.info(f"Aider will use weak model: {aider_weak_model_name}")
+    cmd = ["aider", aider_model_flag, "--weak-model", aider_weak_model_name, "--yes-always"] + cmd_aider_auth_parts + ["--message", str(message_content)]
     
     # Always add messages.json as --read
     messages_file = "messages.json"
