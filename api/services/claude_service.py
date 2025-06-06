@@ -438,7 +438,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
             except Exception as e:
                 logger.warning(f"Could not delete temporary file {temp_file}: {str(e)}")
 
-def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None, history_length=2, min_files=5, max_files=15, provider=None, max_output_tokens=1000):
+def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None, history_length=2, min_files=5, max_files=15, provider=None, max_output_tokens=64000):
     """
     Build context by determining which files should be included.
     Uses LLM to select relevant files based on the message, map.json, and recent conversation history.
@@ -456,7 +456,7 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
         min_files: Minimum number of files to include in context (default: 4)
         max_files: Maximum number of files to include in context (default: 8)
         provider: Optional LLM provider to use ("claude" or "openai")
-        max_output_tokens: Maximum number of tokens to generate in the context building response (default: 1000)
+        max_output_tokens: Maximum number of tokens to generate in the context building response (default: 64000)
         
     Returns:
         Tuple of (selected_files, selected_mode) where selected_mode may be None
