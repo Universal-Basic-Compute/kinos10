@@ -69,7 +69,7 @@ class LocalProvider(LLMProvider):
             payload["max_tokens"] = max_tokens
             logger.info(f"Using provided max_tokens for Local LLM: {max_tokens}")
         else:
-            default_llm_max_tokens = 65536
+            default_llm_max_tokens = 64000
             payload["max_tokens"] = default_llm_max_tokens
             if max_tokens is not None:
                  logger.info(f"max_tokens was '{max_tokens}', using default max_tokens for Local LLM: {default_llm_max_tokens}")
