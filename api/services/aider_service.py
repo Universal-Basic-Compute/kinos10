@@ -47,11 +47,17 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     env["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY", "") # Ensure GOOGLE_API_KEY is in env for Aider
     
     # Determine Aider's actual LLM configuration
-    aider_llm_provider_for_aider_internal_use = provider
-    aider_llm_model_for_aider_internal_use = model
+    # Force Aider to use Gemini Flash as the main model, in addition to it being the weak model.
+    logger.info(f"Original provider for Aider call: {provider}, model: {model}. Overriding to Gemini Flash for main Aider model.")
+    aider_llm_provider_for_aider_internal_use = "gemini"
+    # The model name should not have the "gemini/" prefix here; it will be added by Aider's logic if needed.
+    aider_llm_model_for_aider_internal_use = "gemini-2.5-flash-preview-05-20" 
 
     if provider == "local":
-        logger.info("Application provider is 'local'. Determining LLM for Aider's internal use.")
+        # This block might still execute if the original provider was 'local',
+        # but aider_llm_provider_for_aider_internal_use and aider_llm_model_for_aider_internal_use
+        # are already set to Gemini Flash. The internal logic of this block will respect these forced values.
+        logger.info("Application provider was 'local'. Aider's internal use is now forced to Gemini Flash.")
         aider_llm_provider_for_aider_internal_use = "gemini" # Default for Aider
         aider_llm_model_for_aider_internal_use = "gemini-2.5-flash-preview-05-20" # Default model for Aider
 
