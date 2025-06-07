@@ -118,7 +118,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         api_key = os.getenv("OPENAI_API_KEY")
         if not api_key: raise ValueError("OPENAI_API_KEY environment variable not set for Aider's OpenAI use.")
         current_aider_model_name = aider_llm_model_for_aider_internal_use or "gpt-4o"
-        aider_model_flag = f"--model {current_aider_model_name}"
+        # aider_model_flag = f"--model {current_aider_model_name}" # Removed
         cmd_aider_auth_parts = [f"--openai-api-key={api_key}"]
         logger.info(f"Aider configured for OpenAI with model: {current_aider_model_name}")
 
@@ -130,7 +130,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         current_aider_model_name = aider_llm_model_for_aider_internal_use or "deepseek-chat"
         if "/" not in current_aider_model_name and aider_llm_provider_for_aider_internal_use == "deepseek": # ensure prefix for deepseek
              current_aider_model_name = f"deepseek/{current_aider_model_name}"
-        aider_model_flag = f"--model {current_aider_model_name}"
+        # aider_model_flag = f"--model {current_aider_model_name}" # Removed
         logger.info(f"Aider configured for DeepSeek with model: {current_aider_model_name}")
 
     elif aider_llm_provider_for_aider_internal_use == "claude" or \
@@ -140,7 +140,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         current_aider_model_name = aider_llm_model_for_aider_internal_use or "claude-3-sonnet-20240229"
         # Aider generally expects model names like "claude-3-opus-20240229" directly.
         # No specific "anthropic/" prefix is usually needed unless Aider's internal mapping changes.
-        aider_model_flag = f"--model {current_aider_model_name}"
+        # aider_model_flag = f"--model {current_aider_model_name}" # Removed
         cmd_aider_auth_parts = [f"--anthropic-api-key={api_key}"]
         logger.info(f"Aider configured for Anthropic/Claude with model: {current_aider_model_name}")
 
@@ -167,7 +167,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         if not current_aider_model_name.startswith("gemini/"):
             current_aider_model_name = f"gemini/{current_aider_model_name}"
             
-        aider_model_flag = f"--model {current_aider_model_name}"
+        # aider_model_flag = f"--model {current_aider_model_name}" # Removed
         # cmd_aider_auth_parts remains empty as GOOGLE_API_KEY is passed via env
         logger.info(f"Aider configured for Gemini (default or explicit) with model: {current_aider_model_name}")
     
@@ -253,8 +253,8 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     # Build the command for Aider
     # Define the weak model to be used by Aider
     aider_weak_model_name = "gemini/gemini-2.5-flash-preview-05-20"
-    logger.info(f"Aider will use weak model: {aider_weak_model_name}")
-    cmd = ["aider", aider_model_flag, "--weak-model", aider_weak_model_name, "--yes-always"] + cmd_aider_auth_parts + ["--message", str(message_content)]
+    logger.info(f"Aider will use main model: {current_aider_model_name} and weak model: {aider_weak_model_name}")
+    cmd = ["aider", "--model", current_aider_model_name, "--weak-model", aider_weak_model_name, "--yes-always"] + cmd_aider_auth_parts + ["--message", str(message_content)]
     
     # Always add messages.json as --read
     messages_file = "messages.json"
