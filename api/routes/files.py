@@ -74,7 +74,9 @@ def get_kin_content(kin_path):
                 return jsonify({
                     "path": path_filter,
                     "content": content,
-                    "is_directory": False
+                    "is_directory": False,
+                    "size": os.path.getsize(target_path),
+                    "last_modified": datetime.datetime.fromtimestamp(os.path.getmtime(target_path)).isoformat()
                 })
             except UnicodeDecodeError:
                 # Handle binary files
@@ -82,11 +84,18 @@ def get_kin_content(kin_path):
                     "path": path_filter,
                     "content": "Binary file not displayed",
                     "is_directory": False,
-                    "is_binary": True
+                    "is_binary": True,
+                    "size": os.path.getsize(target_path),
+                    "last_modified": datetime.datetime.fromtimestamp(os.path.getmtime(target_path)).isoformat()
                 })
         else:
             # Directory - get all files recursively
-            result = {"path": path_filter, "is_directory": True, "files": []}
+            result = {
+                "path": path_filter, 
+                "is_directory": True, 
+                "files": [],
+                "last_modified": datetime.datetime.fromtimestamp(os.path.getmtime(target_path)).isoformat()
+            }
             
             for root, dirs, files in os.walk(target_path):
                 # Filter directories to avoid walking into ignored directories
@@ -107,14 +116,18 @@ def get_kin_content(kin_path):
                         result["files"].append({
                             "path": rel_path,
                             "content": file_content,
-                            "is_binary": False
+                            "is_binary": False,
+                            "size": os.path.getsize(file_path),
+                            "last_modified": datetime.datetime.fromtimestamp(os.path.getmtime(file_path)).isoformat()
                         })
                     except UnicodeDecodeError:
                         # Handle binary files
                         result["files"].append({
                             "path": rel_path,
                             "content": "Binary file not displayed",
-                            "is_binary": True
+                            "is_binary": True,
+                            "size": os.path.getsize(file_path),
+                            "last_modified": datetime.datetime.fromtimestamp(os.path.getmtime(file_path)).isoformat()
                         })
             
             return jsonify(result)
@@ -192,6 +205,7 @@ def get_kin_files(kin_path):
                 files.append({
                     "path": rel_path,
                     "type": "file",
+                    "size": os.path.getsize(file_full_path),
                     "last_modified": datetime.datetime.fromtimestamp(os.path.getmtime(file_full_path)).isoformat()
                 })
         
