@@ -147,21 +147,45 @@ def get_kin_files(kin_path):
         full_kin_path = get_kin_path(blueprint, kin_id)
         if not os.path.exists(full_kin_path):
             return jsonify({"error": f"kin '{kin_id}' not found for blueprint '{blueprint}'"}), 404
+
+        # Get optional path parameter to filter by specific directory
+        path_filter = request.args.get('path', '')
         
-        # Load gitignore patterns
+        # Normalize the path filter
+        path_filter = os.path.normpath(path_filter).lstrip('/')
+        
+        # Combine kin path with path filter to get the target directory to walk
+        target_walk_path = os.path.join(full_kin_path, path_filter)
+
+        # Security check to prevent directory traversal
+        if not os.path.abspath(target_walk_path).startswith(os.path.abspath(full_kin_path)):
+            return jsonify({"error": "Invalid path parameter"}), 403
+            
+        if not os.path.exists(target_walk_path) or not os.path.isdir(target_walk_path):
+            # If path_filter was provided and it's not a valid directory, return empty list
+            if path_filter:
+                return jsonify({"files": []}), 200 # Or a 404 if preferred: jsonify({"error": f"Directory '{path_filter}' not found"}), 404
+            # If no path_filter, and full_kin_path is not a dir (should not happen if kin exists), this is an error
+            # However, the earlier check for full_kin_path should catch if it doesn't exist.
+            # This mainly handles if path_filter points to a file or non-existent dir.
+
+        # Load gitignore patterns from the root of the kin
         ignore_patterns = load_gitignore(full_kin_path)
         
         # Get list of files
         files = []
-        for root, dirs, filenames in os.walk(full_kin_path):
+        # Walk from the target_walk_path
+        for root, dirs, filenames in os.walk(target_walk_path):
             # Filter directories to avoid walking into ignored directories
+            # rel_dir_path_for_ignore is relative to full_kin_path for consistent ignore pattern matching
             dirs[:] = [d for d in dirs if not should_ignore_file(os.path.relpath(os.path.join(root, d), full_kin_path), ignore_patterns)]
             
             for filename in filenames:
-                file_path = os.path.join(root, filename)
-                rel_path = os.path.relpath(file_path, full_kin_path)
+                file_full_path = os.path.join(root, filename)
+                # rel_path should be relative to the kin's root (full_kin_path) for the output
+                rel_path = os.path.relpath(file_full_path, full_kin_path)
                 
-                # Skip ignored files
+                # Skip ignored files (checking rel_path which is relative to kin root)
                 if should_ignore_file(rel_path, ignore_patterns):
                     continue
                     
