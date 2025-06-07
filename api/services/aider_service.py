@@ -43,8 +43,16 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             logger.warning(f"Could not set Windows console code page: {str(e)}")
             
     # Get the appropriate API key based on provider
-    api_key = None
-    env["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY", "") # Ensure GOOGLE_API_KEY is in env for Aider
+    api_key = None # This variable is used for CLI flags like --anthropic-api-key
+
+    # Ensure all relevant API keys from the main environment are passed to Aider's environment
+    # Aider/LiteLLM will pick these up if it internally decides to use a specific provider.
+    env["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY", "")
+    env["ANTHROPIC_API_KEY"] = os.getenv("ANTHROPIC_API_KEY", "")
+    env["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY", "")
+    env["DEEPSEEK_API_KEY"] = os.getenv("DEEPSEEK_API_KEY", "")
+    # Add other keys here if Aider supports more providers via environment variables directly.
+    logger.info("Ensured GOOGLE_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY, DEEPSEEK_API_KEY are propagated to Aider's environment.")
     
     # Determine Aider's actual LLM configuration
     # Force Aider to use Gemini Flash as the main model, in addition to it being the weak model.
