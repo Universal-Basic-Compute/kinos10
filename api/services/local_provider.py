@@ -5,12 +5,14 @@ from services.llm_service import LLMProvider
 from config import logger
 import re # For sanitizing response
 
+# Define LOCAL_MODEL_BASE_URL at the module level
+LOCAL_MODEL_BASE_URL = "https://trusted-magpie-social.ngrok-free.app"
+
 class LocalProvider(LLMProvider):
     """
     LLM provider that redirects requests to a local or custom (e.g., Ngrok) endpoint.
     Assumes the target endpoint is OpenAI-compatible.
     """
-    LOCAL_MODEL_BASE_URL = "https://trusted-magpie-social.ngrok-free.app" 
     # Max characters aiming for < 36k tokens, using ~3.5 chars/token as a rough guide
     MAX_CHARS_FOR_PROVIDER = int(36000 * 3.5) # Approx 126,000 characters
 
