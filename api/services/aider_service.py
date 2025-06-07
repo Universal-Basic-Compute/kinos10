@@ -31,6 +31,11 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     """
     # Set UTF-8 mode for Windows console
     env = os.environ.copy()
+    # Attempt to prevent Aider from using an AIDER_MODEL environment variable
+    # that might override the --model flag.
+    if env.pop("AIDER_MODEL", None):
+        logger.info("Removed AIDER_MODEL from environment passed to Aider to prioritize --model flag.")
+    
     if os.name == 'nt':  # Windows
         env['PYTHONIOENCODING'] = 'utf-8'
         # Force terminal to use UTF-8
