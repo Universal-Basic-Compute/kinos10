@@ -47,12 +47,27 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
 
     # Ensure all relevant API keys from the main environment are passed to Aider's environment
     # Aider/LiteLLM will pick these up if it internally decides to use a specific provider.
-    env["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY", "")
+
+    # Handle GEMINI_API_KEY for Aider, with GOOGLE_API_KEY as fallback
+    gemini_api_key_val = os.getenv("GEMINI_API_KEY")
+    google_api_key_val = os.getenv("GOOGLE_API_KEY")
+
+    if gemini_api_key_val:
+        env["GEMINI_API_KEY"] = gemini_api_key_val
+        logger.info("Propagating GEMINI_API_KEY to Aider's environment.")
+    elif google_api_key_val:
+        env["GEMINI_API_KEY"] = google_api_key_val # Use GOOGLE_API_KEY as GEMINI_API_KEY for Aider
+        logger.info("GEMINI_API_KEY not set, using GOOGLE_API_KEY's value for GEMINI_API_KEY in Aider's environment.")
+    else:
+        env["GEMINI_API_KEY"] = "" # Pass empty if neither is set
+        logger.warning("Neither GEMINI_API_KEY nor GOOGLE_API_KEY is set. Aider's Gemini calls may fail if a key is required.")
+
+    # Propagate other standard keys
+    env["GOOGLE_API_KEY"] = google_api_key_val if google_api_key_val else ""
     env["ANTHROPIC_API_KEY"] = os.getenv("ANTHROPIC_API_KEY", "")
     env["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY", "")
     env["DEEPSEEK_API_KEY"] = os.getenv("DEEPSEEK_API_KEY", "")
-    # Add other keys here if Aider supports more providers via environment variables directly.
-    logger.info("Ensured GOOGLE_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY, DEEPSEEK_API_KEY are propagated to Aider's environment.")
+    logger.info("Ensured API keys (GEMINI_API_KEY, GOOGLE_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY, DEEPSEEK_API_KEY) are prepared for Aider's environment.")
     
     # Determine Aider's actual LLM configuration
     # Force Aider to use Gemini Flash as the main model, in addition to it being the weak model.
@@ -127,9 +142,14 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     else: # Default to Gemini for Aider
         # This block handles explicit "gemini" provider or models starting with "gemini",
         # and also serves as the final fallback default.
-        api_key = os.getenv("GOOGLE_API_KEY")
-        if not api_key: raise ValueError("GOOGLE_API_KEY environment variable not set for Aider's Gemini use (default).")
-        # GOOGLE_API_KEY is already added to env
+        # Check if Aider will have a key for Gemini in its environment.
+        # env["GEMINI_API_KEY"] is populated by the logic above.
+        if not env.get("GEMINI_API_KEY"): # This checks what we actually put in Aider's env
+             logger.warning("GEMINI_API_KEY (nor GOOGLE_API_KEY as fallback) is not set in the environment for Aider's Gemini use. Aider calls will likely fail if a key is required and not configured elsewhere in Aider.")
+             # Not raising an error here, as Aider might have other ways to get the key,
+             # or the specific Gemini model might be free/not require a key (e.g. gemini-exp).
+        
+        # GEMINI_API_KEY is now prepared for Aider's env by the logic above.
         
         # Determine the model name for Gemini
         if aider_llm_provider_for_aider_internal_use == "gemini" or \
