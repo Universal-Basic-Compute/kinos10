@@ -192,7 +192,7 @@ def get_kin_files(kin_path):
                 files.append({
                     "path": rel_path,
                     "type": "file",
-                    "last_modified": datetime.datetime.fromtimestamp(os.path.getmtime(file_path)).isoformat()
+                    "last_modified": datetime.datetime.fromtimestamp(os.path.getmtime(file_full_path)).isoformat()
                 })
         
         return jsonify({"files": files})
