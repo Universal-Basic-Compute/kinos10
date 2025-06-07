@@ -9,6 +9,7 @@ from config import logger, BASE_URL
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from git_utils import find_git_executable, run_git_command, check_git_installed, configure_git_for_merge
+from services.local_provider import LOCAL_MODEL_BASE_URL # For local Aider configuration
 
 # Git functionality is now imported from git_utils.py
 
@@ -48,7 +49,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             logger.warning(f"Could not set Windows console code page: {str(e)}")
             
     # Get the appropriate API key based on provider
-    api_key = None # This variable is used for CLI flags like --anthropic-api-key
+    # api_key = None # This variable is no longer used for CLI flags like --anthropic-api-key
 
     # Ensure all relevant API keys from the main environment are passed to Aider's environment
     # Aider/LiteLLM will pick these up if it internally decides to use a specific provider.
@@ -74,102 +75,36 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
     env["DEEPSEEK_API_KEY"] = os.getenv("DEEPSEEK_API_KEY", "")
     logger.info("Ensured API keys (GEMINI_API_KEY, GOOGLE_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY, DEEPSEEK_API_KEY) are prepared for Aider's environment.")
     
-    # Determine Aider's actual LLM configuration
-    # Force Aider to use Gemini Flash as the main model, in addition to it being the weak model.
-    logger.info(f"Original provider for Aider call: {provider}, model: {model}. Overriding to Gemini Flash for main Aider model.")
-    aider_llm_provider_for_aider_internal_use = "gemini"
-    # The model name should not have the "gemini/" prefix here; it will be added by Aider's logic if needed.
-    aider_llm_model_for_aider_internal_use = "gemini-2.5-flash-preview-05-20" 
-
+    # Determine Aider's main model configuration based on the application's provider
     if provider == "local":
-        # This block might still execute if the original provider was 'local',
-        # but aider_llm_provider_for_aider_internal_use and aider_llm_model_for_aider_internal_use
-        # are already set to Gemini Flash. The internal logic of this block will respect these forced values.
-        logger.info("Application provider was 'local'. Aider's internal use is now forced to Gemini Flash.")
-        aider_llm_provider_for_aider_internal_use = "gemini" # Default for Aider
-        aider_llm_model_for_aider_internal_use = "gemini-2.5-flash-preview-05-20" # Default model for Aider
-
-        if model and "/" in model:
-            local_prefix, actual_model_for_aider = model.split("/", 1)
-            if local_prefix == "local":
-                aider_llm_model_for_aider_internal_use = actual_model_for_aider
-                if actual_model_for_aider.startswith("gpt-") or actual_model_for_aider.startswith("o"):
-                    aider_llm_provider_for_aider_internal_use = "openai"
-                elif actual_model_for_aider.startswith("claude-"):
-                    aider_llm_provider_for_aider_internal_use = "claude"
-                elif actual_model_for_aider.startswith("deepseek"):
-                    aider_llm_provider_for_aider_internal_use = "deepseek"
-                # If gemini, it's already the default
-        logger.info(f"Aider will internally use provider: '{aider_llm_provider_for_aider_internal_use}' and model: '{aider_llm_model_for_aider_internal_use}' based on 'local' app provider.")
-
-    # Override to Gemini if Claude was selected, to avoid Anthropic billing issues
-    if aider_llm_provider_for_aider_internal_use == "claude":
-        logger.warning("Anthropic provider was indicated for Aider; overriding to Gemini due to billing/configuration.")
-        aider_llm_provider_for_aider_internal_use = "gemini"
-        # If the original model was Claude-specific, ensure we use a Gemini model name.
-        # Setting to a default Gemini model; the Gemini block will handle prefixing if needed.
-        if aider_llm_model_for_aider_internal_use and aider_llm_model_for_aider_internal_use.startswith("claude-"):
-            aider_llm_model_for_aider_internal_use = "gemini-2.5-flash-preview-05-20"
-
-    cmd_aider_auth_parts = []
-
-    if aider_llm_provider_for_aider_internal_use == "openai" or \
-       (aider_llm_model_for_aider_internal_use and (aider_llm_model_for_aider_internal_use.startswith("gpt-") or aider_llm_model_for_aider_internal_use.startswith("o"))):
-        api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key: raise ValueError("OPENAI_API_KEY environment variable not set for Aider's OpenAI use.")
-        current_aider_model_name = aider_llm_model_for_aider_internal_use or "gpt-4o"
-        # aider_model_flag = f"--model {current_aider_model_name}" # Removed
-        cmd_aider_auth_parts = [f"--openai-api-key={api_key}"]
-        logger.info(f"Aider configured for OpenAI with model: {current_aider_model_name}")
-
-    elif aider_llm_provider_for_aider_internal_use == "deepseek" or \
-         (aider_llm_model_for_aider_internal_use and aider_llm_model_for_aider_internal_use.startswith("deepseek")):
-        api_key = os.getenv("DEEPSEEK_API_KEY")
-        if not api_key: raise ValueError("DEEPSEEK_API_KEY environment variable not set for Aider's DeepSeek use.")
-        env["DEEPSEEK_API_KEY"] = api_key
-        current_aider_model_name = aider_llm_model_for_aider_internal_use or "deepseek-chat"
-        if "/" not in current_aider_model_name and aider_llm_provider_for_aider_internal_use == "deepseek": # ensure prefix for deepseek
-             current_aider_model_name = f"deepseek/{current_aider_model_name}"
-        # aider_model_flag = f"--model {current_aider_model_name}" # Removed
-        logger.info(f"Aider configured for DeepSeek with model: {current_aider_model_name}")
-
-    elif aider_llm_provider_for_aider_internal_use == "claude" or \
-         (aider_llm_model_for_aider_internal_use and aider_llm_model_for_aider_internal_use.startswith("claude-")):
-        api_key = os.getenv("ANTHROPIC_API_KEY")
-        if not api_key: raise ValueError("ANTHROPIC_API_KEY environment variable not set for Aider's Claude use.")
-        current_aider_model_name = aider_llm_model_for_aider_internal_use or "claude-3-sonnet-20240229"
-        # Aider generally expects model names like "claude-3-opus-20240229" directly.
-        # No specific "anthropic/" prefix is usually needed unless Aider's internal mapping changes.
-        # aider_model_flag = f"--model {current_aider_model_name}" # Removed
-        cmd_aider_auth_parts = [f"--anthropic-api-key={api_key}"]
-        logger.info(f"Aider configured for Anthropic/Claude with model: {current_aider_model_name}")
-
-    else: # Default to Gemini for Aider
-        # This block handles explicit "gemini" provider or models starting with "gemini",
-        # and also serves as the final fallback default.
-        # Check if Aider will have a key for Gemini in its environment.
-        # env["GEMINI_API_KEY"] is populated by the logic above.
-        if not env.get("GEMINI_API_KEY"): # This checks what we actually put in Aider's env
-             logger.warning("GEMINI_API_KEY (nor GOOGLE_API_KEY as fallback) is not set in the environment for Aider's Gemini use. Aider calls will likely fail if a key is required and not configured elsewhere in Aider.")
-             # Not raising an error here, as Aider might have other ways to get the key,
-             # or the specific Gemini model might be free/not require a key (e.g. gemini-exp).
+        logger.info(f"Application provider is 'local'. Configuring Aider for local OpenAI-compatible endpoint.")
+        # Set Aider to use its OpenAI client mode for the local endpoint
+        env["OPENAI_API_BASE"] = f"{LOCAL_MODEL_BASE_URL}/v1" 
+        env["OPENAI_API_KEY"] = "12345678" # Hardcoded API key for this local endpoint
         
-        # GEMINI_API_KEY is now prepared for Aider's env by the logic above.
+        # Determine the actual model name for the local endpoint
+        # Default to the model name used by LocalProvider if not specified otherwise
+        actual_model_name_for_local_endpoint = "deepseek/deepseek-r1-0528-qwen3-8b" 
+        if model: # If a model string is passed for the 'local' provider
+            if model.startswith("local/"): # e.g., "local/my-custom-model"
+                actual_model_name_for_local_endpoint = model.split("/", 1)[1]
+            elif model.lower() != "local": # Allow passing a raw model name, e.g., "another-model"
+                actual_model_name_for_local_endpoint = model
         
-        # Determine the model name for Gemini
-        if aider_llm_provider_for_aider_internal_use == "gemini" or \
-           (aider_llm_model_for_aider_internal_use and aider_llm_model_for_aider_internal_use.startswith("gemini")):
-            current_aider_model_name = aider_llm_model_for_aider_internal_use or "gemini-2.5-flash-preview-05-20" # Default if only "gemini" provider specified
-        else: # Fallback default if provider was something else not caught above (e.g. "local" without specific model type)
-            current_aider_model_name = "gemini-2.5-flash-preview-05-20" # General default Gemini model for Aider
+        current_aider_model_name = f"openai/{actual_model_name_for_local_endpoint}"
+        logger.info(f"Aider main model: {current_aider_model_name}, API Base: {env['OPENAI_API_BASE']}")
 
-        # Ensure Gemini model names are prefixed with "gemini/" for Aider
-        if not current_aider_model_name.startswith("gemini/"):
-            current_aider_model_name = f"gemini/{current_aider_model_name}"
-            
-        # aider_model_flag = f"--model {current_aider_model_name}" # Removed
-        # cmd_aider_auth_parts remains empty as GOOGLE_API_KEY is passed via env
-        logger.info(f"Aider configured for Gemini (default or explicit) with model: {current_aider_model_name}")
+    else: # For any provider other than "local", Aider's main model defaults to Gemini Flash
+        logger.info(f"Application provider is '{provider}'. Forcing Aider's main model to Gemini Flash.")
+        
+        raw_gemini_model_name = "gemini-2.5-flash-preview-05-20" # Default Aider main model
+        current_aider_model_name = f"gemini/{raw_gemini_model_name}"
+        
+        # Ensure GEMINI_API_KEY (or GOOGLE_API_KEY fallback) is available in Aider's env
+        # This is handled by the general API key propagation logic earlier.
+        if not env.get("GEMINI_API_KEY") and not env.get("GOOGLE_API_KEY"):
+             logger.warning("Neither GEMINI_API_KEY nor GOOGLE_API_KEY found in Aider's env for Gemini use. This might fail.")
+        logger.info(f"Aider main model: {current_aider_model_name}")
     
     # Check if this is a linked repository
     is_repo_linked = False
@@ -251,10 +186,13 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
             logger.warning(f"Error during pre-Aider git pull process: {str(e)}")
     
     # Build the command for Aider
-    # Define the weak model to be used by Aider
+    # Weak model is always Gemini Flash
     aider_weak_model_name = "gemini/gemini-2.5-flash-preview-05-20"
-    logger.info(f"Aider will use main model: {current_aider_model_name} and weak model: {aider_weak_model_name}")
-    cmd = ["aider", "--model", current_aider_model_name, "--weak-model", aider_weak_model_name, "--yes-always"] + cmd_aider_auth_parts + ["--message", str(message_content)]
+    
+    logger.info(f"Aider command setup: Main model='{current_aider_model_name}', Weak model='{aider_weak_model_name}'")
+    
+    # API keys are passed via environment variables. cmd_aider_auth_parts is no longer needed.
+    cmd = ["aider", "--model", current_aider_model_name, "--weak-model", aider_weak_model_name, "--yes-always", "--message", str(message_content)]
     
     # Always add messages.json as --read
     messages_file = "messages.json"
