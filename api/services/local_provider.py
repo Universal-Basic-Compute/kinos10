@@ -20,7 +20,7 @@ class LocalProvider(LLMProvider):
         super().__init__(api_key)
         # If your local endpoint requires a specific API key, you can set it here
         # For example, self.local_api_key = os.getenv("LOCAL_LLM_API_KEY") or api_key
-        logger.info(f"LocalProvider initialized, targeting: {self.LOCAL_MODEL_BASE_URL}")
+        logger.info(f"LocalProvider initialized, targeting: {LOCAL_MODEL_BASE_URL}")
 
     def generate_response(self, messages, system=None, max_tokens=None, model=None, stream=False):
         """Generate a response by calling the local LLM endpoint (OpenAI-compatible)."""
