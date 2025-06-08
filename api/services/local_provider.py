@@ -25,7 +25,7 @@ class LocalProvider(LLMProvider):
     def generate_response(self, messages, system=None, max_tokens=None, model=None, stream=False):
         """Generate a response by calling the local LLM endpoint (OpenAI-compatible)."""
         
-        endpoint_url = f"{self.LOCAL_MODEL_BASE_URL}/v1/chat/completions" # Standard OpenAI path
+        endpoint_url = f"{LOCAL_MODEL_BASE_URL}/v1/chat/completions" # Standard OpenAI path
 
         headers = {
             "Content-Type": "application/json",
