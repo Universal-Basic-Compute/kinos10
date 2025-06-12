@@ -674,14 +674,20 @@ Return your answer as a JSON array of file paths only."""
     
     try:
         # Choose appropriate model for context building
+        # The 'model' variable here refers to the original 'model' parameter of the build_context function.
         if provider == "openai":
             context_builder_model = "gpt-4o"
-        elif provider == "claude": # Explicitly check for Claude if it's the intended provider
-            context_builder_model = "claude-sonnet-4-20250514"
-        else: # Default to Gemini (covers provider == "gemini" or provider is None/unrecognized)
-            context_builder_model = "gemini-2.5-pro-preview-03-25"
+        elif provider == "claude":
+            context_builder_model = "claude-3-haiku-20240307" # Using a faster Claude model for context building
+        elif provider == "local":
+            if model and model.startswith("local/"): # If original model was specific local model
+                context_builder_model = model
+            else: # Default for local context building
+                context_builder_model = "local" # LocalProvider will use its default model
+        else: # Default to Gemini for other providers (e.g., "gemini") or if provider is None (after inference)
+            context_builder_model = "gemini-2.5-pro-preview-03-25" # Consider gemini-1.5-flash if available and cheaper
             
-        logger.info(f"Using {context_builder_model} for context building with provider: {provider or 'gemini (default)'}")
+        logger.info(f"Using {context_builder_model} for context building with provider: {provider or 'gemini (default if provider was None)'}")
         
         # Call LLM to select relevant files with map.json in system prompt
         logger.info(f"Making LLM API call for context building with:")
