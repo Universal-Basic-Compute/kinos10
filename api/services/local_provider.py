@@ -13,8 +13,8 @@ class LocalProvider(LLMProvider):
     LLM provider that redirects requests to a local or custom (e.g., Ngrok) endpoint.
     Assumes the target endpoint is OpenAI-compatible.
     """
-    # Max characters aiming for < 36k tokens, using ~3.5 chars/token as a rough guide
-    MAX_CHARS_FOR_PROVIDER = int(36000 * 3.5) # Approx 126,000 characters
+    # Max characters aiming for 35k tokens, using ~3.5 chars/token as a rough guide
+    MAX_CHARS_FOR_PROVIDER = int(35000 * 3.5) # Approx 122,500 characters
 
     def __init__(self, api_key=None): # api_key might be for the target endpoint
         super().__init__(api_key)
