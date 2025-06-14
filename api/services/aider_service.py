@@ -30,6 +30,8 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         If stream=False: Aider response as a string
         If stream=True: Generator yielding response chunks
     """
+    # Create a list to track temporary files that need to be deleted
+    temp_files = []
     # Set UTF-8 mode for Windows console
     env = os.environ.copy()
     # Attempt to prevent Aider from using an AIDER_MODEL environment variable
