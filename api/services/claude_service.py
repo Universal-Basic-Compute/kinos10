@@ -678,14 +678,14 @@ Return your answer as a JSON array of file paths only."""
         if provider == "openai":
             context_builder_model = "gpt-4o"
         elif provider == "claude":
-            context_builder_model = "claude-3-haiku-20240307" # Using a faster Claude model for context building
+            context_builder_model = "claude-3-5-haiku-latest" # Using a faster Claude model for context building
         elif provider == "local":
             if model and model.startswith("local/"): # If original model was specific local model
                 context_builder_model = model
             else: # Default for local context building
                 context_builder_model = "local" # LocalProvider will use its default model
         else: # Default to Gemini for other providers (e.g., "gemini") or if provider is None (after inference)
-            context_builder_model = "gemini-2.5-pro-preview-03-25" # Consider gemini-1.5-flash if available and cheaper
+            context_builder_model = "gemini-2.5-flash-preview-05-20" # Consider gemini-1.5-flash if available and cheaper
             
         logger.info(f"Using {context_builder_model} for context building with provider: {provider or 'gemini (default if provider was None)'}")
         
