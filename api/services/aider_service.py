@@ -86,7 +86,7 @@ def call_aider_with_context(kin_path, selected_files, message_content, stream=Fa
         
         # Determine the actual model name for the local endpoint
         # Default to the model name used by LocalProvider if not specified otherwise
-        actual_model_name_for_local_endpoint = "deepseek/deepseek-r1-0528-qwen3-8b" 
+        actual_model_name_for_local_endpoint = "deepseek/deepseek-r1-0528-qwen3-8b@q6_k" 
         if model: # If a model string is passed for the 'local' provider
             if model.startswith("local/"): # e.g., "local/my-custom-model"
                 actual_model_name_for_local_endpoint = model.split("/", 1)[1]
