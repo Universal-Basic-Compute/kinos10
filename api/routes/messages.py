@@ -477,6 +477,7 @@ def send_message(blueprint, kin_id):
         # Get optional parameters for context building
         min_files = data.get('min_files', 4)  # Default to 4
         max_files = data.get('max_files', 8)  # Default to 8
+        text_files_only = data.get('textFilesOnly', True)  # Default to True - only include .txt and .md files
         
         # Validate the values
         try:
@@ -504,7 +505,8 @@ def send_message(blueprint, kin_id):
             min_files=min_files,
             max_files=max_files,
             provider=provider,
-            max_output_tokens=64000 
+            max_output_tokens=64000,
+            text_files_only=text_files_only
         )
         
         # Add saved image files to selected files for context

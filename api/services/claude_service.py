@@ -438,7 +438,7 @@ Your goal is to provide useful and accurate information while maintaining a clea
             except Exception as e:
                 logger.warning(f"Could not delete temporary file {temp_file}: {str(e)}")
 
-def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None, history_length=2, min_files=5, max_files=15, provider=None, max_output_tokens=64000):
+def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, model=None, mode=None, addSystem=None, history_length=2, min_files=5, max_files=15, provider=None, max_output_tokens=64000, text_files_only=True):
     """
     Build context by determining which files should be included.
     Uses LLM to select relevant files based on the message, map.json, and recent conversation history.
@@ -556,6 +556,11 @@ def build_context(blueprint, kin_id, message, attachments=None, kin_path=None, m
                     logger.info(f"Excluding file with excluded extension: {rel_path}")
                     continue
                 
+                # If text_files_only is True, only include .txt and .md files
+                if text_files_only and ext.lower() not in ['.txt', '.md']:
+                    logger.info(f"Excluding non-text file due to textFilesOnly=True: {rel_path}")
+                    continue
+                
                 available_files.append(rel_path)
     
     # If there are no additional files, just return core files plus attachments
@@ -670,6 +675,7 @@ After the mode selection (if applicable), provide a JSON array of {min_files}-{m
 {json.dumps(available_files, indent=2)}
 
 Note: Core system files are already included automatically.
+{f"Only .txt and .md files are included in the available files list due to textFilesOnly=True setting." if text_files_only else ""}
 Return your answer as a JSON array of file paths only."""
     
     try:

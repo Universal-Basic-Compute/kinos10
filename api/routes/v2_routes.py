@@ -686,6 +686,7 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
         # Get optional parameters for context building
         min_files = data.get('min_files', 5)  # Default to 5
         max_files = data.get('max_files', 10)  # Default to 10
+        text_files_only = data.get('textFilesOnly', True)  # Default to True - only include .txt and .md files
         
         # Validate the values
         try:
@@ -711,7 +712,8 @@ def send_channel_message_v2(blueprint, kin_id, channel_id=None):
             addSystem, 
             history_length=2,
             min_files=min_files,
-            max_files=max_files
+            max_files=max_files,
+            text_files_only=text_files_only
         )
         
         # Add saved image files to selected files for context
@@ -1008,7 +1010,8 @@ def analyze_message_v2(blueprint, kin_id):
                 history_length=2,
                 min_files=min_files,
                 max_files=max_files,
-                provider=provider
+                provider=provider,
+                text_files_only=text_files_only
             )
             
             # Call Claude with streaming support
