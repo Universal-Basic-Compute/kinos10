@@ -646,7 +646,9 @@ Send a message to a kin.
   "addContext": ["memories/conversation_123.txt", "knowledge/topic.md", "sources/"],
   "min_files": 4,  // Optional, minimum number of context files (default: 4)
   "max_files": 8,  // Optional, maximum number of context files (default: 8)
-  "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000"  // Optional, channel to send message to
+  "textFilesOnly": true,  // Optional, only include .txt and .md files in context (default: true)
+  "channel_id": "channel_550e8400-e29b-41d4-a716-446655440000",  // Optional, channel to send message to
+  "stream": false  // Optional, enable streaming response (default: false)
 }
 ```
 
@@ -681,6 +683,8 @@ Unlike mode selection which uses predefined behavior sets, `addSystem` allows fo
 
 The `min_files` and `max_files` parameters allow you to control how many files are included in the context when processing the message. This helps balance between having enough context for accurate responses while avoiding context overload.
 
+The `textFilesOnly` parameter determines whether only text files (with .txt and .md extensions) are included in the context. When set to `true` (the default), only these file types are considered for context. When set to `false`, all file types may be included based on relevance.
+
 #### Send Channel Message
 
 Send a message to a specific channel within a kin.
@@ -699,7 +703,9 @@ Send a message to a specific channel within a kin.
   "addSystem": "Additional system instructions to guide the response",
   "addContext": ["memories/conversation_123.txt", "knowledge/topic.md", "sources/"],
   "min_files": 4,  // Optional, minimum number of context files (default: 4)
-  "max_files": 8  // Optional, maximum number of context files (default: 8)
+  "max_files": 8,  // Optional, maximum number of context files (default: 8)
+  "textFilesOnly": true,  // Optional, only include .txt and .md files in context (default: true)
+  "stream": false  // Optional, enable streaming response (default: false)
 }
 ```
 
@@ -803,6 +809,7 @@ Analyze a message with Claude without saving it or triggering context updates.
   "addSystem": "Focus on explaining the architecture",
   "min_files": 4,  // Optional, minimum number of context files (default: 4)
   "max_files": 8,  // Optional, maximum number of context files (default: 8)
+  "textFilesOnly": true,  // Optional, only include .txt and .md files in context (default: true)
   "stream": true  // Optional, enable streaming response (default: false)
 }
 ```
@@ -813,6 +820,7 @@ Analyze a message with Claude without saving it or triggering context updates.
 - `addSystem`: Additional system instructions (optional)
 - `min_files`: Minimum number of context files (optional, default: 4)
 - `max_files`: Maximum number of context files (optional, default: 8)
+- `textFilesOnly`: Only include .txt and .md files in context (optional, default: true)
 - `stream`: Enable streaming response (optional, default: false)
 
 **Response (non-streaming):**
@@ -1189,7 +1197,8 @@ Send a message to Aider for file creation/modification without Claude response.
   "message": "Create a new file called example.txt with some sample content",
   "addSystem": "Focus on creating well-structured files",  // Optional
   "min_files": 4,  // Optional, minimum number of context files (default: 4)
-  "max_files": 8  // Optional, maximum number of context files (default: 8)
+  "max_files": 8,  // Optional, maximum number of context files (default: 8)
+  "textFilesOnly": true  // Optional, only include .txt and .md files in context (default: true)
 }
 ```
 
@@ -1215,7 +1224,10 @@ Have the kin listen to a message for file creation/modification (alias for /buil
 ```json
 {
   "message": "Create a new file called example.txt with some sample content",
-  "addSystem": "Focus on creating well-structured files"  // Optional
+  "addSystem": "Focus on creating well-structured files",  // Optional
+  "min_files": 4,  // Optional, minimum number of context files (default: 4)
+  "max_files": 8,  // Optional, maximum number of context files (default: 8)
+  "textFilesOnly": true  // Optional, only include .txt and .md files in context (default: true)
 }
 ```
 
