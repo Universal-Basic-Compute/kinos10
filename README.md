@@ -1,32 +1,62 @@
-# KinOS API
+# KinOS - Operating System for Artificial Intelligence
 
-KinOS API is the backend service for the KinOS Adaptive Context Management System. It provides endpoints for managing kins, messages, files, and text-to-speech functionality.
+KinOS is an innovative system that gives long-term memory to AI, enabling the capability to adapt, improve, and remember over time. It works by providing AIs with the ability to build their own context and manage their files through an AI file management system called Aider.
 
-## Features
+## What is KinOS?
 
-- **kin Management**: Create and manage kins for different blueprints
-- **Message Handling**: Process user messages with Claude AI and Aider
-- **File Management**: Access and modify kin files
-- **Text-to-Speech**: Convert text to speech using ElevenLabs
-- **Debug Tools**: Endpoints for system diagnostics and monitoring
+KinOS is an Adaptive Context Management System that allows AI to:
+- **Remember** information across sessions
+- **Learn** from interactions and improve over time
+- **Create and modify** its own files and knowledge base
+- **Develop** unique personalities and capabilities
+- **Operate autonomously** with self-directed thinking
+
+## Key Features
+
+- **Blueprint System**: Templates that define the behavior and capabilities of AI instances
+- **Kin Management**: Create and manage AI instances (kins) from blueprints
+- **Long-term Memory**: Persistent storage of conversations and knowledge
+- **Self-improvement**: AIs can modify their own files and behavior
+- **Multi-channel Communication**: Support for multiple conversation threads
+- **Media Processing**: Support for images, text-to-speech, and speech-to-text
+- **GitHub Integration**: AIs can edit and push to GitHub repositories
+- **Autonomous Thinking**: AIs can generate thoughts and initiatives without user prompting
+
+## Architecture
+
+KinOS organizes AI instances in a blueprint-centric hierarchy:
+```
+/blueprints/
+  /<blueprint_name>/
+    /template/          # Template for new kins
+    /kins/
+      /<kin_id>/        # Individual AI instances
+        /messages.json  # Conversation history
+        /system.txt     # Core system instructions
+        /modes/         # Different operational modes
+        /memories/      # Long-term memory storage
+        /knowledge/     # Knowledge base
+        /images/        # Image storage
+```
 
 ## Prerequisites
 
 - Python 3.8+
-- Anthropic API key (for Claude)
+- LLM API keys (supports Claude, GPT, Gemini, DeepSeek, and local models)
 - ElevenLabs API key (for TTS, optional)
-- Aider.chat installed
+- Ideogram API key (for image generation, optional)
+- Git (for repository features)
 
 ## Installation
 
 1. Clone the repository:
-   ```
+   ```bash
    git clone https://github.com/yourusername/kinos.git
    cd kinos
    ```
 
 2. Install dependencies:
-   ```
+   ```bash
    cd api
    pip install -r requirements.txt
    pip install aider-chat
@@ -35,69 +65,90 @@ KinOS API is the backend service for the KinOS Adaptive Context Management Syste
 3. Create a `.env` file in the api directory:
    ```
    ANTHROPIC_API_KEY=your_anthropic_api_key
+   OPENAI_API_KEY=your_openai_api_key
+   GEMINI_API_KEY=your_gemini_api_key
    ELEVENLABS_API_KEY=your_elevenlabs_api_key
+   IDEOGRAM_API_KEY=your_ideogram_api_key
    ```
 
-## Running the API
+## Running KinOS
 
 Start the API server:
-```
+```bash
 cd api
 python app.py
 ```
 
 The server will run on port 5000 by default (configurable via PORT environment variable).
 
-## API Endpoints
+## API Overview
 
-### kins
-- `POST /api/kins`: Create a new kin
-- `GET /api/kins/<blueprint>/kins`: List kins for a blueprint
-- `GET /api/kins/all`: List all blueprints and their kins
+KinOS provides a comprehensive API (v2) for interacting with AI instances:
 
-### Messages
-- `GET /api/kins/<blueprint>/<kin_id>/messages`: Get conversation history
-- `POST /api/kins/<blueprint>/<kin_id>/messages`: Send a message
-- `GET /api/kins/<blueprint>/<kin_id>/aider_logs`: Get Aider logs
+### Blueprint Management
+- Create, initialize, and reset blueprints
+- Manage blueprint templates and configurations
 
-### Files
-- `GET /api/kins/<path:kin_path>/files`: List kin files
-- `GET /api/kins/<path:kin_path>/files/<path:file_path>`: Get file content
+### Kin Management
+- Create, copy, rename, and reset kins
+- Link kins to GitHub repositories
 
-### Text-to-Speech
-- `POST /api/tts`: Convert text to speech
+### Message Interaction
+- Send messages to kins and receive responses
+- Support for streaming responses
+- Multi-channel communication
+- Image and file attachments
 
-### Debug
-- `GET /api/debug`: Get system debug information
-- `GET /api/health`: Health check endpoint
+### File Operations
+- Access and modify kin files
+- View commit history
+- Get file content
+
+### Special Features
+- Generate images with Ideogram
+- Text-to-speech conversion
+- Speech-to-text transcription
+- Autonomous thinking
+
+For complete API documentation, see the [API Reference](https://api.kinos-engine.ai/v2/docs).
 
 ## Docker Deployment
 
 Build and run the Docker container:
-```
+```bash
 cd api
 docker build -t kinos-api .
-docker run -p 5000:5000 -e ANTHROPIC_API_KEY=your_key -e ELEVENLABS_API_KEY=your_key kinos-api
+docker run -p 5000:5000 \
+  -e ANTHROPIC_API_KEY=your_key \
+  -e OPENAI_API_KEY=your_key \
+  -e ELEVENLABS_API_KEY=your_key \
+  kinos-api
 ```
 
 ## Environment Variables
 
-- `ANTHROPIC_API_KEY`: Required for Claude API access
-- `ELEVENLABS_API_KEY`: Required for text-to-speech functionality
+- `ANTHROPIC_API_KEY`: For Claude API access
+- `OPENAI_API_KEY`: For GPT API access
+- `GEMINI_API_KEY`: For Gemini API access
+- `ELEVENLABS_API_KEY`: For text-to-speech functionality
+- `IDEOGRAM_API_KEY`: For image generation
 - `PORT`: Port to run the API server (default: 5000)
-- `WEBSITE_URL`: URL of the website for health checks
+- `DEFAULT_LLM_PROVIDER`: Default LLM provider to use (default: "claude")
+- `CLAUDE_MODEL`: Default Claude model (default: "claude-3-sonnet-20240229")
+- `OPENAI_MODEL`: Default OpenAI model (default: "gpt-4o")
 
-## kin Structure
+## Use Cases
 
-The API organizes kins in a blueprint-centric hierarchy:
-```
-/blueprints/
-  /[blueprint_NAME]/
-    /template/          # Template for new kins
-    /kins/
-      /[kin_ID]/    # Individual kins
-```
+- **Personal Assistants**: Create AI assistants that remember your preferences and history
+- **Knowledge Workers**: AI researchers that can organize and expand their knowledge base
+- **Creative Partners**: AI collaborators for writing, coding, or design projects
+- **Code Guardians**: AI instances that understand and can modify codebases
+- **Autonomous Agents**: Self-improving AI systems that operate with minimal supervision
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This kin is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
