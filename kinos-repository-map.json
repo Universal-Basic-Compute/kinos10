@@ -1,0 +1,103 @@
+{
+  "name": "KinOS Repository",
+  "description": "An operating system for artificial intelligences",
+  "files": [
+    {
+      "path": "api/analyze_messages.py",
+      "description": "Analyzes messages exchanged with kins to extract useful information",
+      "functions": ["setup_logging", "get_anthropic_client", "analyze_messages", "process_kin", "process_all_kins", "main"]
+    },
+    {
+      "path": "api/app.py",
+      "description": "Main API application entry point",
+      "functions": ["api_root", "health_check", "serve_kin_website", "ensure_analysis_mode_exists", "start_kin_website_server"]
+    },
+    {
+      "path": "api/autonomous_thinking.py",
+      "description": "Implements autonomous thinking capabilities for kins",
+      "functions": ["setup_clean_logging", "get_app_data_dir", "get_blueprints_dir", "get_kin_path", "get_recently_modified_files", "get_random_files", "extract_keywords", "generate_dream", "generate_daydreaming", "generate_initiative", "generate_random_thought", "fix_vercel_deployment_issues", "send_build_to_kin", "check_vercel_deployment", "send_message_to_kin", "send_telegram_notification", "add_message", "add_channel_message", "send_to_webhook", "autonomous_thinking", "main"]
+    },
+    {
+      "path": "api/config.py",
+      "description": "Configuration settings for the KinOS system",
+      "variables": ["BASE_URL", "API_KEY", "MODEL", "DEFAULT_LLM_PROVIDER", "CLAUDE_MODEL", "OPENAI_MODEL", "blueprintS_DIR"],
+      "functions": ["get_app_data_dir", "get_blueprints_dir"]
+    },
+    {
+      "path": "api/routes/messages.py",
+      "description": "API routes for handling messages to and from kins",
+      "endpoints": ["/kins/<blueprint>/<kin_id>/messages (GET)", "/kins/<blueprint>/<kin_id>/messages (POST)", "/kins/<blueprint>/<kin_id>/analysis (POST)", "/kins/<blueprint>/<kin_id>/aider_logs (GET)"]
+    },
+    {
+      "path": "api/routes/projects.py",
+      "description": "API routes for managing kin projects and blueprints",
+      "endpoints": ["/kins (POST)", "/kins/<blueprint>/kins (GET)", "/blueprints (GET)", "/kins/all (GET)", "/blueprints/<blueprint>/initialize (POST)", "/kins/<blueprint>/<kin_id>/build (GET, POST)", "/kins/<blueprint>/<kin_id>/reset (POST)", "/blueprints/<blueprint>/reset (POST)", "/kins/<blueprint>/<kin_id>/rename (POST)", "/kins/<blueprint>/<kin_id>/git_history (GET)", "/kins/<blueprint>/<kin_id>/autonomous_thinking (GET, POST)", "/kins/<blueprint>/<kin_id>/modes (GET)", "/blueprints/create_analysis_mode (POST)", "/kins/<blueprint>/<kin_id>/analysis (POST)", "/kins/<blueprint>/<kin_id>/image (POST)"]
+    },
+    {
+      "path": "api/routes/v2_routes.py",
+      "description": "V2 API routes with enhanced functionality",
+      "endpoints": ["/blueprints/<blueprint>/kins/<kin_id>/channels/<channel_id>/messages (GET)", "/blueprints/<blueprint>/kins/<kin_id>/channels/<channel_id>/messages (POST)", "/blueprints/<blueprint>/kins/<kin_id>/analysis (GET, POST)", "/blueprints/<blueprint>/kins/<kin_id>/images (POST)"]
+    },
+    {
+      "path": "api/services/claude_service.py",
+      "description": "Service for interacting with Claude AI models",
+      "functions": ["get_llm_client", "call_claude_with_context", "build_context"]
+    },
+    {
+      "path": "api/services/file_service.py",
+      "description": "Service for file operations related to kins",
+      "functions": ["get_kin_path", "get_channel_path", "initialize_kin", "create_channel", "get_channels", "load_file_content", "initialize_blueprint_templates"]
+    },
+    {
+      "path": "api/services/llm_service.py",
+      "description": "Base service for LLM (Large Language Model) providers",
+      "classes": ["LLMProvider"]
+    },
+    {
+      "path": "website/app.py",
+      "description": "Web interface for interacting with KinOS",
+      "endpoints": ["/", "/v1", "/kins", "/kins/<blueprint>/<kin>", "/health", "/website-debug", "/debug", "/debug-info", "/test", "/static/<path:filename>", "/css-test", "/api/kins/<path:kin_path>/files/<path:file_path>", "/api", "/check-templates", "/check-api-docs", "/api/chat", "/api/kins/all"]
+    },
+    {
+      "path": "blueprints/codeguardian/create_code_guardian.py",
+      "description": "Script to create a Code Guardian kin from a GitHub repository",
+      "functions": ["get_app_data_dir", "get_blueprints_dir", "get_local_template_dir", "sanitize_name", "extract_repo_info", "clone_repository", "create_code_guardian", "main"]
+    },
+    {
+      "path": "blueprints/simba/template/telegram_integration.py",
+      "description": "Telegram integration for Simba blueprint",
+      "classes": ["SimbaBot"]
+    },
+    {
+      "path": "kinos_cli.py",
+      "description": "Command-line interface for KinOS",
+      "functions": ["main", "handle_response"]
+    }
+  ],
+  "directories": [
+    {
+      "path": "api",
+      "description": "Core API functionality for KinOS"
+    },
+    {
+      "path": "api/routes",
+      "description": "API route definitions"
+    },
+    {
+      "path": "api/services",
+      "description": "Service implementations for various functionalities"
+    },
+    {
+      "path": "api/utils",
+      "description": "Utility functions used across the API"
+    },
+    {
+      "path": "blueprints",
+      "description": "Blueprint templates for creating different types of kins"
+    },
+    {
+      "path": "website",
+      "description": "Web interface for KinOS"
+    }
+  ]
+}
