@@ -68,7 +68,7 @@ class ClaudeProvider(LLMProvider):
                             return result
                         else:
                             logger.error("Empty response from Claude")
-                            return "I apologize, but I couldn't generate a response."
+                            return "I apologize, but I couldn't generate a response. (probably too many input tokens)"
                     except anthropic.APIError as api_err:
                         logger.error(f"Claude API error: {str(api_err)}")
                         return f"I apologize, but there was an API error: {str(api_err)}. Please try again."
