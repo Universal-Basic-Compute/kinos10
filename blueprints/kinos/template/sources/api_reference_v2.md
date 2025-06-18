@@ -1,5 +1,17 @@
 # KinOS API Reference v2
 
+## Introduction to KinOS
+
+KinOS is a system that gives long-term memory to AI, enabling the capability to adapt, improve, and remember over time. It works by providing AIs with the ability to build their own context and manage their files through an AI file management system called Aider.
+
+Key capabilities of KinOS include:
+- **Long-term memory**: AIs can store and retrieve information across sessions
+- **Self-improvement**: AIs can modify their own files and behavior based on interactions
+- **File management**: Through Aider, AIs can create, edit, and organize their knowledge base
+- **Media processing**: Support for images, text-to-speech, and speech-to-text
+- **GitHub integration**: AIs can edit and push to GitHub repositories
+- **Autonomous thinking**: AIs can generate thoughts and initiatives without user prompting
+
 This document provides a comprehensive reference for version 2 of the KinOS API available at `https://api.kinos-engine.ai/v2`.
 
 ## Table of Contents
