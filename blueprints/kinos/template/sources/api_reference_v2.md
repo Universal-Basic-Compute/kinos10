@@ -589,7 +589,7 @@ The `addContext` parameter allows you to specify additional files or directories
 
 When specifying a directory (e.g., "sources/"), all files within that directory will be included in the context. This parameter works alongside the automatic context building system but ensures these specific files are always included.
 
-The `addSystem` parameter allows you to append custom instructions to the system prompt that's sent to the LLM. These instructions are added at the end of the system prompt after all the context files, giving you a way to provide additional guidance or constraints for this specific interaction without modifying any files. This is particularly useful for:
+The `addSystem` parameter allows you to prepend custom instructions to the system prompt that's sent to the LLM. These instructions are added at the beginning of the system prompt before all the core files and context files, giving you a way to provide additional guidance or constraints for this specific interaction without modifying any files. This is particularly useful for:
 
 - Temporarily changing the AI's behavior for a single message
 - Adding specific instructions for handling the current query
